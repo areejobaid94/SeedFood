@@ -1,9 +1,0 @@
-[import](common.lg)
-
-# SendActivity_D0hwMi()
-[Activity
-    Text = ${SendActivity_D0hwMi_text()}
-]
-
-# SendActivity_D0hwMi_text()
-- ${dialog.text}

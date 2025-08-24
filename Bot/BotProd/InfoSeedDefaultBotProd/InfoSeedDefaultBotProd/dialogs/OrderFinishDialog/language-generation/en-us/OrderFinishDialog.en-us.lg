@@ -1,8 +1,0 @@
-[import](common.lg)
-
-# SendActivity_ZEjzWv_text()
-- - ${dialog.OrderUpdateFinsh.content.result}
-# SendActivity_ZEjzWv()
-[Activity
-    Text = ${SendActivity_ZEjzWv_text()}
-]

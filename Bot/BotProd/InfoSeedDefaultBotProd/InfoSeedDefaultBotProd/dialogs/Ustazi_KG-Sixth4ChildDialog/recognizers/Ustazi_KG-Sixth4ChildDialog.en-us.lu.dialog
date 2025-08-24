@@ -1,8 +1,0 @@
-{
-  "$kind": "Microsoft.LuisRecognizer",
-  "id": "LUIS_Ustazi_KG-Sixth4ChildDialog",
-  "applicationId": "=settings.luis.Ustazi_KG_Sixth4ChildDialog_en_us_lu.appId",
-  "version": "=settings.luis.Ustazi_KG_Sixth4ChildDialog_en_us_lu.version",
-  "endpoint": "=settings.luis.endpoint",
-  "endpointKey": "=settings.luis.endpointKey"
-}

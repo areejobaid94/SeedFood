@@ -1,9 +1,0 @@
-[import](common.lg)
-
-# SendActivity_Z094YR()
-[Activity
-    Text = ${SendActivity_Z094YR_text()}
-]
-
-# SendActivity_Z094YR_text()
-- ${dialog.text}

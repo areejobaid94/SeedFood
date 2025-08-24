@@ -1,8 +1,0 @@
-{
-  "$kind": "Microsoft.LuisRecognizer",
-  "id": "LUIS_MangaReservationDialog",
-  "applicationId": "=settings.luis.MangaReservationDialog_en_us_lu.appId",
-  "version": "=settings.luis.MangaReservationDialog_en_us_lu.version",
-  "endpoint": "=settings.luis.endpoint",
-  "endpointKey": "=settings.luis.endpointKey"
-}

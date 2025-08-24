@@ -1,9 +1,0 @@
-[import](common.lg)
-
-# SendActivity_0NwM4i()
-[Activity
-    Text = ${SendActivity_0NwM4i_text()}
-]
-
-# SendActivity_0NwM4i_text()
-- - ${dialog.OrderUpdateFinsh.content.result}

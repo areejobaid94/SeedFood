@@ -1,9 +1,0 @@
-[import](common.lg)
-
-
-# TextInput_Prompt_hc7Emx()
-[Activity
-    Attachments = ${json(ButtonList(dialog.text,dialog.Lst))}
-     InputHint=${dialog.InputHint}
-     Summary=${conversation.Summary}
-]

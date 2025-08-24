@@ -1,8 +1,0 @@
-{
-  "$kind": "Microsoft.LuisRecognizer",
-  "id": "LUIS_Ustazi_Seventh-TenthDialog",
-  "applicationId": "=settings.luis.Ustazi_Seventh_TenthDialog_en_us_lu.appId",
-  "version": "=settings.luis.Ustazi_Seventh_TenthDialog_en_us_lu.version",
-  "endpoint": "=settings.luis.endpoint",
-  "endpointKey": "=settings.luis.endpointKey"
-}

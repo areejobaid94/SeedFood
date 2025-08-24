@@ -1,8 +1,0 @@
-{
-  "$kind": "Microsoft.LuisRecognizer",
-  "id": "LUIS_PickUpOrderDialog",
-  "applicationId": "=settings.luis.PickUpOrderDialog_en_us_lu.appId",
-  "version": "=settings.luis.PickUpOrderDialog_en_us_lu.version",
-  "endpoint": "=settings.luis.endpoint",
-  "endpointKey": "=settings.luis.endpointKey"
-}

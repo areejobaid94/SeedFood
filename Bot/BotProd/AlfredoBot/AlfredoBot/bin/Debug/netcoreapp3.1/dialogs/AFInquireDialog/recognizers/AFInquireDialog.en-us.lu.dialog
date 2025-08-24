@@ -1,8 +1,0 @@
-{
-  "$kind": "Microsoft.LuisRecognizer",
-  "id": "LUIS_AF-InquireDialog",
-  "applicationId": "=settings.luis.AF_InquireDialog_en_us_lu.appId",
-  "version": "=settings.luis.AF_InquireDialog_en_us_lu.version",
-  "endpoint": "=settings.luis.endpoint",
-  "endpointKey": "=settings.luis.endpointKey"
-}

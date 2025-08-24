@@ -1,9 +1,0 @@
-[import](common.lg)
-
-# SendActivity_wLSgCq()
-[Activity
-    Text = ${SendActivity_wLSgCq_text()}
-]
-
-# SendActivity_wLSgCq_text()
-- ${dialog.text}

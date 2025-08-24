@@ -1,8 +1,0 @@
-{
-  "$kind": "Microsoft.LuisRecognizer",
-  "id": "LUIS_Pre-OrderDialog",
-  "applicationId": "=settings.luis.Pre_OrderDialog_en_us_lu.appId",
-  "version": "=settings.luis.Pre_OrderDialog_en_us_lu.version",
-  "endpoint": "=settings.luis.endpoint",
-  "endpointKey": "=settings.luis.endpointKey"
-}

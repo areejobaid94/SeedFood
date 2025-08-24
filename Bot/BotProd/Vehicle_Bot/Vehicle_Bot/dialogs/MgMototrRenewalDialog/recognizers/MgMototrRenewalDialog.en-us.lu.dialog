@@ -1,8 +1,0 @@
-{
-  "$kind": "Microsoft.LuisRecognizer",
-  "id": "LUIS_MgMototrRenewalDialog",
-  "applicationId": "=settings.luis.MgMototrRenewalDialog_en_us_lu.appId",
-  "version": "=settings.luis.MgMototrRenewalDialog_en_us_lu.version",
-  "endpoint": "=settings.luis.endpoint",
-  "endpointKey": "=settings.luis.endpointKey"
-}

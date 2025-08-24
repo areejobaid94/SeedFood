@@ -1,9 +1,0 @@
-[import](common.lg)
-
-# SendActivity_rzPeGH()
-[Activity
-    Text = ${SendActivity_rzPeGH_text()}
-]
-
-# SendActivity_rzPeGH_text()
-- ${dialog.updateResult.content.result}

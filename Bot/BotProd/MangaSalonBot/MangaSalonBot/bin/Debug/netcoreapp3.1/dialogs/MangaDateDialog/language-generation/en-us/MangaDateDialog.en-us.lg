@@ -1,8 +1,0 @@
-[import](common.lg)
-
-# TextInput_Prompt_1SDUVX()
-[Activity
-    Attachments = ${json(ButtonList(dialog.DateCaption,dialog.Result.content.result))}
-    InputHint=${conversation.InputHint}
-     Summary=${conversation.Summary}
-]

@@ -1,8 +1,0 @@
-{
-  "$kind": "Microsoft.LuisRecognizer",
-  "id": "LUIS_AF-TCH-BritishDialog",
-  "applicationId": "=settings.luis.AF_TCH_BritishDialog_en_us_lu.appId",
-  "version": "=settings.luis.AF_TCH_BritishDialog_en_us_lu.version",
-  "endpoint": "=settings.luis.endpoint",
-  "endpointKey": "=settings.luis.endpointKey"
-}

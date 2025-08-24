@@ -1,8 +1,0 @@
-[import](common.lg)
-
-# SendActivity_Qp5aw5_text()
-- ${dialog.text}
-# SendActivity_Qp5aw5()
-[Activity
-    Text = ${SendActivity_Qp5aw5_text()}
-]

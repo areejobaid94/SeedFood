@@ -1,9 +1,0 @@
-[import](common.lg)
-
-# TextInput_Prompt_ePACvm()
-[Activity
-  Text= ${dialog.text}
-  Summary =  ${conversation.Summary}  
-]
-# TextInput_Prompt_ePACvm_text()
-- ${dialog.text}

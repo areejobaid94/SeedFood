@@ -1,9 +1,0 @@
-[import](common.lg)
-
-# SendActivity_adJqk7()
-[Activity
-    Text = ${SendActivity_adJqk7_text()}
-]
-
-# SendActivity_adJqk7_text()
-- ${dialog.text}

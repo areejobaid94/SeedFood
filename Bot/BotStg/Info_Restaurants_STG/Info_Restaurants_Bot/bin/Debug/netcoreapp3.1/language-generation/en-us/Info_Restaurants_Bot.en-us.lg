@@ -1,9 +1,0 @@
-[import](common.lg)
-
-# SendActivity_Ez2zlf()
-[Activity
-    Text = ${SendActivity_Ez2zlf_text()}
-]
-
-# SendActivity_Ez2zlf_text()
-- ddddddddddddddddd

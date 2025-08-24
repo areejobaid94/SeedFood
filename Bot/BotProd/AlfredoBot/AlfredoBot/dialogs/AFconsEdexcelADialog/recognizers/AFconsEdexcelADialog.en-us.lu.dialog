@@ -1,8 +1,0 @@
-{
-  "$kind": "Microsoft.LuisRecognizer",
-  "id": "LUIS_AF-consEdexcel-A-Dialog",
-  "applicationId": "=settings.luis.AF_consEdexcel_A_Dialog_en_us_lu.appId",
-  "version": "=settings.luis.AF_consEdexcel_A_Dialog_en_us_lu.version",
-  "endpoint": "=settings.luis.endpoint",
-  "endpointKey": "=settings.luis.endpointKey"
-}

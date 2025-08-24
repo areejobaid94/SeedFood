@@ -1,8 +1,0 @@
-[import](common.lg)
-
-# SendActivity_ccEEpL_text()
-- - ${dialog.DeleteDraftText}
-# SendActivity_ccEEpL()
-[Activity
-    Text = ${SendActivity_ccEEpL_text()}
-]

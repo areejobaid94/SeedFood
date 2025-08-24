@@ -1,8 +1,0 @@
-{
-  "$kind": "Microsoft.LuisRecognizer",
-  "id": "LUIS_JeepContactDialog",
-  "applicationId": "=settings.luis.JeepContactDialog_en_us_lu.appId",
-  "version": "=settings.luis.JeepContactDialog_en_us_lu.version",
-  "endpoint": "=settings.luis.endpoint",
-  "endpointKey": "=settings.luis.endpointKey"
-}

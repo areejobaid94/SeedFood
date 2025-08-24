@@ -1,8 +1,0 @@
-[import](common.lg)
-
-# SendActivity_4Us3Bp_text()
-- ${dialog.text}
-# SendActivity_4Us3Bp()
-[Activity
-    Text = ${SendActivity_4Us3Bp_text()}
-]

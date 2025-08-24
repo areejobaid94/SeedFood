@@ -1,6 +1,0 @@
-[import](common.lg)
-
-# TextInput_Prompt_S2gM5e()
-[Activity
-    Text = ${dialog.link}
-]

@@ -1,9 +1,0 @@
-[import](common.lg)
-
-# SendActivity_iL7asK()
-[Activity
-    Text = ${SendActivity_iL7asK_text()}
-]
-
-# SendActivity_iL7asK_text()
-- ${dialog.updateResult.content.result}

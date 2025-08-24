@@ -1,8 +1,0 @@
-{
-  "$kind": "Microsoft.LuisRecognizer",
-  "id": "LUIS_AfOrderDialog",
-  "applicationId": "=settings.luis.AfOrderDialog_en_us_lu.appId",
-  "version": "=settings.luis.AfOrderDialog_en_us_lu.version",
-  "endpoint": "=settings.luis.endpoint",
-  "endpointKey": "=settings.luis.endpointKey"
-}

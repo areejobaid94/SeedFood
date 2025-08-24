@@ -1,8 +1,0 @@
-[import](common.lg)
-
-# TextInput_Prompt_okPxTc_text()
-- ${dialog.link}
-# TextInput_Prompt_okPxTc()
-[Activity
-    Text = ${TextInput_Prompt_okPxTc_text()}
-]

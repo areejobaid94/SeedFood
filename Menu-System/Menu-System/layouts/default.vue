@@ -1,6 +1,0 @@
-<template>
-
-           <Nuxt/>
-
- 
-</template>

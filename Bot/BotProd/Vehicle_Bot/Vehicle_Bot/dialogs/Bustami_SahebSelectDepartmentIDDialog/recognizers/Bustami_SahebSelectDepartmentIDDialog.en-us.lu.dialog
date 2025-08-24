@@ -1,8 +1,0 @@
-{
-  "$kind": "Microsoft.LuisRecognizer",
-  "id": "LUIS_Bustami_SahebSelectDepartmentIDDialog",
-  "applicationId": "=settings.luis.Bustami_SahebSelectDepartmentIDDialog_en_us_lu.appId",
-  "version": "=settings.luis.Bustami_SahebSelectDepartmentIDDialog_en_us_lu.version",
-  "endpoint": "=settings.luis.endpoint",
-  "endpointKey": "=settings.luis.endpointKey"
-}

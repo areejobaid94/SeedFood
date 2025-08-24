@@ -1,8 +1,0 @@
-[import](common.lg)
-
-# SendActivity_m8kS1P_text()
-- - ${dialog.OrderUpdateFinsh.content.result}
-# SendActivity_m8kS1P()
-[Activity
-    Text = ${SendActivity_m8kS1P_text()}
-]

@@ -1,9 +1,0 @@
-[import](common.lg)
-
-# SendActivity_pJIDAs()
-[Activity
-    Text = ${SendActivity_pJIDAs_text()}
-]
-
-# SendActivity_pJIDAs_text()
-- ${dialog.text}

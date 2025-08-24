@@ -1,8 +1,0 @@
-[import](common.lg)
-
-# TextInput_Prompt_X9Ydch()
-[Activity
-    Attachments = ${json(ButtonList(dialog.text,dialog.Branch.content.result))}
-    InputHint=${dialog.InputHint}
-    Summary=${dialog.Summary}
-]

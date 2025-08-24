@@ -1,8 +1,0 @@
-[import](common.lg)
-
-# TextInput_Prompt_UAtFGB()
-[Activity
-  Text= ${dialog.text}
-  SuggestedActions = ${dialog.ar} | ${dialog.en}
-  Summary =  ${dialog.Summary}  
-]

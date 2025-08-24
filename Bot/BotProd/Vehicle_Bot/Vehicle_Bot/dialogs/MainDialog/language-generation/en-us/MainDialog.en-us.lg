@@ -1,9 +1,0 @@
-[import](common.lg)
-
-# SendActivity_f8GkiV()
-[Activity
-    Text = ${SendActivity_f8GkiV_text()}
-]
-
-# SendActivity_f8GkiV_text()
-- test test 
