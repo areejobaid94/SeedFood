@@ -1,0 +1,20 @@
+[import](common.lg)
+
+# TextInput_Prompt_4BafuE()
+[Activity
+    Text = ${TextInput_Prompt_4BafuE_text()}
+    SuggestedActions = ${dialog.Option1} | ${dialog.Option2} | ${dialog.Option3}
+      InputHint=${conversation.InputHint}
+     Summary=${conversation.Summary}
+
+]
+
+# TextInput_Prompt_4BafuE_text()
+- ${dialog.Welcome}
+# TextInput_Prompt_nKMZhr_text()
+- ${dialog.choose}
+# TextInput_Prompt_nKMZhr()
+[Activity
+    Text = ${TextInput_Prompt_nKMZhr_text()}
+    SuggestedActions = ${dialog.Option1} | ${dialog.Option2} | ${dialog.Option3}
+]

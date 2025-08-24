@@ -1,0 +1,212 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "GOYZcH",
+    "name": "MangaShardDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "O3v2Uc"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "2xRnNx"
+          },
+          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3615)).text",
+          "property": "dialog.firsCaption"
+        },
+        {
+          "$kind": "Microsoft.DeleteProperty",
+          "$designer": {
+            "id": "sr5V0l"
+          },
+          "property": "dialog.UserSelect"
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "cdVlVZ"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "unrecognizedPrompt": "",
+          "invalidPrompt": "",
+          "prompt": "${TextInput_Prompt_cdVlVZ()}",
+          "property": "dialog.UserSelect",
+          "validations": [
+            "lessOrEquals(length(this.value), 150)&&(not(equals(this.value, '.')) || equals(this.value, '#'))"
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "pkMyBN"
+          },
+          "property": "conversation.RequestValue5",
+          "value": "${dialog.UserSelect}"
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "CYqxiF"
+          },
+          "activityProcessed": true,
+          "dialog": "MangaDateDialog"
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "2amuOE"
+          },
+          "activityProcessed": true,
+          "dialog": "MangaTimeDialog"
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "YkkcNX"
+          },
+          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3618)).text",
+          "property": "dialog.NoteCaption"
+        },
+        {
+          "$kind": "Microsoft.DeleteProperty",
+          "$designer": {
+            "id": "iSBqCp"
+          },
+          "property": "dialog.Select"
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "sLCR0W"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "unrecognizedPrompt": "",
+          "invalidPrompt": "",
+          "prompt": "${TextInput_Prompt_sLCR0W()}",
+          "property": "dialog.Select",
+          "validations": [
+            "lessOrEquals(length(this.value), 150)&&(not(equals(this.value, '.')) || equals(this.value, '#'))"
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "7MgYRu"
+          },
+          "property": "conversation.RequestValue8",
+          "value": "${dialog.Select}"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "AI0zvp"
+          },
+          "elseActions": [
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "gilG4b"
+              },
+              "assignments": [
+                {
+                  "property": "dialog.Information",
+                  "value": "${conversation.RequestValue1} , ${conversation.RequestValue2} , ${conversation.RequestValue3} , ${conversation.RequestValue4} , ${conversation.RequestValue5} , ${conversation.RequestValue6} , ${conversation.RequestValue7} , ${conversation.RequestValue8}"
+                },
+                {
+                  "property": "dialog.updateOrder",
+                  "value": {
+                    "ContactName": "=conversation.DisplayName",
+                    "ContactId": "=conversation.ContactId",
+                    "TenantID": "=conversation.TenantId",
+                    "PhoneNumber": "=conversation.phoneNumber",
+                    "information": "=dialog.Information"
+                  }
+                }
+              ]
+            }
+          ],
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "hEFcyg"
+              },
+              "assignments": [
+                {
+                  "property": "dialog.Information",
+                  "value": "${conversation.RequestValue2} , ${conversation.RequestValue3} , ${conversation.RequestValue4} , ${conversation.RequestValue5} , ${conversation.RequestValue6} , ${conversation.RequestValue7} , ${conversation.RequestValue8}"
+                },
+                {
+                  "property": "dialog.updateOrder",
+                  "value": {
+                    "ContactName": "=conversation.DisplayName",
+                    "ContactId": "=conversation.ContactId",
+                    "TenantID": "=conversation.TenantId",
+                    "PhoneNumber": "=conversation.phoneNumber",
+                    "information": "=dialog.Information"
+                  }
+                }
+              ]
+            }
+          ],
+          "condition": "equals(conversation.DepartmentName, 'للحجز') || equals(conversation.DepartmentName, 'For reservations')"
+        },
+        {
+          "$kind": "Microsoft.HttpRequest",
+          "$designer": {
+            "id": "wBowbM"
+          },
+          "resultProperty": "dialog.OrderUpdateFinsh",
+          "method": "POST",
+          "url": "${conversation.URL}/api/BotAPI/SendPrescription",
+          "body": "= dialog.updateOrder",
+          "headers": {
+            "accept": "text/plain"
+          },
+          "responseType": "json"
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "SESscR"
+          },
+          "property": "dialog.LastCaption",
+          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3619)).text"
+        },
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "RaIeaW"
+          },
+          "activity": "${SendActivity_RaIeaW()}"
+        },
+        {
+          "$kind": "Microsoft.CancelAllDialogs",
+          "$designer": {
+            "id": "ZEwO8W"
+          },
+          "activityProcessed": true
+        }
+      ]
+    }
+  ],
+  "generator": "MangaShardDialog.lg",
+  "recognizer": "MangaShardDialog.lu.qna",
+  "id": "MangaShardDialog"
+}

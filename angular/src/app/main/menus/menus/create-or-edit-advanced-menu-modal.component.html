@@ -1,0 +1,133 @@
+﻿<div bsModal #AdvancedMenu="bs-modal" class="modal fade overflow-y" tabindex="-1" role="dialog" aria-labelledby="createOrEditModal"
+    aria-hidden="true" [config]="{backdrop: 'static', keyboard: !saving}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" >
+          
+                <div class="modal-header">
+                    <h4 class="modal-title"><span>Add Advanced Menu</span></h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="close()" aria-label="Close">X</button>
+
+                </div>
+                <div class="modal-body ">
+              
+
+                        <div class="row ">
+
+                            <div class="col-6 form-group "  >
+                                <label for="branches">Shops Name</label>
+                                <ng-multiselect-dropdown 
+                                    name="branches" 
+                                    [placeholder]="" 
+                                    [settings]="dropdownSettings"
+                                    [data]="rType" 
+                                    [(ngModel)]="selectedAreaIds">
+                                </ng-multiselect-dropdown>
+                            </div>
+
+                            <div class="col-6  form-group  ">
+                                <label  for="Priority">Priority </label>
+                                <input min="0"  id="Priority" name="Priority" type="number" placeholder="Enter Priority..." class="form-control customInput"
+                                [(ngModel)]="menu.priority"  >
+
+                            </div>
+
+                        </div>
+
+                        <div class="row " >
+
+                            <div class="col-6 form-group  ">
+                                <label for="nameAr">Arabic Name *</label>
+                                <input required [class.error]="submitted && arabicName.invalid" #arabicName="ngModel"  id="nameAr" name="nameAr" type="text" placeholder="Enter Menu Arabic Name..." class="form-control customInput"
+                                [(ngModel)]="menu.menuName"  >
+                                <p class="text-danger" *ngIf="submitted && arabicName.invalid">{{l("ThisFieldIsRequired") }}</p> 
+
+                            </div>
+
+                            <div class="col-6 form-group  ">
+                                <label for="descriptionAr">Arabic Description </label>
+                                <input  id="descriptionAr" name="descriptionAr" type="text" placeholder="Enter Menu Arabic Description..." class="form-control customInput"
+                                [(ngModel)]="menu.menuDescription"  >
+                            </div>
+
+                        </div>
+
+                        <div class="row ">
+
+                            <div class="form-group col-6 ">
+                                <label class="customLabel" for="nameAr">English Name *</label>
+                                <input  id="nameAr" name="nameAr" type="text" placeholder="Enter Menu English Name..." class="form-control customInput"
+                                [(ngModel)]="menu.menuNameEnglish"  
+                                required  [class.error]="submitted && englishName.invalid" #englishName="ngModel">
+                                <p class="text-danger" *ngIf="submitted && englishName.invalid">{{l("ThisFieldIsRequired") }}</p> 
+
+                            </div>
+
+                            <div class="form-group col-6 ">
+                                <label class="customLabel" for="descriptionEn">English Description </label>
+                                <input  id="descriptionEn" name="descriptionEn" type="text" placeholder="Enter Menu English Description..." class="form-control customInput"
+                                [(ngModel)]="menu.menuDescriptionEnglish"  >
+                            </div>
+
+                        </div>
+
+
+
+                        <div class="row justify-content-between">
+                            <div class="form-group ">
+                                <label>Logo Image</label>
+                                    <input accept=".jpg, .jpeg, .png, .gif" #filee [class.error]="submitted && !menuImage" type="file" id="upload" class="form-control"  (change)="onFileChange($event,modalBasic)">
+                                    <p class="text-danger" *ngIf="submitted && !menuImage">{{l("ThisFieldIsRequired") }}</p> 
+
+                                    <div *ngIf="menuImage" class="product-img" >
+                                        <img [src]="menuImage" alt="Advanced Menu Image" style="width: 100px; height: 100px;">
+                                        <br>
+                                        <!-- <button class="btn btn-danger" 
+                                                (click)="openFileUploaded()">Replace
+                                        </button> -->
+                                    </div>
+                            </div>
+                        </div>
+            
+                </div>
+
+                <br><br>
+                <div class="modal-footer" >
+                    <button type="button" class="btn btn-default" (click)="close()">Cancel</button>
+                    <button id="btn" type="button" class="btn btn-primary blue" 
+                        (click)="save()" 
+                        [buttonBusy]="saving" 
+                        [busyText]="l('SavingWithThreeDot')">
+                        <i class="fa fa-save"></i>
+                        <span>{{l("Save")}}</span>
+                    </button>
+                </div>
+
+        </div>
+    </div>
+
+  
+</div>
+  <ng-template #modalBasic let-modal>
+        <div class="modal-header">
+          <h4 class="modal-title" id="myModalLabel1">Image Cropper</h4>
+        </div>
+        <div class="modal-body" tabindex="0" ngbAutofocus>
+          <image-cropper
+          [imageChangedEvent]="imageChangedEvent"
+          [maintainAspectRatio]="true"
+          [aspectRatio]="4 / 4"
+          [resizeToWidth]="200"
+          (imageCropped)="imageCroppedFile($event)"
+      ></image-cropper>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" (click)="modal.dismiss('Cross click')" rippleEffect>
+                Cancel
+              </button>
+          <button type="button" class="btn btn-primary" (click)="saveImage(file);modal.close('Accept click')" rippleEffect>
+            Accept
+          </button>
+       
+        </div>
+      </ng-template>
+

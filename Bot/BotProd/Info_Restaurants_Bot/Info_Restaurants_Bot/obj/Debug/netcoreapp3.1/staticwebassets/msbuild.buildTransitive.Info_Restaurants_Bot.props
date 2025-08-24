@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\buildMultiTargeting\Info_Restaurants_Bot.props" />
+</Project>

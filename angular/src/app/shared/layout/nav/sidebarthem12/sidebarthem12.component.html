@@ -1,0 +1,171 @@
+<div id="sidebar"
+    [ngClass]="{'expanded': darkModeService.hideSideNav=== false , 'navbar-dark' : darkModeService.currentSkin === 'dark' }"
+    class="main-menu menu-fixed overflow-y menu-light menu-accordion menu-shadow" data-scroll-to-active="true">
+    <div class="vertical-menu">
+    <div class="navbar-header expanded">
+        
+
+        
+        <ul class="nav navbar-nav flex-row">
+            <li class="nav-item me-auto"><a class="navbar-brand p-0" routerLink="/">
+                    <span class="brand-logo">
+                        <img alt="Logo" class="w-100" src="../../../../../favicon.ico">
+                    </span>
+                    <h2 class="brand-text" *ngIf="!darkModeService.hideSideNav" (click)='StopSound()' >InfoSeed </h2>
+                </a></li>
+            <li (click)="toggleSideNav()" class="nav-item nav-toggle d-none d-xl-block"><a class="nav-link pt-2 pe-0">
+                    <i [ngClass]="darkModeService.hideSideNav === true ? 'far fa-circle' : 'fa fa-dot-circle'"
+                        class="toggle-icon feather font-medium-4 collapse-toggle-icon info-seed-color"></i>
+                </a></li>
+            <li (click)="darkModeService.toggleNavMenu()" class="nav-item nav-toggle d-block d-xl-none"><a
+                    class="nav-link pt-2 pe-0">
+                    <i class="toggle-icon fa fa-times  font-medium-4 collapse-toggle-icon info-seed-color"></i>
+                </a></li>
+              
+        </ul>
+    </div>
+</div>
+    <div class="shadow-bottom"
+        [ngClass]="{ 'd-block': isScrolled,'shadow-bottom-dark':darkModeService.currentSkin === 'dark' }"></div>
+    <div class="main-menu-content ps ps--active-y"  [perfectScrollbar] (scroll)="onSidebarScroll()"
+        [ngClass]="darkModeService.currentSkin === 'dark' ? 'navbar-dark' : ''">
+        <ul [ngClass]="darkModeService.currentSkin === 'dark'? 'navbar-dark' : ''" class="navigation navigation-main"
+            id="main-menu-navigation" data-menu="menu-navigation">
+            <ng-container [ngTemplateOutlet]="menuListTemplate"></ng-container>
+        </ul>
+
+    </div>
+
+
+    <ng-template #menuListTemplate>
+        <ng-container class="items" *ngFor="let child of menu?.items">
+            <ng-container *ngIf="showMenuItem(child)" [ngTemplateOutlet]="mMenuItem"
+                [ngTemplateOutletContext]="{ item: child, parentItem: null }"></ng-container>
+        </ng-container>
+    </ng-template>
+
+    <ng-template #mMenuItem let-item="item" let-parentItem="parentItem">
+        <li *ngIf="showMenuItem(item)" [attr.aria-haspopup]="true"
+            [attr.data-menu-toggle]="getItemAttrSubmenuToggle(item)" [attr.data-ktmenu-submenu-mode]="item.mode"
+            [attr.data-ktmenu-dropdown-toggle-class]="item['dropdown-toggle-class']" [ngClass]="getItemCssClasses(item)"
+            data-placement="right">
+
+            <!-- if menu item hasn't submenu -->
+            <a *ngIf="!item.items.length && !item.external" (click)="closeAll()" [queryParams]="item.parameters" [routerLink]="item.route"
+                [ngClass]="darkModeService.currentSkin === 'dark' ? 'menu-link-dark' : 'menu-link'">
+                <ng-container [ngTemplateOutlet]="mMenuItemText"
+                    [ngTemplateOutletContext]="{ item: item, parentItem: parentItem }"></ng-container>
+            </a>
+            <a *ngIf="!item.items.length && item.external"  (click)="closeAll()" [attr.href]="item.route" target="_blank" class=" menu-toggle"
+                [ngClass]="darkModeService.currentSkin === 'dark' ? 'menu-link-dark' : 'menu-link'">
+                <ng-container [ngTemplateOutlet]="mMenuItemText"
+                    [ngTemplateOutletContext]="{ item: item, parentItem: parentItem }"></ng-container>
+            </a>
+        </li>
+        
+        <!-- if menu item has submenu child  -->
+        <li *ngIf="showMenuItem(item)"  [attr.aria-haspopup]="true"
+            [attr.data-menu-toggle]="getItemAttrSubmenuToggle(item)" [attr.data-ktmenu-submenu-mode]="item.mode"
+            [attr.data-ktmenu-dropdown-toggle-class]="item['dropdown-toggle-class']" 
+            data-placement="right"  class="nav-item has-sub  "
+            [ngClass]="item.isNewItem ? 'open': ''"
+            (click)="openSubLi(item)"
+            >
+            <a *ngIf="item.items.length" 
+                [ngClass]="darkModeService.currentSkin === 'dark' && item.isNewItem   ? 'menu-a-dark' : ''"
+               >
+                <ng-container [ngTemplateOutlet]="mMenuItemText"
+                    [ngTemplateOutletContext]="{ item: item, parentItem: parentItem }"></ng-container>
+            </a>
+
+            <!-- if menu item has submenu child then recursively call new menu item component -->
+
+            <ul class="menu-content " *ngIf="item.items.length">
+                <ng-container *ngFor="let child of item.items">
+                    <ng-container [ngTemplateOutlet]="mMenuItem" (click)="closeAll()"
+                        [ngTemplateOutletContext]="{ item: child, parentItem: item }"></ng-container>
+                </ng-container>
+            </ul>
+        </li>
+
+    </ng-template>
+
+    <ng-template #mMenuItemText let-item="item" let-parentItem="parentItem">
+        <span class="menu-item-here"></span>
+        <!-- if menu item has icon -->
+        <span class="menu-icon" *ngIf="item.icon">
+            <i [class]="item.icon"></i>
+        </span>
+
+        <ng-container *ngIf="!item.badge; else mMenuLinkBadge">
+            <!-- menu item title text -->
+            <span class="menu-text">
+                {{item.name | localize}}
+            </span>
+
+            <!-- <span *ngIf="item.isNewItem">
+                <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-dot" viewBox="0 0 16 16" >
+                    <path d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z" style="color:rgb(255, 0, 0);"/> 
+                  </svg>
+            </span> -->
+            <!-- <div *ngIf="item.isNewItem">
+      
+                <img src="/assets/common/images/RedDot.png" class="icon" style="height: 14px;">
+      
+      
+                
+            </div> -->
+
+
+            <span class="f-right badge ml-auto mr-1  badge-light-danger badge-pill"
+                *ngIf="OrderCount>0 &&item.name==='orders'">
+                <span> {{OrderCount}}</span>
+            </span>
+            <span class="f-right badge ml-auto mr-1  badge-light-danger badge-pill"
+                *ngIf="EvaluationCount>0 &&item.name=== 'evaluation'">
+                <span>{{EvaluationCount}}</span>
+            </span>
+            <span class="f-right badge ml-auto mr-1 d badge-light-danger badge-pill"
+                *ngIf="MaintenancesCount>0 &&item.name==='Orders Maintenances'">
+                <span>{{MaintenancesCount}}</span>
+            </span>
+
+            <span class="f-right badge ml-auto mr-1 badge-light-danger badge-pill"
+                *ngIf="LiveChatCount>0 &&item.name==='tickets'">
+                <span>{{LiveChatCount}}</span>
+            </span>
+            <!-- <span class="f-right badge ml-auto mr-1 badge-light-danger badge-pill"
+                *ngIf="SellingRequestCount>0 &&item.name==='requestPage'">
+                <span>{{SellingRequestCount}}</span>
+            </span> -->
+
+            <span class="f-right badge ml-auto mr-1 badge-light-danger badge-pill"
+            *ngIf="bookingCount>0 &&item.name==='calendar'">
+            <span>{{bookingCount}}</span>
+        </span>
+
+
+        </ng-container>
+
+        <ng-template #mMenuLinkBadge>
+            <!-- menu item with badge -->
+            <span class="menu-link-title">
+                <span class="menu-link-wrap">
+                    <span class="menu-text">
+                        {{item.name | localize}}
+                    </span>
+                    <span class="menu-link-badge">
+                        <span class="label label-primary" [ngClass]="item.badge.type">{{item.badge.value}}</span>
+                    </span>
+                </span>
+            </span>
+        </ng-template>
+
+        <!-- if menu item has submenu child then put arrow icon -->
+        <!-- <span *ngIf="item.items.length && !subNavOpened" class="fas fa-angle-right pl-6"></span>
+        <span *ngIf="item.items.length && subNavOpened" class="fas fa-angle-down pl-6"></span> -->
+
+    </ng-template>
+    <!-- END: Left Aside -->
+
+</div>

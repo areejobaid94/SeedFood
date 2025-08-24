@@ -1,0 +1,87 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "WxKFHp",
+    "name": "StartCustomerBehaviorDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "q61gxt"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "6BuHEW"
+          },
+          "assignments": [
+            {
+              "property": "dialog.text",
+              "value": "تم تفعيل الخدمة بنجاح في اي وقت يمكنك ارسال STOP لايقاف الخدمة"
+            },
+            {
+              "property": "dialog.Stop",
+              "value": false
+            },
+            {
+              "property": "dialog.Start",
+              "value": true
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "KgzdFr"
+          },
+          "property": "dialog.customerBehaviourBody",
+          "value": {
+            "TenantID": "=conversation.TenantId",
+            "ContactId": "=conversation.ContactId",
+            "Stop": "=dialog.Stop",
+            "Start": "=dialog.Start"
+          }
+        },
+        {
+          "$kind": "Microsoft.HttpRequest",
+          "$designer": {
+            "id": "2A1s5B"
+          },
+          "resultProperty": "dialog.Update",
+          "method": "POST",
+          "url": "${conversation.URL}/api/BotAPI/UpdateCustomerBehavior",
+          "responseType": "json",
+          "body": "= dialog.customerBehaviourBody",
+          "headers": {
+            "accept": "text/plain",
+            "Content-Type": "application/json-patch+json"
+          }
+        },
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "4Us3Bp"
+          },
+          "activity": "${SendActivity_4Us3Bp()}"
+        },
+        {
+          "$kind": "Microsoft.CancelAllDialogs",
+          "$designer": {
+            "id": "36jQ1Z"
+          },
+          "activityProcessed": true
+        }
+      ]
+    }
+  ],
+  "generator": "StartCustomerBehaviorDialog.lg",
+  "recognizer": "StartCustomerBehaviorDialog.lu.qna",
+  "id": "StartCustomerBehaviorDialog"
+}

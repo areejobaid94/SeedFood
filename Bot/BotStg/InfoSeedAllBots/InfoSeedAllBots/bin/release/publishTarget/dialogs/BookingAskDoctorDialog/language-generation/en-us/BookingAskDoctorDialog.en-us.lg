@@ -1,0 +1,15 @@
+[import](common.lg)
+
+# TextInput_Prompt_FR94xa()
+[Activity
+    Attachments = ${json(ButtonList(dialog.textDoctor,dialog.UserInfo.content.result))}
+    InputHint=${dialog.InputHint}
+    Summary=${dialog.Summary}
+]
+# TextInput_Prompt_WoQy3a()
+[Activity
+    Text = ${TextInput_Prompt_WoQy3a_text()}
+]
+
+# TextInput_Prompt_WoQy3a_text()
+- ${dialog.inquiries}

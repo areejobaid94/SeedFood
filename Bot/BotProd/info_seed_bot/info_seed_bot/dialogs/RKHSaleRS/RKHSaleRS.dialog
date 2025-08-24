@@ -1,0 +1,276 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "L0QZAl",
+    "name": "RKHSaleRS",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "ZnmKJJ"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "H7qVyP"
+          },
+          "condition": "conversation.local",
+          "cases": [
+            {
+              "value": "arrrrr",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "s37h9t"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.Text",
+                      "value": "لتقديم عرض البيع أرسل لنا المعلومات التالية"
+                    },
+                    {
+                      "property": "dialog.Text2",
+                      "value": "(يرجى ادخال السعر المطلوب  (رقم فقط مثل  12000"
+                    },
+                    {
+                      "property": "dialog.Text3",
+                      "value": "يرجى ادخال معلومات العقار بالتفصيل (برسالة واحدة فقط)"
+                    },
+                    {
+                      "value": "ارسل معلومات الاتصال ",
+                      "property": "dialog.Text4"
+                    },
+                    {
+                      "value": "شكرا لك لقد تم إستلام طلبك و سنتواصل معك قريبا ",
+                      "property": "dialog.Text5"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "enrrrrrr",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "VyuQs9"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.Text",
+                      "value": "To make a sale offer, send us the following information"
+                    },
+                    {
+                      "property": "dialog.Text2",
+                      "value": "Please enter the desired price (a number only such as 12000)"
+                    },
+                    {
+                      "property": "dialog.Text3",
+                      "value": "Please enter the property information in detail (in one message only)"
+                    },
+                    {
+                      "value": "Send contact information",
+                      "property": "dialog.Text4"
+                    },
+                    {
+                      "property": "dialog.Text5",
+                      "value": "Thank you, your request has been received and we will contact you shortly"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "default": [
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "eQbztT"
+              },
+              "assignments": [
+                {
+                  "property": "dialog.Text",
+                  "value": "=conversation.RKHSaleRS_Text"
+                },
+                {
+                  "property": "dialog.Text2",
+                  "value": "=conversation.RKHSaleRS_Text2"
+                },
+                {
+                  "value": "=conversation.RKHSaleRS_Text3",
+                  "property": "dialog.Text3"
+                },
+                {
+                  "property": "dialog.Text4",
+                  "value": "=conversation.RKHSaleRS_Text4"
+                },
+                {
+                  "property": "dialog.Text5",
+                  "value": "=conversation.RKHSaleRS_Text5"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.DeleteProperty",
+          "$designer": {
+            "id": "3LehUk"
+          },
+          "property": "conversation.InputNumber"
+        },
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "xpED6O"
+          },
+          "activity": "${SendActivity_xpED6O()}"
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "rGaMN9"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "unrecognizedPrompt": "",
+          "invalidPrompt": "",
+          "prompt": "${TextInput_Prompt_rGaMN9()}",
+          "property": "conversation.InputNumber"
+        },
+        {
+          "$kind": "Microsoft.DeleteProperty",
+          "$designer": {
+            "id": "5GRbhS"
+          },
+          "property": "conversation.InputDis"
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "h24eb0"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "unrecognizedPrompt": "",
+          "prompt": "${TextInput_Prompt_h24eb0()}",
+          "property": "conversation.InputDis"
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "IoAu05"
+          },
+          "activityProcessed": true,
+          "dialog": "RKHRealEstatePhotos"
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "aEvS0a"
+          },
+          "activityProcessed": true,
+          "dialog": "RKHKushanPhotos"
+        },
+        {
+          "$kind": "Microsoft.DeleteProperty",
+          "$designer": {
+            "id": "W92kjC"
+          },
+          "property": "conversation.UserInfo"
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "xsiwaf"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "unrecognizedPrompt": "",
+          "invalidPrompt": "",
+          "prompt": "${TextInput_Prompt_xsiwaf()}",
+          "property": "conversation.UserInfo"
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "S1savZ"
+          },
+          "value": {
+            "ContactName": "=conversation.DisplayName",
+            "ContactId": "=conversation.ContactId",
+            "TenantID": "=conversation.TenantId",
+            "PhoneNumber": "=conversation.phoneNumber",
+            "Price": "=conversation.InputNumber",
+            "information": "=conversation.InputDis",
+            "AttachmetArray": "=conversation.AttachmetArray",
+            "AttachmetArrayTow": "=conversation.AttachmetArrayTow",
+            "ContactInformation": "=conversation.UserInfo"
+          },
+          "property": "dialog.updateOrder"
+        },
+        {
+          "$kind": "Microsoft.HttpRequest",
+          "$designer": {
+            "id": "3Kfj59"
+          },
+          "method": "POST",
+          "url": "${conversation.URL}/api/NewBotAPI/UpdateSaleOffer",
+          "body": "= dialog.updateOrder",
+          "headers": {
+            " accept": "text/plain",
+            "Content-Type": "application/json-patch+json"
+          },
+          "resultProperty": "dialog.OrderUpdateFinsh",
+          "responseType": "json"
+        },
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "SbVePB"
+          },
+          "activity": "${SendActivity_SbVePB()}"
+        },
+        {
+          "$kind": "Microsoft.DeleteProperties",
+          "$designer": {
+            "id": "Tf0psN"
+          },
+          "properties": [
+            "conversation.phoneNumber",
+            "conversation.InputNumber",
+            "conversation.InputDis",
+            "conversation.UserInfo",
+            "conversation.AttachmetArray",
+            "conversation.AttachmetArrayTow"
+          ]
+        },
+        {
+          "$kind": "Microsoft.CancelAllDialogs",
+          "$designer": {
+            "id": "Y5dfqM"
+          },
+          "activityProcessed": true
+        }
+      ]
+    }
+  ],
+  "generator": "RKHSaleRS.lg",
+  "recognizer": "RKHSaleRS.lu.qna",
+  "id": "RKHSaleRS"
+}

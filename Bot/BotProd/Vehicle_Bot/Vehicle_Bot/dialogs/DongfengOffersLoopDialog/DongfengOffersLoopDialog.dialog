@@ -1,0 +1,129 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "otIj4L",
+    "name": "DongfengOffersLoopDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "sJRdpl"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "LxgW4v"
+          },
+          "condition": "conversation.StepBack==\"1\"",
+          "actions": [
+            {
+              "$kind": "Microsoft.DeleteProperty",
+              "$designer": {
+                "id": "lS4FSO"
+              },
+              "property": "conversation.userSelect"
+            },
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "2R55BS"
+              },
+              "property": "conversation.stepId",
+              "value": "1"
+            },
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "sWl15n"
+              },
+              "condition": "conversation.local==\"ar\"",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "YpHuK3"
+                  },
+                  "property": "conversation.select",
+                  "value": "الرجاء الاختيار"
+                }
+              ],
+              "elseActions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "7wm2VH"
+                  },
+                  "property": "conversation.select",
+                  "value": "Please choose"
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "a2kylr"
+              },
+              "activityProcessed": true,
+              "dialog": "DongfengAssetsOffersDialog"
+            },
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "fJGosB"
+              },
+              "condition": "conversation.DepartmentName ==\"#\"",
+              "actions": [
+                {
+                  "$kind": "Microsoft.DeleteProperty",
+                  "$designer": {
+                    "id": "eRyRv0"
+                  },
+                  "property": "conversation.userSelectNow"
+                },
+                {
+                  "$kind": "Microsoft.EndDialog",
+                  "$designer": {
+                    "id": "u2pMLE"
+                  }
+                }
+              ],
+              "elseActions": []
+            },
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "xXTUsH"
+              },
+              "property": "conversation.StepBack",
+              "value": "2"
+            },
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "YAgtgu"
+              },
+              "property": "conversation.LevelOneId",
+              "value": "=conversation.userSelect"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "xgJjHQ"
+          }
+        }
+      ]
+    }
+  ],
+  "generator": "DongfengOffersLoopDialog.lg",
+  "recognizer": "DongfengOffersLoopDialog.lu.qna",
+  "id": "DongfengOffersLoopDialog"
+}

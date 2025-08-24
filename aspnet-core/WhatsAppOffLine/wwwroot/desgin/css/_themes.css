@@ -1,0 +1,39 @@
+@import url(../assets/icons/style.css);
+@import url(../assets/fonts/stylesheet.css);
+
+:root {
+    --primary: #009285;
+    --secondary: #055049;
+    --textColor: #212529;
+    --white: #fff;
+    --orange:#FF6E41;
+    --red:#FF0505;
+    --light: #DADADA;
+}
+a, a:visited, .btn-link, .color-primary, .text-primary{
+    color: var(--primary);
+    text-decoration: none!important;
+}
+
+a:hover,  .btn-link:hover{
+    color: var(--secondary);
+}
+
+footer{
+    border-color: var(--primary);
+}
+.color-orange, .required{
+    color: var(--orange);
+}
+
+.color-red{
+    color:var(--red)
+}
+
+.bg-primary{
+    background-color: var(--primary)!important;
+}
+
+.custom-control-input:checked~.custom-control-label::before{
+    background-color: var(--primary);
+}

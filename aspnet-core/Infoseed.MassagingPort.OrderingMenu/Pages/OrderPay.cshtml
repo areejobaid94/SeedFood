@@ -1,0 +1,68 @@
+﻿@page
+@model Infoseed.MassagingPort.OrderingMenu.Pages.OrderPay
+@{
+    Layout = "_LayoutOrderPay";
+
+}
+@using Infoseed.MessagingPortal.Orders
+@Html.HiddenFor(Model=>Model.TenantID)
+@Html.HiddenFor(Model=>Model.ContactId)
+@Html.HiddenFor(Model=>Model.AreaId)
+@Html.HiddenFor(Model=>Model.Lang)
+
+
+<div class="login-page">
+  <div class="form">
+    <div class="text-color">
+        <div class="hed"> 
+            <div class="">
+                <h4 ><b>Order Receipt</b></h4>
+            </div>
+            <div class="">
+                <img src="~/img/logo_rebac.png" class="img-size" />
+            </div>
+        </div>
+        <hr />
+        <div class="font-size">
+            <div class="row">
+                <div class="col-md-6">
+                   <h5><b>Customer Name: </b><small>Ali Juara</small></h5>
+                </div>
+                <div class="col-md-6">
+                    <h5><b>Order Number: </b><small>#2222</small></h5>
+                </div>
+            </div>
+                <br />
+            <div class="row">
+                <div class="col-md-6">
+                    <h5><b>Tenant Name: </b><small>InfoSeed</small></h5>
+                </div>
+                <div class="col-md-6">
+                    <h5><b>Branch Name: </b><small>7th Circle</small></h5>
+                </div>
+            </div>
+                <br />
+            <div class="row">
+                <div class="col-md-6">
+                    <h5><b>Creation date: </b><small>7/30/2001</small></h5>
+                </div>
+                <div class="col-md-6">
+                    <h5><b>Delivery fees: </b><small>2 JOD</small></h5>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-6">
+                    <h5><b>Sub-total: </b><small>10 JOD</small></h5>
+                </div>
+                <div class="col-md-6">
+                    <h5><b>Total amount : </b><small>12 JOD</small></h5>
+                </div>
+            </div>
+        </div>
+        <hr />
+        <br />
+    </div>
+        <form action="https://localhost:7111/CheckOuts" class="paymentWidgets register-form" data-brands="VISA MASTER AMEX"></form>
+  </div>
+</div>

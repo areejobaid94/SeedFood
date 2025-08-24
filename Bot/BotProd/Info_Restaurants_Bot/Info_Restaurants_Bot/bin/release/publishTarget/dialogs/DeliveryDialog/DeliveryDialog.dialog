@@ -1,0 +1,627 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "U8kfUr",
+    "name": "DeliveryDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "ysIPVE"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "Fps8ZA"
+          },
+          "property": "conversation.OrderTypeId",
+          "value": "1"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "Ho6mwn"
+          },
+          "condition": "conversation.Local==\"ar\"",
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "gI1fFO"
+              },
+              "property": "dialog.TowLocationText",
+              "value": "الرجاء اختيار منطقتك"
+            },
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "BXeJ0z"
+              },
+              "assignments": [
+                {
+                  "property": "dialog.Confirm",
+                  "value": "تاكيد"
+                },
+                {
+                  "property": "dialog.Cancel",
+                  "value": "الغاء"
+                }
+              ]
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "twMSNl"
+              },
+              "property": "dialog.TowLocationText",
+              "value": "Please choose your area"
+            },
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "cgCqsH"
+              },
+              "assignments": [
+                {
+                  "property": "dialog.Confirm",
+                  "value": "Confirm"
+                },
+                {
+                  "property": "dialog.Cancel",
+                  "value": "Cancel"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "9MwIuC"
+          },
+          "assignments": [
+            {
+              "property": "dialog.DeliveryCostText",
+              "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 10)).text"
+            },
+            {
+              "property": "dialog.text",
+              "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 9)).text"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.DeleteProperty",
+          "$designer": {
+            "id": "vHwzay"
+          },
+          "property": "conversation.SendLocation"
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "mUGqXG"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "prompt": "${TextInput_Prompt_mUGqXG()}",
+          "unrecognizedPrompt": "",
+          "invalidPrompt": "",
+          "property": "conversation.SendLocation"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "qZx1mt"
+          },
+          "condition": "conversation.OrderTotal ==null ||  conversation.OrderTotal ==\"\" ||  conversation.OrderTotal ==0",
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "ZZFCrE"
+              },
+              "assignments": [
+                {
+                  "property": "conversation.LocationFrom",
+                  "value": "${conversation.SendLocation}"
+                },
+                {
+                  "property": "conversation.isChangeLocation",
+                  "value": false
+                },
+                {
+                  "property": "conversation.add",
+                  "value": "\"\""
+                },
+                {
+                  "property": "dialog.SendLocation",
+                  "value": {
+                    "query": "=conversation.SendLocation",
+                    "tenantID": "=conversation.TenantId",
+                    "isOrderOffer": "=conversation.isOrderOffer",
+                    "local": "=conversation.local",
+                    "isChangeLocation": "=conversation.isChangeLocation",
+                    "address": "=conversation.add"
+                  }
+                }
+              ]
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "0cmaH4"
+              },
+              "assignments": [
+                {
+                  "property": "conversation.LocationFrom",
+                  "value": "${conversation.SendLocation}"
+                },
+                {
+                  "property": "conversation.isChangeLocation",
+                  "value": false
+                },
+                {
+                  "property": "conversation.add",
+                  "value": "\"\""
+                },
+                {
+                  "property": "dialog.SendLocation",
+                  "value": {
+                    "query": "=conversation.SendLocation",
+                    "tenantID": "=conversation.TenantId",
+                    "isOrderOffer": "=conversation.isOrderOffer",
+                    "local": "=conversation.local",
+                    "isChangeLocation": "=conversation.isChangeLocation",
+                    "address": "=conversation.add",
+                    "OrderTotal": "=conversation.OrderTotal"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.HttpRequest",
+          "$designer": {
+            "id": "4HRi6q"
+          },
+          "resultProperty": "dialog.GetLocationModel",
+          "method": "POST",
+          "url": "${conversation.URL}/api/BotAPI/GetlocationUserModel",
+          "body": "=dialog.SendLocation",
+          "headers": {
+            "accept": "text/plain",
+            "Content-Type": "application/json-patch+json"
+          },
+          "responseType": "json"
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "UhXP2j"
+          },
+          "assignments": [
+            {
+              "property": "conversation.LocationInfo",
+              "value": "=dialog.GetLocationModel.content.result"
+            },
+            {
+              "property": "conversation.LocationId",
+              "value": "=conversation.LocationInfo.locationId"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "K6nN9b"
+          },
+          "condition": "conversation.LocationInfo.deliveryCostBefor ==-1",
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "KbYcTv"
+              },
+              "property": "dialog.isnaerby",
+              "value": false
+            },
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "LXowMz"
+              },
+              "condition": "dialog.isnaerby==true",
+              "actions": [
+                {
+                  "$kind": "Microsoft.HttpRequest",
+                  "$designer": {
+                    "id": "lF7EFg"
+                  },
+                  "resultProperty": "dialog.LocationTow",
+                  "method": "GET",
+                  "url": "${conversation.URL}/api/BotAPI/GetlocationUserTowModel?TenantID=${conversation.TenantId}&address=${conversation.LocationInfo.address}",
+                  "responseType": "json"
+                },
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "WYpO3H"
+                  },
+                  "condition": "count(dialog.LocationTow.content.result)>0",
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.SendActivity",
+                      "$designer": {
+                        "id": "abtE5K"
+                      },
+                      "activity": "${SendActivity_abtE5K()}"
+                    },
+                    {
+                      "$kind": "Microsoft.RepeatDialog",
+                      "$designer": {
+                        "id": "BxooG8"
+                      },
+                      "activityProcessed": true
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.DeleteProperty",
+                      "$designer": {
+                        "id": "YlYxuP"
+                      },
+                      "property": "conversation.selectareaDelivery"
+                    },
+                    {
+                      "$kind": "Microsoft.TextInput",
+                      "$designer": {
+                        "id": "TZqLh6"
+                      },
+                      "disabled": false,
+                      "maxTurnCount": 3,
+                      "alwaysPrompt": false,
+                      "allowInterruptions": false,
+                      "invalidPrompt": "",
+                      "prompt": "${TextInput_Prompt_TZqLh6()}",
+                      "property": "conversation.selectareaDelivery"
+                    },
+                    {
+                      "$kind": "Microsoft.HttpRequest",
+                      "$designer": {
+                        "id": "vxlcda"
+                      },
+                      "resultProperty": "dialog.LocationThree",
+                      "method": "GET",
+                      "url": "${conversation.URL}/api/BotAPI/GetlocationUserThreeModel?TenantID=${conversation.TenantId}&address=${conversation.LocationInfo.address}&select=${conversation.selectareaDelivery}",
+                      "responseType": "json"
+                    },
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "Kp8wiZ"
+                      },
+                      "property": "conversation.LocationInfo.deliveryCostAfter",
+                      "value": "=dialog.LocationThree.content.result"
+                    },
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "TZifQH"
+                      },
+                      "property": "conversation.LocationInfo.deliveryCostBefor",
+                      "value": "=dialog.LocationThree.content.result"
+                    }
+                  ]
+                }
+              ],
+              "elseActions": [
+                {
+                  "$kind": "Microsoft.HttpRequest",
+                  "$designer": {
+                    "id": "Xu48ff"
+                  },
+                  "resultProperty": "dialog.LocationTow",
+                  "method": "GET",
+                  "url": "${conversation.URL}/api/BotAPI/GetNearbyLocations?tenantID=${conversation.TenantId}&query=${conversation.SendLocation}&city=${conversation.LocationInfo.city}",
+                  "responseType": "json"
+                },
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "tbvSMZ"
+                  },
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.SendActivity",
+                      "$designer": {
+                        "id": "mnpSQX"
+                      },
+                      "activity": "${SendActivity_mnpSQX()}"
+                    },
+                    {
+                      "$kind": "Microsoft.RepeatDialog",
+                      "$designer": {
+                        "id": "TkmsO4"
+                      },
+                      "activityProcessed": true
+                    }
+                  ],
+                  "condition": "dialog.LocationTow.content.result.deliveryCostAfter==-1"
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "Ah9hjY"
+                  },
+                  "assignments": [
+                    {
+                      "property": "conversation.LocationInfo.deliveryCostAfter",
+                      "value": "=dialog.LocationTow.content.result.deliveryCostAfter"
+                    },
+                    {
+                      "property": "conversation.LocationInfo.deliveryCostBefor",
+                      "value": "=dialog.LocationTow.content.result.deliveryCostBefor"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.HttpRequest",
+          "$designer": {
+            "id": "oarU7T"
+          },
+          "resultProperty": "dialog.areasInfo",
+          "method": "GET",
+          "url": "${conversation.URL}/api/BotAPI/GetAreasByID?TenantID=${conversation.TenantId}&AreaID=${conversation.LocationInfo.locationId}",
+          "responseType": "json"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "BpGHDC"
+          },
+          "condition": "dialog.areasInfo.content.result.isRestaurantsTypeAll",
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "GRIfI8"
+              },
+              "value": "0",
+              "property": "conversation.menu"
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "5CU7Qu"
+              },
+              "value": "${conversation.LocationInfo.locationId}",
+              "property": "conversation.menu"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "G5Eb0z"
+          },
+          "condition": "conversation.LocationInfo.deliveryCostBefor == -1",
+          "actions": [
+            {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "zl5j2b"
+              },
+              "activity": "${SendActivity_zl5j2b()}"
+            },
+            {
+              "$kind": "Microsoft.RepeatDialog",
+              "$designer": {
+                "id": "RANY2u"
+              },
+              "activityProcessed": true
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "AaIb23"
+          },
+          "condition": "conversation.LocationInfo.isOrderOfferCost",
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "k3XcMj"
+              },
+              "assignments": [
+                {
+                  "property": "conversation.isOrderOfferCost",
+                  "value": true
+                },
+                {
+                  "property": "conversation.DeliveryCostText",
+                  "value": "=replace(dialog.DeliveryCostText, '{0}', string(conversation.LocationInfo.deliveryCostBefor))"
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "8XUxKk"
+              },
+              "property": "conversation.Cost",
+              "value": "=conversation.LocationInfo.deliveryCostBefor"
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "kYNqnH"
+              },
+              "assignments": [
+                {
+                  "property": "conversation.isOrderOfferCost",
+                  "value": false
+                },
+                {
+                  "property": "conversation.DeliveryCostText",
+                  "value": "=replace(dialog.DeliveryCostText, '{0}', string(conversation.LocationInfo.deliveryCostAfter))"
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "bmQKlw"
+              },
+              "property": "conversation.Cost",
+              "value": "=conversation.LocationInfo.deliveryCostAfter"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "cMJmTA"
+          },
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "kzk6bU"
+              },
+              "assignments": [
+                {
+                  "property": "conversation.IsDeliveryOffer",
+                  "value": "=conversation.LocationInfo.isOrderOfferCost"
+                },
+                {
+                  "property": "conversation.DeliveryOffer",
+                  "value": "=conversation.LocationInfo.deliveryCostAfter"
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.TextInput",
+              "$designer": {
+                "id": "xIeEe6"
+              },
+              "disabled": false,
+              "maxTurnCount": 100,
+              "alwaysPrompt": false,
+              "allowInterruptions": true,
+              "unrecognizedPrompt": "",
+              "invalidPrompt": "",
+              "prompt": "${TextInput_Prompt_xIeEe6()}",
+              "property": "dialog.confarmDelveryOrder",
+              "validations": [
+                "contains(this.value, 'تاكيد') || contains(this.value, 'الغاء') || contains(this.value, 'Confirm') || contains(this.value, 'Cancel') || contains(this.value, '#') "
+              ]
+            },
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "mUROZJ"
+              },
+              "condition": "dialog.confarmDelveryOrder==\"الغاء\" || dialog.confarmDelveryOrder==\"Cancel\"",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "RpGNjV"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "DeleteOrderDraftDialog"
+                }
+              ]
+            }
+          ],
+          "condition": "conversation.TemplateName==\"Template6\" ",
+          "elseActions": [
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "VGtObJ"
+              },
+              "condition": "conversation.TemplateName==\"Template3\"",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "CBrqvH"
+                  },
+                  "assignments": [
+                    {
+                      "property": "conversation.IsDeliveryOffer",
+                      "value": "=conversation.LocationInfo.isOrderOfferCost"
+                    },
+                    {
+                      "property": "conversation.DeliveryOffer",
+                      "value": "=conversation.LocationInfo.deliveryCostAfter"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "MKzNZg"
+          },
+          "property": "conversation.TypeChoes",
+          "value": "Delivery"
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "q0B5bH"
+          }
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "jsOfls"
+          },
+          "assignments": [
+            {
+              "property": "conversation.LocationInfo",
+              "value": "=dialog.GetLocationModel.content.result"
+            },
+            {
+              "property": "conversation.LocationId",
+              "value": "=conversation.LocationInfo.locationId"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "generator": "DeliveryDialog.lg",
+  "recognizer": "DeliveryDialog.lu.qna",
+  "id": "DeliveryDialog"
+}

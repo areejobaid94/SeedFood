@@ -1,0 +1,415 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "NAwA5V",
+    "name": "AFTchBritishDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "xfWdrU"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "SBuCsW"
+          },
+          "assignments": [
+            {
+              "property": "dialog.BritishList",
+              "value": [
+                "Primary Stage",
+                "Secondary Stage",
+                "Cambridge IGCSE",
+                "Cambridge A Level",
+                "Edexcel O Level",
+                "Edexcel A level",
+                "AQA O level",
+                "AQA A Level"
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.DeleteProperty",
+          "$designer": {
+            "id": "h74PSe"
+          },
+          "property": "dialog.DescriptionCaption"
+        },
+        {
+          "$kind": "Microsoft.DeleteProperty",
+          "$designer": {
+            "id": "egMNQV"
+          },
+          "property": "dialog.UserSelect"
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "e7m5WS"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "prompt": "${TextInput_Prompt_e7m5WS()}",
+          "unrecognizedPrompt": "",
+          "invalidPrompt": "",
+          "validations": [
+            "equals(this.value, 'Primary Stage') || equals(this.value, 'Secondary Stage') || equals(this.value, 'Cambridge IGCSE') || equals(this.value, 'Cambridge A Level') || equals(this.value, 'Edexcel O Level')|| equals(this.value, 'Edexcel A level')|| equals(this.value, 'AQA O level')|| equals(this.value, 'AQA A Level')|| equals(this.value, '#')"
+          ],
+          "property": "dialog.UserSelect"
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "kcPUyO"
+          },
+          "condition": "dialog.UserSelect",
+          "cases": [
+            {
+              "value": "Primary Stage",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "QHMRR1"
+                  },
+                  "property": "dialog.DescriptionCaption",
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3036)).text"
+                }
+              ]
+            },
+            {
+              "value": "Secondary Stage",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "RgKXai"
+                  },
+                  "property": "dialog.DescriptionCaption",
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3037)).text"
+                }
+              ]
+            },
+            {
+              "value": "Cambridge IGCSE",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "YXTgnj"
+                  },
+                  "property": "dialog.DescriptionCaption",
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3038)).text"
+                }
+              ]
+            },
+            {
+              "value": "Cambridge A Level",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "QFuq2H"
+                  },
+                  "property": "dialog.DescriptionCaption",
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3039)).text"
+                }
+              ]
+            },
+            {
+              "value": "Edexcel O Level",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "ZM8JvT"
+                  },
+                  "property": "dialog.DescriptionCaption",
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3040)).text"
+                }
+              ]
+            },
+            {
+              "value": "Edexcel A level",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "xNuTYe"
+                  },
+                  "property": "dialog.DescriptionCaption",
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3041)).text"
+                }
+              ]
+            },
+            {
+              "value": "AQA O level",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "Nckqes"
+                  },
+                  "property": "dialog.DescriptionCaption",
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3042)).text"
+                }
+              ]
+            },
+            {
+              "value": "AQA A Level",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "kCjC80"
+                  },
+                  "property": "dialog.DescriptionCaption",
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3043)).text"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "4cRnVQ"
+          },
+          "activity": "${SendActivity_4cRnVQ()}"
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "2IHzPT"
+          },
+          "condition": "conversation.local",
+          "cases": [
+            {
+              "value": "ar",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "s4Al2T"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.Option1",
+                      "value": "للاستفسار"
+                    },
+                    {
+                      "property": "dialog.Option2",
+                      "value": "العودة إلى السابق"
+                    },
+                    {
+                      "property": "dialog.Option3",
+                      "value": "#"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "en",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "RJ9rF0"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.Option1",
+                      "value": "To inquire"
+                    },
+                    {
+                      "property": "dialog.Option2",
+                      "value": "Back to previous"
+                    },
+                    {
+                      "property": "dialog.Option3",
+                      "value": "#"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.DeleteProperty",
+          "$designer": {
+            "id": "8oE4EF"
+          },
+          "property": "dialog.userSelect"
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "H02JmC"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "unrecognizedPrompt": "",
+          "invalidPrompt": "",
+          "prompt": "${TextInput_Prompt_H02JmC()}",
+          "property": "dialog.userSelect",
+          "validations": [
+            "equals(this.value, 'To inquire') || equals(this.value, 'Back to previous')  ||equals(this.value, 'Back to main') || equals(this.value, 'للاستفسار') || equals(this.value, 'العودة إلى السابق')  ||equals(this.value, 'العودة إلى الرئيسية') || equals(this.value, '#')"
+          ]
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "zZtyls"
+          },
+          "condition": "dialog.userSelect",
+          "cases": [
+            {
+              "value": "To inquire",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "e3kvYf"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.InquireCaption",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3024)).text"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.TextInput",
+                  "$designer": {
+                    "id": "olQbvM"
+                  },
+                  "disabled": false,
+                  "maxTurnCount": 100,
+                  "alwaysPrompt": false,
+                  "allowInterruptions": true,
+                  "unrecognizedPrompt": "",
+                  "invalidPrompt": "",
+                  "prompt": "${TextInput_Prompt_olQbvM()}",
+                  "property": "dialog.Select"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "po3pES"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "LiveChatDialog"
+                }
+              ]
+            },
+            {
+              "value": "Back to previous",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "sNk0LG"
+                  },
+                  "property": "conversation.back",
+                  "value": true
+                },
+                {
+                  "$kind": "Microsoft.EndDialog",
+                  "$designer": {
+                    "id": "vWjnEu"
+                  }
+                }
+              ]
+            },
+            {
+              "value": "للاستفسار",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "G08Gao"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.InquireCaption",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3024)).text"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.TextInput",
+                  "$designer": {
+                    "id": "HNU7cB"
+                  },
+                  "disabled": false,
+                  "maxTurnCount": 100,
+                  "alwaysPrompt": false,
+                  "allowInterruptions": true,
+                  "unrecognizedPrompt": "",
+                  "invalidPrompt": "",
+                  "prompt": "${TextInput_Prompt_HNU7cB()}",
+                  "property": "dialog.Select"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "3tMu8Y"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "LiveChatDialog"
+                }
+              ]
+            },
+            {
+              "value": "العودة إلى السابق",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "gyjbJH"
+                  },
+                  "property": "conversation.back",
+                  "value": true
+                },
+                {
+                  "$kind": "Microsoft.EndDialog",
+                  "$designer": {
+                    "id": "CRyviM"
+                  }
+                }
+              ]
+            },
+            {
+              "value": "#",
+              "actions": []
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "dkcRTT"
+          }
+        }
+      ]
+    }
+  ],
+  "generator": "AFTCHBritishDialog.lg",
+  "recognizer": "AFTCHBritishDialog.lu.qna",
+  "id": "AF-TCH-BritishDialog"
+}

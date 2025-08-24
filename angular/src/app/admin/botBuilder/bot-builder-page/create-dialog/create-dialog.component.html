@@ -1,0 +1,1543 @@
+<div
+    class="modal modal-slide-in fade event-sidebar"
+    id="modelDialog"
+    #createBotDialog="bs-modal"
+    bsModal
+    role="dialog"
+    style="width: 42%"
+    [config]="{ backdrop: false, ignoreBackdropClick: true }"
+    aria-labelledby="createBotDialog"
+>
+    <div class="modal-dialog sidebar-lg">
+        <div class="modal-content p-0">
+            <div class="modal-body flex-grow-1 pb-sm-0 pb-3">
+                <div class="header-content pt-1">
+                    <div class="avatar" [style.background-color]="styleAvatar(type)">
+                        <div class="avatar-content">
+                            <i
+                                class="bi"
+                                [ngClass]="{
+                                    'bi-cursor': type === 'Send Message',
+                                    'bi-translate': type === 'Language',
+                                    'bi-menu-button': type === 'List options',
+                                    'bi-geo': type === 'Branches' || type === 'BranchesEN',
+                                    'bi-headset': type === 'Human handover',
+                                    'bi-input-cursor': type === 'Collect input',
+                                    'bi-shuffle': type === 'Jump',
+                                    'bi-chat-left-text': type === 'Interactive template',
+                                    'bi-hourglass-split': type === 'Delay',
+                                    'bi-code-slash': type === 'Http request',
+                                    'bi-funnel': type === 'Condition',
+                                    'bi-p-square': node.type === 'Set Parameter',
+                                    'bi-whatsapp': type === 'whatsApp template',
+                                    'bi-clock-history': type === 'ScheduleNode',
+                                    'bi bi-sign-stop' : node.type === 'End',
+                                    'bi-plug': type === 'Integration',
+                                    'bi-bag': type === 'Cataloge Single Product',
+                                    'bi-basket': type === 'Cataloge multity Product'
+                                }"
+                            >
+                            </i>
+                        </div>
+                    </div>
+
+                    <div class="right-content">
+                        <i (click)="close()" class="bi bi-x-lg"></i>
+                    </div>
+                </div>
+
+                <div class="row inputForm">
+                    <form [formGroup]="dialogForm" #ngForm="ngForm" (ngSubmit)="save()">
+                        <!-- <div class="mb-1 form-group">
+                            <input type="text" class="form-control" id="title" formControlName="type" />
+                        </div> -->
+                        <!-- <div class="form__group field mb-1">
+                            <input type="text" class="form__field" placeholder="Name" name="type" id='type'
+                                formControlName="type" />
+                        </div> -->
+                        <!--Title-->
+                        <div class="form__group field mb-1" >
+                            <input
+                                [ngClass]="{ error: ngForm.submitted && dialogForm.controls.title.invalid }"
+                                type="text"
+                                class="form__field"
+                                placeholder="Title"
+                                name="title"
+                                id="title"
+                                formControlName="title"
+                                maxlength="50"
+                                disabled="true"
+                            />
+                            <p class="text-danger" *ngIf="ngForm.submitted && dialogForm.controls.title.invalid">{{ l("ThisFieldIsRequired") }}</p>
+                        </div>
+                        <p *ngIf="type === 'Send Message'">Send message will only send messages to the user and not require a response back</p>
+                        <p *ngIf="type === 'Reply buttons' || type === 'Language'">Buttons allow the conversation flow to be branched into various paths based on user input</p>
+                        <p *ngIf="type === 'List options'">Options allow the conversation flow to be branched into various paths based on user input.</p>
+                        <p *ngIf="type === 'Branches'">Options allow the conversation flow to be branched into various paths based on user input.</p>
+                        <p *ngIf="type === 'BranchesEN'">Options allow the conversation flow to be branched into various paths based on user input.</p>
+                        <p *ngIf="type === 'Http request'">Send An Http Request</p>
+                        <p *ngIf="type === 'whatsApp template'">Send Outbound Whatsapp Template Message To Engage contacts Into A Conversations</p>
+                        <p *ngIf="type === 'Human handover'">Handle the requests by users</p>
+                        <p *ngIf="type === 'Collect input'">Collect input asks a question to a user which requires an answer</p>
+                        <p *ngIf="type === 'Jump'">Allows you to route the conversation flow from this point to the action block mentioned below.</p>
+                        <p *ngIf="type === 'End'">Ends the flow.</p>
+                        <p *ngIf="type === 'Cataloge Single Product'">This bot flow allows you to showcase and send details of a single catalog product to the user for viewing or purchase.</p>
+                        <p *ngIf="type === 'Cataloge multity Product'">This bot flow allows you to display multiple products from your catalog, enabling users to browse and choose from various items.</p>
+                        <!--Jump-->
+                        <div *ngIf="type === 'Jump'" class="mb-1 form-group">
+                            <label class="form-label">Save the response in Jump to this action block </label>
+                            <ng-select
+                                #select
+                                [items]="nodes"
+                                [searchable]="false"
+                                [ngClass]="{ error: ngForm.submitted && dialogForm.controls.jumpId.invalid }"
+                                formControlName="jumpId"
+                                bindLabel="title"
+                                bindValue="id"
+                                [searchFn]="searchNode"
+                            >
+                                <ng-template ng-header-tmp>
+                                    <div class="form-group has-feedback">
+                                        <input type="text" class="form-control" id="inputValidation" placeholder="Search" (input)="select.filter($event.target.value)" />
+                                    </div>
+                                </ng-template>
+                            </ng-select>
+                            <p class="text-danger" *ngIf="ngForm.submitted && dialogForm.controls.jumpId.invalid">{{ l("ThisFieldIsRequired") }}</p>
+                        </div>
+
+                        <!--Http Request -->
+                        <div class="mb-1 form-group" *ngIf="type === 'Http request'">
+                            <label for="httpMethod" class="form-label">Http Method</label>
+                            <select
+                                [(ngModel)]="request.httpMethod"
+                                [ngModelOptions]="{ standalone: true }"
+                                [ngClass]="{ error: ngForm.submitted && !request.httpMethod }"
+                                class="form-control"
+                                id="httpMethod"
+                            >
+                                <option value="GET">GET</option>
+                                <option value="POST">POST</option>
+                            </select>
+                            <p class="text-danger" *ngIf="ngForm.submitted && !request.httpMethod">{{ l("ThisFieldIsRequired") }}</p>
+                        </div>
+                        <div class="mb-1 form-group" *ngIf="type === 'Http request'">
+                            <label for="httpMethod" class="form-label">URL</label>
+                            <input
+                                [(ngModel)]="request.url"
+                                [ngModelOptions]="{ standalone: true }"
+                                [ngClass]="{ error: ngForm.submitted && !request.url }"
+                                type="text"
+                                class="form-control"
+                                id="url"
+                                placeholder=""
+                            />
+                            <p class="text-danger" *ngIf="ngForm.submitted && !request.url">{{ l("ThisFieldIsRequired") }}</p>
+                        </div>
+
+                        <!-- <div class="mb-1 form-group" *ngIf="type === 'Http request' && request.httpMethod=='POST'" >
+                            <label for="httpMethod" class="form-label">Body</label>
+                            <input [(ngModel)]="request.body" [ngModelOptions]="{ standalone: true }"
+                                [ngClass]="{ error: ngForm.submitted && !request.body }" type="text"
+                                class="form-control" id="body" placeholder="ex: Hello ${userName}" />
+                            <p class="text-danger" *ngIf="ngForm.submitted && !request.body"> {{
+                                l("ThisFieldIsRequired") }}</p>
+                        </div> -->
+
+                        <!-- hasanOrg -->
+
+                        <div class="mb-1" *ngIf="type === 'Http request'   && request.httpMethod == 'POST'">
+                            <div class="form-group">
+                                <label>Body</label>
+
+                                <div class="body-actions">
+                                    <span ngbDropdown class="mr-1" [ngbPopover]="'Add Variable' | localize" #CloseEvent="ngbPopover" triggers="mouseenter:mouseleave">
+                                        <i ngbDropdownToggle class="bi-currency-dollar" type="button" id="dropdownMenuButton"> </i>
+                                        <div ngbDropdownMenu class="variable-dropDown" aria-labelledby="dropdownMenuButton">
+                                            <a (click)="addParameter(parameter.name)" *ngFor="let parameter of selectParameter; let x = index" ngbDropdownItem>{{
+                                                parameter.name
+                                            }}</a>
+                                        </div>
+                                    </span>
+                                    <i
+                                        class="mr-1 bi bi-type-bold"
+                                        (click)="boldText()"
+                                        [ngbPopover]="'bold' | localize"
+                                        #CloseEvent="ngbPopover"
+                                        placement="right"
+                                        triggers="mouseenter:mouseleave"
+                                    ></i>
+                                    <i
+                                        class="bi bi-type-italic"
+                                        (click)="italicText()"
+                                        [ngbPopover]="'italic' | localize"
+                                        #CloseEvent="ngbPopover"
+                                        placement="right"
+                                        triggers="mouseenter:mouseleave"
+                                    ></i>
+                                    <i
+                                        [ngbPopover]="'insertEmoji' | localize"
+                                        #CloseEvent="ngbPopover"
+                                        placement="left"
+                                        triggers="mouseenter:mouseleave"
+                                        class="mr-1 bi bi-emoji-smile"
+                                        (click)="showEmoji()"
+                                        aria-hidden="true"
+                                    ></i>
+                                    <div #emojiMart style="display: contents">
+                                        <emoji-mart
+                                            title="Pick your emoji…"
+                                            (emojiClick)="addEmoji($event)"
+                                            emoji="point_up"
+                                            [hidden]="hideEmoji"
+                                            [darkMode]="darkModeService.currentSkin === 'dark'"
+                                        >
+                                        </emoji-mart>
+                                    </div>
+                                </div>
+                                <textarea
+                                    class="form-control bodyText w-100 body-text"
+                                    id="body"
+                                    placeholder="ex: Hello ${userName}"
+                                    [(ngModel)]="request.body"
+                                    [ngModelOptions]="{ standalone: true }"
+                                    [maxLength]="bodyLength"
+                                    rows="6"
+                                    [ngClass]="{ error: ngForm.submitted && !request.body }"
+                                    #bodyHttp
+                                    required
+                                >
+                                </textarea>
+                            </div>
+                            <div class="row form-group" >
+                                <div class="col-9"  >
+                                    <span >You can reference a variable by clicking on $</span>
+                                </div>
+                                <div class="col-3 p-0 text-right">
+                                    <span class="p-0" *ngIf="bodyHttp.value === null">0/{{ bodyLength }}</span>
+                                    <span class="p-0">{{ bodyHttp.value.length }}/{{ bodyLength }}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--Choose Template For OutBound Template-->
+                        <div class="mb-1 form-group" *ngIf="type === 'whatsApp template'">
+                            <label for="template" class="form-label">Choose Template</label>
+                            <select
+                                #template="ngModel"
+                                [(ngModel)]="selectedTemplateId"
+                                [ngModelOptions]="{ standalone: true }"
+                                [ngClass]="{ error: ngForm.submitted && !selectedTemplateId }"
+                                (change)="changeTemplate(selectedTemplateId)"
+                                class="form-control"
+                                id="template"
+                            >
+                                <option disabled value="0">Choose Template</option>
+                                <option *ngFor="let template of Templates" [value]="template.id">{{ template.name }}</option>
+                            </select>
+                            <p class="text-danger" *ngIf="ngForm.submitted && !selectedTemplateId">{{ l("ThisFieldIsRequired") }}</p>
+                        </div>
+
+                        <div class="m-auto templateCard p-3" *ngIf="type === 'whatsApp template' && selectedTemplate.name">
+                            <span class="arrow"
+                                ><svg viewBox="0 0 8 13" width="8" height="13" class="">
+                                    <path opacity=".13" fill="#0000000" d="M1.533 3.568 8 12.193V1H2.812C1.042 1 .474 2.156 1.533 3.568z"></path>
+                                    <path fill="currentColor" d="M1.533 2.568 8 11.193V0H2.812C1.042 0 .474 1.156 1.533 2.568z"></path>
+                                    </svg ></span>
+                            <div class="card-body p-1">
+                                <div class="row mb-1" *ngIf="ComponentHeader?.text">
+                                    <h4 [ngClass]="selectedTemplate.language === 'ar' ? 'rtl' : 'ltr'">
+                                        {{ ComponentHeader?.text }}
+                                    </h4>
+                                </div>
+                                <div class="row mb-1" *ngIf="imageFlag">
+                                    <img class="p-0" [src]="maketheUrlSafe(selectedTemplate.mediaLink)" style="height: 150px" alt="Campaign Image" />
+                                </div>
+                                <div class="row mb-1" *ngIf="videoFlag">
+                                    <iframe class="p-0" [src]="maketheUrlSafe(selectedTemplate.mediaLink)" frameborder="0"></iframe>
+                                </div>
+                                <div class="row mb-1" *ngIf="documentFlag">
+                                    <iframe class="p-0" [src]="maketheUrlSafe(selectedTemplate.mediaLink)" style="height: 150px" frameborder="0"></iframe>
+                                </div>
+                                <div class="row">
+                                    <span [ngClass]="selectedTemplate.language === 'ar' ? 'rtl' : 'ltr'">
+                                        {{ ComponentBody?.text }}
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="card-footer footerCard p-1 pt-0" *ngIf="ComponentFooter?.text">
+                                <small [ngClass]="selectedTemplate.language === 'ar' ? 'rtl' : 'ltr'">
+                                    {{ ComponentFooter?.text }}
+                                </small>
+                            </div>
+                            <div class="row buttonText" *ngIf="ComponentButton.buttons">
+                                <div class="col p-0" *ngFor="let button of ComponentButton.buttons">
+                                    <button class="btn btn-light">
+                                        {{ button.text }}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--Caption English-->
+                
+                        <div
+                            class="mb-1"
+                            *ngIf="type !== 'Http request' && type != 'whatsApp template' && type != 'Jump' && type != 'Condition'  
+                                && type != 'Set Parameter' && type != 'Integration' 
+                                && type != 'Cataloge multity Product' && type != 'Cataloge Single Product' 
+                                " >
+
+                            <div class="form-group">
+                                <label class="form-label" *ngIf="type === 'Send Message' || type === 'Human handover'">Send This Message</label>
+                                <label class="form-label" *ngIf="type === 'Cataloge Single Product' ">Body Text</label>
+                                <label class="form-label" *ngIf="type === 'Cataloge multity Product' ">Body Text</label>
+                                <label class="form-label" *ngIf="type === 'Reply buttons'">Body</label>
+                                <label class="form-label" *ngIf="type === 'Collect input' || type === 'List options' || type === 'Branches'  || type === 'BranchesEN'">Shows this question</label>
+                                <!-- <label class="form-label" *ngIf="type === 'Collect input' || type === 'List options' || type === 'BranchesEN'">Shows this question</label> -->
+
+
+                                <div class="body-actions">
+                                    <span ngbDropdown class="mr-1" [ngbPopover]="'Add Variable' | localize" #CloseEvent="ngbPopover" triggers="mouseenter:mouseleave">
+                                        <i ngbDropdownToggle class="bi-currency-dollar" type="button" id="dropdownMenuButton"> </i>
+                                        <div ngbDropdownMenu class="variable-dropDown" aria-labelledby="dropdownMenuButton">
+                                            <a (click)="addParameter(parameter.name)" *ngFor="let parameter of selectParameter; let x = index" ngbDropdownItem>{{
+                                                parameter.name
+                                            }}</a>
+                                        </div>
+                                    </span>
+                                    <i
+                                        class="mr-1 bi bi-type-bold"
+                                        (click)="boldText()"
+                                        [ngbPopover]="'bold' | localize"
+                                        #CloseEvent="ngbPopover"
+                                        placement="right"
+                                        triggers="mouseenter:mouseleave"
+                                    ></i>
+                                    <i
+                                        class="bi bi-type-italic"
+                                        (click)="italicText()"
+                                        [ngbPopover]="'italic' | localize"
+                                        #CloseEvent="ngbPopover"
+                                        placement="right"
+                                        triggers="mouseenter:mouseleave"
+                                    ></i>
+                                    <i
+                                        [ngbPopover]="'insertEmoji' | localize"
+                                        #CloseEvent="ngbPopover"
+                                        placement="left"
+                                        triggers="mouseenter:mouseleave"
+                                        class="mr-1 bi bi-emoji-smile"
+                                        (click)="showEmoji()"
+                                        aria-hidden="true"
+                                    ></i>
+                                    <div #emojiMart style="display: contents">
+                                        <emoji-mart
+                                            title="Pick your emoji…"
+                                            (emojiClick)="addEmoji($event)"
+                                            emoji="point_up"
+                                            [hidden]="hideEmoji"
+                                            [darkMode]="darkModeService.currentSkin === 'dark'"
+                                        >
+                                        </emoji-mart>
+                                    </div>
+                                </div>
+                                <textarea
+                                    class="form-control bodyText w-100 body-text"
+                                    id="captionEn"
+                                    formControlName="captionEn"
+                                    [maxLength]="bodyLength"
+                                    rows="6"
+                                    placeholder="Send This Message"
+                                    [ngClass]="{ error: ngForm.submitted && dialogForm.controls.captionEn.invalid, rtl: isArabic, ltr: !isArabic }"
+                                    #captionEn
+                                    (input)="detectLanguage($event)"
+                                    required
+                                >
+                                </textarea>
+                                <!-- <p class="text-danger"
+                                    *ngIf="dialogForm.controls.captionEn.invalid && dialogForm.controls.captionEn.touched">
+                                    {{
+                                    l("ThisFieldIsRequired")}}</p> -->
+                            </div>
+                            <div class="row form-group">
+                                <div class="col-9">
+                                    <span>You can reference a variable by clicking on $</span>
+                                </div>
+                                <div class="col-3 p-0 text-right">
+                                    <span class="p-0" *ngIf="captionEn.value === null">0/{{ bodyLength }}</span>
+                                    <span class="p-0">{{ captionEn.value.length }}/{{ bodyLength }}</span>
+                                </div>
+                            </div>
+                            <p class="text-danger" *ngIf="ngForm.submitted && dialogForm.controls.captionEn.invalid">{{ l("ThisFieldIsRequired") }}</p>
+                        </div>
+
+
+                        <!--Caption Arabic-->
+                        <!-- <div class="mb-1 " *ngIf="type != 'Http request' && type != 'whatsApp template' && type != 'Jump'">
+                            <div class="mb-1 ">
+                                <label class="form-label">Caption Arabic</label>
+                                <textarea class="form-control w-100 body-text mt-1 rtl" id="captionAr"
+                                    formControlName="captionAr" maxLength="4000" rows="6" placeholder="Caption arabic"
+                                    #captionAr required>
+                                </textarea>
+                                <p class="text-danger rtl"
+                                    *ngIf="dialogForm.controls.captionAr.invalid && dialogForm.controls.captionAr.touched">
+                                    {{
+                                    l("ThisFieldIsRequired")}}</p>
+                               
+                            </div>
+
+                            <div class="row mt-1">
+                                <div class="col">
+                                    <span class="p-0" *ngIf="captionAr.value === null">0/4000</span>
+                                    <span class="p-0">{{
+                                        captionAr.value.length }}/4000  {{ l("character") }}</span>
+                                </div>
+                                <div class="col text-right p-0 body-actions">
+                                    <span ngbDropdown  [ngbPopover]="'Add Variable' | localize" #CloseEvent="ngbPopover"
+                                    triggers="mouseenter:mouseleave" >
+                                        <i ngbDropdownToggle class="bi-currency-dollar"
+                                          type="button" id="dropdownMenuButton1">
+                                        </i>
+                                        <div ngbDropdownMenu aria-labelledby="dropdownMenuButton1">
+                                            <a (click)="addParameterArabic(parameter.name)"
+                                                href="javascript:void(0)"
+                                                *ngFor="let parameter of selectParameter; let x = index" ngbDropdownItem
+                                                href="javascript:void(0)">{{parameter.name}}</a>
+                                        </div>
+                                    </span>
+                                    <i [ngbPopover]="'insertEmoji' | localize" #CloseEvent="ngbPopover"
+                                        triggers="mouseenter:mouseleave" class="mr-1 bi bi-emoji-smile"
+                                        (click)="showEmojiArabic()" aria-hidden="true"></i>
+                                    <div #emojiMart style="display: contents">
+                                        <emoji-mart title="Pick your emoji…" (emojiClick)="addEmojiArabic($event)"
+                                            emoji="point_up" [hidden]="hideEmojiArabic"
+                                            [darkMode]="darkModeService.currentSkin === 'dark'">
+                                        </emoji-mart>
+                                    </div>
+                                    <i class="mr-1 bi bi-type-bold" (click)="boldTextArabic()"
+                                        [ngbPopover]="'bold' | localize" #CloseEvent="ngbPopover"
+                                        triggers="mouseenter:mouseleave"></i>
+                                    <i class="bi bi-type-italic" (click)="italicTextArabic()"
+                                        [ngbPopover]="'italic' | localize" #CloseEvent="ngbPopover"
+                                        triggers="mouseenter:mouseleave"></i>
+                                </div>
+                            </div>
+                        </div> -->
+
+                        <!--Hint For opton and branchs-->
+                        <div
+                            class="mb-1 form-group"
+                            *ngIf="
+                                type != 'Send Message' &&
+                                type != 'Http request' &&
+                                type != 'whatsApp template' &&
+                                type != 'Human handover' &&
+                                type != 'Collect input' &&
+                                type != 'Jump' &&
+                                type != 'Condition' &&
+                                type != 'ScheduleNode' &&
+                                type != 'Set Parameter' &&
+                                type != 'Integration' &&
+                                type != 'Cataloge Single Product' &&
+                                type != 'Cataloge multity Product'
+                            "
+                        >
+                            <label *ngIf="type != 'Reply buttons'" placeholder="Hint" for="inputHint" class="form-label">Hint(Required)</label>
+
+                            <label *ngIf="type === 'Reply buttons'" placeholder="Hint" for="inputHint" class="form-label">Hint(Optional)</label>
+
+                            <input
+                                maxLength="20"
+                                type="text"
+                                class="form-control"
+                                id="inputHint"
+                                formControlName="inputHint"
+                                [ngClass]="{ rtl: isArabic, ltr: !isArabic }"
+                                (input)="detectLanguage($event)"
+                            />
+                            <div class="row">
+                                <div class="col text-right p-0">
+                                    <span class="p-0" *ngIf="dialogForm.controls.inputHint.value === null">0/20</span>
+                                    <span class="p-0">{{ dialogForm.controls.inputHint.value.length }}/20 </span>
+                                </div>
+                            </div>
+                            <p class="text-danger" *ngIf="ngForm.submitted && type != 'Reply buttons' && dialogForm.controls.inputHint.invalid">{{ l("ThisFieldIsRequired") }}</p>
+                        </div>
+
+                        <!--inputHint ForReplay-->
+                        <!-- <div class="mb-1 form-group"
+                                *ngIf="
+                                   type != 'Send Message' &&
+                                   type != 'Http request' &&
+                                   type != 'whatsApp template' &&
+                                   type != 'Human handover' &&
+                                   type != 'Collect input' &&
+                                   type != 'Jump' && 
+                                   type != 'Condition'&& 
+                                   type != 'List options'&& 
+                                   type != 'Branches'
+                               ">
+                                   <label placeholder="Hint" for="hintReplay" class="form-label">Hint (Optinal)</label>
+                                   <input  maxLength="20" type="text" class="form-control" id="hintReplay"
+                                       formControlName="hintForReplay" [ngClass]="{ rtl: isArabic, ltr: !isArabic }"
+                                       (input)="detectLanguage($event)" />
+                                   <div class="row">
+                                       <div class="col text-right p-0">
+                                           <span class="p-0" *ngIf="dialogForm.controls.hintForReplay.value === null">0/20</span>
+                                           <span class="p-0">{{ dialogForm.controls.hintForReplay.value.length }}/20 </span>
+                                       </div>
+                                   </div>
+                               </div> -->
+
+                        <!-- is Question first  -->
+                        <!-- <div class="form-group mt-4" *ngIf="s('Abp.Zero.UserManagement.TwoFactorLogin.IsRememberBrowserEnabled') === 'true'">
+                                <label class="checkbox checkbox-outline">
+                                    <input type="checkbox" name="rememberClient" value="true" />
+                                    <span></span>
+                                    {{"RememberThisBrowser" | localize}}
+                                </label>
+                            </div> -->
+
+                        <div class="form-group mt-4" *ngIf="type != 'Human handover' && 
+                                                            type != 'Jump' && 
+                                                            type != 'ScheduleNode' && 
+                                                            type != 'Delay' && 
+                                                            type != 'Integration' &&
+                                                            type != 'Cataloge Single Product' &&
+                                                            type != 'Cataloge multity Product'
+                                                            ">
+                            <label class="checkbox">
+                                <input type="checkbox" name="onetimequestion" formControlName="isOneTimeQuestion" />
+                                <span></span>
+                                One Time question (Optional)
+                            </label>
+                        </div>
+
+                        <div class="form-group mt-4" *ngIf=" type === 'List options' ">
+                            
+                            
+                            <label class="checkbox">
+                                <input type="checkbox" name="isAdvanceName" formControlName="isAdvance" />
+                                <span></span>
+                               Advance Mode 
+                            </label>
+                        </div>
+
+
+
+                        <!-- <div class="form-check">
+                                <input class="form-check-input checkbox-branch" id="onetimequestion" type="checkbox" formControlName="isOneTimeQuestion" >
+                                <label for="onetimequestion" class="checkbox">  {{"onetimequestion" | localize}}  (Optional)</label>
+
+                              </div> -->
+
+                        <!-- <div class="d-flex" >
+                                <input class="form-check-input checkbox-branch" id="onetimequestion" type="checkbox" formControlName="isOneTimeQuestion" >
+                                <label for="onetimequestion" class="checkbox">  {{"onetimequestion" | localize}}  (Optional)</label>
+                            </div>
+                             -->
+
+                        <!-- 
+                            <div class="checkbox-list my-1">
+                                <label for="onetimequestion" class="checkbox">
+                                    <input id="onetimequestion" type="checkbox"
+                                    formControlName="isOneTimeQuestion" 
+                                        />
+                                    <span></span>
+                                    {{"onetimequestion" | localize}}  (Optional)
+                                </label>
+                            </div> -->
+
+                        <!-- is Question first  -->
+
+                        <!--Fooetr English-->
+                        <div
+                            class="mb-1 form-group"
+                            *ngIf="
+                                type != 'Send Message' &&
+                                type != 'Http request' &&
+                                type != 'whatsApp template' &&
+                                type != 'Human handover' &&
+                                type != 'Collect input' &&
+                                type != 'Jump' &&
+                                type != 'Condition' &&
+                                type != 'Set Parameter' &&
+                                type != 'ScheduleNode' &&
+                                type != 'Integration'  &&
+                                type != 'Cataloge multity Product' &&
+                                type != 'Cataloge Single Product'
+                              "
+                        >
+
+                            <label placeholder="footer English" for="footerEn" class="form-label">Footer (Optional)</label>
+                            <textarea
+                                #footerTextEn
+                                maxLength="60"
+                                type="text"
+                                class="form-control"
+                                id="footerEn"
+                                formControlName="footerTextEn"
+                                [ngClass]="{ rtl: isArabic, ltr: !isArabic }"
+                                (input)="detectLanguage($event)"
+                            >
+                            </textarea>
+                            <div class="row">
+                                <div class="col text-right p-0">
+                                    <span class="p-0" *ngIf="footerTextEn.value === null">0/60</span>
+                                    <span class="p-0">{{ footerTextEn.value.length }}/60 </span>
+                                </div>
+                            </div>
+                        </div>
+                        <!--Footer Arabic-->
+                        <!-- <div class="mb-1 form-group" *ngIf="type != 'Send Message' && type != 'Http request' && type != 'whatsApp template' && type != 'Jump'">
+                            <label placeholder="footer Arabic" for="footerAr" class="form-label">Footer Arabic</label>
+                            <textarea #footerTextAr maxLength="60"  type="text" class="form-control" id="footerAr" formControlName="footerTextAr" >
+                            </textarea>
+                            <div class="row mt-1">
+                                <div class="col">
+                                    <span class="p-0" *ngIf="footerTextAr.value === null">0/60   {{ l("character") }}</span>
+                                    <span class="p-0">{{
+                                        footerTextAr.value.length }}/60  {{ l("character") }}</span>
+                                </div>
+                            </div>
+                        </div> -->
+
+
+
+                        <!--Human Hand Over Type-->
+                        <div class="mb-1 form-group" *ngIf="type === 'Human handover'">
+                            <label for="actionBlock">Choose The Action Block</label>
+                            <select
+                                [ngClass]="{ error: ngForm.submitted && dialogForm.controls.actionBlock.invalid }"
+                                class="form-control"
+                                formControlName="actionBlock"
+                                id="actionBlock"
+                            >
+                                <option value="tickets">{{ l("Ticket") }}</option>
+                                <option value="request">{{ l("request") }}</option>
+                            </select>
+                            <p class="text-danger" *ngIf="ngForm.submitted && dialogForm.controls.actionBlock.invalid">
+                                {{ l("ThisFieldIsRequired") }}
+                            </p>
+                        </div>
+
+
+
+
+                        <!--Human Hand Over Teams-->
+                        <div class="mb-1 form-group" *ngIf="type === 'Human handover'">
+                            <label>Assign To Teams</label>
+                            <ng-multiselect-dropdown
+                                required
+                                name="Teams"
+                                [settings]="dropdownTeamsSettings"
+                                [ngModelOptions]="{ standalone: true }"
+                                [(ngModel)]="selectedTeamsIds"
+                                [data]="selectMultiTeams"
+                            >
+                            </ng-multiselect-dropdown>
+                            <!-- <p class="text-danger" *ngIf="ngForm.submitted && selectedTeamsIds.length === 0">{{ l("ThisFieldIsRequired") }}</p> -->
+                        </div>
+
+                        <!--Human Hand Over Users-->
+                        <div class="mb-1 form-group" *ngIf="type === 'Human handover'">
+                            <label>Assign To User</label>
+                            <ng-multiselect-dropdown
+                                required
+                                name="users"
+                                [ngClass]="{ error: ngForm.submitted && selectedUserIds.length === 0 }"
+                                [settings]="dropdownSettings"
+                                [ngModelOptions]="{ standalone: true }"
+                                [(ngModel)]="selectedUserIds"
+                                [data]="selectMultiUsers"
+                            >
+                            </ng-multiselect-dropdown>
+                            <p class="text-danger" *ngIf="ngForm.submitted && selectedUserIds.length === 0">{{ l("ThisFieldIsRequired") }}</p>
+                        </div>
+
+                        <!--Human Hand Over Users-->
+                        <ng-container *ngIf="dialogForm.controls.actionBlock.value == 'request' || dialogForm.controls.actionBlock.value == 'tickets'">
+                            <div class="mb-1 form-group" *ngIf="type === 'Human handover'">
+                                <label>Saved Variables</label>
+                                <ng-multiselect-dropdown
+                                    name="parametersHandOver"
+                                    [settings]="dropdownSettingsHuman"
+                                    [ngModelOptions]="{ standalone: true }"
+                                    [(ngModel)]="selectedParametrs"
+                                    [data]="selectParameter"
+                                >
+                                </ng-multiselect-dropdown>
+                            </div>
+                        </ng-container>
+
+                        <!--Condition-->
+                        <form *ngIf="type === 'Condition'">
+                            <div *ngFor="let condition of listOfConditions; let conditionIndex = index" class="mb-1">
+                                <div class="conditions-container">
+                                    <div class="mb-1 form-group">
+                                        <div class="input-group">
+                                            <i
+                                                [ngbPopover]="'This field cannot be empty' | localize"
+                                                #CloseEvent="ngbPopover"
+                                                placement="right"
+                                                triggers="mouseenter:mouseleave"
+                                                *ngIf="ngForm.submitted && !condition.op1"
+                                                class="bi text-warning bi-info-circle-fill mr-1"
+                                            ></i>
+                                            <input
+                                                type="text"
+                                                class="form-control"
+                                                placeholder="If"
+                                                [ngModelOptions]="{ standalone: true }"
+                                                [(ngModel)]="condition.op1"
+                                                aria-describedby="button-addon2"
+                                            />
+                                            <div class="input-group-append" id="button-addon2">
+                                                <div ngbDropdown #ConditionOp1Drop="ngbDropdown">
+                                                    <button ngbDropdownToggle class="btn btn-primary-info" type="button" id="dropdownMenuButton1" rippleEffect>Variables</button>
+                                                    <div ngbDropdownMenu aria-labelledby="dropdownMenuButton1" class="parameters">
+                                                        <a
+                                                            ngbDropdownItem
+                                                            (click)="addVariableToConditionOp1(condition, conditionIndex, parameter.name); ConditionOp1Drop.close()"
+                                                            *ngFor="let parameter of selectParameter"
+                                                            >{{ parameter.name }}</a
+                                                        >
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-1 form-group">
+                                        <ng-select
+                                            [items]="listOfOperations"
+                                            bindLabel="item"
+                                            bindValue="item"
+                                            required
+                                            [ngModelOptions]="{ standalone: true }"
+                                            [(ngModel)]="condition.operation"
+                                        >
+                                            <ng-template ng-option-tmp let-item="item" let-index="index" let-clear="clear" let-search="searchTerm">
+                                                <span class="ng-value-label"> {{ item }}</span>
+                                            </ng-template>
+                                        </ng-select>
+                                    </div>
+
+                                    <div class="mb-1 form-group">
+                                        <div class="input-group">
+                                            <i
+                                                [ngbPopover]="'This field cannot be empty' | localize"
+                                                #CloseEvent="ngbPopover"
+                                                placement="right"
+                                                triggers="mouseenter:mouseleave"
+                                                *ngIf="ngForm.submitted && !condition.op2"
+                                                class="bi text-warning bi-info-circle-fill mr-1"
+                                            ></i>
+                                            <input
+                                                type="text"
+                                                class="form-control"
+                                                placeholder="If"
+                                                [(ngModel)]="condition.op2"
+                                                [ngModelOptions]="{ standalone: true }"
+                                                aria-describedby="button-addon2"
+                                            />
+                                            <div class="input-group-append" id="button-addon2">
+                                                <div ngbDropdown #ConditionOp2Drop="ngbDropdown">
+                                                    <button ngbDropdownToggle class="btn btn-primary-info" type="button" id="dropdownMenuButton1" rippleEffect>Variables</button>
+                                                    <div ngbDropdownMenu aria-labelledby="dropdownMenuButton1" class="parameters">
+                                                        <a
+                                                            ngbDropdownItem
+                                                            (click)="addVariableToConditionOp2(condition, conditionIndex, parameter.name); ConditionOp2Drop.close()"
+                                                            *ngFor="let parameter of selectParameter"
+                                                            >{{ parameter.name }}</a
+                                                        >
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row text-right" *ngIf="conditionIndex > 0">
+                                        <i class="bi bi-trash3-fill text-danger cursor-pointer" (click)="deleteCondition(conditionIndex)"> </i>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="text-center" *ngIf="listOfConditions.length > 1">
+                                <div class="toggle-button-container">
+                                    <button [ngClass]="{ active: condition === 'AND' }" (click)="setCondition('AND')">AND</button>
+                                    <button [ngClass]="{ active: condition === 'OR' }" (click)="setCondition('OR')">OR</button>
+                                </div>
+                            </div>
+                            <div clas="row mb-1">
+                                <button (click)="addConditioin()" class="btn btn-outline-primary-info">Add</button>
+                            </div>
+                        </form>
+
+                        <!-- Set Parameter   ***********************************************************************************************************-->
+
+                        <form *ngIf="type === 'Set Parameter'">
+                            <div *ngFor="let variable of listOfParametr; let parameterIndex = index" class="mb-1">
+                                <div class="parameter-container">
+                                    <div class="mb-1 form-group">
+                                        <div class="input-group">
+                                            <p-dropdown
+                                                [ngClass]="{ error: ngForm.submitted && !variable.par }"
+                                                [options]="parameterForSetParameters"
+                                                [(ngModel)]="variable.par"
+                                                [ngModelOptions]="{ standalone: true }"
+                                                placeholder="Variable"
+                                            ></p-dropdown>
+
+                                            <input
+                                                type="text"
+                                                [ngClass]="{ error: ngForm.submitted && !variable.val }"
+                                                [disabled]="!variable.par"
+                                                [(ngModel)]="variable.val"
+                                                [ngModelOptions]="{ standalone: true }"
+                                                class="form-control var-class ml-1"
+                                                aria-label="fill the variable"
+                                                placeholder="fill the variable"
+                                            />
+                                        </div>
+                                        <p class="text-danger" *ngIf="ngForm.submitted && (!variable.par || !variable.val)">{{ l("ThisFieldIsRequired") }}</p>
+                                    </div>
+
+                                    <div class="row text-right" *ngIf="parameterIndex > 0">
+                                        <i class="bi bi-trash3-fill text-danger cursor-pointer" (click)="deleteParameter(parameterIndex)"> </i>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div clas="row mb-1">
+                                <button (click)="addVariable()" class="btn btn-outline-primary-info">Add</button>
+                            </div>
+                        </form>
+
+                        <!-- End Set Parameter  ***********************************************************************************************************-->
+
+                        <!-- Start Schedual Node  -->
+
+                        <div class="mb-1" *ngIf="type === 'ScheduleNode'">
+                            <h2>{{ l("choseDateOrTime") }}</h2>
+
+                            <p-tabView [(activeIndex)]="tabIndex" (onChange)="checkSchdularType($event)">
+                                <p-tabPanel header="Date">
+                                    <div class="pl-0 md-checkbox-list form-check form-switch">
+                                        <div class="row md-checkbox-list form-switch branch-status">
+                                            <input
+                                                class="form-check-input"
+                                                id="isNowDate"
+                                                [(ngModel)]="isNow"
+                                                [checked]="isNow"
+                                                [ngModelOptions]="{ standalone: true }"
+                                                type="checkbox"
+                                            />
+                                        </div>
+                                        <label for="isNowDate">{{ l("startSchedualFromNow") }}</label>
+                                    
+                                    </div>
+
+                                    <div *ngIf="isNow" >
+                                        <input
+                                            [(ngModel)]="numberButton"
+                                            [ngModelOptions]="{ standalone: true }"
+                                            class="form-control"
+                                            [placeholder]="'Number of Days' | localize"
+                                            type="number"
+                                            min="1"
+                                            max="10"
+                                        />
+                                        <p class="text-danger" *ngIf="ngForm.submitted && !numberButton">{{ l("ThisFieldIsRequired") }}</p>
+                                        <p class="text-danger" *ngIf="ngForm.submitted && (numberButton >= 10|| numberButton==0)">{{ l("rangCantbemorethan10") }}</p>
+                                    </div>
+
+                                    <div *ngIf="!isNow" class="form-group">
+                                        <label for="date" class="form-label"> {{ l("SelectDate") }}</label>
+
+                                        <ng2-flatpickr [config]="pickerOptions" [setDate]="eventDate" #endDatePickerSelectDate></ng2-flatpickr>
+                                        <p class="text-danger" *ngIf="ngForm.submitted && !formattedStartDate">{{ l("ThisFieldIsRequired") }}</p>
+                                        <p class="text-danger" *ngIf="ngForm.submitted && diffInDays >= 10">{{ l("rangCantbemorethan10") }}</p>
+                                    </div>
+
+                                    <div class="pl-0 md-checkbox-list form-check form-switch">
+                                        <div class="row md-checkbox-list form-switch branch-status">
+                                            <input
+                                                class="form-check-input"
+                                                id="isNowDate"
+                                                type="checkbox"
+                                                [checked]="isUnavailbleDayActive"
+                                                (change)="handleChangeUnavailavleDate($event)"
+                                                name="isNowDate"
+                                            />
+                                        </div>
+                                        <label for="isNowDate">{{ l("SetunavailableDates") }}</label>
+                                    </div>
+
+                                    <div *ngIf="isUnavailbleDayActive" class="form-group">
+                                        <label for="unavaiDate" class="form-label"> {{ l("SelectDate") }}</label>
+                                        <p-calendar
+                                            [style]="{ width: '100%' }"
+                                            [inputStyle]="{ width: '100%' }"
+                                            [inline]="true"
+                                            name="unavaiDate"
+                                            [(ngModel)]="selectedDates"
+                                            [ngModelOptions]="{ standalone: true }"
+                                            [minDate]="minDate"
+                                            selectionMode="multiple"
+                                            [readonlyInput]="true"
+                                            inputId="multiple"
+                                        ></p-calendar>
+                                    </div>
+                                </p-tabPanel>
+                                <p-tabPanel header="Time">
+                                    <div class="pl-0 md-checkbox-list form-check form-switch">
+                                        <div class="row md-checkbox-list form-switch branch-status">
+                                            <input
+                                                class="form-check-input"
+                                                id="isNowDate"
+                                                [(ngModel)]="isNow"
+                                                [checked]="isNow"
+                                                [ngModelOptions]="{ standalone: true }"
+                                                type="checkbox"
+                                            />
+                                        </div>
+                                        <label for="isNowDate">{{ l("startSchedualFromNow") }}</label>
+                                    </div>
+                                    <div *ngIf="!isNow" class="field col-12 md:col-4">
+                                        <label for="timeonly">{{ l("startTime") }}</label>
+                                        <p-calendar
+                                            [style]="{ width: '100%' }"
+                                            [inputStyle]="{ width: '100%' }"
+                                            [inline]="true"
+                                            [timeOnly]="true"
+                                            [hourFormat]="24"
+                                            [(ngModel)]="selectedFirstTime"
+                                            [ngModelOptions]="{ standalone: true }"
+                                            inputId="timeStartonly"
+                                        ></p-calendar>
+                                    </div>
+                                    <div *ngIf="!isNow" class="field col-12 md:col-4">
+                                        <label for="timeonly">{{ l("endTime") }}</label>
+                                        <p-calendar
+                                            [style]="{ width: '100%' }"
+                                            [inputStyle]="{ width: '100%' }"
+                                            [inline]="true"
+                                            [timeOnly]="true"
+                                            [hourFormat]="24"
+                                            [(ngModel)]="selectedEndTime"
+                                            [ngModelOptions]="{ standalone: true }"
+                                            inputId="timeEndonly"
+                                        ></p-calendar>
+                                        <p class="text-danger" *ngIf="ngForm.submitted && numberButton >10">{{ l("rangCantbemorethan10") }}</p>
+                                        <p class="text-danger" *ngIf="ngForm.submitted && numberButton <=0">{{ l("TimeScheduacantbeSame") }}</p>
+                                    </div>
+                                 
+                                   
+
+                                    <div *ngIf="isNow" >
+                                        <input
+                                            [(ngModel)]="numberButton"
+                                            [ngModelOptions]="{ standalone: true }"
+                                            class="form-control"
+                                            [placeholder]="'Number of Hours' | localize"
+                                            type="number"
+                                            min="1"
+                                            max="10"
+                                        />
+                                     
+                                        <p class="text-danger" *ngIf="ngForm.submitted && !numberButton">{{ l("ThisFieldIsRequired") }}</p>
+                                        <p class="text-danger" *ngIf="ngForm.submitted && (numberButton > 10|| numberButton==0)">{{ l("rangCantbemorethan10") }}</p>
+                                    </div>
+
+                                </p-tabPanel>
+                            </p-tabView>
+                        </div>
+
+                        <!-- End Schedual Node -->
+
+                        <div
+                        class="mb-1 form-group"
+                        *ngIf="type == 'ScheduleNode'"
+                    >
+                        <label  placeholder="Hint" for="inputHint" class="form-label">Hint(Required)</label>
+
+                        <input
+                            maxLength="20"
+                            type="text"
+                            class="form-control"
+                            id="inputHint"
+                            formControlName="inputHint"
+                            [ngClass]="{ rtl: isArabic, ltr: !isArabic }"
+                            (input)="detectLanguage($event)"
+                        />
+
+                        <p class="text-danger" *ngIf="ngForm.submitted && dialogForm.controls.inputHint.value.length <= 1">{{ l("ThisFieldIsRequired") }}</p>
+
+                        <div class="row">
+                            <div class="col text-right p-0">
+                                <span class="p-0" *ngIf="dialogForm.controls.inputHint.value === null">0/20</span>
+                                <span class="p-0">{{ dialogForm.controls.inputHint.value.length }}/20 </span>
+                            </div>
+                        </div>
+                    </div>
+
+
+                        <!--Parameter-->
+                        <div
+                            *ngIf="
+                                type != 'whatsApp template' &&
+                                type != 'Human handover' &&
+                                type != 'Jump' &&
+                                type != 'Condition' &&
+                                type != 'Set Parameter' &&
+                                type != 'Integration' 
+                            "
+                            class="mb-1 form-group"
+                        >
+                            <label placeholder="Parameter" for="parameter" class="form-label">Save the response in this variable </label>
+
+                            <ng-select
+                                [items]="selectParameter"
+                                formControlName="parameter"
+                                bindLabel="name"
+                                bindValue="name"
+                                (change)="updateParameterType($event, node)"
+                                [ngClass]="{ error: ngForm.submitted && dialogForm.controls.parameter.invalid }"
+                            >
+                                <ng-template ng-option-tmp let-item="item" let-index="index" let-clear="clear" let-search="searchTerm">
+                                    <span class="ng-value-label">{{ item.name }}</span>
+                                </ng-template>
+                                <ng-template ng-footer-tmp let-search="searchTerm">
+                                    <a (click)="createParameter.show()" class="text-info"><i class="bi bi-plus-lg"></i> Create Variable</a>
+                                </ng-template>
+                            </ng-select>
+                            <p class="text-danger" *ngIf="ngForm.submitted && dialogForm.controls.parameter.invalid">{{ l("ThisFieldIsRequired") }}</p>
+                            <input hidden formControlName="parameterType" />
+                            <span>You can select a variable that can be referenced later in the conversation. </span>
+                        </div>
+
+                        <!--Http Request -->
+                        <div class="mb-1 form-group" *ngIf="type === 'Http request'">
+                            <h2 *ngIf="type === 'Http request'">Headers</h2>
+                            <span *ngIf="type === 'Http request'">Result Property</span>
+                            <br />
+                            <label for="contentType" class="form-label">Content type</label>
+                            <input
+                                [(ngModel)]="request.contentType"
+                                [ngModelOptions]="{ standalone: true }"
+                                [ngClass]="{ error: ngForm.submitted && !request.contentType }"
+                                type="text"
+                                class="form-control"
+                                id="contentType"
+                                placeholder="ex: application/json, text/plain"
+                            />
+                            <p class="text-danger" *ngIf="ngForm.submitted && !request.contentType">{{ l("ThisFieldIsRequired") }}</p>
+                        </div>
+                        <div class="mb-1 form-group" *ngIf="type === 'Http request'">
+                            <label for="responseType" class="form-label">Response Type</label>
+                            <select
+                                [(ngModel)]="request.resposeType"
+                                [ngModelOptions]="{ standalone: true }"
+                                [ngClass]="{ error: ngForm.submitted && !request.resposeType }"
+                                class="form-control"
+                                id="responseType"
+                            >
+                                <option value="JSON">JSON</option>
+                            </select>
+                            <p class="text-danger" *ngIf="ngForm.submitted && !request.resposeType">{{ l("ThisFieldIsRequired") }}</p>
+                        </div>
+
+                        <div class="mb-1 form-group" *ngIf="type === 'Http request'">
+                            <label for="token" class="form-label">Authorization/Authentication</label>
+                            <input [(ngModel)]="request.token" [ngModelOptions]="{ standalone: true }" type="text" class="form-control" id="token" placeholder="Bearer Token" />
+                        </div>
+
+                        <!--List And Buttons-->
+                        <label *ngIf="type === 'Reply buttons' || type === 'Language'">List Of Buttons To Be shown</label>
+                        <label *ngIf="type === 'List options'">List Of Options To Be shown</label>
+
+                        <form *ngIf="type === 'Reply buttons' || type === 'List options' || type === 'Language'" action="#">
+                            <div cdkDropList [cdkDropListData]="listOfButtons" class="example-list" (cdkDropListDropped)="dropButton($event)">
+                                <div class="example-box" cdkDrag cdkDragLockAxis="y" *ngFor="let button of listOfButtons; trackBy: trackByFunction; let i = index">
+                                    <div class="d-flex" [ngClass]="i > 0 ? 'mt-1' : ''">
+                                        <i class="bi bi-arrows-move dragDrop"></i>
+                                        <button class="btn btn-primary-info btn-text buttons w-100 d-flex">
+                                            <i
+                                                [ngbPopover]="'This field cannot have only Space' | localize"
+                                                #CloseEvent="ngbPopover"
+                                                placement="right"
+                                                triggers="mouseenter:mouseleave"
+                                                *ngIf="checkIfbuttononlyHaveSpace(button.valueEn)"
+                                                class="bi text-warning bi-info-circle-fill mr-1"
+                                            ></i>
+
+                                            <i
+                                                [ngbPopover]="'This field cannot be empty' | localize"
+                                                #CloseEvent="ngbPopover"
+                                                placement="right"
+                                                triggers="mouseenter:mouseleave"
+                                                *ngIf="ngForm.submitted && !button.valueEn"
+                                                class="bi text-warning bi-info-circle-fill mr-1"
+                                            ></i>
+                                            <i
+                                                [ngbPopover]="'This field name is already in use' | localize"
+                                                #CloseEvent="ngbPopover"
+                                                placement="right"
+                                                triggers="mouseenter:mouseleave"
+                                                *ngIf="checkIfButtonValueExist(button.valueEn, i)"
+                                                class="bi text-warning bi-info-circle-fill"
+                                            ></i>
+                                            <input
+                                                (mousedown)="$event.stopPropagation()"
+                                                [maxlength]="dialogForm.get('isAdvance').value?50:20"
+                                                [disabled]="type === 'Language'"
+                                                [id]="'buttonValueEn' + i"
+                                                [name]="'buttonValueEn' + i"
+                                                [value]="button.valueEn"
+                                                #buttonValue="ngModel"
+                                                [(ngModel)]="button.valueEn"
+                                                class="button-input"
+                                                required
+                                            />
+                                        </button>
+                                        <i *ngIf="i != 0 && type != 'Language'" class="bi bi-trash3-fill pl-1 m-auto" (click)="deleteItem(i)"></i>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col pl-1">
+                                            <span>{{ button.valueEn.length }}/{{dialogForm.get('isAdvance').value?50:20}} {{ l("character") }}</span>
+                                        </div>
+                                    </div>
+                                    <!-- <button maxlength="20"  class="btn btn-primary-info">
+                                    <input [disabled]="type === 'Language'" [name]="'buttonValueAr' + i"
+                                        [value]="button.valueAr" [(ngModel)]="button.valueAr" class="button-input"
+                                        #buttonValueAr="ngModel" required />
+                                </button> -->
+                                </div>
+                            </div>
+                        </form>
+
+           
+                        <form *ngIf="type === 'Branches'" action="#">
+                            <div cdkDropList [cdkDropListData]="branches" class="example-list" (cdkDropListDropped)="dropButton($event)">
+                                <div class="example-box" cdkDrag cdkDragLockAxis="y" *ngFor="let button of branches; trackBy: trackByFunction; let i = index">
+                                    <div class="d-flex" [ngClass]="i > 0 ? 'mt-1' : ''">
+                                        <i class="bi bi-arrows-move dragDrop"></i>
+                                        <button class="btn btn-primary-info btn-text buttons w-100 d-flex">
+                                            {{ button.areaNameEnglish }}
+                                        </button>
+
+                                        <input
+                                            *ngIf="i != 0"
+                                            class="form-check-input checkbox-branch"
+                                            type="checkbox"
+                                            value=""
+                                            (click)="toggleBranch(button)"
+                                            id="flexCheckDefault"
+                                            [checked]="button.checked"
+                                            style="position: relative"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                        <form *ngIf="type === 'BranchesEN'" action="#">
+                            <div cdkDropList [cdkDropListData]="branchesEN" class="example-list" (cdkDropListDropped)="dropButton($event)">
+                                <div class="example-box" cdkDrag cdkDragLockAxis="y" *ngFor="let button of branchesEN; trackBy: trackByFunction; let i = index">
+                                    <div class="d-flex" [ngClass]="i > 0 ? 'mt-1' : ''">
+                                        <i class="bi bi-arrows-move dragDrop"></i>
+                                        <button class="btn btn-primary-info btn-text buttons w-100 d-flex">
+                                            {{ button.areaNameEnglish }}
+                                        </button>
+
+                                        <input
+                                            *ngIf="i != 0"
+                                            class="form-check-input checkbox-branch"
+                                            type="checkbox"
+                                            value=""
+                                            (click)="toggleBranchEN(button)"
+                                            id="flexCheckDefault"
+                                            [checked]="button.checked"
+                                            style="position: relative"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                        <div *ngIf="type === 'Reply buttons' || type === 'List options'" class="mt-1">
+                            <button class="btn btn-icon btn-outline-primary-info w-30" type="button" (click)="addButtonOrOption()">
+                                <i class="bi bi-plus-lg"></i>
+                                <span *ngIf="type === 'Reply buttons' || type === 'Language'"> Button</span>
+                                <span *ngIf="type === 'List options'"> Option</span>
+                            </button>
+                            <hr class="mt-1 mb-1" />
+                        </div>
+
+                        <!--file-->
+                        <!-- <div class="mb-1 " *ngIf="type === 'Reply buttons' || type === 'List options'">
+                            <div *ngIf="!showLoading" class="custom-file">
+                                <input #filee type="file" accept="image/*" (change)="onFileChange($event)"
+                                   id="importFile" />
+                            </div>
+                            <div *ngIf="showLoading" role="status" class="spinner-border d-block"><span
+                                    class="sr-only">Loading...</span></div>
+                        </div> -->
+                        <form *ngIf="type === 'Reply buttons' || type === 'Send Message'  || (type === 'List options' && dialogForm.get('isAdvance').value) " action="#">
+                            <div cdkDropList class="example-list" (cdkDropListDropped)="drop($event)">
+                                <div class="example-box pl-1 pr-1" *ngFor="let image of listOfImages; let i = index" cdkDrag cdkDragLockAxis="y">
+                                    <div>
+                                        <div *ngIf="!image.showLoading && image.show" class="custom-file mb-1 d-flex">
+                                            <input
+                                                [ngClass]="{ error: ngForm.submitted && !image.name }"
+                                                #filee
+                                                type="file"
+                                                accept="image/jpeg, image/jif,image/jpg, video/mp4,.pdf,.doc"
+                                                (change)="onFileChange($event, i)"
+                                                id="importFile"
+                                                class="line"
+                                            />
+                                            <i class="bi bi-trash3-fill pl-1 m-auto cursor-pointer" (click)="deleteImage(i)"></i>
+                                        </div>
+                                        <div *ngIf="image.showLoading" role="status" class="spinner-border d-block">
+                                            <span class="sr-only">Loading...</span>
+                                        </div>
+                                        <div class="mb-1 d-flex" *ngIf="image.name">
+                                            <i class="bi bi-arrows-move dragDrop"></i>
+                                            <div class="overflow-hidden image-box">
+                                                {{ image.name }}
+                                            </div>
+                                            <i class="bi bi-trash3-fill m-auto cursor-pointer" (click)="deleteImage(i)"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr class="mt-1 mb-1" />
+                        </form>
+                        <!-- Cataloge Single Product ********************************************************* -->
+                        
+                       
+                        <form *ngIf="type === 'Cataloge Single Product' || type === 'Cataloge multity Product'" [formGroup]="dialogForm">
+
+                            
+                                <div class="mt-2">
+                                    <label>Catalog ID</label>
+                                        <select class="form-control" formControlName="catalogId">
+                                            <option value="" disabled selected>Select a catalog</option>
+                                            <option *ngFor="let catalog of catalog" [value]="catalog.id">
+                                                {{catalog.id}} - {{catalog.name}}
+                                            </option>
+                                        </select>
+                                    <p class="text-danger" 
+                                       *ngIf="ngForm.submitted && dialogForm.get('catalogId')?.hasError('required')">
+                                        {{ l("Catalog ID Must not Be Empty") }}
+                                    </p>
+                                </div>
+
+                                <div class="mt-2" *ngIf=" type === 'Cataloge multity Product'">
+                                    <label>Sections Title</label>
+                                    <input type="text" class="form-control" formControlName="sectionTitle"  placeholder="e.g., Summer Collection, Best Sellers, etc." maxlength="60">
+                                    <p class="text-danger" 
+                                        *ngIf="ngForm.submitted && dialogForm.get('sectionTitle')?.hasError('required')">
+                                        {{ l("section Title Must not Be Empty") }}
+                                    </p>
+                                    <!-- <label class="mt-2">Catalog Name</label>
+                                    <input type="text" class="form-control" formControlName="catalogName"> -->
+                                </div>
+                                    <!-- <button (click)="test()">test</button> -->
+                              <div>
+                                <label>Select Products</label>
+
+                                    <ng-select
+                                        [items]="availableProducts"
+                                        bindValue="retailer_Id"
+                                        bindLabel="name"
+                                        [multiple]="type === 'Cataloge multity Product' || type === 'Cataloge Single Product'"
+                                        formControlName="selectedProducts"
+                                        placeholder="Choose products"
+                                        [closeOnSelect]="false">
+
+                                        <ng-template ng-label-tmp let-item="item">
+                                            {{item.retailer_Id}} - {{item.name}}
+                                        </ng-template>
+                                        <ng-template ng-option-tmp let-item="item">
+                                            <div class="d-flex align-items-center">
+                                                <!-- <img *ngIf="item.imageUrl" 
+                                                    [src]="item.imageUrl" 
+                                                    width="50" height="50"
+                                                    [attr.name]="'img_' + item.retailer_Id" 
+                                                    [attr.id]="'img_' + item.retailer_Id" 
+                                                    class="mr-2"> -->
+                                                <div>
+                                                    <strong>{{item.name}}</strong>
+                                                    <div class="small text-muted">
+                                                        {{item.retailer_Id}} - {{item.price}} {{item.currency}}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </ng-template>
+                                    </ng-select>
+
+                                <p class="text-danger" 
+                                   *ngIf="ngForm.submitted && dialogForm.get('selectedProducts')?.hasError('required')">
+                                    {{ l("At least one product must be selected") }}
+                                </p>
+                                <p class="text-danger" 
+                                   *ngIf="ngForm.submitted && type === 'Cataloge multity Product' && 
+                                            dialogForm.get('selectedProducts')?.value?.length > 30">
+                                    {{ l("Maximum 30 products allowed") }}
+                                </p>
+                            </div>
+
+                                <!-- Header -->
+                                <div class="mt-2" *ngIf="type === 'Cataloge multity Product'">
+                                    <label>Header</label>
+                                    <input type="text" class="form-control" formControlName="headerTextEn" placeholder="Enter header text ">
+                                    <p class="text-danger" 
+                                       *ngIf="ngForm.submitted && dialogForm.get('headerTextEn')?.hasError('required')">
+                                        {{ l("Header text is required") }}
+                                    </p>  
+                                        <p class="text-muted small">
+                                            {{ dialogForm.get('headerTextEn')?.value?.length || 0 }}/60 characters
+                                        </p>    
+                                </div>
+                                <!-- test body -->
+
+                                <!-- test body -->
+                                <!-- Body -->
+                                <!-- <div class="mt-2">
+                                    <label>Body</label>
+                                    <input type="text" class="form-control" formControlName="captionEn" placeholder="Enter body text ">
+                                </div> -->
+                            <div  class="mb-1" >
+
+                            <div class="form-group">
+                                <label class="form-label" *ngIf="type === 'Cataloge Single Product' ">Body Text</label>
+                                <label class="form-label" *ngIf="type === 'Cataloge multity Product' ">Body Text</label>
+
+                                <div class="body-actions">
+                                    <span ngbDropdown class="mr-1" [ngbPopover]="'Add Variable' | localize" #CloseEvent="ngbPopover" triggers="mouseenter:mouseleave">
+                                        <i ngbDropdownToggle class="bi-currency-dollar" type="button" id="dropdownMenuButton"> </i>
+                                        <div ngbDropdownMenu class="variable-dropDown" aria-labelledby="dropdownMenuButton">
+                                            <a (click)="addParameter(parameter.name)" *ngFor="let parameter of selectParameter; let x = index" ngbDropdownItem>{{
+                                                parameter.name
+                                            }}</a>
+                                        </div>
+                                    </span>
+                                    <i
+                                        class="mr-1 bi bi-type-bold"
+                                        (click)="boldText()"
+                                        [ngbPopover]="'bold' | localize"
+                                        #CloseEvent="ngbPopover"
+                                        placement="right"
+                                        triggers="mouseenter:mouseleave"
+                                    ></i>
+                                    <i
+                                        class="bi bi-type-italic"
+                                        (click)="italicText()"
+                                        [ngbPopover]="'italic' | localize"
+                                        #CloseEvent="ngbPopover"
+                                        placement="right"
+                                        triggers="mouseenter:mouseleave"
+                                    ></i>
+                                    <i
+                                        [ngbPopover]="'insertEmoji' | localize"
+                                        #CloseEvent="ngbPopover"
+                                        placement="left"
+                                        triggers="mouseenter:mouseleave"
+                                        class="mr-1 bi bi-emoji-smile"
+                                        (click)="showEmoji()"
+                                        aria-hidden="true"
+                                    ></i>
+                                    <div #emojiMart style="display: contents">
+                                        <emoji-mart
+                                            title="Pick your emoji…"
+                                            (emojiClick)="addEmoji($event)"
+                                            emoji="point_up"
+                                            [hidden]="hideEmoji"
+                                            [darkMode]="darkModeService.currentSkin === 'dark'"
+                                        >
+                                        </emoji-mart>
+                                    </div>
+                                </div>
+                                <textarea
+                                    class="form-control bodyText w-100 body-text"
+                                    id="bodyTextEn"
+                                    formControlName="bodyTextEn"
+                                    [maxLength]="bodyLength"
+                                    rows="6"
+                                    placeholder="Send This Message"
+                                    [ngClass]="{ error: ngForm.submitted && dialogForm.controls.captionEn.invalid, rtl: isArabic, ltr: !isArabic }"
+                                    #bodyTextEn
+                                    (input)="detectLanguage($event)"
+                                    required
+                                >
+                                </textarea>
+                                <!-- <p class="text-danger"
+                                    *ngIf="dialogForm.controls.captionEn.invalid && dialogForm.controls.captionEn.touched">
+                                    {{
+                                    l("ThisFieldIsRequired")}}</p> -->
+                            </div>
+                            <div class="row form-group">
+                                <div class="col-9">
+                                    <span>You can reference a variable by clicking on $</span>
+                                </div>
+                                <div class="col-3 p-0 text-right">
+                                    <span class="p-0" *ngIf="bodyTextEn.value === null">0/{{ bodyLength }}</span>
+                                    <span class="p-0">{{ bodyTextEn.value.length }}/{{ bodyLength }}</span>
+                                </div>
+                            </div>
+                            <p class="text-danger" *ngIf="ngForm.submitted && dialogForm.controls.bodyTextEn.invalid">{{ l("ThisFieldIsRequired") }}</p>
+                        </div>
+                                
+                                <!-- Body -->
+                                <!-- Footer -->
+                        <div class="mt-2">
+                                    <label>Footer <span style="font-weight: normal;">(Optional)</span> </label>
+                                    <input type="text" class="form-control" formControlName="footerTextEn" 
+                                                placeholder="Enter footer text" maxlength="60">
+                                    <p class="text-muted small">
+                                        {{ dialogForm.get('footerTextEn')?.value?.length || 0 }}/60 characters
+                                    </p>
+                        </div>
+                        
+                    </form>
+
+
+                        <!-- Cataloge Single Product ***************************************************** -->
+
+                        <!-- Integration ********************************************************* -->
+                        <form *ngIf="type === 'Integration'" [formGroup]="dialogForm">
+                            <label class="form-label">Select Integration</label>
+                            <ng-select [items]="integrationsList" bindLabel="label" bindValue="value" formControlName="integrationType"
+                                (change)="onIntegrationChange($event)" placeholder="Select...">
+                            </ng-select>
+
+                            <div *ngIf="dialogForm.get('integrationType').value === 'googleSheets'" class="mt-2">
+                                <label for="googleAction" class="form-label">Select Action</label>
+                                <ng-select [items]="googleSheetActions" bindLabel="label" bindValue="value" formControlName="googleSheetAction"
+                                    (change) = "onActionChange($event)" placeholder="Select..." >
+                                </ng-select>
+                            </div>
+
+     
+                            <div *ngIf="showSpreadsheetDropdown && dialogForm.get('integrationType').value === 'googleSheets'" class="mt-2">
+                                <div *ngIf="selectedAction === 'insertRow'" class="hint-integration">
+                                    <i class="fas fa-info-circle"></i> Send infoseed data to Google Sheets.
+                                </div>
+                                <div *ngIf="selectedAction === 'getRowByValue'" class="hint-integration">
+                                    <i class="fas fa-info-circle"></i> Return Google Sheets data to Infoseed.
+                                </div>
+                                <label>Spreadsheet Name</label>
+                                <input type="text" formControlName="spreadSheetName" readonly class="form-control" />
+                            
+                                <!-- Hidden input for Spreadsheet ID -->
+                                <input type="hidden" formControlName="spreadSheetId" />
+                            
+                                <button class="mt-1" (click)="requestAccessToken()">Select a Spreadsheet</button>
+                            </div>
+
+
+                              <div *ngIf="showWorksheetDropdown" class="mt-2">
+                                <label>WorkSheets</label>
+                                <ng-select [items]="workSheetsList" formControlName="workSheet"
+                                    (change) = "onWorkSheetChange($event)"placeholder="Select...">
+                                </ng-select>
+                            </div>
+
+                            <div *ngIf="worksheetColumns.length > 0 && selectedAction =='insertRow' " class="mt-2">
+                                
+                                <div class="row">
+                                    <div class="col-6 font-weight-bold">Worksheet Column</div>
+                                    <div class="col-6 font-weight-bold">Map To Infoseed variable</div>
+                                </div>
+                                <div formArrayName="parameters">
+                                    <div *ngFor="let col of worksheetColumns; let i = index" class="row align-items-center mb-2">
+                                
+                                        <div class="col-6">
+                                            <div class="form-control bg-light text-break"
+                                                style="white-space: normal; overflow-wrap: break-word; overflow: auto; max-height: 100px;">
+                                                {{ col }}
+                                            </div>
+                                        </div>
+                                
+                                        <div class="col-6">
+                                            <ng-select [items]="selectParameter" [formControlName]="i" bindLabel="name" bindValue="name"
+                                                placeholder="Select..." (change)="onParameterChange($event, i)">
+                                            </ng-select>
+                                        </div>
+                                
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div *ngIf="selectedAction =='getRowByValue' && worksheetColumns.length > 0" class="mt-2">
+                                <label>Lookup column</label>
+                                <ng-select [items]="worksheetColumns" formControlName="lookupColumn" placeholder="Select..."
+                                        (change)="onLookupColumnChange($event)">
+                                </ng-select>
+                            
+                                <label class="mt-2">Lookup value</label>
+                                <div class="hint-integration">
+                                   <i class="fas fa-info-circle"></i> Lookup value will be searched in the lookup column.
+                                </div>
+                                <ng-select [items]="selectParameter" formControlName="lookupValue" bindLabel="name" bindValue="name"
+                                            (change)="onLookupValueChange($event)"
+                                            placeholder="Select...">
+                                        </ng-select>
+
+                            <div formArrayName="parameters">
+                                <div *ngIf="worksheetColumns.length > 0 && selectedAction =='getRowByValue' " class="mt-2">
+                            
+                                    <div class="row">
+                                        <div class="col-6 font-weight-bold">Worksheet Fetched Column</div>
+                                        <div class="col-6 font-weight-bold">Map To Infoseed variable</div>
+                                    </div>
+                                    <div *ngFor="let col of worksheetColumns; let i = index" class="row align-items-center mb-2">
+                                        <div class="col-6">
+                                            <div class="form-control bg-light text-break"
+                                                style="white-space: normal; overflow-wrap: break-word; overflow: auto; max-height: 100px;">
+                                                {{ col }}</div>
+                                        </div>
+                            
+                                        <div class="col-6">
+                                            <ng-select [items]="selectParameter" [formControlName]="i" bindLabel="name" bindValue="name"
+                                                placeholder="Select..." (change)="onParameterChange($event, i)">
+                                            </ng-select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            </div>
+
+
+                        </form>
+
+
+                        <!-- Integration end ***************************************************** -->
+                        <div *ngIf="type === 'Reply buttons' || type === 'Send Message' || (type === 'List options' && dialogForm.get('isAdvance').value) " class="pl-2 mt-1">
+                            <button class="btn btn-icon btn-outline-primary-info w-30" type="button" (click)="addImage()">
+                                <i class="bi bi-plus-lg"></i>
+                                <span> File </span>
+                            </button>
+                        </div>
+                        <!-- <ul class="list-group mb-1" *ngIf="type === 'Reply buttons' || type === 'List options'">
+                            <li class="list-group-item overflow-hidden" *ngIf="imageUrl">
+                                {{ imageUrl }}
+                                <i class="bi bi-trash3-fill pl-1 m-auto cursor-pointer" (click)="deleteImage()"></i>
+                            </li>
+                        </ul> -->
+
+                        <!--Save-->
+                        <div class="row">
+                            <button type="submit" class="btn btn-primary-info mt-1">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<createParameter #createParameter (modalSave)="getParameteres()"></createParameter>
+

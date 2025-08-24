@@ -1,0 +1,23 @@
+[import](common.lg)
+
+# AttachmentInput_Prompt_8WbYSd_text()
+- ${dialog.PhotoCaption}
+# AttachmentInput_Prompt_8WbYSd()
+[Activity
+    Text = ${AttachmentInput_Prompt_8WbYSd_text()}
+]
+
+# AttachmentInput_Prompt_NyQ8SK_text()
+- ${dialog.PhotoCaption}
+# AttachmentInput_Prompt_NyQ8SK()
+[Activity
+    Text = ${AttachmentInput_Prompt_NyQ8SK_text()}
+]
+
+# SendActivity_hJ88mI_text()
+- ${dialog.ReqCaption}
+# SendActivity_hJ88mI()
+[Activity
+    Text = ${SendActivity_hJ88mI_text()}
+]
+

@@ -1,0 +1,97 @@
+[import](common.lg)
+
+# TextInput_Prompt_tnIOou_text()
+- ${dialog.choose}
+# TextInput_Prompt_tnIOou()
+[Activity
+    Text = ${TextInput_Prompt_tnIOou_text()}
+    SuggestedActions = ${dialog.Option1} | ${dialog.Option2} | ${dialog.Option3}
+    InputHint=${conversation.InputHint}
+     Summary=${conversation.Summary}
+]
+
+# TextInput_Prompt_fHG5w8()
+[Activity
+    Text = ${TextInput_Prompt_fHG5w8_text()}
+    SuggestedActions = ${dialog.option1} | ${dialog.option2} | ${dialog.option3}
+    InputHint=${conversation.InputHint}
+     Summary=${conversation.Summary}
+]
+
+# TextInput_Prompt_fHG5w8_text()
+- ${dialog.aboutus}
+# SendActivity_DQOb5z()
+[Activity
+    Text = ${SendActivity_DQOb5z_text()}
+]
+
+# SendActivity_DQOb5z_text()
+- ${dialog.phonee}
+# SendActivity_TVOHmn_text()
+- ${dialog.ourloc}
+# SendActivity_TVOHmn()
+[Activity
+    Text = ${SendActivity_TVOHmn_text()}
+]
+
+# SendActivity_RArPfA_text()
+- ${dialog.phonee}
+# SendActivity_RArPfA()
+[Activity
+    Text = ${SendActivity_RArPfA_text()}
+]
+
+# SendActivity_sd9IMI_text()
+- ${dialog.ourloc}
+# SendActivity_sd9IMI()
+[Activity
+    Text = ${SendActivity_sd9IMI_text()}
+]
+
+# TextInput_Prompt_K9nG1r_text()
+- ${dialog.aboutus}
+# TextInput_Prompt_K9nG1r()
+[Activity
+    Text = ${TextInput_Prompt_K9nG1r_text()}
+    SuggestedActions = ${dialog.option1} | ${dialog.option2} | ${dialog.option3}
+    InputHint=${conversation.InputHint}
+     Summary=${conversation.Summary}
+]
+
+# TextInput_Prompt_kMc84A()
+[Activity
+    Text = ${TextInput_Prompt_kMc84A_text()}
+    InputHint=${conversation.InputHint}
+     Summary=${conversation.Summary}
+]
+
+# TextInput_Prompt_kMc84A_text()
+- ${dialog.starttext}
+# TextInput_Prompt_5rqbIK_text()
+- ${dialog.starttext}
+# TextInput_Prompt_5rqbIK()
+[Activity
+    Text = ${TextInput_Prompt_5rqbIK_text()}
+    InputHint=${conversation.InputHint}
+     Summary=${conversation.Summary}
+]
+
+# SendActivity_d3GFBX_text()
+- ${dialog.pdf}
+# SendActivity_d3GFBX_speak()
+- sample.pdf
+# SendActivity_d3GFBX()
+[Activity
+    Text = ${SendActivity_d3GFBX_text()}
+    Speak = ${SendActivity_d3GFBX_speak()}
+]
+
+# SendActivity_7fcXi0_text()
+- ${dialog.pdf}
+# SendActivity_7fcXi0_speak()
+- sample.pdf
+# SendActivity_7fcXi0()
+[Activity
+    Text = ${SendActivity_7fcXi0_text()}
+    Speak = ${SendActivity_7fcXi0_speak()}
+]

@@ -1,0 +1,15 @@
+[import](common.lg)
+
+# AttachmentInput_Prompt_TkqGmQ()
+[Activity
+    Text = ${AttachmentInput_Prompt_TkqGmQ_text()}
+]
+
+# AttachmentInput_Prompt_TkqGmQ_text()
+- ${dialog.text}
+# TextInput_Prompt_Ge7f1r()
+[Activity
+  Text= ${dialog.Text2}
+  SuggestedActions = ${dialog.option1}| ${dialog.option2} 
+  Summary =  ${conversation.Summary}  
+]

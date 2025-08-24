@@ -1,0 +1,36 @@
+[import](common.lg)
+
+# TextInput_Prompt_a37jSG()
+[Activity
+    Attachments = ${json(ButtonList(dialog.choose,dialog.SalesLst))}
+     InputHint=${dialog.InputHint}
+     Summary=${conversation.Summary}
+]
+
+# SendActivity_WgrGv1()
+[Activity
+    Text = ${SendActivity_WgrGv1_text()}
+]
+
+# SendActivity_WgrGv1_text()
+- ${dialog.caption}
+# TextInput_Prompt_a7MK9v()
+[Activity
+    Text = ${TextInput_Prompt_a7MK9v_text()}
+]
+
+# TextInput_Prompt_a7MK9v_text()
+- ${dialog.replay}
+# SendActivity_w9jPOB_text()
+- ${dialog.caption}
+# SendActivity_w9jPOB()
+[Activity
+    Text = ${SendActivity_w9jPOB_text()}
+]
+
+# TextInput_Prompt_26Nf3i_text()
+- ${dialog.replay}
+# TextInput_Prompt_26Nf3i()
+[Activity
+    Text = ${TextInput_Prompt_26Nf3i_text()}
+]

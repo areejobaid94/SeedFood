@@ -1,0 +1,55 @@
+[import](common.lg)
+
+# SendActivity_ofDvcl()
+[Activity
+    Text = ${SendActivity_ofDvcl_text()}
+]
+
+# SendActivity_ofDvcl_text()
+- ${dialog.arText}
+# SendActivity_sODt2I()
+[Activity
+    Text = ${SendActivity_sODt2I_text()}
+]
+
+# SendActivity_sODt2I_text()
+- ${dialog.enText}
+# SendActivity_XhqhFx()
+[Activity
+    Text= ${dialog.foreach.value.AttachmentUrl}
+    InputHint=${dialog.foreach.value.AttachmentType}
+    Speak =  ${dialog.foreach.value.AttachmentName}
+     
+]
+
+# SendActivity_XhqhFx_text()
+- ${dialog.foreach.value.AttachmentUrl}
+# SendActivity_XhqhFx_speak()
+- ${dialog.foreach.value.AttachmentName}
+# SendActivity_USZzpu()
+[Activity
+    Text = ${SendActivity_USZzpu_text()}
+]
+
+# SendActivity_USZzpu_text()
+- ${dialog.arText}
+# SendActivity_f9Z15U()
+[Activity
+    Text = ${SendActivity_f9Z15U_text()}
+]
+
+# SendActivity_f9Z15U_text()
+- ${dialog.enText}
+# SendActivity_cf2KM4()
+[Activity
+    Text = ${SendActivity_cf2KM4_text()}
+]
+
+# SendActivity_cf2KM4_text()
+- ${dialog.text}
+# SendActivity_qMVvVV_text()
+- ${dialog.text}
+# SendActivity_qMVvVV()
+[Activity
+    Text = ${SendActivity_qMVvVV_text()}
+]

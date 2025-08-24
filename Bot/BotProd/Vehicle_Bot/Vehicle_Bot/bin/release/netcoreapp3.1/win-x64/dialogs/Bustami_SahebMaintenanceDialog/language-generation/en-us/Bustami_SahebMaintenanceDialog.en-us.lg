@@ -1,0 +1,40 @@
+[import](common.lg)
+
+# TextInput_Prompt_ep5IWc()
+[Activity
+    Text = ${TextInput_Prompt_ep5IWc_text()}
+    SuggestedActions = ${dialog.Option1} | ${dialog.Option2} | ${dialog.Option3}
+]
+
+# TextInput_Prompt_ep5IWc_text()
+- ${dialog.choose}
+# TextInput_Prompt_OslSEW()
+[Activity
+    Text = ${TextInput_Prompt_OslSEW_text()}
+    SuggestedActions = ${dialog.Option1} | ${dialog.Option2} | ${dialog.Option3}
+]
+
+# TextInput_Prompt_OslSEW_text()
+- ${dialog.choose}
+# SendActivity_UAar1n()
+[Activity
+    Text = ${SendActivity_UAar1n_text()}
+]
+
+# SendActivity_UAar1n_text()
+- ${dialog.Locations}
+# TextInput_Prompt_55kmLA_text()
+- ${dialog.choose}
+# TextInput_Prompt_55kmLA()
+[Activity
+    Text = ${TextInput_Prompt_55kmLA_text()}
+    SuggestedActions = ${dialog.Option1} | ${dialog.Option2} | ${dialog.Option3}
+]
+
+# SendActivity_0TZIcm_text()
+- ${dialog.Locations}
+# SendActivity_0TZIcm()
+[Activity
+    Text = ${SendActivity_0TZIcm_text()}
+]
+

@@ -1,0 +1,25 @@
+[import](common.lg)
+
+# TextInput_Prompt_6RMJqM_text()
+- ${dialog.Option1}
+# TextInput_Prompt_6RMJqM()
+[Activity
+    Text = ${TextInput_Prompt_6RMJqM_text()}
+    SuggestedActions = ${dialog.Option2} | ${dialog.Option3}
+      Summary =  ${dialog.Summary}  
+
+]
+
+# SendActivity_0jtYl3_text()
+- ${dialog.phone}
+# SendActivity_0jtYl3()
+[Activity
+    Text = ${SendActivity_0jtYl3_text()}
+]
+
+# SendActivity_s0qp0h_text()
+- ${dialog.phone}
+# SendActivity_s0qp0h()
+[Activity
+    Text = ${SendActivity_s0qp0h_text()}
+]

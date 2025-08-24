@@ -1,0 +1,58 @@
+﻿
+
+@using Microsoft.AspNetCore.Builder
+@using Microsoft.AspNetCore.Http.Features
+@using Microsoft.AspNetCore.Localization
+@using Microsoft.AspNetCore.Mvc.Localization
+@using Microsoft.Extensions.Options
+
+@inject IViewLocalizer Localizer
+@inject IOptions<RequestLocalizationOptions> LocOptions
+
+
+
+@{
+  
+ 
+
+    var requestCulture = Context.Features.Get<IRequestCultureFeature>();
+    var cultureItems = new List<SelectListItem>();
+    cultureItems.AddRange(LocOptions.Value.SupportedUICultures
+        .Select(c => new SelectListItem { Value = c.Name, Text = c.DisplayName })
+        .ToList());
+    var returnUrl = string.IsNullOrEmpty(Context.Request.Path) ? "~/" : $"~{Context.Request.Path.Value}";
+}
+
+
+
+<div title="@Localizer["Request culture provider:"] @requestCulture?.Provider?.GetType().Name">
+    <form id="selectLanguage" method="post" class="form-horizontal" role="form">
+        <select name="culture" onchange="submit()" asp-for="@requestCulture.RequestCulture.UICulture.Name" asp-items="cultureItems">
+        </select>
+    </form>
+</div>
+
+@* 
+<div>
+    <form id="culture-switcher">
+        <select name="culture" id="culture-options">
+            @foreach (var culture in cultureItems)
+            {
+                <button value="@requestCulture.RequestCulture.UICulture.Name" selected="@(requestCulture.RequestCulture.UICulture.Name == culture.Value)">@culture.Value</button>
+            }
+        </select>
+    </form>
+</div>
+ *@
+ 
+        <script>
+
+
+
+    function submit(){
+
+
+
+        alert(hh);
+    }
+        </script>

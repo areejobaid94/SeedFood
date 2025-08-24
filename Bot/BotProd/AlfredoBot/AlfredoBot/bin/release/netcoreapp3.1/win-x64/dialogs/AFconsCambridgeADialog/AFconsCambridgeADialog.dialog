@@ -1,0 +1,994 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "47F3eV",
+    "name": "AFConsCambridgeADialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "DpoZ6I"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "8v0twa"
+          },
+          "assignments": [
+            {
+              "property": "dialog.CambridgeAList",
+              "value": [
+                "Pure 1",
+                "Pure 2",
+                "Pure 3",
+                "Mechanincs",
+                "Statistics",
+                "Chemistry",
+                "Biology",
+                "Physics",
+                "English Genral Paper",
+                "Business",
+                "Information Technology (IT)"
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.DeleteProperty",
+          "$designer": {
+            "id": "Hecz35"
+          },
+          "property": "dialog.userSelect"
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "8NHOUX"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "unrecognizedPrompt": "",
+          "invalidPrompt": "",
+          "property": "dialog.userSelect",
+          "prompt": "${TextInput_Prompt_8NHOUX()}",
+          "validations": [
+            "equals(this.value, 'Pure 1') || equals(this.value, 'Pure 2') || equals(this.value, 'Pure 3') || equals(this.value, 'Mechanincs') || equals(this.value, 'Statistics') || equals(this.value, 'Chemistry') || equals(this.value, 'Biology') || equals(this.value, 'Physics') || equals(this.value, 'English Genral Paper') || equals(this.value, 'Business') || equals(this.value, 'Information Technology (IT)') || equals(this.value, '#')"
+          ]
+        },
+        {
+          "$kind": "Microsoft.DeleteProperty",
+          "$designer": {
+            "id": "FEwfmG"
+          },
+          "property": "dialog.KnowledgeSelect"
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "ZtTwLq"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "invalidPrompt": "",
+          "property": "dialog.KnowledgeSelect",
+          "prompt": "${TextInput_Prompt_ZtTwLq()}",
+          "validations": [
+            "equals(this.value, '0%') || equals(this.value, '20%') || equals(this.value, '50%') ||equals(this.value, '70%') || equals(this.value, '90%')  || equals(this.value, '#')"
+          ]
+        },
+        {
+          "$kind": "Microsoft.DeleteProperty",
+          "$designer": {
+            "id": "bizcGm"
+          },
+          "property": "dialog.KnowledgeRatio"
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "XH9tVd"
+          },
+          "condition": "dialog.userSelect",
+          "cases": [
+            {
+              "value": "Pure 1",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SwitchCondition",
+                  "$designer": {
+                    "id": "kHbcV6"
+                  },
+                  "condition": "dialog.KnowledgeSelect",
+                  "cases": [
+                    {
+                      "value": "0%",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "2pOrnj"
+                          },
+                          "property": "dialog.KnowledgeRatio",
+                          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3403)).text"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "20%",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "6BBwcN"
+                          },
+                          "property": "dialog.KnowledgeRatio",
+                          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3404)).text"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "50%",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "EdB8A8"
+                          },
+                          "property": "dialog.KnowledgeRatio",
+                          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3405)).text"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "70%",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "bVZLhw"
+                          },
+                          "property": "dialog.KnowledgeRatio",
+                          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3406)).text"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "90%",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "J78BHU"
+                          },
+                          "property": "dialog.KnowledgeRatio",
+                          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3407)).text"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "Pure 2",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SwitchCondition",
+                  "$designer": {
+                    "id": "o8G2Vd"
+                  },
+                  "condition": "dialog.KnowledgeSelect",
+                  "cases": [
+                    {
+                      "value": "0%",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "AzVkjr"
+                          },
+                          "property": "dialog.KnowledgeRatio",
+                          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3408)).text"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "20%",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "O5wZJ3"
+                          },
+                          "property": "dialog.KnowledgeRatio",
+                          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3409)).text"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "50%",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "Cts2ps"
+                          },
+                          "property": "dialog.KnowledgeRatio",
+                          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3410)).text"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "70%",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "ApqjZq"
+                          },
+                          "property": "dialog.KnowledgeRatio",
+                          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3411)).text"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "90%",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "BFG4c3"
+                          },
+                          "property": "dialog.KnowledgeRatio",
+                          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3412)).text"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "Pure 3",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SwitchCondition",
+                  "$designer": {
+                    "id": "NFy5un"
+                  },
+                  "condition": "dialog.KnowledgeSelect",
+                  "cases": [
+                    {
+                      "value": "0%",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "GBIQgC"
+                          },
+                          "property": "dialog.KnowledgeRatio",
+                          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3413)).text"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "20%",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "Gv9wqe"
+                          },
+                          "property": "dialog.KnowledgeRatio",
+                          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3414)).text"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "50%",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "hwpyS3"
+                          },
+                          "property": "dialog.KnowledgeRatio",
+                          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3415)).text"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "70%",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "Lm8N1l"
+                          },
+                          "property": "dialog.KnowledgeRatio",
+                          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3416)).text"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "90%",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "y6CMmP"
+                          },
+                          "property": "dialog.KnowledgeRatio",
+                          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3417)).text"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "Mechanincs",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SwitchCondition",
+                  "$designer": {
+                    "id": "DWt0ZF"
+                  },
+                  "condition": "dialog.KnowledgeSelect",
+                  "cases": [
+                    {
+                      "value": "0%",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "qr33cW"
+                          },
+                          "property": "dialog.KnowledgeRatio",
+                          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3418)).text"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "20%",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "39ylWG"
+                          },
+                          "property": "dialog.KnowledgeRatio",
+                          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3419)).text"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "50%",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "MM54Tv"
+                          },
+                          "property": "dialog.KnowledgeRatio",
+                          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3420)).text"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "70%",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "6rhOYt"
+                          },
+                          "property": "dialog.KnowledgeRatio",
+                          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3421)).text"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "90%",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "5JCTgu"
+                          },
+                          "property": "dialog.KnowledgeRatio",
+                          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3422)).text"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "Statistics",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SwitchCondition",
+                  "$designer": {
+                    "id": "5GRu0O"
+                  },
+                  "condition": "dialog.KnowledgeSelect",
+                  "cases": [
+                    {
+                      "value": "0%",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "2AK3Rv"
+                          },
+                          "property": "dialog.KnowledgeRatio",
+                          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3423)).text"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "20%",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "Qu9Zk8"
+                          },
+                          "property": "dialog.KnowledgeRatio",
+                          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3424)).text"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "50%",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "5ZbWNn"
+                          },
+                          "property": "dialog.KnowledgeRatio",
+                          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3425)).text"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "70%",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "PUEah6"
+                          },
+                          "property": "dialog.KnowledgeRatio",
+                          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3426)).text"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "90%",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "yO9imP"
+                          },
+                          "property": "dialog.KnowledgeRatio",
+                          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3427)).text"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "Chemistry",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SwitchCondition",
+                  "$designer": {
+                    "id": "yRnO7x"
+                  },
+                  "condition": "dialog.KnowledgeSelect",
+                  "cases": [
+                    {
+                      "value": "0%",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "tRk0ju"
+                          },
+                          "property": "dialog.KnowledgeRatio",
+                          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3428)).text"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "20%",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "kXLHhz"
+                          },
+                          "property": "dialog.KnowledgeRatio",
+                          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3429)).text"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "50%",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "ld4H1p"
+                          },
+                          "property": "dialog.KnowledgeRatio",
+                          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3430)).text"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "70%",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "OR64Vh"
+                          },
+                          "property": "dialog.KnowledgeRatio",
+                          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3431)).text"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "90%",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "0uktSH"
+                          },
+                          "property": "dialog.KnowledgeRatio",
+                          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3432)).text"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "Biology",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SwitchCondition",
+                  "$designer": {
+                    "id": "VXJFct"
+                  },
+                  "condition": "dialog.KnowledgeSelect",
+                  "cases": [
+                    {
+                      "value": "0%",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "ZSjkJX"
+                          },
+                          "property": "dialog.KnowledgeRatio",
+                          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3433)).text"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "20%",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "dM5aUT"
+                          },
+                          "property": "dialog.KnowledgeRatio",
+                          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3434)).text"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "50%",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "GshFyN"
+                          },
+                          "property": "dialog.KnowledgeRatio",
+                          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3435)).text"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "70%",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "1E3oiR"
+                          },
+                          "property": "dialog.KnowledgeRatio",
+                          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3436)).text"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "90%",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "lfS9xq"
+                          },
+                          "property": "dialog.KnowledgeRatio",
+                          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3437)).text"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "Physics",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SwitchCondition",
+                  "$designer": {
+                    "id": "a48XkL"
+                  },
+                  "condition": "dialog.KnowledgeSelect",
+                  "cases": [
+                    {
+                      "value": "0%",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "UlkYUj"
+                          },
+                          "property": "dialog.KnowledgeRatio",
+                          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3438)).text"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "20%",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "KNYtxu"
+                          },
+                          "property": "dialog.KnowledgeRatio",
+                          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3439)).text"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "50%",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "hksYyt"
+                          },
+                          "property": "dialog.KnowledgeRatio",
+                          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3440)).text"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "70%",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "ltRbdL"
+                          },
+                          "property": "dialog.KnowledgeRatio",
+                          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3441)).text"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "90%",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "GPl1Ei"
+                          },
+                          "property": "dialog.KnowledgeRatio",
+                          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3442)).text"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "English Genral Paper",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SwitchCondition",
+                  "$designer": {
+                    "id": "Tw5rCt"
+                  },
+                  "condition": "dialog.KnowledgeSelect",
+                  "cases": [
+                    {
+                      "value": "0%",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "eu2nWQ"
+                          },
+                          "property": "dialog.KnowledgeRatio",
+                          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3443)).text"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "20%",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "HWqV1A"
+                          },
+                          "property": "dialog.KnowledgeRatio",
+                          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3444)).text"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "50%",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "lGtiFX"
+                          },
+                          "property": "dialog.KnowledgeRatio",
+                          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3445)).text"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "70%",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "NVOQVC"
+                          },
+                          "property": "dialog.KnowledgeRatio",
+                          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3446)).text"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "90%",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "gYLSEj"
+                          },
+                          "property": "dialog.KnowledgeRatio",
+                          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3447)).text"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "Business",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SwitchCondition",
+                  "$designer": {
+                    "id": "q2H5s9"
+                  },
+                  "condition": "dialog.KnowledgeSelect",
+                  "cases": [
+                    {
+                      "value": "0%",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "fLWv2T"
+                          },
+                          "property": "dialog.KnowledgeRatio",
+                          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3448)).text"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "20%",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "fBQrxm"
+                          },
+                          "property": "dialog.KnowledgeRatio",
+                          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3449)).text"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "50%",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "RHxLG7"
+                          },
+                          "property": "dialog.KnowledgeRatio",
+                          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3450)).text"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "70%",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "IdqS9w"
+                          },
+                          "property": "dialog.KnowledgeRatio",
+                          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3451)).text"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "90%",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "UXrg0B"
+                          },
+                          "property": "dialog.KnowledgeRatio",
+                          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3452)).text"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "Information Technology (IT)",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SwitchCondition",
+                  "$designer": {
+                    "id": "o1egIo"
+                  },
+                  "condition": "dialog.KnowledgeSelect",
+                  "cases": [
+                    {
+                      "value": "0%",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "SPjDHI"
+                          },
+                          "property": "dialog.KnowledgeRatio",
+                          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3453)).text"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "20%",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "5FpJbw"
+                          },
+                          "property": "dialog.KnowledgeRatio",
+                          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3454)).text"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "50%",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "udZJ87"
+                          },
+                          "property": "dialog.KnowledgeRatio",
+                          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3455)).text"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "70%",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "ExGaOd"
+                          },
+                          "property": "dialog.KnowledgeRatio",
+                          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3456)).text"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "90%",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "1TwVeX"
+                          },
+                          "property": "dialog.KnowledgeRatio",
+                          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3457)).text"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "wHrtS5"
+          },
+          "activity": "${SendActivity_wHrtS5()}"
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "hdT95T"
+          }
+        }
+      ]
+    }
+  ],
+  "generator": "AFconsCambridgeADialog.lg",
+  "recognizer": "AFconsCambridgeADialog.lu.qna",
+  "id": "AF-consCambridgeA-Dialog"
+}

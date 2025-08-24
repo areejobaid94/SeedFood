@@ -1,0 +1,237 @@
+$color_1: white;
+$color_2: gray;
+$color_3: #a8a6b0;
+$background-color_1: #2a7cff;
+$background-color_2: #f7f7f7;
+$background-color_3: rgba(0, 0, 0, 0.3);
+$background-color_4: #4cd137;
+$background-color_5: #c23616;
+$background-color_6: #f6f6f6;
+$background-color_7: rgba(0, 0, 0, 0.5);
+$background-color_8: rgba(0, 0, 0, 0.2);
+
+.chat {
+	margin-top: auto;
+	margin-bottom: auto;
+}
+.screen {
+	height: 550px;
+	border-radius: 15px !important;
+}
+
+.msg_card_body {
+	overflow-y: auto;
+	background-image: url('../../../../../assets/common/images/wahtsappBackground.bmp');
+}
+
+.card-header {
+	border-bottom: 0 !important;
+	background-color: #f0f2f5;
+    color: #3b4a54;
+	padding: 1rem;
+	height: 100px;
+}
+.card-footer {
+	background-color: $background-color_2;
+	border-top: 0 !important;
+	padding: 1rem!important;
+}
+
+.msg_card_body{
+	height:200px; 
+	overflow-y:auto;
+}
+.container {
+	align-content: center;
+}
+.type_msg {
+	border: 0 !important;
+	height: 60px !important;
+	overflow-y: auto;
+	&:focus {
+		box-shadow: none !important;
+		outline: 0px !important;
+	}
+}
+
+.send_btn {
+	border-radius: 0 15px 15px 0 !important;
+	border: 0 !important;
+	color: $color_2 !important;
+	background: transparent;
+	cursor: pointer;
+}
+
+.user_img {
+	height: 70px;
+	width: 70px;
+}
+.user_img_msg {
+	height: 40px;
+	width: 40px;
+	border: 1.5px solid #f5f6fa;
+}
+.img_cont {
+	position: relative;
+	height: 70px;
+	width: 70px;
+}
+.img_cont_msg {
+	height: 40px;
+	width: 40px;
+}
+.btn-primary{
+    background-color:  $background-color_1!important;
+}
+
+
+.user_info {
+	margin-top: auto;
+	margin-bottom: auto;
+	margin-left: 15px;
+}
+
+.msg_cotainer {
+	margin-top: auto;
+	margin-bottom: auto;
+	margin-left: 10px;
+	border-radius: 25px;
+	background-color: $background-color_6;
+	padding: 10px;
+	position: relative;
+	justify-content: start;
+	max-width: 300px;
+	animation: blink;
+	animation-duration: 1s;
+	animation-iteration-count: 1;
+	animation-timing-function: ease-in;
+	animation-direction: normal;
+}
+@keyframes blink {
+	0% {
+	  opacity: 0;
+	}
+	50% {
+	  opacity: .5;
+	}
+	100% {
+	  opacity: 1;
+	}
+  }
+.msg_cotainer_send {
+	margin-top: auto;
+	margin-bottom: auto;
+	margin-right: 10px;
+	border-radius: 25px;
+	justify-content: end;
+	background-color: #d9fdd3;
+    color: black;
+	padding: 10px;
+	position: relative;
+	max-width: 300px;
+	animation: blink;
+	animation-duration: 1s;
+	animation-iteration-count: 1;
+	animation-timing-function: ease-in;
+	animation-direction: normal;
+}
+.msg_time {
+	position: absolute;
+	left: 0;
+	bottom: -15px;
+	font-size: 10px;
+    min-width: 90px;
+}
+.msg_time_send {
+	position: absolute;
+	right: 0;
+	bottom: -15px;
+	color: $color_3;
+	font-size: 10px;
+    min-width: 90px;
+}
+.logoImage{
+	max-height: 200px;
+	height: 200px;
+	// max-width: 200px;
+	.centered-image{
+		text-align: -webkit-center;
+	}
+}
+::-webkit-scrollbar {
+	width: 5px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+	background: #f1f1f1; 
+  }
+   
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+	background: #888; 
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+	background: #bdbcb7; 
+  }
+
+  .chat-bubble {
+	background-color: #f6f6f6;
+	margin-left: 10px;
+	padding:16px 28px;
+	-webkit-border-radius: 20px;
+	-webkit-border-bottom-left-radius: 2px;
+	-moz-border-radius: 20px;
+	-moz-border-radius-bottomleft: 2px;
+	border-radius: 20px;
+	border-bottom-left-radius: 2px;
+	display:inline-block;
+  }
+  .typing {
+	align-items: center;
+	display: flex;
+	height: 17px;
+  }
+  .typing .dot {
+	animation: mercuryTypingAnimation 1.8s infinite ease-in-out;
+	background-color: #6CAD96 ; //rgba(20,105,69,.7);
+	border-radius: 50%;
+	height: 7px;
+	margin-right: 4px;
+	vertical-align: middle;
+	width: 7px;
+	display: inline-block;
+  }
+  .typing .dot:nth-child(1) {
+	animation-delay: 200ms;
+  }
+  .typing .dot:nth-child(2) {
+	animation-delay: 300ms;
+  }
+  .typing .dot:nth-child(3) {
+	animation-delay: 400ms;
+  }
+  .typing .dot:last-child {
+	margin-right: 0;
+  }
+  
+  @keyframes mercuryTypingAnimation {
+	0% {
+	  transform: translateY(0px);
+	  background-color:#6CAD96; // rgba(20,105,69,.7);
+	}
+	28% {
+	  transform: translateY(-7px);
+	  background-color:#9ECAB9; //rgba(20,105,69,.4);
+	}
+	44% {
+	  transform: translateY(0px);
+	  background-color: #B5D9CB; //rgba(20,105,69,.2);
+	}
+  }
+
+
+
+

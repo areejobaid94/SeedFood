@@ -1,0 +1,44 @@
+<div
+    bsModal
+    #viewResons="bs-modal"
+    class="modal fade"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="viewResons"
+    aria-hidden="true"
+  
+>
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4  class="modal-title">
+                    <span >{{ l("commonRejectionReasons") }}</span>
+                </h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="close()" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body p-1">
+                <ol>
+                    <li >
+                        {{ l("reason1") }}
+                    </li>
+                    <li >
+                        {{ l("reason2") }}
+                    </li>
+                    <li >
+                        {{ l("reason31") }} <a href="https://www.whatsapp.com/legal/business-policy/?lang=en" target="_blank">{{ l("whatsappBusinessPolicy") }}</a>  
+                        {{ l("reason33") }}
+                    </li>
+                    <li >
+                        {{ l("reason41") }} <a href=" https://www.whatsapp.com/legal/commerce-policy/?lang=en" target="_blank">   {{ l("whatsappCommercePolicy") }}</a>
+                        {{ l("reason42") }}
+                    </li>
+                </ol>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" (click)="close()">    {{ l("Close") }}</button>
+            </div>
+        </div>
+    </div>
+</div>

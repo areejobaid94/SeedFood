@@ -1,0 +1,23 @@
+[import](common.lg)
+
+# SendActivity_DTie7f_text()
+- ${dialog.MapCaption}
+# SendActivity_DTie7f()
+[Activity
+    Text = ${SendActivity_DTie7f_text()}
+]
+
+# TextInput_Prompt_eXGECW_text()
+- ${dialog.ButtonCaption}
+# TextInput_Prompt_eXGECW()
+[Activity
+    Text = ${TextInput_Prompt_eXGECW_text()}
+    SuggestedActions = ${dialog.Buton}
+]
+
+# TextInput_Prompt_8IGBMd_text()
+- ${dialog.InquiriesCaptions}
+# TextInput_Prompt_8IGBMd()
+[Activity
+    Text = ${TextInput_Prompt_8IGBMd_text()}
+]

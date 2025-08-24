@@ -1,0 +1,183 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "575Vme",
+    "name": "MemariSendImgDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "Vc8ZHg"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "01CrW0"
+          },
+          "condition": "conversation.local",
+          "cases": [
+            {
+              "value": "ar",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "lXrbrR"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.Yes",
+                      "value": "نعم"
+                    },
+                    {
+                      "property": "dialog.No",
+                      "value": "لا"
+                    },
+                    {
+                      "property": "dialog.text1",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1164)).text"
+                    },
+                    {
+                      "property": "dialog.text2",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1165)).text"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "en",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "fU8Kx3"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.Yes",
+                      "value": "Yes"
+                    },
+                    {
+                      "property": "dialog.No",
+                      "value": "No"
+                    },
+                    {
+                      "property": "dialog.text1",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1164)).text"
+                    },
+                    {
+                      "property": "dialog.text2",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1165)).text"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "default": [
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "xOETu6"
+              },
+              "assignments": [
+                {
+                  "property": "dialog.Yes",
+                  "value": "نعم"
+                },
+                {
+                  "property": "dialog.No",
+                  "value": "لا"
+                },
+                {
+                  "property": "dialog.text1",
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1164)).text"
+                },
+                {
+                  "property": "dialog.text2",
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1165)).text"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.DeleteProperty",
+          "$designer": {
+            "id": "fO5kDe"
+          },
+          "property": "dialog.sendimg"
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "v8RWxM"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "prompt": "${TextInput_Prompt_v8RWxM()}",
+          "unrecognizedPrompt": "",
+          "property": "dialog.sendimg"
+        },
+        {
+          "$kind": "Microsoft.DeleteProperty",
+          "$designer": {
+            "id": "ijrxaU"
+          },
+          "property": "dialog.asqToSend"
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "ssu9Rd"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "prompt": "${TextInput_Prompt_ssu9Rd()}",
+          "invalidPrompt": "",
+          "property": "dialog.asqToSend",
+          "validations": [
+            "equals(this.value, 'نعم') || equals(this.value, 'لا') || equals(this.value, '#')|| equals(this.value, 'Yes') ||equals(this.value, 'No')"
+          ]
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "dTOd96"
+          },
+          "condition": "dialog.asqToSend==\"Yes\" || dialog.asqToSend==\"نعم\"",
+          "actions": [
+            {
+              "$kind": "Microsoft.RepeatDialog",
+              "$designer": {
+                "id": "DEgEfb"
+              },
+              "activityProcessed": true
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "VH7vmD"
+          }
+        }
+      ]
+    }
+  ],
+  "generator": "MemariSendImgDialog.lg",
+  "recognizer": "MemariSendImgDialog.lu.qna",
+  "id": "MemariSendImgDialog"
+}

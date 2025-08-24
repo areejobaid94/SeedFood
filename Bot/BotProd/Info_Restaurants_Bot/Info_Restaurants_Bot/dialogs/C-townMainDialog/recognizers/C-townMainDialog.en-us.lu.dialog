@@ -1,0 +1,8 @@
+{
+  "$kind": "Microsoft.LuisRecognizer",
+  "id": "LUIS_C-townMainDialog",
+  "applicationId": "=settings.luis.C_townMainDialog_en_us_lu.appId",
+  "version": "=settings.luis.C_townMainDialog_en_us_lu.version",
+  "endpoint": "=settings.luis.endpoint",
+  "endpointKey": "=settings.luis.endpointKey"
+}

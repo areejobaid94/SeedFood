@@ -1,0 +1,59 @@
+[import](common.lg)
+
+# TextInput_Prompt_vtrs2W_text()
+- ${dialog.ComplaintsCaption}
+# TextInput_Prompt_vtrs2W()
+[Activity
+    Text = ${TextInput_Prompt_vtrs2W_text()}
+]
+
+# TextInput_Prompt_WuGtU5_text()
+- ${dialog.LocationComCpation}
+# TextInput_Prompt_WuGtU5()
+[Activity
+    Text = ${TextInput_Prompt_WuGtU5_text()}
+]
+
+# SendActivity_owkuMi()
+[Activity
+    Text = ${SendActivity_owkuMi_text()}
+]
+
+# SendActivity_owkuMi_text()
+- ${dialog.ReqCaption}
+# TextInput_Prompt_1drhQA()
+[Activity
+    Text = ${TextInput_Prompt_1drhQA_text()}
+]
+
+# TextInput_Prompt_1drhQA_text()
+- ${dialog.carNumber}
+# TextInput_Prompt_B9adzu()
+[Activity
+    Text = ${TextInput_Prompt_B9adzu_text()}
+]
+
+# TextInput_Prompt_B9adzu_text()
+- ${dialog.carType}
+# TextInput_Prompt_JplSnO()
+[Activity
+    Text = ${TextInput_Prompt_JplSnO_text()}
+]
+
+# TextInput_Prompt_JplSnO_text()
+- ${dialog.carColor}
+# TextInput_Prompt_vJa7l4()
+[Activity
+    Text = ${TextInput_Prompt_vJa7l4_text()}
+    SuggestedActions = ${dialog.option1} | ${dialog.option2}
+]
+
+# TextInput_Prompt_vJa7l4_text()
+- ${dialog.phoneNumber}
+# TextInput_Prompt_Q3PDKx()
+[Activity
+    Text = ${TextInput_Prompt_Q3PDKx_text()}
+]
+
+# TextInput_Prompt_Q3PDKx_text()
+- ${dialog.RequestPhoneNumber}

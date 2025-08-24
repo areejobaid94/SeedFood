@@ -1,0 +1,39 @@
+[import](common.lg)
+
+# TextInput_Prompt_KNGR4Q()
+[Activity
+    Text = ${TextInput_Prompt_KNGR4Q_text()}
+    SuggestedActions = ${dialog.option1} | ${dialog.option2}
+     Summary=${conversation.Summary}
+]
+
+# SendActivity_V8c7DG()
+[Activity
+    Text = ${SendActivity_V8c7DG_text()}
+]
+
+# SendActivity_V8c7DG_text()
+- ${conversation.TenantPhoneNumber}
+# SendActivity_3apYqV_text()
+- ${conversation.TenantPhoneNumber}
+# SendActivity_3apYqV()
+[Activity
+    Text = ${SendActivity_3apYqV_text()}
+]
+
+# SendActivity_d81UBw()
+[Activity
+    Text = ${SendActivity_d81UBw_text()}
+]
+
+# SendActivity_d81UBw_text()
+- ${dialog.fotterMSG}
+# SendActivity_wpZu5y_text()
+- ${dialog.fotterMSG}
+# SendActivity_wpZu5y()
+[Activity
+    Text = ${SendActivity_wpZu5y_text()}
+]
+
+# TextInput_Prompt_KNGR4Q_text()
+- ${dialog.text}

@@ -1,0 +1,23 @@
+[import](common.lg)
+
+# TextInput_Prompt_s4llfZ()
+[Activity
+    Text = ${TextInput_Prompt_s4llfZ_text()}
+    SuggestedActions = ${dialog.Option1} | ${dialog.Option2}
+]
+
+# TextInput_Prompt_s4llfZ_text()
+- ${dialog.text}
+# SendActivity_ukZY8P()
+[Activity
+    Text = ${SendActivity_ukZY8P_text()}
+]
+
+# SendActivity_ukZY8P_text()
+- ${dialog.LinkCaption}
+# SendActivity_bmPlmu_text()
+- ${dialog.LinkCaption}
+# SendActivity_bmPlmu()
+[Activity
+    Text = ${SendActivity_bmPlmu_text()}
+]

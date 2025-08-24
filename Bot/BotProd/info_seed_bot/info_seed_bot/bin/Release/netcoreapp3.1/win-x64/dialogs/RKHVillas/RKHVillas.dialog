@@ -1,0 +1,411 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "7CKXP3",
+    "name": "RKHVillas",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "VGpIlD"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "AoU8C7"
+          },
+          "condition": "conversation.local",
+          "cases": [
+            {
+              "value": "ar",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "1cIjO5"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.Text",
+                      "value": "مشروع فلل دابوق يحتوي على الفلل التالية للبيع:"
+                    },
+                    {
+                      "property": "dialog.option1",
+                      "value": "فلل مستقلة"
+                    },
+                    {
+                      "property": "dialog.option2",
+                      "value": "فلل متلاصقة"
+                    },
+                    {
+                      "property": "conversation.RKHText",
+                      "value": "تتوافر الفلل المستقلة الموجودة في الملف:"
+                    },
+                    {
+                      "property": "conversation.RKHTextTow",
+                      "value": "هل أعجبتك  إحدى الفلل؟"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "en",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "N21G0B"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.Text",
+                      "value": " Dabouq Villas project contains the following villas for sale:"
+                    },
+                    {
+                      "property": "dialog.option1",
+                      "value": "Independent Villas"
+                    },
+                    {
+                      "property": "dialog.option2",
+                      "value": "Detached Villas"
+                    },
+                    {
+                      "property": "conversation.RKHText",
+                      "value": "The standalone villas on file are available:"
+                    },
+                    {
+                      "property": "conversation.RKHTextTow",
+                      "value": "Did you like one of the villas?"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "default": [
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "SZRzpY"
+              },
+              "assignments": [
+                {
+                  "property": "dialog.Text",
+                  "value": "مشروع فلل دابوق يحتوي على الفلل التالية للبيع:"
+                },
+                {
+                  "property": "dialog.option1",
+                  "value": "فلل مستقلة"
+                },
+                {
+                  "property": "dialog.option2",
+                  "value": "فلل متلاصقة"
+                },
+                {
+                  "property": "conversation.RKHText",
+                  "value": "تتوافر الفلل المستقلة الموجودة في الملف:"
+                },
+                {
+                  "property": "conversation.RKHTextTow",
+                  "value": "هل أعجبتك  إحدى الفلل؟"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "2GFTdP"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "unrecognizedPrompt": "",
+          "invalidPrompt": "",
+          "validations": [
+            "contains(this.value, 'فلل مستقلة') || contains(this.value, 'فلل متلاصقة')  ||contains(this.value, '#') || contains(this.value, 'Independent Villas') || contains(this.value, 'Detached Villas')"
+          ],
+          "prompt": "${TextInput_Prompt_2GFTdP()}",
+          "property": "dialog.SelectVillasType"
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "Y9PUEY"
+          },
+          "condition": "dialog.SelectVillasType",
+          "cases": [
+            {
+              "value": "فلل مستقلة",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "bkHeKA"
+                  },
+                  "property": "conversation.VillaType",
+                  "value": "1"
+                },
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "Y7qH5Z"
+                  },
+                  "activity": "${SendActivity_Y7qH5Z()}"
+                },
+                {
+                  "$kind": "Microsoft.HttpRequest",
+                  "$designer": {
+                    "id": "nWVwZL"
+                  },
+                  "resultProperty": "dialog.GetPDF",
+                  "method": "GET",
+                  "url": "${conversation.URL}/api/NewBotAPI/GetPDF?TenantID=${conversation.TenantId}&phoneNumber=${conversation.phoneNumber}&RealEstateType=${conversation.RealEstateType}&RealEstateResidentialType=${conversation.RealEstateResidentialType}&RealEstateResidentialForSaleType=${conversation.RealEstateResidentialForSaleType}&VillaType=${conversation.VillaType}",
+                  "responseType": "json"
+                },
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "XioVJj"
+                  },
+                  "condition": "dialog.GetPDF.content.result!=null",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "tEJDnu"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "RKHSendPDF"
+                    }
+                  ],
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.CancelAllDialogs",
+                      "$designer": {
+                        "id": "yYYM6b"
+                      },
+                      "activityProcessed": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "فلل متلاصقة",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "1kaiSM"
+                  },
+                  "property": "conversation.VillaType",
+                  "value": "2"
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "ioN0f7"
+                  },
+                  "assignments": [
+                    {
+                      "property": "conversation.RKHText",
+                      "value": "تتوافر الفلل المتلاصقة الموجودة في الملف:"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "odJifb"
+                  },
+                  "activity": "${SendActivity_odJifb()}"
+                },
+                {
+                  "$kind": "Microsoft.HttpRequest",
+                  "$designer": {
+                    "id": "FZ3tBM"
+                  },
+                  "resultProperty": "dialog.GetPDF",
+                  "method": "GET",
+                  "url": "${conversation.URL}/api/NewBotAPI/GetPDF?TenantID=${conversation.TenantId}&phoneNumber=${conversation.phoneNumber}&RealEstateType=${conversation.RealEstateType}&RealEstateResidentialType=${conversation.RealEstateResidentialType}&RealEstateResidentialForSaleType=${conversation.RealEstateResidentialForSaleType}&VillaType=${conversation.VillaType}",
+                  "responseType": "json"
+                },
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "EDWObn"
+                  },
+                  "condition": "dialog.GetPDF.content.result!=null",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "JTX1PW"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "RKHSendPDF"
+                    }
+                  ],
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.CancelAllDialogs",
+                      "$designer": {
+                        "id": "dBCpH9"
+                      },
+                      "activityProcessed": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "Independent Villas",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "lThJQk"
+                  },
+                  "property": "conversation.VillaType",
+                  "value": "1"
+                },
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "lf7O27"
+                  },
+                  "activity": "${SendActivity_lf7O27()}"
+                },
+                {
+                  "$kind": "Microsoft.HttpRequest",
+                  "$designer": {
+                    "id": "ZAYlPg"
+                  },
+                  "resultProperty": "dialog.GetPDF",
+                  "method": "GET",
+                  "url": "${conversation.URL}/api/NewBotAPI/GetPDF?TenantID=${conversation.TenantId}&phoneNumber=${conversation.phoneNumber}&RealEstateType=${conversation.RealEstateType}&RealEstateResidentialType=${conversation.RealEstateResidentialType}&RealEstateResidentialForSaleType=${conversation.RealEstateResidentialForSaleType}&VillaType=${conversation.VillaType}",
+                  "responseType": "json"
+                },
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "VQED6u"
+                  },
+                  "condition": "dialog.GetPDF.content.result!=null",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "9LvhFb"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "RKHSendPDF"
+                    }
+                  ],
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.CancelAllDialogs",
+                      "$designer": {
+                        "id": "Zxvz6q"
+                      },
+                      "activityProcessed": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "Detached Villas",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "7xNRSY"
+                  },
+                  "property": "conversation.VillaType",
+                  "value": "2"
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "8KfsJh"
+                  },
+                  "assignments": [
+                    {
+                      "property": "conversation.RKHText",
+                      "value": "The attached villas are available in the file:"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "fTjVHp"
+                  },
+                  "activity": "${SendActivity_fTjVHp()}"
+                },
+                {
+                  "$kind": "Microsoft.HttpRequest",
+                  "$designer": {
+                    "id": "TvB9Bd"
+                  },
+                  "resultProperty": "dialog.GetPDF",
+                  "method": "GET",
+                  "url": "${conversation.URL}/api/NewBotAPI/GetPDF?TenantID=${conversation.TenantId}&phoneNumber=${conversation.phoneNumber}&RealEstateType=${conversation.RealEstateType}&RealEstateResidentialType=${conversation.RealEstateResidentialType}&RealEstateResidentialForSaleType=${conversation.RealEstateResidentialForSaleType}&VillaType=${conversation.VillaType}",
+                  "responseType": "json"
+                },
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "RdObNk"
+                  },
+                  "condition": "dialog.GetPDF.content.result!=null",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "Pg3Gu3"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "RKHSendPDF"
+                    }
+                  ],
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.CancelAllDialogs",
+                      "$designer": {
+                        "id": "pB5rp4"
+                      },
+                      "activityProcessed": true
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.CancelAllDialogs",
+          "$designer": {
+            "id": "JvFfAS"
+          },
+          "activityProcessed": true
+        }
+      ]
+    }
+  ],
+  "generator": "RKHVillas.lg",
+  "recognizer": "RKHVillas.lu.qna",
+  "id": "RKHVillas"
+}

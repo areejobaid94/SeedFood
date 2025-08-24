@@ -1,0 +1,155 @@
+[import](common.lg)
+
+# TextInput_Prompt_3fCR1W()
+-${DeliveryOrderText(conversation.DeliveryOrderText,conversation.Summary)}
+# TextInput_Prompt_EkRL4A()
+[Activity
+    Text = ${TextInput_Prompt_EkRL4A_text()}
+    SuggestedActions = ${dialog.Option1} | ${dialog.Option2}
+]
+
+# TextInput_Prompt_EkRL4A_text()
+- ${dialog.text}
+# TextInput_Prompt_Po5d22()
+-${DeliveryOrderText(conversation.DeliveryOrderText,conversation.Summary)}
+# TextInput_Prompt_pFSrBy()
+[Activity
+	Attachments = ${json(ButtonList(dialog.TowLocationText,dialog.ruternV.content.result.list))}
+	InputHint=منطقتك
+]
+# TextInput_Prompt_10vWy7()
+[Activity
+    Text = ${TextInput_Prompt_10vWy7_text()}
+]
+
+# TextInput_Prompt_10vWy7_text()
+- ${conversation.DontSupportLocation}
+# TextInput_Prompt_3KMI4p()
+[Activity
+    Text = ${TextInput_Prompt_3KMI4p_text()}
+]
+
+# TextInput_Prompt_3KMI4p_text()
+- ${conversation.StreetName_Text}
+# TextInput_Prompt_U1UYPS()
+[Activity
+    Text = ${TextInput_Prompt_U1UYPS_text()}
+]
+
+# TextInput_Prompt_U1UYPS_text()
+- ${conversation.BuildingNumber_Text}
+# TextInput_Prompt_zhF3A2()
+[Activity
+    Text = ${TextInput_Prompt_zhF3A2_text()}
+]
+
+# TextInput_Prompt_zhF3A2_text()
+- ${conversation.FloorNo_Text}
+# TextInput_Prompt_M0e4ca()
+[Activity
+    Text = ${TextInput_Prompt_M0e4ca_text()}
+]
+
+# TextInput_Prompt_M0e4ca_text()
+- ${conversation.ApartmentNumber_Text}
+# TextInput_Prompt_zblRQc()
+- ${ClickOnLink(conversation.ClickLink_Text,conversation.Summary)}
+
+
+# TextInput_Prompt_fvFwfD_text()
+- -يرجى إرسال الموقع
+# TextInput_Prompt_J9USnX()
+[Activity
+    Text = ${TextInput_Prompt_J9USnX_text()}
+]
+
+# TextInput_Prompt_J9USnX_text()
+- ${conversation.StreetName_Text}
+# TextInput_Prompt_RFmQjZ()
+[Activity
+    Text = ${TextInput_Prompt_RFmQjZ_text()}
+]
+
+# TextInput_Prompt_RFmQjZ_text()
+- ${conversation.BuildingNumber_Text}
+# TextInput_Prompt_kVAwRB()
+[Activity
+    Text = ${TextInput_Prompt_kVAwRB_text()}
+]
+
+# TextInput_Prompt_kVAwRB_text()
+- ${conversation.FloorNo_Text}
+# TextInput_Prompt_ACdf9o()
+[Activity
+    Text = ${TextInput_Prompt_ACdf9o_text()}
+]
+
+#DeliveryOrderText(text,Summary)
+[Activity
+  Text= ${text}
+  Summary =  ${Summary}  
+]
+# TextInput_Prompt_ACdf9o_text()
+- ${conversation.ApartmentNumber_Text}
+#ClickOnLink(TextLink,Summary)
+[Activity
+  Text= ${TextLink}
+   Summary =  ${Summary}  
+]
+# TextInput_Prompt_3e50Vx()
+- ${ClickOnLink(conversation.ClickLink_Text,conversation.Summary)}
+# SendActivity_efJt4K_text()
+- ```  ContactId: ${conversation.ContactId}
+  TenantId: ${conversation.TenantId}
+  menu: ${conversation.menu}
+  TotalOrder: ${conversation.TotalOrder}
+  OrderId: ${conversation.OrderId}
+  TypeChoes: ${conversation.TypeChoes}
+  IsSpecialRequest: ${conversation.IsSpecialRequest}
+  SpecialRequest: ${conversation.SpecialRequest}
+  local: ${conversation.local}
+  captionOrderInfoText: ${conversation.captionOrderInfoText}
+  captionOrderNumberText: ${conversation.captionOrderNumberText}
+  TotalOfAllText: ${conversation.TotalOfAllText}
+  captionEndOrderText: ${conversation.captionEndOrderText}
+  aptionAreaNameText: ${conversation.aptionAreaNameText}
+  captionBranchCostText: ${conversation.captionBranchCostText}
+  captionFromLocationText: ${conversation.captionFromLocationText}
+  LocationId:${conversation.LocationId}
+  LocationAreaName:${conversation.LocationAreaName}
+  isOrderOfferCost:${conversation.isOrderOfferCost}
+  address:${conversation.LocationInfo.address}
+  deliveryCostAfter:${conversation.LocationInfo.deliveryCostAfter}
+ deliveryCostBefor: ${conversation.LocationInfo.deliveryCostBefor}
+ IsPreOrder: ${conversation.IsPreOrder}
+  selectDay: ${conversation.selectDay}
+  selectTime: ${conversation.selectTime}
+  LocationFrom: ${conversation.LocationFrom}
+  BayType :${conversation.BayType}```
+# SendActivity_efJt4K()
+[Activity
+    Text = ${SendActivity_efJt4K_text()}
+]
+
+# TextInput_Prompt_zGVpU8()
+[Activity
+    Text = ${TextInput_Prompt_zGVpU8_text()}
+]
+
+# TextInput_Prompt_zGVpU8_text()
+- ${conversation.DontSupportLocation}
+# TextInput_Prompt_pdsahg()
+[Activity
+    Text= ${dialog.text}
+    SuggestedActions = ${dialog.Option1} | ${dialog.Option2}
+     Summary=${conversation.Summary}
+]
+# TextInput_Prompt_O00RPJ()
+-${DeliveryOrderText(conversation.DeliveryOrderText,conversation.Summary)}
+# TextInput_Prompt_3rOBrn()
+-${DeliveryOrderText(conversation.DeliveryOrderText,conversation.Summary)}
+# TextInput_Prompt_d7gSIs()
+[Activity
+    Attachments = ${json(ButtonList(dialog.TowLocationText,dialog.ruternV.content.result.list))}
+    InputHint=منطقتك
+]

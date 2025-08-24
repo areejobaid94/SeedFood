@@ -1,0 +1,505 @@
+<div
+    bsModal
+    #createOrEditModal="bs-modal"
+    class="modal fade"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="createOrEditModal"
+    aria-hidden="true"
+    style="height: 100%"
+    [config]="{ backdrop: 'static' }"
+>
+    <div *ngIf="theme != 'theme12'" class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form #templateForm="ngForm">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <span>{{ l("template") }}</span>
+                    </h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="close()" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body p-1">
+                    <div class="row" *ngIf="!createCampaign">
+                        <div class="col-12 col-xl-6 mb-1 d-flex">
+                            <div class="transaction-item">
+                                <div class="media">
+                                    <div class="avatar bg-light-primary-info rounded">
+                                        <div class="avatar-content">
+                                            <i class="fa fa-home font-medium-3"></i>
+                                        </div>
+                                    </div>
+                                    <div class="media-body ml-1">
+                                        <h6 class="transaction-title">
+                                            {{ l("templateName") }}:<small> {{ Template.name }}</small>
+                                        </h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-xl-6 mb-1 d-flex">
+                            <div class="transaction-item">
+                                <div class="media">
+                                    <div class="avatar bg-light-primary-info rounded">
+                                        <div class="avatar-content">
+                                            <i class="fa fa-user font-medium-3"></i>
+                                        </div>
+                                    </div>
+                                    <div class="media-body ml-1">
+                                        <h6 class="transaction-title">
+                                            {{ l("templateCategory") }}: <small> {{ Template.category }}</small>
+                                        </h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-xl-6 mb-1 d-flex">
+                            <div class="transaction-item">
+                                <div class="media">
+                                    <div class="avatar bg-light-primary-info rounded">
+                                        <div class="avatar-content">
+                                            <i class="fa fa-language font-medium-3"></i>
+                                        </div>
+                                    </div>
+                                    <div class="media-body ml-1">
+                                        <h6 class="transaction-title">
+                                            {{ l("templateLanguage") }}: <small> {{ Template.language }}</small>
+                                        </h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-xl-6 mb-1 d-flex">
+                            <div class="transaction-item">
+                                <div class="media">
+                                    <div class="avatar bg-light-primary-info rounded">
+                                        <div class="avatar-content">
+                                            <i class="fa fa-bullseye font-medium-3"></i>
+                                        </div>
+                                    </div>
+                                    <div class="media-body ml-1">
+                                        <h6 class="transaction-title">
+                                            {{ l("Status") }}:
+                                            <span *ngIf="Template.status == 'PENDING'" class="badge-pill badge-light-danger mr-1"> {{ Template.status }}</span>
+                                            <span *ngIf="Template.status == 'REJECTED'" class="badge badge-pill badge-light-secondary mr-1"> {{ Template.status }}</span>
+                                            <span *ngIf="Template.status == 'APPROVED'" class="badge badge-pill badge-light-success mr-1">{{ Template.status }}</span>
+                                        </h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" *ngIf="createCampaign">
+                        <div class="col-6 mb-1">
+                            <div class="form-group">
+                                <label for="campaignTitle">{{ l("campaign") }} {{ l("title") }} *</label>
+                                <input
+                                    maxlength="30"
+                                    class="form-control"
+                                    id="campaignTitle"
+                                    type="text"
+                                    [(ngModel)]="campaign.title"
+                                    name="campaignTitle"
+                                    required
+                                    #campaignTitle="ngModel"
+                                />
+                                <div class="row">
+                                    <div class="col-6">
+                                        <p class="text-danger" *ngIf="submitted && campaignTitle.invalid">{{ l("ThisFieldIsRequired") }}</p>
+                                    </div>
+                                    <div class="col-6 text-right p-0">
+                                        <span class="text-muted p-0"> 30 {{ l("character") }} </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-xl-6">
+                            <div class="m-auto templateCard w-100 p-3">
+                                <span class="arrow">
+                                    <svg viewBox="0 0 8 13" width="8" height="13" class="">
+                                        <path opacity=".13" fill="#0000000" d="M1.533 3.568 8 12.193V1H2.812C1.042 1 .474 2.156 1.533 3.568z"></path>
+                                        <path fill="currentColor" d="M1.533 2.568 8 11.193V0H2.812C1.042 0 .474 1.156 1.533 2.568z"></path>
+                                    </svg>
+                                </span>
+                                <div class="card-body p-2">
+                                    <div class="row mb-1" *ngIf="ComponentHeader.text">
+                                        <h2 [ngClass]="{ rtl: Template.language === 'ar' }">
+                                            {{ ComponentHeader?.text }}
+                                        </h2>
+                                    </div>
+                                    <div class="row mb-1" *ngIf="imageFlag">
+                                        <img alt="Message Template" class="p-0" src="{{ Template.mediaLink }}" style="height: 150px" alt="Campaign Image" />
+                                    </div>
+                                    <div class="row mb-1" *ngIf="videoFlag">
+                                        <iframe class="p-0" [src]="Template.mediaLink | custom" frameborder="0"></iframe>
+                                    </div>
+                                    <div class="row mb-1" *ngIf="documentFlag">
+                                        <iframe class="p-0" [src]="Template.mediaLink | custom" style="height: 150px" frameborder="0"></iframe>
+                                    </div>
+                                    <div class="row mb-1">
+                                        <h6 [ngClass]="{ rtl: Template.language === 'ar' }">
+                                            {{ ComponentBody.text }}
+                                        </h6>
+                                    </div>
+                                </div>
+                                <div class="card-footer footerCard p-1 pt-0" *ngIf="ComponentFooter.text">
+                                    <small [ngClass]="{ rtl: Template.language === 'ar' }">
+                                        {{ ComponentFooter.text }}
+                                    </small>
+                                </div>
+                                <div class="row buttonText" *ngIf="ComponentButton.buttons">
+                                    <div class="col p-0" *ngFor="let button of ComponentButton.buttons">
+                                        <button class="btn btn-light">
+                                            {{ button.text }}
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default-primary-info" (click)="close()">
+                        {{ l("Cancel") }}
+                    </button>
+                    <button *ngIf="createCampaign" type="button" class="btn btn-primary-info" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')" (click)="save()">
+                        {{ l("next") }}
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div *ngIf="theme === 'theme12'" class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form #templateForm="ngForm">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <span>{{ l("template") }}</span>
+                    </h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="close()" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body p-1">
+                    <div class="w-100" *ngIf="!createCampaign">
+                        <div class="col-12 col-xl-6 mb-1 d-flex">
+                            <div class="transaction-item">
+                                <div class="media">
+                                    <div class="avatar bg-light-primary-info rounded">
+                                        <div class="avatar-content">
+                                            <i class="fa fa-home font-medium-3"></i>
+                                        </div>
+                                    </div>
+                                    <div class="media-body ml-1">
+                                        <h6 class="transaction-title">
+                                            {{ l("templateName") }}:<small> {{ Template.name }}</small>
+                                        </h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-xl-6 mb-1 d-flex">
+                            <div class="transaction-item">
+                                <div class="media">
+                                    <div class="avatar bg-light-primary-info rounded">
+                                        <div class="avatar-content">
+                                            <i class="fa fa-user font-medium-3"></i>
+                                        </div>
+                                    </div>
+                                    <div class="media-body ml-1">
+                                        <h6 class="transaction-title">
+                                            {{ l("templateCategory") }}: <small> {{ Template.category }}</small>
+                                        </h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-xl-6 mb-1 d-flex">
+                            <div class="transaction-item">
+                                <div class="media">
+                                    <div class="avatar bg-light-primary-info rounded">
+                                        <div class="avatar-content">
+                                            <i class="fa fa-language font-medium-3"></i>
+                                        </div>
+                                    </div>
+                                    <div class="media-body ml-1">
+                                        <h6 class="transaction-title">
+                                            {{ l("templateLanguage") }}: <small> {{ Template.language }}</small>
+                                        </h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-xl-6 mb-1 d-flex">
+                            <div class="transaction-item">
+                                <div class="media">
+                                    <div class="avatar bg-light-primary-info rounded">
+                                        <div class="avatar-content">
+                                            <i class="fa fa-bullseye font-medium-3"></i>
+                                        </div>
+                                    </div>
+                                    <div class="media-body ml-1">
+                                        <h6 class="transaction-title">
+                                            {{ l("Status") }}:
+                                            <span *ngIf="Template.status == 'PENDING'" class="badge-pill badge-light-danger mr-1"> {{ l("pending") }}</span>
+                                            <span *ngIf="Template.status == 'REJECTED'" class="badge badge-pill badge-light-secondary mr-1">{{ l("rejected") }}</span>
+                                            <span *ngIf="Template.status == 'APPROVED'" class="badge badge-pill badge-light-success mr-1">{{ l("approved") }}</span>
+                                        </h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class=" w-100" *ngIf="createCampaign">
+                        <div class="col-6 mb-1">
+                            <div class="form-group">
+                                <label for="campaignTitle">{{ l("campaign") }} {{ l("title") }} *</label>
+                                <input
+                                    maxlength="30"
+                                    class="form-control"
+                                    id="campaignTitle"
+                                    type="text"
+                                    [(ngModel)]="campaign.title"
+                                    name="campaignTitle"
+                                    required
+                                    #campaignTitle="ngModel"
+                                />
+                                <div class="row">
+                                    <div class="col-6">
+                                        <p class="text-danger" *ngIf="submitted && campaignTitle.invalid">{{ l("ThisFieldIsRequired") }}</p>
+                                    </div>
+                                    <div class="col-6 text-right p-0">
+                                        <span class="text-muted p-0"> 30 {{ l("character") }} </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class=" w-100">
+                        <!-- <div  class="col-12 col-xl-6"> -->
+                            <div  class="template-preview" >
+                            <!-- Template Preview Header -->
+                                    <div class="TemplatePreview-Header">
+                                      <div>
+                                        <h3>Template Preview</h3>
+                                      </div>
+                                
+                                      <div *ngIf="carousel?.type !== 'carousel'">
+                                        <div *ngIf="Buttons?.buttons?.length >= 3">
+                                          <!-- Play Icon -->
+                                          <svg
+                                            class="svg-icon"
+                                            *ngIf="!isPlayVisible"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            viewBox="0 0 100 50"
+                                            width="100"
+                                            height="50"
+                                            style="cursor: pointer; transition: all 0.3s ease;"
+                                            (click)="toggleIcons()"
+                                          >
+                                            <rect x="0" y="0" width="100" height="50" rx="10" ry="10" fill="white" stroke="black" stroke-width="2" />
+                                            <polygon points="35,15 35,35 55,25" fill="black" />
+                                          </svg>
+                                    
+                                          <svg
+                                            class="svg-icon"
+                                            *ngIf="isPlayVisible"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            viewBox="0 0 100 50"
+                                            width="100"
+                                            height="50"
+                                            style="cursor: pointer; transition: all 0.3s ease;"
+                                            (click)="toggleIcons()"
+                                          >
+                                            <rect x="0" y="0" width="100" height="50" rx="10" ry="10" fill="white" stroke="black" stroke-width="2" />
+                                            <line x1="30" y1="15" x2="70" y2="35" stroke="black" stroke-width="4" />
+                                            <line x1="70" y1="15" x2="30" y2="35" stroke="black" stroke-width="4" />
+                                          </svg>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <!-- End Template Preview Header -->
+                                    
+                                    <!-- Container Preview Content -->
+                                    <div class="templateCard" *ngIf="carousel?.type !== 'carousel'">
+                                      <div *ngIf="selectedCategory !== 'carousel'" class="preview-content">
+                                        <div>
+                                          <!-- Media Header -->
+                                          <div *ngIf="carousel?.type !== 'carousel'">
+                                            <img *ngIf="ComponentHeader?.format === 'IMAGE'" [src]="Template.mediaLink" alt="Uploaded Image" class="uploaded-image"/>
+                                            <video *ngIf="ComponentHeader?.format === 'VIDEO'" [src]="Template.mediaLink" controls class="uploaded-video"></video>
+                                            <div class="row mb-1" *ngIf="ComponentHeader?.format==='DOCUMENT'"  >
+                                                          <img class="Document-preview " *ngIf="ComponentHeader?.format=='DOCUMENT'" src="assets/common/images/imageFacebookTemplate/Icon/google-docs.png">
+                                                <!-- <iframe  
+                                                        class="p-0"
+                                                        [src]="Template.mediaLink"                                         
+                                                        style="height: 150px; width: 100%"
+                                                        frameborder="0">
+                                                </iframe> -->
+                                            </div>
+                                          </div>
+                                    
+                                          <!-- Catalog Message -->
+
+                                          <!-- Marketing & Utility Content -->
+                                          <div *ngIf="selectedCategory === 'MARKETING' || selectedCategory === 'UTILITY'">
+                                            <h3 *ngIf="Template.sub_category !== 'PRODUCT_MESSAGE' && carousel?.type !== 'carousel'">
+                                              {{ ComponentHeader?.text }}
+                                            </h3>
+                                            <p class="body">{{ ComponentBody?.text || '' }}</p>
+                                        
+                                            <div class="footer-container" *ngIf="selectedCategory === 'MARKETING' && carousel?.type !== 'carousel'">
+                                              <p class="footer-preview">{{ ComponentFooter?.text || '' }}</p>
+                                              <span class="time">9:31AM</span>
+                                            </div>
+                                          </div>
+                                    
+                                          <!-- Buttons Preview -->
+                                          <div *ngIf="(selectedCategory === 'MARKETING' || selectedCategory === 'UTILITY') && carousel?.type !== 'carousel'">
+                                            <div *ngFor="let button of Buttons?.buttons | slice:0:2" class="button-preview">
+                                              <img *ngIf="button.type === 'URL'" src="assets/common/images/imageFacebookTemplate/Icon/external-link1.png" />
+                                              <img *ngIf="button.type === 'PHONE_NUMBER'" src="assets/common/images/imageFacebookTemplate/Icon/phone-receiver-silhouette1.png" />
+                                              <img *ngIf="button.type === 'COPY_CODE'" src="assets/common/images/imageFacebookTemplate/Icon/copy (1).png" />
+                                              <img *ngIf="button.type === 'QUICK_REPLY'" src="assets/common/images/imageFacebookTemplate/Icon/reply1.png" />
+                                                <button class="preview-button">{{ button.text }}</button>
+                                              <hr />
+                                            </div>
+                                        
+                                            <!-- More Options -->
+                                            <div *ngIf="Buttons?.buttons?.length >= 3" class="button-preview" style="display: block;">
+                                              <img src="assets/common/images/imageFacebookTemplate/Icon/menu.png" />
+                                              <button class="preview-button">See All option</button>
+                                              <hr />
+                                            </div>
+                                          </div>
+                                    
+                                          <!-- Authentication -->
+                                          <div *ngIf="selectedCategory === 'AUTHENTICATION'">
+                                            <p style="color: black; font-weight: normal;">{{ ComponentBody.text }}</p>
+                                            <div class="footer-container">
+                                              <p class="footer-preview">{{ ComponentFooter?.text || '' }}</p>
+                                              <span class="time">9:31AM</span>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                
+                                      <!-- All Options (Expanded Buttons) -->
+                                      <div *ngIf="isPlayVisible && Buttons?.buttons?.length >= 3 && carousel?.type !== 'carousel'" class="options-container-preview">
+                                        <div class="line-above"></div>
+                                        <div class="header">
+                                          <i class="fas fa-times close-icon"></i>
+                                          <p class="title-preview">All Option</p>
+                                        </div>
+                                        <ul class="button-list-preview">
+                                          <div *ngFor="let button of Buttons?.buttons" class="button-item-preview" [ngClass]="{ 'visible': isPlayVisible }">
+                                            <img *ngIf="button.type === 'URL'" src="assets/common/images/imageFacebookTemplate/Icon/external-link1.png" />
+                                            <img *ngIf="button.type === 'PHONE_NUMBER'" src="assets/common/images/imageFacebookTemplate/Icon/phone-receiver-silhouette1.png" />
+                                            <img *ngIf="button.type === 'COPY_CODE'" src="assets/common/images/imageFacebookTemplate/Icon/copy1.png" />
+                                            <img *ngIf="button.type === 'QUICK_REPLY'" src="assets/common/images/imageFacebookTemplate/Icon/reply1.png" />
+                                            <span>{{ button.text }}</span>
+                                          </div>
+                                        </ul>
+                                      </div>
+                                    </div>
+                                    <!-- End Container Preview Content -->
+                                    
+                                    <!-- Carousel Content -->
+                                    <div class="container-preview-content-Body" *ngIf="carousel?.type === 'carousel'">
+                                      <div class="preview-content-carousel">
+                                        <p class="body" [innerHTML]="safeFormattedText"></p>
+                                    </div>
+                                    </div>
+                                    
+                                    <div class="container-preview-content-card" *ngIf="carousel?.type === 'carousel'">
+                                      <div class="preview-content-card">
+                                        <div *ngFor="let card of carousel.cards" class="card">
+                                          <div *ngIf="card.components[0]?.format === 'IMAGE'">
+                                            <img class="wa-card-img" [src]="card.components[0]?.example.mediaCard[0]" alt="card-image" style="width: 285px;" />
+                                          </div>
+                                          <div *ngIf="card.components[0]?.format === 'VIDEO'">
+                                            <video [src]="card.components[0]?.example.mediaCard[0]" controls class="uploaded-video" alt="card-video"></video>
+                                          </div>
+                                    
+                                          <div class="wa-card-body">
+                                            <h4>{{ card.components[1]?.text }}</h4>
+                                          </div>
+                                    
+                                          <div *ngFor="let button of card.components[2].buttons | slice:0:2" class="button-preview">
+                                            <img *ngIf="button.type === 'URL'" src="assets/common/images/imageFacebookTemplate/Icon/external-link1.png" />
+                                            <img *ngIf="button.type === 'PHONE_NUMBER'" src="assets/common/images/imageFacebookTemplate/Icon/phone-receiver-silhouette1.png" />
+                                            <img *ngIf="button.type === 'QUICK_REPLY'" src="assets/common/images/imageFacebookTemplate/Icon/reply1.png" />
+                                            <button class="preview-button">{{ button.text }}</button>
+                                            <hr />
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <!-- End Carousel -->
+                                    
+                        </div>
+                        <!-- </div> -->
+
+                        <!-- <div class="col-12 col-xl-6">
+                            <div class="m-auto templateCard w-100 p-3">
+                                <span class="arrow">
+                                    <svg viewBox="0 0 8 13" width="8" height="13" class="">
+                                        <path opacity=".13" fill="#0000000" d="M1.533 3.568 8 12.193V1H2.812C1.042 1 .474 2.156 1.533 3.568z"></path>
+                                        <path fill="currentColor" d="M1.533 2.568 8 11.193V0H2.812C1.042 0 .474 1.156 1.533 2.568z"></path>
+                                    </svg>
+                                </span>
+                                <div class="card-body p-2">
+                                    <div class="row mb-1" *ngIf="ComponentHeader.text">
+                                        <h2 [ngClass]="{ rtl: Template.language === 'ar' }">
+                                            {{ ComponentHeader?.text }}
+                                        </h2>
+                                    </div>
+                                    <div class="row mb-1" *ngIf="imageFlag">
+                                        <img alt="Message Template" class="p-0" src="{{ Template.mediaLink }}" style="height: 150px" alt="Campaign Image" />
+                                    </div>
+                                    <div class="row mb-1" *ngIf="videoFlag">
+                                        <iframe class="p-0" [src]="Template.mediaLink | custom" frameborder="0"></iframe>
+                                    </div>
+                                    <div class="row mb-1" *ngIf="documentFlag">
+                                        <iframe class="p-0" [src]="Template.mediaLink | custom" style="height: 150px" frameborder="0"></iframe>
+                                    </div>
+                                    <div class="row mb-1">
+                                        <h6 [ngClass]="{ rtl: Template.language === 'ar' }" class="bodyText">
+                                            {{ ComponentBody.text }}
+                                        </h6>
+                                    </div>
+                                </div>
+                                <div class="card-footer footerCard p-1 pt-0" *ngIf="ComponentFooter.text">
+                                    <small [ngClass]="{ rtl: Template.language === 'ar' }" style="color: gray">
+                                        {{ ComponentFooter.text }}
+                                    </small>
+                                </div>
+                                <div class="row buttonText" *ngIf="ComponentButton.buttons">
+                                    <div class="col p-0" *ngFor="let button of ComponentButton.buttons">
+                                        <button class="btn btn-light">
+                                            {{ button.text }}
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> -->
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button *ngIf="!createCampaign" type="button" class="btn btn-default-primary-info" (click)="createCampaignFromModal()" style="background-color: #009789 !important; color: white">
+                        {{ l("createCampaign") }}
+                    </button>
+                    <button type="button" class="btn btn-default-primary-info" (click)="close()">
+                        {{ l("Cancel") }}
+                    </button>
+                    <button type="button" *ngIf="createCampaign" class="btn btn-primary-info" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')" (click)="save()">
+                        {{ l("next") }}
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

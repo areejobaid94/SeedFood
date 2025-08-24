@@ -1,0 +1,16 @@
+[import](common.lg)
+
+# TextInput_Prompt_sYpwb9()
+[Activity
+    Attachments = ${json(ButtonList(dialog.text,dialog.ListOption))}
+    InputHint=منطقتك
+     Summary=${conversation.Summary}
+]
+# TextInput_Prompt_rvcuHX()
+[Activity
+    Text = ${TextInput_Prompt_rvcuHX_text()}
+    SuggestedActions = ${dialog.Option1} | ${dialog.Option2}
+]
+
+# TextInput_Prompt_rvcuHX_text()
+- ${dialog.text}

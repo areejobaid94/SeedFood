@@ -1,0 +1,67 @@
+[import](common.lg)
+
+# TextInput_Prompt_VuB2Yh()
+[Activity
+    Text = ${TextInput_Prompt_VuB2Yh_text()}
+    SuggestedActions = ${dialog.Option1} | ${dialog.Option2}
+]
+
+# TextInput_Prompt_VuB2Yh_text()
+- ${dialog.text}
+# TextInput_Prompt_4SEBWB()
+[Activity
+    Text = ${TextInput_Prompt_4SEBWB_text()}
+]
+
+# TextInput_Prompt_4SEBWB_text()
+- ${dialog.text}
+# TextInput_Prompt_uuqZSP()
+[Activity
+    Text = ${TextInput_Prompt_uuqZSP_text()}
+    SuggestedActions = ${dialog.Yes} | ${dialog.No}
+]
+
+# TextInput_Prompt_uuqZSP_text()
+- ${dialog.text}
+# SendActivity_jcm8AZ()
+[Activity
+    Text = ${SendActivity_jcm8AZ_text()}
+]
+
+# SendActivity_jcm8AZ_text()
+- ${dialog.text}
+# SendActivity_npCkvj()
+[Activity
+    Text = ${SendActivity_npCkvj_text()}
+]
+
+# SendActivity_npCkvj_text()
+- ${dialog.textContact}
+# SendActivity_ISIkrY_text()
+- ${dialog.textContact}
+# SendActivity_ISIkrY()
+[Activity
+    Text = ${SendActivity_ISIkrY_text()}
+]
+
+# TextInput_Prompt_pqKaos_text()
+- ${dialog.text}
+# TextInput_Prompt_pqKaos()
+[Activity
+    Text = ${TextInput_Prompt_pqKaos_text()}
+]
+
+# TextInput_Prompt_PqLf38_text()
+- ${dialog.text}
+# TextInput_Prompt_PqLf38()
+[Activity
+    Text = ${TextInput_Prompt_PqLf38_text()}
+    SuggestedActions = ${dialog.Yes} | ${dialog.No}
+]
+
+# SendActivity_q8WM4D_text()
+- ${dialog.text}
+# SendActivity_q8WM4D()
+[Activity
+    Text = ${SendActivity_q8WM4D_text()}
+]

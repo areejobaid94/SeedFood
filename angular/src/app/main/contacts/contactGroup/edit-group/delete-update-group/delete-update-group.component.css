@@ -1,0 +1,78 @@
+.p-checkbox:not(.p-checkbox-disabled) .p-checkbox-box:hover {
+    border-color: #009789;
+  }
+  
+  ::ng-deep .p-checkbox:not(.p-checkbox-disabled) .p-checkbox-box:hover {
+    border-color: #009789;
+  }
+  
+  .p-checkbox .p-checkbox-box.p-highlight {
+    border-color: #009789 !important;
+    background: #009789 !important;
+  }
+  
+  
+  ::ng-deep .p-checkbox .p-checkbox-box.p-highlight {
+    border-color: #009789 !important;
+    background: #009789 !important;
+  }
+
+
+  ::ng-deep .p-paginator .p-paginator-pages .p-paginator-page.p-highlight {
+    background: #00978924;
+    border-color: #00978900;
+    color: #009789;
+}
+
+  .p-paginator .p-paginator-pages .p-paginator-page.p-highlight {
+    background: #00978924;
+    border-color: #00978900;
+    color: #009789;
+}
+
+.p-dropdown div{
+  width: 100%;
+}
+
+.transfer-icon{
+  color: #06B6D4;
+  background-color: rgba(6, 182, 212, 0.12);
+  padding: 3px;
+  border-radius: 5px;
+}
+
+
+
+
+
+.p-dropdown:not(.p-disabled).p-focus{
+  outline: 0 none;
+  outline-offset: 0;
+  box-shadow: 0 0 0 0.2rem #98f1e8;
+  border-color: #009789;
+}
+
+.p-dropdown:not(.p-disabled):hover{
+  border-color: #009789;
+}
+
+::ng-deep .col .p-datatable .p-datatable-tbody > tr > .customer-behaviour
+{
+  text-align: center;
+  width: 100px;
+  padding-right: 50px;
+}
+
+::ng-deep td.optOut.customer-behaviour {
+  color: red;
+}
+
+::ng-deep td.optin.customer-behaviour{
+  color: green;
+}
+
+::ng-deep .col .p-datatable .p-datatable-thead > tr > th.behaviour-column{
+  width:20%;
+  text-align: center;
+  padding-right: 50px;
+}

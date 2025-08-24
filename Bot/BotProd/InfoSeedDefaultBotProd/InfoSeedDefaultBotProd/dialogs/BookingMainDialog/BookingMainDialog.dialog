@@ -1,0 +1,371 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "LRDYiQ",
+    "name": "BookingMainDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "elmcUo"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "siW8ux"
+          },
+          "property": "dialog.Name",
+          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId ==1173)).text"
+        },
+        {
+          "$kind": "Microsoft.HttpRequest",
+          "$designer": {
+            "id": "0dw95K"
+          },
+          "resultProperty": "dialog.rez",
+          "method": "GET",
+          "url": "${conversation.URL}/api/BotAPI/CheckIsFillDisplayName?id=${conversation.ContactId}",
+          "responseType": "json"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "qSd4YO"
+          },
+          "condition": "dialog.rez.content.result !=null",
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "eshe5C"
+              },
+              "property": "conversation.DisplayName",
+              "value": "${dialog.rez.content.result}"
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.DeleteProperty",
+              "$designer": {
+                "id": "azh3qv"
+              },
+              "property": "conversation.DisplayName"
+            },
+            {
+              "$kind": "Microsoft.TextInput",
+              "$designer": {
+                "id": "B6GMY1"
+              },
+              "disabled": false,
+              "maxTurnCount": 100,
+              "alwaysPrompt": false,
+              "allowInterruptions": false,
+              "prompt": "${TextInput_Prompt_B6GMY1()}",
+              "unrecognizedPrompt": "",
+              "property": "conversation.DisplayName"
+            },
+            {
+              "$kind": "Microsoft.HttpRequest",
+              "$designer": {
+                "id": "QZ64jW"
+              },
+              "resultProperty": "dialog.rez",
+              "method": "GET",
+              "url": "${conversation.URL}/api/BotAPI/updateContcatDisplayName?id=${conversation.ContactId}&contactDisplayName=${conversation.DisplayName}",
+              "responseType": "json"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "8mmhS8"
+          },
+          "assignments": [
+            {
+              "property": "conversation.welcome",
+              "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId ==1)).text"
+            },
+            {
+              "property": "conversation.welcome",
+              "value": "=replace(conversation.welcome, '{0}', conversation.DisplayName)"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "HdMWhX"
+          },
+          "condition": "conversation.local",
+          "cases": [
+            {
+              "value": "ar",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "h1hSpK"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.choose",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1257)).text"
+                    },
+                    {
+                      "property": "dialog.book",
+                      "value": "حجز موعد"
+                    },
+                    {
+                      "property": "dialog.cancel",
+                      "value": "الغاء موعد"
+                    },
+                    {
+                      "property": "dialog.AskDoctor",
+                      "value": "استفسار"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "en",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "H9PJ2K"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.choose",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1257)).text"
+                    },
+                    {
+                      "property": "dialog.book",
+                      "value": "Book Appointment"
+                    },
+                    {
+                      "property": "dialog.cancel",
+                      "value": "Cancel Appointment"
+                    },
+                    {
+                      "property": "dialog.AskDoctor",
+                      "value": "Inquiry"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "default": [
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "wXmnZr"
+              },
+              "assignments": [
+                {
+                  "property": "dialog.choose",
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1257)).text"
+                },
+                {
+                  "property": "dialog.book",
+                  "value": "حجز موعد"
+                },
+                {
+                  "property": "dialog.cancel",
+                  "value": "الغاء موعد"
+                },
+                {
+                  "property": "dialog.AskDoctor",
+                  "value": "استفسار"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "xe0Epp"
+          },
+          "condition": "conversation.TemplateName",
+          "cases": [
+            {
+              "value": "Template1",
+              "actions": [
+                {
+                  "$kind": "Microsoft.TextInput",
+                  "$designer": {
+                    "id": "hCYGWk"
+                  },
+                  "disabled": false,
+                  "maxTurnCount": 100,
+                  "alwaysPrompt": false,
+                  "allowInterruptions": true,
+                  "prompt": "${TextInput_Prompt_hCYGWk()}",
+                  "unrecognizedPrompt": "",
+                  "property": "dialog.appointmentType",
+                  "validations": [
+                    "contains(this.value, '#') || contains(this.value, 'حجز موعد') || contains(this.value, 'الغاء موعد') || contains(this.value, 'Cancel Appointment') || contains(this.value, 'Book Appointment')"
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "Template2",
+              "actions": [
+                {
+                  "$kind": "Microsoft.TextInput",
+                  "$designer": {
+                    "id": "I9MX8R"
+                  },
+                  "disabled": false,
+                  "maxTurnCount": 100,
+                  "alwaysPrompt": false,
+                  "allowInterruptions": true,
+                  "prompt": "${TextInput_Prompt_I9MX8R()}",
+                  "unrecognizedPrompt": "",
+                  "property": "dialog.appointmentType",
+                  "validations": [
+                    "contains(this.value, '#') || contains(this.value, 'حجز موعد') || contains(this.value, 'الغاء موعد') || contains(this.value, 'Cancel Appointment') || contains(this.value, 'Book Appointment') ||  contains(this.value, 'استفسار') || contains(this.value, 'Inquiry')"
+                  ]
+                }
+              ]
+            }
+          ],
+          "default": [
+            {
+              "$kind": "Microsoft.TextInput",
+              "$designer": {
+                "id": "hIGgyV"
+              },
+              "disabled": false,
+              "maxTurnCount": 100,
+              "alwaysPrompt": false,
+              "allowInterruptions": true,
+              "prompt": "${TextInput_Prompt_hIGgyV()}",
+              "unrecognizedPrompt": "",
+              "property": "dialog.appointmentType",
+              "validations": [
+                "contains(this.value, '#') || contains(this.value, 'حجز موعد') || contains(this.value, 'الغاء موعد') || contains(this.value, 'Cancel Appointment') || contains(this.value, 'Book Appointment')"
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "m70FUB"
+          },
+          "value": "=dialog.appointmentType",
+          "property": "conversation.Department1"
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "2XuMFb"
+          },
+          "condition": "dialog.appointmentType",
+          "cases": [
+            {
+              "value": "حجز موعد",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "0OUFoY"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "BookAppointmentDialog"
+                }
+              ]
+            },
+            {
+              "value": "الغاء موعد",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "GvUyVq"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "BookingCancelAppointmentDialog"
+                }
+              ]
+            },
+            {
+              "value": "استفسار",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "ypxI5H"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "BookingAskDoctorDialog"
+                }
+              ]
+            },
+            {
+              "value": "Book Appointment",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "uGfPbD"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "BookAppointmentDialog"
+                }
+              ]
+            },
+            {
+              "value": "Cancel Appointment",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "9Fmy6r"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "BookingCancelAppointmentDialog"
+                }
+              ]
+            },
+            {
+              "value": "Inquiry",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "lkWyfY"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "BookingAskDoctorDialog"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "GL1nJQ"
+          }
+        }
+      ]
+    }
+  ],
+  "generator": "BookingMainDialog.lg",
+  "recognizer": "BookingMainDialog.lu.qna",
+  "id": "BookingMainDialog"
+}

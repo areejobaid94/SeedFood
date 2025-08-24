@@ -1,0 +1,27 @@
+{
+  "profileName": "NewPublish",
+  "jobId": "5ef711b7-1ab3-4750-b9d8-ab071f8e7454",
+  "projectId": "12163.956147729537",
+  "time": "2022-09-15T07:44:19.357Z",
+  "log": [
+    "Creating Azure resources...",
+    "Checking the Existence of the Resource Group ...",
+    "Creating Resource Group ...",
+    "> Creating App Registration ...",
+    "Start to add password for App, Id : 5aacf99e-949f-4ea0-b597-b8c84f22699c",
+    "> Create App Registration Success! ID: 5aacf99e-949f-4ea0-b597-b8c84f22699c",
+    "Deploying Web App Resource ...",
+    "Deploying Bot Resource ...",
+    "Deploying Cosmos DB Resource ...",
+    "Deploying Application Insights Resource ...",
+    "> Linking Application Insights settings to Bot Service ...",
+    "> AppInsights AppId: 489bf2d4-ab30-41bf-ad43-effffd466518 ...",
+    "> AppInsights InstrumentationKey: ec756b8c-d327-41c3-9f58-037ce2f7988f ...",
+    "> AppInsights ApiKey: rlskp6ijb5hubjlbgr48bnxg1347y007qo8ry5g6 ...",
+    "> Linking Application Insights settings to Bot Service Success!",
+    "Deploying Blob Storage Resource ...",
+    "{\"stack\":\"Error: The storage account named infoseedbotprod is already taken.\\n    at new RestError2 (D:\\\\comp\\\\extensions\\\\azurePublish\\\\dist\\\\extension.js:174405:26)\\n    at D:\\\\comp\\\\extensions\\\\azurePublish\\\\dist\\\\extension.js:175338:27\\n    at processTicksAndRejections (internal/process/task_queues.js:95:5)\\n    at async AzureResourceMananger.deployBlobStorageResource (D:\\\\comp\\\\extensions\\\\azurePublish\\\\dist\\\\extension.js:271099:28)\\n    at async BotProjectProvision.create (D:\\\\comp\\\\extensions\\\\azurePublish\\\\dist\\\\extension.js:271584:44)\\n    at async AzurePublisher.asyncProvision (D:\\\\comp\\\\extensions\\\\azurePublish\\\\dist\\\\extension.js:271996:34)\",\"message\":\"The storage account named infoseedbotprod is already taken.\",\"code\":\"StorageAccountAlreadyTaken\",\"statusCode\":409,\"request\":{\"body\":\"{\\\"sku\\\":{\\\"name\\\":\\\"Standard_LRS\\\"},\\\"kind\\\":\\\"StorageV2\\\",\\\"location\\\":\\\"westeurope\\\"}\"},\"response\":{\"body\":\"{\\\"error\\\":{\\\"code\\\":\\\"StorageAccountAlreadyTaken\\\",\\\"message\\\":\\\"The storage account named infoseedbotprod is already taken.\\\"}}\"},\"body\":{\"message\":\"The storage account named infoseedbotprod is already taken.\",\"code\":\"StorageAccountAlreadyTaken\"}}",
+    "{\"name\":\"CREATE_BLOB_STORAGE_ERROR\",\"message\":\"Error - The storage account named infoseedbotprod is already taken.\",\"stack\":\"Error\\n    at new CustomizeError (D:\\\\comp\\\\extensions\\\\azurePublish\\\\dist\\\\extension.js:269875:25)\\n    at createCustomizeError (D:\\\\comp\\\\extensions\\\\azurePublish\\\\dist\\\\extension.js:269880:10)\\n    at AzureResourceMananger.deployBlobStorageResource (D:\\\\comp\\\\extensions\\\\azurePublish\\\\dist\\\\extension.js:271121:13)\\n    at processTicksAndRejections (internal/process/task_queues.js:95:5)\\n    at async BotProjectProvision.create (D:\\\\comp\\\\extensions\\\\azurePublish\\\\dist\\\\extension.js:271584:44)\\n    at async AzurePublisher.asyncProvision (D:\\\\comp\\\\extensions\\\\azurePublish\\\\dist\\\\extension.js:271996:34)\"}",
+    "Provisioning completed 5 items before encountering a problem. {\"name\":\"CREATE_BLOB_STORAGE_ERROR\",\"message\":\"Error - The storage account named infoseedbotprod is already taken.\",\"stack\":\"Error\\n    at new CustomizeError (D:\\\\comp\\\\extensions\\\\azurePublish\\\\dist\\\\extension.js:269875:25)\\n    at createCustomizeError (D:\\\\comp\\\\extensions\\\\azurePublish\\\\dist\\\\extension.js:269880:10)\\n    at AzureResourceMananger.deployBlobStorageResource (D:\\\\comp\\\\extensions\\\\azurePublish\\\\dist\\\\extension.js:271121:13)\\n    at processTicksAndRejections (internal/process/task_queues.js:95:5)\\n    at async BotProjectProvision.create (D:\\\\comp\\\\extensions\\\\azurePublish\\\\dist\\\\extension.js:271584:44)\\n    at async AzurePublisher.asyncProvision (D:\\\\comp\\\\extensions\\\\azurePublish\\\\dist\\\\extension.js:271996:34)\"}. See provision.NewPublish.log in your bot folder"
+  ]
+}

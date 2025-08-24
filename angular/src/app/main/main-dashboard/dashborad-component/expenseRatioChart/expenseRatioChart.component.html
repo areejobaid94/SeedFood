@@ -1,0 +1,34 @@
+
+  <div class="card p-0"
+  style=" height: 485px;
+  min-height: 485px;"
+  >
+    <div class="card-header flex-column align-items-start">
+      <h4 class="card-title mb-75">{{ l("ticket") }}</h4>
+      <span class="card-subtitle text-muted">Spending on various categories </span>
+    </div>
+    <div class="card-body">
+      <div id="donut-chart"   #apexDonutChartRef>
+        <apx-chart
+       
+        [series]="[
+                dasboardService?.ticketsData?.totalOpened || 0 ,
+                dasboardService?.ticketsData?.totalPending || 0,
+                dasboardService?.ticketsData?.totalClosed  || 0,
+                dasboardService?.ticketsData?.totalExpired || 0 
+        ]"
+          [chart]="{
+            height: 360,
+            width: isMenuToggled === false ? apexDonutChartRef.offsetWidth : apexDonutChart.chart.width,
+            type: 'donut'
+          }"
+
+          [labels]="apexDonutChart.labels"
+          [plotOptions]="apexDonutChart.plotOptions"
+          [responsive]="apexDonutChart.responsive"
+          [colors]="apexDonutChart.colors"
+          [legend]="apexDonutChart.legend"
+        ></apx-chart>
+      </div>
+    </div>
+  </div>

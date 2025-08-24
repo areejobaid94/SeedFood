@@ -1,0 +1,156 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "jKrZZR",
+    "name": "AfterCreateOrderDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "MbfsiE"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "KmlAQ3"
+          },
+          "property": "dialog.PostOrderAndDetailModel",
+          "value": {
+            "ContactId": "=conversation.ContactId",
+            "TenantID": "=conversation.TenantId",
+            "lang": "=conversation.local",
+            "MenuType": "=conversation.menu",
+            "captionQuantityText": "=conversation.QuantityText",
+            "captionAddtionText": "=conversation.AddtionText",
+            "captionTotalText": "=conversation.TotalText",
+            "captionTotalOfAllText": "=conversation.TotalOfAllText"
+          }
+        },
+        {
+          "$kind": "Microsoft.HttpRequest",
+          "$designer": {
+            "id": "q2zYlo"
+          },
+          "resultProperty": "dialog.GetOrderAndDetailModel",
+          "method": "POST",
+          "url": "${conversation.URL}/api/BotAPI/GetOrderAndDetails",
+          "body": "=dialog.PostOrderAndDetailModel",
+          "headers": {
+            "accept": "text/plain",
+            "Content-Type": "application/json-patch+json"
+          },
+          "responseType": "json"
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "udLXz0"
+          },
+          "assignments": [
+            {
+              "property": "conversation.OrderTotal",
+              "value": "=dialog.GetOrderAndDetailModel.content.result.order.total"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "jbUPHz"
+          },
+          "property": "conversation.loyalityPoint",
+          "value": "=dialog.GetOrderAndDetailModel.content.result.order.totalPoints"
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "9VUTkz"
+          },
+          "assignments": [
+            {
+              "property": "conversation.OrderModel",
+              "value": "${dialog.GetOrderAndDetailModel.content.result.order}"
+            },
+            {
+              "property": "conversation.OrderDetailListModel",
+              "value": "${dialog.GetOrderAndDetailModel.content.result.orderDetailDtos}"
+            },
+            {
+              "property": "conversation.ExtraOrderDetailListModel",
+              "value": "${dialog.GetOrderAndDetailModel.content.result.extraOrderDetailsDtos}"
+            },
+            {
+              "property": "conversation.ItemDtoListModel",
+              "value": "${dialog.GetOrderAndDetailModel.content.result.itemDtos}"
+            },
+            {
+              "property": "conversation.OrderId",
+              "value": "${dialog.GetOrderAndDetailModel.content.result.orderId}"
+            },
+            {
+              "property": "conversation.TotalOrder",
+              "value": "${dialog.GetOrderAndDetailModel.content.result.total}"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.DeleteProperty",
+          "$designer": {
+            "id": "Lmavvc"
+          },
+          "property": "dialog.ConfirmOrder"
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "bx6YZ0"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "unrecognizedPrompt": "",
+          "invalidPrompt": "",
+          "property": "dialog.ConfirmOrder",
+          "prompt": "${TextInput_Prompt_bx6YZ0()}",
+          "validations": [
+            "contains(this.value, 'تاكيد') || contains(this.value, 'الغاء') || contains(this.value, 'Confirm') || contains(this.value, 'Cancel') || contains(this.value, '#') "
+          ]
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "V3MsMC"
+          },
+          "condition": "dialog.ConfirmOrder ==\"الغاء\" ||dialog.ConfirmOrder ==\"Cancel\"",
+          "actions": [
+            {
+              "$kind": "Microsoft.ReplaceDialog",
+              "$designer": {
+                "id": "EVd7lK"
+              },
+              "activityProcessed": true,
+              "dialog": "DeleteOrderDraftDialog"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "hOecZc"
+          }
+        }
+      ]
+    }
+  ],
+  "generator": "AfterCreateOrderDialog.lg",
+  "recognizer": "AfterCreateOrderDialog.lu.qna",
+  "id": "AfterCreateOrderDialog"
+}

@@ -1,0 +1,16 @@
+[import](common.lg)
+
+# SendActivity_5XmkDd()
+[Activity
+    Text = ${SendActivity_5XmkDd_text()}
+]
+
+# SendActivity_5XmkDd_text()
+- ${dialog.sendLiveChat.content.result}
+# SendActivity_Uqa518()
+[Activity
+    Text = ${SendActivity_Uqa518_text()}
+]
+
+# SendActivity_Uqa518_text()
+- ${conversation.TickitCaption}

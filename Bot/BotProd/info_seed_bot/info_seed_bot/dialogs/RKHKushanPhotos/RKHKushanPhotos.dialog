@@ -1,0 +1,251 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "ZZFt8u",
+    "name": "RKHKushanPhotos",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "YmlCJI"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "dkR73Y"
+          },
+          "condition": "conversation.local",
+          "cases": [
+            {
+              "value": "ar",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "XLiIiu"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.Text",
+                      "value": "=conversation.RKHKushanPhotos_Text"
+                    },
+                    {
+                      "value": "=conversation.RKHRealEstatePhotos_Text2",
+                      "property": "dialog.Text2"
+                    },
+                    {
+                      "property": "dialog.option1",
+                      "value": "نعم"
+                    },
+                    {
+                      "property": "dialog.option2",
+                      "value": "لا"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "en",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "VarxWk"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.Text",
+                      "value": "=conversation.RKHKushanPhotos_Text"
+                    },
+                    {
+                      "value": "=conversation.RKHRealEstatePhotos_Text2",
+                      "property": "dialog.Text2"
+                    },
+                    {
+                      "property": "dialog.option1",
+                      "value": "Yes"
+                    },
+                    {
+                      "property": "dialog.option2",
+                      "value": "No"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "default": [
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "rq9Wtc"
+              },
+              "assignments": [
+                {
+                  "property": "dialog.Text",
+                  "value": "=conversation.RKHKushanPhotos_Text"
+                },
+                {
+                  "value": "=conversation.RKHRealEstatePhotos_Text2",
+                  "property": "dialog.Text2"
+                },
+                {
+                  "property": "dialog.option1",
+                  "value": "نعم"
+                },
+                {
+                  "property": "dialog.option2",
+                  "value": "لا"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.DeleteProperty",
+          "$designer": {
+            "id": "QfIwpw"
+          },
+          "property": "dialog.attachments"
+        },
+        {
+          "$kind": "Microsoft.AttachmentInput",
+          "$designer": {
+            "id": "vHf9Gk"
+          },
+          "disabled": false,
+          "maxTurnCount": 0,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "unrecognizedPrompt": "",
+          "invalidPrompt": "",
+          "outputFormat": "all",
+          "property": "dialog.attachments",
+          "prompt": "${AttachmentInput_Prompt_vHf9Gk()}"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "zK2H1i"
+          },
+          "condition": "turn.Activity.Text!=\".\"",
+          "elseActions": [],
+          "actions": [
+            {
+              "$kind": "Microsoft.RepeatDialog",
+              "$designer": {
+                "id": "9M8oFo"
+              },
+              "activityProcessed": true
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.Foreach",
+          "$designer": {
+            "id": "Kz02DK"
+          },
+          "index": "dialog.foreach.index",
+          "value": "dialog.foreach.value",
+          "itemsProperty": "dialog.attachments",
+          "actions": [
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "wwCg7P"
+              },
+              "condition": "dialog.foreach.value.contentUrl==null",
+              "actions": [
+                {
+                  "$kind": "Microsoft.RepeatDialog",
+                  "$designer": {
+                    "id": "8mXxZ1"
+                  },
+                  "activityProcessed": true
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "DS7uE5"
+              },
+              "property": "conversation.AttachmentURLTow",
+              "value": {
+                "contentUrl": "=dialog.foreach.value.contentUrl",
+                "contentType": "=dialog.foreach.value.contentType",
+                "contentName": "=dialog.foreach.value.name"
+              }
+            },
+            {
+              "$kind": "Microsoft.EditArray",
+              "$designer": {
+                "id": "KpQSdy"
+              },
+              "changeType": "push",
+              "itemsProperty": "conversation.AttachmetArrayTow",
+              "value": "=conversation.AttachmentURLTow"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.DeleteProperty",
+          "$designer": {
+            "id": "qcm3Am"
+          },
+          "property": "dialog.selectYesOrNo"
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "J3vdeH"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "unrecognizedPrompt": "",
+          "invalidPrompt": "",
+          "property": "dialog.selectYesOrNo",
+          "prompt": "${TextInput_Prompt_J3vdeH()}",
+          "validations": [
+            "contains(this.value, 'نعم') || contains(this.value, 'لا') ||contains(this.value, '#')|| contains(this.value, 'Yes') || contains(this.value, 'No')"
+          ]
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "klVblM"
+          },
+          "condition": "dialog.selectYesOrNo==\"Yes\" || dialog.selectYesOrNo==\"نعم\"",
+          "actions": [
+            {
+              "$kind": "Microsoft.RepeatDialog",
+              "$designer": {
+                "id": "6HVmz9"
+              },
+              "activityProcessed": true
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "kMNLip"
+          }
+        }
+      ]
+    }
+  ],
+  "generator": "RKHKushanPhotos.lg",
+  "recognizer": "RKHKushanPhotos.lu.qna",
+  "id": "RKHKushanPhotos"
+}

@@ -1,0 +1,140 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "iCvWcr",
+    "name": "TopPharmaContactDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "PJU89K"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "TwjnEg"
+          },
+          "elseActions": [
+            {
+              "$kind": "Microsoft.TextInput",
+              "$designer": {
+                "id": "YISvEy"
+              },
+              "disabled": false,
+              "maxTurnCount": 100,
+              "alwaysPrompt": false,
+              "allowInterruptions": true,
+              "property": "dialog.ContactInput",
+              "prompt": "${TextInput_Prompt_YISvEy()}",
+              "validations": [
+                "equals(this.value, 'تواصل معنا') ||equals(this.value, 'دردشة مباشرة') ||equals(this.value, 'Live Chat') ||equals(this.value, 'Contact Us') ||equals(this.value, '#')"
+              ]
+            },
+            {
+              "$kind": "Microsoft.SwitchCondition",
+              "$designer": {
+                "id": "Q0096J"
+              },
+              "condition": "dialog.ContactInput",
+              "cases": [
+                {
+                  "value": "تواصل معنا",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.SendActivity",
+                      "$designer": {
+                        "id": "L84EHA"
+                      },
+                      "activity": "${SendActivity_L84EHA()}"
+                    }
+                  ]
+                },
+                {
+                  "value": "دردشة مباشرة",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "kCNH7C"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "LiveChatDialog"
+                    }
+                  ]
+                },
+                {
+                  "value": "Live Chat",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "SM3now"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "LiveChatDialog"
+                    }
+                  ]
+                },
+                {
+                  "value": "Contact Us",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.SendActivity",
+                      "$designer": {
+                        "id": "CZuU3j"
+                      },
+                      "activity": "${SendActivity_CZuU3j()}"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "condition": "conversation.contactNow",
+          "actions": [
+            {
+              "$kind": "Microsoft.TextInput",
+              "$designer": {
+                "id": "r8Lhdi"
+              },
+              "disabled": false,
+              "maxTurnCount": 100,
+              "alwaysPrompt": false,
+              "allowInterruptions": true,
+              "prompt": "${TextInput_Prompt_r8Lhdi()}",
+              "invalidPrompt": "",
+              "property": "dialog.UserInput1",
+              "validations": [
+                "=contains(this.value, 'تواصل معنا') ||contains(this.value, 'Contact Us')||contains(this.value, 'دردشة مباشرة') ||contains(this.value, 'Live Chat')  ||contains(this.value, '#') "
+              ]
+            },
+            {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "CTIOtG"
+              },
+              "activity": "${SendActivity_CTIOtG()}"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.CancelAllDialogs",
+          "$designer": {
+            "id": "gwu0mn"
+          },
+          "activityProcessed": true
+        }
+      ]
+    }
+  ],
+  "generator": "TopPharmaContactDialog.lg",
+  "recognizer": "TopPharmaContactDialog.lu.qna",
+  "id": "TopPharmaContactDialog"
+}

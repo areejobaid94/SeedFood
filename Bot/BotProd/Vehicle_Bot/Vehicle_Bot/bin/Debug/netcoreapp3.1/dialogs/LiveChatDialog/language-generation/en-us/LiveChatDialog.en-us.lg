@@ -1,0 +1,9 @@
+[import](common.lg)
+
+# SendActivity_Uez0B0_text()
+- ${dialog.text}
+# SendActivity_Uez0B0()
+[Activity
+    Text = ${SendActivity_Uez0B0_text()}
+]
+

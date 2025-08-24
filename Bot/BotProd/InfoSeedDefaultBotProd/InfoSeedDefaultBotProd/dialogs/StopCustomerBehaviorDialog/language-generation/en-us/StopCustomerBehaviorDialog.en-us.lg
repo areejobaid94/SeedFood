@@ -1,0 +1,9 @@
+[import](common.lg)
+
+# SendActivity_jjTu8w()
+[Activity
+    Text = ${SendActivity_jjTu8w_text()}
+]
+
+# SendActivity_jjTu8w_text()
+- ${dialog.text}

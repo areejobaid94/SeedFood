@@ -1,0 +1,171 @@
+[import](common.lg)
+
+#OptionsList(Text,Option1,Option2,Option3,Option4,Option5,Option6)
+
+- ``` 
+
+{
+
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+
+    "version": "1.0",
+
+    "type": "AdaptiveCard",
+
+    "body": [
+
+          {
+
+            "type": "TextBlock",
+
+            "text": "${Text}"
+
+        },
+
+        {
+
+            "type": "Input.ChoiceSet",
+
+            "choices": [
+
+                    {
+
+                       "title": "${Option1}",
+
+                       "value": "${Option1}"
+
+                    },
+
+                     {
+
+                       "title": "${Option2}",
+
+                       "value": "${Option2}"
+
+                    },
+
+                     {
+
+                       "title": "${Option3}",
+
+                       "value": "${Option3}"
+
+                    },
+
+                      {
+
+                       "title": "${Option4}",
+
+                       "value": "${Option4}"
+
+                    },
+
+                      {
+
+                       "title": "${Option5}",
+
+                       "value": "${Option5}"
+
+                    },
+
+                      {
+
+                       "title": "${Option6}",
+
+                       "value": "${Option6}"
+
+                    }                                                    
+
+            ],
+
+            "placeholder": "",
+
+            "id": "InputAdultos"
+
+        }
+
+    ]
+
+}
+
+ ```
+# TextInput_Prompt_bkeuLO()
+[Activity
+
+    Attachments = ${json(OptionsList(dialog.text,dialog.Option1,dialog.Option2,dialog.Option3,dialog.Option4,dialog.Option5,dialog.Option6))}
+    InputHint=${dialog.InputHint}
+    Summary=${dialog.Summary}
+
+]
+
+
+
+# TextInput_Prompt_aVJ0rT()
+[Activity
+    Text = ${TextInput_Prompt_aVJ0rT_text()}
+]
+
+# TextInput_Prompt_aVJ0rT_text()
+- ${dialog.text}
+# TextInput_Prompt_jcBfbc_text()
+- ${dialog.text}
+# TextInput_Prompt_jcBfbc()
+[Activity
+    Text = ${TextInput_Prompt_jcBfbc_text()}
+]
+
+# TextInput_Prompt_e0a4Op_text()
+- ${dialog.text}
+# TextInput_Prompt_e0a4Op()
+[Activity
+    Text = ${TextInput_Prompt_e0a4Op_text()}
+]
+
+# TextInput_Prompt_6Vstt1_text()
+- ${dialog.text}
+# TextInput_Prompt_6Vstt1()
+[Activity
+    Text = ${TextInput_Prompt_6Vstt1_text()}
+]
+
+# TextInput_Prompt_3kW4oU_text()
+- ${dialog.text}
+# TextInput_Prompt_3kW4oU()
+[Activity
+    Text = ${TextInput_Prompt_3kW4oU_text()}
+]
+
+# TextInput_Prompt_UK5LCQ_text()
+- ${dialog.text}
+# TextInput_Prompt_UK5LCQ()
+[Activity
+    Text = ${TextInput_Prompt_UK5LCQ_text()}
+]
+
+# SendActivity_l3bC2Q()
+[Activity
+    Text = ${SendActivity_l3bC2Q_text()}
+]
+
+# SendActivity_l3bC2Q_text()
+- ${dialog.text}
+# SendActivity_06IZob()
+[Activity
+    Text = ${SendActivity_06IZob_text()}
+]
+
+# SendActivity_06IZob_text()
+- ${dialog.text}
+# TextInput_Prompt_ohewje()
+[Activity
+    Text = ${TextInput_Prompt_ohewje_text()}
+]
+
+# TextInput_Prompt_ohewje_text()
+- ${dialog.text}
+# TextInput_Prompt_HLWrQz_text()
+- ${dialog.text}
+# TextInput_Prompt_HLWrQz()
+[Activity
+    Text = ${TextInput_Prompt_HLWrQz_text()}
+]

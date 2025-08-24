@@ -1,0 +1,108 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "D6yj8f",
+    "name": "AFConsultationAMDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "7QK1oz"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "P5qsCU"
+          },
+          "assignments": [
+            {
+              "property": "dialog.option1",
+              "value": "AP"
+            },
+            {
+              "property": "dialog.option2",
+              "value": "ACT"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.DeleteProperties",
+          "$designer": {
+            "id": "GWrUL3"
+          },
+          "properties": [
+            "dialog.UserSelect"
+          ]
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "ssy3uV"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "prompt": "${TextInput_Prompt_ssy3uV()}",
+          "unrecognizedPrompt": "",
+          "invalidPrompt": "",
+          "property": "dialog.UserSelect",
+          "validations": [
+            "equals(this.value, 'AP')  ||equals(this.value, 'ACT') || equals(this.value, '#')"
+          ]
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "9wFzwa"
+          },
+          "condition": "dialog.UserSelect",
+          "cases": [
+            {
+              "value": "AP",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "PNat6G"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "AfConsApDialog"
+                }
+              ]
+            },
+            {
+              "value": "ACT",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "CK23mV"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "AfConsActDialog"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "XN6ngw"
+          }
+        }
+      ]
+    }
+  ],
+  "generator": "AFConsultationAMDialog.lg",
+  "recognizer": "AFConsultationAMDialog.lu.qna",
+  "id": "AF-ConsultationAM-Dialog"
+}

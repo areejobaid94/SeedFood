@@ -1,0 +1,74 @@
+﻿<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form *ngIf="active" #receiptForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <span *ngIf="receipt.id">{{l("EditReceipt")}}</span>
+                        <span *ngIf="!receipt.id">{{l("CreateNewReceipt")}}</span>
+                    </h4>
+                    <button type="button" class="close" (click)="close()" aria-label="Close" [disabled]="saving">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                 
+
+					<div class="form-group m-form__group">
+                        <label for="BankBankName">{{l("Bank")}}</label>
+                        <div class="input-group">
+                            <input class="form-control" id="BankBankName" name="bankBankName" [(ngModel)]="bankBankName" type="text" disabled>     
+                            <div class="input-group-append">
+                                <button class="btn btn-primary blue" (click)="openSelectBankModal()" type="button"><i class="fa fa-search"></i> {{l("Pick")}}</button>
+                            </div> <div class="input-group-prepend">
+                                <button class="btn btn-danger btn-icon" type="button" (click)="setBankIdNull()"><i class="fa fa-times"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <input class="form-control" name="receipt.bankId" [(ngModel)]="receipt.bankId" type="text"  hidden>
+		 
+					<div class="form-group m-form__group">
+                        <label for="PaymentMethodPaymnetMethod">{{l("PaymentMethod")}}</label>
+                        <div class="input-group">
+                            <input class="form-control" id="PaymentMethodPaymnetMethod" name="paymentMethodPaymnetMethod" [(ngModel)]="paymentMethodPaymnetMethod" type="text" disabled>     
+                            <div class="input-group-append">
+                                <button class="btn btn-primary blue" (click)="openSelectPaymentMethodModal()" type="button"><i class="fa fa-search"></i> {{l("Pick")}}</button>
+                            </div> <div class="input-group-prepend">
+                                <button class="btn btn-danger btn-icon" type="button" (click)="setPaymentMethodIdNull()"><i class="fa fa-times"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <input class="form-control" name="receipt.paymentMethodId" [(ngModel)]="receipt.paymentMethodId" type="text" required hidden>
+		 
+
+								<div class="form-group">
+									<label for="Receipt_ReceiptNumber">{{l("ReceiptNumber")}} *</label>
+									<input type="text" #Receipt_ReceiptNumber="ngModel" id="Receipt_ReceiptNumber" class="form-control" [(ngModel)]="receipt.receiptNumber" name="ReceiptNumber"   minlength="0"  maxlength="256"  required/>
+								    <validation-messages [formCtrl]="Receipt_ReceiptNumber"></validation-messages>
+								</div>
+					
+								<div class="form-group">
+									<label for="Receipt_ReceiptDate">{{l("ReceiptDate")}}</label>
+									 <input required class="form-control m-input" #Receipt_ReceiptDate type="datetime" bsDatepicker  datePickerMomentModifier  [(date)]="receipt.receiptDate" id="Receipt_ReceiptDate" name="Receipt_ReceiptDate">
+									<validation-messages [formCtrl]="Receipt_ReceiptDate"></validation-messages>
+								</div>
+					
+								<div class="form-group">
+									<label for="Receipt_PaymentReferenceNumber">{{l("PaymentReferenceNumber")}}</label>
+									<input type="text" #Receipt_PaymentReferenceNumber="ngModel" id="Receipt_PaymentReferenceNumber" class="form-control" [(ngModel)]="receipt.paymentReferenceNumber" name="PaymentReferenceNumber"   minlength="0"  maxlength="10" />
+								    <validation-messages [formCtrl]="Receipt_PaymentReferenceNumber"></validation-messages>
+								</div>
+					
+
+                </div>
+                <div class="modal-footer">
+                    <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">{{l("Cancel")}}</button>
+                    <button type="submit" class="btn btn-primary blue" [disabled]="!receiptForm.form.valid" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save"></i> <span>{{l("Save")}}</span></button>
+                </div>
+            </form>
+        </div>
+    </div>
+<receiptBankLookupTableModal #receiptBankLookupTableModal (modalSave)="getNewBankId()"></receiptBankLookupTableModal>
+		 <receiptPaymentMethodLookupTableModal #receiptPaymentMethodLookupTableModal (modalSave)="getNewPaymentMethodId()"></receiptPaymentMethodLookupTableModal>
+		 
+</div>

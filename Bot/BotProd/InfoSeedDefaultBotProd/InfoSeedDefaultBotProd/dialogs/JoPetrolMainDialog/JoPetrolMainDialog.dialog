@@ -1,0 +1,417 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "qbIDbe",
+    "name": "JoPetrolMainDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "Xwn7MD"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "ISpNyE"
+          },
+          "assignments": [
+            {
+              "property": "dialog.UserName",
+              "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 2)).text"
+            },
+            {
+              "property": "dialog.HintPlaseCaption",
+              "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3)).text"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "JpSI1D"
+          },
+          "assignments": [
+            {
+              "property": "dialog.ListOption",
+              "value": [
+                "طلبات ديزل للمنازل والشركات",
+                "طلبات المحروقات / المحطات",
+                "خدمات JoCard",
+                "مواقع المحطات",
+                "الشكاوى",
+                "صيانة المحطات",
+                "طلبات وقود المحطات"
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "tSDUmW"
+          },
+          "assignments": [
+            {
+              "property": "dialog.imageType",
+              "value": "image"
+            },
+            {
+              "property": "dialog.imageName",
+              "value": "dsdsd"
+            },
+            {
+              "property": "dialog.imageUrl",
+              "value": "https://infoseedmediastorageprod.blob.core.windows.net/4408da24-aad7-4802-a1f1-46f5ad9e2074/Artboard.png"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.HttpRequest",
+          "$designer": {
+            "id": "U56SrN"
+          },
+          "resultProperty": "dialog.results",
+          "method": "GET",
+          "responseType": "json",
+          "url": "${conversation.URL}/api/BotAPI/CheckIsFillDisplayName?id=${conversation.ContactId}"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "cQXLPe"
+          },
+          "condition": "dialog.results.content.result !=null",
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "WXhEWe"
+              },
+              "property": "conversation.DisplayName",
+              "value": "${dialog.results.content.result}"
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.DeleteProperty",
+              "$designer": {
+                "id": "jCmYH9"
+              },
+              "property": "conversation.DisplayName"
+            },
+            {
+              "$kind": "Microsoft.TextInput",
+              "$designer": {
+                "id": "aThZrM"
+              },
+              "disabled": false,
+              "maxTurnCount": 100,
+              "alwaysPrompt": false,
+              "allowInterruptions": true,
+              "prompt": "${TextInput_Prompt_aThZrM()}",
+              "unrecognizedPrompt": "",
+              "invalidPrompt": "",
+              "property": "conversation.DisplayName"
+            },
+            {
+              "$kind": "Microsoft.HttpRequest",
+              "$designer": {
+                "id": "nmO9Mf"
+              },
+              "resultProperty": "dialog.results",
+              "url": "${conversation.URL}/api/BotAPI/updateContcatDisplayName?id=${conversation.ContactId}&contactDisplayName=${conversation.DisplayName}",
+              "method": "GET",
+              "responseType": "json"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.DeleteProperty",
+          "$designer": {
+            "id": "iBQt0l"
+          },
+          "property": "dialog.UserSelect"
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "VBhbAc"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "invalidPrompt": "",
+          "prompt": "${TextInput_Prompt_VBhbAc()}",
+          "validations": [
+            "equals(this.value, 'صيانة المحطات') || equals(this.value, 'الشكاوى')  || equals(this.value, 'مواقع المحطات') || equals(this.value, 'خدمات JoCard') || equals(this.value, 'طلبات المحروقات / المحطات') || equals(this.value, 'طلبات ديزل للمنازل والشركات') || equals(this.value, 'طلبات وقود المحطات') ||equals(this.value, '#')"
+          ],
+          "property": "dialog.UserSelect"
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "ZbWlMg"
+          },
+          "property": "conversation.Department1",
+          "value": "${dialog.UserSelect}"
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "YwcDMk"
+          },
+          "property": "conversation.DepartmentValue1",
+          "value": "${dialog.UserSelect}"
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "2lShji"
+          },
+          "condition": "dialog.UserSelect",
+          "cases": [
+            {
+              "value": "طلبات ديزل للمنازل والشركات",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "uOv7SX"
+                  },
+                  "property": "conversation.JolInformation",
+                  "value": "1"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "EZYAUy"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "JoPetrolForHomeDialog"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "imiKah"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "JoPetrolRequestORDialog"
+                }
+              ]
+            },
+            {
+              "value": "طلبات المحروقات / المحطات",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "gZeU4h"
+                  },
+                  "property": "conversation.JolInformation",
+                  "value": "2"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "RRsYgU"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "JoPetrolStationFuDialog"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "WUF8v4"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "JoPetrolRequestORDialog"
+                }
+              ]
+            },
+            {
+              "value": "خدمات JoCard",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "srREFi"
+                  },
+                  "property": "conversation.JolInformation",
+                  "value": "3"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "1aSDXT"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "JoPetrolCardDialog"
+                }
+              ]
+            },
+            {
+              "value": "مواقع المحطات",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "ZyQxQp"
+                  },
+                  "property": "conversation.JolInformation",
+                  "value": "4"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "CXiQ6N"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "JoPetrolStationLocDialog"
+                }
+              ]
+            },
+            {
+              "value": "الشكاوى",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "551MjC"
+                  },
+                  "property": "conversation.JolInformation",
+                  "value": "5"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "qLtq2E"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "JoPetrolComplaintsDialog"
+                }
+              ]
+            },
+            {
+              "value": "صيانة المحطات",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "MRSf7w"
+                  },
+                  "property": "conversation.JolInformation",
+                  "value": "6"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "cvT4bA"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "JoPetrolRepairsDialog"
+                }
+              ]
+            },
+            {
+              "value": "طلبات وقود المحطات",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "bLE9Ch"
+                  },
+                  "property": "conversation.JolInformation",
+                  "value": "7"
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "vVpMsz"
+                  },
+                  "property": "conversation.reeq",
+                  "value": "طلبات وقود المحطات"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "fmwiKs"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "JoPetrolStationREQDialog"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "P2yFA2"
+          }
+        },
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "4iba9F"
+          },
+          "activity": "${SendActivity_4iba9F()}"
+        },
+        {
+          "$kind": "Microsoft.HttpRequest",
+          "$designer": {
+            "id": "whcllm"
+          },
+          "resultProperty": "dialog.ResultPhone",
+          "url": "${conversation.URL}/api/BotAPI/CheckUserCanComplete?Phone=${conversation.phoneNumber}",
+          "method": "GET",
+          "responseType": "json"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "W3shhK"
+          },
+          "actions": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "w21JFl"
+              },
+              "activityProcessed": true,
+              "dialog": "JoPetrolRepairsDialog"
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "4MVbkT"
+              },
+              "property": "dialog.FaildCaption",
+              "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1253)).text"
+            },
+            {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "d795eU"
+              },
+              "activity": "${SendActivity_d795eU()}"
+            }
+          ],
+          "condition": "dialog.ResultPhone.content.result ==True"
+        }
+      ]
+    }
+  ],
+  "generator": "JoPetrolMainDialog.lg",
+  "recognizer": "JoPetrolMainDialog.lu.qna",
+  "id": "JoPetrolMainDialog"
+}

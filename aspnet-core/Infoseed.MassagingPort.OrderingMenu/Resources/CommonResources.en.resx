@@ -1,0 +1,327 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Add" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="Add a Note" xml:space="preserve">
+    <value>Add a note</value>
+  </data>
+  <data name="Add to Cart" xml:space="preserve">
+    <value>Add to Cart</value>
+  </data>
+  <data name="addition" xml:space="preserve">
+    <value>additions</value>
+  </data>
+  <data name="addtocart" xml:space="preserve">
+    <value>add to cart</value>
+  </data>
+  <data name="atmost" xml:space="preserve">
+    <value>at most</value>
+  </data>
+  <data name="availablity" xml:space="preserve">
+    <value>Not available</value>
+  </data>
+  <data name="backtohome" xml:space="preserve">
+    <value>Back to Home</value>
+  </data>
+  <data name="backwhatsapp" xml:space="preserve">
+    <value>Please go back to WhatsApp to complete your order</value>
+  </data>
+  <data name="Basket" xml:space="preserve">
+    <value>Basket</value>
+  </data>
+  <data name="cart" xml:space="preserve">
+    <value>Cart</value>
+  </data>
+  <data name="close" xml:space="preserve">
+    <value>colse</value>
+  </data>
+  <data name="confirm" xml:space="preserve">
+    <value>confirm </value>
+  </data>
+  <data name="confirmreorder" xml:space="preserve">
+    <value>the Cart content will removed </value>
+  </data>
+  <data name="Count" xml:space="preserve">
+    <value>Quantity</value>
+  </data>
+  <data name="creditPoint" xml:space="preserve">
+    <value>will receive</value>
+  </data>
+  <data name="Days" xml:space="preserve">
+    <value>Days</value>
+  </data>
+  <data name="delete" xml:space="preserve">
+    <value>delete</value>
+  </data>
+  <data name="Delivery" xml:space="preserve">
+    <value>Delivery</value>
+  </data>
+  <data name="Details" xml:space="preserve">
+    <value>Proceed Order</value>
+  </data>
+  <data name="EarningDate" xml:space="preserve">
+    <value>Earning Date</value>
+  </data>
+  <data name="faild" xml:space="preserve">
+    <value>Failed to send request!!</value>
+  </data>
+  <data name="Free" xml:space="preserve">
+    <value>Free</value>
+  </data>
+  <data name="home" xml:space="preserve">
+    <value>Home</value>
+  </data>
+  <data name="InvoiceDetails" xml:space="preserve">
+    <value>Invoice Details</value>
+  </data>
+  <data name="item" xml:space="preserve">
+    <value>item</value>
+  </data>
+  <data name="loyalty-ShopStore" xml:space="preserve">
+    <value>Loyalty Store</value>
+  </data>
+  <data name="maxDiscount" xml:space="preserve">
+    <value>Discount (High to Low)</value>
+  </data>
+  <data name="MaxOption" xml:space="preserve">
+    <value>Max</value>
+  </data>
+  <data name="maxprice" xml:space="preserve">
+    <value>Price (High to Low)</value>
+  </data>
+  <data name="minDiscount" xml:space="preserve">
+    <value>Discount (Low to High)</value>
+  </data>
+  <data name="minprice" xml:space="preserve">
+    <value>Price (Low to High)</value>
+  </data>
+  <data name="MyNotes" xml:space="preserve">
+    <value>My Notes</value>
+  </data>
+  <data name="myOrders" xml:space="preserve">
+    <value>Orders History</value>
+  </data>
+  <data name="MyPoints" xml:space="preserve">
+    <value>My Points</value>
+  </data>
+  <data name="noitem" xml:space="preserve">
+    <value>no item</value>
+  </data>
+  <data name="NoPoint" xml:space="preserve">
+    <value>You don't have enough points</value>
+  </data>
+  <data name="Note" xml:space="preserve">
+    <value>to add any notes to the order</value>
+  </data>
+  <data name="off" xml:space="preserve">
+    <value>discount</value>
+  </data>
+  <data name="offer" xml:space="preserve">
+    <value>Offer</value>
+  </data>
+  <data name="Order" xml:space="preserve">
+    <value>Order</value>
+  </data>
+  <data name="OrderNow" xml:space="preserve">
+    <value>Order Now</value>
+  </data>
+  <data name="OrdersArchive" xml:space="preserve">
+    <value>Orders archive</value>
+  </data>
+  <data name="PleaseCheck" xml:space="preserve">
+    <value>Please check</value>
+  </data>
+  <data name="point" xml:space="preserve">
+    <value>points</value>
+  </data>
+  <data name="Privacy" xml:space="preserve">
+    <value>Terms Privacy Policy</value>
+  </data>
+  <data name="Qty" xml:space="preserve">
+    <value>Qty</value>
+  </data>
+  <data name="RemainingDays" xml:space="preserve">
+    <value>Remaining Days (Expiry)</value>
+  </data>
+  <data name="reorder" xml:space="preserve">
+    <value>Are you sure to ReOrdering?</value>
+  </data>
+  <data name="required" xml:space="preserve">
+    <value>Required</value>
+  </data>
+  <data name="RotateDeviceOne" xml:space="preserve">
+    <value>Please Rotate Your Device</value>
+  </data>
+  <data name="RotateDeviceTow" xml:space="preserve">
+    <value>This View Is Best Viewd In portrait Mode</value>
+  </data>
+  <data name="search" xml:space="preserve">
+    <value>write to search</value>
+  </data>
+  <data name="storeName" xml:space="preserve">
+    <value>My Points</value>
+  </data>
+  <data name="submit" xml:space="preserve">
+    <value>Confirm and send Order</value>
+  </data>
+  <data name="success" xml:space="preserve">
+    <value>Order details have been sent to you, please complete your order via WhatsApp</value>
+  </data>
+  <data name="Takeaway" xml:space="preserve">
+    <value>Takeaway</value>
+  </data>
+  <data name="The number of my points" xml:space="preserve">
+    <value>My Points</value>
+  </data>
+  <data name="TotalCreditPoints" xml:space="preserve">
+    <value>Points earned</value>
+  </data>
+  <data name="TotalLoyaltyPoints" xml:space="preserve">
+    <value>Paid points</value>
+  </data>
+  <data name="TotalPoint" xml:space="preserve">
+    <value>total point</value>
+  </data>
+  <data name="TotalPrice" xml:space="preserve">
+    <value>The price includes tax</value>
+  </data>
+  <data name="tryagain" xml:space="preserve">
+    <value>Please try again</value>
+  </data>
+  <data name="Unavailable" xml:space="preserve">
+    <value>Unavailable at the moment</value>
+  </data>
+  <data name="View all ratings" xml:space="preserve">
+    <value>View all ratings</value>
+  </data>
+  <data name="view-Basket" xml:space="preserve">
+    <value>View Basket</value>
+  </data>
+  <data name="viewCart" xml:space="preserve">
+    <value>View Cart</value>
+  </data>
+  <data name="whatsapp" xml:space="preserve">
+    <value>Back to Whatsapp</value>
+  </data>
+  <data name="yourpoint" xml:space="preserve">
+    <value>Your remaining points:</value>
+  </data>
+</root>

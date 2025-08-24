@@ -1,0 +1,51 @@
+<table class="table no-border-table" *ngIf="paid && dahsboardService">
+    <thead>
+        <tr>
+            <th scope="col">  {{ l("typeOfChat") }}</th>
+            <th scope="col">{{ l("totalChat") }}</th>
+            <th scope="col"> {{ l("fees") }}</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td style="color: #fe716a"> {{ l("marketing") }}</td>
+            <td>{{ dahsboardService.bundleData.totalMarketingConversation }}</td>
+            <td>{{ dahsboardService.bundleData.totalMarketingCharge }}</td>
+        </tr>
+        <tr>
+            <td style="color: #0d8939"> {{ l("services") }}</td>
+            <td>{{ dahsboardService.bundleData.totalServicesConversation }}</td>
+            <td>{{ dahsboardService.bundleData.totalServicesCharge }}</td>
+        </tr>
+
+        <tr>
+            <td style="color: #fca004"> {{ l("utility") }}</td>
+            <td>{{ dahsboardService.bundleData.totalUtilityConversation }}</td>
+            <td>{{ dahsboardService.bundleData.totalUtilityCharge }}</td>
+        </tr>
+    </tbody>
+</table>
+
+<table class="table no-border-table" *ngIf="!paid && dahsboardService">
+    <thead>
+        <tr>
+            <th scope="col">{{ l("typeOfChat") }}</th>
+            <th scope="col">{{ l("totalChat") }}</th>
+            <th scope="col">{{ l("fees") }}</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td style="color: #fe716a">Instagram, WhatsApp. </td>
+            <td>{{ dahsboardService.bundleData.totalFacebookEntry }}</td>
+            <td>{{ l("unlimitedEntry") }}</td>
+        </tr>
+        <tr>
+            <td style="color: #0d8939">{{ l("socialmedia") }}</td>
+            <td>{{ dahsboardService.bundleData.totalFreeTier }}</td>
+            <td>{{ l("limitedEntry") }}</td>
+        </tr>
+
+    </tbody>
+</table>
+

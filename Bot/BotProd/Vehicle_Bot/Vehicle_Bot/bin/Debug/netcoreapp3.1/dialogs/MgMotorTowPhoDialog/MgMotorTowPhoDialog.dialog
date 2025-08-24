@@ -1,0 +1,128 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "M0UlII",
+    "name": "MgMotorTowPhoDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "CUIo7r"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "MS5ml5"
+          },
+          "property": "dialog.text",
+          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId ==3692)).text"
+        },
+        {
+          "$kind": "Microsoft.DeleteProperty",
+          "$designer": {
+            "id": "I4mWDE"
+          },
+          "property": "dialog.sendPic"
+        },
+        {
+          "$kind": "Microsoft.AttachmentInput",
+          "$designer": {
+            "id": "QRF0M5"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "invalidPrompt": "",
+          "property": "dialog.sendPic",
+          "outputFormat": "all",
+          "prompt": "${AttachmentInput_Prompt_QRF0M5()}"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "f0uQy2"
+          },
+          "condition": "turn.Activity.Text!=\".\"",
+          "actions": [
+            {
+              "$kind": "Microsoft.AttachmentInput",
+              "$designer": {
+                "id": "En0Ahi"
+              },
+              "disabled": false,
+              "maxTurnCount": 100,
+              "alwaysPrompt": false,
+              "allowInterruptions": true,
+              "unrecognizedPrompt": "",
+              "invalidPrompt": "",
+              "prompt": "${AttachmentInput_Prompt_En0Ahi()}",
+              "property": "dialog.sendPic",
+              "outputFormat": "all"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.Foreach",
+          "$designer": {
+            "id": "U6IrfX"
+          },
+          "index": "dialog.foreach.index",
+          "value": "dialog.foreach.value",
+          "itemsProperty": "dialog.sendPic",
+          "actions": [
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "wAwCnN"
+              },
+              "condition": "dialog.foreach.value.contentUrl==null",
+              "actions": [
+                {
+                  "$kind": "Microsoft.RepeatDialog",
+                  "$designer": {
+                    "id": "EQjs1u"
+                  },
+                  "activityProcessed": true
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "xXHLjT"
+              },
+              "condition": "equals(dialog.foreach.value.contentType, 'image/png') || equals(dialog.foreach.value.contentType, 'image/jpeg') || equals(dialog.foreach.value.contentType, 'image/jpg')",
+              "elseActions": [
+                {
+                  "$kind": "Microsoft.RepeatDialog",
+                  "$designer": {
+                    "id": "bWOzjj"
+                  },
+                  "activityProcessed": true
+                }
+              ],
+              "actions": []
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "zE8JdM"
+          }
+        }
+      ]
+    }
+  ],
+  "generator": "MgMotorTowPhoDialog.lg",
+  "recognizer": "MgMotorTowPhoDialog.lu.qna",
+  "id": "MgMotorTowPhoDialog"
+}

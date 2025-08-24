@@ -1,0 +1,49 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "oUYfSw",
+    "name": "CaptionDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "bvGiR2"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "vr5EWq"
+          },
+          "property": "conversation.URL2",
+          "value": "https://infoseedbotapistg.azurewebsites.net"
+        },
+        {
+          "$kind": "Microsoft.HttpRequest",
+          "$designer": {
+            "id": "tl7Nua"
+          },
+          "resultProperty": "conversation.AllCaption",
+          "method": "GET",
+          "url": "${conversation.URL2}/api/BotAPI/GetAllCaption?TenantID=${conversation.TenantId}&local=${conversation.local}",
+          "responseType": "json"
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "71LSRG"
+          }
+        }
+      ]
+    }
+  ],
+  "generator": "CaptionDialog.lg",
+  "recognizer": "CaptionDialog.lu.qna",
+  "id": "CaptionDialog"
+}

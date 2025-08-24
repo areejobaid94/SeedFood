@@ -1,0 +1,679 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "gXXe1K",
+    "name": "MgMotorSalesDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "pnvGzP"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "E7ZAF3"
+          },
+          "condition": "conversation.local",
+          "cases": [
+            {
+              "value": "ar",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "76lLgz"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.SalesLst",
+                      "value": [
+                        "الفئات",
+                        "شكاوي مبيعات",
+                        "موقع صالة العرض",
+                        "عروض"
+                      ]
+                    },
+                    {
+                      "property": "dialog.Location",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId ==1179)).text"
+                    },
+                    {
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId ==1180)).text",
+                      "property": "dialog.Offers"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "BDEMqE"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.Contact",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId ==1175)).text"
+                    },
+                    {
+                      "property": "dialog.ContactOption",
+                      "value": "تواصل مباشرة"
+                    },
+                    {
+                      "property": "dialog.InputHint",
+                      "value": "القائمة"
+                    },
+                    {
+                      "property": "dialog.Summary",
+                      "value": "* لتصفح المزيد من السيارات ارسل"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "en",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "mu7Nqh"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.SalesLst",
+                      "value": [
+                        "Models",
+                        "Sales complaints",
+                        "Showroom Location",
+                        "Offers"
+                      ]
+                    },
+                    {
+                      "property": "dialog.Location",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId ==1179)).text"
+                    },
+                    {
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId ==1180)).text",
+                      "property": "dialog.Offers"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "VwJEaR"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.Contact",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId ==1175)).text"
+                    },
+                    {
+                      "property": "dialog.ContactOption",
+                      "value": "Live Chat"
+                    },
+                    {
+                      "property": "dialog.InputHint",
+                      "value": "Menu"
+                    },
+                    {
+                      "property": "dialog.Summary",
+                      "value": "To browse more cars send * "
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.DeleteProperty",
+          "$designer": {
+            "id": "ly0UbG"
+          },
+          "property": "conversation.book"
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "8kYC8i"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "unrecognizedPrompt": "",
+          "prompt": "${TextInput_Prompt_8kYC8i()}",
+          "property": "conversation.book",
+          "validations": [
+            "equals(this.value, 'الفئات') || equals(this.value, '#') || equals(this.value, 'شكاوي مبيعات')|| equals(this.value, 'موقع صالة العرض')|| equals(this.value, 'Models')|| equals(this.value, 'Sales complaints')|| equals(this.value, 'Showroom Location')|| equals(this.value, 'Offers')|| equals(this.value, 'عروض')"
+          ]
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "Z65m8y"
+          },
+          "condition": "conversation.book",
+          "cases": [
+            {
+              "value": "الفئات",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "04vi7q"
+                  },
+                  "property": "conversation.IsTwoAsset",
+                  "value": true
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "kY1Ppq"
+                  },
+                  "property": "conversation.IsThreeAsset",
+                  "value": true
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "jehrxD"
+                  },
+                  "property": "conversation.isoffer",
+                  "value": false
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "jcMvTf"
+                  },
+                  "property": "conversation.type",
+                  "value": "0"
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "lYq48h"
+                  },
+                  "property": "conversation.StepBack",
+                  "value": "1"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "y9wRZ9"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "MgMotorModelsDialog"
+                },
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "bbArP1"
+                  },
+                  "condition": "conversation.DepartmentName ==\"#\"",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.DeleteProperty",
+                      "$designer": {
+                        "id": "upirB5"
+                      },
+                      "property": "dialog.type"
+                    },
+                    {
+                      "$kind": "Microsoft.RepeatDialog",
+                      "$designer": {
+                        "id": "kDZ30G"
+                      },
+                      "activityProcessed": true
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "A7LHD4"
+                  },
+                  "property": "conversation.Department2",
+                  "value": "${conversation.Department2} - ${conversation.Department3}"
+                },
+                {
+                  "$kind": "Microsoft.TextInput",
+                  "$designer": {
+                    "id": "Slinw7"
+                  },
+                  "disabled": false,
+                  "maxTurnCount": 100,
+                  "alwaysPrompt": false,
+                  "allowInterruptions": true,
+                  "invalidPrompt": "",
+                  "prompt": "${TextInput_Prompt_Slinw7()}",
+                  "property": "dialog.SelectCo",
+                  "validations": [
+                    "contains(dialog.ContactOption, this.value) || contains(this.value, '#') || contains(this.value, '*')"
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "41872B"
+                  },
+                  "condition": "dialog.SelectCo ==\"*\"",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.RepeatDialog",
+                      "$designer": {
+                        "id": "0DS9hv"
+                      },
+                      "activityProcessed": true
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "aEetKM"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "MgMotorLiveChat"
+                }
+              ]
+            },
+            {
+              "value": "شكاوي مبيعات",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "sb6ezc"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.text",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId ==1174)).text"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.TextInput",
+                  "$designer": {
+                    "id": "GMu9Ds"
+                  },
+                  "disabled": false,
+                  "maxTurnCount": 100,
+                  "alwaysPrompt": false,
+                  "allowInterruptions": true,
+                  "unrecognizedPrompt": "",
+                  "invalidPrompt": "",
+                  "prompt": "${TextInput_Prompt_GMu9Ds()}",
+                  "property": "dialog.UserInputt"
+                },
+                {
+                  "$kind": "Microsoft.HttpRequest",
+                  "$designer": {
+                    "id": "sVVJBS"
+                  },
+                  "resultProperty": "dialog.ApiFeedBack",
+                  "url": "${conversation.URL}/api/BotAPI/UpdateComplaintMG?contactId=${conversation.ContactId}&subject=${dialog.Complaint}&content=${dialog.UserInputt}",
+                  "method": "GET",
+                  "responseType": "json"
+                },
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "pwnhR6"
+                  },
+                  "activity": "${SendActivity_pwnhR6()}"
+                }
+              ]
+            },
+            {
+              "value": "موقع صالة العرض",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "1gtnop"
+                  },
+                  "activity": "${SendActivity_1gtnop()}"
+                }
+              ]
+            },
+            {
+              "value": "عروض",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "MpKPri"
+                  },
+                  "property": "conversation.isoffer",
+                  "value": true
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "Yiu6U4"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "MgMotorOffersDialog"
+                },
+                {
+                  "$kind": "Microsoft.CancelAllDialogs",
+                  "$designer": {
+                    "id": "QIPztl"
+                  },
+                  "activityProcessed": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "Nhbe4V"
+          },
+          "condition": "conversation.book",
+          "cases": [
+            {
+              "value": "Models",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "wigQK1"
+                  },
+                  "property": "conversation.IsTwoAsset",
+                  "value": true
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "ikXuey"
+                  },
+                  "property": "conversation.IsThreeAsset",
+                  "value": true
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "FJifQN"
+                  },
+                  "property": "conversation.isoffer",
+                  "value": false
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "UMdM8U"
+                  },
+                  "property": "conversation.type",
+                  "value": "0"
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "s8zRV1"
+                  },
+                  "property": "conversation.StepBack",
+                  "value": "1"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "JOYhii"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "MgMotorModelsDialog"
+                },
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "GvKObZ"
+                  },
+                  "condition": "conversation.DepartmentName ==\"#\"",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.DeleteProperty",
+                      "$designer": {
+                        "id": "0bSohI"
+                      },
+                      "property": "dialog.type"
+                    },
+                    {
+                      "$kind": "Microsoft.RepeatDialog",
+                      "$designer": {
+                        "id": "NHvVWp"
+                      },
+                      "activityProcessed": true
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "vE0eSr"
+                  },
+                  "property": "conversation.Department2",
+                  "value": "${conversation.Department2} - ${conversation.Department3}"
+                },
+                {
+                  "$kind": "Microsoft.TextInput",
+                  "$designer": {
+                    "id": "bXJsAt"
+                  },
+                  "disabled": false,
+                  "maxTurnCount": 100,
+                  "alwaysPrompt": false,
+                  "allowInterruptions": true,
+                  "invalidPrompt": "",
+                  "prompt": "${TextInput_Prompt_bXJsAt()}",
+                  "property": "dialog.SelectCo",
+                  "validations": [
+                    "contains(dialog.ContactOption, this.value) || contains(this.value, '#') || contains(this.value, '*')"
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "rddzq1"
+                  },
+                  "condition": "dialog.SelectCo ==\"*\"",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.RepeatDialog",
+                      "$designer": {
+                        "id": "xeOn47"
+                      },
+                      "activityProcessed": true
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.DeleteProperties",
+                  "$designer": {
+                    "id": "RjP748"
+                  },
+                  "properties": [
+                    "conversation.book"
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "vXTZIZ"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "MgMotorLiveChat"
+                }
+              ]
+            },
+            {
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "9EH3xU"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.text",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId ==1174)).text"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.TextInput",
+                  "$designer": {
+                    "id": "zfnTR2"
+                  },
+                  "disabled": false,
+                  "maxTurnCount": 100,
+                  "alwaysPrompt": false,
+                  "allowInterruptions": true,
+                  "unrecognizedPrompt": "",
+                  "invalidPrompt": "",
+                  "prompt": "${TextInput_Prompt_zfnTR2()}",
+                  "property": "dialog.UserInputt"
+                },
+                {
+                  "$kind": "Microsoft.HttpRequest",
+                  "$designer": {
+                    "id": "yJilCd"
+                  },
+                  "resultProperty": "dialog.ApiFeedBack",
+                  "url": "${conversation.URL}/api/BotAPI/UpdateComplaint?contactId=${conversation.ContactId}",
+                  "method": "GET",
+                  "responseType": "json"
+                },
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "bCXClT"
+                  },
+                  "activity": "${SendActivity_bCXClT()}"
+                }
+              ],
+              "value": "Sales complaints"
+            },
+            {
+              "value": "Showroom Location",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "nAh25J"
+                  },
+                  "activity": "${SendActivity_nAh25J()}"
+                }
+              ]
+            },
+            {
+              "value": "Offers",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "JBHfS4"
+                  },
+                  "property": "conversation.isoffer",
+                  "value": true
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "ai8qEs"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "MgMotorOffersDialog"
+                },
+                {
+                  "$kind": "Microsoft.CancelAllDialogs",
+                  "$designer": {
+                    "id": "W9wsjY"
+                  },
+                  "activityProcessed": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "AJFL90"
+          }
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "f1ALlX"
+          },
+          "assignments": [
+            {
+              "property": "dialog.Complaint1",
+              "value": "شكاوي مبيعات"
+            },
+            {
+              "property": "dialog.Complaint2",
+              "value": "شكاوي صيانة"
+            },
+            {
+              "property": "dialog.text",
+              "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId ==1174)).text"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "rVqM1N"
+          },
+          "assignments": [
+            {
+              "property": "dialog.Complaint1",
+              "value": "Sales complaints"
+            },
+            {
+              "property": "dialog.Complaint2",
+              "value": "Maintenance"
+            },
+            {
+              "property": "dialog.text",
+              "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId ==1174)).text"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "HKuXxU"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "unrecognizedPrompt": "",
+          "invalidPrompt": "",
+          "prompt": "${TextInput_Prompt_HKuXxU()}",
+          "property": "dialog.Complaint",
+          "validations": [
+            "contains(this.value, 'شكاوي صيانة') || contains(this.value, 'شكاوي مبيعات') || contains(this.value, '#')"
+          ]
+        }
+      ]
+    }
+  ],
+  "generator": "MgMotorSalesDialog.lg",
+  "recognizer": "MgMotorSalesDialog.lu.qna",
+  "id": "MgMotorSalesDialog"
+}

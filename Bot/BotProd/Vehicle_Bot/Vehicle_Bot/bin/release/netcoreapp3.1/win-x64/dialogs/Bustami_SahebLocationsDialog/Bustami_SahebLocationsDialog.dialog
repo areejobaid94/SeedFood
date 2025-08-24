@@ -1,0 +1,330 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "kOLDlS",
+    "name": "Bustami_SahebLocationsDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "nkee2N"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "UonwwY"
+          },
+          "assignments": [
+            {
+              "property": "dialog.choose",
+              "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId ==5)).text"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "qGVQ4n"
+          },
+          "activity": "${SendActivity_qGVQ4n()}"
+        },
+        {
+          "$kind": "Microsoft.CancelAllDialogs",
+          "$designer": {
+            "id": "WIBTcj"
+          },
+          "activityProcessed": true
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "de7AAO"
+          },
+          "assignments": [
+            {
+              "property": "conversation.isOrderOffer",
+              "value": "false"
+            },
+            {
+              "property": "conversation.add",
+              "value": "\"\""
+            },
+            {
+              "property": "conversation.isChangeLocation",
+              "value": "false"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "VYxAJa"
+          },
+          "condition": "conversation.local",
+          "cases": [
+            {
+              "value": "ar",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "7qB2YD"
+                  },
+                  "property": "dialog.Lst",
+                  "value": [
+                    "حدد أقرب موقع مركز بودي ودهان",
+                    "حدد موقع أقرب مركز صيانة",
+                    "حدد موقع أقرب مركز قطع غيار",
+                    "تحديد موقع أقرب معرض مبيعات"
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "8g58or"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.choose",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId ==5)).text"
+                    },
+                    {
+                      "property": "dialog.sendLoc",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId ==28)).text"
+                    },
+                    {
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId ==34)).text",
+                      "property": "dialog.result"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "en",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "cUlsck"
+                  },
+                  "property": "dialog.Lst",
+                  "value": [
+                    "detect nearest paint location",
+                    "nearest maintenance",
+                    "Nearest spare parts",
+                    "Nearest Showroom"
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "Qx6o3o"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.choose",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId ==5)).text"
+                    },
+                    {
+                      "property": "dialog.sendLoc",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId ==28)).text"
+                    },
+                    {
+                      "property": "dialog.result",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId ==34)).text"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "default": []
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "n85SHE"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "unrecognizedPrompt": "",
+          "property": "dialog.UserInput",
+          "prompt": "${TextInput_Prompt_n85SHE()}",
+          "validations": [
+            "=equals(\"Nearest Showroom\" , this.value)||equals(\"detect nearest paint location\" , this.value)||equals(\"nearest maintenance\" , this.value)||equals(\"Nearest spare parts\" , this.value)||equals(\"حدد أقرب موقع مركز بودي ودهان\" , this.value)||equals(\"حدد موقع أقرب مركز صيانة\" , this.value)||equals(\"حدد موقع أقرب مركز قطع غيار\" , this.value)||equals(\"تحديد موقع أقرب معرض مبيعات\" , this.value)||equals(\"#\" , this.value)"
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "Af483O"
+          },
+          "property": "conversation.Department2",
+          "value": "=concat(conversation.Department2,\",\", dialog.UserInput)"
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "P6R9sG"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "prompt": "${TextInput_Prompt_P6R9sG()}",
+          "unrecognizedPrompt": "",
+          "property": "dialog.SendLocation"
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "ar2f1L"
+          },
+          "property": "dialog.SendLocation",
+          "value": {
+            "query": "=dialog.SendLocation",
+            "tenantID": "=conversation.TenantId",
+            "isOrderOffer": "=conversation.isOrderOffer",
+            "local": "=conversation.local",
+            "isChangeLocation": "=conversation.isChangeLocation",
+            "address": "=conversation.add"
+          }
+        },
+        {
+          "$kind": "Microsoft.HttpRequest",
+          "$designer": {
+            "id": "1LBtGn"
+          },
+          "resultProperty": "dialog.GetLocationModel",
+          "method": "POST",
+          "url": "${conversation.URL}/api/BotAPI/GetlocationUserModel",
+          "body": "=dialog.SendLocation",
+          "responseType": "json",
+          "headers": {
+            "accept": "text/plain"
+          }
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "Y1SC5a"
+          },
+          "assignments": [
+            {
+              "property": "dialog.areasInfo",
+              "value": "=dialog.GetLocationModel.content.result"
+            },
+            {
+              "property": "conversation.LocationId",
+              "value": "=dialog.areasInfo.locationId"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.HttpRequest",
+          "$designer": {
+            "id": "EIAN1q"
+          },
+          "resultProperty": "dialog.areasInfo",
+          "method": "GET",
+          "url": "${conversation.URL}/api/BotAPI/GetAreasByID?TenantID=${conversation.TenantId}&AreaID=${conversation.LocationId}",
+          "responseType": "json"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "NqsN67"
+          },
+          "condition": "dialog.areasInfo.content.result.id ==0 || dialog.areasInfo.content.result.id ==null",
+          "actions": [
+            {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "v0irT4"
+              },
+              "activity": "${SendActivity_v0irT4()}"
+            },
+            {
+              "$kind": "Microsoft.RepeatDialog",
+              "$designer": {
+                "id": "zWTyCD"
+              },
+              "activityProcessed": true
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "YtZx4U"
+          },
+          "condition": "conversation.local",
+          "cases": [
+            {
+              "value": "ar",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "dzq8me"
+                  },
+                  "property": "dialog.resultlocationName",
+                  "value": "=dialog.areasInfo.content.result.areaName"
+                }
+              ]
+            },
+            {
+              "value": "en",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "DPyAgl"
+                  },
+                  "property": "dialog.resultlocationName",
+                  "value": "=dialog.areasInfo.content.result.areaNameEnglish"
+                }
+              ]
+            }
+          ],
+          "default": [
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "P3xC0w"
+              },
+              "property": "dialog.resultlocationName",
+              "value": "=dialog.areasInfo.content.result.areaName"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "KQgmne"
+          },
+          "activity": "${SendActivity_KQgmne()}"
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "SWbBzC"
+          }
+        }
+      ]
+    }
+  ],
+  "generator": "Bustami_SahebLocationsDialog.lg",
+  "recognizer": "Bustami_SahebLocationsDialog.lu.qna",
+  "id": "Bustami_SahebLocationsDialog"
+}

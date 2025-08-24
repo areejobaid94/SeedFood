@@ -1,0 +1,91 @@
+﻿<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+    aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">
+                    <span>{{l("addOns")}}</span>
+                </h4>
+                <button *ngIf="theme !== 'theme12'" type="button" class="close" (click)="close()" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <button *ngIf="theme === 'theme12'" type="button" class="btn-close" data-bs-dismiss="modal"
+                    aria-label="Close" (click)="close()" aria-label="Close"></button>
+
+            </div>
+            <div class="card card-custom gutter-b">
+                <div class="card-body">
+
+                    <div class=" align-items-center">
+                        <div class="primeng-datatable-container" [busyIf]="primengTableHelper.isLoading">
+                            <p-table #dataTable (onLazyLoad)="getAdditions($event)" [value]="primengTableHelper.records"
+                                [paginator]="false" [lazy]="true"
+                                rows="20" cols="10" [scrollable]="true"
+                                ScrollWidth="100%" [responsive]="primengTableHelper.isResponsive"
+                                [resizableColumns]="primengTableHelper.resizableColumns">
+                                <ng-template pTemplate="header">
+                                    <tr>
+                                        <th style="width: 130px">{{l('Actions')}}</th>
+                                        <th style="width: 150px" pSortableColumn="name">
+                                            {{l('nameAr')}}
+                                            <p-sortIcon field="name"></p-sortIcon>
+                                        </th>
+                                        <th style="width: 150px" pSortableColumn="nameEnglish">
+                                            {{l('nameEn')}}
+                                            <p-sortIcon field="nameEnglish"></p-sortIcon>
+                                        </th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-record="$implicit">
+                                    <tr>
+                                        <td style="width: 130px">
+                                            <div class="btn-group dropdown" normalizePosition>
+                                                <button *ngIf="theme != 'theme12'" class="btn btn-sm btn-primary"
+                                                    type="button" (click)="setAndSave(record)">
+                                                    {{l("Select")}}
+                                                </button>
+                                                <button *ngIf="theme === 'theme12'" class="btn btn-sm btn-primary-info"
+                                                    type="button" (click)="setAndSave(record)">
+                                                    {{l("Select")}}
+                                                </button>
+                                            </div>
+                                        </td>
+                                        <td style="width:150px">
+                                            <span class="p-column-title"> {{l('Name')}}</span>
+                                            {{record.categoryName}}
+                                        </td>
+                                        <td style="width:150px">
+                                            <span class="p-column-title"> {{l('Name English')}}</span>
+                                            {{record.categoryNameEnglish}}
+                                        </td>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+                            <div class="primeng-no-data" *ngIf="primengTableHelper.totalRecordsCount == 0">
+                                {{l('NoData')}}
+                            </div>
+                            <div class="primeng-paging-container">
+                                <p-paginator [rows]="20" #paginator
+                                    (onPageChange)="getAdditions($event)"
+                                    [totalRecords]="primengTableHelper.totalRecordsCount"
+                                    [rowsPerPageOptions]="[10,20,30]">
+                                </p-paginator>
+                                <span class="total-records-count">
+                                    {{l('TotalRecordsCount', primengTableHelper.totalRecordsCount)}}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button *ngIf="theme != 'theme12'" [disabled]="saving" type="button" class="btn btn-primary blue"
+                    (click)="close()">{{l("Close")}}</button>
+                <button *ngIf="theme === 'theme12'" [disabled]="saving" type="button" class="btn btn-primary-info "
+                    (click)="close()">{{l("Close")}}</button>
+
+            </div>
+        </div>
+    </div>
+</div>

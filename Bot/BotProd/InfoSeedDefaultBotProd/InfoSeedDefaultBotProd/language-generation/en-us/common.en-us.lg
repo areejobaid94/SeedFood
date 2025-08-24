@@ -1,0 +1,419 @@
+> To learn more about the LG file format, read the documentation at
+> https://aka.ms/lg-file-format 
+#ButtonAndImageList(Text,List,Image)
+- ``` 
+{
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "version": "1.0",
+    "type": "AdaptiveCard",
+    "body": [
+          {
+            "type": "TextBlock",
+            "text": "${Text}"
+        },
+        {
+            "type": "Input.ChoiceSet",
+            "choices": [
+                ${join(getChoiceAndImageList(List,Image),',')}
+                               
+            ],
+            "placeholder": "",
+            "id": "InputAdultos"
+        }
+    ]
+}
+ ```
+# getChoiceAndImageList(adaptiveCardAccounts,Image)
+- ${foreach(adaptiveCardAccounts, x, getAndImageChoice(x,Image))}
+
+ #getAndImageChoice(listC,Image)
+- ``` 
+ {
+     "title": "${listC}",
+     "value": "${listC}",
+     "image":"${Image}"
+ }
+ ```
+#ButtonList(Text,List)
+- ``` 
+{
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "version": "1.0",
+    "type": "AdaptiveCard",
+    "body": [
+          {
+            "type": "TextBlock",
+            "text": "${Text}"
+        },
+        {
+            "type": "Input.ChoiceSet",
+            "choices": [
+                ${join(getChoiceList(List),',')}
+                               
+            ],
+            "placeholder": "",
+            "id": "InputAdultos"
+        }
+    ]
+}
+ ```
+# getChoiceList(adaptiveCardAccounts)
+- ${foreach(adaptiveCardAccounts, x, getChoice(x))}
+
+ #getChoice(listC)
+- ``` 
+ {
+     "title": "${listC}",
+     "value": "${listC} "
+ }
+ ```
+
+ #dropList(Text,Opction1,Opction2,Opction3,Opction4)
+
+- ``` 
+
+{
+
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+
+    "version": "1.0",
+
+    "type": "AdaptiveCard",
+
+    "body": [
+
+          {
+
+            "type": "TextBlock",
+
+            "text": "${Text}"
+
+        },
+
+        {
+
+            "type": "Input.ChoiceSet",
+
+            "choices": [
+
+                    {
+
+                       "title": "${Opction1}",
+
+                       "value": "${Opction1}"
+
+                    },
+
+                     {
+
+                       "title": "${Opction2}",
+
+                       "value": "${Opction2}"
+
+                    },
+
+                     {
+
+                       "title": "${Opction3}",
+
+                       "value": "${Opction3}"
+
+                    },
+
+                      {
+
+                       "title": "${Opction4}",
+
+                       "value": "${Opction4}"
+
+                    }                                                        
+
+                               
+
+            ],
+
+            "placeholder": "",
+
+            "id": "InputAdultos"
+
+        }
+
+    ]
+
+}
+
+ ```
+ #dropList5(Text,Opction1,Opction2,Opction3,Opction4,Opction5)
+
+- ``` 
+
+{
+
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+
+    "version": "1.0",
+
+    "type": "AdaptiveCard",
+
+    "body": [
+
+          {
+
+            "type": "TextBlock",
+
+            "text": "${Text}"
+
+        },
+
+        {
+
+            "type": "Input.ChoiceSet",
+
+            "choices": [
+
+                    {
+
+                       "title": "${Opction1}",
+
+                       "value": "${Opction1}"
+
+                    },
+
+                     {
+
+                       "title": "${Opction2}",
+
+                       "value": "${Opction2}"
+
+                    },
+
+                     {
+
+                       "title": "${Opction3}",
+
+                       "value": "${Opction3}"
+
+                    },
+
+                      {
+
+                       "title": "${Opction4}",
+
+                       "value": "${Opction4}"
+
+                    }  ,
+
+                     {
+
+                       "title": "${Opction5}",
+
+                       "value": "${Opction5}"
+
+                    }                                                      
+
+                               
+
+            ],
+
+            "placeholder": "",
+
+            "id": "InputAdultos"
+
+        }
+
+    ]
+
+}
+
+ ```
+ #dropList6(Text,Opction1,Opction2,Opction3,Opction4,Opction5,Opction6)
+
+- ``` 
+
+{
+
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+
+    "version": "1.0",
+
+    "type": "AdaptiveCard",
+
+    "body": [
+
+          {
+
+            "type": "TextBlock",
+
+            "text": "${Text}"
+
+        },
+
+        {
+
+            "type": "Input.ChoiceSet",
+
+            "choices": [
+
+                    {
+
+                       "title": "${Opction1}",
+
+                       "value": "${Opction1}"
+
+                    },
+
+                     {
+
+                       "title": "${Opction2}",
+
+                       "value": "${Opction2}"
+
+                    },
+
+                     {
+
+                       "title": "${Opction3}",
+
+                       "value": "${Opction3}"
+
+                    },
+
+                      {
+
+                       "title": "${Opction4}",
+
+                       "value": "${Opction4}"
+
+                    }  ,
+
+                     {
+
+                       "title": "${Opction5}",
+
+                       "value": "${Opction5}"
+
+                    }   ,
+
+                     {
+
+                       "title": "${Opction6}",
+
+                       "value": "${Opction6}"
+
+                    }                                                        
+
+                               
+
+            ],
+
+            "placeholder": "",
+
+            "id": "InputAdultos"
+
+        }
+
+    ]
+
+}
+
+ ```
+
+ #ButtonList2(Text,List)
+- ``` 
+{
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "version": "1.0",
+    "type": "AdaptiveCard",
+    "body": [
+          {
+            "type": "TextBlock",
+            "text": "${Text}"
+        },
+        {
+            "type": "Input.ChoiceSet",
+            "choices": [
+                ${join(getChoiceList2(List),',')}
+                               
+            ],
+            "placeholder": "",
+            "id": "InputAdultos"
+        }
+    ]
+}
+ ```
+# getChoiceList2(adaptiveCardAccounts)
+- ${foreach(adaptiveCardAccounts, x, getChoice2(x))}
+
+ #getChoice2(listC)
+- ``` 
+ {
+     "title": "${listC.value}",
+     "value": "${listC.value}"
+ }
+ ```
+ #BookingTimeList(Text,List)
+- ``` 
+{
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "version": "1.0",
+    "type": "AdaptiveCard",
+    "body": [
+          {
+            "type": "TextBlock",
+            "text": "${Text}"
+        },
+        {
+            "type": "Input.ChoiceSet",
+            "choices": [
+                ${join(getChoiceBookingTimeList(List),',')}
+                               
+            ],
+            "placeholder": "",
+            "id": "InputAdultos"
+        }
+    ]
+}
+ ```
+# getChoiceBookingTimeList(adaptiveCardAccounts)
+- ${foreach(adaptiveCardAccounts, x, getBookingTimeChoice(x))}
+
+ #getBookingTimeChoice(listC)
+- ``` 
+ {
+     "title": "${listC.contactBookingTime}",
+     "value": "${listC.id} "
+ }
+ ```
+#BookingDateList(Text,List)
+- ``` 
+{
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "version": "1.0",
+    "type": "AdaptiveCard",
+    "body": [
+          {
+            "type": "TextBlock",
+            "text": "${Text}"
+        },
+        {
+            "type": "Input.ChoiceSet",
+            "choices": [
+                ${join(getChoiceBookingDateList(List),',')}
+                               
+            ],
+            "placeholder": "",
+            "id": "InputAdultos"
+        }
+    ]
+}
+ ```
+# getChoiceBookingDateList(adaptiveCardAccounts)
+- ${foreach(adaptiveCardAccounts, x, getBookingDateChoice(x))}
+
+ #getBookingDateChoice(listC)
+- ``` 
+ {
+     "title": "${listC.key}",
+     "value": "${listC.value}"
+ }
+ ```

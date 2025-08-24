@@ -1,0 +1,63 @@
+{  
+  "remoteServiceBaseUrl": "https://teaminboxapi-qa.azurewebsites.net",
+  "appBaseUrl": "https://teaminbox-qa.azurewebsites.net",
+  "teamInboxUrl": "https://teaminboxapi-qa.azurewebsites.net", 
+
+  "localeMappings": {
+    "angular": [
+
+      {    
+        "from": "ar",
+        "to": "en"
+    },
+      {
+        "from": "pt-BR",
+        "to": "pt"
+      },
+      {
+        "from": "zh-CN",
+        "to": "zh"
+      },
+      {
+        "from": "he-IL",
+        "to": "he"
+      },
+      {
+        "from": "es-MX",
+        "to": "es"
+      },
+      {
+        "from": "vi",
+        "to": "en"
+      }
+    ],
+    "moment": [
+      {    
+        "from": "ar",
+        "to": "en"
+    },
+      {
+        "from": "es-MX",
+        "to": "es"
+      },
+      {
+        "from": "zh-Hans",
+        "to": "zh-cn"
+      },
+      {
+        "from": "vi",
+        "to": "en-gb"
+      }
+    ],
+    "recaptcha": [
+      {
+        "from": "zh-Hans",
+        "to": "zh-cn"
+      },
+      {
+        "from": "es-MX",
+        "to": "es"
+      }
+    ]
+  }
+}

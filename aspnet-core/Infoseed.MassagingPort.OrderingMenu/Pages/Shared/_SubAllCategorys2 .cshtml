@@ -1,0 +1,18 @@
+﻿@model List<Infoseed.MassagingPort.OrderingMenu.Pages.Model.OrderingMenuSubCategoryModel>
+@{
+}
+   @if (@Model != null)
+    {
+        @foreach (var objsubcategory in Model)
+        {
+        <div class="my-2 @objsubcategory.ItemCategoryId  div-subcategory-item col-md-4  padding-inlineAllSubCat" style=""
+         data-pageNumber="0" data-subname="@objsubcategory.SubCategoryName" data-id="@objsubcategory.ItemSubCategoryId"
+         id="div-subcategory_@objsubcategory.ItemSubCategoryId" onclick="SubCateItem('@objsubcategory.ItemSubCategoryId',true)">
+            <div class="d-flex align-items-center flex-column main-cat-item div-All-Subcategory-item " >
+                <button type="button" class="btn btn-light  btn-filter d-flex align-items-center flex-column " data-target="all" style="border-radius:6px;">
+                        @objsubcategory.SubCategoryName
+                    </button>
+                </div>
+            </div>
+        }
+    }

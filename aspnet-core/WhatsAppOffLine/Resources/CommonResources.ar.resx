@@ -1,0 +1,318 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Add" xml:space="preserve">
+    <value>اضافه</value>
+  </data>
+  <data name="Add a Note" xml:space="preserve">
+    <value>اضافة ملاحظه</value>
+  </data>
+  <data name="Add to Cart" xml:space="preserve">
+    <value>اضافة للسلة</value>
+  </data>
+  <data name="addition" xml:space="preserve">
+    <value>اضافات</value>
+  </data>
+  <data name="addtocart" xml:space="preserve">
+    <value>اضافة الى السلة</value>
+  </data>
+  <data name="atmost" xml:space="preserve">
+    <value>على الاكثر </value>
+  </data>
+  <data name="availablity" xml:space="preserve">
+    <value>غير متاح</value>
+  </data>
+  <data name="backtohome" xml:space="preserve">
+    <value>العودة الى الرئيسية</value>
+  </data>
+  <data name="backwhatsapp" xml:space="preserve">
+    <value>يرجى العودة الي الواتس آب لاتمام طلبك</value>
+  </data>
+  <data name="Basket" xml:space="preserve">
+    <value>سلة المشتريات</value>
+  </data>
+  <data name="cart" xml:space="preserve">
+    <value>السلة</value>
+  </data>
+  <data name="close" xml:space="preserve">
+    <value>اغلاق</value>
+  </data>
+  <data name="confirm" xml:space="preserve">
+    <value>تأكيد </value>
+  </data>
+  <data name="confirmreorder" xml:space="preserve">
+    <value>سيتم حذف محتويات السلة في حال التاكيد</value>
+  </data>
+  <data name="Count" xml:space="preserve">
+    <value>العدد</value>
+  </data>
+  <data name="creditPoint" xml:space="preserve">
+    <value>سيتم إضافة </value>
+  </data>
+  <data name="Days" xml:space="preserve">
+    <value>يوم</value>
+  </data>
+  <data name="delete" xml:space="preserve">
+    <value>تأكيد الحذف؟</value>
+  </data>
+  <data name="Delivery" xml:space="preserve">
+    <value>توصيل</value>
+  </data>
+  <data name="Details" xml:space="preserve">
+    <value>اكمل طلبك</value>
+  </data>
+  <data name="EarningDate" xml:space="preserve">
+    <value>تاريخ الكسب</value>
+  </data>
+  <data name="faild" xml:space="preserve">
+    <value>!! فشل في ارسال الطلب</value>
+  </data>
+  <data name="Free" xml:space="preserve">
+    <value>Free</value>
+  </data>
+  <data name="home" xml:space="preserve">
+    <value>الرئيسية</value>
+  </data>
+  <data name="InvoiceDetails" xml:space="preserve">
+    <value>تفاصيل الفاتورة</value>
+  </data>
+  <data name="item" xml:space="preserve">
+    <value>عنصر</value>
+  </data>
+  <data name="loyalty-ShopStore" xml:space="preserve">
+    <value>متجر الولاء</value>
+  </data>
+  <data name="maxDiscount" xml:space="preserve">
+    <value>الخصم (الأعلى خصم)</value>
+  </data>
+  <data name="MaxOption" xml:space="preserve">
+    <value>كحد أقصى</value>
+  </data>
+  <data name="maxprice" xml:space="preserve">
+    <value>السعر (الأعلى سعر)</value>
+  </data>
+  <data name="minDiscount" xml:space="preserve">
+    <value>الخصم (الأقل خصم)</value>
+  </data>
+  <data name="minprice" xml:space="preserve">
+    <value>السعر (الأقل سعر )</value>
+  </data>
+  <data name="MyNotes" xml:space="preserve">
+    <value>ملاحظاتي</value>
+  </data>
+  <data name="myOrders" xml:space="preserve">
+    <value>طلباتي</value>
+  </data>
+  <data name="MyPoints" xml:space="preserve">
+    <value>نقاطي</value>
+  </data>
+  <data name="NoPoint" xml:space="preserve">
+    <value>لا يوجد لديك نقاط كافية</value>
+  </data>
+  <data name="Note" xml:space="preserve">
+    <value>لإضافة أي ملاحظات إلى الطلب</value>
+  </data>
+  <data name="off" xml:space="preserve">
+    <value>خصم</value>
+  </data>
+  <data name="Order" xml:space="preserve">
+    <value>طلب</value>
+  </data>
+  <data name="OrderNow" xml:space="preserve">
+    <value>اطلب الان</value>
+  </data>
+  <data name="OrdersArchive" xml:space="preserve">
+    <value>ارشيف الطلبات</value>
+  </data>
+  <data name="PleaseCheck" xml:space="preserve">
+    <value>الرجاء الاختيار</value>
+  </data>
+  <data name="point" xml:space="preserve">
+    <value>نقطة</value>
+  </data>
+  <data name="Qty" xml:space="preserve">
+    <value>الكمية</value>
+  </data>
+  <data name="RemainingDays" xml:space="preserve">
+    <value>الأيام المتبقية (انتهاء الصلاحية)</value>
+  </data>
+  <data name="reorder" xml:space="preserve">
+    <value>هل تريد اعادة الطلب؟</value>
+  </data>
+  <data name="required" xml:space="preserve">
+    <value>مطلوب</value>
+  </data>
+  <data name="RotateDeviceOne" xml:space="preserve">
+    <value>يرجى تدوير جهازك</value>
+  </data>
+  <data name="RotateDeviceTow" xml:space="preserve">
+    <value>من الأفضل مشاهدة هذا العرض في الوضع الرأسي</value>
+  </data>
+  <data name="search" xml:space="preserve">
+    <value>اكتب شيء للبحث</value>
+  </data>
+  <data name="storeName" xml:space="preserve">
+    <value>نقاطي</value>
+  </data>
+  <data name="submit" xml:space="preserve">
+    <value>تأكيد و ارسال طلب</value>
+  </data>
+  <data name="success" xml:space="preserve">
+    <value>تم إرسال تفاصيل الطلب لك , يرجى اكمال طلبك عبر وتساب</value>
+  </data>
+  <data name="Takeaway" xml:space="preserve">
+    <value>استلام</value>
+  </data>
+  <data name="The number of my points" xml:space="preserve">
+    <value>عدد نقاطي</value>
+  </data>
+  <data name="TotalCreditPoints" xml:space="preserve">
+    <value>النقاط المكتسبة</value>
+  </data>
+  <data name="TotalLoyaltyPoints" xml:space="preserve">
+    <value>النقاط المدفوعة</value>
+  </data>
+  <data name="TotalPoint" xml:space="preserve">
+    <value>مجموع النقاط</value>
+  </data>
+  <data name="TotalPrice" xml:space="preserve">
+    <value>السعر شامل الضريبة</value>
+  </data>
+  <data name="tryagain" xml:space="preserve">
+    <value>يرجى المحاولة مرة أُخرى</value>
+  </data>
+  <data name="Unavailable" xml:space="preserve">
+    <value>غير متوفر حاليا</value>
+  </data>
+  <data name="View all ratings" xml:space="preserve">
+    <value>مشاهدة جميع التصنيفات</value>
+  </data>
+  <data name="view-Basket" xml:space="preserve">
+    <value>اطلع على سلّتك</value>
+  </data>
+  <data name="viewCart" xml:space="preserve">
+    <value>عرض السلة</value>
+  </data>
+  <data name="whatsapp" xml:space="preserve">
+    <value>العودة الى الواتس آب</value>
+  </data>
+  <data name="yourpoint" xml:space="preserve">
+    <value>نقاطك المتبقية:</value>
+  </data>
+</root>

@@ -1,0 +1,68 @@
+﻿@model List<Infoseed.MassagingPort.OrderingMenu.Pages.Model.OrderingMenuSubCategoryModel>
+@{
+}
+
+@if (@Model != null)
+{
+    <div class="slider-container" style="background-color:#dadada00;">
+        @*slider*@
+        <ul class="filter-slide  owl-carousel bordar" style="list-style: none;margin: 0px;padding:0px;">
+            @foreach (var objsubcategory in @Model)
+            {
+                    <li class="@objsubcategory.ItemCategoryId  div-subcategory-item" 
+                    data-pageNumber="0" data-subname="@objsubcategory.SubCategoryName" data-id="@objsubcategory.ItemSubCategoryId" 
+                    id="div-subcategory_@objsubcategory.ItemSubCategoryId" onclick="SubCateItem('@objsubcategory.ItemSubCategoryId',true)"
+                    >
+                    @if (@Model.Count > 1)
+                    {
+                        <div class="d-flex align-items-center flex-column main-cat-item" style="background-color: var(--white); ">
+                            <button type="button" class="btn btn-light active btn-filter d-flex align-items-center flex-column SameLine" data-target="all" style="background-color: #fff;border-color: #fff; ">
+                                @objsubcategory.SubCategoryName
+                            </button>
+                        </div>
+                    }else
+                    {
+                        <div class="d-flex align-items-center flex-column main-cat-item" style="background-color: var(--white); width: max-content;">
+                            <button type="button" class="btn btn-light active btn-filter d-flex align-items-center flex-column SameLineForSinglItem" data-target="all" style="background-color: #fff;border-color: #fff; ">
+                                @objsubcategory.SubCategoryName
+                            </button>
+                        </div>
+                    }
+                </li>
+            }   
+        </ul>
+    </div>
+}
+
+
+
+
+@*<ul class="filter-slide owl-carousel show">
+    @foreach (var objsubcategory in @Model)
+    {
+        <li class="@objsubcategory.ItemCategoryId  div-subcategory-item" data-pageNumber="0" data-subname="@objsubcategory.SubCategoryName" data-id="@objsubcategory.ItemSubCategoryId" id="div-subcategory_@objsubcategory.ItemSubCategoryId" onclick="SubCateItem('@objsubcategory.ItemSubCategoryId',true)">
+           
+        <button type="button" class="btn btn-light active btn-filter" data-target="all">
+                @objsubcategory.SubCategoryName
+            </button>
+        </li>
+    
+       }
+</ul>
+
+    <div class="slider-container" style="background-color:#dadada00;">
+        <ul class="slider owl-carousel" style="list-style: none;margin: 0px;padding:0px;">
+        @foreach (var objsubcategory in @Model)
+        {
+            <li class="@objsubcategory.ItemCategoryId  div-subcategory-item" data-pageNumber="0" data-subname="@objsubcategory.SubCategoryName" data-id="@objsubcategory.ItemSubCategoryId" id="div-subcategory_@objsubcategory.ItemSubCategoryId" onclick="SubCateItem('@objsubcategory.ItemSubCategoryId',true)">
+                    <div class="d-flex align-items-center flex-column main-cat-item" style="background-color: var(--white);
+">
+                        <button type="button" class="btn btn-light active btn-filter d-flex align-items-center flex-column" data-target="all" style="background-color: #fff;border-color: #fff; ">
+                           @objsubcategory.SubCategoryName
+                        </button>
+                    </div>
+                </li>
+        }
+        </ul>
+    </div>
+*@

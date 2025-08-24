@@ -1,0 +1,290 @@
+﻿@page
+
+
+
+
+@using Microsoft.AspNetCore.Localization
+@model IndexModel
+
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@{
+    var isdefualt = false; 
+}
+@Html.HiddenFor(Model=>Model.Lang)
+@Html.HiddenFor(Model=>Model.TenantID)
+@Html.HiddenFor(Model=>Model.ContactId)
+@Html.HiddenFor(Model=>Model.AreaId)
+@Html.HiddenFor(Model=>Model.CurrencyCode)
+@Html.HiddenFor(Model=>Model.IsLoyalty)
+@Html.HiddenFor(Model=>Model.Key)
+
+<section class=" bg-white border-bottom sticky-top shadow  p-1 pb-2" id="sec"  data-model="@Newtonsoft.Json.JsonConvert.SerializeObject(Model.OrderingMenuTenantModel)" >
+    <div class="swiper mySwiper p-2">
+        <div class="swiper-wrapper " id="myBtnContainer">
+            @if (Model.listOrderingMenuMenuModel != null)
+            {
+                foreach (var menu in @Model.listOrderingMenuMenuModel)
+                {
+                    foreach (var item in menu.lstOrderingMenuCategoryModel)
+                    {
+
+                        <div class="swiper-slide div-category-item" id="s_@item.CategoryId" data-id="@item.CategoryId" data-subcategory="@Newtonsoft.Json.JsonConvert.SerializeObject(item.lstOrderingMenuSubCategoryModel)">
+                            <div class="item">
+                                <div class="category-item p-0 " id="cat_@item.CategoryId" data-id="@item.CategoryId">
+                                    <img>
+                                    <h6>@item.CategoryName</h6>
+
+
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+
+            }
+            else
+            {
+
+                @if (Model.lstOrderingMenuCategoryModel != null)
+                {
+                    foreach (var item in Model.lstOrderingMenuCategoryModel)
+                    {
+
+                        <div class="swiper-slide" id="s_@item.CategoryId" data-id="@item.CategoryId" onclick="goto('@item.CategoryId')">
+                            <div class="item">
+                                <div class="category-item p-0" id="cat_@item.CategoryId" data-id="@item.CategoryId">
+                                    <img>
+
+                                    <h6>@item.CategoryName</h6>
+
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+
+            }
+
+        </div>
+
+    </div>
+
+
+
+    @if (Model.listOrderingMenuMenuModel != null)
+    {
+
+        <div class="p-1">
+            <div class=" bg-white border-bottom sticky-top shadow  p-2 divSubcategorys dirc" id="divSubcategorys">
+
+           
+                    @foreach (var menu in @Model.listOrderingMenuMenuModel)
+                        {
+                       
+                          @foreach (var objItemCate in @menu.lstOrderingMenuCategoryModel)
+                           {
+
+
+                            @if (@isdefualt == false )
+                            {
+                                @Html.Partial("~/Pages/Shared/_SubCategorys.cshtml", @objItemCate.lstOrderingMenuSubCategoryModel)
+                                isdefualt = true;
+                            }
+                         
+                            break;
+                            
+                        }
+
+                    }
+
+
+            </div>
+
+
+                </div>
+ 
+
+     
+    }
+
+
+   
+
+    @if (Model.TenantID == 34)
+    {
+        <div class="shop-head float-">
+            <div class="btn-group col-12">
+                <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="mdi mdi-filter"></i>&nbsp;
+                </button>
+                <div class="dropdown-menu dropdown-menu-right">
+                    <a class="dropdown-item" onclick="filtering(5)">...</a>
+                    <a class="dropdown-item" onclick="filtering(1)">@localizer.Get("minprice") </a>
+                    <a class="dropdown-item" onclick="filtering(2)">@localizer.Get("maxprice")  </a>
+                    <a class="dropdown-item" onclick="filtering(3)">@localizer.Get("minDiscount") </a>
+                    <a class="dropdown-item" onclick="filtering(4)">@localizer.Get("maxDiscount") </a>
+
+
+                </div>
+            </div>
+        </div>
+        <br />
+
+    }
+</section>
+@if (Model.lstOrderingMenuCategoryModel != null)
+{
+
+    foreach (var itemCate in Model.lstOrderingMenuCategoryModel)
+    {
+        <section class="shadow   p-1 pt-3 " id="myDIV">
+            <input id="catid" type="hidden" value="@itemCate.CategoryId" />
+            <h6 class="float pt-2 nn" id='@itemCate.CategoryId'>@itemCate.CategoryName</h6>
+            <br>
+            <hr class="mt-1">
+            <div class=" dirc p-0">
+                <div class="row m-0  ">
+                    @if (itemCate.lstOrderingMenuItemModel != null)
+                    {
+                        @foreach (var item in itemCate.lstOrderingMenuItemModel)
+                        {
+                            <div class=" col-12 col-xl-6 col-lg-6 mb-2 p-1" id="myDIV">
+                                <div class="product pb-0  m-0  d-flex @Html.Raw(item.HasOption && item.IsInService?"btn-product-detials": "")" data-id="@item.Id" id="product">
+                                    <div class="product-header p-1 col-3 col-lg-4 col-xl-4 @Html.Raw(item.IsInService? "": "availablity")">
+                                        @if (@item.Discount != null && @item.Discount != "")
+                                        {
+                                            <span class="badge badge-success">@item.Discount% @localizer.Get("off")</span>
+                                        }
+                                        else
+                                        {
+                                            <span></span>
+                                        }
+                                        @if (@item.ImageUri != null && @item.ImageUri != "")
+                                        {
+                                            <img class="img-fluid " src="@item.ImageUri" alt="">
+                                        }
+                                        else
+                                        {
+                                            <img class="img-fluid " src="img/404.png" alt="">
+                                        }
+                                        <hr class="m-0">
+                                    </div>
+                                    <div class="product-body col-9 col-lg-8 col-xl-8 p-1  @Html.Raw(item.IsInService? "": "availablity")  ">
+                                        <blockquote class="blockquote float respon pt-2">
+                                            <h5> <strong>@item.ItemName</strong> </h5>
+                                            @if (item.ItemDescription != "")
+                                            {
+
+                                                <footer class="blockquote-footer turncate">@item.ItemDescription  </footer>
+                                            }
+                                        </blockquote>
+                                        <div class="product-footer ">
+                                            <div class=" d-flex col-12 p-0" data-id="@item.Id">
+                                                @if (item.IsInService)
+                                                {
+                                                    <div class="col-7 text-center p-0 mt-1">
+
+                                                        <p asp-action="AddToCart(@item)" class="mb-0">
+                                                            @if (item.OldPrice != null)
+                                                            {
+                                                                <span class="regular-price"><i class="mdi mdi-tag-outline"></i> @item.OldPrice </span>
+                                                            }
+                                                            <span class="text-success offer-price "><strong id="stItemPrice"> @item.Price <span class="currencyCode"></span></strong> </span>
+                                                        </p>
+                                                    </div>
+                                                    @if (@item.HasOption)
+                                                    {
+                                                        //<button class="btn btn-secondary float btn-lg col-12 "> <span class="float- offer-price font"><strong id="stItemPrice"> @item.Price</strong></span><span class="regular-price font float- pl-1 pr-1"><i class="mdi mdi-tag-outline"></i> @item.OldPrice</span><i class="mdi mdi-cart float"></i></button>
+                                                        //<button onclick="addToCartdirc(@item.Id)" class="btn btn-secondary float btn-lg col-12 "> <span class="float- offer-price font"><strong id="stItemPrice"> @item.Price</strong></span><span class="regular-price font float- pl-1 pr-1"><i class="mdi mdi-tag-outline"></i> @item.OldPrice</span><i class="mdi mdi-cart float"></i></button>
+                                                        <div class="float p-0 col-6 ">
+                                                        </div>
+                                                    }
+                                                    else
+                                                    {
+                                                        <div class="float p-0 col-5 ">
+                                                            <div class=" flex btn p-0 col-12  ">
+                                                                <button class="btn minus col-4 col-md-2 col-lg-3 col-xl-3  btnAddToCart-withoutDetails">-</button>
+
+                                                                <input class="input col-4 p-0 m-0 hdItemQtyAddtional  btnAddToCart-withoutDetails qty_@item.Id" type="text" data-id="@item.Id" data-name="@item.ItemName" data-price="@item.Price" data-nameen="@item.ItemNameEnglish" data-namear="@item.ItemNameArabic" data-discount="@item.Discount" data-itemImageUrl="@item.ImageUri" value="0">
+
+                                                                <button class="btn plus col-4  col-md-2 col-lg-3 col-xl-3 btnAddToCart-withoutDetails">+</button>
+                                                            </div>
+                                                        </div>
+                                                    }
+
+
+
+
+
+
+
+
+                                                }
+                                                else
+                                                {//<button class="btn btn-secondary btn-sm col-12" asp-action="AddToCart(@item)" disabled> <i class="mdi mdi-cart-outline"></i> Not Available</button>
+                                                    <div class="d-flex col-12 p-0">
+                                                        <div class="col-6 text-center p-0 mt-1">
+
+                                                            <p asp-action="AddToCart(@item)" class="mb-0"><span class="regular-price  "><i class="mdi mdi-tag-outline"></i> @item.OldPrice </span><span class="text-success offer-price "><strong id="stItemPrice"> @item.Price</strong> <strong class="currencyCode"></strong> </span> </p>
+                                                        </div>
+                                                        <div class="float p-0 col-6 ">
+
+                                                            <p>@localizer.Get("availablity")</p>
+                                                        </div>
+                                                    </div>
+                                                }
+
+
+                                            </div>
+                                        </div>
+
+
+
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+
+                        }
+                    }
+                </div>
+            </div>
+        </section>
+    }
+}
+else
+{
+
+ <div id="divSubItem"></div>
+
+
+
+
+
+}
+
+<div class="modal fade " id="md-productDetails">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+
+            <div class="modal-body container p-1">
+
+
+                <button type="button" class="close close-top-right" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"><i class="mdi mdi-close"></i></span>
+                    <span class="sr-only">@localizer.Get("close")</span>
+                </button>
+                <div id="divProductDetails">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+

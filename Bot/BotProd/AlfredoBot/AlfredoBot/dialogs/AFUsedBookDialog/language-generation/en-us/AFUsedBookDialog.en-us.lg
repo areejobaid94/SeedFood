@@ -1,0 +1,67 @@
+[import](common.lg)
+
+# TextInput_Prompt_mszRz3()
+[Activity
+    Attachments = ${json(ButtonList(conversation.InputHint,dialog.UsedBookList))}
+    InputHint=${conversation.InputHint}
+    Summary=${conversation.Summary}
+]
+# TextInput_Prompt_0Xu1pA()
+[Activity
+    Attachments = ${json(ButtonList(dialog.SchoolGradeCaption,dialog.SchoolGradeList))}
+    InputHint=منطقتك
+    Summary=${conversation.Summary}
+]
+# TextInput_Prompt_2sC6Jm()
+[Activity
+    Attachments = ${json(ButtonList(dialog.HintForBack,dialog.LastUsedBookList))}
+    InputHint=منطقتك
+    Summary=${conversation.Summary}
+]
+# SendActivity_YEKgLB()
+[Activity
+    Text = ${SendActivity_YEKgLB_text()}
+]
+
+# SendActivity_YEKgLB_text()
+- ${dialog.viaWebsiteCaption}
+# SendActivity_4ZlyPB_text()
+- ${dialog.viaWebsiteCaption}
+# SendActivity_4ZlyPB()
+[Activity
+    Text = ${SendActivity_4ZlyPB_text()}
+]
+
+# AttachmentInput_Prompt_qU65WJ()
+[Activity
+    Text = ${AttachmentInput_Prompt_qU65WJ_text()}
+]
+
+# AttachmentInput_Prompt_qU65WJ_text()
+- ${dialog.PhotoCaption}
+# AttachmentInput_Prompt_aMPOfU_text()
+- ${dialog.PhotoCaption}
+# AttachmentInput_Prompt_aMPOfU()
+[Activity
+    Text = ${AttachmentInput_Prompt_aMPOfU_text()}
+]
+
+# TextInput_Prompt_Vk9Gpn()
+[Activity
+    Attachments = ${json(ButtonList(dialog.SchoolNameCaption,dialog.SchoolNameList))}
+    InputHint=منطقتك
+    Summary=${conversation.Summary}
+]
+# SendActivity_L3tRUV()
+[Activity
+    Text = ${SendActivity_L3tRUV_text()}
+]
+
+# SendActivity_L3tRUV_text()
+- ${dialog.AttachmentCaption}
+# SendActivity_A3hNdd_text()
+- ${dialog.AttachmentCaption}
+# SendActivity_A3hNdd()
+[Activity
+    Text = ${SendActivity_A3hNdd_text()}
+]

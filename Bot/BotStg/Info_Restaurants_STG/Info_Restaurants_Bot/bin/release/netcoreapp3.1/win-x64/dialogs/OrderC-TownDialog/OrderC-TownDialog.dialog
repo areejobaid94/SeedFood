@@ -1,0 +1,337 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "G2HxNz",
+    "name": "OrderC-TownDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "pf0JCz"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "R8xwPP"
+          },
+          "property": "conversation.FeedBackTextThanks",
+          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 8)).text"
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "qucXsy"
+          },
+          "condition": "conversation.local",
+          "cases": [
+            {
+              "value": "ar",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "c6McJM"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.text",
+                      "value": "الرجاء الاختيار"
+                    },
+                    {
+                      "property": "dialog.op1",
+                      "value": "من تطبيق C-town"
+                    },
+                    {
+                      "property": "dialog.op2",
+                      "value": "من خلال واتس اب"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "en",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "NPBFjQ"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.text",
+                      "value": "Please choose"
+                    },
+                    {
+                      "property": "dialog.op1",
+                      "value": "From C-town app"
+                    },
+                    {
+                      "property": "dialog.op2",
+                      "value": "Through Whatsapp"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "reVJjt"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "prompt": "${TextInput_Prompt_reVJjt()}",
+          "unrecognizedPrompt": "",
+          "invalidPrompt": "",
+          "property": "dialog.userselect",
+          "validations": [
+            "=contains(this.value, 'من تطبيق C-town') ||contains(this.value, 'من خلال واتس اب') ||contains(this.value, '#') || contains(this.value, 'From C-town app') ||contains(this.value, 'Through Whatsapp')"
+          ]
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "XElw3F"
+          },
+          "condition": "dialog.userselect == \"من تطبيق C-town\"  || dialog.userselect == \"From C-town app\"",
+          "actions": [
+            {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "C6gbdy"
+              },
+              "activity": "${SendActivity_C6gbdy()}"
+            },
+            {
+              "$kind": "Microsoft.CancelAllDialogs",
+              "$designer": {
+                "id": "rp3B3r"
+              },
+              "activityProcessed": true
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "Q15XMC"
+          },
+          "property": "conversation.menu",
+          "value": "0"
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "jEQ3UF"
+          },
+          "activityProcessed": true,
+          "dialog": "BranchesDialog"
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "GoUb1v"
+          },
+          "activityProcessed": true,
+          "dialog": "LinkDialog"
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "UmmNgU"
+          },
+          "activityProcessed": true,
+          "dialog": "OrderDetailsDialog"
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "GsLDft"
+          },
+          "activityProcessed": true,
+          "dialog": "AddNoteDialog"
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "ncEDH0"
+          },
+          "activityProcessed": true,
+          "dialog": "Pre-OrderDialog"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "tmviwv"
+          },
+          "condition": "conversation.local == \"ar\"",
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "jaxv6C"
+              },
+              "assignments": [
+                {
+                  "property": "dialog.text",
+                  "value": "كيف حابب تدفع"
+                },
+                {
+                  "property": "dialog.Option1",
+                  "value": "فيزا"
+                },
+                {
+                  "property": "dialog.Option2",
+                  "value": "كاش"
+                }
+              ]
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "Pgw3Ra"
+              },
+              "assignments": [
+                {
+                  "property": "dialog.text",
+                  "value": "Please select the payment method:"
+                },
+                {
+                  "property": "dialog.Option1",
+                  "value": "visa"
+                },
+                {
+                  "property": "dialog.Option2",
+                  "value": "cash"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.DeleteProperty",
+          "$designer": {
+            "id": "ZdrXJ6"
+          },
+          "property": "conversation.BayType"
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "8BXgue"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "unrecognizedPrompt": "",
+          "invalidPrompt": "",
+          "prompt": "${TextInput_Prompt_8BXgue()}",
+          "property": "conversation.BayType",
+          "validations": [
+            "contains(this.value, 'فيزا') || contains(this.value, 'كاش') || contains(this.value, 'visa') || contains(this.value, 'cash') ||contains(this.value, '#')"
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "88uAjf"
+          },
+          "activityProcessed": true,
+          "dialog": "DeliveryDialog"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "xqkyF9"
+          },
+          "condition": "conversation.TypeChoes ==\"PickUp\"",
+          "actions": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "PiDS8e"
+              },
+              "activityProcessed": true,
+              "dialog": "FinishOrderDialog"
+            },
+            {
+              "$kind": "Microsoft.EndDialog",
+              "$designer": {
+                "id": "6LAhwW"
+              }
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.HttpRequest",
+          "$designer": {
+            "id": "TZ7e7b"
+          },
+          "resultProperty": "dialog.areaId",
+          "method": "GET",
+          "url": "${conversation.URL}/api/BotAPI/GetAreasByID?TenantID=${conversation.TenantId}&AreaID=${conversation.LocationId}",
+          "responseType": "json"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "NdDh7o"
+          },
+          "condition": "conversation.local==\"ar\"",
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "EXFEuZ"
+              },
+              "property": "conversation.LocationAreaName",
+              "value": "${dialog.areaId.content.result.AreaName}"
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "YLa1q0"
+              },
+              "property": "conversation.LocationAreaName",
+              "value": "${dialog.areaId.content.result.AreaNameEnglish}"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "JEk98G"
+          },
+          "activityProcessed": true,
+          "dialog": "FinishOrderDialog"
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "ZC5vhN"
+          }
+        }
+      ]
+    }
+  ],
+  "generator": "OrderC-TownDialog.lg",
+  "recognizer": "OrderC-TownDialog.lu.qna",
+  "id": "OrderC-TownDialog"
+}

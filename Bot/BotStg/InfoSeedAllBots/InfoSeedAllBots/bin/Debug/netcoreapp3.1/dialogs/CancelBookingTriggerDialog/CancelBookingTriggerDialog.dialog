@@ -1,0 +1,232 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "GKzHFJ",
+    "name": "CancelBookingTriggerDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "luh248"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "T24CRR"
+          },
+          "condition": "conversation.local==null || conversation.local==\"\"",
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "0hjav2"
+              },
+              "assignments": [
+                {
+                  "property": "conversation.Info",
+                  "value": "=split(turn.Activity.Locale, ',')"
+                },
+                {
+                  "property": "conversation.DisplayName",
+                  "value": "${turn.Activity.From.Name}"
+                },
+                {
+                  "property": "conversation.phoneNumber",
+                  "value": "${turn.Activity.From.Id}"
+                },
+                {
+                  "property": "conversation.ContactId",
+                  "value": "${conversation.Info[0]}"
+                },
+                {
+                  "property": "conversation.TenantId",
+                  "value": "${conversation.Info[1]}"
+                },
+                {
+                  "property": "conversation.isOrderOffer",
+                  "value": "${conversation.Info[2]}"
+                },
+                {
+                  "property": "conversation.TenantPhoneNumber",
+                  "value": "${conversation.Info[3]}"
+                },
+                {
+                  "property": "conversation.UserId",
+                  "value": "${conversation.Info[4]}"
+                },
+                {
+                  "property": "conversation.URL",
+                  "value": "https://infoseedbotapistg.azurewebsites.net"
+                },
+                {
+                  "property": "conversation.local",
+                  "value": "ar"
+                }
+              ]
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "tHrHDK"
+              },
+              "assignments": [
+                {
+                  "property": "conversation.Info",
+                  "value": "=split(turn.Activity.Locale, ',')"
+                },
+                {
+                  "property": "conversation.DisplayName",
+                  "value": "${turn.Activity.From.Name}"
+                },
+                {
+                  "property": "conversation.phoneNumber",
+                  "value": "${turn.Activity.From.Id}"
+                },
+                {
+                  "property": "conversation.ContactId",
+                  "value": "${conversation.Info[0]}"
+                },
+                {
+                  "property": "conversation.TenantId",
+                  "value": "${conversation.Info[1]}"
+                },
+                {
+                  "property": "conversation.isOrderOffer",
+                  "value": "${conversation.Info[2]}"
+                },
+                {
+                  "property": "conversation.TenantPhoneNumber",
+                  "value": "${conversation.Info[3]}"
+                },
+                {
+                  "property": "conversation.UserId",
+                  "value": "${conversation.Info[4]}"
+                },
+                {
+                  "property": "conversation.URL",
+                  "value": "https://infoseedbotapistg.azurewebsites.net"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "fnZcaA"
+          },
+          "property": "conversation.BotTemplateId",
+          "value": "${conversation.Info[5]}"
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "na6l5o"
+          },
+          "condition": "conversation.BotTemplateId",
+          "cases": [
+            {
+              "value": "1",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "1QeSyX"
+                  },
+                  "property": "conversation.TemplateName",
+                  "value": "Template1"
+                }
+              ]
+            },
+            {
+              "value": "2",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "zW7KtK"
+                  },
+                  "property": "conversation.TemplateName",
+                  "value": "Template2"
+                }
+              ]
+            }
+          ],
+          "default": [
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "fywPqo"
+              },
+              "property": "conversation.TemplateName",
+              "value": "Template1"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "X1BeA5"
+          },
+          "assignments": [
+            {
+              "property": "conversation.Info",
+              "value": "=split(turn.Activity.Locale, ',')"
+            },
+            {
+              "value": "${conversation.Info[6]}",
+              "property": "conversation.buttonBookingId"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "nXPzB3"
+          },
+          "value": "=replace(conversation.buttonBookingId, '2&&&', '')",
+          "property": "dialog.bookingId"
+        },
+        {
+          "$kind": "Microsoft.HttpRequest",
+          "$designer": {
+            "id": "OqUZ6S"
+          },
+          "resultProperty": "dialog.updateResult",
+          "method": "POST",
+          "url": "${conversation.URL}/api/BotAPI/CancelBooking?bookingId=${dialog.bookingId}",
+          "responseType": "json",
+          "headers": {
+            "accept": "text/plain",
+            "Content-Type": "application/json-patch+json"
+          }
+        },
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "iL7asK"
+          },
+          "activity": "${SendActivity_iL7asK()}"
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "35D3iu"
+          }
+        }
+      ]
+    }
+  ],
+  "generator": "CancelBookingTriggerDialog.lg",
+  "recognizer": "CancelBookingTriggerDialog.lu.qna",
+  "id": "CancelBookingTriggerDialog"
+}

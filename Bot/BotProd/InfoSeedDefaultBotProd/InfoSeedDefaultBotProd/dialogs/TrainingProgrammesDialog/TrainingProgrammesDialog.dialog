@@ -1,0 +1,334 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "XSaIS7",
+    "name": "JumpTrainingFoodDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "CSa3zM"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "je5RGt"
+          },
+          "assignments": [
+            {
+              "property": "conversation.LinkMessage",
+              "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 2)).text"
+            },
+            {
+              "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1028)).text",
+              "property": "dialog.finalMasseg"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "vph35M"
+          },
+          "condition": "conversation.local",
+          "cases": [
+            {
+              "value": "ar",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "g7CmkH"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.Option1",
+                      "value": "تواصل معنا"
+                    },
+                    {
+                      "property": "dialog.Option2",
+                      "value": "للتسجيل"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "en",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "p1j86h"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.Option1",
+                      "value": "Connect with us"
+                    },
+                    {
+                      "property": "dialog.Option2",
+                      "value": "to sign up"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "default": []
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "CovuC1"
+          },
+          "assignments": [
+            {
+              "property": "conversation.IsThreeAsset",
+              "value": true
+            },
+            {
+              "property": "conversation.isoffer",
+              "value": false
+            },
+            {
+              "property": "conversation.type",
+              "value": "1"
+            },
+            {
+              "property": "conversation.StepBack",
+              "value": "1"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "sv3DmT"
+          },
+          "activityProcessed": true,
+          "dialog": "AssetLoopDialog"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "Y470gn"
+          },
+          "condition": "conversation.DepartmentName ==\"#\"",
+          "actions": [
+            {
+              "$kind": "Microsoft.EndDialog",
+              "$designer": {
+                "id": "xOxWeq"
+              }
+            }
+          ],
+          "elseActions": []
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "e8qE2N"
+          },
+          "property": "conversation.isoffer",
+          "value": false
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "K7cVcZ"
+          },
+          "activityProcessed": true,
+          "dialog": "AssetOffersDialog"
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "EzFhL0"
+          },
+          "condition": "conversation.LevelTowId",
+          "cases": [
+            {
+              "value": "171",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "QrZyCu"
+                  },
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 35)).text",
+                  "property": "dialog.MoreInfo"
+                },
+                {
+                  "$kind": "Microsoft.DeleteProperty",
+                  "$designer": {
+                    "id": "kKQGOE"
+                  },
+                  "property": "dialog.UserSelect"
+                },
+                {
+                  "$kind": "Microsoft.TextInput",
+                  "$designer": {
+                    "id": "YSsqxC"
+                  },
+                  "disabled": false,
+                  "maxTurnCount": 100,
+                  "alwaysPrompt": false,
+                  "allowInterruptions": true,
+                  "prompt": "${TextInput_Prompt_YSsqxC()}",
+                  "unrecognizedPrompt": "",
+                  "invalidPrompt": "",
+                  "property": "dialog.UserSelect",
+                  "validations": [
+                    "equals(this.value, 'تواصل معنا') || equals(this.value, 'Connect with us') ||  equals(this.value, '#')"
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "UrlS44"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "LiveChatDialog"
+                }
+              ]
+            },
+            {
+              "value": "172",
+              "actions": [
+                {
+                  "$kind": "Microsoft.DeleteProperty",
+                  "$designer": {
+                    "id": "xaAf5i"
+                  },
+                  "property": "dialog.UserSelect"
+                },
+                {
+                  "$kind": "Microsoft.TextInput",
+                  "$designer": {
+                    "id": "eX0Dry"
+                  },
+                  "disabled": false,
+                  "maxTurnCount": 100,
+                  "alwaysPrompt": false,
+                  "allowInterruptions": true,
+                  "unrecognizedPrompt": "",
+                  "invalidPrompt": "",
+                  "prompt": "${TextInput_Prompt_eX0Dry()}",
+                  "validations": [
+                    "equals(this.value, 'تواصل معنا')|| equals(this.value, 'للتسجيل')|| equals(this.value, 'Connect with us') || equals(this.value, 'to sign up')  ||equals(this.value, '#')"
+                  ],
+                  "property": "dialog.UserSelect"
+                },
+                {
+                  "$kind": "Microsoft.SwitchCondition",
+                  "$designer": {
+                    "id": "t7dp8R"
+                  },
+                  "condition": "dialog.UserSelect",
+                  "cases": [
+                    {
+                      "value": "تواصل معنا",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperties",
+                          "$designer": {
+                            "id": "VAq3nS"
+                          },
+                          "assignments": [
+                            {
+                              "property": "conversation.Department1",
+                              "value": "${conversation.DepartmentName}"
+                            }
+                          ]
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "FF6SsP"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "LiveChatDialog"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "للتسجيل",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SendActivity",
+                          "$designer": {
+                            "id": "GYWly5"
+                          },
+                          "activity": "${SendActivity_GYWly5()}"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "Connect with us",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SendActivity",
+                          "$designer": {
+                            "id": "RjIp8L"
+                          },
+                          "activity": "${SendActivity_RjIp8L()}"
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "9MPL8a"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "LiveChatDialog"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "to sign up",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SendActivity",
+                          "$designer": {
+                            "id": "2vlg5H"
+                          },
+                          "activity": "${SendActivity_2vlg5H()}"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "default": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "udMe1Z"
+              },
+              "activityProcessed": true,
+              "dialog": "JumpFoodDialog"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "7E06Ds"
+          }
+        }
+      ]
+    }
+  ],
+  "generator": "TrainingProgrammesDialog.lg",
+  "recognizer": "TrainingProgrammesDialog.lu.qna",
+  "id": "TrainingProgrammesDialog"
+}

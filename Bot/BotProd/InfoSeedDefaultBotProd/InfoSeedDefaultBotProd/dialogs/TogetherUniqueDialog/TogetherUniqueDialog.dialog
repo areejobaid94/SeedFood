@@ -1,0 +1,191 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "tPUCM6",
+    "name": "TogetherUniqueDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "V6aByl"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "z3w5LH"
+          },
+          "condition": "conversation.local",
+          "cases": [
+            {
+              "value": "ar",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "TJpxzx"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.Option1",
+                      "value": "للإستفسار والتواصل"
+                    },
+                    {
+                      "property": "dialog.Option2",
+                      "value": "طلب موعد عمرة مقترح"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "en",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "4iwenF"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.Option1",
+                      "value": "For inquiries"
+                    },
+                    {
+                      "property": "dialog.Option2",
+                      "value": "suggested Umrah date"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "default": [
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "RESLtQ"
+              },
+              "assignments": [
+                {
+                  "property": "dialog.Option1",
+                  "value": "للإستفسار والتواصل"
+                },
+                {
+                  "property": "dialog.Option2",
+                  "value": "طلب موعد عمرة مقترح"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "BG5HGW"
+          },
+          "property": "dialog.LinkCaption",
+          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId ==3642)).text"
+        },
+        {
+          "$kind": "Microsoft.DeleteProperty",
+          "$designer": {
+            "id": "GtHlTQ"
+          },
+          "property": "dialog.UserSelcet"
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "yHTObx"
+          },
+          "property": "dialog.text",
+          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId ==3641)).text"
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "FkUlhP"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "unrecognizedPrompt": "",
+          "invalidPrompt": "",
+          "prompt": "${TextInput_Prompt_FkUlhP()}",
+          "property": "dialog.UserSelcet",
+          "validations": [
+            "equals(this.value, 'طلب موعد عمرة مقترح') ||equals(this.value, 'للإستفسار والتواصل') ||equals(this.value, 'For inquiries') ||equals(this.value, 'suggested Umrah date') ||equals(this.value, '#')"
+          ]
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "m9s5dB"
+          },
+          "condition": "dialog.UserSelcet",
+          "cases": [
+            {
+              "value": "طلب موعد عمرة مقترح",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "sNdvNH"
+                  },
+                  "activity": "${SendActivity_sNdvNH()}"
+                }
+              ]
+            },
+            {
+              "value": "suggested Umrah date",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "E7ZaZS"
+                  },
+                  "activity": "${SendActivity_E7ZaZS()}"
+                }
+              ]
+            }
+          ],
+          "default": [
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "KIjfaC"
+              },
+              "property": "conversation.Request4",
+              "value": "${dialog.UserSelcet}"
+            },
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "Hg09m3"
+              },
+              "activityProcessed": true,
+              "dialog": "TogetherInquiryReqDialog"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "kOzHf2"
+          }
+        }
+      ]
+    }
+  ],
+  "generator": "TogetherUniqueDialog.lg",
+  "recognizer": "TogetherUniqueDialog.lu.qna",
+  "id": "TogetherUniqueDialog"
+}

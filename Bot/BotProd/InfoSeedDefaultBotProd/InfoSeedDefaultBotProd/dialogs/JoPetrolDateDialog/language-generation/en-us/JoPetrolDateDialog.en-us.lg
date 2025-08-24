@@ -1,0 +1,30 @@
+[import](common.lg)
+
+# TextInput_Prompt_V2Rvc3()
+[Activity
+    Attachments = ${json(ButtonList(dialog.DateCaption,dialog.ListFuel.content.result))}
+    InputHint=${conversation.InputHint}
+     Summary=${conversation.Summary}
+]
+# TextInput_Prompt_U6qM9A()
+[Activity
+    Text = ${TextInput_Prompt_U6qM9A_text()}
+]
+
+# TextInput_Prompt_U6qM9A_text()
+- ${dialog.LocationCaption}
+# TextInput_Prompt_oBEcjg()
+[Activity
+    Text = ${TextInput_Prompt_oBEcjg_text()}
+    SuggestedActions = ${dialog.Option1} | ${dialog.Option2} | ${dialog.Option3}
+]
+
+# TextInput_Prompt_oBEcjg_text()
+- ${dialog.PaymentCaption}
+# TextInput_Prompt_15Zkql()
+[Activity
+    Text = ${TextInput_Prompt_15Zkql_text()}
+]
+
+# TextInput_Prompt_15Zkql_text()
+- ${dialog.FinalCaption}

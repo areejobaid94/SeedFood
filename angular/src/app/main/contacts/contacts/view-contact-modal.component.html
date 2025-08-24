@@ -1,0 +1,662 @@
+﻿<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{ backdrop: 'static' }">
+    <div *ngIf="theme != 'theme12'" class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">
+                    <span>{{ l("Details") }}</span>
+                </h4>
+                <button type="button" class="btn-close" aria-label="Close" (click)="close()">X</button>
+            </div>
+            <div class="modal-body pt-5 pl-5">
+                <h4 *ngIf="permission.isGranted('Pages.Contacts.Edit') && isAdmin" class="">{{ l("profileInfo") }}</h4>
+                <div *ngIf="permission.isGranted('Pages.Contacts.Edit') && isAdmin" class="row">
+                    <div class="col-6 mb-1 form-group">
+                        <label for="Contact_DisplayName">{{ l("name") }}</label>
+                        <input
+                            type="text"
+                            [class.error]="submitted && name.invalid"
+                            #name="ngModel"
+                            id="Contact_DisplayName"
+                            class="form-control"
+                            [(ngModel)]="item.displayName"
+                            name="DisplayName"
+                            minlength="0"
+                            maxlength="512"
+                            required
+                        />
+                        <p class="text-danger" *ngIf="submitted && name.invalid">{{ l("ThisFieldIsRequired") }}</p>
+                    </div>
+                    <!-- <div class="col-6 mb-1 form-group">
+                        <label for="Contact_EmailAddress">{{ l("EmailAddress") }}</label>
+                        <input type="text" id="Contact_EmailAddress" class="form-control" [(ngModel)]="item.emailAddress" name="EmailAddress" minlength="0" maxlength="512" />
+                    </div> -->
+                    <div class="col-6 mb-1 form-group">
+                        <label for="Contact_Description">{{ l("Address") }}</label>
+                        <textarea
+                            type="text"
+                            id="Contact_Description"
+                            class="form-control"
+                            [(ngModel)]="item.emailAddress"
+                            name="Description"
+                            minlength="0"
+                            maxlength="5012"
+                        ></textarea>
+                    </div>
+                </div>
+
+                <hr *ngIf="permission.isGranted('Pages.Contacts.Edit') && isAdmin" />
+
+                <h4>Contact Info</h4>
+
+                <div class="row">
+                    <div class="col-6 mb-1 d-flex">
+                        <div class="transaction-item">
+                            <div class="media">
+                                <div class="avatar bg-light-primary-info rounded">
+                                    <div class="avatar-content">
+                                        <i class="fa fa-phone font-medium-3"></i>
+                                    </div>
+                                </div>
+                                <div class="media-body ml-1">
+                                    <h6 class="transaction-title">
+                                        {{ l("PhoneNumber") }} : <small> {{ item.phoneNumber }}</small>
+                                    </h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-6 mb-1 d-flex">
+                        <div class="transaction-item">
+                            <div class="media">
+                                <div class="avatar bg-light-primary-info rounded">
+                                    <div class="avatar-content">
+                                        <i class="fas fa-calendar font-medium-3"></i>
+                                    </div>
+                                </div>
+                                <div class="media-body ml-1">
+                                    <h6 class="transaction-title">
+                                        {{ l("Creation Time") }} : <small> {{ creationDate }}</small>
+                                    </h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 mb-1">
+                        <div class="transaction-item">
+                            <div class="media">
+                                <div class="avatar bg-light-primary-info rounded">
+                                    <div class="avatar-content">
+                                        <i class="fa fa-map font-medium-3"></i>
+                                    </div>
+                                </div>
+                                <!-- <div class="media-body ml-1">
+                                    <h6 class="transaction-title">
+                                        {{ l("#Delivery Orders") }} : <small> {{ item.deliveryOrder }}</small>
+                                    </h6>
+                                </div> -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 mb-1">
+                        <div class="transaction-item">
+                            <div class="media">
+                                <div class="avatar bg-light-primary-info rounded">
+                                    <div class="avatar-content">
+                                        <i class="fa fa-user-check font-medium-3"></i>
+                                    </div>
+                                </div>
+                                <div class="media-body ml-1">
+                                    <h6 class="transaction-title">
+                                        {{ l("#takeAway Orders") }} : <small> {{ item.takeAwayOrder }}</small>
+                                    </h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 mb-1">
+                        <div class="transaction-item">
+                            <div class="media">
+                                <div class="avatar bg-light-primary-info rounded">
+                                    <div class="avatar-content">
+                                        <i class="fas fa-calculator font-medium-3"></i>
+                                    </div>
+                                </div>
+                                <!-- <div class="media-body ml-1">
+                                    <h6 class="transaction-title">
+                                        {{ l("#total Orders") }} : <small> {{ item.totalOrder }}</small>
+                                    </h6>
+                                </div> -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-6 mb-1">
+                        <div class="transaction-item">
+                            <div class="media">
+                                <div class="avatar bg-light-primary-info rounded">
+                                    <div class="avatar-content">
+                                        <i class="fas fa-comment-dots font-medium-3"></i>
+                                    </div>
+                                </div>
+                                <div class="media-body ml-1">
+                                    <h6 class="transaction-title">
+                                        {{ l("#Total Live Chat") }} : <small> {{ item.totalLiveChat }}</small>
+                                    </h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 mb-1">
+                        <div class="transaction-item">
+                            <div class="media">
+                                <div class="avatar bg-light-primary-info rounded">
+                                    <div class="avatar-content">
+                                        <i class="fas fa-tasks font-medium-3"></i>
+                                    </div>
+                                </div>
+                                <!-- <div class="media-body ml-1">
+                                    <h6 class="transaction-title">
+                                        {{ l("#Total Requests") }} : <small> {{ item.totalRequest }}</small>
+                                    </h6>
+                                </div> -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 mb-1">
+                        <div class="transaction-item">
+                            <div class="media">
+                                <div class="avatar bg-light-primary-info rounded">
+                                    <div class="avatar-content">
+                                        <i class="fas fa-tasks font-medium-3"></i>
+                                    </div>
+                                </div>
+                                <div class="media-body ml-1">
+                                    <h6 *ngIf="item.customerOPT === 2" class="transaction-title">{{ l("Customer Behavior") }} : <small>OptIn</small></h6>
+                                    <h6 *ngIf="item.customerOPT === 1" class="transaction-title">{{ l("Customer Behavior") }} : <small>OptOut</small></h6>
+                                    <h6 *ngIf="item.customerOPT === 0" class="transaction-title">{{ l("Customer Behavior") }} : <small>Neutral </small></h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 mb-1">
+                        <div class="transaction-item">
+                            <div class="media">
+                                <div class="avatar bg-light-primary-info rounded">
+                                    <div class="avatar-content">
+                                        <i class="fa fa-gift font-medium-3"></i>
+                                    </div>
+                                </div>
+                                <div class="media-body ml-1">
+                                    <h6 class="transaction-title">
+                                        {{ l("#Loyalty Point") }} : <small>{{ item.loyalityPoint }}</small>
+                                    </h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr />
+
+                <h4>Last Order Info</h4>
+
+                <div class="row">
+                    <div class="col-6 mb-1">
+                        <div class="transaction-item">
+                            <div class="media">
+                                <div class="avatar bg-light-primary-info rounded">
+                                    <div class="avatar-content">
+                                        <i class="fa fa-store font-medium-3"></i>
+                                    </div>
+                                </div>
+                                <div class="media-body ml-1">
+                                    <h6 class="transaction-title">
+                                        {{ l("Order Branch") }} : <small>{{ item.branch }}</small>
+                                    </h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 mb-1">
+                        <div class="transaction-item">
+                            <div class="media">
+                                <div class="avatar bg-light-primary-info rounded">
+                                    <div class="avatar-content">
+                                        <i class="fa fa-store font-medium-3"></i>
+                                    </div>
+                                </div>
+                                <div class="media-body ml-1">
+                                    <h6 *ngIf="item.orderType === 0" class="transaction-title">
+                                        {{ l("Order Type") }} :
+                                        <small>{{ l("takeAway") }}</small>
+                                    </h6>
+                                    <h6 *ngIf="item.orderType === 1" class="transaction-title">
+                                        {{ l("Order Type") }} :
+                                        <small>{{ l("delivery") }}</small>
+                                    </h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr />
+
+                <h4> {{ l("loyaltyOrders") }}</h4>
+
+                <div class="row" *ngIf="loyalityOrders.length > 0">
+                    <div class="col-12 col-lg-6 " *ngFor="let loyaltyOrders of loyalityOrders">
+                    <div class="card" >
+                        <div class="card-body loyalityCard">
+                            <div class="d-flex align-items-center justify-content-between">
+                                <div class="p-2">
+                                    <h4>
+                                        {{ l("order") }} <strong># {{ loyaltyOrders.loyaltyRemainingdays.orderNumber }}</strong>
+                                        <b *ngIf="loyaltyOrders.loyaltyRemainingdays.orderType === 0">({{ l("takeAway") }})</b>
+                                        <b *ngIf="loyaltyOrders.loyaltyRemainingdays.orderType === 1">({{ l("delivery") }})</b>
+
+                                    </h4>
+                                    <small> <b>{{ l("earningDate") }} :</b> {{ loyaltyOrders.loyaltyRemainingdays.createdDate   | date:'short' }} </small>
+                                    <br />
+                                    <small> <b>{{ l("remainingDays") }} ({{ l("expiry") }}) :</b> {{ loyaltyOrders.loyaltyRemainingdays.remainingdays }} <b>{{ l("Days") }}</b> </small>
+                                </div>
+                                <div>
+                                    <div class="badge mr-1 badge-pill badge-light-success">{{ l("done") }}</div>
+                                </div>
+                            </div>
+                            <div class="filter-img d-flex justify-content-between align-items-center">
+                                <div class="item-price color-primary mx-2">
+                                    <strong> {{loyaltyOrders.loyaltyRemainingdays.total}} {{appSession.tenant.currencyCode}}</strong>
+                                </div>
+                                <div class="item-price">
+                                    <strong class="point-style mx-2 text-warning">
+                                        {{loyaltyOrders.loyaltyRemainingdays.points}}
+                                        <i class="bi bi-gift"></i>
+                                    </strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                <div *ngIf="loyalityOrders.length <= 0">
+                    <h5 class="text-danger">{{ l("NoData") }}</h5>
+                </div>
+            <hr/>
+                <h4>Interested Of</h4>
+
+                <div class="" *ngIf="interestedOf.length > 0">
+                    <ul *ngFor="let item of interestedOf; let i = index" class="mt-1 list-group">
+                        <li *ngIf="item.levelOneNameEn" class="list-group-item d-flex justify-content-between align-items-center">
+                            <span>{{ item.levelOneNameEn }}</span>
+                            <span class="badge badge-pill badge-light-success">{{ i + 1 }}</span>
+                        </li>
+                        <li *ngIf="item.levelTwoNameEn" class="list-group-item d-flex justify-content-between align-items-center">
+                            <span>{{ item.levelTwoNameEn }}</span>
+                        </li>
+                        <li *ngIf="item.levelThreeNameEn" class="list-group-item d-flex justify-content-between align-items-center">
+                            <span> {{ item.levelThreeNameEn }}</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="" *ngIf="totalInterestedOf === 0">
+                    <h5 class="text-danger">This Contact Doesn't have Interested of</h5>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">{{ l("Close") }}</button>
+                <button type="button" class="btn btn-primary" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')" (click)="save()" type="button">Save</button>
+            </div>
+        </div>
+    </div>
+    <div class="modal-dialog modal-lg" *ngIf="theme === 'theme12'">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">
+                    <span>{{ l("Details") }}</span>
+                </h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="close()" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <ngb-accordion [closeOthers]="true" [activeIds]="selected">
+                    <ngb-panel id="editable" *ngIf="permission.isGranted('Pages.Contacts.Edit') && isAdmin">
+                        <ng-template ngbPanelTitle>
+                            <span class="lead collapse-title"> {{ l("profileInfo") }} </span>
+                        </ng-template>
+                        <ng-template ngbPanelContent>
+                            <div class="row">
+                                <div class="col-6 mb-1 form-group">
+                                    <label for="Contact_DisplayName">{{ l("name") }}</label>
+                                    <input
+                                        type="text"
+                                        [class.error]="submitted && name.invalid"
+                                        #name="ngModel"
+                                        class="form-control"
+                                        id="Contact_DisplayName"
+                                        [(ngModel)]="item.displayName"
+                                        name="DisplayName"
+                                        minlength="0"
+                                        maxlength="512"
+                                        required
+                                    />
+                                    <p class="text-danger" *ngIf="submitted && name.invalid">{{ l("ThisFieldIsRequired") }}</p>
+                                </div>
+                                <!-- <div class="col-6 mb-1 form-group">
+                                    <label for="Contact_EmailAddress">{{ l("EmailAddress") }}</label>
+                                    <input
+                                        type="text"
+                                        id="Contact_EmailAddress"
+                                        class="form-control"
+                                        [(ngModel)]="item.emailAddress"
+                                        name="EmailAddress"
+                                        minlength="0"
+                                        maxlength="512"
+                                    />
+                                </div> -->
+                                <div class="col-6 mb-1 form-group">
+                                    <label for="Contact_Description">{{ l("Address") }}</label>
+                                    <textarea
+                                        type="text"
+                                        id="Contact_Description"
+                                        class="form-control"
+                                        [(ngModel)]="item.emailAddress"
+                                        name="Description"
+                                        minlength="0"
+                                        maxlength="5012"
+                                    ></textarea>
+                                </div>
+                            </div>
+                        </ng-template>
+                    </ngb-panel>
+
+                    <ngb-panel id="uneditable">
+                        <ng-template ngbPanelTitle>
+                            <span class="lead collapse-title"> {{ l("contactInfo") }} </span>
+                        </ng-template>
+                        <ng-template ngbPanelContent>
+                            <div class="row">
+                                <div class="col-6 mb-1 d-flex">
+                                    <div class="transaction-item">
+                                        <div class="media">
+                                            <div class="avatar bg-light-primary-info rounded">
+                                                <div class="avatar-content">
+                                                    <i class="fa fa-phone font-medium-3"></i>
+                                                </div>
+                                            </div>
+                                            <div class="media-body ml-1">
+                                                <h6 class="transaction-title">
+                                                    {{ l("PhoneNumber") }} : <small> {{ item.phoneNumber }}</small>
+                                                </h6>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-6 mb-1 d-flex">
+                                    <div class="transaction-item">
+                                        <div class="media">
+                                            <div class="avatar bg-light-primary-info rounded">
+                                                <div class="avatar-content">
+                                                    <i class="fas fa-calendar font-medium-3"></i>
+                                                </div>
+                                            </div>
+                                            <div class="media-body ml-1">
+                                                <h6 class="transaction-title">
+                                                    {{ l("created") }} : <small> {{ creationDate  |  momentFormat:'YYYY-MM-DD' }}</small>
+                                                </h6>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- <div class="col-6 mb-1">
+                                    <div class="transaction-item">
+                                        <div class="media">
+                                            <div class="avatar bg-light-primary-info rounded">
+                                                <div class="avatar-content">
+                                                    <i class="fa fa-map font-medium-3"></i>
+                                                </div>
+                                            </div>
+                                            <div class="media-body ml-1">
+                                                <h6 class="transaction-title">
+                                                    # {{ l("deliveryOrders") }} : <small> {{ item.deliveryOrder }}</small>
+                                                </h6>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> -->
+                                <div class="col-6 mb-1">
+                                    <div class="transaction-item">
+                                        <div class="media">
+                                            <div class="avatar bg-light-primary-info rounded">
+                                                <div class="avatar-content">
+                                                    <i class="fa fa-user-check font-medium-3"></i>
+                                                </div>
+                                            </div>
+                                            <div class="media-body ml-1">
+                                                <h6 class="transaction-title">
+                                                    #{{ l("takeAwayOrders") }} : <small> {{ item.takeAwayOrder }}</small>
+                                                </h6>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- <div class="col-6 mb-1">
+                                    <div class="transaction-item">
+                                        <div class="media">
+                                            <div class="avatar bg-light-primary-info rounded">
+                                                <div class="avatar-content">
+                                                    <i class="fas fa-calculator font-medium-3"></i>
+                                                </div>
+                                            </div>
+                                            <div class="media-body ml-1">
+                                                <h6 class="transaction-title">
+                                                    #{{ l("totalOrders") }} : <small> {{ item.totalOrder }}</small>
+                                                </h6>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> -->
+
+                                <div class="col-6 mb-1">
+                                    <div class="transaction-item">
+                                        <div class="media">
+                                            <div class="avatar bg-light-primary-info rounded">
+                                                <div class="avatar-content">
+                                                    <i class="fas fa-comment-dots font-medium-3"></i>
+                                                </div>
+                                            </div>
+                                            <div class="media-body ml-1">
+                                                <h6 class="transaction-title">
+                                                    #{{ l("totalLiveChat") }} : <small> {{ item.totalLiveChat }}</small>
+                                                </h6>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- <div class="col-6 mb-1">
+                                    <div class="transaction-item">
+                                        <div class="media">
+                                            <div class="avatar bg-light-primary-info rounded">
+                                                <div class="avatar-content">
+                                                    <i class="fas fa-tasks font-medium-3"></i>
+                                                </div>
+                                            </div>
+                                            <div class="media-body ml-1">
+                                                <h6 class="transaction-title">
+                                                    #{{ l("totalRequests") }} : <small> {{ item.totalRequest }}</small>
+                                                </h6>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> -->
+                                <div class="col-6 mb-1">
+                                    <div class="transaction-item">
+                                        <div class="media">
+                                            <div class="avatar bg-light-primary-info rounded">
+                                                <div class="avatar-content">
+                                                    <i class="fas fa-tasks font-medium-3"></i>
+                                                </div>
+                                            </div>
+                                            <div class="media-body ml-1">
+                                                <h6 *ngIf="item.customerOPT === 2" class="transaction-title">
+                                                    {{ l("customerBehavior") }} :
+                                                    <small>{{ l("optIn") }}</small>
+                                                </h6>
+                                                <h6 *ngIf="item.customerOPT === 1" class="transaction-title">
+                                                    {{ l("customerBehavior") }} :
+                                                    <small>{{ l("optOut") }}</small>
+                                                </h6>
+                                                <h6 *ngIf="item.customerOPT === 0" class="transaction-title">
+                                                    {{ l("customerBehavior") }} :
+                                                    <small>{{ l("netural") }} </small>
+                                                </h6>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- <div class="col-6 mb-1">
+                                    <div class="transaction-item">
+                                        <div class="media">
+                                            <div class="avatar bg-light-primary-info rounded">
+                                                <div class="avatar-content">
+                                                    <i class="fa fa-gift font-medium-3"></i>
+                                                </div>
+                                            </div>
+                                            <div class="media-body ml-1">
+                                                <h6 class="transaction-title">
+                                                    #{{ l("totalPoints") }} : <small>{{ item.loyalityPoint }}</small>
+                                                </h6>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> -->
+                            </div>
+                        </ng-template>
+                    </ngb-panel>
+
+                    <!-- <ngb-panel id="lastOrder">
+                        <ng-template ngbPanelTitle>
+                            <span class="lead collapse-title">{{ l("lastOrderInfo") }}</span>
+                        </ng-template>
+                        <ng-template ngbPanelContent>
+                            <div class="row">
+                                <div class="col-6 mb-1">
+                                    <div class="transaction-item">
+                                        <div class="media">
+                                            <div class="avatar bg-light-primary-info rounded">
+                                                <div class="avatar-content">
+                                                    <i class="fa fa-store font-medium-3"></i>
+                                                </div>
+                                            </div>
+                                            <div class="media-body ml-1">
+                                                <h6 class="transaction-title">
+                                                    {{ l("orderBranch") }} : <small>{{ item.branch }}</small>
+                                                </h6>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6 mb-1">
+                                    <div class="transaction-item">
+                                        <div class="media" *ngIf="item.orderType === 0 || item.orderType === 1">
+                                            <div class="avatar bg-light-primary-info rounded">
+                                                <div class="avatar-content">
+                                                    <i class="fa fa-store font-medium-3"></i>
+                                                </div>
+                                            </div>
+                                            <div class="media-body ml-1">
+                                                <h6 *ngIf="item.orderType === 0" class="transaction-title">
+                                                    {{ l("type") }} :
+                                                    <small>{{ l("takeAway") }}</small>
+                                                </h6>
+                                                <h6 *ngIf="item.orderType === 1" class="transaction-title">
+                                                    {{ l("type") }} :
+                                                    <small>{{ l("delivery") }}</small>
+                                                </h6>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-template>
+                    </ngb-panel> -->
+
+                    <ngb-panel id="loyaltyOrders" [hidden]="!isTenantLoyal">
+                        <ng-template ngbPanelTitle>
+                            <span class="lead collapse-title"> {{ l("loyaltyOrders") }} </span>
+                        </ng-template>
+                        <ng-template ngbPanelContent>
+                            <div class="row" *ngIf="loyalityOrders.length > 0">
+                                <div class="col-12 col-lg-6 " *ngFor="let loyaltyOrders of loyalityOrders">
+                                <div class="card" >
+                                    <div class="card-body loyalityCard">
+                                        <div class="d-flex align-items-center justify-content-between">
+                                            <div class="p-2">
+                                                <h4>
+                                                    {{ l("order") }} <strong># {{ loyaltyOrders.loyaltyRemainingdays.orderNumber }}</strong>
+                                                    <b *ngIf="loyaltyOrders.loyaltyRemainingdays.orderType === 0">({{ l("takeAway") }})</b>
+                                                    <b *ngIf="loyaltyOrders.loyaltyRemainingdays.orderType === 1">({{ l("delivery") }})</b>
+                                                </h4>
+                                                <small> <b>{{ l("earningDate") }} :</b> {{ loyaltyOrders.loyaltyRemainingdays.createdDate   | date:'short' }} </small>
+                                                <br />
+                                                <small> <b>{{ l("remainingDays") }} ({{ l("expiry") }}) :</b> {{ loyaltyOrders.loyaltyRemainingdays.remainingdays }} <b>{{ l("Days") }}</b> </small>
+                                            </div>
+                                            <div>
+                                                <div class="badge mr-1 badge-pill badge-light-success">{{ l("done") }}</div>
+                                            </div>
+                                        </div>
+                                        <div class="filter-img d-flex justify-content-between align-items-center">
+                                            <div class="item-price color-primary mx-2">
+                                                <strong> {{loyaltyOrders.loyaltyRemainingdays.total}} {{appSession.tenant.currencyCode}}</strong>
+                                            </div>
+                                            <div class="item-price">
+                                                <strong class="point-style mx-2 text-warning">
+                                                    {{loyaltyOrders.loyaltyRemainingdays.points}}
+                                                    <i class="bi bi-gift"></i>
+                                                </strong>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
+                            <div *ngIf="loyalityOrders.length <= 0">
+                                <h5 class="text-danger">{{ l("NoData") }}</h5>
+                            </div>
+                        </ng-template>
+                    </ngb-panel>
+                    <!-- <p>{{loyaltyOrders.loyaltyRemainingdays.loyaltyExpiration}}</p> -->
+                    <!-- <ngb-panel id="interestedOf">
+                        <ng-template ngbPanelTitle>
+                            <span class="lead collapse-title"> {{ l("interestedOf") }} </span>
+                        </ng-template>
+                        <ng-template ngbPanelContent>
+                            <div class="" *ngIf="interestedOf.length > 0">
+                                <ul *ngFor="let item of interestedOf; let i = index" class="mt-1 list-group">
+                                    <li *ngIf="item.levelOneNameEn" class="list-group-item d-flex justify-content-between align-items-center">
+                                        <span>{{ item.levelOneNameEn }}</span>
+                                        <span class="badge badge-pill badge-light-success">{{ i + 1 }}</span>
+                                    </li>
+                                    <li *ngIf="item.levelTwoNameEn" class="list-group-item d-flex justify-content-between align-items-center">
+                                        <span>{{ item.levelTwoNameEn }}</span>
+                                    </li>
+                                    <li *ngIf="item.levelThreeNameEn" class="list-group-item d-flex justify-content-between align-items-center">
+                                        <span> {{ item.levelThreeNameEn }}</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="" *ngIf="totalInterestedOf === 0">
+                                <h5 class="text-danger">{{ l("noInterestedOf") }}</h5>
+                            </div>
+                        </ng-template>
+                    </ngb-panel> -->
+                </ngb-accordion>
+            </div>
+            <div class="modal-footer">
+                <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">{{ l("Close") }}</button>
+                <button type="button" class="btn btn-primary-info" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')" (click)="save()" type="button">
+                    {{ l("Save") }}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,180 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "aMOTgE",
+    "name": "TogetherUmrahDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "hplkSM"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "wbDjx4"
+          },
+          "condition": "conversation.local",
+          "cases": [
+            {
+              "value": "ar",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "mfbput"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.ListOption",
+                      "value": [
+                        "تسجيل طلب حج البدل 1445 هجري",
+                        "تسجيل طلب عمرة البدل 1445 هجري"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "en",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "ldm3lS"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.ListOption",
+                      "value": [
+                        "Registering a request for Hajj al-Badal 1445 AH",
+                        "Registering a request for an alternative Umrah in 1445 AH"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "default": [
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "wzZpCG"
+              },
+              "assignments": [
+                {
+                  "property": "dialog.ListOption",
+                  "value": [
+                    "تسجيل طلب حج البدل 1445 هجري",
+                    "تسجيل طلب عمرة البدل 1445 هجري"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "rOQXWy"
+          },
+          "property": "dialog.text",
+          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId ==3641)).text"
+        },
+        {
+          "$kind": "Microsoft.DeleteProperty",
+          "$designer": {
+            "id": "gPJLAK"
+          },
+          "property": "dialog.UserSelect"
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "5EVh7h"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "property": "dialog.UserSelect",
+          "prompt": "${TextInput_Prompt_5EVh7h()}",
+          "validations": [
+            "equals(this.value, 'تسجيل طلب حج البدل 1445 هجري') ||equals(this.value, 'تسجيل طلب عمرة البدل 1445 هجري') ||equals(this.value, 'Registering a request for Hajj al-Badal 1445 AH') ||equals(this.value, 'Registering a request for an alternative Umrah in 1445 AH')  ||equals(this.value, '#')"
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "5Me2c5"
+          },
+          "property": "conversation.Request3",
+          "value": "${dialog.UserSelect}"
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "vRvvnm"
+          },
+          "cases": [
+            {
+              "value": "تسجيل طلب عمرة البدل 1445 هجري",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "6W6dir"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TogetherUniqueDialog"
+                }
+              ]
+            },
+            {
+              "value": "Registering a request for an alternative Umrah in 1445 AH",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "cEVxAW"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TogetherUniqueDialog"
+                }
+              ]
+            }
+          ],
+          "condition": "dialog.UserSelect",
+          "default": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "xhJoDl"
+              },
+              "activityProcessed": true,
+              "dialog": "TogetherFinalDialog"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "YX6aoY"
+          }
+        }
+      ]
+    }
+  ],
+  "generator": "TogetherUmrahDialog.lg",
+  "recognizer": "TogetherUmrahDialog.lu.qna",
+  "id": "TogetherUmrahDialog"
+}

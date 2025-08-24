@@ -1,0 +1,20 @@
+[import](common.lg)
+
+# TextInput_Prompt_PNGfim()
+[Activity
+    Attachments = ${json(ButtonList(conversation.ChooseSubject,dialog.SubjectName))}
+    InputHint=منطقتك
+    Summary=${conversation.Summary}
+]
+# TextInput_Prompt_Lk7ZsO()
+[Activity
+    Attachments = ${json(ButtonList(conversation.KnowledgeLV,dialog.KnowledgeList))}
+    InputHint=${conversation.InputHint}
+    Summary=${conversation.Summary}
+]
+# SendActivity_nkOUZZ_text()
+- ${dialog.KnowledgeRatio}
+# SendActivity_nkOUZZ()
+[Activity
+    Text = ${SendActivity_nkOUZZ_text()}
+]

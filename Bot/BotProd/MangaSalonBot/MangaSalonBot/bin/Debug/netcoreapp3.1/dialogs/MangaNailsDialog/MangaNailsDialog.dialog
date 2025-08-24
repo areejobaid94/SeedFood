@@ -1,0 +1,222 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "kM2Udq",
+    "name": "MangaNailsDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "Mfqj2k"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "YJXerf"
+          },
+          "condition": "conversation.local",
+          "cases": [
+            {
+              "value": "ar",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "E2wHwK"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.Option1",
+                      "value": "للقدمين"
+                    },
+                    {
+                      "property": "dialog.Option2",
+                      "value": "الإثنين معاً"
+                    },
+                    {
+                      "property": "dialog.Option3",
+                      "value": "للإيدين"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "en",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "cDCDmZ"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.Option1",
+                      "value": "For feet"
+                    },
+                    {
+                      "property": "dialog.Option2",
+                      "value": "both together"
+                    },
+                    {
+                      "property": "dialog.Option3",
+                      "value": "For hands"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "default": []
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "c2nG0A"
+          },
+          "assignments": [
+            {
+              "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3622)).text",
+              "property": "dialog.ServiceCaption"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.DeleteProperty",
+          "$designer": {
+            "id": "9Y5lwg"
+          },
+          "property": "dialog.UserSelect"
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "VEJ9zy"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "prompt": "${TextInput_Prompt_VEJ9zy()}",
+          "unrecognizedPrompt": "",
+          "invalidPrompt": "",
+          "validations": [
+            "equals(this.value, 'للقدمين') || equals(this.value, 'الإثنين معاً') || equals(this.value, 'للإيدين') || equals(this.value, 'For hands') || equals(this.value, 'both together') || equals(this.value, 'For feet') || equals(this.value, '#')"
+          ],
+          "property": "dialog.UserSelect"
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "eoxhug"
+          },
+          "property": "conversation.RequestValue4",
+          "value": "${dialog.UserSelect}"
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "tFMhvO"
+          },
+          "condition": "dialog.UserSelect",
+          "cases": [
+            {
+              "value": "للقدمين",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "VY1FZT"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "MangaFeetDialog"
+                }
+              ]
+            },
+            {
+              "value": "الإثنين معاً",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "5aajsR"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "MangaBothTogetherDialog"
+                }
+              ]
+            },
+            {
+              "value": "للإيدين",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "LkzEdG"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "MangaHandsDialog"
+                }
+              ]
+            },
+            {
+              "value": "For feet",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "1GOlkC"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "MangaFeetDialog"
+                }
+              ]
+            },
+            {
+              "value": "both together",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "vKBrez"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "MangaBothTogetherDialog"
+                }
+              ]
+            },
+            {
+              "value": "For hands",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "IhtNu2"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "MangaHandsDialog"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "21gTXn"
+          }
+        }
+      ]
+    }
+  ],
+  "generator": "MangaNailsDialog.lg",
+  "recognizer": "MangaNailsDialog.lu.qna",
+  "id": "MangaNailsDialog"
+}

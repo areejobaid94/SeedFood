@@ -1,0 +1,347 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "cdASje",
+    "name": "StartDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "Iv9Pod"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "aeGZ13"
+          },
+          "condition": "conversation.local==null || conversation.local==\"\"",
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "2VfoPH"
+              },
+              "assignments": [
+                {
+                  "property": "conversation.Info",
+                  "value": "=split(turn.Activity.Locale, ',')"
+                },
+                {
+                  "property": "conversation.DisplayName",
+                  "value": "${turn.Activity.From.Name}"
+                },
+                {
+                  "property": "conversation.phoneNumber",
+                  "value": "${turn.Activity.From.Id}"
+                },
+                {
+                  "property": "conversation.ContactId",
+                  "value": "${conversation.Info[0]}"
+                },
+                {
+                  "property": "conversation.TenantId",
+                  "value": "${conversation.Info[1]}"
+                },
+                {
+                  "property": "conversation.isOrderOffer",
+                  "value": "${conversation.Info[2]}"
+                },
+                {
+                  "property": "conversation.TenantPhoneNumber",
+                  "value": "${conversation.Info[3]}"
+                },
+                {
+                  "property": "conversation.UserId",
+                  "value": "${conversation.Info[4]}"
+                },
+                {
+                  "property": "conversation.URL",
+                  "value": "https://infoseedbotapistg.azurewebsites.net"
+                },
+                {
+                  "property": "conversation.local",
+                  "value": "ar"
+                },
+                {
+                  "property": "conversation.BotTemplateId",
+                  "value": "${conversation.Info[5]}"
+                }
+              ]
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "hxHj50"
+              },
+              "assignments": [
+                {
+                  "property": "conversation.Info",
+                  "value": "=split(turn.Activity.Locale, ',')"
+                },
+                {
+                  "property": "conversation.DisplayName",
+                  "value": "${turn.Activity.From.Name}"
+                },
+                {
+                  "property": "conversation.phoneNumber",
+                  "value": "${turn.Activity.From.Id}"
+                },
+                {
+                  "property": "conversation.ContactId",
+                  "value": "${conversation.Info[0]}"
+                },
+                {
+                  "property": "conversation.TenantId",
+                  "value": "${conversation.Info[1]}"
+                },
+                {
+                  "property": "conversation.isOrderOffer",
+                  "value": "${conversation.Info[2]}"
+                },
+                {
+                  "property": "conversation.TenantPhoneNumber",
+                  "value": "${conversation.Info[3]}"
+                },
+                {
+                  "property": "conversation.UserId",
+                  "value": "${conversation.Info[4]}"
+                },
+                {
+                  "property": "conversation.URL",
+                  "value": "https://infoseedbotapistg.azurewebsites.net"
+                },
+                {
+                  "value": "${conversation.Info[5]}",
+                  "property": "conversation.BotTemplateId"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "aS7tvs"
+          },
+          "condition": "conversation.BotTemplateId",
+          "cases": [
+            {
+              "value": "1",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "XZkyIb"
+                  },
+                  "property": "conversation.TemplateName",
+                  "value": "Template1"
+                }
+              ]
+            },
+            {
+              "value": "2",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "tZHIcP"
+                  },
+                  "property": "conversation.TemplateName",
+                  "value": "Template2"
+                }
+              ]
+            }
+          ],
+          "default": [
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "AKheBu"
+              },
+              "property": "conversation.TemplateName",
+              "value": "Template1"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "FCPU1o"
+          }
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "x5PO3w"
+          },
+          "assignments": [
+            {
+              "property": "conversation.DisplayName",
+              "value": "Amjad"
+            },
+            {
+              "property": "conversation.phoneNumber",
+              "value": "962786464718"
+            },
+            {
+              "property": "conversation.ContactId",
+              "value": "32432"
+            },
+            {
+              "property": "conversation.TenantId",
+              "value": "75"
+            },
+            {
+              "property": "conversation.URL",
+              "value": "https://localhost:44305"
+            },
+            {
+              "property": "conversation.local",
+              "value": "ar"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "xLqfcD"
+          }
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "TSn0xk"
+          },
+          "assignments": [
+            {
+              "property": "conversation.DisplayName",
+              "value": "hasan"
+            },
+            {
+              "property": "conversation.phoneNumber",
+              "value": "962779746365"
+            },
+            {
+              "property": "conversation.ContactId",
+              "value": "40827"
+            },
+            {
+              "property": "conversation.TenantId",
+              "value": "75"
+            },
+            {
+              "property": "conversation.URL",
+              "value": "https://localhost:44305"
+            },
+            {
+              "property": "conversation.local",
+              "value": "ar"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "508E4b"
+          }
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "Bbdufm"
+          },
+          "assignments": [
+            {
+              "property": "conversation.DisplayName",
+              "value": "hasan"
+            },
+            {
+              "property": "conversation.phoneNumber",
+              "value": "962779746365"
+            },
+            {
+              "property": "conversation.ContactId",
+              "value": "40827"
+            },
+            {
+              "property": "conversation.TenantId",
+              "value": "75"
+            },
+            {
+              "property": "conversation.URL",
+              "value": "https://localhost:44305"
+            },
+            {
+              "property": "conversation.local",
+              "value": "ar"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "8iXFfZ"
+          }
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "L7xUnJ"
+          },
+          "assignments": [
+            {
+              "property": "conversation.DisplayName",
+              "value": "hasan"
+            },
+            {
+              "property": "conversation.phoneNumber",
+              "value": "962779746365"
+            },
+            {
+              "property": "conversation.ContactId",
+              "value": "40827"
+            },
+            {
+              "property": "conversation.TenantId",
+              "value": "75"
+            },
+            {
+              "property": "conversation.URL",
+              "value": "https://localhost:44305"
+            },
+            {
+              "property": "conversation.local",
+              "value": "ar"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "rxVhlv"
+          },
+          "property": "conversation.TemplateName",
+          "value": "Template2"
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "gjWjkJ"
+          }
+        }
+      ]
+    }
+  ],
+  "generator": "StartDialog.lg",
+  "recognizer": "StartDialog.lu.qna",
+  "id": "StartDialog"
+}

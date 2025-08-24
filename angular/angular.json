@@ -1,0 +1,342 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": "projects",
+  "projects": {
+    "abp-zero-template": {
+      "root": "angular",
+      "sourceRoot": "src",
+      "projectType": "application",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "allowedCommonJsDependencies": [
+              "moment-timezone",
+              "@angularclass/hmr",
+              "rtl-detect",
+              "object-path",
+              "lodash",
+              "apexcharts",
+              "angular2-text-mask",
+              "angular2-counto",
+              "moment/min/locales.min",
+              "rxjs/internal/observable/throwError"
+            ],
+            "outputPath": "dist",
+            "index": "src/index.html",
+            "main": "src/main.ts",
+            "tsConfig": "src/tsconfig.app.json",
+            "polyfills": "src/polyfills.ts",
+            "preserveSymlinks": true,
+            "assets": [
+              "src/assets",
+              "src/metronic",
+              "src/favicon.ico",
+              "src/assets/js/scripts/forms/form-file-uploader.js",
+              "src/firebase-messaging-sw.js",
+              "src/manifest.json",
+              {
+                "glob": "abp.signalr-client.js",
+                "input": "node_modules/abp-web-resources/Abp/Framework/scripts/libs",
+                "output": "/assets/abp"
+              }
+            ],
+            "styles": [
+              "node_modules/animate.css/animate.min.css",
+              "node_modules/famfamfam-flags/dist/sprite/famfamfam-flags.css",
+              "node_modules/primeng/resources/primeng.min.css",
+              {
+                "input": "src/themes/lara-light-blue.css",
+                "bundleName": "lara-light-blue",
+                "inject": false
+              },
+              {
+                "input": "src/themes/lara-dark-blue.css",
+                "bundleName": "lara-dark-blue",
+                "inject": false
+              },
+              "node_modules/primeicons/primeicons.css",
+              "node_modules/sweetalert2/dist/sweetalert2.css",
+              "node_modules/cookieconsent/build/cookieconsent.min.css",
+              "src/assets/primeng/file-upload/css/primeng.file-upload.css",
+              "src/assets/primeng/autocomplete/css/primeng.autocomplete.css",
+              "src/assets/primeng/tree/css/primeng.tree.css",
+              "src/assets/primeng/context-menu/css/primeng.context-menu.css",
+              "src/assets/fonts/fonts-poppins.css",
+              "src/assets/fonts/fonts-roboto.css",
+              "src/assets/metronic/common/fonts/keenthemes-icons/ki.css",
+              "src/assets/ngx-bootstrap/bs-datepicker.css",
+              "src/assets/metronic/vendors/global/vendors.bundle.css",
+              "src/app/shared/core.less",
+              "node_modules/ngx-owl-carousel-o/lib/styles/prebuilt-themes/owl.carousel.min.css",
+              "node_modules/ngx-owl-carousel-o/lib/styles/prebuilt-themes/owl.theme.default.min.css",
+              "src/app/shared/layout/layout.less",
+              "node_modules/@ctrl/ngx-emoji-mart/picker.css",
+              "src/styles.css",
+              "node_modules/ngx-toastr/toastr.css",
+              "node_modules/quill/dist/quill.core.css",
+              "node_modules/quill/dist/quill.bubble.css",
+              "node_modules/quill/dist/quill.snow.css",
+              "node_modules/quill-emoji/dist/quill-emoji.css",
+              "node_modules/@fullcalendar/common/main.css",
+              "node_modules/@fullcalendar/daygrid/main.css",
+              "node_modules/@fullcalendar/timegrid/main.css",
+              "node_modules/@fullcalendar/list/main.css",
+              "node_modules/flatpickr/dist/flatpickr.min.css",
+              "node_modules/@videogular/ngx-videogular/fonts/videogular.css",
+              "node_modules/plyr/dist/plyr.css"
+             ],
+            "scripts": [
+              "node_modules/jquery/dist/jquery.js",
+              "node_modules/localforage/dist/localforage.js",
+              "node_modules/moment/min/moment-with-locales.js",
+              "node_modules/moment-timezone/builds/moment-timezone-with-data.js",
+              "node_modules/sweetalert2/dist/sweetalert2.js",
+              "node_modules/cookieconsent/build/cookieconsent.min.js",
+              "src/assets/abp-web-resources/abp.js",
+              "src/assets/abp-web-resources/abp.sweet-alert.js",
+              "src/assets/abp-web-resources/abp.notify.js",
+              "src/assets/canvas-toBlob/canvas-toBlob.js",
+              "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/abp-web-resources/Abp/Framework/scripts/libs/abp.moment.js",
+              "src/assets/metronic/vendors/global/vendors.bundle.js",
+              "src/assets/metronic/common/js/components/menu.js",
+              "src/assets/metronic/common/js/components/offcanvas.js",
+              "src/assets/metronic/common/js/components/header.js",
+              "src/assets/metronic/common/js/components/scrolltop.js",
+              "src/assets/metronic/common/js/components/toggle.js",
+              "src/assets/metronic/common/js/components/util.js",
+              "node_modules/image-compressor.js/dist/image-compressor.min.js",
+
+              "src/assets/vendors/js/vendors.min.js",
+              "src/assets/vendors/js/ui/jquery.sticky.js",
+              "src/assets/js/core/app-menu.min.js",
+              "src/assets/js/scripts/pages/app-chat.min.js",
+              "src/assets/js/core/app.min.js",
+              "src/assets/js/myJsFile.js",
+              "src/assets/js/myJsFile2.js",
+              "node_modules/apexcharts/dist/apexcharts.min.js"
+            ],
+            "vendorChunk": true,
+            "extractLicenses": false,
+            "buildOptimizer": false,
+            "sourceMap": true,
+            "optimization": false,
+            "namedChunks": true
+          },
+          "configurations": {
+            "hmr": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.hmr.ts"
+                }
+              ]
+            },
+            "production": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": true,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ]
+            },
+
+            "test": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": true,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.test.ts"
+                }
+              ]
+            }
+          },
+          "qa": {
+            "budgets": [
+              {
+                "type": "anyComponentStyle",
+                "maximumWarning": "6kb"
+              }
+            ],
+            "optimization": true,
+            "outputHashing": "all",
+            "sourceMap": true,
+            "namedChunks": false,
+            "extractLicenses": true,
+            "vendorChunk": false,
+            "buildOptimizer": true,
+            "fileReplacements": [
+              {
+                "replace": "src/environments/environment.ts",
+                "with": "src/environments/environment.qa.ts"
+              }
+            ]
+          },
+          "defaultConfiguration": ""
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "abp-zero-template:build"
+          },
+          "configurations": {
+            "hmr": {
+              "browserTarget": "abp-zero-template:build:hmr"
+            },
+            "production": {
+              "browserTarget": "abp-zero-template:build:production"
+            },
+            "staging": {
+              "browserTarget": "abp-zero-template:build:staging"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "abp-zero-template:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "tsConfig": "src/tsconfig.spec.json",
+            "main": "src/test.ts",
+            "karmaConfig": "./karma.conf.js",
+            "polyfills": "src/polyfills.ts",
+            "styles": [
+              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
+              "node_modules/animate.css/animate.min.css",
+              "node_modules/quill/dist/quill.core.css",
+              "node_modules/quill/dist/quill.snow.css",
+              "node_modules/famfamfam-flags/dist/sprite/famfamfam-flags.css",
+              "node_modules/primeng/resources/primeng.min.css",
+              {
+                "input": "src/themes/lara-light-blue.css",
+                "bundleName": "lara-light-blue",
+                "inject": false
+              },
+              {
+                "input": "src/themes/lara-dark-blue.css",
+                "bundleName": "lara-dark-blue",
+                "inject": false
+              },
+              "node_modules/primeicons/primeicons.css",
+              "node_modules/sweetalert2/dist/sweetalert2.css",
+              "node_modules/cookieconsent/build/cookieconsent.min.css",
+              "src/assets/primeng/file-upload/css/primeng.file-upload.css",
+              "src/assets/primeng/autocomplete/css/primeng.autocomplete.css",
+              "src/assets/primeng/tree/css/primeng.tree.css",
+              "src/assets/primeng/context-menu/css/primeng.context-menu.css",
+              "src/assets/fonts/fonts-poppins.css",
+              "src/assets/fonts/fonts-roboto.css",
+              "src/assets/metronic/common/fonts/keenthemes-icons/ki.css",
+              "src/assets/ngx-bootstrap/bs-datepicker.css",
+              "src/assets/metronic/vendors/global/vendors.bundle.css",
+              "src/app/shared/core.less",
+              "src/app/shared/layout/layout.less",
+              "node_modules/@ctrl/ngx-emoji-mart/picker.css",
+              "node_modules/plyr/dist/plyr.css",
+              
+              "src/styles.css"
+            ],
+            "scripts": [
+              "node_modules/localforage/dist/localforage.js",
+              "node_modules/moment/min/moment-with-locales.js",
+              "node_modules/moment-timezone/builds/moment-timezone-with-data.js",
+              "node_modules/push.js/bin/push.js",
+              "node_modules/quill/dist/quill.js",
+              "node_modules/sweetalert2/dist/sweetalert2.js",
+              "node_modules/cookieconsent/build/cookieconsent.min.js",
+              "src/assets/abp-web-resources/abp.js",
+              "src/assets/abp-web-resources/abp.sweet-alert.js",
+              "src/assets/abp-web-resources/abp.notify.js",
+              "src/assets/canvas-toBlob/canvas-toBlob.js",
+              "node_modules/abp-web-resources/Abp/Framework/scripts/libs/abp.moment.js",
+              "src/assets/metronic/vendors/global/vendors.bundle.js",
+
+              "src/assets/metronic/common/js/components/menu.js",
+              "src/assets/metronic/common/js/components/offcanvas.js",
+              "src/assets/metronic/common/js/components/header.js",
+              "src/assets/metronic/common/js/components/scrolltop.js",
+              "src/assets/metronic/common/js/components/toggle.js",
+              "src/assets/metronic/common/js/components/util.js",
+
+              "node_modules/jquery/dist/jquery.min.js"
+            ],
+            "assets": [
+              "src/assets",
+              "src/favicon.ico",
+              "src/assets/js/scripts/forms/form-file-uploader.js",
+              {
+                "glob": "abp.signalr-client.js",
+                "input": "node_modules/abp-web-resources/Abp/Framework/scripts/libs",
+                "output": "/assets/abp"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "abp-zero-template-e2e": {
+      "root": "",
+      "sourceRoot": "",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@angular-devkit/build-angular:protractor",
+          "options": {
+            "protractorConfig": "./protractor.conf.js",
+            "devServerTarget": "abp-zero-template:serve",
+            "port": 4200
+          }
+        }
+      }
+    }
+  },
+  "schematics": {
+    "@schematics/angular:component": {
+      "prefix": "app",
+      "style": "css"
+    },
+    "@schematics/angular:directive": {
+      "prefix": "app"
+    }
+  },
+  "cli": {
+    "analytics": false
+  }
+}

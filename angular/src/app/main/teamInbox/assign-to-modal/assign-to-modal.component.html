@@ -1,0 +1,30 @@
+<div bsModal #assignModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="clickedLiveChat"
+aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog ">
+        <div [ngClass]="darkModeService.currentSkin === 'dark' ? 'modal-content-dark ' : 'modal-content'" >
+            <form>
+                <div class="modal-header">
+                    <h6 [ngClass]="darkModeService.currentSkin === 'dark' ? 'dark-header ' : ''" class="modal-title">
+                        <img lazyLoad="/assets/common/images/assign-list.svg" alt="assign to" class="icon">
+                        {{ l("assignToUser") }}
+                    </h6>
+                </div>
+                <div class="modal-body">
+                    <ul *ngFor="let agent of agentsList" [class.active]="agent" class="active" tabindex="1">
+                        <li (click)="selectedAgent(agent)" #agent><img src="https://icon-library.com/images/no-profile-pic-icon/no-profile-pic-icon-11.jpg"
+                                class="rounded-circle mr-1" alt="Chris Wood" width="40" height="40">
+                            {{agent.name}} {{agent.surname}}</li>
+                    </ul>
+                </div>
+                <div *ngIf="theme != 'theme12'" class="modal-footer">
+                    <button type="button" class="btn btn-default " (click)="close()">{{l("Cancel")}}</button>
+                    <button (click)="save()" type="submit" class="btn btn-primary blue " [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save " style="padding-right:10px ;"></i> <span>{{l("Save")}}</span></button>
+                </div>
+                <div *ngIf="theme === 'theme12'" class="modal-footer">
+                    <button type="button" class="btn btn-default " (click)="close()">{{l("Cancel")}}</button>
+                    <button (click)="save()" type="submit" class="btn btn-primary-info " [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save " style="padding-right:10px ;"></i> <span>{{l("Save")}}</span></button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,24 @@
+[import](common.lg)
+
+# TextInput_Prompt_90e2M0_text()
+- ${dialog.textN}
+# TextInput_Prompt_90e2M0()
+[Activity
+    Text = ${TextInput_Prompt_90e2M0_text()}
+]
+
+# TextInput_Prompt_gw7mLS_text()
+- ${dialog.test}
+# TextInput_Prompt_gw7mLS()
+[Activity
+    Text = ${TextInput_Prompt_gw7mLS_text()}
+    SuggestedActions = ${dialog.Option1}
+]
+
+# SendActivity_DnQLTG()
+[Activity
+    Text = ${SendActivity_DnQLTG_text()}
+]
+
+# SendActivity_DnQLTG_text()
+- ${dialog.thanks}

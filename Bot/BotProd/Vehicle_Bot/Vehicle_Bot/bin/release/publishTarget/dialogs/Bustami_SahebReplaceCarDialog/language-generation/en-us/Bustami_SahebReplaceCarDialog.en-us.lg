@@ -1,0 +1,31 @@
+[import](common.lg)
+
+# SendActivity_YuPoyj()
+[Activity
+    Text = ${SendActivity_YuPoyj_text()}
+]
+
+# SendActivity_YuPoyj_text()
+- ${conversation.Thanks}
+# TextInput_Prompt_SQH4LE()
+[Activity
+    Text = ${TextInput_Prompt_e43Dv9_text()}
+]
+
+# TextInput_Prompt_e43Dv9_text()
+- ${dialog.choosetype}
+# TextInput_Prompt_m7nCEm()
+[Activity
+    Text = ${TextInput_Prompt_m7nCEm_text()}
+    SuggestedActions = ${dialog.op1} | ${dialog.op2}
+]
+
+# TextInput_Prompt_m7nCEm_text()
+- ${dialog.tx1}
+# SendActivity_8K70Z4()
+[Activity
+    Text = ${SendActivity_8K70Z4_text()}
+]
+
+# SendActivity_8K70Z4_text()
+- ${dialog.textc}

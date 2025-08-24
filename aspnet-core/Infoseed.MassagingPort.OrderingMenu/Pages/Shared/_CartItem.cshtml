@@ -1,0 +1,106 @@
+﻿@model List<Infoseed.MassagingPort.OrderingMenu.Pages.Model.OrderingCartItemModel>
+@{
+}
+
+@if (@Model != null)
+{
+    foreach (var item in Model)
+    {
+        <div class="cart-list-product div-selected-item p-2">
+
+
+            @if (@item.ImageUrl != null && @item.ImageUrl != "")
+            {
+                <img class="img-fluid m-1" src="@item.ImageUrl" alt="">
+            }
+            else
+            {
+                <img class="img-fluid m-1" src="img/404.png" alt="">
+
+
+            }
+
+            <h5 class="float pb-2 col-7 "><strong>@item.Name</strong></h5>
+
+
+
+
+            @if (@item.lstOrderingCartItemSpecificationModel != null)
+            {
+                <h6 class="float col-6 p-0 m-0">
+
+                    @foreach (var spec in item.lstOrderingCartItemSpecificationModel)
+                    {
+
+
+                        @foreach (var spech in spec.lstOrderingCartItemSpecificationChoicesModel)
+                        {
+                            <span>@spech.Name |</span>
+
+                        }
+
+                    }
+                </h6>
+            }
+
+            @if (item.lstOrderingCartItemAdditionalModel != null)
+            {
+                <h6 class="float col-6 p-0">
+
+
+                    @foreach (var addit in item.lstOrderingCartItemAdditionalModel)
+                    {
+                        <strong> @addit.Qty  </strong> <span>@addit.Name </span> <strong> | </strong>
+
+
+                    }
+                </h6>
+            }
+            @if (item.ItemNote != "")
+            {
+
+                <h6 class="float col-8 p-0"><span>@item.ItemNote </span></h6>
+            }
+
+
+            @if (!item.IsLoyalClick)
+            {
+                @if (item.CridetPoint != 0)
+                {
+                    <div class="pointss_@item.CartItemId float col-8" id="pointss">
+
+
+                        <h6> <span class="p-0  text-warning mdi mdi-star-circle"></span> @localizer.Get("creditPoint") <strong class="text-warning ">@item.CridetPoint</strong>  @localizer.Get("point")</h6>
+
+
+                    </div>
+                }
+            }
+            <div class="float  d-flex col-12 ">
+                <div class=" flex btn  btn-sm   col-6 ">
+                    <button class="btn minus  col-4 col-xl-3 col-md-3 choices-selected-cart">-</button>
+                    <input data-cartid="@item.CartItemId" class="input col-3 p-0 m-0 hdItemQty choices-selected-cart cart_@item.Id" type="text" value="@item.Qty">
+                    <button class="btn plus col-4 col-xl-3 col-md-3 choices-selected-cart">+</button>
+                </div>
+
+                <div class="float- col-6 btn btn-sm  mt-2">
+
+                    @if (@item.TotalLoyaltyPoints != 0)
+                    {
+                        <h5 class=" mb-0 float-"><span id="T_@item.CartItemId">@item.TotalLoyaltyPoints</span> <span class="lead  text-warning mdi mdi-star-circle"></span> </h5>
+                    }
+                    else
+                    {
+                        <h5 class=" mb-0 float-"><span id="p_@item.CartItemId">@item.Total </span> <span class="currencyCode"></span> </h5>
+
+                    }
+
+                </div>
+
+            </div>
+            <a class="float- flip-it p-2 m-2" id="btnremove_@item.CartItemId"><small class="flip  back remove-cart" data-cartid="@item.CartItemId">  @localizer.Get("delete") </small></a>
+
+
+        </div>
+    }
+}

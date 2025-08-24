@@ -1,0 +1,1017 @@
+<div bsModal #createOrEditMenuSettingModel="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+    aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{ backdrop: 'static' }">
+    <div *ngIf="theme != 'theme12'" class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">
+                    <span>{{l("Settings")}}</span>
+                </h4>
+                <button type="button" class="btn-close" (click)="close()" aria-label="Close">
+                    <span aria-hidden="true">X</span>
+                </button>
+            </div>
+            <div class="row">
+                <div class="col-md-12 p-6">
+                    <div>
+                        <div class="form-group">
+                            <label *ngIf="isWorkActive" for="StartDateSat" style="font-size: 20px"> Days </label>
+
+                            <div class="form-group" style="font-family: system-ui">
+                                <label for="StartDateSat">Text AR </label>
+                                <input class="form-control m-input" type="text" [(ngModel)]="workTextAR" />
+                            </div>
+                            <div class="form-group" style="font-family: system-ui">
+                                <label for="StartDateSat">Text EN </label>
+                                <input class="form-control m-input" type="text" [(ngModel)]="workTextEN" />
+                            </div>
+
+                            <tabset *ngIf="isWorkActive">
+                                <tab class="p-5" heading="Saturday">
+                                    <div class="md-checkbox-list">
+                                        <div>
+                                            <label for="isWorkActiveSat" class="checkbox">
+                                                <input id="isWorkActiveSat" type="checkbox" name="isWorkActiveSat"
+                                                    [(ngModel)]="isWorkActiveSat" />
+                                                <span></span>
+                                                {{ "isAvailable" | localize }}
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-12 col-lg-6">
+                                            <div class="form-group">
+                                                <label for="StartDateSat">Text </label>
+                                                <input class="form-control m-input" type="text"
+                                                    [(ngModel)]="workTextSat" />
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="row">
+                                        <div class="col-12 col-lg-6 form-group" *ngIf="isWorkActiveSat">
+                                            <label for="StartDateSat">From</label>
+                                            <input class="form-control m-input" type="time"
+                                                [(ngModel)]="startDateSat" />
+                                            <p class="text-danger" *ngIf="startDateSat >= endDateSat">From Must Be less
+                                                than To</p>
+                                        </div>
+                                        <div class="col-12 col-lg-6 form-group" *ngIf="isWorkActiveSat">
+                                            <label for="EndDate">To </label>
+                                            <input class="form-control m-input" type="time" [(ngModel)]="endDateSat" />
+                                            <p class="text-danger" *ngIf="endDateSat <= startDateSat">To Must Be Greater
+                                                than From </p>
+                                        </div>
+                                    </div>
+                                    <h4 *ngIf="isWorkActiveSat">Second Shift</h4>
+                                    <div class="row">
+                                        <div class="col-12 col-lg-6 form-group" *ngIf="isWorkActiveSat">
+                                            <label for="StartDateSatSP">From</label>
+                                            <input class="form-control m-input" type="time"
+                                                [(ngModel)]="startDateSatSP" />
+                                            <p class="text-danger" *ngIf="startDateSatSP >= endDateSatSP">
+                                                From Must Be less than To</p>
+                                            <p class="text-danger"
+                                                *ngIf="startDateSatSP >= startDateSat && startDateSatSP <= endDateSat ">
+                                                Invalid Interval</p>
+                                        </div>
+                                        <div class="col-12 col-lg-6 form-group" *ngIf="isWorkActiveSat">
+                                            <label for="EndDateSP">To</label>
+                                            <input class="form-control m-input" type="time"
+                                                [(ngModel)]="endDateSatSP" />
+                                            <p class="text-danger" *ngIf="endDateSatSP <= startDateSatSP">
+                                                To Must Be Greater than From </p>
+
+                                            <p class="text-danger"
+                                                *ngIf="endDateSatSP <= endDateSat && endDateSatSP >= startDateSat || (startDateSat <= endDateSatSP && endDateSat >= startDateSatSP )">
+                                                Invalid Interval</p>
+                                        </div>
+                                    </div>
+                                </tab>
+                                <tab class="p-5" heading="Sunday">
+                                    <div class="md-checkbox-list">
+                                        <div>
+                                            <label for="isWorkActiveSun" class="checkbox">
+                                                <input id="isWorkActiveSun" type="checkbox" name="isWorkActiveSun"
+                                                    [(ngModel)]="isWorkActiveSun" />
+                                                <span></span>
+                                                {{ "isActive" | localize }}
+                                            </label>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="row">
+                                        <div class="col-12 col-lg-6">
+                                            <div class="form-group">
+                                                <label for="StartDateSun">Text </label>
+                                                <input class="form-control m-input" type="text"
+                                                    [(ngModel)]="workTextSun" />
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-12 col-lg-6 form-group" *ngIf="isWorkActiveSun">
+                                            <label for="StartDateSun">From</label>
+                                            <input class="form-control m-input" type="time"
+                                                [(ngModel)]="startDateSun" />
+                                            <p class="text-danger" *ngIf="startDateSun >= endDateSun">From Must Be less
+                                                than To</p>
+                                        </div>
+                                        <div class="col-12 col-lg-6 form-group" *ngIf="isWorkActiveSun">
+                                            <label for="EndDate">To </label>
+                                            <input class="form-control m-input" type="time" [(ngModel)]="endDateSun" />
+                                            <p class="text-danger" *ngIf="endDateSun <= startDateSun">To Must Be Greater
+                                                than From </p>
+                                        </div>
+                                    </div>
+
+                                    <h4 *ngIf="isWorkActiveSun">Second Shift</h4>
+                                    <div class="row">
+                                        <div class="col-12 col-lg-6 form-group" *ngIf="isWorkActiveSun">
+                                            <label for="StartDateSunSP">From</label>
+                                            <input class="form-control m-input" type="time"
+                                                [(ngModel)]="startDateSunSP" />
+                                            <p class="text-danger" *ngIf="startDateSunSP >= endDateSunSP ">
+                                                From Must Be less than To</p>
+                                            <p class="text-danger"
+                                                *ngIf="startDateSunSP >= startDateSun && startDateSunSP <= endDateSun ">
+                                                Invalid Interval</p>
+                                        </div>
+                                        <div class="col-12 col-lg-6 form-group" *ngIf="isWorkActiveSun">
+                                            <label for="EndDateSP">To</label>
+                                            <input class="form-control m-input" type="time"
+                                                [(ngModel)]="endDateSunSP" />
+                                            <p class="text-danger" *ngIf="endDateSunSP <= startDateSunSP">
+                                                To Must Be Greater than From </p>
+                                            <p class="text-danger"
+                                                *ngIf="endDateSunSP <= endDateSun && endDateSunSP >= startDateSun || (startDateSun <= endDateSunSP && endDateSun >= startDateSunSP )">
+                                                Invalid Interval</p>
+                                        </div>
+                                    </div>
+                                </tab>
+                                <tab class="p-5" heading="Monday">
+                                    <div class="md-checkbox-list">
+                                        <div>
+                                            <label for="isWorkActiveMon" class="checkbox">
+                                                <input id="isWorkActiveMon" type="checkbox" name="isWorkActiveMon"
+                                                    [(ngModel)]="isWorkActiveMon" />
+                                                <span></span>
+                                                {{ "isAvailable" | localize }}
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                   <div class="row">
+                                    <div class="col-12 col-lg-6">
+                                    <div class="form-group">
+                                        <label for="StartDateMon">Text </label>
+                                        <input class="form-control m-input" type="text" [(ngModel)]="workTextMon" />
+                                    </div>
+                                    </div>
+                                    </div>
+
+                                 
+                                  <div class="row">
+                                    <div class="col-12 col-lg-6 form-group" *ngIf="isWorkActiveMon">
+                                        <label for="StartDateMon">From</label>
+                                        <input class="form-control m-input" type="time" [(ngModel)]="startDateMon"
+                                           />
+                                           <p class="text-danger" *ngIf="startDateMon >= endDateMon">From  Must Be less than To</p>
+                                    </div>
+                                    <div class=" col-12 col-lg-6 form-group" *ngIf="isWorkActiveMon">
+                                        <label for="EndDate">To </label>
+                                        <input class="form-control m-input" type="time" [(ngModel)]="endDateMon"
+                                         />
+                                         <p class="text-danger" *ngIf="endDateMon <= startDateMon">To   Must Be Greater than From </p>
+                                         
+                                    </div>
+                                    </div>
+                                    <h4 *ngIf="isWorkActiveMon">Second Shift</h4>
+                                    <div class="row">
+                                    <div class="form-group col-12 col-lg-6" *ngIf="isWorkActiveMon">
+                                        <label for="StartDateMonSP">From</label>
+                                        <input class="form-control m-input" type="time" [(ngModel)]="startDateMonSP"
+                                            />
+                                            <p class="text-danger" *ngIf="startDateMonSP >= endDateMonSP">
+                                                From  Must Be less than To</p>
+                                                <p class="text-danger" *ngIf="startDateMonSP >= startDateMon && startDateMonSP <= endDateMon ">
+                                                    Invalid Interval</p>
+                                    </div>
+                                    <div class="form-group col-12 col-lg-6" *ngIf="isWorkActiveMon">
+                                        <label for="EndDateSP">To</label>
+                                        <input class="form-control m-input" type="time" [(ngModel)]="endDateMonSP"
+                                            />
+                                            <p class="text-danger" *ngIf="endDateMonSP <= startDateMonSP">
+                                                To Must Be Greater than From </p>
+                                                <p class="text-danger" *ngIf="endDateMonSP <= endDateMon && endDateMonSP >= startDateMon || (startDateMon <= endDateMonSP && endDateMon >= startDateMonSP )">
+                                                    Invalid Interval</p>
+
+                                    </div>
+                                    </div>
+                                </tab>
+                                <tab class="p-5" heading="Tuesday">
+                                    <div class="md-checkbox-list">
+                                        <div>
+                                            <label for="isWorkActiveTues" class="checkbox">
+                                                <input id="isWorkActiveTues" type="checkbox" name="isWorkActiveTues"
+                                                    [(ngModel)]="isWorkActiveTues" />
+                                                <span></span>
+                                                {{ "isAvailable" | localize }}
+                                            </label>
+                                        </div>
+                                    </div>
+                                 
+                                    <div class="row">
+                                    <div class=" col-12 col-lg-6 form-group" >
+                                        <label for="StartDateTues">Text </label>
+                                        <input class="form-control m-input" type="text" [(ngModel)]="workTextTues" />
+                                    </div>
+                                    </div>
+
+                                   
+                                <div class="row">
+                                    <div class="col-112 col-lg-6 form-group" *ngIf="isWorkActiveTues">
+                                        <label for="StartDateTues">From</label>
+                                        <input class="form-control m-input" type="time" [(ngModel)]="startDateTues"
+                                            />
+                                            <p class="text-danger" *ngIf="startDateTues >= endDateTues">From  Must Be less than To</p>
+                                    </div>
+                                    <div class="col-112 col-lg-6  form-group" *ngIf="isWorkActiveTues">
+                                        <label for="EndDate">To </label>
+                                        <input class="form-control m-input" type="time" [(ngModel)]="endDateTues"
+                                           />
+                                           <p class="text-danger" *ngIf="endDateTues <= startDateTues">To   Must Be Greater than From </p>
+                                    </div>
+                                    </div>
+                                    <h4 *ngIf="isWorkActiveTues">Second Shift</h4>
+                                    <div class="row">
+                                    <div class="col-12 col-lg-6 form-group" *ngIf="isWorkActiveTues">
+                                        <label for="StartDateTuesSP">From</label>
+                                        <input class="form-control m-input" type="time" [(ngModel)]="startDateTuesSP"
+                                            />
+                                            <p class="text-danger" *ngIf="startDateTuesSP >= endDateTuesSP">
+                                                From  Must Be less than To</p>
+                                                <p class="text-danger" *ngIf="startDateTuesSP >= startDateTues && startDateTuesSP <= endDateTues ">
+                                                    Invalid Interval</p>
+                                    </div>
+                                    <div class="col-12 col-lg-6 form-group" *ngIf="isWorkActiveTues">
+                                        <label for="EndDateSP">To</label>
+                                        <input class="form-control m-input" type="time" [(ngModel)]="endDateTuesSP"
+                                          />
+                                          <p class="text-danger" *ngIf="endDateTuesSP <= startDateTuesSP">
+                                            To Must Be Greater than From </p>
+                                        <p class="text-danger" *ngIf="endDateTuesSP <= endDateTues && endDateTuesSP >= startDateTues || (startDateTues <= endDateTuesSP && endDateTues >= startDateTuesSP )">
+                                            Invalid Interval</p>
+                                    </div>
+                                    </div>
+                                </tab>
+                                <tab class="p-5" heading="Wednesday">
+                                    <div class="md-checkbox-list">
+                                        <div>
+                                            <label for="isWorkActiveWed" class="checkbox">
+                                                <input id="isWorkActiveWed" type="checkbox" name="isWorkActiveWed"
+                                                    [(ngModel)]="isWorkActiveWed" />
+                                                <span></span>
+                                                {{ "isAvailable" | localize }}
+                                            </label>
+                                        </div>
+                                    </div>
+                                   
+                                    <div class="row">
+                                    <div class="col-12 col-lg-6 form-group" >
+                                        <label for="StartDateWed">Text </label>
+                                        <input class="form-control m-input" type="text" [(ngModel)]="workTextWed" />
+                                    </div>
+                                </div>
+ 
+                                <div class="row">
+                                    <div class="col-12 col-lg-6 form-group" *ngIf="isWorkActiveWed">
+                                        <label for="StartDateWed">From</label>
+                                        <input class="form-control m-input" type="time" [(ngModel)]="startDateWed"
+                                          />
+                                          <p class="text-danger" *ngIf="startDateWed >= endDateWed">From  Must Be less than To</p>
+                                    </div>
+                                    <div class="col-12 col-lg-6 form-group" *ngIf="isWorkActiveWed">
+                                        <label for="EndDate">To </label>
+                                        <input class="form-control m-input" type="time" [(ngModel)]="endDateWed"
+                                           />
+                                           <p class="text-danger" *ngIf="endDateWed <= startDateWed">To   Must Be Greater than From </p>
+                                    </div>
+                                </div>
+                                <h4  *ngIf="isWorkActiveWed">Second Shift</h4>
+                                <div class="row">
+
+                                    <div class="col-12 col-lg-6 form-group" *ngIf="isWorkActiveWed">
+                                        <label for="StartDateWedSP">From</label>
+                                        <input class="form-control m-input" type="time" [(ngModel)]="startDateWedSP"
+                                         />
+                                                    
+                                         <p class="text-danger" *ngIf="startDateWedSP >= endDateWedSP">Start
+                                            Date Must Be less than To</p>
+                                            <p class="text-danger" *ngIf="startDateWedSP >= startDateWed && startDateWedSP <= endDateWed ">
+                                                Invalid Interval</p>
+                                             </div>
+                                  
+                                    <div class=" col-12 col-lg-6  form-group" *ngIf="isWorkActiveWed">
+                                        <label for="EndDateSP">To</label>
+                                        <input class="form-control m-input" type="time" [(ngModel)]="endDateWedSP"
+                                           />
+                                           <p class="text-danger" *ngIf="endDateWedSP <= startDateWedSP">End
+                                            Date Must Be Greater than From </p>
+                                            <p class="text-danger" *ngIf="endDateWedSP <= endDateWed && endDateWedSP >= startDateWed || (startDateWed <= endDateWedSP && endDateWed >= startDateWedSP )">
+                                                Invalid Interval</p>
+                                    </div>
+                                    </div>
+                                </tab>
+                                <tab class="p-5" heading="Thursday">
+                                    <div class="md-checkbox-list">
+                                        <div>
+                                            <label for="isWorkActiveThurs" class="checkbox">
+                                                <input id="isWorkActiveThurs" type="checkbox" name="isWorkActiveThurs"
+                                                    [(ngModel)]="isWorkActiveThurs" />
+                                                <span></span>
+                                                {{ "isAvailable" | localize }}
+                                            </label>
+                                        </div>
+                                    </div>
+                                 
+                                    <div class="row">
+                                    <div class="col-12 col-lg-6 form-group" >
+                                        <label for="StartDateThurs">Text </label>
+                                        <input class="form-control m-input" type="text" [(ngModel)]="workTextThurs" />
+                                    </div>
+                                    </div>
+
+                                 <div class="row">
+                                    <div class="col-12 col-lg-6  form-group" *ngIf="isWorkActiveThurs">
+                                        <label for="StartDateThurs">From</label>
+                                        <input class="form-control m-input" type="time" [(ngModel)]="startDateThurs"
+                                         />
+                                         <p class="text-danger" *ngIf="startDateThurs >= endDateThurs">Start
+                                            Date Must Be less than To</p>
+                                    </div>
+                                    <div class="col-12 col-lg-6  form-group" *ngIf="isWorkActiveThurs">
+                                        <label for="EndDate">To </label>
+                                        <input class="form-control m-input" type="time" [(ngModel)]="endDateThurs"
+                                          />
+                                          <p class="text-danger" *ngIf="endDateThurs <= startDateThurs">End
+                                            Date Must Be Greater than From </p>
+                                    </div>
+                                    </div>
+
+                                    <h4 *ngIf="isWorkActiveThurs">Ssecond Shift</h4>
+                                    <div class="row">
+                                    <div class="col-12 col-lg-6 form-group" *ngIf="isWorkActiveThurs">
+                                        <label for="StartDateThursSP">From</label>
+                                        <input class="form-control m-input" type="time" [(ngModel)]="startDateThursSP"
+                                             />
+                                             <p class="text-danger" *ngIf="startDateThursSP >= endDateThursSP">From  Must Be less than To</p>
+                                             <p class="text-danger" *ngIf="startDateThursSP >= startDateThurs && startDateThursSP <= endDateThurs ">
+                                                 Invalid Interval</p>
+                                    </div>
+                                    <div class="col-12 col-lg-6 form-group" *ngIf="isWorkActiveThurs">
+                                        <label for="EndDateSP">To</label>
+                                        <input class="form-control m-input" type="time" [(ngModel)]="endDateThursSP"
+                                           />
+                                           <p class="text-danger" *ngIf="endDateThursSP <= startDateThursSP">To Must Be Greater than From </p>
+                                           <p class="text-danger" *ngIf="endDateThursSP <= endDateThurs && endDateThursSP >= startDateThurs || (startDateThurs <= endDateThursSP && endDateThurs >= startDateThursSP )">
+                                               Invalid Interval</p>
+                                    </div>
+                                    </div>
+                                </tab>
+                                <tab class="p-5" heading="Friday">
+                                    <div class="md-checkbox-list">
+                                        <div>
+                                            <label for="isWorkActiveFri" class="checkbox">
+                                                <input id="isWorkActiveFri" type="checkbox" name="isWorkActiveFri"
+                                                    [(ngModel)]="isWorkActiveFri" />
+                                                <span></span>
+                                                {{ "isAvailable" | localize }}
+                                            </label>
+                                        </div>
+                                    </div>
+                                 
+                                    <div class="row">
+                                    <div class="col-12 col-lg-6 form-group" >
+                                        <label for="StartDateFri">Text </label>
+                                        <input class="form-control m-input" type="text" [(ngModel)]="workTextFri" />
+                                    </div>
+                                    </div>
+
+                                   
+                                   <div class="row">
+                                    <div class="col-12 col-lg-6 form-group" *ngIf="isWorkActiveFri">
+                                        <label for="StartDateFri">From</label>
+                                        <input class="form-control m-input" type="time" [(ngModel)]="startDateFri"
+                                          /> <p class="text-danger" *ngIf="startDateFri >= endDateFri">From 
+                                            Must Be less than To</p>
+                                    </div>
+                                    <div class="col-12 col-lg-6 form-group" *ngIf="isWorkActiveFri">
+                                        <label for="EndDate">To </label>
+                                        <input class="form-control m-input" type="time" [(ngModel)]="endDateFri"
+                                           />
+                                           <p class="text-danger" *ngIf="endDateFri <= startDateFri">End Date
+                                            Must Be Greater than From </p>
+                                    </div>
+                                    </div>
+                                    <h4  *ngIf="isWorkActiveFri">Second Shift</h4>
+                                    <div class="row">
+                                    <div class="col-12 col-lg-6  form-group" *ngIf="isWorkActiveFri">
+                                        <label for="StartDateFriSP">From</label>
+                                        <input class="form-control m-input" type="time" [(ngModel)]="startDateFriSP"
+                                           />
+                                           <p class="text-danger" *ngIf="startDateFriSP >= endDateFriSP">From  Must Be less than To</p>
+                                           <p class="text-danger" *ngIf="startDateFriSP >= startDateFri && startDateFriSP <= endDateFri ">
+                                               Invalid Interval</p>
+                                    </div>
+                                    <div class="col-12 col-lg-6  form-group" *ngIf="isWorkActiveFri">
+                                        <label for="EndDateSP">To</label>
+                                        <input class="form-control m-input" type="time" [(ngModel)]="endDateFriSP"
+                                        />
+                                        <p class="text-danger" *ngIf="endDateFriSP <= startDateFriSP">To Must Be Greater than From </p>
+                                       
+                                        <p class="text-danger" *ngIf="endDateFriSP <= endDateFri && endDateFriSP >= startDateFri || (startDateFri <= endDateFriSP && endDateFri >= startDateFriSP )">
+                                            Invalid Interval</p>
+                                    </div>
+                                    </div>
+                                </tab>
+                            </tabset>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="pt-3">
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" (click)="close()">{{ l("Cancel")
+                                    }}</button>
+                                <input type="button" class="btn btn-primary" (click)="saveSetting()" value="Save" />
+                                <!-- [disabled]="!menuForm.valid" -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="theme === 'theme12'" class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4  class="modal-title">
+                    <span>{{ l("branches") }}</span>
+                </h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="close()"
+                    aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <!--
+                        <label *ngIf="isWorkActive" for="StartDateSat"> Days </label>
+-->
+                        <div class="form-group">
+                            <div class="form-group">
+                                <label for="StartDateSat">{{ l("textAr") }}</label>
+                                <input
+                                   
+                                    class=" m-input form-control" type="text" [(ngModel)]="workTextAR" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 mt-1">
+                        <div class="form-group">
+                            <label for="StartDateSat">{{ l("textEn") }} </label>
+                            <input
+                                
+                                class=" m-input form-control" type="text" [(ngModel)]="workTextEN" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <tabset *ngIf="isWorkActive">
+                            <tab [heading]="'saturday' | localize">
+                                <div class="md-checkbox-list form-check form-switch">
+                                    <input class="form-check-input" id="isWorkActiveSat" type="checkbox"
+                                        name="isWorkActiveSat" [(ngModel)]="isWorkActiveSat" />
+                                    <label for="isWorkActiveSat" class="checkbox kt-checkbox mt">
+                                        {{ l("isAvailable") }}
+                                    </label>
+                                </div>
+                                <div class="col-12 mt-1">
+                                    <div class="form-group">
+                                        <label for="StartDateSat">{{ l("text") }} </label>
+                                        <input
+                                           
+                                            class=" m-input form-control" type="text" [(ngModel)]="workTextSat" />
+                                    </div>
+                                </div>
+                                <!--
+                                <div class="col-12 mt-1" *ngIf="isWorkActiveSat">
+                                    <div class="form-group">
+                                        <h5>Work Time</h5>
+                                    </div>
+                                </div>
+                            -->
+                                <div class="row">
+                                    <div class="col-6 mt-1" *ngIf="isWorkActiveSat">
+                                        <div class="form-group">
+                                            <label for="StartDateSat">{{ l("from") }}</label>
+                                            <input
+                                               
+                                                class=" m-input form-control" type="time" [(ngModel)]="startDateSat" />
+                                            <p class="text-danger" *ngIf="startDateSat >= endDateSat">From Must Be less
+                                                than
+                                                To</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 mt-1" *ngIf="isWorkActiveSat">
+                                        <div class="form-group">
+                                            <label for="EndDate">{{ l("to") }} </label>
+                                            <input
+                                                
+                                                class=" m-input form-control" type="time" [(ngModel)]="endDateSat" />
+                                            <p class="text-danger" *ngIf="endDateSat <= startDateSat">To Must Be Greater
+                                                than From </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mt-1">
+                                    <h4 *ngIf="isWorkActiveSat">{{ l("secondShift") }}</h4>
+                                    <div class="col-6 mt-1" *ngIf="isWorkActiveSat">
+                                        <div class="form-group">
+                                            <label for="StartDateSatSP">{{ l("from") }}</label>
+                                            <input
+                                               
+                                                class=" m-input form-control" type="time" [(ngModel)]="startDateSatSP" />
+                                            <p class="text-danger" *ngIf="startDateSatSP >= endDateSatSP">
+                                                From Must Be less than To</p>
+                                            <p class="text-danger"
+                                                *ngIf="startDateSatSP >= startDateSat && startDateSatSP <= endDateSat ">
+                                                Invalid Interval</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 mt-1" *ngIf="isWorkActiveSat">
+                                        <div class="form-group">
+                                            <label for="EndDateSP">{{ l("to") }}</label>
+                                            <input
+                                                
+                                                class=" m-input form-control" type="time" [(ngModel)]="endDateSatSP" />
+                                            <p class="text-danger" *ngIf="endDateSatSP <= startDateSatSP">
+                                                To Must Be Greater than From </p>
+
+                                            <p class="text-danger"
+                                                *ngIf="endDateSatSP <= endDateSat && endDateSatSP >= startDateSat || (startDateSat <= endDateSatSP && endDateSat >= startDateSatSP )">
+                                                Invalid Interval</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </tab>
+                            <tab [heading]="'sunday' | localize">
+                                <div class="md-checkbox-list form-check form-switch">
+                                    <input class="form-check-input" id="isWorkActiveSun" type="checkbox"
+                                        name="isWorkActiveSun" [(ngModel)]="isWorkActiveSun" />
+                                    <label for="isWorkActiveSun" class="checkbox mt">
+                                        {{ "isAvailable" | localize }}
+                                    </label>
+                                </div>
+                                <div class="col-12 mt-1">
+                                    <div class="form-group">
+                                        <label for="StartDateSun">{{ l("text") }} </label>
+                                        <input
+                                          
+                                            class=" m-input form-control" type="text" [(ngModel)]="workTextSun" />
+                                    </div>
+                                </div>
+                                <!--  <div class="col-12 mt-1">
+                                <div class="form-group" *ngIf="isWorkActiveSun">
+                                    <h5>Work Time</h5>
+                                </div>
+                            </div>-->
+                                <div class="row">
+                                    <div class="col-6 mt-1" *ngIf="isWorkActiveSun">
+                                        <div class="form-group">
+                                            <label for="StartDateSun">{{ l("from") }}</label>
+                                            <input
+                                             
+                                                class=" m-input form-control" type="time" [(ngModel)]="startDateSun" />
+                                            <p class="text-danger" *ngIf="startDateSun >= endDateSun">From Must Be less
+                                                than
+                                                To</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 mt-1" *ngIf="isWorkActiveSun">
+                                        <div class="form-group">
+                                            <label for="EndDate">{{ l("to") }} </label>
+                                            <input
+                                               
+                                                class=" m-input form-control" type="time" [(ngModel)]="endDateSun" />
+
+                                            <p class="text-danger" *ngIf="endDateSun <= startDateSun">To Must Be Greater
+                                                than From </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mt-1">
+                                    <h4 *ngIf="isWorkActiveSun">{{ l("secondShift") }}</h4>
+                                    <div class="col-6 mt-1">
+                                        <div class="form-group" *ngIf="isWorkActiveSun">
+                                            <label for="StartDateSunSP">{{ l("from") }}</label>
+                                            <input
+                                                class=" m-input form-control" type="time" [(ngModel)]="startDateSunSP" />
+                                            <p class="text-danger" *ngIf="startDateSunSP >= endDateSunSP ">
+                                                From Must Be less than To</p>
+                                            <p class="text-danger"
+                                                *ngIf="startDateSunSP >= startDateSun && startDateSunSP <= endDateSun ">
+                                                Invalid Interval</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 mt-1">
+                                        <div class="form-group" *ngIf="isWorkActiveSun">
+                                            <label for="EndDateSP">{{ l("to") }}</label>
+                                            <input
+                                                class=" m-input form-control" type="time" [(ngModel)]="endDateSunSP" />
+                                            <p class="text-danger" *ngIf="endDateSunSP <= startDateSunSP">
+                                                To Must Be Greater than From </p>
+                                            <p class="text-danger"
+                                                *ngIf="endDateSunSP <= endDateSun && endDateSunSP >= startDateSun || (startDateSun <= endDateSunSP && endDateSun >= startDateSunSP )">
+                                                Invalid Interval</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </tab>
+                            <tab [heading]="'monday' | localize">
+                                <div class="md-checkbox-list form-check form-switch">
+                                    <input class="form-check-input" id="isWorkActiveMon" type="checkbox"
+                                        name="isWorkActiveMon" [(ngModel)]="isWorkActiveMon" />
+                                    <label for="isWorkActiveMon" class="checkbox mt">
+                                        {{ "isAvailable" | localize }}
+                                    </label>
+                                </div>
+                                <div class="col-12 mt-1">
+                                    <div class="form-group">
+                                        <label for="StartDateMon">{{ l("text") }} </label>
+                                        <input
+                                            class=" m-input form-control" type="text" [(ngModel)]="workTextMon" />
+                                    </div>
+                                </div>
+                                <!--
+                                <div class="col-12" *ngIf="isWorkActiveMon">
+                                    <div class="form-group">
+                                        <h5>Work Time</h5>
+                                    </div>
+                                </div>-->
+                                <div class="row">
+                                    <div class="col-6 mt-1" *ngIf="isWorkActiveMon">
+                                        <div class="form-group">
+                                            <label for="StartDateMon">{{ l("from") }}</label>
+                                            <input
+                                                class=" m-input form-control" type="time" [(ngModel)]="startDateMon" />
+                                            <p class="text-danger" *ngIf="startDateMon >= endDateMon">From Must Be less
+                                                than
+                                                To</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 mt-1" *ngIf="isWorkActiveMon">
+                                        <div class="form-group">
+                                            <label for="EndDate">{{ l("to") }} </label>
+                                            <input
+                                                class=" m-input form-control" type="time" [(ngModel)]="endDateMon" />
+                                            <p class="text-danger" *ngIf="endDateMon <= startDateMon">To Must Be Greater
+                                                than From </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mt-1">
+                                    <h4 *ngIf="isWorkActiveMon">{{ l("secondShift") }}</h4>
+                                    <div class="col-6 mt-1" *ngIf="isWorkActiveMon">
+                                        <div class="form-group">
+                                            <label for="StartDateMonSP">{{ l("from") }}</label>
+                                            <input
+                                                class=" m-input form-control" type="time" [(ngModel)]="startDateMonSP" />
+                                            <p class="text-danger" *ngIf="startDateMonSP >= endDateMonSP">
+                                                From Must Be less than To</p>
+                                            <p class="text-danger"
+                                                *ngIf="startDateMonSP >= startDateMon && startDateMonSP <= endDateMon ">
+                                                Invalid Interval</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 mt-1" *ngIf="isWorkActiveMon">
+                                        <div class="form-group">
+                                            <label for="EndDateSP">{{ l("to") }}</label>
+                                            <input
+                                                class=" m-input form-control" type="time" [(ngModel)]="endDateMonSP" />
+                                            <p class="text-danger" *ngIf="endDateMonSP <= startDateMonSP">
+                                                To Must Be Greater than From </p>
+                                            <p class="text-danger"
+                                                *ngIf="endDateMonSP <= endDateMon && endDateMonSP >= startDateMon || (startDateMon <= endDateMonSP && endDateMon >= startDateMonSP )">
+                                                Invalid Interval</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </tab>
+                            <tab [heading]="'tuesday' | localize">
+                                <div class="md-checkbox-list form-check form-switch">
+                                    <input class="form-check-input" id="isWorkActiveTues" type="checkbox"
+                                        name="isWorkActiveTues" [(ngModel)]="isWorkActiveTues" />
+                                    <label for="isWorkActiveTues" class="checkbox mt">
+                                        {{ "isAvailable" | localize }}
+                                    </label>
+                                </div>
+                                <div class="col-12 mt-1">
+                                    <div class="form-group">
+                                        <label for="StartDateTues">{{ l("text") }} </label>
+                                        <input
+                                            class=" m-input form-control" type="text" [(ngModel)]="workTextTues" />
+                                    </div>
+                                </div>
+                                <!--
+                            <div class="col-12 mt-1" *ngIf="isWorkActiveTues">
+                                <div class="form-group" >
+                                    <h5>Work Time</h5>
+                                </div>
+                            </div>-->
+                                <div class="row">
+                                    <div class="col-6 mt-1" *ngIf="isWorkActiveTues">
+                                        <div class="form-group">
+                                            <label for="StartDateTues">{{ l("from") }}</label>
+                                            <input
+                                                class=" m-input form-control" type="time" [(ngModel)]="startDateTues" />
+                                            <p class="text-danger" *ngIf="startDateTues >= endDateTues">From Must Be less
+                                                than To</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 mt-1" *ngIf="isWorkActiveTues">
+                                        <div class="form-group">
+                                            <label for="EndDate">{{ l("to") }} </label>
+                                            <input
+                                                class=" m-input form-control" type="time" [(ngModel)]="endDateTues" />
+                                            <p class="text-danger" *ngIf="endDateTues <= startDateTues">To Must Be
+                                                Greater
+                                                than From </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mt-1">
+                                    <h4 *ngIf="isWorkActiveTues">{{ l("secondShift") }}</h4>
+                                    <div class="col-6 mt-1" *ngIf="isWorkActiveTues">
+                                        <div class="form-group">
+                                            <label for="StartDateTuesSP">{{ l("from") }}</label>
+                                            <input
+                                                class=" m-input form-control" type="time" [(ngModel)]="startDateTuesSP" />
+                                            <p class="text-danger" *ngIf="startDateTuesSP >= endDateTuesSP">
+                                                From Must Be less than To</p>
+                                            <p class="text-danger"
+                                                *ngIf="startDateTuesSP >= startDateTues && startDateTuesSP <= endDateTues ">
+                                                Invalid Interval</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 mt-1" *ngIf="isWorkActiveTues">
+                                        <div class="form-group">
+                                            <label for="EndDateSP">{{ l("to") }}</label>
+                                            <input
+                                                class=" m-input form-control" type="time" [(ngModel)]="endDateTuesSP" />
+                                            <p class="text-danger" *ngIf="endDateTuesSP <= startDateTuesSP">
+                                                To Must Be Greater than From </p>
+                                            <p class="text-danger"
+                                                *ngIf="endDateTuesSP <= endDateTues && endDateTuesSP >= startDateTues || (startDateTues <= endDateTuesSP && endDateTues >= startDateTuesSP )">
+                                                Invalid Interval</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </tab>
+                            <tab [heading]="'wednesday' | localize">
+                                <div class="md-checkbox-list form-check form-switch">
+                                    <input class="form-check-input" id="isWorkActiveWed" type="checkbox"
+                                        name="isWorkActiveWed" [(ngModel)]="isWorkActiveWed" />
+                                    <label for="isWorkActiveWed" class="checkbox mt">
+                                        {{ "isAvailable" | localize }}
+                                    </label>
+                                </div>
+                                <div class="col-12 mt-1">
+                                    <div class="form-group">
+                                        <label for="StartDateWed">{{ l("text") }} </label>
+                                        <input
+                                            class=" m-input form-control" type="text" [(ngModel)]="workTextWed" />
+                                    </div>
+                                </div>
+                                <!--
+                                <div class="col-12 mt-1" *ngIf="isWorkActiveWed">
+                                <div class="form-group" >
+                                    <h5>Work Time</h5>
+                                </div>
+                            </div>-->
+                                <div class="row">
+                                    <div class="col-6 mt-1" *ngIf="isWorkActiveWed">
+                                        <div class="form-group">
+                                            <label for="StartDateWed">{{ l("from") }}</label>
+                                            <input
+                                                class=" m-input form-control" type="time" [(ngModel)]="startDateWed" />
+                                            <p class="text-danger" *ngIf="startDateWed >= endDateWed">From Must Be less
+                                                than
+                                                To</p>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-6 mt-1" *ngIf="isWorkActiveWed">
+                                        <div class="form-group">
+                                            <label for="EndDate">{{ l("to") }} </label>
+                                            <input
+                                                class=" m-input form-control" type="time" [(ngModel)]="endDateWed" />
+
+                                            <p class="text-danger" *ngIf="endDateWed <= startDateWed">To Must Be Greater
+                                                than From </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mt-1">
+                                    <h4 *ngIf="isWorkActiveWed">{{ l("secondShift") }}</h4>
+                                    <div class="col-6 mt-1">
+                                        <div class="form-group" *ngIf="isWorkActiveWed">
+                                            <label for="StartDateWedSP">{{ l("from") }}</label>
+                                            <input
+                                                class=" m-input form-control" type="time" [(ngModel)]="startDateWedSP" />
+
+                                            <p class="text-danger" *ngIf="startDateWedSP >= endDateWedSP">Start
+                                                Date Must Be less than To</p>
+                                            <p class="text-danger"
+                                                *ngIf="startDateWedSP >= startDateWed && startDateWedSP <= endDateWed ">
+                                                Invalid Interval</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 mt-1">
+                                        <div class="form-group" *ngIf="isWorkActiveWed">
+                                            <label for="EndDateSP">{{ l("to") }}</label>
+                                            <input
+                                                class=" m-input form-control" type="time" [(ngModel)]="endDateWedSP" />
+                                            <p class="text-danger" *ngIf="endDateWedSP <= startDateWedSP">End
+                                                Date Must Be Greater than From </p>
+                                            <p class="text-danger"
+                                                *ngIf="endDateWedSP <= endDateWed && endDateWedSP >= startDateWed || (startDateWed <= endDateWedSP && endDateWed >= startDateWedSP )">
+                                                Invalid Interval</p>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </tab>
+                            <tab [heading]="'thursday' | localize">
+                                <div class="md-checkbox-list form-check form-switch">
+                                    <input class="form-check-input" id="isWorkActiveThurs" type="checkbox"
+                                        name="isWorkActiveThurs" [(ngModel)]="isWorkActiveThurs" />
+                                    <label for="isWorkActiveThurs" class="checkbox mt">
+                                        {{ "isAvailable" | localize }}
+                                    </label>
+                                </div>
+                                <div class="col-12 mt-1">
+                                    <div class="form-group">
+                                        <label for="StartDateThurs">{{ l("text") }} </label>
+                                        <input
+                                            class=" m-input form-control" type="text" [(ngModel)]="workTextThurs" />
+                                    </div>
+                                </div>
+                                <!--
+                            <div class="col-12 mt-1" *ngIf="isWorkActiveThurs">
+                                <div class="form-group">
+                                    <h5>Work Time</h5>
+                                </div>
+                                -->
+                                <div class="row">
+                                    <div class="col-6 mt-1" *ngIf="isWorkActiveThurs">
+                                        <div class="form-group">
+                                            <label for="StartDateThurs">{{ l("from") }}</label>
+                                            <input
+                                                class=" m-input form-control" type="time" [(ngModel)]="startDateThurs" />
+                                            <p class="text-danger" *ngIf="startDateThurs >= endDateThurs">Start
+                                                Date Must Be less than To</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 mt-1" *ngIf="isWorkActiveThurs">
+                                        <div class="form-group">
+                                            <label for="EndDate">{{ l("to") }} </label>
+                                            <input
+                                                class=" m-input form-control" type="time" [(ngModel)]="endDateThurs" />
+                                            <p class="text-danger" *ngIf="endDateThurs <= startDateThurs">End
+                                                Date Must Be Greater than From </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mt-1">
+                                    <h4 *ngIf="isWorkActiveThurs">{{ l("secondShift") }}</h4>
+                                    <div class="col-6 mt-1">
+                                        <div class="form-group" *ngIf="isWorkActiveThurs">
+                                            <label for="StartDateThursSP">{{ l("from") }}</label>
+                                            <input
+                                                class=" m-input form-control" type="time" [(ngModel)]="startDateThursSP" />
+                                            <p class="text-danger" *ngIf="startDateThursSP >= endDateThursSP">From Must
+                                                Be
+                                                less than To</p>
+                                            <p class="text-danger"
+                                                *ngIf="startDateThursSP >= startDateThurs && startDateThursSP <= endDateThurs ">
+                                                Invalid Interval</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 mt-1">
+                                        <div class="form-group" *ngIf="isWorkActiveThurs">
+                                            <label for="EndDateSP">{{ l("to") }}</label>
+                                            <input
+                                                class=" m-input form-control" type="time" [(ngModel)]="endDateThursSP" />
+                                            <p class="text-danger" *ngIf="endDateThursSP <= startDateThursSP">To Must Be
+                                                Greater than From </p>
+                                            <p class="text-danger"
+                                                *ngIf="endDateThursSP <= endDateThurs && endDateThursSP >= startDateThurs || (startDateThurs <= endDateThursSP && endDateThurs >= startDateThursSP )">
+                                                Invalid Interval</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </tab>
+                            <tab [heading]="'friday' | localize">
+                                <div class="md-checkbox-list form-check form-switch">
+                                    <input class="form-check-input" id="isWorkActiveFri" type="checkbox"
+                                        name="isWorkActiveFri" [(ngModel)]="isWorkActiveFri" />
+                                    <label for="isWorkActiveFri" class="checkbox mt">
+                                        {{ "isAvailable" | localize }}
+                                    </label>
+                                </div>
+                                <div class="col-12 mt-1">
+                                    <div class="form-group">
+                                        <label for="StartDateFri">{{ l("text") }} </label>
+                                        <input
+                                            class=" m-input form-control" type="text" [(ngModel)]="workTextFri" />
+                                    </div>
+                                </div>
+                                <!--
+                                <div class="form-group" *ngIf="isWorkActiveFri">
+                                    <h5>Work Time</h5>
+                                </div>-->
+                                <div class="row">
+                                    <div class="col-6 mt-1" *ngIf="isWorkActiveFri">
+                                        <div class="form-group">
+                                            <label for="StartDateFri">{{ l("from") }}</label>
+                                            <input
+                                                class=" m-input form-control" type="time" [(ngModel)]="startDateFri" />
+                                            <p class="text-danger" *ngIf="startDateFri >= endDateFri">From
+                                                Must Be less than To</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 mt-1" *ngIf="isWorkActiveFri">
+                                        <div class="form-group">
+                                            <label for="EndDate">{{ l("to") }} </label>
+                                            <input
+                                                class=" m-input form-control" type="time" [(ngModel)]="endDateFri" />
+                                            <p class="text-danger" *ngIf="endDateFri <= startDateFri">End Date
+                                                Must Be Greater than From </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mt-1">
+                                    <h4 *ngIf="isWorkActiveFri">{{ l("secondShift") }}</h4>
+                                    <div class="col-6 mt-1">
+                                        <div class="form-group" *ngIf="isWorkActiveFri">
+                                            <label for="StartDateFriSP">{{ l("from") }}</label>
+                                            <input
+                                                class=" m-input form-control" type="time" [(ngModel)]="startDateFriSP" />
+                                            <p class="text-danger" *ngIf="startDateFriSP >= endDateFriSP">From Must Be
+                                                less
+                                                than To</p>
+                                            <p class="text-danger"
+                                                *ngIf="startDateFriSP >= startDateFri && startDateFriSP <= endDateFri ">
+                                                Invalid Interval</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 mt-1">
+                                        <div class="form-group" *ngIf="isWorkActiveFri">
+                                            <label for="EndDateSP">{{ l("to") }}</label>
+                                            <input
+                                                class=" m-input form-control" type="time" [(ngModel)]="endDateFriSP" />
+                                            <p class="text-danger" *ngIf="endDateFriSP <= startDateFriSP">To Must Be
+                                                Greater
+                                                than From </p>
+
+                                            <p class="text-danger"
+                                                *ngIf="endDateFriSP <= endDateFri && endDateFriSP >= startDateFri || (startDateFri <= endDateFriSP && endDateFri >= startDateFriSP )">
+                                                Invalid Interval</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </tab>
+                        </tabset>
+                    </div>
+
+                    <div>
+                        <div class="pt-3">
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" (click)="close()">{{ l("Cancel")
+                                    }}</button>
+                                <button type="button" class="btn btn-primary-info" (click)="saveSetting()">
+                                    <i class="fa fa-save"></i> <span>{{ l("Save") }}</span>
+                                </button>
+                                <!-- [disabled]="!menuForm.valid" -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

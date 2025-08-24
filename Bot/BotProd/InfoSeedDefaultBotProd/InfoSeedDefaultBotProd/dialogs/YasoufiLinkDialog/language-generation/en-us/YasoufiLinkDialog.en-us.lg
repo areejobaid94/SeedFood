@@ -1,0 +1,9 @@
+[import](common.lg)
+
+# TextInput_Prompt_S2gM5e()
+[Activity
+    Text = ${TextInput_Prompt_S2gM5e_text()}
+]
+
+# TextInput_Prompt_S2gM5e_text()
+- ${dialog.link}

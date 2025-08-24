@@ -1,0 +1,30 @@
+[import](common.lg)
+
+# SendActivity_CMNKd5()
+[Activity
+    Text = ${SendActivity_CMNKd5_text()}
+]
+
+# SendActivity_CMNKd5_text()
+- ${dialog.OBritishCaption}
+# TextInput_Prompt_Ma3F4p_text()
+- ${conversation.InputHint}
+# TextInput_Prompt_Ma3F4p()
+[Activity
+    Text = ${TextInput_Prompt_Ma3F4p_text()}
+    SuggestedActions = ${dialog.option1} | ${dialog.option2} | ${dialog.option3}
+]
+
+# TextInput_Prompt_QRutHf_text()
+- ${dialog.InquireCaption}
+# TextInput_Prompt_QRutHf()
+[Activity
+    Text = ${TextInput_Prompt_QRutHf_text()}
+]
+
+# TextInput_Prompt_BjZEtc_text()
+- ${dialog.InquireCaption}
+# TextInput_Prompt_BjZEtc()
+[Activity
+    Text = ${TextInput_Prompt_BjZEtc_text()}
+]

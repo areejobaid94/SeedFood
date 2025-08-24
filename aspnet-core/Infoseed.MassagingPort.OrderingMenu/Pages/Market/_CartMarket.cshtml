@@ -1,0 +1,53 @@
+﻿@{
+    ViewData["Title"] = "cart sidebar page";
+}
+
+
+
+      <div class="cart-sidebar">
+         <div class="cart-sidebar-header">
+            <h5>
+           @localizer.Get("cart") <span class="text-success">( </span> <span class="text-success spCartCount" >0 </span> <span class="text-success"> @localizer.Get("item"))</span> <a data-toggle="offcanvas" class="float-right" href="#"><i class="mdi mdi-close"></i>
+               </a>
+            </h5>
+         </div>
+         <div class="cart-sidebar-body " id="divSidebarBody">
+       
+          
+         </div>
+    <div class="cart-list-product div-selected-item p-4">
+    </div>
+    <div id="cartFooter" class="cart-sidebar-foter bg-white">
+
+@*
+
+        <textarea name="Note" id="notes" rows="3" class="notes
+    col-12 p-1 dirc" maxlength="150"  placeholder="@localizer.Get("Note")"></textarea>*@
+        <div id="errormsg2" class=" erorrmsg pl-2 pr-2">
+            <span class="text-danger float">@localizer.Get("NoPoint")</span>
+            <span class="text-danger"> @localizer.Get("yourpoint") <strong class="MyPoints">0</strong></span>
+        </div>
+        @if (Model.IsLoyalty)
+
+        {
+
+            <div class=" erorrmsg pointss_0 col-12" id="pointss">
+            </div>
+        }
+   
+        <button id="btnSubmitOrder" data-target="#bd-example-modal" data-toggle="modal" class="btn btn-secondary btn-lg btn-block text-left font" type="button">
+            <span class="float-"><i class="mdi mdi-cart-outline "></i><strong> @localizer.Get("submit")</strong> </span>
+            <span class="float"><strong class="stTotalPrice">0</strong> <strong class="currencyCode"></strong> <span class="mdi mdi-chevron-right"></span></span>
+
+
+            @if (Model.IsLoyalty)
+            {
+
+                <span class="  float text-warning" id="carticon"><strong class="stTotalLoyaltyPoints">0 </strong> <i class="  mdi mdi-star-circle  pl-1"></i>  <span class="mdi mdi-chevron"></span></span>
+            }
+        </button>
+    </div>
+
+
+
+</div>

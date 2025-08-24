@@ -1,0 +1,51 @@
+[import](common.lg)
+
+# TextInput_Prompt_3KRzyd()
+[Activity
+    Text = ${TextInput_Prompt_3KRzyd_text()}
+    SuggestedActions = ${dialog.Option1} | ${dialog.Option2}
+]
+
+# SendActivity_dquISm()
+[Activity
+    Text = ${SendActivity_dquISm_text()}
+]
+
+# SendActivity_dquISm_text()
+- ${conversation.finalMassegForSignUp}
+# TextInput_Prompt_3KRzyd_text()
+- ${conversation.PleaseSelect}
+# SendActivity_IHNeuV_text()
+- ${dialog.ThanksMessage}
+# SendActivity_IHNeuV()
+[Activity
+    Text = ${SendActivity_IHNeuV_text()}
+]
+
+# SendActivity_pTHw9R()
+[Activity
+    Text = ${SendActivity_pTHw9R_text()}
+    Speak = ${SendActivity_pTHw9R_speak()}
+]
+
+# SendActivity_pTHw9R_text()
+- ${conversation.PDFLink}
+# SendActivity_pTHw9R_speak()
+- ${conversation.PDFLink}
+# SendActivity_0wMRHe_text()
+- ${conversation.PDFLink}
+# SendActivity_0wMRHe_speak()
+- ${conversation.PDFLink}
+# SendActivity_0wMRHe()
+[Activity
+    Text = ${SendActivity_0wMRHe_text()}
+    Speak = ${SendActivity_0wMRHe_speak()}
+]
+
+# SendActivity_EqqWQf_text()
+- ${conversation.finalMassegForSignUp}
+# SendActivity_EqqWQf()
+[Activity
+    Text = ${SendActivity_EqqWQf_text()}
+]
+

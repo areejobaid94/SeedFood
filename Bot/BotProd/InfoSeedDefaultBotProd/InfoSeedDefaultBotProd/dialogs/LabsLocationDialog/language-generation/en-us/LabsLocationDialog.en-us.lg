@@ -1,0 +1,8 @@
+[import](common.lg)
+
+# TextInput_Prompt_ZFtAGE_text()
+- ${conversation.sendLoctext}
+# TextInput_Prompt_ZFtAGE()
+[Activity
+    Text = ${TextInput_Prompt_ZFtAGE_text()}
+]

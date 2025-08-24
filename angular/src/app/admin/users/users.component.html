@@ -1,0 +1,490 @@
+<div [@routerTransition]>
+    <div class="header-navbar-shadow"></div>
+    <div class="content-wrapper container-xxl p-0">
+        <div class="content-body">
+            <div class="d-flex flex-column flex-column-fluid">
+                <sub-header *ngIf="theme != 'theme12'" [title]="'Users' | localize" [description]="'UsersHeaderInfo' | localize">
+                    <div role="actions">
+
+                        <button
+                     
+                            (click)="createUser()"
+                            *ngIf="'Pages.Administration.Users.Create' | permission"
+                            class="btn btn-primary btn-round btn-sm waves-effect waves-float waves-light"
+                        >
+                            <i class="fa fa-plus"></i> {{ "CreateNewUser" | localize }}
+                        </button>
+                    </div>
+                </sub-header>
+                <sub-header *ngIf="theme === 'theme12'" [title]="'Users' | localize" [description]="'UsersHeaderInfo' | localize"> </sub-header>
+
+                <div [ngClass]="theme != 'theme12' ? 'container' : ''">
+                    <div class="card-custom gutter-b card">
+                        <div class="card-body">
+ 
+                            <div style="display: flex; flex-direction: row; align-items: center; padding: 10px; justify-content: space-between" *ngIf="theme === 'theme12'">
+                                <div>
+                                    <p-tabView (onChange)="switchHeaders($event)" [(activeIndex)]="tabIndex">
+                                        <p-tabPanel>
+                                            <ng-template pTemplate="header">
+                                                <i class="bi bi-person-fill" style="font-size: 20px; margin-right: 10px"></i>
+                                                <span>{{ l("User") }}</span>
+                                            </ng-template>
+                                        </p-tabPanel>
+                                        <p-tabPanel header="Header II">
+                                            <ng-template pTemplate="header">
+                                                <i class="bi bi-people-fill" style="font-size: 20px; margin-right: 10px"></i>
+                                                <span>{{ l("Teams") }}</span>
+                                            </ng-template>
+                                        </p-tabPanel>
+                                    </p-tabView>
+                                </div>
+
+                            </div>
+
+                            <!-- old !-->
+                            <div class="row mb-2" *ngIf="tabIndex === 0">
+                                <div class="col-md-8 col-12">
+                                    <div class=" ml-1 align-items-center pr-1 pb-1 pl-1 pl-md-0 pb-md-0">
+                                        <form class="form" autocomplete="new-password">
+                                            <div class="d-flex">
+                                                <input
+                                                    [(ngModel)]="filterText"
+                                                    name="filterText"
+                                                    autoFocus
+                                                    class=" m-input form-control"
+                                                    [placeholder]="l('SearchWithThreeDot')"
+                                                    type="search"
+                                                />
+                                              
+                                                    <button [ngClass]="theme != 'theme12' ? 'btn-primary' : 'btn-primary-info'"  (click)="getUsers()" class="btn " type="submit">
+                                                        <i class="flaticon-search-1" [attr.aria-label]="l('Search')"></i>
+                                                    </button>
+                                        
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                                <div *ngIf="theme === 'theme12'" class="col-md-4 col-12 pl-1" [ngClass]="isArabic? 'text-left' : 'text-right'">
+                                    <button (click)="createUser()" *ngIf="'Pages.Administration.Users.Create' | permission" class="btn btn-outline-primary-info mr-1">
+                                        <i class="fa fa-plus"></i> {{ "CreateNewUser" | localize }}
+                                    </button>
+                                </div>
+                            </div>
+
+
+                          <!-- new2 !-->
+                            <div class="row mb-2" *ngIf="tabIndex === 1">
+                                <div class="col-md-8 col-12">
+                                    <div class=" ml-1 align-items-center pr-1 pb-1 pl-1 pl-md-0 pb-md-0">
+                                        <form class="form" autocomplete="new-password">
+                                            <div class="d-flex">
+                                                <input
+                                                    [(ngModel)]="filterText"
+                                                    name="filterText"
+                                                    autoFocus
+                                                    class=" m-input form-control"
+                                                    [placeholder]="l('SearchWithThreeDot')"
+                                                    type="search"
+                                                />
+                                              
+                                                    <button [ngClass]="theme != 'theme12' ? 'btn-primary' : 'btn-primary-info'"  (click)="getUsers()" class="btn " type="submit">
+                                                        <i class="flaticon-search-1" [attr.aria-label]="l('Search')"></i>
+                                                    </button>
+                                        
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                                <div *ngIf="theme === 'theme12'" class="col-md-4 col-12 pl-1" [ngClass]="isArabic? 'text-left' : 'text-right'">
+                                    <button (click)="createTeams()" *ngIf="'Pages.Administration.Users.Create' | permission" class="btn btn-outline-primary-info mr-1">
+                                        <i class="fa fa-plus"></i> {{ "CreateNewTeams" | localize }}
+                                    </button>
+                                </div>
+                            </div>
+
+<!-- old table !-->
+                       <div  >
+                            <div class="row mb-4" [hidden]="!advancedFiltersAreShown" >
+                                <div [ngClass]="{ 'col-md-6': ('Pages.Administration.Roles' | permission), 'col-md-12': !('Pages.Administration.Roles' | permission) }">
+                                    <div class="form-group">
+                                        <permission-tree-modal #permissionFilterTreeModal (onModalclose)="getUsers()"> </permission-tree-modal>
+                                    </div>
+                                </div>
+                                <div class="col-md-6" *ngIf="'Pages.Administration.Roles' | permission">
+                                    <div class="form-group">
+                                        <role-combo name="roleFilter" [(ngModel)]="role"></role-combo>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="checkbox-inline">
+                                        <label for="UsersTable_OnlyLockedUsers" class="checkbox">
+                                            <input id="UsersTable_OnlyLockedUsers" type="checkbox" name="OnlyLockedUsers" [(ngModel)]="onlyLockedUsers" />
+                                            <span></span>
+                                            {{ "OnlyLockedUsers" | localize }}
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-4" *ngIf="advancedFiltersAreShown">
+                                <div class="col-sm-12 text-right">
+                                    <button class="btn btn-primary" (click)="getUsers()"><i class="fa fa-sync"></i> {{ "Refresh" | localize }}</button>
+                                </div>
+                            </div>
+                            <div class="align-items-center" >
+                                <!--<Primeng-TurboTable-Start>-->
+                                <div
+                                    [ngClass]="darkModeService.currentSkin === 'dark' ? 'table-dark' : 'light'"
+                                    class="primeng-datatable-container"
+                                    [busyIf]="primengTableHelper.isLoading"
+                                >
+                                    <p-table 
+                                        [ngClass]="darkModeService.currentSkin === 'dark' ? 'table-dark' : 'light'"
+                                        #dataTable
+                                        sortMode="multiple"
+                                        (onLazyLoad)="getUsers($event,tabIndex)"
+                                        class="table-responsive"
+                                        [value]="primengTableHelper.records"
+                                        rows="20"
+                                        
+                                        [paginator]="false"
+                                        [lazy]="true"
+                                        [scrollable]="true"
+                                        ScrollWidth="100%"
+                                        [responsive]="primengTableHelper.isResponsive"
+                                        [resizableColumns]="primengTableHelper.resizableColumns"
+                                    >
+                                        <ng-template [ngClass]="darkModeService.currentSkin === 'dark' ? 'table-dark' : 'light'" pTemplate="header">
+
+                                            <tr *ngIf="tabIndex === 0">
+                                                <th [ngClass]="darkModeService.currentSkin === 'dark' ? 'dark-table' : ''"
+                                                    style="width: 100px"
+                                                    [hidden]="
+                                                        !(
+                                                            [
+                                                                'Pages.Administration.Users.Impersonation',
+                                                                'Pages.Administration.Users.Edit',
+                                                                'Pages.Administration.Users.ChangePermissions',
+                                                                'Pages.Administration.Users.Delete'
+                                                            ] | permissionAny
+                                                        )
+                                                    "
+                                                >
+                                                    {{ "Actions" | localize }}
+                                                </th>
+                                                <th [ngClass]="darkModeService.currentSkin === 'dark' ? 'dark-table' : ''" style="width: 150px" pSortableColumn="username">
+                                                    {{ "UserName" | localize }}
+                                                    <p-sortIcon field="username"></p-sortIcon>
+                                                </th>
+                                                <th [ngClass]="darkModeService.currentSkin === 'dark' ? 'dark-table' : ''" style="width: 150px" pSortableColumn="name">
+                                                    {{ "Name" | localize }}
+                                                    <p-sortIcon field="name"></p-sortIcon>
+                                                </th>
+                                                <th [ngClass]="darkModeService.currentSkin === 'dark' ? 'dark-table' : ''" style="width: 150px" pSortableColumn="surname">
+                                                    {{ "Surname" | localize }}
+                                                    <p-sortIcon field="surname"></p-sortIcon>
+                                                </th>
+                                                <th [ngClass]="darkModeService.currentSkin === 'dark' ? 'dark-table' : ''" style="width: 150px">
+                                                    {{ "Roles" | localize }}
+                                                </th>
+                                                <th [ngClass]="darkModeService.currentSkin === 'dark' ? 'dark-table' : ''" style="width: 200px" pSortableColumn="emailAddress">
+                                                    {{ "EmailAddress" | localize }}
+                                                    <p-sortIcon field="emailAddress"></p-sortIcon>
+                                                </th>
+                                                <!-- <th style="font-family: system-ui; width: 200px" pSortableColumn="isEmailConfirmed">
+                                            {{'EmailConfirm' | localize}}
+                                            <p-sortIcon field="isEmailConfirmed"></p-sortIcon>
+                                        </th> -->
+                                                <!-- <th style="font-family: system-ui; width: 100px" pSortableColumn="isActive">
+                                            {{'Active' | localize}}
+                                            <p-sortIcon field="isActive"></p-sortIcon>
+                                        </th> -->
+                                                <th [ngClass]="darkModeService.currentSkin === 'dark' ? 'dark-table' : ''" style="min-width: 150px" pSortableColumn="creationTime">
+                                                    {{ "CreationTime" | localize }}
+                                                    <p-sortIcon field="creationTime"></p-sortIcon>
+                                                </th>
+                                            </tr>
+
+                                            <tr *ngIf="tabIndex === 1">
+                                                <th [ngClass]="darkModeService.currentSkin === 'dark' ? 'dark-table' : ''"
+                                                    style="width: 100px"
+                                                    [hidden]="
+                                                        !(
+                                                            [
+                                                                'Pages.Administration.Users.Impersonation',
+                                                                'Pages.Administration.Users.Edit',
+                                                                'Pages.Administration.Users.ChangePermissions',
+                                                                'Pages.Administration.Users.Delete'
+                                                            ] | permissionAny
+                                                        )
+                                                    "
+                                                >
+                                                    {{ "Actions" | localize }}
+                                                </th>
+
+                                                <th [ngClass]="darkModeService.currentSkin === 'dark' ? 'dark-table' : ''" style="width: 150px" pSortableColumn="name">
+                                                    {{ "Name" | localize }}
+                                                    <p-sortIcon field="name"></p-sortIcon>
+                                                </th>
+                                                <th class="totalNumberWidth" [ngClass]="darkModeService.currentSkin === 'dark' ? 'dark-table' : ''" pSortableColumn="totalNumber">
+                                                    <!-- <p-sortIcon field="totalNumber"></p-sortIcon> -->
+                                                    {{ l("Total Number") }}
+                                                </th>
+                                            </tr>
+
+                                        </ng-template>
+                                        <ng-template pTemplate="body" let-record="$implicit">
+
+                                            <tr *ngIf="tabIndex === 0" >
+                                                <td [ngClass]="darkModeService.currentSkin === 'dark' ? 'table-dark' : ''"
+                                                    style="width: 100px"
+                                                    [hidden]="
+                                                        !(
+                                                            [
+                                                                'Pages.Administration.Users.Impersonation',
+                                                                'Pages.Administration.Users.Edit',
+                                                                'Pages.Administration.Users.ChangePermissions',
+                                                                'Pages.Administration.Users.Delete'
+                                                            ] | permissionAny
+                                                        )
+                                                    "
+                                                >
+                                                    <div class="btn-group dropdown" dropdown container="body">
+                                                        <button [ngClass]="theme != 'theme12' ? 'btn-primary' : 'btn-primary-info'"  dropdownToggle class="dropdown-toggle btn btn-sm ">
+                                                            <i class="fa fa-cog"></i><span class="caret"></span>
+                                                        </button>
+                                                        <ul [ngClass]="darkModeService.currentSkin === 'dark' ? 'drop-down-dark' : ''" class="dropdown-menu" *dropdownMenu>
+                                                            <li>
+                                                                <a
+                                                                    href="javascript:;"
+                                                                    class="dropdown-item"
+                                                                    *ngIf="('Pages.Administration.Users.Impersonation' | permission) && record.id !== appSession.userId"
+                                                                    (click)="_impersonationService.impersonate(record.id, appSession.tenantId)"
+                                                                    >{{ "LoginAsThisUser" | localize }}</a
+                                                                >
+                                                            </li>
+                                                            <li>
+                                                                <a
+                                                                    href="javascript:;"
+                                                                    class="dropdown-item"
+                                                                    *ngIf="'Pages.Administration.Users.Edit' | permission"
+                                                                    (click)="createOrEditUserModal.show(record.id)"
+                                                                    >{{ "Edit" | localize }}</a
+                                                                >
+                                                            </li>
+                                                            <li>
+                                                                <a
+                                                                    href="javascript:;"
+                                                                    class="dropdown-item"
+                                                                    *ngIf="'Pages.Administration.Users.ChangePermissions' | permission"
+                                                                    (click)="editUserPermissionsModal.show(record.id, record.userName)"
+                                                                    >{{ "Permissions" | localize }}</a
+                                                                >
+                                                            </li>
+
+                                                            <li>
+                                                                <a
+                                                                    href="javascript:;"
+                                                                    class="dropdown-item"
+                                                                    *ngIf="'Pages.Booking' | permission"
+                                                                    (click)="createOrEditUserSettingModel.show(record.id)"
+                                                                    >{{ "booking" | localize }}</a
+                                                                >
+                                                            </li>
+                                                            <li>
+                                                                <a
+                                                                    href="javascript:;"
+                                                                    class="dropdown-item"
+                                                                    *ngIf="'Pages.Booking' | permission"
+                                                                    (click)="createOrEditBookingSettings.show(record.id)"
+                                                                    >{{ "unavailableDates" | localize }}</a
+                                                                >
+                                                            </li>
+                                                            <li>
+                                                                <a
+                                                                    href="javascript:;"
+                                                                    class="dropdown-item"
+                                                                    *ngIf="'Pages.Administration.Users.Edit' | permission"
+                                                                    (click)="userTicketsModal.show(record.id)"
+                                                                    >{{ "Maximum Opened Tickets" | localize }}</a
+                                                                >
+                                                            </li>
+                                                            <!-- <li>
+                                                                <a
+                                                                    href="javascript:;"
+                                                                    class="dropdown-item"
+                                                                    *ngIf="'Pages.Administration.Users.Unlock' | permission"
+                                                                    (click)="unlockUser(record)"
+                                                                    >{{ "Unlock" | localize }}</a
+                                                                >
+                                                            </li> -->
+                                                            <!-- <li>
+                                                        <a href="javascript:;" class="dropdown-item"
+                                                            *ngIf="'Pages.Administration.DynamicEntityPropertyValue.Edit' | permission"
+                                                            (click)="showDynamicProperties(record)">{{'DynamicProperties' | localize}}</a>
+                                                    </li> -->
+                                                            <li>
+                                                                <a
+                                                                    href="javascript:;"
+                                                                    class="dropdown-item"
+                                                                    *ngIf="'Pages.Administration.Users.Delete' | permission"
+                                                                    (click)="deleteUser(record)"
+                                                                    >{{ "Delete" | localize }}</a
+                                                                >
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </td>
+                                                <td [ngClass]="darkModeService.currentSkin === 'dark' ? 'table-dark' : ''" style="width: 150px;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;">
+                                                    <span class="p-column-title"> {{ "UserName" | localize }}</span>
+                                                    <span>
+                                                        <a [href]="record.profilePictureUrl" target="_blank" class="float-left">
+                                                            <img width="32" alt="UserImage" height="32" class="rounded-circle mr-1" [src]="record.profilePictureUrl" />
+                                                        </a>
+                                                        {{ record.userName }}
+                                                    </span>
+                                                </td>
+                                                <td [ngClass]="darkModeService.currentSkin === 'dark' ? 'table-dark' : ''" style="width: 150px">
+                                                    <span class="p-column-title"> {{ "FirstName" | localize }}</span>
+                                                    {{ record.name }}
+                                                </td>
+                                                <td [ngClass]="darkModeService.currentSkin === 'dark' ? 'table-dark' : ''" style=" width: 150px">
+                                                    <span class="p-column-title"> {{ "Surname" | localize }}</span>
+                                                    {{ record.surname }}
+                                                </td>
+                                                <td [ngClass]="darkModeService.currentSkin === 'dark' ? 'table-dark' : ''" style=" width: 150px">
+                                                    <span class="p-column-title"> {{ "Roles" | localize }}</span>
+                                                    {{ getRolesAsString(record.roles) }}
+                                                </td>
+                                                <td [ngClass]="darkModeService.currentSkin === 'dark' ? 'table-dark' : ''" style=" width: 200px;    overflow: hidden;
+                                                white-space: nowrap;
+                                                text-overflow: ellipsis;">
+                                                    <span class="p-column-title"> {{ "EmailAddress" | localize }}</span>
+                                                    {{ record.emailAddress }}
+                                                </td>
+                                                <!-- <td style="font-family: system-ui; width: 200px">
+                                            <span class="p-column-title"> {{'EmailConfirm' | localize}}</span>
+                                            <span class="label label-success label-inline"
+                                                *ngIf="record.isEmailConfirmed">{{'Yes' | localize}}</span>
+                                            <span class="label label-dark label-inline"
+                                                *ngIf="!record.isEmailConfirmed">{{'No' | localize}}</span>
+                                        </td> -->
+                                                <!-- <td style="font-family: system-ui; width: 100px">
+                                            <span class="p-column-title"> {{'Active' | localize}}</span>
+                                            <span class="label label-success label-inline"
+                                                *ngIf="record.isActive">{{'Yes' | localize}}</span>
+                                            <span class="label label-dark label-inline"
+                                                *ngIf="!record.isActive">{{'No' | localize}}</span>
+                                        </td> -->
+                                                <td [ngClass]="darkModeService.currentSkin === 'dark' ? 'table-dark' : ''" style=" width: 150px">
+                                                    <span class="p-column-title"> {{ "CreationTime" | localize }}</span>
+                                                    {{ record.creationTime | momentFormat: "L" }}
+                                                </td>
+                                            </tr>
+
+
+                                            <tr *ngIf="tabIndex === 1" >
+                                                <td [ngClass]="darkModeService.currentSkin === 'dark' ? 'table-dark' : ''"
+                                                    style="width: 100px"
+                                                    [hidden]="
+                                                        !(
+                                                            [
+                                                                'Pages.Administration.Users.Impersonation',
+                                                                'Pages.Administration.Users.Edit',
+                                                                'Pages.Administration.Users.ChangePermissions',
+                                                                'Pages.Administration.Users.Delete'
+                                                            ] | permissionAny
+                                                        )
+                                                    "
+                                                >
+                                                    <div class="btn-group dropdown" dropdown container="body">
+                                                        <button [ngClass]="theme != 'theme12' ? 'btn-primary' : 'btn-primary-info'"  dropdownToggle class="dropdown-toggle btn btn-sm ">
+                                                            <i class="fa fa-cog"></i><span class="caret"></span>
+                                                        </button>
+                                                        <ul [ngClass]="darkModeService.currentSkin === 'dark' ? 'drop-down-dark' : ''" class="dropdown-menu" *dropdownMenu>
+
+                                                            <li>
+                                                                <a
+                                                                    href="javascript:;"
+                                                                    class="dropdown-item"
+                                                                    *ngIf="'Pages.Administration.Users.Edit' | permission"
+                                                                    (click)="editTeams(record)"
+                                                                    >{{ "Edit" | localize }}</a
+                                                                >
+                                                            </li>                                                                                      
+                                                            <li>
+                                                                <a
+                                                                    href="javascript:;"
+                                                                    class="dropdown-item"
+                                                                    *ngIf="'Pages.Administration.Users.Delete' | permission"
+                                                                    (click)="deleteTeams(record)"
+                                                                    >{{ "Delete" | localize }}</a
+                                                                >
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </td>
+                                                <td [ngClass]="darkModeService.currentSkin === 'dark' ? 'table-dark' : ''" style="width: 150px">
+                                                    <span class="p-column-title"> {{ "TeamsName" | localize }}</span>
+                                                    {{ record.teamsName }}
+                                                </td>    
+                                                <td class="totalNumberWidth" [ngClass]="darkModeService.currentSkin === 'dark' ? 'table-dark' : ''">
+                                                    <span class="p-column-title"> {{ l("grouptotalNumber") }}</span>
+                                                    {{ record.totalNumber }}
+                                                </td>
+                                                                             
+                                            </tr>
+
+
+                                        </ng-template>
+                                    </p-table>
+
+
+                                    <div class="primeng-no-data" *ngIf="primengTableHelper.totalRecordsCount == 0">
+                                        {{ "NoData" | localize }}
+                                    </div>
+                                    <div class="primeng-paging-container">
+                                        <p-paginator [ngClass]="darkModeService.currentSkin === 'dark' ? 'dark' : ''"
+                                            [rows]="20"
+                                            #paginator
+                                            (onPageChange)="getUsers($event,tabIndex)"
+                                            [totalRecords]="primengTableHelper.totalRecordsCount"
+                                            [rowsPerPageOptions]="[10,20,30]"
+                                        >
+                                        </p-paginator>
+                                        <span class="total-records-count">
+                                            {{ "TotalRecordsCount" | localize: primengTableHelper.totalRecordsCount }}
+                                        </span>
+                                    </div>
+                                </div>
+                                <!--<Primeng-TurboTable-End>-->
+                            </div>
+
+                            <createOrEditUserSettingModel #createOrEditUserSettingModel  (modalSave)="getUsers()"></createOrEditUserSettingModel>
+                            <createOrEditBookingSettings #createOrEditBookingSettings  (modalSave)="getUsers()"></createOrEditBookingSettings>
+
+                    
+                            <createOrEditTeamsModal #createOrEditTeamsModal (modalSave)="getUsers()"></createOrEditTeamsModal>
+
+                            <createOrEditUserModal #createOrEditUserModal (modalSave)="getUsers()"></createOrEditUserModal>
+
+                            <userTicketsModal #userTicketsModal (modalSave)="getUsers()"></userTicketsModal>
+
+                            <editUserPermissionsModal #editUserPermissionsModal></editUserPermissionsModal>
+                            <manage-dynamic-entity-property-values-modal #dynamicPropertiesModal> </manage-dynamic-entity-property-values-modal>
+
+
+                        </div>
+
+
+
+                        </div>
+                    </div>
+                </div>
+
+
+
+            </div>
+        </div>
+    </div>
+</div>

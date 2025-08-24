@@ -1,0 +1,23 @@
+[import](common.lg)
+
+# TextInput_Prompt_My61EP_text()
+- ${dialog.text}
+# TextInput_Prompt_My61EP()
+[Activity
+    Text = ${TextInput_Prompt_My61EP_text()}
+    SuggestedActions = ${dialog.Option1} | ${dialog.Option2}
+]
+
+# SendActivity_ymB8Nm_text()
+- ${dialog.LinkCaption}
+# SendActivity_ymB8Nm()
+[Activity
+    Text = ${SendActivity_ymB8Nm_text()}
+]
+
+# SendActivity_Lv0Bfc_text()
+- ${dialog.LinkCaption}
+# SendActivity_Lv0Bfc()
+[Activity
+    Text = ${SendActivity_Lv0Bfc_text()}
+]

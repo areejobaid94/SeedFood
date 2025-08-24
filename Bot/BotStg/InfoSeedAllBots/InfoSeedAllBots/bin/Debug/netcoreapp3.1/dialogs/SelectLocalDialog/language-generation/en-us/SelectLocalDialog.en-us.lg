@@ -1,0 +1,7 @@
+[import](common.lg)
+
+# TextInput_Prompt_X9kQEe()
+[Activity
+  Text= ${dialog.text}
+  SuggestedActions = ${dialog.ar} | ${dialog.en}
+]

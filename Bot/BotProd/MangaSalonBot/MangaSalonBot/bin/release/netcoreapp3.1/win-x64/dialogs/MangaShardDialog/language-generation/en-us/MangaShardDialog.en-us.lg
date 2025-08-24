@@ -1,0 +1,23 @@
+[import](common.lg)
+
+# TextInput_Prompt_sLCR0W()
+[Activity
+    Text = ${TextInput_Prompt_sLCR0W_text()}
+]
+
+# TextInput_Prompt_sLCR0W_text()
+- ${dialog.NoteCaption}
+# SendActivity_RaIeaW()
+[Activity
+    Text = ${SendActivity_RaIeaW_text()}
+]
+
+# SendActivity_RaIeaW_text()
+- ${dialog.LastCaption}
+# TextInput_Prompt_cdVlVZ()
+[Activity
+    Text = ${TextInput_Prompt_cdVlVZ_text()}
+]
+
+# TextInput_Prompt_cdVlVZ_text()
+- ${dialog.firsCaption}

@@ -1,0 +1,99 @@
+﻿@page
+@model Infoseed.MassagingPort.OrderingMenu.Pages.loyalty_ShopStoreModel
+@{
+    Layout = "_LayoutMarket3";
+}
+@using Infoseed.MessagingPortal.Orders
+@Html.HiddenFor(Model=>Model.TenantID)
+@Html.HiddenFor(Model=>Model.ContactId)
+@Html.HiddenFor(Model=>Model.AreaId)
+@Html.HiddenFor(Model=>Model.Lang)
+
+<header class="main-header">
+    <strong>
+        @localizer.Get("storeName") 
+    </strong>
+    <a href="@string.Format("/Index1"+@Model.UrlKey)"  class="btn btn-link btn-circle  btn-close" >
+        <i class="icon-keyboard_arrow_left1"></i>
+    </a>
+</header>
+
+<main>
+    <div class="container-fluid mb-3">
+        <div class="row">
+            @if (Model.lstLoyaltyRemainingdaysModel != null)
+            {
+                @foreach (var loyalty in Model.lstLoyaltyRemainingdaysModel)
+                {
+                    <div class="col-md-4 mt-3">
+                        <div class="item-card cursor-pointer" data-toggle="modal" data-target="#modal-order-history">
+                            <div class="d-flex align-items-center justify-content-between">
+                                <div class="p-2">
+                                    @if (loyalty.OrderType == 1)
+                                    {
+                                        <h4>@localizer.Get("Order")  <strong>#@loyalty.OrderNumber</strong> <b>(@localizer.Get("Delivery"))</b> </h4>
+                                    }
+                                    else if (loyalty.OrderType == 0)
+                                    {
+                                        <h4>@localizer.Get("Order")  <strong>#@loyalty.OrderNumber</strong> <b>(@localizer.Get("Takeaway"))</b> </h4>
+                                    }
+                                    <small>
+                                        <b>@localizer.Get("EarningDate"): </b> @loyalty.CreatedDate
+                                    </small>
+                                    <br>
+                                    <small>
+                                        @*@if(Number <30 day)
+                                        {
+                                             <b>@localizer.Get("RemainingDays"):</b> <b class="badge badge-danger">number</b> <b>days</b>
+                                        }
+                                        else
+                                        {
+                                             <b>@localizer.Get("RemainingDays"):</b> <b class="badge badge-light">number</b> <b>days</b>
+                                        }*@
+                                        <b>@localizer.Get("RemainingDays"):</b> (@loyalty.Remainingdays) <b>@localizer.Get("Days")</b>
+                                    </small>
+                                </div>
+                               <div>
+                                  <div class="badge badge-success"> Done</div>
+                               </div>
+                                    @* 
+                                    else if (@loyalty.OrderStatus == OrderStatusEunm.Cancel || @loyalty.OrderStatus == OrderStatusEunm.Deleted || @loyalty.OrderStatus == OrderStatusEunm.Canceled)
+                                    {
+                                        <div class="badge badge-danger"> @loyalty.OrderStatus</div>
+                                    }
+                                    else
+                                    {
+                                        <div class="badge badge-light"> @loyalty.OrderStatus </div>
+                                    }
+                                *@
+                            </div>
+                            <div class="filter-img d-flex justify-content-between align-items-center">
+                                <div class="item-price color-primary mx-2">
+                                    <strong> @loyalty.Total </strong>
+                                </div>
+                                <div class="item-price">
+                                    <strong class="point-style mx-2">
+                                        @loyalty.Points
+                                        <i class="icon-gift"></i>
+                                    </strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+</main>
+
+<div class="modal fade login-modal-main " id="md-OrderItems">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content" >
+            <div class="modal-body">
+                <div id="divOrderItems">
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

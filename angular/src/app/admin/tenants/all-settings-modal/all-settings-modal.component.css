@@ -1,0 +1,80 @@
+/* Center tab navigation items */
+::ng-deep .p-tabview .p-tabview-nav {
+    justify-content: center !important;
+}
+
+/* Hide ink bar and panels */
+::ng-deep .p-tabview .p-tabview-ink-bar {
+    display: none !important;
+}
+
+::ng-deep .p-tabview .p-tabview-panels {
+    display: none !important;
+}
+
+::ng-deep .p-tabview .p-tabview-nav li .p-tabview-nav-link {
+    background: #f8f8f8;
+    border-color: rgb(215, 215, 215) !important;
+    color: gray !important;
+}
+
+/* Style active tab header */
+::ng-deep .p-tabview .p-tabview-nav li.p-highlight .p-tabview-nav-link {
+    background: #f8f8f8;
+    border-color: #009789 !important;
+    color: #009789 !important;
+}
+
+::ng-deep .p-tabview .p-tabview-nav li.p-highlight .p-tabview-nav-link:focus {
+    background: #f8f8f8;
+    border-color: #009789 !important;
+    color: #009789 !important;
+}
+
+/* Hide tab header text on mobile devices */
+@media (max-width: 768px) {
+    ::ng-deep .p-tabview .p-tabview-nav .p-tabview-nav-link span {
+        display: none;
+    }
+
+    .btn .color-green {
+        display: none;
+    }
+
+    ::ng-deep .p-tabview .p-tabview-nav .p-tabview-nav-link i {
+        font-size: 24px;
+    }
+
+    .btn i {
+        font-size: 12px;
+    }
+}
+
+.viewHeader {
+    margin-bottom: 0px;
+    color: #009789;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.viewBody {
+    margin-left: 10px;
+}
+
+.iframe-container {
+    display: flex;
+    width: 100%;
+    justify-content: center; /* Center the iframe horizontally */
+    margin-top: 30px;
+    align-items: center;
+  }
+  
+  iframe {
+    width: 80%; /* Set to desired width */
+    height: 400px; /* Set to desired height */
+    border: none; /* Optional: remove default border */
+  }
+  
+.valError {
+    border-color: red;
+}

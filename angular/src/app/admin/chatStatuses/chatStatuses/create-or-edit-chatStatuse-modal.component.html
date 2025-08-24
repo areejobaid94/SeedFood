@@ -1,0 +1,43 @@
+﻿<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form *ngIf="active" #chatStatuseForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <span *ngIf="chatStatuse.id">{{l("EditChatStatuse")}}</span>
+                        <span *ngIf="!chatStatuse.id">{{l("CreateNewChatStatuse")}}</span>
+                    </h4>
+                    <button type="button" class="close" (click)="close()" aria-label="Close" [disabled]="saving">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                 
+
+
+								<div class="form-group">
+									<label for="ChatStatuse_ChatStatusName">{{l("ChatStatusName")}} *</label>
+									<input type="text" #ChatStatuse_ChatStatusName="ngModel" id="ChatStatuse_ChatStatusName" class="form-control" [(ngModel)]="chatStatuse.chatStatusName" name="ChatStatusName"   minlength="0"  maxlength="1024"  required/>
+								    <validation-messages [formCtrl]="ChatStatuse_ChatStatusName"></validation-messages>
+								</div>
+					
+								<br/><div class="m-checkbox-list">
+									<label for="ChatStatuse_IsEnabled" class="kt-checkbox">
+										<input id="ChatStatuse_IsEnabled" #ChatStatuse_IsEnabled="ngModel" type="checkbox" name="IsEnabled" [(ngModel)]="chatStatuse.isEnabled"> 
+										{{l("IsEnabled")}}
+										<span></span>
+									</label>
+									<validation-messages [formCtrl]="ChatStatuse_IsEnabled"></validation-messages>
+								</div>
+					
+
+                </div>
+                <div class="modal-footer">
+                    <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">{{l("Cancel")}}</button>
+                    <button type="submit" class="btn btn-primary blue" [disabled]="!chatStatuseForm.form.valid" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save"></i> <span>{{l("Save")}}</span></button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>

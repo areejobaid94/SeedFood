@@ -1,0 +1,381 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "vghHLO",
+    "name": "DongfengSalesDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "N3eKav"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "AqOieR"
+          },
+          "condition": "conversation.local",
+          "cases": [
+            {
+              "value": "ar",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "dm0qd6"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.SalesList",
+                      "value": [
+                        "احجز لتجربة القيادة",
+                        "اكتشف سياراتنا",
+                        "العروض",
+                        "معارضنا وساعات العمل"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "en",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "FsJ49n"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.SalesList",
+                      "value": [
+                        "Book a test drive",
+                        "Discover our cars",
+                        "offers",
+                        "Show-room&work hours"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.DeleteProperty",
+          "$designer": {
+            "id": "FbBhL1"
+          },
+          "property": "dialog.UserSelect"
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "JUCqbz"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "unrecognizedPrompt": "",
+          "invalidPrompt": "",
+          "prompt": "${TextInput_Prompt_JUCqbz()}",
+          "property": "dialog.UserSelect",
+          "validations": [
+            "equals(this.value, 'احجز لتجربة القيادة') || equals(this.value, 'اكتشف سياراتنا') || equals(this.value, 'Book a test drive') || equals(this.value, 'Discover our cars') || equals(this.value, 'العروض') || equals(this.value, 'offers') || equals(this.value, 'معارضنا وساعات العمل') || equals(this.value, 'Show-room&work hours') ||  equals(this.value, '#')"
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "09oke0"
+          },
+          "property": "conversation.Department2",
+          "value": "${dialog.UserSelect}"
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "DA8iiA"
+          },
+          "condition": "dialog.UserSelect",
+          "cases": [
+            {
+              "value": "احجز لتجربة القيادة",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "1YlCmo"
+                  },
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1)).text",
+                  "property": "dialog.DriveCaption"
+                },
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "UikjSV"
+                  },
+                  "activity": "${SendActivity_UikjSV()}"
+                }
+              ]
+            },
+            {
+              "value": "اكتشف سياراتنا",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "iy5jEo"
+                  },
+                  "assignments": [
+                    {
+                      "property": "conversation.isoffer",
+                      "value": false
+                    },
+                    {
+                      "property": "conversation.StepBack",
+                      "value": "1"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "SrkoDT"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "DongfengOurCarDialog"
+                },
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "mmUfcC"
+                  },
+                  "condition": "conversation.StepBack==\"1\"",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.EndDialog",
+                      "$designer": {
+                        "id": "1qE8Kh"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "6v80jU"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "DongfengAttachmentDialog"
+                }
+              ]
+            },
+            {
+              "value": "العروض",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "4DZTvW"
+                  },
+                  "property": "conversation.isoffer",
+                  "value": true
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "u0GD28"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "DongfengOffersDialog"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "2KjiZz"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "DongfengOfferMainDialog"
+                },
+                {
+                  "$kind": "Microsoft.CancelAllDialogs",
+                  "$designer": {
+                    "id": "Jb9HK2"
+                  },
+                  "activityProcessed": true
+                }
+              ]
+            },
+            {
+              "value": "معارضنا وساعات العمل",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "pnNi6V"
+                  },
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 2)).text",
+                  "property": "dialog.RoomCaption"
+                },
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "ISrToB"
+                  },
+                  "activity": "${SendActivity_ISrToB()}"
+                }
+              ]
+            },
+            {
+              "value": "Book a test drive",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "SCNFLB"
+                  },
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1)).text",
+                  "property": "dialog.DriveCaption"
+                },
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "4h3W1Y"
+                  },
+                  "activity": "${SendActivity_4h3W1Y()}"
+                }
+              ]
+            },
+            {
+              "value": "Discover our cars",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "pWvJLc"
+                  },
+                  "assignments": [
+                    {
+                      "property": "conversation.isoffer",
+                      "value": false
+                    },
+                    {
+                      "property": "conversation.StepBack",
+                      "value": "1"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "cFwfMj"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "DongfengOurCarDialog"
+                },
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "fx88e4"
+                  },
+                  "condition": "conversation.StepBack==\"1\"",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.EndDialog",
+                      "$designer": {
+                        "id": "kNZDHl"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "9TN9sx"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "DongfengAttachmentDialog"
+                }
+              ]
+            },
+            {
+              "value": "offers",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "sBOCIl"
+                  },
+                  "property": "conversation.isoffer",
+                  "value": true
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "tWcYbc"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "DongfengOffersDialog"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "j20YEb"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "DongfengOfferMainDialog"
+                },
+                {
+                  "$kind": "Microsoft.CancelAllDialogs",
+                  "$designer": {
+                    "id": "MeHVRq"
+                  },
+                  "activityProcessed": true
+                }
+              ]
+            },
+            {
+              "value": "Show-room&work hours",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "8Eevqq"
+                  },
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 2)).text",
+                  "property": "dialog.RoomCaption"
+                },
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "Qmvv3C"
+                  },
+                  "activity": "${SendActivity_Qmvv3C()}"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "lLra0M"
+          }
+        }
+      ]
+    }
+  ],
+  "generator": "DongfengSalesDialog.lg",
+  "recognizer": "DongfengSalesDialog.lu.qna",
+  "id": "DongfengSalesDialog"
+}

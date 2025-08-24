@@ -1,0 +1,21 @@
+{
+  "SEARCH": "بحث",
+  "ADD_TO_CART": "أضف إلى السلة",
+  "QTY": "الكميه",
+  "EXTRA": "اضافات",
+  "REQUIRED": "مطلوب",
+  "VIEW_BASKET": " مشاهدة محتويات السلة",
+  "CART_ITEMS": "محتويات السلة",
+  "REQUIRED_FIELD": "الحقل مطلوب",
+  "CHECK_OUT": "اتمام الطلب",
+  "FREE": "مجاني",
+  "UNAVAILABLE_ITEM": "هذا المنتج غير متوفر حاليا",
+  "SELECTMAX": "أختار ",
+
+  "Sort": "فرز ",
+  "lowest_price": "الاقل سعر ",
+  "highest_price": "الاعلى سعر ",
+  "least_discount": "اقل خصم",
+  "highest_discount": "الاعلى خصم ",
+  "back_button": "رجوع"
+}

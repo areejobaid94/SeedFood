@@ -1,0 +1,151 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "wHzg1M",
+    "name": "DongfengRepairDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "du5VG1"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "942HJ6"
+          },
+          "assignments": [
+            {
+              "property": "dialog.VinNoCaption",
+              "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1074)).text"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.DeleteProperty",
+          "$designer": {
+            "id": "iO9Yut"
+          },
+          "property": "dialog.VinNoInput"
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "5RILdx"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "prompt": "${TextInput_Prompt_5RILdx()}",
+          "property": "dialog.VinNoInput",
+          "validations": [
+            "not(equals(this.value, '.')) || equals(this.value, '#')"
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "YCXBQg"
+          },
+          "assignments": [
+            {
+              "property": "dialog.WidgetDescCaption",
+              "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1075)).text"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.DeleteProperty",
+          "$designer": {
+            "id": "pGfzix"
+          },
+          "property": "dialog.WidgetDescInput"
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "3tNTAt"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "invalidPrompt": "",
+          "prompt": "${TextInput_Prompt_3tNTAt()}",
+          "property": "dialog.WidgetDescInput",
+          "validations": [
+            "not(equals(this.value, '.')) || equals(this.value, '#')"
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "CqZacm"
+          },
+          "property": "dialog.Information",
+          "value": "${dialog.VinNoInput} , ${dialog.WidgetDescInput}"
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "bot3TR"
+          },
+          "property": "dialog.updateOrder",
+          "value": {
+            "ContactName": "=conversation.DisplayName",
+            "ContactId": "=conversation.ContactId",
+            "TenantID": "=conversation.TenantId",
+            "PhoneNumber": "=conversation.phoneNumber",
+            "information": "=dialog.Information"
+          }
+        },
+        {
+          "$kind": "Microsoft.HttpRequest",
+          "$designer": {
+            "id": "Le7cB7"
+          },
+          "resultProperty": "dialog.OrderUpdateFinsh",
+          "method": "POST",
+          "url": "${conversation.URL}/api/BotAPI/SendPrescription",
+          "body": "= dialog.updateOrder",
+          "headers": {
+            "accept": "text/plain"
+          },
+          "responseType": "json"
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "Sl47R4"
+          },
+          "property": "dialog.AttachmentCaption",
+          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 7)).text"
+        },
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "D30FOr"
+          },
+          "activity": "${SendActivity_D30FOr()}"
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "4cIYaT"
+          }
+        }
+      ]
+    }
+  ],
+  "generator": "DongfengRepairDialog.lg",
+  "recognizer": "DongfengRepairDialog.lu.qna",
+  "id": "DongfengRepairDialog"
+}

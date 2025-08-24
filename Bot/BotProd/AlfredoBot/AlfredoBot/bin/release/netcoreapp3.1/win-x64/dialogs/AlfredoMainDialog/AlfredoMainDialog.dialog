@@ -1,0 +1,879 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "Jj30GX",
+    "name": "AlfredoMainDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "Av6rlA"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "dzXscz"
+          },
+          "assignments": [
+            {
+              "property": "dialog.CustomerName",
+              "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3003)).text"
+            },
+            {
+              "property": "dialog.text",
+              "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3004)).text"
+            },
+            {
+              "property": "conversation.InputHint",
+              "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3005)).text"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "RuUJPn"
+          },
+          "condition": "conversation.local",
+          "cases": [
+            {
+              "value": "ar",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "hGHdHw"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.kinship",
+                      "value": [
+                        "طالب",
+                        "الأبوين",
+                        "مدرس"
+                      ]
+                    },
+                    {
+                      "property": "dialog.MainList",
+                      "value": [
+                        "شراء كتب جديد,مستعمل",
+                        "الامتحان التفاعلي",
+                        "اطلب الورق السابق",
+                        "ملخصات المعلم",
+                        "بيع الكتب-التبرع بها",
+                        "بيع ملاحظات-المعلمين",
+                        "معلومات عنا",
+                        "استشارة مجانية",
+                        "المنهج",
+                        "الدراسة في الخارج"
+                      ]
+                    },
+                    {
+                      "property": "dialog.InputHint",
+                      "value": "القائمه"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "otZOo7"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.Option1",
+                      "value": "طالب"
+                    },
+                    {
+                      "property": "dialog.Option2",
+                      "value": "الأبوين"
+                    },
+                    {
+                      "property": "dialog.Option3",
+                      "value": "مدرس"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "en",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "r7Yhbn"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.kinship",
+                      "value": [
+                        "Student",
+                        "Parent",
+                        "Teacher"
+                      ]
+                    },
+                    {
+                      "property": "dialog.MainList",
+                      "value": [
+                        "Order New,Used Books",
+                        "Interactive MockExam",
+                        "Order Past Paper",
+                        "Teacher Summaries",
+                        "Sell or Donate Books",
+                        "Sell Notes-Teachers",
+                        "About Us",
+                        "Free Consultation",
+                        "Syllabus",
+                        "Study Abroad"
+                      ]
+                    },
+                    {
+                      "property": "dialog.InputHint",
+                      "value": "Menu"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "e4eThP"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.Option1",
+                      "value": "Student"
+                    },
+                    {
+                      "property": "dialog.Option2",
+                      "value": "Parent"
+                    },
+                    {
+                      "property": "dialog.Option3",
+                      "value": "Teacher"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "default": []
+        },
+        {
+          "$kind": "Microsoft.HttpRequest",
+          "$designer": {
+            "id": "M2eGjU"
+          },
+          "resultProperty": "dialog.results",
+          "method": "GET",
+          "url": "${conversation.URL}/api/BotAPI/CheckIsFillDisplayName?id=${conversation.ContactId}",
+          "responseType": "json"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "jlzPfE"
+          },
+          "condition": "dialog.results.content.result !=null",
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "WSDaEA"
+              },
+              "assignments": [
+                {
+                  "property": "conversation.DisplayName",
+                  "value": "${dialog.results.content.result}"
+                }
+              ]
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.DeleteProperty",
+              "$designer": {
+                "id": "MIEY0J"
+              },
+              "property": "conversation.DisplayName"
+            },
+            {
+              "$kind": "Microsoft.TextInput",
+              "$designer": {
+                "id": "wn3VhX"
+              },
+              "disabled": false,
+              "maxTurnCount": 3,
+              "alwaysPrompt": false,
+              "allowInterruptions": false,
+              "prompt": "${TextInput_Prompt_wn3VhX()}",
+              "unrecognizedPrompt": "",
+              "invalidPrompt": "",
+              "property": "conversation.DisplayName"
+            },
+            {
+              "$kind": "Microsoft.HttpRequest",
+              "$designer": {
+                "id": "cSKhXM"
+              },
+              "resultProperty": "dialog.results",
+              "method": "GET",
+              "url": "${conversation.URL}/api/BotAPI/updateContcatDisplayName?id=${conversation.ContactId}&contactDisplayName=${conversation.DisplayName}",
+              "responseType": "json"
+            },
+            {
+              "$kind": "Microsoft.DeleteProperty",
+              "$designer": {
+                "id": "npVKVC"
+              },
+              "property": "conversation.kinshipSelect"
+            },
+            {
+              "$kind": "Microsoft.TextInput",
+              "$designer": {
+                "id": "ANw06s"
+              },
+              "disabled": false,
+              "maxTurnCount": 100,
+              "alwaysPrompt": false,
+              "allowInterruptions": false,
+              "prompt": "${TextInput_Prompt_ANw06s()}",
+              "invalidPrompt": "",
+              "property": "conversation.kinshipSelect",
+              "validations": [
+                "equals(this.value, 'Student') || equals(this.value, 'Parent') || equals(this.value, 'Teacher') || equals(this.value, 'طالب') || equals(this.value, 'الأبوين') || equals(this.value, 'مدرس')"
+              ]
+            },
+            {
+              "$kind": "Microsoft.HttpRequest",
+              "$designer": {
+                "id": "637Q7v"
+              },
+              "resultProperty": "dialog.results",
+              "method": "GET",
+              "responseType": "json",
+              "url": "${conversation.URL}/api/BotAPI/updateContcatkinship?id=${conversation.ContactId}&contactkinship=${conversation.kinshipSelect}"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.DeleteProperties",
+          "$designer": {
+            "id": "9yfXpX"
+          },
+          "properties": [
+            "conversation.Department1",
+            "conversation.Department2",
+            "dialog.TeacherCaption",
+            "dialog.GoogleFormLink"
+          ]
+        },
+        {
+          "$kind": "Microsoft.DeleteProperty",
+          "$designer": {
+            "id": "iEQW3f"
+          },
+          "property": "dialog.UserSelect"
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "GcmZ70"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "unrecognizedPrompt": "",
+          "invalidPrompt": "",
+          "prompt": "${TextInput_Prompt_GcmZ70()}",
+          "property": "dialog.UserSelect",
+          "validations": [
+            "equals(this.value, 'اطلب الورق السابق') || equals(this.value, 'ملخصات المعلم') || equals(this.value, 'شراء كتب جديد,مستعمل') || equals(this.value, 'الامتحان التفاعلي') || equals(this.value, 'بيع الكتب-التبرع بها') ||equals(this.value, 'بيع ملاحظات-المعلمين') || equals(this.value, 'معلومات عنا') || equals(this.value, 'استشارة مجانية') || equals(this.value, 'المنهج') || equals(this.value, 'الدراسة في الخارج') ||equals(this.value, 'Order Past Paper') || equals(this.value, 'Teacher Summaries') || equals(this.value, 'Order New,Used Books') || equals(this.value, 'Interactive MockExam') || equals(this.value, 'Sell or Donate Books') ||equals(this.value, 'Sell Notes-Teachers') || equals(this.value, 'About Us') || equals(this.value, 'Free Consultation') ||equals(this.value, 'Syllabus') || equals(this.value, 'Study Abroad') ||equals(this.value, '#')"
+          ]
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "0PqQgD"
+          },
+          "condition": "conversation.local",
+          "cases": [
+            {
+              "value": "ar",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SwitchCondition",
+                  "$designer": {
+                    "id": "Ee3KxH"
+                  },
+                  "cases": [
+                    {
+                      "value": "اطلب الورق السابق",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperties",
+                          "$designer": {
+                            "id": "H4FOTV"
+                          },
+                          "assignments": [
+                            {
+                              "property": "conversation.Department1",
+                              "value": "${dialog.UserSelect}"
+                            }
+                          ]
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "LmN8TW"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "AfOrderDialog"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "ملخصات المعلم",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperties",
+                          "$designer": {
+                            "id": "E1N2s6"
+                          },
+                          "assignments": [
+                            {
+                              "property": "conversation.Department1",
+                              "value": "${dialog.UserSelect}"
+                            }
+                          ]
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "oNs3qE"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "AFTeacherDialog"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "شراء كتب جديد,مستعمل",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperties",
+                          "$designer": {
+                            "id": "WVkCPc"
+                          },
+                          "assignments": [
+                            {
+                              "property": "conversation.Department1",
+                              "value": "${dialog.UserSelect}"
+                            }
+                          ]
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "ljxiKA"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "AFUsedBookDialog"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "الامتحان التفاعلي",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperties",
+                          "$designer": {
+                            "id": "hSWu1K"
+                          },
+                          "assignments": [
+                            {
+                              "property": "conversation.Department1",
+                              "value": "${dialog.UserSelect}"
+                            }
+                          ]
+                        },
+                        {
+                          "$kind": "Microsoft.DeleteProperties",
+                          "$designer": {
+                            "id": "NDeUEy"
+                          },
+                          "properties": [
+                            "dialog.MockExamCaption"
+                          ]
+                        },
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "WD0Tzf"
+                          },
+                          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3027)).text",
+                          "property": "dialog.MockExamCaption"
+                        },
+                        {
+                          "$kind": "Microsoft.SendActivity",
+                          "$designer": {
+                            "id": "8rDjM1"
+                          },
+                          "activity": "${SendActivity_8rDjM1()}"
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "P7pMEN"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "ALFInquiresDialog"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "بيع الكتب-التبرع بها",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperties",
+                          "$designer": {
+                            "id": "mvqF37"
+                          },
+                          "assignments": [
+                            {
+                              "property": "conversation.Department1",
+                              "value": "${dialog.UserSelect}"
+                            }
+                          ]
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "ImzZxr"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "AfSellBooksDialog"
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "74cfMy"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "ALFInquiresDialog"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "بيع ملاحظات-المعلمين",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "ZtOdLU"
+                          },
+                          "property": "dialog.TeacherCaption",
+                          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3023)).text"
+                        },
+                        {
+                          "$kind": "Microsoft.SendActivity",
+                          "$designer": {
+                            "id": "mxVrVg"
+                          },
+                          "activity": "${SendActivity_mxVrVg()}"
+                        },
+                        {
+                          "$kind": "Microsoft.SetProperties",
+                          "$designer": {
+                            "id": "DXF3YI"
+                          },
+                          "assignments": [
+                            {
+                              "property": "conversation.Department1",
+                              "value": "${dialog.UserSelect}"
+                            }
+                          ]
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "Rm6Bjl"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "ALFInquiresDialog"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "معلومات عنا",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "jNASIV"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "AfAboutUDialog"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "استشارة مجانية",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "EqthJg"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "AFConsultationsDialog"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "المنهج",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "sgqGnJ"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "AFsyllabusDialog"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "الدراسة في الخارج",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "b5o99K"
+                          },
+                          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3006)).text",
+                          "property": "dialog.GoogleFormLink"
+                        },
+                        {
+                          "$kind": "Microsoft.SendActivity",
+                          "$designer": {
+                            "id": "0DaLMs"
+                          },
+                          "activity": "${SendActivity_0DaLMs()}"
+                        }
+                      ]
+                    }
+                  ],
+                  "condition": "dialog.UserSelect"
+                }
+              ]
+            },
+            {
+              "value": "en",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SwitchCondition",
+                  "$designer": {
+                    "id": "ayih06"
+                  },
+                  "cases": [
+                    {
+                      "value": "Order Past Paper",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperties",
+                          "$designer": {
+                            "id": "bBB08T"
+                          },
+                          "assignments": [
+                            {
+                              "property": "conversation.Department1",
+                              "value": "${dialog.UserSelect}"
+                            }
+                          ]
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "mCXiHH"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "AfOrderDialog"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "Teacher Summaries",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperties",
+                          "$designer": {
+                            "id": "sPzsSL"
+                          },
+                          "assignments": [
+                            {
+                              "property": "conversation.Department1",
+                              "value": "${dialog.UserSelect}"
+                            }
+                          ]
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "o9PD75"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "AFTeacherDialog"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "Order New,Used Books",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperties",
+                          "$designer": {
+                            "id": "eXpy9m"
+                          },
+                          "assignments": [
+                            {
+                              "property": "conversation.Department1",
+                              "value": "${dialog.UserSelect}"
+                            }
+                          ]
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "QAEl3T"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "AFUsedBookDialog"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "Interactive MockExam",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperties",
+                          "$designer": {
+                            "id": "Aut6Xa"
+                          },
+                          "assignments": [
+                            {
+                              "property": "conversation.Department1",
+                              "value": "${dialog.UserSelect}"
+                            }
+                          ]
+                        },
+                        {
+                          "$kind": "Microsoft.DeleteProperties",
+                          "$designer": {
+                            "id": "Thq4JA"
+                          },
+                          "properties": [
+                            "dialog.MockExamCaption"
+                          ]
+                        },
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "9eu3nE"
+                          },
+                          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3027)).text",
+                          "property": "dialog.MockExamCaption"
+                        },
+                        {
+                          "$kind": "Microsoft.SendActivity",
+                          "$designer": {
+                            "id": "Ebweli"
+                          },
+                          "activity": "${SendActivity_Ebweli()}"
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "KRLz7V"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "ALFInquiresDialog"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "Sell or Donate Books",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperties",
+                          "$designer": {
+                            "id": "bJUdjN"
+                          },
+                          "assignments": [
+                            {
+                              "property": "conversation.Department1",
+                              "value": "${dialog.UserSelect}"
+                            }
+                          ]
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "FdxHKC"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "AfSellBooksDialog"
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "8rLIki"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "ALFInquiresDialog"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "Sell Notes-Teachers",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "QV0iHU"
+                          },
+                          "property": "dialog.TeacherCaption",
+                          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3023)).text"
+                        },
+                        {
+                          "$kind": "Microsoft.SendActivity",
+                          "$designer": {
+                            "id": "HfdHBA"
+                          },
+                          "activity": "${SendActivity_HfdHBA()}"
+                        },
+                        {
+                          "$kind": "Microsoft.SetProperties",
+                          "$designer": {
+                            "id": "CVNulE"
+                          },
+                          "assignments": [
+                            {
+                              "property": "conversation.Department1",
+                              "value": "${dialog.UserSelect}"
+                            }
+                          ]
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "KczBpG"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "ALFInquiresDialog"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "About Us",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "Fl6wOh"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "AfAboutUDialog"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "Free Consultation",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "nUYwYX"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "AFConsultationsDialog"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "Syllabus",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "WOjnaT"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "AFsyllabusDialog"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "Study Abroad",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "FcuLr5"
+                          },
+                          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3006)).text",
+                          "property": "dialog.GoogleFormLink"
+                        },
+                        {
+                          "$kind": "Microsoft.SendActivity",
+                          "$designer": {
+                            "id": "eLLZrj"
+                          },
+                          "activity": "${SendActivity_eLLZrj()}"
+                        }
+                      ]
+                    }
+                  ],
+                  "condition": "dialog.UserSelect"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "M8kqvg"
+          }
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "8wTjG7"
+          },
+          "disabled": false,
+          "maxTurnCount": 3,
+          "alwaysPrompt": false,
+          "allowInterruptions": false,
+          "unrecognizedPrompt": "",
+          "prompt": "${TextInput_Prompt_8wTjG7()}",
+          "property": "conversation.kinshipSelect",
+          "validations": [
+            "equals(this.value, 'Student') || equals(this.value, 'Parent') || equals(this.value, 'Teacher') || equals(this.value, 'طالب') || equals(this.value, 'الأبوين') || equals(this.value, 'مدرس')"
+          ]
+        }
+      ]
+    }
+  ],
+  "generator": "AlfredoMainDialog.lg",
+  "recognizer": "AlfredoMainDialog.lu.qna",
+  "id": "AlfredoMainDialog"
+}

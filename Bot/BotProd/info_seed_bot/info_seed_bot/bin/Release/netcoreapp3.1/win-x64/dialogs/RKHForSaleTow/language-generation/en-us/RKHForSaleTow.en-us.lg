@@ -1,0 +1,240 @@
+[import](common.lg)
+
+# TextInput_Prompt_LMDTEN()
+[Activity
+  Text= ${dialog.Text}
+  SuggestedActions = ${dialog.option1}| ${dialog.option2} | ${dialog.option3}
+  Summary =  ${conversation.Summary}  
+]
+# SendActivity_NiA0nd_text()
+- ${dialog.NoAssettext}
+# SendActivity_NiA0nd()
+[Activity
+    Text = ${SendActivity_NiA0nd_text()}
+]
+
+# SendActivity_EjpTKs_text()
+- ${dialog.NoAssettext}
+# SendActivity_EjpTKs()
+[Activity
+    Text = ${SendActivity_EjpTKs_text()}
+]
+
+# SendActivity_kBkvz2_text()
+- ${dialog.NoAssettext}
+# SendActivity_kBkvz2()
+[Activity
+    Text = ${SendActivity_kBkvz2_text()}
+]
+
+# SendActivity_WhlTmm_text()
+- ${dialog.NoAssettext}
+# SendActivity_WhlTmm()
+[Activity
+    Text = ${SendActivity_WhlTmm_text()}
+]
+
+# SendActivity_49uL3r_text()
+- ${dialog.NoAssettext}
+# SendActivity_49uL3r()
+[Activity
+    Text = ${SendActivity_49uL3r_text()}
+]
+
+# ButtonList(Text, List)
+- ``` 
+{
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "version": "1.0",
+    "type": "AdaptiveCard",
+    "body": [
+          {
+            "type": "TextBlock",
+            "text": "${Text}"
+        },
+        {
+            "type": "Input.ChoiceSet",
+            "choices": [
+                ${join(getChoiceList(List),',')}
+                               
+            ],
+            "placeholder": "",
+            "id": "InputAdultos"
+        }
+    ]
+}
+ ```
+# getChoiceList(adaptiveCardAccounts)
+- ${foreach(adaptiveCardAccounts, x, getChoice(x.AssetNameAr))}
+
+ #getChoice(listC)
+- ``` 
+ {
+     "title": "${listC}",
+     "value": "${listC}"
+ }
+ ```
+
+
+# TextInput_Prompt_R6UrgS()
+[Activity
+    Attachments = ${json(ButtonList(dialog.pleaseSelectAsset,dialog.GetPDF.content.result))}
+    InputHint=منطقتك
+]
+# TextInput_Prompt_yY0ndK()
+[Activity
+    Attachments = ${json(ButtonList(dialog.pleaseSelectAsset,dialog.GetPDF.content.result))}
+    InputHint=منطقتك
+]
+# TextInput_Prompt_YpALif()
+[Activity
+    Attachments = ${json(ButtonList(dialog.pleaseSelectAsset,dialog.GetPDF.content.result))}
+    InputHint=منطقتك
+]
+# TextInput_Prompt_iBwz2P()
+[Activity
+    Attachments = ${json(ButtonList(dialog.pleaseSelectAsset,dialog.GetPDF.content.result))}
+    InputHint=منطقتك
+]
+# TextInput_Prompt_pScFzO()
+[Activity
+    Attachments = ${json(ButtonList(dialog.pleaseSelectAsset,dialog.GetPDF.content.result))}
+    InputHint=منطقتك
+]
+# TextInput_Prompt_doHsvX()
+[Activity
+    Attachments = ${json(ButtonList(dialog.pleaseSelectAsset,dialog.GetPDF.content.result))}
+    InputHint=منطقتك
+]
+# SendActivity_F8F3Gr_text()
+- ${dialog.NoAssettext}
+# SendActivity_F8F3Gr()
+[Activity
+    Text = ${SendActivity_F8F3Gr_text()}
+]
+
+# SendActivity_mPcd4k()
+[Activity
+    Text= ${dialog.foreach.value.AttachmentUrl}
+    InputHint=${dialog.foreach.value.AttachmentType}
+    Speak =  ${dialog.foreach.value.AttachmentName}
+     
+]
+# SendActivity_hOAa8W()
+[Activity
+    Text= ${dialog.foreach.value.AttachmentUrl}
+    InputHint=${dialog.foreach.value.AttachmentType}
+    Speak =  ${dialog.foreach.value.AttachmentName}
+     
+]
+# SendActivity_sBiFU9()
+[Activity
+    Text= ${dialog.foreach.value.AttachmentUrl}
+    InputHint=${dialog.foreach.value.AttachmentType}
+    Speak =  ${dialog.foreach.value.AttachmentName}
+     
+]
+# SendActivity_U8Q6vs()
+[Activity
+    Text= ${dialog.foreach.value.AttachmentUrl}
+    InputHint=${dialog.foreach.value.AttachmentType}
+    Speak =  ${dialog.foreach.value.AttachmentName}
+     
+]
+# SendActivity_8B6o6t()
+[Activity
+    Text= ${dialog.foreach.value.AttachmentUrl}
+    InputHint=${dialog.foreach.value.AttachmentType}
+    Speak =  ${dialog.foreach.value.AttachmentName}
+     
+]
+# SendActivity_kBbtPa()
+[Activity
+    Text= ${dialog.foreach.value.AttachmentUrl}
+    InputHint=${dialog.foreach.value.AttachmentType}
+    Speak =  ${dialog.foreach.value.AttachmentName}
+     
+]
+# SendActivity_zFm8os_text()
+- ${dialog.foreach.value.AssetDescriptionAr}
+# SendActivity_zFm8os()
+[Activity
+    Text = ${SendActivity_zFm8os_text()}
+]
+
+# SendActivity_LH5yrw_text()
+- ${dialog.foreach.value.AssetDescriptionEn}
+# SendActivity_LH5yrw()
+[Activity
+    Text = ${SendActivity_LH5yrw_text()}
+]
+
+# SendActivity_YWHb2P_text()
+- ${dialog.foreach.value.AssetDescriptionAr}
+# SendActivity_YWHb2P()
+[Activity
+    Text = ${SendActivity_YWHb2P_text()}
+]
+
+# SendActivity_fbVVXZ_text()
+- ${dialog.foreach.value.AssetDescriptionEn}
+# SendActivity_fbVVXZ()
+[Activity
+    Text = ${SendActivity_fbVVXZ_text()}
+]
+
+# SendActivity_kRxcYz_text()
+- ${dialog.foreach.value.AssetDescriptionAr}
+# SendActivity_kRxcYz()
+[Activity
+    Text = ${SendActivity_kRxcYz_text()}
+]
+
+# SendActivity_1egFIw_text()
+- ${dialog.foreach.value.AssetDescriptionEn}
+# SendActivity_1egFIw()
+[Activity
+    Text = ${SendActivity_1egFIw_text()}
+]
+
+# SendActivity_zTOtsE_text()
+- ${dialog.foreach.value.AssetDescriptionAr}
+# SendActivity_zTOtsE()
+[Activity
+    Text = ${SendActivity_zTOtsE_text()}
+]
+
+# SendActivity_OiPQPO_text()
+- ${dialog.foreach.value.AssetDescriptionEn}
+# SendActivity_OiPQPO()
+[Activity
+    Text = ${SendActivity_OiPQPO_text()}
+]
+
+# SendActivity_A2EYIS_text()
+- ${dialog.foreach.value.AssetDescriptionAr}
+# SendActivity_A2EYIS()
+[Activity
+    Text = ${SendActivity_A2EYIS_text()}
+]
+
+# SendActivity_ESG57t_text()
+- ${dialog.foreach.value.AssetDescriptionEn}
+# SendActivity_ESG57t()
+[Activity
+    Text = ${SendActivity_ESG57t_text()}
+]
+
+# SendActivity_XAcaIc_text()
+- ${dialog.foreach.value.AssetDescriptionAr}
+# SendActivity_XAcaIc()
+[Activity
+    Text = ${SendActivity_XAcaIc_text()}
+]
+
+# SendActivity_aFyGIQ_text()
+- ${dialog.foreach.value.AssetDescriptionEn}
+# SendActivity_aFyGIQ()
+[Activity
+    Text = ${SendActivity_aFyGIQ_text()}
+]

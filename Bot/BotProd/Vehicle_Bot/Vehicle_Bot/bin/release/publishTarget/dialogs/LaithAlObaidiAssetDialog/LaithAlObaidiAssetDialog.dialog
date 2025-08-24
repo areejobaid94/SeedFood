@@ -1,0 +1,494 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "GTCTld",
+    "name": "LaithAlObaidiAssetDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "4ImQso"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "ATlkQg"
+          },
+          "condition": "conversation.StepBack==\"1\"",
+          "actions": [
+            {
+              "$kind": "Microsoft.DeleteProperty",
+              "$designer": {
+                "id": "x3JAk4"
+              },
+              "property": "conversation.userSelect"
+            },
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "Z3ezgg"
+              },
+              "property": "conversation.stepId",
+              "value": "1"
+            },
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "lmMEOX"
+              },
+              "condition": "conversation.IsThreeAsset",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "PVaGAT"
+                  },
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId ==1077)).text",
+                  "property": "conversation.select"
+                }
+              ],
+              "elseActions": [
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "1SJGYH"
+                  },
+                  "condition": "conversation.IsTwoAsset",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "Az6bmS"
+                      },
+                      "property": "conversation.select",
+                      "value": "=conversation.choose"
+                    }
+                  ],
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "StbroY"
+                      },
+                      "property": "conversation.select",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId ==1072)).text"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "A7Aa7i"
+              },
+              "activityProcessed": true,
+              "dialog": "LaithAlObaidiChooseCarDialog"
+            },
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "aEoXZJ"
+              },
+              "condition": "conversation.DepartmentName ==\"#\"",
+              "actions": [
+                {
+                  "$kind": "Microsoft.EndDialog",
+                  "$designer": {
+                    "id": "cJSogx"
+                  }
+                }
+              ],
+              "elseActions": []
+            },
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "tntceP"
+              },
+              "property": "conversation.StepBack",
+              "value": "2"
+            },
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "21ukLa"
+              },
+              "property": "conversation.LevelOneId",
+              "value": "=conversation.userSelect"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "2ZOvJt"
+          },
+          "condition": "conversation.StepBack==\"2\"",
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "AHXRxK"
+              },
+              "property": "conversation.userSelect",
+              "value": "=conversation.LevelOneId"
+            },
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "G6nHe6"
+              },
+              "property": "conversation.stepId",
+              "value": "2"
+            },
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "65ngF7"
+              },
+              "condition": "conversation.IsThreeAsset",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "hg54XA"
+                  },
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId ==1078)).text",
+                  "property": "conversation.select"
+                }
+              ],
+              "elseActions": [
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "KJujpv"
+                  },
+                  "condition": "conversation.IsTwoAsset",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "3N56nS"
+                      },
+                      "property": "conversation.select",
+                      "value": "=conversation.choose"
+                    }
+                  ],
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "i3YiFS"
+                      },
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId ==1073)).text",
+                      "property": "conversation.select"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "QsQVRc"
+              },
+              "activityProcessed": true,
+              "dialog": "LaithAlObaidiChooseCarDialog"
+            },
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "E6pKlK"
+              },
+              "condition": "conversation.DepartmentName ==\"#\"",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "YLXucJ"
+                  },
+                  "property": "conversation.StepBack",
+                  "value": "1"
+                },
+                {
+                  "$kind": "Microsoft.DeleteProperty",
+                  "$designer": {
+                    "id": "8MZy6R"
+                  },
+                  "property": "conversation.DepartmentName"
+                },
+                {
+                  "$kind": "Microsoft.RepeatDialog",
+                  "$designer": {
+                    "id": "U8oyXS"
+                  },
+                  "activityProcessed": true
+                }
+              ],
+              "elseActions": []
+            },
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "NdcV8m"
+              },
+              "property": "conversation.LevelTowId",
+              "value": "=conversation.userSelect"
+            },
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "I0coUL"
+              },
+              "property": "conversation.StepBack",
+              "value": "3"
+            },
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "PIc0gz"
+              },
+              "condition": "conversation.IsTwoAsset",
+              "actions": [
+                {
+                  "$kind": "Microsoft.EndDialog",
+                  "$designer": {
+                    "id": "INCsOk"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "jozgCf"
+          },
+          "condition": "conversation.StepBack==\"3\"",
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "czvu3C"
+              },
+              "property": "conversation.userSelect",
+              "value": "=conversation.LevelTowId"
+            },
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "Hlc0G2"
+              },
+              "property": "conversation.stepId",
+              "value": "3"
+            },
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "8iTR1v"
+              },
+              "condition": "conversation.IsThreeAsset",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "J5ICY2"
+                  },
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId ==1079)).text",
+                  "property": "conversation.select"
+                }
+              ],
+              "elseActions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "8zTKR2"
+                  },
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId ==1074)).text",
+                  "property": "conversation.select"
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "p0k0XM"
+              },
+              "activityProcessed": true,
+              "dialog": "LaithAlObaidiChooseCarDialog"
+            },
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "eGKyix"
+              },
+              "condition": "conversation.DepartmentName ==\"#\"",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "q25ujt"
+                  },
+                  "property": "conversation.userSelect",
+                  "value": "=conversation.LevelOneId"
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "seHbgY"
+                  },
+                  "property": "conversation.StepBack",
+                  "value": "2"
+                },
+                {
+                  "$kind": "Microsoft.DeleteProperty",
+                  "$designer": {
+                    "id": "nFzCYe"
+                  },
+                  "property": "conversation.DepartmentName"
+                },
+                {
+                  "$kind": "Microsoft.RepeatDialog",
+                  "$designer": {
+                    "id": "K8gXor"
+                  },
+                  "activityProcessed": true
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "LTBgcc"
+              },
+              "property": "conversation.LevelThreeId",
+              "value": "=conversation.userSelect"
+            },
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "XNQezD"
+              },
+              "condition": "conversation.IsTwoAsset",
+              "actions": [
+                {
+                  "$kind": "Microsoft.EndDialog",
+                  "$designer": {
+                    "id": "j0oCiw"
+                  }
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "hEro7B"
+              },
+              "property": "conversation.StepBack",
+              "value": "4"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "8Mzeys"
+          },
+          "property": "conversation.userSelect",
+          "value": "=conversation.LevelThreeId"
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "PABZlq"
+          },
+          "property": "conversation.stepId",
+          "value": "4"
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "KpzxrI"
+          },
+          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId ==1075)).text",
+          "property": "conversation.select"
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "WmI4Ef"
+          },
+          "activityProcessed": true,
+          "dialog": "LaithAlObaidiChooseCarDialog"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "3HIVLp"
+          },
+          "condition": "conversation.DepartmentName ==\"#\"",
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "hrASZY"
+              },
+              "property": "conversation.userSelect",
+              "value": "=conversation.LevelTowId"
+            },
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "lDqLOy"
+              },
+              "property": "conversation.StepBack",
+              "value": "3"
+            },
+            {
+              "$kind": "Microsoft.DeleteProperty",
+              "$designer": {
+                "id": "1qxupw"
+              },
+              "property": "conversation.DepartmentName"
+            },
+            {
+              "$kind": "Microsoft.RepeatDialog",
+              "$designer": {
+                "id": "kZGtqN"
+              },
+              "activityProcessed": true
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "tpelP3"
+              },
+              "property": "conversation.LevelFourId",
+              "value": "=conversation.userSelect"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "WJkod3"
+          }
+        }
+      ]
+    }
+  ],
+  "generator": "LaithAlObaidiAssetDialog.lg",
+  "recognizer": "LaithAlObaidiAssetDialog.lu.qna",
+  "id": "LaithAlObaidiAssetDialog"
+}

@@ -1,0 +1,10 @@
+[import](common.lg)
+
+# TextInput_Prompt_RMaVwq()
+[Activity
+    Text = ${TextInput_Prompt_RMaVwq_text()}
+    SuggestedActions = ${dialog.option1} | ${dialog.option2}
+]
+
+# TextInput_Prompt_RMaVwq_text()
+- ${dialog.text}

@@ -1,0 +1,65 @@
+[import](common.lg)
+
+# TextInput_Prompt_TW9Xhy()
+[Activity
+    Attachments = ${json(dropList(dialog.text,dialog.Option1,dialog.Option2,dialog.Option3,dialog.Option4))}   
+    Summary=${conversation.Summary}
+    InputHint=${dialog.text}
+
+]
+# SendActivity_E0MK5p()
+[Activity
+    Text = ${SendActivity_E0MK5p_text()}
+]
+
+# SendActivity_E0MK5p_text()
+- ${dialog.text}
+# SendActivity_awvZ7l_text()
+- ${dialog.text}
+# SendActivity_awvZ7l()
+[Activity
+    Text = ${SendActivity_awvZ7l_text()}
+]
+
+# SendActivity_LaCtk5()
+[Activity
+    Text= https://infoseedmediastoragestg.blob.core.windows.net/4408da24-aad7-4802-a1f1-46f5ad9e2074/63708ce4-2734-4db9-8f1b-f41ebf6b8717.mp4
+    InputHint=video
+    Speak =  video
+     
+]
+# SendActivity_0fgrYc()
+[Activity
+    Text= ${dialog.text}
+    InputHint=${dialog.type}
+    Speak =${dialog.name}
+     
+]
+# SendActivity_KvGz1r()
+[Activity
+    Text = ${SendActivity_KvGz1r_text()}
+]
+
+# SendActivity_KvGz1r_text()
+- ${dialog.text2}
+# SendActivity_4qf5AY()
+[Activity
+    Text = ${SendActivity_4qf5AY_text()}
+]
+
+# SendActivity_4qf5AY_text()
+- ${dialog.text2}
+# SendActivity_X3NxdN()
+[Activity
+    Text= ${dialog.text}
+    InputHint=${dialog.type}
+    Speak =${dialog.name}
+     
+]
+# SendActivity_X5vaWS()
+[Activity
+    Text= ${dialog.text}
+    InputHint=${dialog.type}
+    Speak =${dialog.name}
+     
+]

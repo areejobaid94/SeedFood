@@ -1,0 +1,428 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "maay5Y",
+    "name": "HyundaiMaintenanceDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "9OqQvn"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "BPS2CI"
+          },
+          "condition": "conversation.local",
+          "cases": [
+            {
+              "value": "ar",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "1dC4AF"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.Option1",
+                      "value": "أستفسارات"
+                    },
+                    {
+                      "property": "dialog.Option2",
+                      "value": "حجز موعد"
+                    },
+                    {
+                      "property": "dialog.Option3",
+                      "value": "قطع الغيار"
+                    },
+                    {
+                      "property": "dialog.Option4",
+                      "value": "اقتراحات و شكاوي"
+                    },
+                    {
+                      "property": "dialog.Option5",
+                      "value": "موقع الصيانة"
+                    },
+                    {
+                      "property": "dialog.InputHint",
+                      "value": "القائمة"
+                    },
+                    {
+                      "property": "dialog.Summary",
+                      "value": "للعودة الى القائمة الرئيسية اضغط #"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "8akxIv"
+                  },
+                  "property": "dialog.text",
+                  "value": "الرجاء الاختيار"
+                }
+              ]
+            },
+            {
+              "value": "en",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "8hg3kd"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.Option1",
+                      "value": "Queries"
+                    },
+                    {
+                      "property": "dialog.Option2",
+                      "value": "Appointment Booking"
+                    },
+                    {
+                      "property": "dialog.Option3",
+                      "value": "Spare Parts"
+                    },
+                    {
+                      "property": "dialog.Option5",
+                      "value": "Maintenance Site"
+                    },
+                    {
+                      "property": "dialog.Option4",
+                      "value": "Complaints"
+                    },
+                    {
+                      "property": "dialog.InputHint",
+                      "value": "Menu"
+                    },
+                    {
+                      "property": "dialog.Summary",
+                      "value": "To return to the main menu press #"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "buQwPK"
+                  },
+                  "property": "dialog.text",
+                  "value": " Please choose"
+                }
+              ]
+            }
+          ],
+          "default": [
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "s02Z5Z"
+              },
+              "assignments": [
+                {
+                  "property": "dialog.Option1",
+                  "value": "أستفسارات"
+                },
+                {
+                  "property": "dialog.Option2",
+                  "value": "حجز موعد"
+                },
+                {
+                  "property": "dialog.Option3",
+                  "value": "قطع الغيار"
+                },
+                {
+                  "property": "dialog.Option4",
+                  "value": "اقتراحات و شكاوي"
+                },
+                {
+                  "property": "dialog.InputHint",
+                  "value": "القائمة"
+                },
+                {
+                  "property": "dialog.Summary",
+                  "value": "للعودة الى القائمة الرئيسية اضغط #"
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "c9O8JF"
+              },
+              "property": "dialog.text",
+              "value": "الرجاء الاختيار"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "ctV46z"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "unrecognizedPrompt": "",
+          "invalidPrompt": "",
+          "prompt": "${TextInput_Prompt_ctV46z()}",
+          "property": "dialog.UserSelect",
+          "validations": [
+            "equals(this.value, 'موقع الصيانة') ||equals(this.value, 'Maintenance Site') ||equals(this.value, 'أستفسارات') || equals(this.value, 'حجز موعد')|| equals(this.value, 'قطع الغيار')|| equals(this.value, 'اقتراحات و شكاوي')|| equals(this.value, '#') || equals(this.value, 'Queries')  || equals(this.value, 'Appointment Booking')  || equals(this.value, 'Spare Parts') || equals(this.value, 'Complaints')"
+          ]
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "LhHRaS"
+          },
+          "condition": "dialog.UserSelect",
+          "cases": [
+            {
+              "value": "أستفسارات",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "gfYHLP"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "HyundaiQueriesDialog"
+                }
+              ]
+            },
+            {
+              "value": "حجز موعد",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "2RVb3G"
+                  },
+                  "property": "conversation.Department2",
+                  "value": "=dialog.UserSelect"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "gnQalO"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "HyundaiAppointmentBookingDialog"
+                }
+              ]
+            },
+            {
+              "value": "قطع الغيار",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "xW9ZjM"
+                  },
+                  "property": "conversation.Department2",
+                  "value": "=dialog.UserSelect"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "R6nTji"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "HyundaiSparePartsDialog"
+                }
+              ]
+            },
+            {
+              "value": "موقع الصيانة",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "PGSEeU"
+                  },
+                  "property": "conversation.Department2",
+                  "value": "=dialog.UserSelect"
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "X7ozTZ"
+                  },
+                  "property": "dialog.text",
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1202)).text"
+                },
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "pSXZxL"
+                  },
+                  "activity": "${SendActivity_pSXZxL()}"
+                },
+                {
+                  "$kind": "Microsoft.CancelAllDialogs",
+                  "$designer": {
+                    "id": "cjotzH"
+                  },
+                  "activityProcessed": true
+                }
+              ]
+            },
+            {
+              "value": "اقتراحات و شكاوي",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "9PCK95"
+                  },
+                  "property": "conversation.Department1",
+                  "value": "=dialog.UserSelect"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "3cAOwP"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "HyundaiComplaintsDialog"
+                }
+              ]
+            },
+            {
+              "value": "Queries",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "5I19RM"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "HyundaiQueriesDialog"
+                }
+              ]
+            },
+            {
+              "value": "Appointment Booking",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "KfIQL1"
+                  },
+                  "property": "conversation.Department2",
+                  "value": "=dialog.UserSelect"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "0C9ez5"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "HyundaiAppointmentBookingDialog"
+                }
+              ]
+            },
+            {
+              "value": "Spare Parts",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "eh4joB"
+                  },
+                  "property": "conversation.Department2",
+                  "value": "=dialog.UserSelect"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "51cWUT"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "HyundaiSparePartsDialog"
+                }
+              ]
+            },
+            {
+              "value": "Maintenance Site",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "0lUBH3"
+                  },
+                  "property": "conversation.Department2",
+                  "value": "=dialog.UserSelect"
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "bSmypl"
+                  },
+                  "property": "dialog.text",
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1202)).text"
+                },
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "rAOcbG"
+                  },
+                  "activity": "${SendActivity_rAOcbG()}"
+                },
+                {
+                  "$kind": "Microsoft.CancelAllDialogs",
+                  "$designer": {
+                    "id": "nGHJFl"
+                  },
+                  "activityProcessed": true
+                }
+              ]
+            },
+            {
+              "value": "Complaints",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "LT8Xyy"
+                  },
+                  "property": "conversation.Department1",
+                  "value": "=dialog.UserSelect"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "coXaa9"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "HyundaiComplaintsDialog"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "Fgrsso"
+          }
+        }
+      ]
+    }
+  ],
+  "generator": "HyundaiMaintenanceDialog.lg",
+  "recognizer": "HyundaiMaintenanceDialog.lu.qna",
+  "id": "HyundaiMaintenanceDialog"
+}

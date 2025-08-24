@@ -1,0 +1,17 @@
+[import](common.lg)
+
+# SendActivity_htbPPg()
+[Activity
+    Text = ${SendActivity_htbPPg_text()}
+]
+
+# SendActivity_htbPPg_text()
+- ${dialog.welcomeMessageCaption}
+# TextInput_Prompt_UehMBT()
+[Activity
+    Text = ${TextInput_Prompt_UehMBT_text()}
+    SuggestedActions = ${dialog.option1} | ${dialog.option2} | ${dialog.option3}
+]
+
+# TextInput_Prompt_UehMBT_text()
+- ${dialog.fristChoseCaption}

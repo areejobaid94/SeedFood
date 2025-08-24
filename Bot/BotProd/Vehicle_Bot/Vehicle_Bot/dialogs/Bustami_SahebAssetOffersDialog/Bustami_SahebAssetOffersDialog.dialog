@@ -1,0 +1,443 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "myu5XR",
+    "name": "Bustami_SahebAssetOffersDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "YUEWzI"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "La5wH2"
+          },
+          "condition": "conversation.levelThreeId == null",
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "1SbASH"
+              },
+              "property": "conversation.levelThreeId",
+              "value": "0"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "qN65wp"
+          },
+          "actions": [
+            {
+              "$kind": "Microsoft.HttpRequest",
+              "$designer": {
+                "id": "CFSnFh"
+              },
+              "resultProperty": "dialog.Asset",
+              "method": "GET",
+              "url": "${conversation.URL}/api/BotAPI/GetAssetOffers?TenantID=${conversation.TenantId}&phoneNumber=${conversation.phoneNumber}",
+              "responseType": "json"
+            },
+            {
+              "$kind": "Microsoft.HttpRequest",
+              "$designer": {
+                "id": "2dEG43"
+              },
+              "resultProperty": "dialog.AssetName",
+              "method": "GET",
+              "url": "${conversation.URL}/api/BotAPI/getListPDFOfferName?TenantID=${conversation.TenantId}&phoneNumber=${conversation.phoneNumber}",
+              "responseType": "json"
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.HttpRequest",
+              "$designer": {
+                "id": "mIdJri"
+              },
+              "resultProperty": "dialog.Asset",
+              "method": "GET",
+              "url": "${conversation.URL}/api/BotAPI/GetAsset?tenantId=${conversation.TenantId}&phoneNumber=${conversation.phoneNumber}&typeId=0&levleOneId=${conversation.levelOneId}&levelTwoId=${conversation.LevelTowId}&levelThreeId=${conversation.levelThreeId}&levelFourId=",
+              "responseType": "json"
+            },
+            {
+              "$kind": "Microsoft.HttpRequest",
+              "$designer": {
+                "id": "fRcVO6"
+              },
+              "resultProperty": "dialog.AssetName",
+              "method": "GET",
+              "url": "${conversation.URL}/api/BotAPI/getListPDFName?tenantId=${conversation.TenantId}&phoneNumber=${conversation.phoneNumber}&typeId=0&levleOneId=${conversation.levelOneId}&levelTwoId=${conversation.LevelTowId}&levelThreeId=${conversation.levelThreeId}&levelFourId=",
+              "responseType": "json"
+            },
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "uEWeL4"
+              },
+              "property": "dialog.interestedOfBody",
+              "value": {
+                "TenantID": "=conversation.TenantId",
+                "ContactId": "=conversation.ContactId",
+                "levleOneId": "=conversation.levelOneId",
+                "levelTwoId": "=conversation.LevelTowId",
+                "levelThreeId": "=conversation.levelThreeId"
+              }
+            },
+            {
+              "$kind": "Microsoft.HttpRequest",
+              "$designer": {
+                "id": "nT1LLB"
+              },
+              "resultProperty": "dialog.UpdateInterestedOf",
+              "method": "POST",
+              "url": "${conversation.URL}/api/BotAPI/CreateInterestedOf",
+              "responseType": "json",
+              "body": "= dialog.interestedOfBody",
+              "headers": {
+                "accept": "text/plain",
+                "Content-Type": "application/json-patch+json"
+              }
+            }
+          ],
+          "condition": "conversation.isoffer"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "wV9fAh"
+          },
+          "condition": "dialog.Asset.content.result.count >0",
+          "elseActions": [
+            {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "TlJsOg"
+              },
+              "activity": "${SendActivity_TlJsOg()}"
+            }
+          ],
+          "actions": [
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "9r7v3H"
+              },
+              "condition": "conversation.local == \"ar\"",
+              "actions": [
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "v5guYZ"
+                  },
+                  "condition": "dialog.AssetName.content.result.count == 1",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "9Baa4P"
+                      },
+                      "property": "dialog.selectAssest",
+                      "value": "=dialog.AssetName.content.result[0].AssetNameAr"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "EL1Bg3"
+                  },
+                  "property": "dialog.pleaseSelectAsset",
+                  "value": "الرجاء الاختيار"
+                },
+                {
+                  "$kind": "Microsoft.TextInput",
+                  "$designer": {
+                    "id": "lUJGBe"
+                  },
+                  "disabled": false,
+                  "maxTurnCount": 100,
+                  "alwaysPrompt": false,
+                  "allowInterruptions": true,
+                  "unrecognizedPrompt": "",
+                  "invalidPrompt": "",
+                  "prompt": "${TextInput_Prompt_lUJGBe()}",
+                  "property": "dialog.selectAssest"
+                },
+                {
+                  "$kind": "Microsoft.Foreach",
+                  "$designer": {
+                    "id": "St1Wvr"
+                  },
+                  "index": "dialog.foreach.index",
+                  "value": "dialog.foreach.value",
+                  "itemsProperty": "dialog.AssetName.content.result",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "9I4Dl4"
+                      },
+                      "property": "dialog.foreach.value.value",
+                      "value": "=dialog.foreach.value.assetNameAr"
+                    },
+                    {
+                      "$kind": "Microsoft.EditArray",
+                      "$designer": {
+                        "id": "KcRkOe"
+                      },
+                      "changeType": "push",
+                      "itemsProperty": "dialog.list",
+                      "value": "=dialog.foreach.value.value "
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "939lwq"
+                  },
+                  "condition": "=contains(dialog.list,dialog.selectAssest) || contains(dialog.selectAssest, '#')",
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.RepeatDialog",
+                      "$designer": {
+                        "id": "oi8ofy"
+                      },
+                      "activityProcessed": true
+                    }
+                  ],
+                  "actions": []
+                }
+              ],
+              "elseActions": [
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "or97Ob"
+                  },
+                  "condition": "dialog.AssetName.content.result.count == 1",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "5OrC2l"
+                      },
+                      "property": "dialog.selectAssest",
+                      "value": "=dialog.AssetName.content.result[0].AssetNameEn"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "iwYAbS"
+                  },
+                  "property": "dialog.pleaseSelectAsset",
+                  "value": "Please choose"
+                },
+                {
+                  "$kind": "Microsoft.TextInput",
+                  "$designer": {
+                    "id": "2oF2EO"
+                  },
+                  "disabled": false,
+                  "maxTurnCount": 100,
+                  "alwaysPrompt": false,
+                  "allowInterruptions": true,
+                  "unrecognizedPrompt": "",
+                  "prompt": "${TextInput_Prompt_2oF2EO()}",
+                  "property": "dialog.selectAssest"
+                },
+                {
+                  "$kind": "Microsoft.Foreach",
+                  "$designer": {
+                    "id": "emN8Mm"
+                  },
+                  "index": "dialog.foreach.index",
+                  "value": "dialog.foreach.value",
+                  "itemsProperty": "dialog.AssetName.content.result",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "0MxWiR"
+                      },
+                      "property": "dialog.foreach.value.value",
+                      "value": "=dialog.foreach.value.assetNameEn"
+                    },
+                    {
+                      "$kind": "Microsoft.EditArray",
+                      "$designer": {
+                        "id": "ENTblJ"
+                      },
+                      "changeType": "push",
+                      "itemsProperty": "dialog.list",
+                      "value": "=dialog.foreach.value.value "
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "Odu3Rv"
+                  },
+                  "condition": "=contains(dialog.list,dialog.selectAssest) || contains(dialog.selectAssest, '#')",
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.RepeatDialog",
+                      "$designer": {
+                        "id": "1Z6N1K"
+                      },
+                      "activityProcessed": true
+                    }
+                  ],
+                  "actions": []
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "klniKV"
+              },
+              "assignments": [
+                {
+                  "property": "dialog.Asset.content.result",
+                  "value": "=where(dialog.Asset.content.result, x, x.AssetNameAr == dialog.selectAssest || x.AssetNameEn == dialog.selectAssest)"
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.Foreach",
+              "$designer": {
+                "id": "0tK85L"
+              },
+              "index": "dialog.foreach.index",
+              "value": "dialog.foreach.value",
+              "itemsProperty": "dialog.Asset.content.result",
+              "actions": [
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "tzTZgR"
+                  },
+                  "condition": "conversation.local == \"ar\"",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "BzUXcC"
+                      },
+                      "property": "dialog.arText",
+                      "value": "=dialog.foreach.value.AssetDescriptionAr"
+                    },
+                    {
+                      "$kind": "Microsoft.IfCondition",
+                      "$designer": {
+                        "id": "cmrA3a"
+                      },
+                      "condition": "dialog.IsSendText==dialog.arText",
+                      "elseActions": [
+                        {
+                          "$kind": "Microsoft.SendActivity",
+                          "$designer": {
+                            "id": "NnHNVs"
+                          },
+                          "activity": "${SendActivity_NnHNVs()}"
+                        }
+                      ]
+                    },
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "kLfeZS"
+                      },
+                      "property": "dialog.IsSendText",
+                      "value": "${dialog.arText}"
+                    }
+                  ],
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "Kz6gvC"
+                      },
+                      "property": "dialog.enText",
+                      "value": "=dialog.foreach.value.AssetDescriptionEn"
+                    },
+                    {
+                      "$kind": "Microsoft.IfCondition",
+                      "$designer": {
+                        "id": "ZQo5gn"
+                      },
+                      "condition": "dialog.IsSendText==dialog.enText",
+                      "elseActions": [
+                        {
+                          "$kind": "Microsoft.SendActivity",
+                          "$designer": {
+                            "id": "2qErIp"
+                          },
+                          "activity": "${SendActivity_2qErIp()}"
+                        }
+                      ]
+                    },
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "JUJ7vF"
+                      },
+                      "property": "dialog.IsSendText",
+                      "value": "${dialog.enText}"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "AFxYz3"
+                  },
+                  "property": "dialog.sendAsset",
+                  "value": {
+                    "TenantID": "=dialog.foreach.value.TenantID",
+                    "phoneNumber": "=dialog.foreach.value.phoneNumber",
+                    "AttachmentUrl": "=dialog.foreach.value.AttachmentUrl",
+                    "AttachmentName": "=dialog.foreach.value.AttachmentName",
+                    "AttachmentType": "=dialog.foreach.value.AttachmentType"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "F9Igc2"
+                  },
+                  "activity": "${SendActivity_F9Igc2()}"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "VzfTvn"
+          }
+        }
+      ]
+    }
+  ],
+  "generator": "Bustami_SahebAssetOffersDialog.lg",
+  "recognizer": "Bustami_SahebAssetOffersDialog.lu.qna",
+  "id": "Bustami_SahebAssetOffersDialog"
+}

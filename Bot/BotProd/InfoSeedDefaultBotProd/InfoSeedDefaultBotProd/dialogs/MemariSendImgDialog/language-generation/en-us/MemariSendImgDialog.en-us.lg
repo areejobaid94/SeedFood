@@ -1,0 +1,17 @@
+[import](common.lg)
+
+# TextInput_Prompt_v8RWxM()
+[Activity
+    Text = ${TextInput_Prompt_v8RWxM_text()}
+]
+
+# TextInput_Prompt_v8RWxM_text()
+- ${dialog.text1}
+# TextInput_Prompt_ssu9Rd()
+[Activity
+    Text = ${TextInput_Prompt_ssu9Rd_text()}
+    SuggestedActions = ${dialog.Yes} | ${dialog.No}
+]
+
+# TextInput_Prompt_ssu9Rd_text()
+- ${dialog.text2}

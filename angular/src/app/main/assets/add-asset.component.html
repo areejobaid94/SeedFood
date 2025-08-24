@@ -1,0 +1,391 @@
+<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+    aria-labelledby="createOrEditModal" aria-hidden="true"
+    [config]="{ backdrop: 'static', keyboard: !saving }">
+    <div *ngIf="theme != 'theme12'" class="modal-dialog modal-lg">
+        <div class="modal-content" >
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <span>Asset Page</span>
+                    </h4>
+                    <button type="button" class="btn-close" aria-label="Close" (click)="close()">X</button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="nameAr">Asset Name Arabic *</label>
+                            <input id="nameAr" type="text" class="form-control ele" [(ngModel)]="asset.assetNameAr"
+                                name="assetNameAr" required [class.error]="submitted && nameArabic.invalid" #nameArabic="ngModel"/>
+                                <p class="text-danger" *ngIf="submitted && nameArabic.invalid">{{l("ThisFieldIsRequired") }}</p> 
+                        </div>
+                        <div class="form-group">
+                            <label for="nameEn">Asset Name English *</label>
+                            <input id="nameEn" type="text" class="form-control ele" [(ngModel)]="asset.assetNameEn"
+                                name="assetNameEn" required [class.error]="submitted && nameEn.invalid" #nameEn="ngModel" />
+                                <p class="text-danger" *ngIf="submitted && nameEn.invalid">{{l("ThisFieldIsRequired") }}</p>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="assetAr">Asset Description Arabic *</label>
+                            <textarea id="assetAr" type="text" class="form-control Des"
+                                [(ngModel)]="asset.assetDescriptionAr" name="assetDescriptionAr" required
+                                #descAr="ngModel"  [class.error]="submitted && descAr.invalid"></textarea>
+                                <p class="text-danger" *ngIf="submitted && descAr.invalid">{{l("ThisFieldIsRequired") }}</p> 
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group">
+                            <label for="assetEn">Asset Description English *</label>
+                            <textarea id="assetEn" type="text" class="form-control Des"
+                                [(ngModel)]="asset.assetDescriptionEn" name="assetDescriptionEn" required
+                                #descEn="ngModel"  [class.error]="submitted && descEn.invalid"></textarea>
+                                <p class="text-danger" *ngIf="submitted && descEn.invalid">{{l("ThisFieldIsRequired") }}</p> 
+                        </div>
+                    </div>
+
+                    <div class="m-checkbox-list">
+                        <label for="isOffer" class="kt-checkbox">
+                            <input id="isOffer" type="checkbox" name="isOffer" [(ngModel)]="asset.isOffer" />Switch To
+                            Offer<span></span>
+                        </label>
+                    </div>
+
+                    <!---------------------------LEVELS-------------------->
+                    <div class="row" *ngIf="!checkIsOffer()">
+                        <div class="form-group" *ngIf="assetlevelOneFlag">
+                            <label>Asset Level One </label>
+                            <select id="lvl1" (change)="onChangeLevelOne($event)" name="assetLevelOneId"
+                                [(ngModel)]="asset.assetLevelOneId" class="form-control ele" required>
+                                <option *ngFor="let asset of assetLevelOne" [value]="asset.id">{{ asset.levelOneNameAr
+                                    }} {{ asset.levelOneNameEn }}</option>
+                            </select>
+                        </div>
+                        <div class="form-group" *ngIf="assetlevelTwoFlag">
+                            <label>Asset Level Two </label>
+
+                            <select id="lvl2" (change)="onChangeLevelTwo($event)" name="assetLevelTwoId"
+                                [(ngModel)]="asset.assetLevelTwoId" class="form-control ele" required>
+                                <option *ngFor="let asset2 of assetLevelTwo" [value]="asset2.id">{{
+                                    asset2.levelTwoNameAr }} {{ asset2.levelTwoNameEn }}</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group" *ngIf="assetlevelThreeFlag && !checkIsOffer()">
+                            <label>Asset Level Three </label>
+                            <select id="lvl3" (change)="onChangeLevelThree($event)" name="assetLevelThreeId"
+                                [(ngModel)]="asset.assetLevelThreeId" class="form-control ele" required>
+                                <option *ngFor="let asset3 of assetLevelThree" [value]="asset3.id">{{
+                                    asset3.levelThreeNameAr }} {{ asset3.levelThreeNameEn }}</option>
+                            </select>
+                        </div>
+                        <div class="form-group" *ngIf="assetlevelFourFlag && !checkIsOffer()">
+                            <label>Asset Level Four </label>
+                            <select id="lvl4" [(ngModel)]="asset.assetLevelFourId" name="assetLevelFourId"
+                                class="form-control ele" required>
+                                <option *ngFor="let asset4 of assetLevelFour" [value]="asset4.id">{{
+                                    asset4.levelFourNameAr }} {{ asset4.levelFourNameEn }}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <!---------------------------END LEVELS-------------------------------->
+                    <div class="form-group" *ngIf="radioButtonFlag">
+                        <label>Asset Type </label>
+                        <div id="assetType" class="form-check row" style="margin-right: 20px">
+                            <input type="radio" id="Sell" name="assetTypeId" [value]="1"
+                                [(ngModel)]="asset.assetTypeId" />
+                            <label for="Sell">{{ typeName1 }}</label><br />
+
+                            <input type="radio" id="Rent" name="assetTypeId" [value]="2"
+                                [(ngModel)]="asset.assetTypeId" />
+                            <label for="Rent">{{ typeName2 }}</label><br />
+                        </div>
+                        <!-- <div class="m-checkbox-list">
+                                        <label class="kt-checkbox"></label>
+                                            <input id="assetStatusId" type="checkbox" name="assetStatusId"
+                                            [(ngModel)]="asset.assetStatusId"
+                                            (change)="isActive($event)">
+                                            is Active
+                                    </div> -->
+                    </div>
+
+                    <div class="form-group  ">
+                                <input type="file" id="file" aria-label="File browser example"
+                                    (change)="onFileChange($event)"  class="form-control"
+                                    [class.error]="submitted && asset.lstAssetAttachmentDto == null"/>
+                        <p class="text-danger" *ngIf="submitted && asset.lstAssetAttachmentDto == null">{{l("ThisFieldIsRequired") }}</p> 
+                    </div>
+
+                  
+
+                    <div class="row" *ngFor="let assetT of asset.lstAssetAttachmentDto; let index = index">
+                        <div class="m-checkbox-list">
+                            <label for="inService" class="kt-checkbox">
+                                <label class="file">{{ assetT.attachmentName }}</label>
+                                <input id="inService{{ index }}" #inService="ngModel" type="checkbox"
+                                    name="inService{{ index }}" [(ngModel)]="assetT.inService" />
+                                {{ l("In Service") }}
+                                <span></span>
+                            </label>
+                        </div>
+
+                        <button id="isDelete{{ index }}" class="btn btn-primary blue"
+                            style="padding: 0; width: 50px; height: 34px; margin: 5px" name="isDelete{{ index }}"
+                            (click)="DeleteItem(index)">
+                            {{ l("Delete") }}
+                        </button>
+                  
+                    </div>
+                </div>
+                <div class="modal-footer" >
+                    <button type="button" class="btn btn-default" (click)="close()">Cancel</button>
+                    <button id="btn" type="button" class="btn btn-primary blue" (click)="save()"
+                       [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')">
+                        <i class="fa fa-save"></i>
+                        <span>{{ l("Save") }}</span>
+                    </button>
+                </div>
+        
+        </div>
+    </div>
+    <div *ngIf="theme === 'theme12'" class="modal-dialog modal-lg">
+        <div class="modal-content">
+                   
+            <div class="modal-header">
+                    <h4  class="modal-title">
+                        <span>{{ l("Assets") }}</span>
+                    </h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="close()"
+                        aria-label="Close"></button>
+                </div>
+                <div class="modal-body pl-5">
+                    <div class="row">
+                        <div class="col-12 col-xl-6 mb-1">
+                            <div class="form-group">
+                                <label for="nameAr">{{ l("assetsNameArabic") }}*</label>
+                                <input
+                                    class="form-control"
+                                    id="nameAr"  type="text" [(ngModel)]="asset.assetNameAr" name="assetNameAr"
+                                    required [class.error]="submitted && nameArabic.invalid" #nameArabic="ngModel" />
+                                    <p class="text-danger" *ngIf="submitted && nameArabic.invalid">{{l("ThisFieldIsRequired") }}</p> 
+
+                            </div>
+                        </div>
+                        <div class="col-12 col-xl-6  mb-1">
+                            <div class="form-group">
+                                <label for="nameEn">{{ l("assetsNameEnglish") }}*</label>
+                                <input id="nameEn" type="text"
+                                  class="form-control"
+                                    [(ngModel)]="asset.assetNameEn"  [class.error]="submitted && nameEn.invalid" #nameEn="ngModel" name="assetNameEn" required />
+                                    <p class="text-danger" *ngIf="submitted && nameEn.invalid">{{l("ThisFieldIsRequired") }}</p> 
+
+                            </div>
+                        </div>
+                        <div class="col-12 col-xl-6 mb-1">
+                            <div class="form-group">
+                                <label for="assetAr">{{ l("descreptionArabic") }} *</label>
+                                <textarea id="assetAr" type="text"
+                                  class="form-control"
+                                    [(ngModel)]="asset.assetDescriptionAr" name="assetDescriptionAr"
+                                    required #descAr="ngModel"  [class.error]="submitted && descAr.invalid" ></textarea>
+                                    <p class="text-danger" *ngIf="submitted && descAr.invalid">{{l("ThisFieldIsRequired") }}</p> 
+
+                            </div>
+                        </div>
+                        <div class="col-12 col-xl-6  mb-1">
+                            <div class="form-group">
+                                <label for="assetEn">{{ l("descreptionEnglish") }} *</label>
+                                <textarea id="assetEn" type="text"
+                                    class="form-control"
+                                    [(ngModel)]="asset.assetDescriptionEn" name="assetDescriptionEn"
+                                    required #descEn="ngModel"  [class.error]="submitted && descEn.invalid" ></textarea>
+                                    <p class="text-danger" *ngIf="submitted && descEn.invalid">{{l("ThisFieldIsRequired") }}</p> 
+                            </div>
+                        </div>
+                        <div class="col-12 col-xl-12  mb-1">
+                            <div class="m-checkbox-list form-check form-switch">
+                                <input class="form-check-input" id="isOffer" type="checkbox" name="isOffer"
+                                    [(ngModel)]="asset.isOffer" />
+                                <label for="isOffer" class="kt-checkbox">{{ l("sweitchToOffer") }}</label>
+                            </div>
+                            <p class="text-danger mt-1"> *{{ l("offerNote") }}</p>
+
+                        </div>
+
+                        <!---------------------------LEVELS-------------------->
+                        <div class="col-12 row p-0" *ngIf="!checkIsOffer()">
+                            <div class="col-12 col-xl-6  mb-1">
+                                <div class="form-group" *ngIf="assetlevelOneFlag">
+                                    <label>{{ l("levelOne") }} </label>
+                                    <select id="lvl1" (change)="onChangeLevelOne($event)" name="assetLevelOneId"
+                                        [(ngModel)]="asset.assetLevelOneId" class=" "
+                                        [ngClass]="darkModeService.currentSkin === 'dark' ? 'form-control-dark ' : 'form-control'"
+                                        required>
+                                        <option *ngFor="let asset of assetLevelOne" [value]="asset.id">{{
+                                            asset.levelOneNameAr }} {{ asset.levelOneNameEn }}</option>
+                                    </select>
+                                    <p class="text-danger" *ngIf="submitted && assetlevelOneFlag && (asset.assetLevelOneId === null || asset.assetLevelOneId === undefined) ">{{ l("ThisFieldIsRequired") }}</p>
+
+                                </div>
+                            </div>
+                            <div class="col-12 col-xl-6  mb-1" *ngIf="assetlevelTwoFlag">
+                                <div class="form-group">
+                                    <label>{{ l("leveltwo") }}</label>
+
+                                    <select id="lvl2" (change)="onChangeLevelTwo($event)" name="assetLevelTwoId"
+                                        [(ngModel)]="asset.assetLevelTwoId" class=""
+                                        [ngClass]="darkModeService.currentSkin === 'dark' ? 'form-control-dark ' : 'form-control'"
+                                        required>
+                                        <option *ngFor="let asset2 of assetLevelTwo" [value]="asset2.id">{{
+                                            asset2.levelTwoNameAr }} {{ asset2.levelTwoNameEn }}</option>
+                                    </select>
+                                    <p class="text-danger" *ngIf="submitted && assetlevelTwoFlag && (asset.assetLevelTwoId === null || asset.assetLevelTwoId === undefined)">{{ l("ThisFieldIsRequired") }}</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-xl-6 mb-1" *ngIf="assetlevelThreeFlag && !checkIsOffer()">
+                            <div class="form-group">
+                                <label>{{ l("levelThree") }}</label>
+                                <select id="lvl3" (change)="onChangeLevelThree($event)" name="assetLevelThreeId"
+                                    [(ngModel)]="asset.assetLevelThreeId" class=" "
+                                    [ngClass]="darkModeService.currentSkin === 'dark' ? 'form-control-dark ' : 'form-control'"
+                                    required>
+                                    <option *ngFor="let asset3 of assetLevelThree" [value]="asset3.id">{{
+                                        asset3.levelThreeNameAr }} {{ asset3.levelThreeNameEn }}</option>
+                                </select>
+                                <p class="text-danger" *ngIf="submitted && assetlevelThreeFlag && (asset.assetLevelThreeId === null || asset.assetLevelThreeId === undefined)">{{ l("ThisFieldIsRequired") }}</p>
+
+                            </div>
+                        </div>
+                        <div class="col-12 col-xl-6  mb-1" *ngIf="assetlevelFourFlag && !checkIsOffer()">
+                            <div class="form-group">
+                                <label>{{ l("levelFour") }}</label>
+                                <select id="lvl4" [(ngModel)]="asset.assetLevelFourId" name="assetLevelFourId"
+                                    [ngClass]="darkModeService.currentSkin === 'dark' ? 'form-control-dark ' : 'form-control'"
+                                    class=" " required>
+                                    <option *ngFor="let asset4 of assetLevelFour" [value]="asset4.id">{{
+                                        asset4.levelFourNameAr }} {{ asset4.levelFourNameEn }}</option>
+                                </select>
+                                <p class="text-danger" *ngIf="submitted && assetlevelFourFlag && (asset.assetLevelFourId === null || asset.assetLevelFourId === undefined)">{{ l("ThisFieldIsRequired") }}</p>
+
+                            </div>
+                        </div>
+
+                        <!---------------------------END LEVELS-------------------------------->
+                        <div class="col-12 col-xl-6 mb-1">
+                            <div class="form-group" *ngIf="radioButtonFlag">
+                                <h6>{{ l("type") }} </h6>
+                                <div id="assetType">
+                                    <input type="radio" id="Sell" name="assetTypeId" [value]="1"
+                                        [(ngModel)]="asset.assetTypeId" />
+                                    <label class="ml-1" for="Sell">{{ typeName1 }}</label><br />
+                                    <input  type="radio" id="Rent" name="assetTypeId" [value]="2"
+                                        [(ngModel)]="asset.assetTypeId" />
+                                    <label class="ml-1" for="Rent">{{ typeName2 }}</label><br />
+                                </div>
+
+                                <!-- <div class="m-checkbox-list">
+                                        <label class="kt-checkbox"></label>
+                                            <input id="assetStatusId" type="checkbox" name="assetStatusId"
+                                            [(ngModel)]="asset.assetStatusId"
+                                            (change)="isActive($event)">
+                                            is Active
+                                    </div> -->
+                            </div>
+                        </div> </div>
+                        <div class="row">
+                        <div class="col-12 col-xl-6  mb-1">
+                            <div class="form-group">
+                        
+                                <input required
+                                    class="form-control"
+                                    type="file" id="file" aria-label="File browser example"
+                                    (change)="onFileChange($event)" [class.error]="submitted && asset.lstAssetAttachmentDto == null" />
+                                    <p class="text-danger" *ngIf="submitted && asset.lstAssetAttachmentDto == null">{{l("ThisFieldIsRequired") }}</p> 
+
+                        
+                        </div>
+                        </div>
+                       
+                        <hr>
+                        <!-- <div class="row" *ngFor="let assetT of asset.lstAssetAttachmentDto; let index = index">
+                            <div class="col-6 m-checkbox-list  form-check form-switch">
+                                <div class="form-check form-switch">
+
+                                    <label class="file">{{ assetT.attachmentName }}
+                                        <input class="form-check-input" id="inService{{ index }}" #inService="ngModel"
+                                            type="checkbox" name="inService{{ index }}"
+                                            [(ngModel)]="assetT.inService" />
+                                        <label for="inService" class="kt-checkbox"> {{ l("In Service") }}
+                                        </label></label>
+                                </div>
+                            </div>
+                            <div class="col-6 text-right">
+                                <button id="isDelete{{ index }}" class="btn btn-danger " name="isDelete{{ index }}"
+                                    (click)="DeleteItem(index)">
+                                    <i class="fa fa-trash"></i>
+                                    {{ l("Delete") }}
+                                </button>
+                            </div> -->
+
+
+                            <!-- <label class="file">{{assetT.attachmentName}}</label>
+                        <div class="m-checkbox-list">
+                            <label class="kt-checkbox">
+                            <input type="checkbox" (change)="onService2(assetT,$event)">
+                                In Service
+                            </label>
+                        </div> 
+                        </div>-->
+                        <div class="row">
+                            <div class="col-6 col-xl-3"
+                                *ngFor="let assetT of asset.lstAssetAttachmentDto; let index = index">
+                                <div class="item-img text-center">
+                                    <a *ngIf="assetT.attachmentType == 'image'">
+                                        <img class="asset-img img-fluid card-img-top" [src]="assetT.attachmentUrl"
+                                            alt="Asset Image" />
+                                    </a>
+                                    <a *ngIf="assetT.attachmentType == 'file'">
+                                        <iframe class="p-0 asset-doc"  [src]="assetT.attachmentUrl | custom" style=" height: 115px;width:100%" frameborder="0"></iframe>
+                                    </a>
+                                    <a *ngIf="assetT.attachmentType == 'video'">
+                                        <video class="p-0 asset-doc"  [src]="assetT.attachmentUrl" controls style=" height: 115px;width:100%"></video>
+                                    </a>
+                                </div>
+                                <div class="card-body">
+                                    <div class="item-options ">
+                                        <div class="m-checkbox-list form-check form-switch">
+                                            <input class="form-check-input" id="inService{{ index }}"
+                                                #inService="ngModel" type="checkbox" name="inService{{ index }}"
+                                                [(ngModel)]="assetT.inService" />
+                                            <label for="inService" class="kt-checkbox">{{ l("inService") }}
+                                            </label>
+                                        </div>
+                                        <a class="mt-1 btn btn-danger btn-wishlist" (click)="DeleteItem(index)" rippleEffect
+                                            name="isDelete{{ index }}" id="isDelete{{ index }}">
+                                            <span> {{ l("Delete") }}</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" (click)="close()">{{ l("Cancel") }}</button>
+                    <button id="btn" type="button" class="btn btn-primary-info" (click)="save()"
+                       [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')">
+                        <i class="fa fa-save"></i>
+                        <span>{{ l("Save") }}</span>
+                    </button> 
+                     <!-- [disabled]="!assetForm.form.valid" -->
+                </div>
+        
+        </div>
+    </div>
+</div>

@@ -1,0 +1,375 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "iTMkDL",
+    "name": "HyundaiAssetLoopDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "C5pPsV"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "viqHUQ"
+          },
+          "condition": "conversation.StepBack==\"1\"",
+          "actions": [
+            {
+              "$kind": "Microsoft.DeleteProperty",
+              "$designer": {
+                "id": "hnzNg6"
+              },
+              "property": "conversation.userSelect"
+            },
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "LiMweb"
+              },
+              "property": "conversation.stepId",
+              "value": "1"
+            },
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "fW0bEz"
+              },
+              "condition": "conversation.local==\"ar\"",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "vpfZHa"
+                  },
+                  "property": "conversation.select",
+                  "value": "الرجاء الاختيار"
+                }
+              ],
+              "elseActions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "j6EnDt"
+                  },
+                  "property": "conversation.select",
+                  "value": "Please choose"
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "xoIkSC"
+              },
+              "activityProcessed": true,
+              "dialog": "HyundaiAssetDialog"
+            },
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "fc2NaR"
+              },
+              "condition": "conversation.DepartmentName ==\"#\"",
+              "actions": [
+                {
+                  "$kind": "Microsoft.EndDialog",
+                  "$designer": {
+                    "id": "YcKwgX"
+                  }
+                }
+              ],
+              "elseActions": []
+            },
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "BpeAdk"
+              },
+              "property": "conversation.StepBack",
+              "value": "2"
+            },
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "vFiiYE"
+              },
+              "property": "conversation.LevelOneId",
+              "value": "=conversation.userSelect"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "xk4mNp"
+          },
+          "condition": "conversation.StepBack==\"2\"",
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "eJ30fY"
+              },
+              "property": "conversation.userSelect",
+              "value": "=conversation.LevelOneId"
+            },
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "YSHyLX"
+              },
+              "property": "conversation.stepId",
+              "value": "2"
+            },
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "6YyrBX"
+              },
+              "condition": "conversation.local==\"ar\"",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "5wm1D7"
+                  },
+                  "property": "conversation.select",
+                  "value": "الرجاء الاختيار"
+                }
+              ],
+              "elseActions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "wC5m3v"
+                  },
+                  "property": "conversation.select",
+                  "value": "Please choose"
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "zwIPYl"
+              },
+              "activityProcessed": true,
+              "dialog": "HyundaiAssetDialog"
+            },
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "77vGWD"
+              },
+              "condition": "conversation.DepartmentName ==\"#\"",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "UzaNQW"
+                  },
+                  "property": "conversation.StepBack",
+                  "value": "1"
+                },
+                {
+                  "$kind": "Microsoft.DeleteProperty",
+                  "$designer": {
+                    "id": "nOvpUu"
+                  },
+                  "property": "conversation.DepartmentName"
+                },
+                {
+                  "$kind": "Microsoft.RepeatDialog",
+                  "$designer": {
+                    "id": "GXiHH8"
+                  },
+                  "activityProcessed": true
+                }
+              ],
+              "elseActions": []
+            },
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "TS2edk"
+              },
+              "property": "conversation.LevelTowId",
+              "value": "=conversation.userSelect"
+            },
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "3aW2nV"
+              },
+              "property": "conversation.StepBack",
+              "value": "3"
+            },
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "xZeJmb"
+              },
+              "condition": "conversation.IsTwoAsset",
+              "actions": [
+                {
+                  "$kind": "Microsoft.EndDialog",
+                  "$designer": {
+                    "id": "auohxw"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "agsBZP"
+          },
+          "condition": "conversation.StepBack==\"3\"",
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "bwMG0J"
+              },
+              "property": "conversation.userSelect",
+              "value": "=conversation.LevelTowId"
+            },
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "ktNpqV"
+              },
+              "property": "conversation.stepId",
+              "value": "3"
+            },
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "xv0SlX"
+              },
+              "condition": "conversation.local==\"ar\"",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "zA1jXY"
+                  },
+                  "property": "conversation.select",
+                  "value": "الرجاء الاختيار"
+                }
+              ],
+              "elseActions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "UYIzhD"
+                  },
+                  "property": "conversation.select",
+                  "value": "Please choose"
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "ef1jdb"
+              },
+              "activityProcessed": true,
+              "dialog": "LaithAlObaidiChooseCarDialog"
+            },
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "L4qi4X"
+              },
+              "condition": "conversation.DepartmentName ==\"#\"",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "q8y8jU"
+                  },
+                  "property": "conversation.userSelect",
+                  "value": "=conversation.LevelOneId"
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "vpVuNu"
+                  },
+                  "property": "conversation.StepBack",
+                  "value": "2"
+                },
+                {
+                  "$kind": "Microsoft.DeleteProperty",
+                  "$designer": {
+                    "id": "mKnRe6"
+                  },
+                  "property": "conversation.DepartmentName"
+                },
+                {
+                  "$kind": "Microsoft.RepeatDialog",
+                  "$designer": {
+                    "id": "jqJkh6"
+                  },
+                  "activityProcessed": true
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "78Jj93"
+              },
+              "property": "conversation.LevelThreeId",
+              "value": "=conversation.userSelect"
+            },
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "O1RSOA"
+              },
+              "condition": "conversation.IsTwoAsset",
+              "actions": [
+                {
+                  "$kind": "Microsoft.EndDialog",
+                  "$designer": {
+                    "id": "o6O4m5"
+                  }
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "wWOxeb"
+              },
+              "property": "conversation.StepBack",
+              "value": "4"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "FbbU1j"
+          }
+        }
+      ]
+    }
+  ],
+  "generator": "HyundaiAssetLoopDialog.lg",
+  "recognizer": "HyundaiAssetLoopDialog.lu.qna",
+  "id": "HyundaiAssetLoopDialog"
+}

@@ -1,0 +1,44 @@
+[import](common.lg)
+
+# TextInput_Prompt_OwzMub_text()
+- ${dialog.firsCaption}
+# TextInput_Prompt_OwzMub()
+[Activity
+    Text = ${TextInput_Prompt_OwzMub_text()}
+    SuggestedActions = ${dialog.Option1} | ${dialog.Option2} | ${dialog.Option3}
+]
+
+# TextInput_Prompt_AQMDoW_text()
+- ${dialog.DateCaption}
+# TextInput_Prompt_AQMDoW()
+[Activity
+    Text = ${TextInput_Prompt_AQMDoW_text()}
+]
+
+# TextInput_Prompt_YOwt1Z_text()
+- ${dialog.timeCaption}
+# TextInput_Prompt_YOwt1Z()
+[Activity
+    Text = ${TextInput_Prompt_YOwt1Z_text()}
+]
+
+# TextInput_Prompt_SLvuP0_text()
+- ${dialog.DateCaption}
+# TextInput_Prompt_SLvuP0()
+[Activity
+    Text = ${TextInput_Prompt_SLvuP0_text()}
+]
+
+# TextInput_Prompt_T6dqD5_text()
+- ${dialog.timeCaption}
+# TextInput_Prompt_T6dqD5()
+[Activity
+    Text = ${TextInput_Prompt_T6dqD5_text()}
+]
+
+# SendActivity_YuaJdP_text()
+- ${dialog.ReqCaption}
+# SendActivity_YuaJdP()
+[Activity
+    Text = ${SendActivity_YuaJdP_text()}
+]

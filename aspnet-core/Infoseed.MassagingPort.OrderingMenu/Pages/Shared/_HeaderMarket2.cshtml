@@ -1,0 +1,286 @@
+﻿@using Microsoft.AspNetCore.Http.Features
+@using Microsoft.AspNetCore.Localization
+@using Microsoft.AspNetCore.Mvc.Localization
+@using Microsoft.Extensions.Options
+
+@using Microsoft.EntityFrameworkCore.Storage
+@model Infoseed.MassagingPort.OrderingMenu.Pages.Model.OrderingMenuTenantModel
+
+@inject IViewLocalizer Localizer
+@inject IOptions<RequestLocalizationOptions> LocOptions
+
+
+@{
+    var requestCulture = Context.Features.Get<IRequestCultureFeature>();
+    var cultureItems = LocOptions.Value.SupportedUICultures
+    .Select(c => new SelectListItem { Value = c.Name, Text = c.DisplayName })
+    .ToList();
+    var returnUrl = string.IsNullOrEmpty(Context.Request.Path) ? "~/" : $"~{Context.Request.Path.Value}";
+    returnUrl = returnUrl + Context.Request.QueryString;
+}
+
+
+
+
+@if (Model != null)
+{
+    <!--Banner Should be with minmal 1400 X 350 pixles -->
+    <div class="main-banner" style="background-image: url(@Model.BgImag);">
+        <div class="container h-100">
+            <div class="pt-4">
+                <div class="profile-container">
+                    <div class="d-flex align-items-center p-2">
+                        <button type="button" class="btn btn-link text-white ToggleMenu" id="MainMenu">
+                            <i class="icon-menu1"></i>
+                        </button>
+                        <label> <b>@Model.DisplayName</b> </label>
+                    </div>
+                    @if (Model.IsApplyLoyalty)
+                    {
+
+                        @Html.Partial("~/Pages/Shared/_ContactLoyalty2.cshtml", Model.orderingMenuContactLoyaltyModel)
+
+                    }
+                </div>
+            </div>
+
+        </div>
+
+        <div class="app-name-container">
+            <div class="container">
+                <div class="d-flex justify-content-between">
+                    <div class="d-flex align-items-end">
+                        <div class="img-container">
+                            <img src="@Model.LogoImag" alt="LOGO" class="img-fluid">
+                        </div>
+                        @*<label class="mx-2"> اسم المطعم </label>*@
+                    </div>
+
+                    <button role="button" class="btn btn-light btn-circle" id="globalSearch">
+                        <i class="icon-search toggle-search-icon"></i>
+                    </button>
+
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+
+
+    <div class="container-md">
+
+        <div class="global-search">
+            <input id="anythingSearch" type="text" placeholder="@localizer.Get("search")"  class="form-control">
+        </div>
+        @*<div class="global-search navbar-nav mr-auto   top-categories-search-main">
+            <div class="top-categories-search ">
+                <div class="input-group">
+
+                    <input class="form-control" id="anythingSearch" type="text" placeholder="@localizer.Get("search")">
+                    <span class="input-group-btn">
+                        <button class=" btn-secondary mdi mdi-file-find" style="color: #fff;    background-color: #6c757d;    border-color: #6c757d;    border: 1px solid transparent;    padding: 0.375rem" id="AllSearch" type="button"></button>
+                    </span>
+
+                </div>
+            </div>
+
+        </div>*@
+       @* @if (Model.IsApplyLoyalty)
+        {
+            <div class="shop-container cursor-pointer">
+
+                <a href="loyalty-ShopStore?@Model.UrlKey" class="d-flex align-items-center justify-content-between px-3">
+                    <div class="icon-container">
+                        <i class="icon-gift"></i>
+                        <label>
+                           @localizer.Get("storeName")
+                            
+                        </label>
+                    </div>
+
+                    <i class="icon-keyboard_arrow_left1"></i>
+                </a>
+            </div>
+        }*@
+    </div>
+
+
+
+
+
+
+    <!--start Side Menu-->
+    <div class="sidebar" id="sidebars">
+        <div class="menu-header modal-header">
+            <div class="close-icon ToggleMenu close">
+                    <i class="icon-close"></i>
+            </div>
+
+            <div class="d-flex align-items-center">
+                <label class="m-0">  @Model.DisplayName </label>
+                <i class="icon-user1 mx-2"></i>
+            </div>
+        </div>
+
+
+        <ul class="links">
+            <li class="link active">
+                <a href="/Index1?@Model.UrlKey">
+                    <div class="d-flex align-items-center justify-content-between w-100">
+                        @localizer.Get("home")
+                        <i class="icon-keyboard_arrow_left1"></i>
+                    </div>
+                </a>
+            </li>
+            <li class="link active">
+                <a href="/Orders1?@Model.UrlKey">
+                    <div class="d-flex align-items-center justify-content-between w-100">
+                        @localizer.Get("myOrders")
+                        <i class="icon-keyboard_arrow_left1"></i>
+                    </div>
+                </a>
+            </li>
+            @if (Model.IsApplyLoyalty)
+            {
+                <li class="link active">
+                    <a href="loyalty-ShopStore?@Model.UrlKey">
+                        <div class="d-flex align-items-center justify-content-between w-100">
+                            @localizer.Get("storeName")
+                            <i class="icon-keyboard_arrow_left1"></i>
+                        </div>
+                    </a>
+                </li>
+            }
+            @*
+                <li class="link active">
+                <a href="index.html">
+                <div class="d-flex align-items-center justify-content-between w-100">
+                الصفحة الرئيسية
+                <i class="icon-keyboard_arrow_left1"></i>
+                </div>
+                </a>
+                </li>
+                <li class="link">
+                <a href="loyalty-ShopStore.html">
+                <div class="d-flex align-items-center justify-content-between w-100">
+                متجر نقاط الولاء
+                <i class="icon-keyboard_arrow_left1"></i>
+                </div>
+                </a>
+                </li>
+                <li class="link">
+                <a href="MyPoint.html">
+                <div class="d-flex align-items-center justify-content-between w-100">
+                نقاطي
+                <i class="icon-keyboard_arrow_left1"></i>
+                </div>
+                </a>
+                </li>
+                <li class="link">
+                <a href="orderHistory.html">
+                <div class="d-flex align-items-center justify-content-between w-100">
+                ارشيف الطلبات
+                <i class="icon-keyboard_arrow_left1"></i>
+                </div>
+                </a>
+                </li>*@
+            <li class="link">
+                @if (requestCulture.RequestCulture.UICulture.Name.Equals("ar"))
+                {
+                    <a href="#">
+                        <div class="d-flex align-items-center justify-content-between w-100 btn-change-lang" id="culture-switcher-en" data-lang="en-US" asp-items="cultureItems" data-rout="@returnUrl">
+                            English
+                            <i class="icon-keyboard_arrow_left1"></i>
+                        </div>
+                    </a>
+                }
+                else
+                {
+                    <a href="#">
+                        <div class="d-flex align-items-center justify-content-between w-100 btn-change-lang" id="culture-switcher" data-lang="ar" asp-items="cultureItems" data-rout="@returnUrl">
+                            العربية
+                            <i class="icon-keyboard_arrow_left1"></i>
+                        </div>
+                    </a>
+                }
+            </li>
+            <li class="link active">
+                <a href="https://www.info-seed.com/privcy-policy.html">
+                    <div class="d-flex align-items-center justify-content-between w-100">
+                        @localizer.Get("Privacy")
+                        <i class="icon-keyboard_arrow_left1"></i>
+                    </div>
+                </a>
+            </li>
+
+        </ul>
+    </div>
+
+    <!--////////////End Side Menu-->
+    <!--modal-alert-->
+    <div class="modal fade fullPage-modal" id="modal-order-success" tabindex="-1" role="dialog"
+     aria-labelledby="modal-alert-Successfully" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content border-raduas">
+                <div class="modal-body h-auto margin_bottom" style="">
+                    <div class="container-fluid">
+                        <div class="msg msg-success">
+                            <div class="rounded-shape rounded-100 text-white fz-40">
+                                <i class="icon-checkmark1"></i>
+                            </div>
+                            <h4 class="my-3 textCenter">@localizer.Get("success")  </h4>
+                            @*  <strong>
+                                رقم الطلب <span>#992</span>
+                                </strong>
+                                <span>
+                                23 كانون الأول 2022
+                                </span>*@
+                            <div class="my-3">
+@*                                <button type="button" class="btn close closeCart px-4" style="" data-bs-dismiss="modal" aria-label="Close">
+                                    @localizer.Get("close")
+                                </button>*@
+@*                                <button type="button" class="btn btn-secondary px-4 btn-close close" style="float: none; font-weight: 500; line-height: 2.5; text-shadow: 0 0px 0 #fff; color: #fff; background-color: #6c757d; border-color: #6c757d; opacity: 1;" data-dismiss="modal" aria-label="Close">@localizer.Get("close")</button>
+*@                                <a href='@string.Format("https://wa.me/{0}",@Model.PhoneNumber)'>
+                                    <button type="button" class="btn btn-primary px-4 size-Button">@localizer.Get("Details")</button>
+                                  </a>
+                            </div>
+                        </div>
+                        <!--msg-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--///////////End modal-alert-->
+
+
+    <div class="modal fade fullPage-modal" id="modal-order-erorr" tabindex="-1" role="dialog"
+     aria-labelledby="modal-alert-Successfully" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-body  h-auto margin_bottom">
+                    <div class="container-fluid">
+                        <div class="msg msg-error">
+                            <div class="rounded-shape rounded-100 text-white fz-40">
+                                <i class="icon-warning"></i>
+                            </div>
+                            <h4 class="my-3"> @localizer.Get("tryagain")</h4>
+                            <div class="my-3">
+                                <button type="button" class="btn btn-close close tryagain-Close" data-bs-dismiss="modal" aria-label="Close" style=" ">
+                                    @localizer.Get("close")
+                                </button>
+                                <button type="button" class="btn px-4 btn-close close tryagain" style="" data-bs-dismiss="modal" aria-label="Close">@localizer.Get("tryagain")</button>
+                            </div>
+                        </div>
+                        <!--msg-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--///////////End modal-alert-->
+}

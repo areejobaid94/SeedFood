@@ -1,0 +1,115 @@
+[import](common.lg)
+
+# TextInput_Prompt_kzPOYV()
+[Activity
+    Text = ${TextInput_Prompt_kzPOYV_text()}
+    SuggestedActions = ${dialog.option1} | ${dialog.option2}
+]
+
+# TextInput_Prompt_kzPOYV_text()
+- ${conversation.choose}
+# SendActivity_A0Trci()
+[Activity
+    Text = ${SendActivity_A0Trci_text()}
+]
+
+# SendActivity_A0Trci_text()
+- ${conversation.Link2}
+# TextInput_Prompt_VfNSMc()
+[Activity
+    Text = ${TextInput_Prompt_VfNSMc_text()}
+    SuggestedActions = ${dialog.option3} | ${dialog.option4} | ${dialog.option5}
+]
+
+# TextInput_Prompt_VfNSMc_text()
+- ${conversation.choose}
+# SendActivity_cVpMQc_text()
+- ${conversation.Link3}
+# SendActivity_cVpMQc()
+[Activity
+    Text = ${SendActivity_cVpMQc_text()}
+]
+
+# SendActivity_kHz0RO_text()
+- ${conversation.Link4}
+# SendActivity_kHz0RO()
+[Activity
+    Text = ${SendActivity_kHz0RO_text()}
+]
+
+# SendActivity_RTMY3P_text()
+- ${conversation.Link2}
+# SendActivity_RTMY3P()
+[Activity
+    Text = ${SendActivity_RTMY3P_text()}
+]
+
+# TextInput_Prompt_dhYIfB_text()
+- ${conversation.choose}
+# TextInput_Prompt_dhYIfB()
+[Activity
+    Text = ${TextInput_Prompt_dhYIfB_text()}
+    SuggestedActions = ${dialog.option3} | ${dialog.option4} | ${dialog.option5}
+]
+
+# SendActivity_WfvCp3_text()
+- ${conversation.Link3}
+# SendActivity_WfvCp3()
+[Activity
+    Text = ${SendActivity_WfvCp3_text()}
+]
+
+# SendActivity_EJkjLU_text()
+- ${conversation.Link4}
+# SendActivity_EJkjLU()
+[Activity
+    Text = ${SendActivity_EJkjLU_text()}
+]
+
+# TextInput_Prompt_5gBAPN_text()
+- ${conversation.supportOption}
+# TextInput_Prompt_5gBAPN()
+[Activity
+    Text = ${TextInput_Prompt_5gBAPN_text()}
+    SuggestedActions = ${conversation.ContactOption2}
+]
+
+# TextInput_Prompt_X2jiee_text()
+- ${conversation.supportOption}
+# TextInput_Prompt_X2jiee()
+[Activity
+    Text = ${TextInput_Prompt_X2jiee_text()}
+    SuggestedActions = ${conversation.ContactOption2}
+]
+
+# TextInput_Prompt_PLDBSE_text()
+- ${conversation.supportOption}
+# TextInput_Prompt_PLDBSE()
+[Activity
+    Text = ${TextInput_Prompt_PLDBSE_text()}
+    SuggestedActions = ${conversation.ContactOption2}
+]
+
+# TextInput_Prompt_g3jyy6_text()
+- ${conversation.supportOption}
+# TextInput_Prompt_g3jyy6()
+[Activity
+    Text = ${TextInput_Prompt_g3jyy6_text()}
+    SuggestedActions = ${conversation.ContactOption2}
+]
+
+# TextInput_Prompt_2720GI_text()
+- ${conversation.supportOption}
+# TextInput_Prompt_2720GI()
+[Activity
+    Text = ${TextInput_Prompt_2720GI_text()}
+    SuggestedActions = ${conversation.ContactOption2}
+]
+
+# TextInput_Prompt_0dKmv0_text()
+- ${conversation.supportOption}
+# TextInput_Prompt_0dKmv0()
+[Activity
+    Text = ${TextInput_Prompt_0dKmv0_text()}
+    SuggestedActions = ${conversation.ContactOption2}
+]

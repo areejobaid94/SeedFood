@@ -1,0 +1,1231 @@
+<div bsModal #createOrEditUserSettingModel="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+    aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{ backdrop: 'static' }">
+    <div *ngIf="theme != 'theme12'" class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">
+                    <span>{{l("Settings")}}</span>
+                </h4>
+                <button type="button" class="btn-close" (click)="close()" aria-label="Close">
+                    <span aria-hidden="true">X</span>
+                </button>
+            </div>
+            <div class="row">
+                <div class="col-md-12 p-6">
+                    <div>
+                        <div class="form-group">
+                            <label *ngIf="isWorkActive" for="StartDateSat" style="font-size: 20px"> Days </label>
+
+                            <div class="form-group" style="font-family: system-ui">
+                                <label for="StartDateSat">* Booking capacity * Total number of appointment per hour</label>
+                                <input class="form-control m-input" type="number" [(ngModel)]="workTextAR" />
+                            </div>
+                            <!-- <div class="form-group" style="font-family: system-ui" *ngIf="showUnavailableDates">
+                                <label for="StartDateSat">To Stop Receiving Appointments on These Dates *Multiple Dates*</label>
+                                <ng2-flatpickr [setDate]="unAvailableBookingDates"  [(ngModel)]="unAvailableBookingDates"  [config]="multipleDateOptions" name="multipleDate"></ng2-flatpickr>
+                                
+                            </div> -->
+
+                           
+                            <tabset class="p-0" *ngIf="isWorkActive">
+                                <tab class="p-0" heading="Saturday">
+                                    <div class="md-checkbox-list form-check form-switch">
+                                        <input class="form-check-input" id="isWorkActiveSat" type="checkbox" name="isWorkActiveSat" [(ngModel)]="isWorkActiveSat" />
+                                        <label *ngIf="isWorkActiveSat" for="isWorkActiveSat" class="checkbox kt-checkbox mt"> {{ "open" | localize }} </label>
+                                        <label *ngIf="!isWorkActiveSat" for="isWorkActiveSat" class="checkbox kt-checkbox mt"> {{ "closed" | localize }} </label>
+                                    </div>
+                                 
+                                    <div class="row">
+                                        <div class="col-12 col-xl-6 mt-1" *ngIf="isWorkActiveSat">
+                                            <div class="form-group">
+                                                <label for="StartDateSat">{{ "from" | localize }} </label>
+                                                <input
+                                                    [ngClass]="darkModeService.currentSkin === 'dark' ? 'form-control-dark ' : 'form-control'"
+                                                    class="m-input"
+                                                    type="time"
+                                                    [(ngModel)]="startDateSat"
+                                                />
+                                                <p class="text-danger" *ngIf="startDateSat >= endDateSat">{{ "fromMostBeLessThanTo" | localize }} </p>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-xl-6 mt-1" *ngIf="isWorkActiveSat">
+                                            <div class="form-group">
+                                                <label for="EndDate">{{ "to" | localize }} </label>
+                                                <input
+                                                    [ngClass]="darkModeService.currentSkin === 'dark' ? 'form-control-dark ' : 'form-control'"
+                                                    class="m-input"
+                                                    type="time"
+                                                    [(ngModel)]="endDateSat"
+                                                />
+                                                <p class="text-danger" *ngIf="endDateSat <= startDateSat">{{ "toMustBeGreaterThanFrom" | localize }} </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-1" *ngIf="isWorkActiveSat">
+                                        <div class="col-12 col-xl-12 mt-1">
+                                            <div class="md-checkbox-list form-check form-switch">
+                                                <input
+                                                    class="form-check-input"
+                                                    id="isSecondShiftSat"
+                                                    type="checkbox"
+                                                    name="isSecondShiftSat"
+                                                    [(ngModel)]="hasSPSat"
+                                                />
+                                                <label for="isSecondShiftSat" class="checkbox kt-checkbox">{{ "enableSecondShift" | localize }}  </label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-12 col-xl-6 mt-1" *ngIf="hasSPSat">
+                                            <div class="form-group">
+                                                <label for="StartDateSatSP">From </label>
+                                                <input
+                                                    [ngClass]="darkModeService.currentSkin === 'dark' ? 'form-control-dark ' : 'form-control'"
+                                                    class="m-input"
+                                                    type="time"
+                                                    [(ngModel)]="startDateSatSP"
+                                                />
+                                                <p class="text-danger" *ngIf="startDateSatSP >= endDateSatSP">From Must Be less than {{ "to" | localize }} </p>
+                                                <p class="text-danger" *ngIf="startDateSatSP >= startDateSat && startDateSatSP <= endDateSat">{{ "invalidInterval" | localize }} </p>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-xl-6 mt-1" *ngIf="hasSPSat">
+                                            <div class="form-group">
+                                                <label for="EndDateSP"> To </label>
+                                                <input
+                                                    [ngClass]="darkModeService.currentSkin === 'dark' ? 'form-control-dark ' : 'form-control'"
+                                                    class="m-input"
+                                                    type="time"
+                                                    [(ngModel)]="endDateSatSP"
+                                                />
+                                                <p class="text-danger" *ngIf="endDateSatSP <= startDateSatSP">{{ "toMustBeGreaterThanFrom" | localize }} </p>
+
+                                                <p
+                                                    class="text-danger"
+                                                    *ngIf="
+                                                        (endDateSatSP <= endDateSat && endDateSatSP >= startDateSat) ||
+                                                        (startDateSat <= endDateSatSP && endDateSat >= startDateSatSP)
+                                                    "
+                                                >
+                                                    {{ "invalidInterval" | localize }} 
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </tab>
+
+                                <tab class="p-0" heading="Sunday">
+                                    <div class="md-checkbox-list form-check form-switch">
+                                        <input class="form-check-input" id="isWorkActiveSun" type="checkbox" name="isWorkActiveSun" [(ngModel)]="isWorkActiveSun" />
+                                        <label *ngIf="isWorkActiveSun" for="isWorkActiveSun" class="checkbox mt"> {{ "open" | localize }} </label>
+                                        <label *ngIf="!isWorkActiveSun" for="isWorkActiveSun" class="checkbox mt"> {{ "closed" | localize }} </label>
+                                    </div>
+                                    
+
+                                    <div class="row">
+                                        <div class="col-12 col-xl-6 mt-1" *ngIf="isWorkActiveSun">
+                                            <div class="form-group">
+                                                <label for="StartDateSun">From</label>
+                                                <input
+                                                    [ngClass]="darkModeService.currentSkin === 'dark' ? 'form-control-dark ' : 'form-control'"
+                                                    class="m-input"
+                                                    type="time"
+                                                    [(ngModel)]="startDateSun"
+                                                />
+                                                <p class="text-danger" *ngIf="startDateSun >= endDateSun">{{ "fromMostBeLessThanTo" | localize }} </p>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-xl-6 mt-1" *ngIf="isWorkActiveSun">
+                                            <div class="form-group">
+                                                <label for="EndDate">{{ "to" | localize }}  </label>
+                                                <input
+                                                    [ngClass]="darkModeService.currentSkin === 'dark' ? 'form-control-dark ' : 'form-control'"
+                                                    class="m-input"
+                                                    type="time"
+                                                    [(ngModel)]="endDateSun"
+                                                />
+                                                <p class="text-danger" *ngIf="endDateSun <= startDateSun">{{ "toMustBeGreaterThanFrom" | localize }} </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-1" *ngIf="isWorkActiveSun">
+                                        <div class="col-12 col-xl-12 mt-1">
+                                            <div class="md-checkbox-list form-check form-switch">
+                                                <input class="form-check-input" id="hasSPSun" type="checkbox" name="hasSPSun" [(ngModel)]="hasSPSun" />
+                                                <label for="hasSPSun" class="checkbox kt-checkbox">{{ "enableSecondShift" | localize }}  </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-xl-6 mt-1" *ngIf="hasSPSun">
+                                            <div class="form-group">
+                                                <label for="StartDateSunSP">From</label>
+                                                <input
+                                                    [ngClass]="darkModeService.currentSkin === 'dark' ? 'form-control-dark ' : 'form-control'"
+                                                    class="m-input"
+                                                    type="time"
+                                                    [(ngModel)]="startDateSunSP"
+                                                />
+                                                <p class="text-danger" *ngIf="startDateSunSP >= endDateSunSP">{{ "fromMostBeLessThanTo" | localize }} </p>
+                                                <p class="text-danger" *ngIf="startDateSunSP >= startDateSun && startDateSunSP <= endDateSun">{{ "invalidInterval" | localize }} </p>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-xl-6 mt-1" *ngIf="hasSPSun">
+                                            <div class="form-group">
+                                                <label for="EndDateSP">{{ "to" | localize }} </label>
+                                                <input
+                                                    [ngClass]="darkModeService.currentSkin === 'dark' ? 'form-control-dark ' : 'form-control'"
+                                                    class="m-input"
+                                                    type="time"
+                                                    [(ngModel)]="endDateSunSP"
+                                                />
+                                                <p class="text-danger" *ngIf="endDateSunSP <= startDateSunSP">{{ "toMustBeGreaterThanFrom" | localize }} </p>
+                                                <p
+                                                    class="text-danger"
+                                                    *ngIf="
+                                                        (endDateSunSP <= endDateSun && endDateSunSP >= startDateSun) ||
+                                                        (startDateSun <= endDateSunSP && endDateSun >= startDateSunSP)
+                                                    "
+                                                >
+                                                    {{ "invalidInterval" | localize }} 
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </tab>
+                                <tab class="p-0" heading="Monday">
+                                    <div class="md-checkbox-list form-check form-switch">
+                                        <input class="form-check-input" id="isWorkActiveMon" type="checkbox" name="isWorkActiveMon" [(ngModel)]="isWorkActiveMon" />
+                                        <label *ngIf="isWorkActiveMon" for="isWorkActiveMon" class="checkbox mt"> {{ "open" | localize }} </label>
+                                        <label *ngIf="!isWorkActiveMon" for="isWorkActiveMon" class="checkbox mt"> {{ "closed" | localize }} </label>
+                                    </div>
+                                  
+
+                                    <div class="row">
+                                        <div class="col-12 col-xl-6 mt-1" *ngIf="isWorkActiveMon">
+                                            <div class="form-group">
+                                                <label for="StartDateMon">From</label>
+                                                <input
+                                                    [ngClass]="darkModeService.currentSkin === 'dark' ? 'form-control-dark ' : 'form-control'"
+                                                    class="m-input"
+                                                    type="time"
+                                                    [(ngModel)]="startDateMon"
+                                                />
+                                                <p class="text-danger" *ngIf="startDateMon >= endDateMon">{{ "fromMostBeLessThanTo" | localize }} </p>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-xl-6 mt-1" *ngIf="isWorkActiveMon">
+                                            <div class="form-group">
+                                                <label for="EndDate">{{ "to" | localize }}  </label>
+                                                <input
+                                                    [ngClass]="darkModeService.currentSkin === 'dark' ? 'form-control-dark ' : 'form-control'"
+                                                    class="m-input"
+                                                    type="time"
+                                                    [(ngModel)]="endDateMon"
+                                                />
+                                                <p class="text-danger" *ngIf="endDateMon <= startDateMon">{{ "toMustBeGreaterThanFrom" | localize }} </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-1" *ngIf="isWorkActiveMon">
+                                        <div class="col-12 col-xl-12 mt-1">
+                                            <div class="md-checkbox-list form-check form-switch">
+                                                <input class="form-check-input" id="hasSPMon" type="checkbox" name="hasSPMon" [(ngModel)]="hasSPMon" />
+                                                <label for="hasSPMon" class="checkbox kt-checkbox">{{ "enableSecondShift" | localize }}  </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-xl-6 mt-1" *ngIf="hasSPMon">
+                                            <div class="form-group">
+                                                <label for="StartDateMonSP">From</label>
+                                                <input
+                                                    [ngClass]="darkModeService.currentSkin === 'dark' ? 'form-control-dark ' : 'form-control'"
+                                                    class="m-input"
+                                                    type="time"
+                                                    [(ngModel)]="startDateMonSP"
+                                                />
+                                                <p class="text-danger" *ngIf="startDateMonSP >= endDateMonSP">{{ "fromMostBeLessThanTo" | localize }} </p>
+                                                <p class="text-danger" *ngIf="startDateMonSP >= startDateMon && startDateMonSP <= endDateMon">{{ "invalidInterval" | localize }} </p>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-xl-6 mt-1" *ngIf="hasSPMon">
+                                            <div class="form-group">
+                                                <label for="EndDateSP">{{ "to" | localize }} </label>
+                                                <input
+                                                    [ngClass]="darkModeService.currentSkin === 'dark' ? 'form-control-dark ' : 'form-control'"
+                                                    class="m-input"
+                                                    type="time"
+                                                    [(ngModel)]="endDateMonSP"
+                                                />
+
+                                                <p class="text-danger" *ngIf="endDateMonSP <= startDateMonSP">{{ "toMustBeGreaterThanFrom" | localize }} </p>
+                                                <p
+                                                    class="text-danger"
+                                                    *ngIf="
+                                                        (endDateMonSP <= endDateMon && endDateMonSP >= startDateMon) ||
+                                                        (startDateMon <= endDateMonSP && endDateMon >= startDateMonSP)
+                                                    "
+                                                >
+                                                    {{ "invalidInterval" | localize }} 
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </tab>
+                                <tab class="p-0" heading="Tuesday">
+                                    <div class="md-checkbox-list form-check form-switch">
+                                        <input
+                                            class="form-check-input"
+                                            id="isWorkActiveTues"
+                                            type="checkbox"
+                                            name="isWorkActiveTues"
+                                            [(ngModel)]="isWorkActiveTues"
+                                        />
+                                        <label *ngIf="isWorkActiveTues" for="isWorkActiveTues" class="checkbox mt"> {{ "open" | localize }} </label>
+                                        <label *ngIf="!isWorkActiveTues" for="isWorkActiveTues" class="checkbox mt"> {{ "closed" | localize }} </label>
+                                    </div>
+                                  
+
+                                    <div class="row">
+                                        <div class="col-12 col-xl-6 mt-1" *ngIf="isWorkActiveTues">
+                                            <div class="form-group">
+                                                <label for="StartDateTues">From</label>
+                                                <input
+                                                    [ngClass]="darkModeService.currentSkin === 'dark' ? 'form-control-dark ' : 'form-control'"
+                                                    class="m-input"
+                                                    type="time"
+                                                    [(ngModel)]="startDateTues"
+                                                />
+                                                <p class="text-danger" *ngIf="startDateTues > endDateTues">{{ "fromMostBeLessThanTo" | localize }} </p>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-xl-6 mt-1" *ngIf="isWorkActiveTues">
+                                            <div class="form-group">
+                                                <label for="EndDate">{{ "to" | localize }}  </label>
+                                                <input
+                                                    [ngClass]="darkModeService.currentSkin === 'dark' ? 'form-control-dark ' : 'form-control'"
+                                                    class="m-input"
+                                                    type="time"
+                                                    [(ngModel)]="endDateTues"
+                                                />
+                                                <p class="text-danger" *ngIf="endDateTues < startDateTues">{{ "toMustBeGreaterThanFrom" | localize }} </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-1" *ngIf="isWorkActiveTues">
+                                        <div class="col-12 col-xl-12 mt-1">
+                                            <div class="md-checkbox-list form-check form-switch">
+                                                <input class="form-check-input" id="hasSPTues" type="checkbox" name="hasSPTues" [(ngModel)]="hasSPTues" />
+                                                <label for="hasSPTues" class="checkbox kt-checkbox">{{ "enableSecondShift" | localize }}  </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-xl-6 mt-1" *ngIf="hasSPTues">
+                                            <div class="form-group">
+                                                <label for="StartDateTuesSP">From</label>
+                                                <input
+                                                    [ngClass]="darkModeService.currentSkin === 'dark' ? 'form-control-dark ' : 'form-control'"
+                                                    class="m-input"
+                                                    type="time"
+                                                    [(ngModel)]="startDateTuesSP"
+                                                />
+                                                <p class="text-danger" *ngIf="startDateTuesSP >= endDateTuesSP">{{ "fromMostBeLessThanTo" | localize }} </p>
+                                                <p class="text-danger" *ngIf="startDateTuesSP >= startDateTues && startDateTuesSP <= endDateTues">
+                                                    {{ "invalidInterval" | localize }} 
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-xl-6 mt-1" *ngIf="hasSPTues">
+                                            <div class="form-group">
+                                                <label for="EndDateSP">{{ "to" | localize }} </label>
+                                                <input
+                                                    [ngClass]="darkModeService.currentSkin === 'dark' ? 'form-control-dark ' : 'form-control'"
+                                                    class="m-input"
+                                                    type="time"
+                                                    [(ngModel)]="endDateTuesSP"
+                                                />
+                                                <p class="text-danger" *ngIf="endDateTuesSP <= startDateTuesSP">{{ "toMustBeGreaterThanFrom" | localize }} </p>
+                                                <p
+                                                    class="text-danger"
+                                                    *ngIf="
+                                                        (endDateTuesSP <= endDateTues && endDateTuesSP >= startDateTues) ||
+                                                        (startDateTues <= endDateTuesSP && endDateTues >= startDateTuesSP)
+                                                    "
+                                                >
+                                                    {{ "invalidInterval" | localize }} 
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </tab>
+                                <tab class="p-0" heading="Wednesday">
+                                    <div class="md-checkbox-list form-check form-switch">
+                                        <input class="form-check-input" id="isWorkActiveWed" type="checkbox" name="isWorkActiveWed" [(ngModel)]="isWorkActiveWed" />
+                                        <label *ngIf="isWorkActiveWed" for="isWorkActiveWed" class="checkbox mt"> {{ "open" | localize }} </label>
+                                        <label *ngIf="!isWorkActiveWed" for="isWorkActiveWed" class="checkbox mt"> {{ "closed" | localize }} </label>
+                                    </div>
+                                 
+
+                                    <div class="row">
+                                        <div class="col-12 col-xl-6 mt-1" *ngIf="isWorkActiveWed">
+                                            <div class="form-group">
+                                                <label for="StartDateWed">From</label>
+                                                <input
+                                                    [ngClass]="darkModeService.currentSkin === 'dark' ? 'form-control-dark ' : 'form-control'"
+                                                    class="m-input"
+                                                    type="time"
+                                                    [(ngModel)]="startDateWed"
+                                                />
+                                                <p class="text-danger" *ngIf="startDateWed >= endDateWed">{{ "fromMostBeLessThanTo" | localize }} </p>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-xl-6 mt-1" *ngIf="isWorkActiveWed">
+                                            <div class="form-group">
+                                                <label for="EndDate">{{ "to" | localize }}  </label>
+                                                <input
+                                                    [ngClass]="darkModeService.currentSkin === 'dark' ? 'form-control-dark ' : 'form-control'"
+                                                    class="m-input"
+                                                    type="time"
+                                                    [(ngModel)]="endDateWed"
+                                                />
+                                                <p class="text-danger" *ngIf="endDateWed <= startDateWed">{{ "toMustBeGreaterThanFrom" | localize }} </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-1" *ngIf="isWorkActiveWed">
+                                        <div class="col-12 col-xl-12 mt-1">
+                                            <div class="md-checkbox-list form-check form-switch">
+                                                <input class="form-check-input" id="hasSPWed" type="checkbox" name="hasSPWed" [(ngModel)]="hasSPWed" />
+                                                <label for="hasSPWed" class="checkbox kt-checkbox">{{ "enableSecondShift" | localize }}  </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-xl-6 mt-1" *ngIf="hasSPWed">
+                                            <div class="form-group">
+                                                <label for="StartDateWedSP">From</label>
+                                                <input
+                                                    [ngClass]="darkModeService.currentSkin === 'dark' ? 'form-control-dark ' : 'form-control'"
+                                                    class="m-input"
+                                                    type="time"
+                                                    [(ngModel)]="startDateWedSP"
+                                                />
+                                                <p class="text-danger" *ngIf="startDateWedSP >= endDateWedSP">Start Date Must Be less than To</p>
+                                                <p class="text-danger" *ngIf="startDateWedSP >= startDateWed && startDateWedSP <= endDateWed">{{ "invalidInterval" | localize }} </p>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-xl-6 mt-1" *ngIf="hasSPWed">
+                                            <div class="form-group">
+                                                <label for="EndDateSP">{{ "to" | localize }} </label>
+                                                <input
+                                                    [ngClass]="darkModeService.currentSkin === 'dark' ? 'form-control-dark ' : 'form-control'"
+                                                    class="m-input"
+                                                    type="time"
+                                                    [(ngModel)]="endDateWedSP"
+                                                />
+                                                <p class="text-danger" *ngIf="endDateWedSP <= startDateWedSP">End Date Must Be Greater than From</p>
+                                                <p
+                                                    class="text-danger"
+                                                    *ngIf="
+                                                        (endDateWedSP <= endDateWed && endDateWedSP >= startDateWed) ||
+                                                        (startDateWed <= endDateWedSP && endDateWed >= startDateWedSP)
+                                                    "
+                                                >
+                                                    {{ "invalidInterval" | localize }} 
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </tab>
+                                <tab class="p-0" heading="Thursday">
+                                    <div class="md-checkbox-list form-check form-switch">
+                                        <input
+                                            class="form-check-input"
+                                            id="isWorkActiveThurs"
+                                            type="checkbox"
+                                            name="isWorkActiveThurs"
+                                            [(ngModel)]="isWorkActiveThurs"
+                                        />
+                                        <label *ngIf="isWorkActiveThurs" for="isWorkActiveThurs" class="checkbox mt"> {{ "open" | localize }} </label>
+                                        <label *ngIf="!isWorkActiveThurs" for="isWorkActiveThurs" class="checkbox mt"> {{ "closed" | localize }} </label>
+                                    </div>
+         
+
+                                    <div class="row">
+                                        <div class="col-12 col-xl-6 mt-1" *ngIf="isWorkActiveThurs">
+                                            <div class="form-group">
+                                                <label for="StartDateThurs">From</label>
+                                                <input
+                                                    [ngClass]="darkModeService.currentSkin === 'dark' ? 'form-control-dark ' : 'form-control'"
+                                                    class="m-input"
+                                                    type="time"
+                                                    [(ngModel)]="startDateThurs"
+                                                />
+                                                <p class="text-danger" *ngIf="startDateThurs >= endDateThurs">Start Date Must Be less than To</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-xl-6 mt-1" *ngIf="isWorkActiveThurs">
+                                            <div class="form-group">
+                                                <label for="EndDate">{{ "to" | localize }}  </label>
+                                                <input
+                                                    [ngClass]="darkModeService.currentSkin === 'dark' ? 'form-control-dark ' : 'form-control'"
+                                                    class="m-input"
+                                                    type="time"
+                                                    [(ngModel)]="endDateThurs"
+                                                />
+                                                <p class="text-danger" *ngIf="endDateThurs <= startDateThurs">End Date Must Be Greater than From</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-1" *ngIf="isWorkActiveThurs">
+                                        <div class="col-12 col-xl-12 mt-1">
+                                            <div class="md-checkbox-list form-check form-switch">
+                                                <input class="form-check-input" id="hasSPThurs" type="checkbox" name="hasSPThurs" [(ngModel)]="hasSPThurs" />
+                                                <label for="hasSPThurs" class="checkbox kt-checkbox">{{ "enableSecondShift" | localize }}  </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-xl-6 mt-1" *ngIf="hasSPThurs">
+                                            <div class="form-group">
+                                                <label for="StartDateThursSP">From</label>
+                                                <input
+                                                    [ngClass]="darkModeService.currentSkin === 'dark' ? 'form-control-dark ' : 'form-control'"
+                                                    class="m-input"
+                                                    type="time"
+                                                    [(ngModel)]="startDateThursSP"
+                                                />
+                                                <p class="text-danger" *ngIf="startDateThursSP >= endDateThursSP">{{ "fromMostBeLessThanTo" | localize }} </p>
+                                                <p class="text-danger" *ngIf="startDateThursSP >= startDateThurs && startDateThursSP <= endDateThurs">
+                                                    {{ "invalidInterval" | localize }} 
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-xl-6 mt-1" *ngIf="hasSPThurs">
+                                            <div class="form-group">
+                                                <label for="EndDateSP">{{ "to" | localize }} </label>
+                                                <input
+                                                    [ngClass]="darkModeService.currentSkin === 'dark' ? 'form-control-dark ' : 'form-control'"
+                                                    class="m-input"
+                                                    type="time"
+                                                    [(ngModel)]="endDateThursSP"
+                                                />
+                                                <p class="text-danger" *ngIf="endDateThursSP <= startDateThursSP">{{ "toMustBeGreaterThanFrom" | localize }} </p>
+                                                <p
+                                                    class="text-danger"
+                                                    *ngIf="
+                                                        (endDateThursSP <= endDateThurs && endDateThursSP >= startDateThurs) ||
+                                                        (startDateThurs <= endDateThursSP && endDateThurs >= startDateThursSP)
+                                                    "
+                                                >
+                                                    {{ "invalidInterval" | localize }} 
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </tab>
+                                <tab class="p-0" heading="Friday">
+                                    <div class="md-checkbox-list form-check form-switch">
+                                        <input class="form-check-input" id="isWorkActiveFri" type="checkbox" name="isWorkActiveFri" [(ngModel)]="isWorkActiveFri" />
+                                        <label *ngIf="isWorkActiveFri" for="isWorkActiveFri" class="checkbox mt"> {{ "open" | localize }} </label>
+                                        <label *ngIf="!isWorkActiveFri" for="isWorkActiveFri" class="checkbox mt"> {{ "closed" | localize }} </label>
+                                    </div>
+                                  
+
+                                    <div class="row">
+                                        <div class="col-12 col-xl-6 mt-1" *ngIf="isWorkActiveFri">
+                                            <div class="form-group">
+                                                <label for="StartDateFri">From</label>
+                                                <input
+                                                    [ngClass]="darkModeService.currentSkin === 'dark' ? 'form-control-dark ' : 'form-control'"
+                                                    class="m-input"
+                                                    type="time"
+                                                    [(ngModel)]="startDateFri"
+                                                />
+                                                <p class="text-danger" *ngIf="startDateFri >= endDateFri">{{ "fromMostBeLessThanTo" | localize }} </p>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-xl-6 mt-1" *ngIf="isWorkActiveFri">
+                                            <div class="form-group">
+                                                <label for="EndDate">{{ "to" | localize }}  </label>
+                                                <input
+                                                    [ngClass]="darkModeService.currentSkin === 'dark' ? 'form-control-dark ' : 'form-control'"
+                                                    class="m-input"
+                                                    type="time"
+                                                    [(ngModel)]="endDateFri"
+                                                />
+                                                <p class="text-danger" *ngIf="endDateFri <= startDateFri">End Date Must Be Greater than From</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-1" *ngIf="isWorkActiveFri">
+                                        <div class="col-12 col-xl-12 mt-1">
+                                            <div class="md-checkbox-list form-check form-switch">
+                                                <input class="form-check-input" id="hasSPFri" type="checkbox" name="hasSPFri" [(ngModel)]="hasSPFri" />
+                                                <label for="hasSPFri" class="checkbox kt-checkbox">{{ "enableSecondShift" | localize }}  </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-xl-6 mt-1" *ngIf="hasSPFri">
+                                            <div class="form-group">
+                                                <label for="StartDateFriSP">From</label>
+                                                <input
+                                                    [ngClass]="darkModeService.currentSkin === 'dark' ? 'form-control-dark ' : 'form-control'"
+                                                    class="m-input"
+                                                    type="time"
+                                                    [(ngModel)]="startDateFriSP"
+                                                />
+                                                <p class="text-danger" *ngIf="startDateFriSP >= endDateFriSP">{{ "fromMostBeLessThanTo" | localize }} </p>
+                                                <p class="text-danger" *ngIf="startDateFriSP >= startDateFri && startDateFriSP <= endDateFri">{{ "invalidInterval" | localize }} </p>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-xl-6 mt-1" *ngIf="hasSPFri">
+                                            <div class="form-group">
+                                                <label for="EndDateSP">{{ "to" | localize }} </label>
+                                                <input
+                                                    [ngClass]="darkModeService.currentSkin === 'dark' ? 'form-control-dark ' : 'form-control'"
+                                                    class="m-input"
+                                                    type="time"
+                                                    [(ngModel)]="endDateFriSP"
+                                                />
+                                                <p class="text-danger" *ngIf="endDateFriSP <= startDateFriSP">{{ "toMustBeGreaterThanFrom" | localize }} </p>
+
+                                                <p
+                                                    class="text-danger"
+                                                    *ngIf="
+                                                        (endDateFriSP <= endDateFri && endDateFriSP >= startDateFri) ||
+                                                        (startDateFri <= endDateFriSP && endDateFri >= startDateFriSP)
+                                                    "
+                                                >
+                                                    {{ "invalidInterval" | localize }} 
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </tab>
+                            </tabset>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="pt-3">
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" (click)="close()">{{ l("Cancel")
+                                    }}</button>
+                                <input type="button" class="btn btn-primary" (click)="saveSetting()" value="Save" />
+                                <!-- [disabled]="!menuForm.valid" -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="theme === 'theme12'" class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4  class="modal-title">
+                    <span> {{ "Settings" | localize }}</span>
+                </h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="close()"
+                    aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <!--
+                        <label *ngIf="isWorkActive" for="StartDateSat"> Days </label>
+-->
+                        <div class="form-group">
+                            <div class="form-group">
+                                <label for="StartDateSat">{{ "userSettingsNote" | localize }}</label>
+                                <input
+                                   
+                                    class=" m-input form-control" type="number" [(ngModel)]="workTextAR" />
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <div class="col-12 mt-1" *ngIf="showUnavailableDates">
+                        <div class="form-group">
+                            <label for="StartDateSat">To Stop Receiving Appointments on These Dates *Multiple Dates* </label>
+                            <ng2-flatpickr [setDate]="unAvailableBookingDates"  [(ngModel)]="unAvailableBookingDates"  [config]="multipleDateOptions" name="multipleDate"></ng2-flatpickr>
+                        </div>
+                    </div> -->
+                    <div class="row">
+                 
+                        <tabset class="p-0" *ngIf="isWorkActive">
+                            <tab class="p-0" [heading]="'saturday' | localize">
+                                <div class="md-checkbox-list form-check form-switch">
+                                    <input class="form-check-input" id="isWorkActiveSat" type="checkbox" name="isWorkActiveSat" [(ngModel)]="isWorkActiveSat" />
+                                    <label *ngIf="isWorkActiveSat" for="isWorkActiveSat" class="checkbox kt-checkbox mt"> {{ "open" | localize }} </label>
+                                    <label *ngIf="!isWorkActiveSat" for="isWorkActiveSat" class="checkbox kt-checkbox mt"> {{ "closed" | localize }} </label>
+                                </div>
+                              
+                                <div class="row">
+                                    <div class="col-12 col-xl-6 mt-1" *ngIf="isWorkActiveSat">
+                                        <div class="form-group">
+                                            <label for="StartDateSat">{{ "from" | localize }}</label>
+                                            <input
+                                                [ngClass]="darkModeService.currentSkin === 'dark' ? 'form-control-dark ' : 'form-control'"
+                                                class="m-input"
+                                                type="time"
+                                                [(ngModel)]="startDateSat"
+                                            />
+                                            <p class="text-danger" *ngIf="startDateSat >= endDateSat">{{ "fromMostBeLessThanTo" | localize }}</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-xl-6 mt-1" *ngIf="isWorkActiveSat">
+                                        <div class="form-group">
+                                            <label for="EndDate">{{ "to" | localize }}</label>
+                                            <input
+                                                [ngClass]="darkModeService.currentSkin === 'dark' ? 'form-control-dark ' : 'form-control'"
+                                                class="m-input"
+                                                type="time"
+                                                [(ngModel)]="endDateSat"
+                                            />
+                                            <p class="text-danger" *ngIf="endDateSat <= startDateSat">{{ "toMustBeGreaterThanFrom" | localize }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mt-1" *ngIf="isWorkActiveSat">
+                                    <div class="col-12 col-xl-12 mt-1">
+                                        <div class="md-checkbox-list form-check form-switch">
+                                            <input
+                                                class="form-check-input"
+                                                id="isSecondShiftSat"
+                                                type="checkbox"
+                                                name="isSecondShiftSat"
+                                                [(ngModel)]="hasSPSat"
+                                            />
+                                            <label for="isSecondShiftSat" class="checkbox kt-checkbox"> {{ "enableSecondShift" | localize }}  </label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12 col-xl-6 mt-1" *ngIf="hasSPSat">
+                                        <div class="form-group">
+                                            <label for="StartDateSatSP">{{ "from" | localize }} </label>
+                                            <input
+                                                [ngClass]="darkModeService.currentSkin === 'dark' ? 'form-control-dark ' : 'form-control'"
+                                                class="m-input"
+                                                type="time"
+                                                [(ngModel)]="startDateSatSP"
+                                            />
+                                            <p class="text-danger" *ngIf="startDateSatSP >= endDateSatSP">{{ "fromMostBeLessThanTo" | localize }} </p>
+                                            <p class="text-danger" *ngIf="startDateSatSP >= startDateSat && startDateSatSP <= endDateSat">{{ "invalidInterval" | localize }} </p>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-xl-6 mt-1" *ngIf="hasSPSat">
+                                        <div class="form-group">
+                                            <label for="EndDateSP"> {{ "to" | localize }} </label>
+                                            <input
+                                                [ngClass]="darkModeService.currentSkin === 'dark' ? 'form-control-dark ' : 'form-control'"
+                                                class="m-input"
+                                                type="time"
+                                                [(ngModel)]="endDateSatSP"
+                                            />
+                                            <p class="text-danger" *ngIf="endDateSatSP <= startDateSatSP">{{ "toMustBeGreaterThanFrom" | localize }} </p>
+
+                                            <p
+                                                class="text-danger"
+                                                *ngIf="
+                                                    (endDateSatSP <= endDateSat && endDateSatSP >= startDateSat) ||
+                                                    (startDateSat <= endDateSatSP && endDateSat >= startDateSatSP)
+                                                "
+                                            >
+                                                {{ "invalidInterval" | localize }} 
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </tab>
+
+                            <tab class="p-0" [heading]="'sunday' | localize">
+                                <div class="md-checkbox-list form-check form-switch">
+                                    <input class="form-check-input" id="isWorkActiveSun" type="checkbox" name="isWorkActiveSun" [(ngModel)]="isWorkActiveSun" />
+                                    <label *ngIf="isWorkActiveSun" for="isWorkActiveSun" class="checkbox mt"> {{ "open" | localize }}  </label>
+                                    <label *ngIf="!isWorkActiveSun" for="isWorkActiveSun" class="checkbox mt"> {{ "closed" | localize }}  </label>
+                                </div>
+                               
+
+                                <div class="row">
+                                    <div class="col-12 col-xl-6 mt-1" *ngIf="isWorkActiveSun">
+                                        <div class="form-group">
+                                            <label for="StartDateSun">From</label>
+                                            <input
+                                                [ngClass]="darkModeService.currentSkin === 'dark' ? 'form-control-dark ' : 'form-control'"
+                                                class="m-input"
+                                                type="time"
+                                                [(ngModel)]="startDateSun"
+                                            />
+                                            <p class="text-danger" *ngIf="startDateSun >= endDateSun">{{ "from" | localize }}  Must Be less than To</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-xl-6 mt-1" *ngIf="isWorkActiveSun">
+                                        <div class="form-group">
+                                            <label for="EndDate">{{ "to" | localize }}  </label>
+                                            <input
+                                                [ngClass]="darkModeService.currentSkin === 'dark' ? 'form-control-dark ' : 'form-control'"
+                                                class="m-input"
+                                                type="time"
+                                                [(ngModel)]="endDateSun"
+                                            />
+                                            <p class="text-danger" *ngIf="endDateSun <= startDateSun">{{ "toMustBeGreaterThanFrom" | localize }} </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mt-1" *ngIf="isWorkActiveSun">
+                                    <div class="col-12 col-xl-12 mt-1">
+                                        <div class="md-checkbox-list form-check form-switch">
+                                            <input class="form-check-input" id="hasSPSun" type="checkbox" name="hasSPSun" [(ngModel)]="hasSPSun" />
+                                            <label for="hasSPSun" class="checkbox kt-checkbox">{{ "enableSecondShift" | localize }}  </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-xl-6 mt-1" *ngIf="hasSPSun">
+                                        <div class="form-group">
+                                            <label for="StartDateSunSP">{{ "from" | localize }} </label>
+                                            <input
+                                                [ngClass]="darkModeService.currentSkin === 'dark' ? 'form-control-dark ' : 'form-control'"
+                                                class="m-input"
+                                                type="time"
+                                                [(ngModel)]="startDateSunSP"
+                                            />
+                                            <p class="text-danger" *ngIf="startDateSunSP >= endDateSunSP">{{ "fromMostBeLessThanTo" | localize }} </p>
+                                            <p class="text-danger" *ngIf="startDateSunSP >= startDateSun && startDateSunSP <= endDateSun">{{ "invalidInterval" | localize }} </p>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-xl-6 mt-1" *ngIf="hasSPSun">
+                                        <div class="form-group">
+                                            <label for="EndDateSP">{{ "to" | localize }} </label>
+                                            <input
+                                                [ngClass]="darkModeService.currentSkin === 'dark' ? 'form-control-dark ' : 'form-control'"
+                                                class="m-input"
+                                                type="time"
+                                                [(ngModel)]="endDateSunSP"
+                                            />
+                                            <p class="text-danger" *ngIf="endDateSunSP <= startDateSunSP">{{ "toMustBeGreaterThanFrom" | localize }} </p>
+                                            <p
+                                                class="text-danger"
+                                                *ngIf="
+                                                    (endDateSunSP <= endDateSun && endDateSunSP >= startDateSun) ||
+                                                    (startDateSun <= endDateSunSP && endDateSun >= startDateSunSP)
+                                                "
+                                            >
+                                                {{ "invalidInterval" | localize }} 
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </tab>
+                            <tab class="p-0" [heading]="'monday' | localize">
+                                <div class="md-checkbox-list form-check form-switch">
+                                    <input class="form-check-input" id="isWorkActiveMon" type="checkbox" name="isWorkActiveMon" [(ngModel)]="isWorkActiveMon" />
+                                    <label *ngIf="isWorkActiveMon" for="isWorkActiveMon" class="checkbox mt"> {{ "open" | localize }} </label>
+                                    <label *ngIf="!isWorkActiveMon" for="isWorkActiveMon" class="checkbox mt"> {{ "closed" | localize }} </label>
+                                </div>
+                               
+
+                                <div class="row">
+                                    <div class="col-12 col-xl-6 mt-1" *ngIf="isWorkActiveMon">
+                                        <div class="form-group">
+                                            <label for="StartDateMon">{{ "from" | localize }} </label>
+                                            <input
+                                                [ngClass]="darkModeService.currentSkin === 'dark' ? 'form-control-dark ' : 'form-control'"
+                                                class="m-input"
+                                                type="time"
+                                                [(ngModel)]="startDateMon"
+                                            />
+                                            <p class="text-danger" *ngIf="startDateMon >= endDateMon">{{ "fromMostBeLessThanTo" | localize }} </p>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-xl-6 mt-1" *ngIf="isWorkActiveMon">
+                                        <div class="form-group">
+                                            <label for="EndDate">{{ "to" | localize }}  </label>
+                                            <input
+                                                [ngClass]="darkModeService.currentSkin === 'dark' ? 'form-control-dark ' : 'form-control'"
+                                                class="m-input"
+                                                type="time"
+                                                [(ngModel)]="endDateMon"
+                                            />
+                                            <p class="text-danger" *ngIf="endDateMon <= startDateMon">{{ "toMustBeGreaterThanFrom" | localize }} </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mt-1" *ngIf="isWorkActiveMon">
+                                    <div class="col-12 col-xl-12 mt-1">
+                                        <div class="md-checkbox-list form-check form-switch">
+                                            <input class="form-check-input" id="hasSPMon" type="checkbox" name="hasSPMon" [(ngModel)]="hasSPMon" />
+                                            <label for="hasSPMon" class="checkbox kt-checkbox">{{ "enableSecondShift" | localize }}  </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-xl-6 mt-1" *ngIf="hasSPMon">
+                                        <div class="form-group">
+                                            <label for="StartDateMonSP">{{ "from" | localize }} </label>
+                                            <input
+                                                [ngClass]="darkModeService.currentSkin === 'dark' ? 'form-control-dark ' : 'form-control'"
+                                                class="m-input"
+                                                type="time"
+                                                [(ngModel)]="startDateMonSP"
+                                            />
+                                            <p class="text-danger" *ngIf="startDateMonSP >= endDateMonSP">{{ "fromMostBeLessThanTo" | localize }} </p>
+                                            <p class="text-danger" *ngIf="startDateMonSP >= startDateMon && startDateMonSP <= endDateMon">{{ "invalidInterval" | localize }} </p>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-xl-6 mt-1" *ngIf="hasSPMon">
+                                        <div class="form-group">
+                                            <label for="EndDateSP">{{ "to" | localize }} </label>
+                                            <input
+                                                [ngClass]="darkModeService.currentSkin === 'dark' ? 'form-control-dark ' : 'form-control'"
+                                                class="m-input"
+                                                type="time"
+                                                [(ngModel)]="endDateMonSP"
+                                            />
+
+                                            <p class="text-danger" *ngIf="endDateMonSP <= startDateMonSP">{{ "toMustBeGreaterThanFrom" | localize }} </p>
+                                            <p
+                                                class="text-danger"
+                                                *ngIf="
+                                                    (endDateMonSP <= endDateMon && endDateMonSP >= startDateMon) ||
+                                                    (startDateMon <= endDateMonSP && endDateMon >= startDateMonSP)
+                                                "
+                                            >
+                                                {{ "invalidInterval" | localize }} 
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </tab>
+                            <tab class="p-0" [heading]="'tuesday' | localize">
+                                <div class="md-checkbox-list form-check form-switch">
+                                    <input
+                                        class="form-check-input"
+                                        id="isWorkActiveTues"
+                                        type="checkbox"
+                                        name="isWorkActiveTues"
+                                        [(ngModel)]="isWorkActiveTues"
+                                    />
+                                    <label *ngIf="isWorkActiveTues" for="isWorkActiveTues" class="checkbox mt"> {{ "open" | localize }} </label>
+                                    <label *ngIf="!isWorkActiveTues" for="isWorkActiveTues" class="checkbox mt"> {{ "closed" | localize }} </label>
+                                </div>
+                             
+
+                                <div class="row">
+                                    <div class="col-12 col-xl-6 mt-1" *ngIf="isWorkActiveTues">
+                                        <div class="form-group">
+                                            <label for="StartDateTues">{{ "from" | localize }} </label>
+                                            <input
+                                                [ngClass]="darkModeService.currentSkin === 'dark' ? 'form-control-dark ' : 'form-control'"
+                                                class="m-input"
+                                                type="time"
+                                                [(ngModel)]="startDateTues"
+                                            />
+                                            <p class="text-danger" *ngIf="startDateTues > endDateTues">{{ "fromMostBeLessThanTo" | localize }} </p>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-xl-6 mt-1" *ngIf="isWorkActiveTues">
+                                        <div class="form-group">
+                                            <label for="EndDate">{{ "to" | localize }}  </label>
+                                            <input
+                                                [ngClass]="darkModeService.currentSkin === 'dark' ? 'form-control-dark ' : 'form-control'"
+                                                class="m-input"
+                                                type="time"
+                                                [(ngModel)]="endDateTues"
+                                            />
+                                            <p class="text-danger" *ngIf="endDateTues < startDateTues">{{ "toMustBeGreaterThanFrom" | localize }} </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mt-1" *ngIf="isWorkActiveTues">
+                                    <div class="col-12 col-xl-12 mt-1">
+                                        <div class="md-checkbox-list form-check form-switch">
+                                            <input class="form-check-input" id="hasSPTues" type="checkbox" name="hasSPTues" [(ngModel)]="hasSPTues" />
+                                            <label for="hasSPTues" class="checkbox kt-checkbox">{{ "enableSecondShift" | localize }}  </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-xl-6 mt-1" *ngIf="hasSPTues">
+                                        <div class="form-group">
+                                            <label for="StartDateTuesSP">{{ "from" | localize }} </label>
+                                            <input
+                                                [ngClass]="darkModeService.currentSkin === 'dark' ? 'form-control-dark ' : 'form-control'"
+                                                class="m-input"
+                                                type="time"
+                                                [(ngModel)]="startDateTuesSP"
+                                            />
+                                            <p class="text-danger" *ngIf="startDateTuesSP >= endDateTuesSP">{{ "fromMostBeLessThanTo" | localize }} </p>
+                                            <p class="text-danger" *ngIf="startDateTuesSP >= startDateTues && startDateTuesSP <= endDateTues">
+                                                {{ "invalidInterval" | localize }} 
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-xl-6 mt-1" *ngIf="hasSPTues">
+                                        <div class="form-group">
+                                            <label for="EndDateSP">{{ "to" | localize }} </label>
+                                            <input
+                                                [ngClass]="darkModeService.currentSkin === 'dark' ? 'form-control-dark ' : 'form-control'"
+                                                class="m-input"
+                                                type="time"
+                                                [(ngModel)]="endDateTuesSP"
+                                            />
+                                            <p class="text-danger" *ngIf="endDateTuesSP <= startDateTuesSP">{{ "toMustBeGreaterThanFrom" | localize }} </p>
+                                            <p
+                                                class="text-danger"
+                                                *ngIf="
+                                                    (endDateTuesSP <= endDateTues && endDateTuesSP >= startDateTues) ||
+                                                    (startDateTues <= endDateTuesSP && endDateTues >= startDateTuesSP)
+                                                "
+                                            >
+                                                {{ "invalidInterval" | localize }} 
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </tab>
+                            <tab class="p-0" [heading]="'wednesday' | localize">
+                                <div class="md-checkbox-list form-check form-switch">
+                                    <input class="form-check-input" id="isWorkActiveWed" type="checkbox" name="isWorkActiveWed" [(ngModel)]="isWorkActiveWed" />
+                                    <label *ngIf="isWorkActiveWed" for="isWorkActiveWed" class="checkbox mt"> {{ "open" | localize }} </label>
+                                    <label *ngIf="!isWorkActiveWed" for="isWorkActiveWed" class="checkbox mt"> {{ "closed" | localize }} </label>
+                                </div>
+                             
+
+                                <div class="row">
+                                    <div class="col-12 col-xl-6 mt-1" *ngIf="isWorkActiveWed">
+                                        <div class="form-group">
+                                            <label for="StartDateWed">{{ "from" | localize }} </label>
+                                            <input
+                                                [ngClass]="darkModeService.currentSkin === 'dark' ? 'form-control-dark ' : 'form-control'"
+                                                class="m-input"
+                                                type="time"
+                                                [(ngModel)]="startDateWed"
+                                            />
+                                            <p class="text-danger" *ngIf="startDateWed >= endDateWed">{{ "fromMostBeLessThanTo" | localize }} </p>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-xl-6 mt-1" *ngIf="isWorkActiveWed">
+                                        <div class="form-group">
+                                            <label for="EndDate">{{ "to" | localize }}  </label>
+                                            <input
+                                                [ngClass]="darkModeService.currentSkin === 'dark' ? 'form-control-dark ' : 'form-control'"
+                                                class="m-input"
+                                                type="time"
+                                                [(ngModel)]="endDateWed"
+                                            />
+                                            <p class="text-danger" *ngIf="endDateWed <= startDateWed">{{ "toMustBeGreaterThanFrom" | localize }} </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mt-1" *ngIf="isWorkActiveWed">
+                                    <div class="col-12 col-xl-12 mt-1">
+                                        <div class="md-checkbox-list form-check form-switch">
+                                            <input class="form-check-input" id="hasSPWed" type="checkbox" name="hasSPWed" [(ngModel)]="hasSPWed" />
+                                            <label for="hasSPWed" class="checkbox kt-checkbox">{{ "enableSecondShift" | localize }}  </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-xl-6 mt-1" *ngIf="hasSPWed">
+                                        <div class="form-group">
+                                            <label for="StartDateWedSP">{{ "from" | localize }} </label>
+                                            <input
+                                                [ngClass]="darkModeService.currentSkin === 'dark' ? 'form-control-dark ' : 'form-control'"
+                                                class="m-input"
+                                                type="time"
+                                                [(ngModel)]="startDateWedSP"
+                                            />
+                                            <p class="text-danger" *ngIf="startDateWedSP >= endDateWedSP">Start Date Must Be less than To</p>
+                                            <p class="text-danger" *ngIf="startDateWedSP >= startDateWed && startDateWedSP <= endDateWed">{{ "invalidInterval" | localize }} </p>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-xl-6 mt-1" *ngIf="hasSPWed">
+                                        <div class="form-group">
+                                            <label for="EndDateSP">{{ "to" | localize }} </label>
+                                            <input
+                                                [ngClass]="darkModeService.currentSkin === 'dark' ? 'form-control-dark ' : 'form-control'"
+                                                class="m-input"
+                                                type="time"
+                                                [(ngModel)]="endDateWedSP"
+                                            />
+                                            <p class="text-danger" *ngIf="endDateWedSP <= startDateWedSP">End Date Must Be Greater than From</p>
+                                            <p
+                                                class="text-danger"
+                                                *ngIf="
+                                                    (endDateWedSP <= endDateWed && endDateWedSP >= startDateWed) ||
+                                                    (startDateWed <= endDateWedSP && endDateWed >= startDateWedSP)
+                                                "
+                                            >
+                                                {{ "invalidInterval" | localize }} 
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </tab>
+                            <tab class="p-0" [heading]="'thursday' | localize">
+                                <div class="md-checkbox-list form-check form-switch">
+                                    <input
+                                        class="form-check-input"
+                                        id="isWorkActiveThurs"
+                                        type="checkbox"
+                                        name="isWorkActiveThurs"
+                                        [(ngModel)]="isWorkActiveThurs"
+                                    />
+                                    <label *ngIf="isWorkActiveThurs" for="isWorkActiveThurs" class="checkbox mt"> {{ "open" | localize }} </label>
+                                    <label *ngIf="!isWorkActiveThurs" for="isWorkActiveThurs" class="checkbox mt"> {{ "closed" | localize }} </label>
+                                </div>
+                             
+
+                                <div class="row">
+                                    <div class="col-12 col-xl-6 mt-1" *ngIf="isWorkActiveThurs">
+                                        <div class="form-group">
+                                            <label for="StartDateThurs">{{ "from" | localize }} </label>
+                                            <input
+                                                [ngClass]="darkModeService.currentSkin === 'dark' ? 'form-control-dark ' : 'form-control'"
+                                                class="m-input"
+                                                type="time"
+                                                [(ngModel)]="startDateThurs"
+                                            />
+                                            <p class="text-danger" *ngIf="startDateThurs >= endDateThurs">Start Date Must Be less than To</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-xl-6 mt-1" *ngIf="isWorkActiveThurs">
+                                        <div class="form-group">
+                                            <label for="EndDate">{{ "to" | localize }}  </label>
+                                            <input
+                                                [ngClass]="darkModeService.currentSkin === 'dark' ? 'form-control-dark ' : 'form-control'"
+                                                class="m-input"
+                                                type="time"
+                                                [(ngModel)]="endDateThurs"
+                                            />
+                                            <p class="text-danger" *ngIf="endDateThurs <= startDateThurs">End Date Must Be Greater than From</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mt-1" *ngIf="isWorkActiveThurs">
+                                    <div class="col-12 col-xl-12 mt-1">
+                                        <div class="md-checkbox-list form-check form-switch">
+                                            <input class="form-check-input" id="hasSPThurs" type="checkbox" name="hasSPThurs" [(ngModel)]="hasSPThurs" />
+                                            <label for="hasSPThurs" class="checkbox kt-checkbox">{{ "enableSecondShift" | localize }}  </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-xl-6 mt-1" *ngIf="hasSPThurs">
+                                        <div class="form-group">
+                                            <label for="StartDateThursSP">{{ "from" | localize }} </label>
+                                            <input
+                                                [ngClass]="darkModeService.currentSkin === 'dark' ? 'form-control-dark ' : 'form-control'"
+                                                class="m-input"
+                                                type="time"
+                                                [(ngModel)]="startDateThursSP"
+                                            />
+                                            <p class="text-danger" *ngIf="startDateThursSP >= endDateThursSP">{{ "fromMostBeLessThanTo" | localize }} </p>
+                                            <p class="text-danger" *ngIf="startDateThursSP >= startDateThurs && startDateThursSP <= endDateThurs">
+                                                {{ "invalidInterval" | localize }} 
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-xl-6 mt-1" *ngIf="hasSPThurs">
+                                        <div class="form-group">
+                                            <label for="EndDateSP">{{ "to" | localize }} </label>
+                                            <input
+                                                [ngClass]="darkModeService.currentSkin === 'dark' ? 'form-control-dark ' : 'form-control'"
+                                                class="m-input"
+                                                type="time"
+                                                [(ngModel)]="endDateThursSP"
+                                            />
+                                            <p class="text-danger" *ngIf="endDateThursSP <= startDateThursSP">{{ "toMustBeGreaterThanFrom" | localize }} </p>
+                                            <p
+                                                class="text-danger"
+                                                *ngIf="
+                                                    (endDateThursSP <= endDateThurs && endDateThursSP >= startDateThurs) ||
+                                                    (startDateThurs <= endDateThursSP && endDateThurs >= startDateThursSP)
+                                                "
+                                            >
+                                                {{ "invalidInterval" | localize }} 
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </tab>
+                            <tab class="p-0" [heading]="'friday' | localize">
+                                <div class="md-checkbox-list form-check form-switch">
+                                    <input class="form-check-input" id="isWorkActiveFri" type="checkbox" name="isWorkActiveFri" [(ngModel)]="isWorkActiveFri" />
+                                    <label *ngIf="isWorkActiveFri" for="isWorkActiveFri" class="checkbox mt"> {{ "open" | localize }} </label>
+                                    <label *ngIf="!isWorkActiveFri" for="isWorkActiveFri" class="checkbox mt"> {{ "closed" | localize }} </label>
+                                </div>
+                               
+
+                                <div class="row">
+                                    <div class="col-12 col-xl-6 mt-1" *ngIf="isWorkActiveFri">
+                                        <div class="form-group">
+                                            <label for="StartDateFri">{{ "from" | localize }} </label>
+                                            <input
+                                                [ngClass]="darkModeService.currentSkin === 'dark' ? 'form-control-dark ' : 'form-control'"
+                                                class="m-input"
+                                                type="time"
+                                                [(ngModel)]="startDateFri"
+                                            />
+                                            <p class="text-danger" *ngIf="startDateFri >= endDateFri">{{ "fromMostBeLessThanTo" | localize }} </p>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-xl-6 mt-1" *ngIf="isWorkActiveFri">
+                                        <div class="form-group">
+                                            <label for="EndDate">{{ "to" | localize }}  </label>
+                                            <input
+                                                [ngClass]="darkModeService.currentSkin === 'dark' ? 'form-control-dark ' : 'form-control'"
+                                                class="m-input"
+                                                type="time"
+                                                [(ngModel)]="endDateFri"
+                                            />
+                                            <p class="text-danger" *ngIf="endDateFri <= startDateFri">End Date Must Be Greater than From</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mt-1" *ngIf="isWorkActiveFri">
+                                    <div class="col-12 col-xl-12 mt-1">
+                                        <div class="md-checkbox-list form-check form-switch">
+                                            <input class="form-check-input" id="hasSPFri" type="checkbox" name="hasSPFri" [(ngModel)]="hasSPFri" />
+                                            <label for="hasSPFri" class="checkbox kt-checkbox">{{ "enableSecondShift" | localize }}  </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-xl-6 mt-1" *ngIf="hasSPFri">
+                                        <div class="form-group">
+                                            <label for="StartDateFriSP">{{ "from" | localize }} </label>
+                                            <input
+                                                [ngClass]="darkModeService.currentSkin === 'dark' ? 'form-control-dark ' : 'form-control'"
+                                                class="m-input"
+                                                type="time"
+                                                [(ngModel)]="startDateFriSP"
+                                            />
+                                            <p class="text-danger" *ngIf="startDateFriSP >= endDateFriSP">{{ "fromMostBeLessThanTo" | localize }} </p>
+                                            <p class="text-danger" *ngIf="startDateFriSP >= startDateFri && startDateFriSP <= endDateFri">{{ "invalidInterval" | localize }} </p>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-xl-6 mt-1" *ngIf="hasSPFri">
+                                        <div class="form-group">
+                                            <label for="EndDateSP">{{ "to" | localize }} </label>
+                                            <input
+                                                [ngClass]="darkModeService.currentSkin === 'dark' ? 'form-control-dark ' : 'form-control'"
+                                                class="m-input"
+                                                type="time"
+                                                [(ngModel)]="endDateFriSP"
+                                            />
+                                            <p class="text-danger" *ngIf="endDateFriSP <= startDateFriSP">{{ "toMustBeGreaterThanFrom" | localize }} </p>
+
+                                            <p
+                                                class="text-danger"
+                                                *ngIf="
+                                                    (endDateFriSP <= endDateFri && endDateFriSP >= startDateFri) ||
+                                                    (startDateFri <= endDateFriSP && endDateFri >= startDateFriSP)
+                                                "
+                                            >
+                                                {{ "invalidInterval" | localize }} 
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </tab>
+                        </tabset>
+                    </div>
+
+                    <div>
+                        <div class="pt-3">
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" (click)="close()">{{ l("Cancel")
+                                    }}</button>
+                                <button type="button" class="btn btn-primary-info" (click)="saveSetting()">
+                                    <i class="fa fa-save"></i> <span>{{ l("Save") }}</span>
+                                </button>
+                                <!-- [disabled]="!menuForm.valid" -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

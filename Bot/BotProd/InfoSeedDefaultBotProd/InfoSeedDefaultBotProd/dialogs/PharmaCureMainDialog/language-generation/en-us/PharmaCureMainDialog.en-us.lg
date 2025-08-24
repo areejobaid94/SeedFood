@@ -1,0 +1,67 @@
+[import](common.lg)
+
+# TextInput_Prompt_aGFxdR_text()
+- ${dialog.text}
+# TextInput_Prompt_aGFxdR()
+[Activity
+    Text = ${dialog.text}
+    SuggestedActions = ${dialog.Option1} | ${dialog.Option6}
+]
+
+# SendActivity_7tEvbQ_text()
+- ${dialog.text}
+# SendActivity_7tEvbQ()
+[Activity
+    Text = ${SendActivity_7tEvbQ_text()}
+]
+
+# SendActivity_R8HJHz_text()
+- ${conversation.TenantPhoneNumber}
+# SendActivity_R8HJHz()
+[Activity
+    Text = ${SendActivity_R8HJHz_text()}
+]
+
+# SendActivity_NgXftW_text()
+- ${dialog.text}
+# SendActivity_NgXftW()
+[Activity
+    Text = ${SendActivity_NgXftW_text()}
+]
+
+# TextInput_Prompt_dkWPmF_text()
+- ${dialog.Option50}
+# TextInput_Prompt_dkWPmF()
+[Activity
+    Text = ${TextInput_Prompt_dkWPmF_text()}
+    SuggestedActions = ${dialog.Option10} | ${dialog.Option20}
+]
+
+# TextInput_Prompt_6e37IQ_text()
+- ${dialog.Option50}
+# TextInput_Prompt_6e37IQ()
+[Activity
+    Text = ${TextInput_Prompt_6e37IQ_text()}
+    SuggestedActions = ${dialog.Option10} | ${dialog.Option20}
+]
+
+# SendActivity_35WP82_text()
+- ${dialog.text}
+# SendActivity_35WP82()
+[Activity
+    Text = ${SendActivity_35WP82_text()}
+]
+
+# SendActivity_sNHAT9_text()
+- ${conversation.TenantPhoneNumber}
+# SendActivity_sNHAT9()
+[Activity
+    Text = ${SendActivity_sNHAT9_text()}
+]
+
+# SendActivity_XnUbWn_text()
+- ${dialog.text}
+# SendActivity_XnUbWn()
+[Activity
+    Text = ${SendActivity_XnUbWn_text()}
+]

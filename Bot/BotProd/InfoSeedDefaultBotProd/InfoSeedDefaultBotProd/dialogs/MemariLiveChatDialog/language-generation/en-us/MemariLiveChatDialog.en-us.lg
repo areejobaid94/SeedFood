@@ -1,0 +1,24 @@
+[import](common.lg)
+
+# TextInput_Prompt_2YrkLH_text()
+- ${dialog.text}
+# TextInput_Prompt_2YrkLH()
+[Activity
+    Text = ${TextInput_Prompt_2YrkLH_text()}
+    SuggestedActions = ${dialog.Option1} | ${dialog.Option2}
+]
+
+# SendActivity_Ph5ciw_text()
+- ${dialog.contact}
+# SendActivity_Ph5ciw()
+[Activity
+    Text = ${SendActivity_Ph5ciw_text()}
+]
+
+# SendActivity_Fl0qOM_text()
+- ${dialog.contact}
+# SendActivity_Fl0qOM()
+[Activity
+    Text = ${SendActivity_Fl0qOM_text()}
+]
+

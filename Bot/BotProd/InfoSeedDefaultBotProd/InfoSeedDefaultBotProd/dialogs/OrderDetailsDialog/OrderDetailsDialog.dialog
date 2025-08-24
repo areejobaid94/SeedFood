@@ -1,0 +1,292 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "Lgnq1d",
+    "name": "OrderDetailsDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "kIKDJW"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "dPkTGk"
+          },
+          "condition": "conversation.local==\"ar\"",
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "ySoqMC"
+              },
+              "assignments": [
+                {
+                  "property": "dialog.op1",
+                  "value": "تاكيد"
+                },
+                {
+                  "property": "dialog.op2",
+                  "value": "الغاء"
+                },
+                {
+                  "property": "dialog.op3",
+                  "value": "هل تريد؟"
+                }
+              ]
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "fCsoPk"
+              },
+              "assignments": [
+                {
+                  "property": "dialog.op1",
+                  "value": "Confirm"
+                },
+                {
+                  "property": "dialog.op2",
+                  "value": "Cancel"
+                },
+                {
+                  "property": "dialog.op3",
+                  "value": "Do you want?"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "p1dfhZ"
+          },
+          "assignments": [
+            {
+              "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 18)).text",
+              "property": "dialog.QuantityText"
+            },
+            {
+              "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 19)).text",
+              "property": "dialog.AddtionText"
+            },
+            {
+              "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 20)).text",
+              "property": "dialog.TotalText"
+            },
+            {
+              "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 21)).text",
+              "property": "dialog.TotalOfAllText"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "Pbsm5c"
+          },
+          "condition": "conversation.TypeChoes==\"PickUp\"",
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "QKzh5k"
+              },
+              "property": "dialog.PostOrderAndDetailModel",
+              "value": {
+                "ContactId": "=conversation.ContactId",
+                "TenantID": "=conversation.TenantId",
+                "lang": "=conversation.local",
+                "MenuType": "=conversation.menu",
+                "captionQuantityText": "=dialog.QuantityText",
+                "captionAddtionText": "=dialog.AddtionText",
+                "captionTotalText": "=dialog.TotalText",
+                "captionTotalOfAllText": "=dialog.TotalOfAllText"
+              }
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "yt8nbG"
+              },
+              "property": "dialog.DeliveryCostText",
+              "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 10)).text"
+            },
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "7M7nRP"
+              },
+              "property": "dialog.PostOrderAndDetailModel",
+              "value": {
+                "ContactId": "=conversation.ContactId",
+                "TenantID": "=conversation.TenantId",
+                "lang": "=conversation.local",
+                "MenuType": "=conversation.menu",
+                "captionQuantityText": "=dialog.QuantityText",
+                "captionAddtionText": "=dialog.AddtionText",
+                "captionTotalText": "=dialog.TotalText",
+                "captionTotalOfAllText": "=dialog.TotalOfAllText",
+                "TypeChoes": "=conversation.TypeChoes",
+                "deliveryCostBefor": "=conversation.LocationInfo.deliveryCostBefor",
+                "deliveryCostAfter": "=conversation.LocationInfo.deliveryCostAfter",
+                "DeliveryCostText": "=conversation.DeliveryCostText",
+                "Cost": "=conversation.Cost",
+                "LocationInfo": "=conversation.LocationInfo",
+                "isOrderOffer": "=conversation.isOrderOffer",
+                "DeliveryCostTextTow": "=dialog.DeliveryCostText"
+              }
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.HttpRequest",
+          "$designer": {
+            "id": "oDWi2j"
+          },
+          "resultProperty": "dialog.GetOrderAndDetailModel",
+          "method": "POST",
+          "url": "${conversation.URL}/api/BotAPI/GetOrderAndDetails",
+          "body": "=dialog.PostOrderAndDetailModel",
+          "headers": {
+            "accept": "text/plain",
+            "Content-Type": "application/json-patch+json"
+          },
+          "responseType": "json"
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "Ituih9"
+          },
+          "assignments": [
+            {
+              "property": "conversation.OrderTotal",
+              "value": "=dialog.GetOrderAndDetailModel.content.result.order.total"
+            },
+            {
+              "property": "conversation.OrderModel",
+              "value": " ${dialog.GetOrderAndDetailModel.content.result.order}"
+            },
+            {
+              "property": "conversation.OrderDetailListModel",
+              "value": "${dialog.GetOrderAndDetailModel.content.result.orderDetailDtos}"
+            },
+            {
+              "property": "conversation.ExtraOrderDetailListModel",
+              "value": "${dialog.GetOrderAndDetailModel.content.result.extraOrderDetailsDtos}"
+            },
+            {
+              "property": "conversation.ItemDtoListModel",
+              "value": "${dialog.GetOrderAndDetailModel.content.result.itemDtos}"
+            },
+            {
+              "property": "conversation.OrderId",
+              "value": "${dialog.GetOrderAndDetailModel.content.result.orderId}"
+            },
+            {
+              "property": "conversation.TotalOrder",
+              "value": "${dialog.GetOrderAndDetailModel.content.result.total}"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "DOpRzR"
+          },
+          "property": "conversation.loyalityPoint",
+          "value": "=dialog.GetOrderAndDetailModel.content.result.order.totalPoints"
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "4Bikhf"
+          },
+          "property": "conversation.LocationInfo",
+          "value": "=dialog.GetOrderAndDetailModel.content.result.getLocationInfo"
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "BVY7HX"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "unrecognizedPrompt": "",
+          "prompt": "${TextInput_Prompt_BVY7HX()}",
+          "property": "dialog.ConfirmOrder",
+          "validations": [
+            "equals(this.value, 'تاكيد') || equals(this.value, 'الغاء')  ||equals(this.value, 'Confirm') ||equals(this.value, 'Cancel')  ||equals(this.value, '#')"
+          ]
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "vGDNKX"
+          },
+          "condition": "dialog.ConfirmOrder ==\"الغاء\" ||dialog.ConfirmOrder ==\"Cancel\"",
+          "actions": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "5hO8rq"
+              },
+              "activityProcessed": true,
+              "dialog": "DeleteOrderDraftDialog"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "UfGf2A"
+          }
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "d35uEX"
+          },
+          "property": "dialog.PostOrderAndDetailModel",
+          "value": {
+            "ContactId": "=conversation.ContactId",
+            "TenantID": "=conversation.TenantId",
+            "lang": "=conversation.local",
+            "MenuType": "=conversation.menu",
+            "captionQuantityText": "=conversation.QuantityText",
+            "captionAddtionText": "=conversation.AddtionText",
+            "captionTotalText": "=conversation.TotalText",
+            "captionTotalOfAllText": "=conversation.TotalOfAllText",
+            "TypeChoes": "=conversation.TypeChoes",
+            "deliveryCostBefor": "=conversation.LocationInfo.deliveryCostBefor",
+            "deliveryCostAfter": "=conversation.LocationInfo.deliveryCostAfter",
+            "DeliveryCostText": "=conversation.DeliveryCostText",
+            "Cost": "=conversation.Cost",
+            "LocationInfo": "=conversation.LocationInfo",
+            "isOrderOffer": "=conversation.isOrderOffer",
+            "DeliveryCostTextTow": "=dialog.DeliveryCostText"
+          }
+        }
+      ]
+    }
+  ],
+  "generator": "OrderDetailsDialog.lg",
+  "recognizer": "OrderDetailsDialog.lu.qna",
+  "id": "OrderDetailsDialog"
+}

@@ -1,0 +1,9 @@
+[import](common.lg)
+
+# SendActivity_J9Vesi()
+[Activity
+    Text = ${SendActivity_J9Vesi_text()}
+]
+
+# SendActivity_J9Vesi_text()
+- - ${dialog.OrderUpdateFinsh.content.result}

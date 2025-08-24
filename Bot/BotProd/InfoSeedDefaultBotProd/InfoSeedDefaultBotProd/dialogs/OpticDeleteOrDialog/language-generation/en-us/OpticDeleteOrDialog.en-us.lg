@@ -1,0 +1,8 @@
+[import](common.lg)
+
+# SendActivity_1gWD6T_text()
+- - ${dialog.DeleteDraftText}
+# SendActivity_1gWD6T()
+[Activity
+    Text = ${SendActivity_1gWD6T_text()}
+]

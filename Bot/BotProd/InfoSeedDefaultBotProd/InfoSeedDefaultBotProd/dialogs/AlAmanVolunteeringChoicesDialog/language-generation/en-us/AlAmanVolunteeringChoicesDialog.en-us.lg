@@ -1,0 +1,214 @@
+[import](common.lg)
+
+# TextInput_Prompt_THMArT_text()
+- ${conversation.ChoiceCaseLink}
+# TextInput_Prompt_THMArT()
+[Activity
+    Text = ${TextInput_Prompt_THMArT_text()}
+    SuggestedActions = ${dialog.Option1} | ${dialog.Option2} | ${dialog.Option3}
+    InputHint=${conversation.InputHint}
+     Summary=${conversation.Summary}
+]
+
+# TextInput_Prompt_toZcrW()
+ [Activity
+
+    Attachments = ${json(ButtonList(dialog.text,dialog.ListOption))}
+    InputHint=${dialog.inputh}
+     Summary=${conversation.Summary}
+
+]
+
+# TextInput_Prompt_Lqev7J()
+ [Activity
+
+    Attachments = ${json(ButtonList(dialog.text,dialog.ListOption))}
+
+
+    InputHint=${dialog.inputh}
+     Summary=${conversation.Summary}
+
+]
+
+# SendActivity_1KqiEa_text()
+- ${conversation.ChoiceCasePic}
+# SendActivity_1KqiEa_speak()
+- sample.pdf
+# SendActivity_1KqiEa()
+[Activity
+    Text = ${SendActivity_1KqiEa_text()}
+    Speak = ${SendActivity_1KqiEa_speak()}
+]
+
+# SendActivity_tT7hH0_text()
+- ```${dialog.link}
+${dialog.Thanks}
+```
+# SendActivity_tT7hH0()
+[Activity
+    Text = ${SendActivity_tT7hH0_text()}
+]
+
+# SendActivity_zkjnfA_text()
+- ```${dialog.link}
+${dialog.Thanks}
+```
+# SendActivity_zkjnfA()
+[Activity
+    Text = ${SendActivity_zkjnfA_text()}
+]
+
+# SendActivity_g0ZbIe_text()
+- ```${dialog.link}
+${dialog.Thanks}
+```
+# SendActivity_g0ZbIe()
+[Activity
+    Text = ${SendActivity_g0ZbIe_text()}
+]
+
+# SendActivity_vXild0_text()
+- ```${dialog.link}
+${dialog.Thanks}
+```
+# SendActivity_vXild0()
+[Activity
+    Text = ${SendActivity_vXild0_text()}
+]
+
+# SendActivity_f8sok5_text()
+- ```${dialog.Thanks}
+${dialog.link}```
+# SendActivity_f8sok5()
+[Activity
+    Text = ${SendActivity_f8sok5_text()}
+]
+
+# SendActivity_XvawMb_text()
+- ```${dialog.Thanks}
+${dialog.link}```
+# SendActivity_XvawMb()
+[Activity
+    Text = ${SendActivity_XvawMb_text()}
+]
+
+# SendActivity_ihQXQt_text()
+- ```${dialog.Thanks}
+${dialog.link}```
+# SendActivity_ihQXQt()
+[Activity
+    Text = ${SendActivity_ihQXQt_text()}
+]
+
+# SendActivity_VJ2X4w_text()
+- ```${dialog.link}
+${dialog.Thanks}
+```
+# SendActivity_VJ2X4w()
+[Activity
+    Text = ${SendActivity_VJ2X4w_text()}
+]
+
+# SendActivity_w78Ss5_text()
+- ```${dialog.link}
+${dialog.Thanks}
+```
+# SendActivity_w78Ss5()
+[Activity
+    Text = ${SendActivity_w78Ss5_text()}
+]
+
+# SendActivity_YgP59u_text()
+- ```${dialog.link}
+${dialog.Thanks}
+```
+# SendActivity_YgP59u()
+[Activity
+    Text = ${SendActivity_YgP59u_text()}
+]
+
+# SendActivity_Hboevr_text()
+- ```${dialog.link}
+${dialog.Thanks}
+```
+# SendActivity_Hboevr()
+[Activity
+    Text = ${SendActivity_Hboevr_text()}
+]
+
+# SendActivity_K6P7Y0_text()
+- ```${dialog.link}
+${dialog.Thanks}
+```
+# SendActivity_K6P7Y0()
+[Activity
+    Text = ${SendActivity_K6P7Y0_text()}
+]
+
+# SendActivity_v5z4hH_text()
+- ```${dialog.link}
+${dialog.Thanks}
+```
+# SendActivity_v5z4hH()
+[Activity
+    Text = ${SendActivity_v5z4hH_text()}
+]
+
+# SendActivity_JE7wt0_text()
+- ```${dialog.link}
+${dialog.Thanks}
+```
+# SendActivity_JE7wt0()
+[Activity
+    Text = ${SendActivity_JE7wt0_text()}
+]
+
+
+# TextInput_Prompt_6kTsuW()
+[Activity
+    Text = ${TextInput_Prompt_6kTsuW_text()}
+    SuggestedActions = ${dialog.op1} | ${dialog.op2}
+    InputHint=${conversation.InputHint}
+     Summary=${conversation.Summary}
+]
+
+# TextInput_Prompt_6kTsuW_text()
+- الرجاء الاختيار
+# SendActivity_va9dHP_text()
+- ${dialog.link}
+# SendActivity_va9dHP()
+[Activity
+    Text = ${SendActivity_va9dHP_text()}
+]
+
+# SendActivity_W2S2Xb_text()
+- ${dialog.link}
+# SendActivity_W2S2Xb()
+[Activity
+    Text = ${SendActivity_W2S2Xb_text()}
+]
+
+# TextInput_Prompt_WRsPCB_text()
+- Please choose
+# TextInput_Prompt_WRsPCB()
+[Activity
+    Text = ${TextInput_Prompt_WRsPCB_text()}
+    SuggestedActions = ${dialog.op1} | ${dialog.op2}
+    InputHint=${conversation.InputHint}
+     Summary=${conversation.Summary}
+]
+
+# SendActivity_m6VFeG_text()
+- ${dialog.link}
+# SendActivity_m6VFeG()
+[Activity
+    Text = ${SendActivity_m6VFeG_text()}
+]
+
+# SendActivity_IjQ67p_text()
+- ${dialog.link}
+# SendActivity_IjQ67p()
+[Activity
+    Text = ${SendActivity_IjQ67p_text()}
+]
+

@@ -1,0 +1,10 @@
+[import](common.lg)
+
+# TextInput_Prompt_ssy3uV()
+[Activity
+    Text = ${TextInput_Prompt_ssy3uV_text()}
+    SuggestedActions = ${dialog.option1} | ${dialog.option2}
+]
+
+# TextInput_Prompt_ssy3uV_text()
+- ${conversation.ChooseLevel}

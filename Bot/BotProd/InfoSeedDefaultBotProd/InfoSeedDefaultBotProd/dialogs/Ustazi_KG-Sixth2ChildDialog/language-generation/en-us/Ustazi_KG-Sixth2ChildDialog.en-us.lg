@@ -1,0 +1,449 @@
+[import](common.lg)
+
+# TextInput_Prompt_pUw4MI_text()
+- ${dialog.text}
+# TextInput_Prompt_pUw4MI()
+[Activity
+
+    Attachments = ${json(ButtonList(dialog.text,dialog.ListOption))}
+
+
+    InputHint=منطقتك
+     Summary=${conversation.Summary}
+
+]
+# SendActivity_ihiUOi_text()
+- ${dialog.price}
+# SendActivity_ihiUOi()
+[Activity
+    Text = ${SendActivity_ihiUOi_text()}
+]
+
+# SendActivity_2IPbgA_text()
+- ${dialog.price}
+# SendActivity_2IPbgA()
+[Activity
+    Text = ${SendActivity_2IPbgA_text()}
+]
+
+# TextInput_Prompt_QVJCR3()
+[Activity
+
+    Attachments = ${json(dropList(dialog.text,dialog.Option1,dialog.Option2,dialog.Option3,dialog.Option4))}
+
+
+    InputHint=منطقتك
+     Summary=${conversation.Summary}
+
+]
+# TextInput_Prompt_XDzDon_text()
+- ${dialog.text}
+# SendActivity_6hHWR7_text()
+- ${dialog.price}
+# SendActivity_6hHWR7()
+[Activity
+    Text = ${SendActivity_6hHWR7_text()}
+]
+
+# SendActivity_ntoP3Y_text()
+- ${dialog.price}
+# SendActivity_ntoP3Y()
+[Activity
+    Text = ${SendActivity_ntoP3Y_text()}
+]
+
+# TextInput_Prompt_yswmU6_text()
+- ${dialog.text}
+# TextInput_Prompt_yswmU6()
+[Activity
+
+    Attachments = ${json(ButtonList(dialog.text,dialog.ListOption))}
+
+
+    InputHint=منطقتك
+     Summary=${conversation.Summary}
+
+]
+# SendActivity_e2XazO_text()
+- ${dialog.price}
+# SendActivity_e2XazO()
+[Activity
+    Text = ${SendActivity_e2XazO_text()}
+]
+
+# SendActivity_qXeUae_text()
+- ${dialog.price}
+# SendActivity_qXeUae()
+[Activity
+    Text = ${SendActivity_qXeUae_text()}
+]
+
+# TextInput_Prompt_5yvskO()
+[Activity
+
+    Attachments = ${json(dropList(dialog.text,dialog.Option1,dialog.Option2,dialog.Option3,dialog.Option4))}
+
+
+    InputHint=منطقتك
+     Summary=${conversation.Summary}
+
+]
+# TextInput_Prompt_hRgSDF_text()
+- ${dialog.text}
+# TextInput_Prompt_hRgSDF()
+[Activity
+
+    Attachments = ${json(ButtonList(dialog.text,dialog.ListOption))}
+
+
+    InputHint=منطقتك
+     Summary=${conversation.Summary}
+
+]
+
+
+# SendActivity_B2UUvJ_text()
+- ${dialog.price}
+# SendActivity_B2UUvJ()
+[Activity
+    Text = ${SendActivity_B2UUvJ_text()}
+]
+
+# SendActivity_ekGVz7_text()
+- ${dialog.price}
+# SendActivity_ekGVz7()
+[Activity
+    Text = ${SendActivity_ekGVz7_text()}
+]
+
+# TextInput_Prompt_XDzDon()
+
+[Activity
+
+    Attachments = ${json(ButtonList(dialog.text,dialog.ListOption))}
+
+
+    InputHint=منطقتك
+     Summary=${conversation.Summary}
+
+]
+
+# TextInput_Prompt_S4bido()
+
+[Activity
+
+    Attachments = ${json(ButtonList(dialog.text,dialog.ListOption))}
+
+
+    InputHint=منطقتك
+     Summary=${conversation.Summary}
+
+]
+
+# SendActivity_lSk6pJ_text()
+- ${dialog.price}
+# SendActivity_lSk6pJ()
+[Activity
+    Text = ${SendActivity_lSk6pJ_text()}
+]
+
+# SendActivity_BCnVsy_text()
+- ${dialog.price}
+# SendActivity_BCnVsy()
+[Activity
+    Text = ${SendActivity_BCnVsy_text()}
+]
+
+# TextInput_Prompt_Vo63AA()
+
+[Activity
+
+    Attachments = ${json(ButtonList(dialog.text,dialog.ListOption))}
+
+
+    InputHint=منطقتك
+     Summary=${conversation.Summary}
+
+]
+
+# SendActivity_Lj12Wj_text()
+- ${dialog.price}
+# SendActivity_Lj12Wj()
+[Activity
+    Text = ${SendActivity_Lj12Wj_text()}
+]
+
+# SendActivity_x8uw0X_text()
+- ${dialog.price}
+# SendActivity_x8uw0X()
+[Activity
+    Text = ${SendActivity_x8uw0X_text()}
+]
+
+# TextInput_Prompt_v3z0uw()
+
+[Activity
+
+    Attachments = ${json(ButtonList(dialog.text,dialog.ListOption))}
+
+
+    InputHint=منطقتك
+     Summary=${conversation.Summary}
+
+]
+
+# SendActivity_sraxCG_text()
+- ${dialog.price}
+# SendActivity_sraxCG()
+[Activity
+    Text = ${SendActivity_sraxCG_text()}
+]
+
+# SendActivity_ehy9Cu_text()
+- ${dialog.price}
+# SendActivity_ehy9Cu()
+[Activity
+    Text = ${SendActivity_ehy9Cu_text()}
+]
+
+# TextInput_Prompt_MCfpn0()
+
+[Activity
+
+    Attachments = ${json(ButtonList(dialog.text,dialog.ListOption))}
+
+
+    InputHint=منطقتك
+     Summary=${conversation.Summary}
+
+]
+
+# SendActivity_8Gon3e_text()
+- ${dialog.price}
+# SendActivity_8Gon3e()
+[Activity
+    Text = ${SendActivity_8Gon3e_text()}
+]
+
+# SendActivity_mFZora_text()
+- ${dialog.price}
+# SendActivity_mFZora()
+[Activity
+    Text = ${SendActivity_mFZora_text()}
+]
+
+# TextInput_Prompt_P2MRgH()
+[Activity
+
+    Attachments = ${json(ButtonList(dialog.text,dialog.ListOption))}
+
+
+    InputHint=منطقتك
+     Summary=${conversation.Summary}
+
+]
+
+
+# SendActivity_cDivBC_text()
+- ${dialog.price}
+# SendActivity_cDivBC()
+[Activity
+    Text = ${SendActivity_cDivBC_text()}
+]
+
+# SendActivity_emSGLF_text()
+- ${dialog.price}
+# SendActivity_emSGLF()
+[Activity
+    Text = ${SendActivity_emSGLF_text()}
+]
+
+# TextInput_Prompt_tUInJu()
+[Activity
+
+    Attachments = ${json(ButtonList(dialog.text,dialog.ListOption))}
+
+
+    InputHint=منطقتك
+     Summary=${conversation.Summary}
+
+]
+
+
+# SendActivity_3iNExW_text()
+- ${dialog.price}
+# SendActivity_3iNExW()
+[Activity
+    Text = ${SendActivity_3iNExW_text()}
+]
+
+# SendActivity_uzrg1P_text()
+- ${dialog.price}
+# SendActivity_uzrg1P()
+[Activity
+    Text = ${SendActivity_uzrg1P_text()}
+]
+
+# TextInput_Prompt_RSI6CS()
+
+[Activity
+
+    Attachments = ${json(ButtonList(dialog.text,dialog.ListOption))}
+
+
+    InputHint=منطقتك
+     Summary=${conversation.Summary}
+
+]
+
+# SendActivity_MugINf_text()
+- ${dialog.price}
+# SendActivity_MugINf()
+[Activity
+    Text = ${SendActivity_MugINf_text()}
+]
+
+# SendActivity_QtbTUt_text()
+- ${dialog.price}
+# SendActivity_QtbTUt()
+[Activity
+    Text = ${SendActivity_QtbTUt_text()}
+]
+
+# TextInput_Prompt_GsBXw9()
+
+[Activity
+
+    Attachments = ${json(ButtonList(dialog.text,dialog.ListOption))}
+
+
+    InputHint=منطقتك
+     Summary=${conversation.Summary}
+
+]
+
+# SendActivity_QdVpZf_text()
+- ${dialog.price}
+# SendActivity_QdVpZf()
+[Activity
+    Text = ${SendActivity_QdVpZf_text()}
+]
+
+# SendActivity_re5RaI_text()
+- ${dialog.price}
+# SendActivity_re5RaI()
+[Activity
+    Text = ${SendActivity_re5RaI_text()}
+]
+
+# TextInput_Prompt_WmhaVC()
+[Activity
+
+    Attachments = ${json(ButtonList(dialog.text,dialog.ListOption))}
+
+
+    InputHint=منطقتك
+     Summary=${conversation.Summary}
+
+]
+# SendActivity_bqZ5J1_text()
+- ${dialog.price}
+# SendActivity_bqZ5J1()
+[Activity
+    Text = ${SendActivity_bqZ5J1_text()}
+]
+
+# SendActivity_oynIPQ_text()
+- ${dialog.price}
+# SendActivity_oynIPQ()
+[Activity
+    Text = ${SendActivity_oynIPQ_text()}
+]
+
+# TextInput_Prompt_IBu25V()
+
+[Activity
+
+    Attachments = ${json(ButtonList(dialog.text,dialog.ListOption))}
+
+
+    InputHint=منطقتك
+     Summary=${conversation.Summary}
+
+]
+
+# SendActivity_MzkInK_text()
+- ${dialog.price}
+# SendActivity_MzkInK()
+[Activity
+    Text = ${SendActivity_MzkInK_text()}
+]
+
+# SendActivity_aBvpTw_text()
+- ${dialog.price}
+# SendActivity_aBvpTw()
+[Activity
+    Text = ${SendActivity_aBvpTw_text()}
+]
+
+# TextInput_Prompt_ApGsjX()
+[Activity
+
+    Attachments = ${json(ButtonList(dialog.text,dialog.ListOption))}
+
+
+    InputHint=منطقتك
+     Summary=${conversation.Summary}
+
+]
+# TextInput_Prompt_Rb9tle()
+
+[Activity
+
+    Attachments = ${json(ButtonList(dialog.text,dialog.ListOption))}
+
+
+    InputHint=منطقتك
+     Summary=${conversation.Summary}
+
+]
+
+# SendActivity_IOy6jr_text()
+- ${dialog.price}
+# SendActivity_IOy6jr()
+[Activity
+    Text = ${SendActivity_IOy6jr_text()}
+]
+
+# SendActivity_qRLogq_text()
+- ${dialog.price}
+# SendActivity_qRLogq()
+[Activity
+    Text = ${SendActivity_qRLogq_text()}
+]
+
+# TextInput_Prompt_ybafkN()
+
+[Activity
+
+    Attachments = ${json(ButtonList(dialog.text,dialog.ListOption))}
+
+
+    InputHint=منطقتك
+     Summary=${conversation.Summary}
+
+]
+
+# SendActivity_iKhHF3_text()
+- ${dialog.price}
+# SendActivity_iKhHF3()
+[Activity
+    Text = ${SendActivity_iKhHF3_text()}
+]
+
+# SendActivity_UxP14T_text()
+- ${dialog.price}
+# SendActivity_UxP14T()
+[Activity
+    Text = ${SendActivity_UxP14T_text()}
+]

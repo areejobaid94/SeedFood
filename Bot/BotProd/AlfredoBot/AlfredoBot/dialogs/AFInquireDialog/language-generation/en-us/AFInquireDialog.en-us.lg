@@ -1,0 +1,17 @@
+[import](common.lg)
+
+# TextInput_Prompt_pxERgn()
+[Activity
+    Text = ${TextInput_Prompt_pxERgn_text()}
+    SuggestedActions = ${dialog.Button}
+]
+
+# TextInput_Prompt_GUgaIj()
+[Activity
+    Text = ${TextInput_Prompt_GUgaIj_text()}
+]
+
+# TextInput_Prompt_GUgaIj_text()
+- ${dialog.inquiryCaption}
+# TextInput_Prompt_pxERgn_text()
+- ${conversation.InputHint}

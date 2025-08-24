@@ -1,0 +1,445 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "$designer": {
+      "name": "info_seed_bot",
+      "description": "",
+      "id": "Xc7J3K"
+    }
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnConversationUpdateActivity",
+      "$designer": {
+        "id": "376720"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.CancelAllDialogs",
+          "$designer": {
+            "id": "De85qf"
+          },
+          "activityProcessed": true
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "hKxoCn",
+        "name": "welcome"
+      },
+      "intent": "welcome",
+      "actions": [
+        {
+          "$kind": "Microsoft.DeleteProperty",
+          "$designer": {
+            "id": "Y9LJgM"
+          },
+          "property": "conversation.menu"
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "0gE4U2"
+          },
+          "activityProcessed": true,
+          "dialog": "WelcomeDialog"
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnUnknownIntent",
+      "$designer": {
+        "id": "ymMJbx"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "UVErGd"
+          },
+          "activityProcessed": true,
+          "dialog": "WelcomeDialog"
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "gbmXP6",
+        "name": "evaluation"
+      },
+      "intent": "evaluation",
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "5dmlm6"
+          },
+          "assignments": [
+            {
+              "property": "conversation.EvaluationNameModel",
+              "value": "=split(turn.Activity.Locale, ',')"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "YkXFdW"
+          },
+          "assignments": [
+            {
+              "property": "conversation.DisplayName",
+              "value": "${turn.Activity.From.Name}"
+            },
+            {
+              "property": "conversation.phoneNumber",
+              "value": "${turn.Activity.From.Id}"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "0FBncB"
+          },
+          "assignments": [
+            {
+              "property": "conversation.orderIdBot",
+              "value": "${conversation.EvaluationNameModel[0]}"
+            },
+            {
+              "property": "conversation.TenantId",
+              "value": "${conversation.EvaluationNameModel[1]}"
+            },
+            {
+              "property": "conversation.EvaluationText",
+              "value": "${conversation.EvaluationNameModel[2]}"
+            },
+            {
+              "property": "conversation.local",
+              "value": "${conversation.EvaluationNameModel[3]}"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "7ZuayB"
+          },
+          "condition": "conversation.TenantId==\"27\"",
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "LItzDk"
+              },
+              "property": "conversation.URL",
+              "value": "https://infoseedbotapistg.azurewebsites.net"
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "PQSFIw"
+              },
+              "property": "conversation.URL",
+              "value": "https://infoseedbotapi-prod.azurewebsites.net"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "ZToWTp"
+          },
+          "activityProcessed": true,
+          "dialog": "GetCaptionDialog"
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "jFAncL"
+          },
+          "activityProcessed": true,
+          "dialog": "EvaluationDialog"
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "LRkbtH"
+          }
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "vgRcBU"
+          },
+          "assignments": [
+            {
+              "property": "conversation.EvaluationNameModel",
+              "value": "=split(turn.Activity.From.Id, ',')"
+            },
+            {
+              "property": "conversation.orderIdBot",
+              "value": "${conversation.EvaluationNameModel[0]}"
+            },
+            {
+              "property": "conversation.TenantId",
+              "value": "${conversation.EvaluationNameModel[1]}"
+            },
+            {
+              "property": "conversation.phoneNumber",
+              "value": "${conversation.EvaluationNameModel[2]}"
+            },
+            {
+              "property": "conversation.DisplayName",
+              "value": "${conversation.EvaluationNameModel[3]}"
+            },
+            {
+              "property": "conversation.EvaluationText",
+              "value": "${turn.Activity.From.Name}"
+            },
+            {
+              "property": "conversation.local",
+              "value": "ar"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "zexM1b"
+          }
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "417uug"
+          },
+          "assignments": [
+            {
+              "property": "conversation.EvaluationNameModel",
+              "value": "=split(turn.Activity.Speak, ',')"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "9ZIKIJ"
+          },
+          "assignments": [
+            {
+              "property": "conversation.DisplayName",
+              "value": "${turn.Activity.From.Name}"
+            },
+            {
+              "property": "conversation.phoneNumber",
+              "value": "${turn.Activity.From.Id}"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "SE27PU"
+          },
+          "assignments": [
+            {
+              "property": "conversation.orderIdBot",
+              "value": "${conversation.EvaluationNameModel[0]}"
+            },
+            {
+              "property": "conversation.TenantId",
+              "value": "${conversation.EvaluationNameModel[1]}"
+            },
+            {
+              "property": "conversation.EvaluationText",
+              "value": "${conversation.EvaluationNameModel[2]}"
+            },
+            {
+              "property": "conversation.local",
+              "value": "ar"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "5zubj1",
+        "name": "Stop"
+      },
+      "intent": "Stop",
+      "actions": [
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "a0cAEl"
+          },
+          "activityProcessed": true,
+          "dialog": "ClearDialog"
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "l1irPO"
+          },
+          "activityProcessed": true,
+          "dialog": "StartDialog"
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "jj6gTy"
+          },
+          "activityProcessed": true,
+          "dialog": "StopCustomerBehaviorDialog"
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "X1QJQH",
+        "name": "Start"
+      },
+      "intent": "Start",
+      "actions": [
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "CH4Zdm"
+          },
+          "activityProcessed": true,
+          "dialog": "ClearDialog"
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "70GdAD"
+          },
+          "activityProcessed": true,
+          "dialog": "StartDialog"
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "a5Rx1w"
+          },
+          "activityProcessed": true,
+          "dialog": "StartCustomerBehaviorDialog"
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "qH15oV",
+        "name": "StartDialog"
+      },
+      "intent": "StartDialog",
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "k3x9Ij"
+          },
+          "property": "dialog.IsBundleActive",
+          "value": true
+        },
+        {
+          "$kind": "Microsoft.HttpRequest",
+          "$designer": {
+            "id": "22L5h9"
+          },
+          "resultProperty": "dialog.update",
+          "method": "GET",
+          "url": "${conversation.URL}/api/BotAPI/SetBundleActiveInfoseed?TenantId=${conversation.TenantId}&IsBundleActive=${dialog.IsBundleActive}",
+          "responseType": "json"
+        },
+        {
+          "$kind": "Microsoft.CancelAllDialogs",
+          "$designer": {
+            "id": "BWhjOG"
+          },
+          "activityProcessed": true
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "O4qZya",
+        "name": "EndDialig"
+      },
+      "intent": "EndDialig",
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "HWUcKu"
+          },
+          "property": "dialog.IsBundleActive",
+          "value": false
+        },
+        {
+          "$kind": "Microsoft.HttpRequest",
+          "$designer": {
+            "id": "hfca2x"
+          },
+          "resultProperty": "dialog.update",
+          "method": "GET",
+          "url": "${conversation.URL}/api/BotAPI/SetBundleActiveInfoseed?TenantId=${conversation.TenantId}&IsBundleActive=${dialog.IsBundleActive}",
+          "responseType": "json"
+        },
+        {
+          "$kind": "Microsoft.CancelAllDialogs",
+          "$designer": {
+            "id": "xQ8FIM"
+          },
+          "activityProcessed": true
+        }
+      ]
+    }
+  ],
+  "$schema": "https://raw.githubusercontent.com/microsoft/BotFramework-Composer/stable/Composer/packages/server/schemas/sdk.schema",
+  "generator": "info_seed_bot.lg",
+  "id": "info_seed_bot",
+  "recognizer": {
+    "$kind": "Microsoft.RegexRecognizer",
+    "intents": [
+      {
+        "intent": "welcome",
+        "pattern": "#"
+      },
+      {
+        "intent": "evaluation",
+        "pattern": "EvaluationQuestion"
+      },
+      {
+        "intent": "Stop",
+        "pattern": "STOP"
+      },
+      {
+        "intent": "Start",
+        "pattern": "START"
+      },
+      {
+        "intent": "StartDialog",
+        "pattern": "HJSS"
+      },
+      {
+        "intent": "EndDialig",
+        "pattern": "HJSE"
+      }
+    ]
+  }
+}

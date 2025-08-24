@@ -1,0 +1,787 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "XxXwPp",
+    "name": "BaliPharmaPrescriptionDialog",
+    "comment": "وصفة طبية وسعر دواء"
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "IyxhzU"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "9B4IK3"
+          },
+          "condition": "conversation.local",
+          "cases": [
+            {
+              "value": "ar",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "TycSGl"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.option1",
+                      "value": "سعر دواء"
+                    },
+                    {
+                      "property": "dialog.option2",
+                      "value": "وصفة طبية "
+                    },
+                    {
+                      "property": "dialog.choose1",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1225)).text"
+                    },
+                    {
+                      "property": "dialog.choose2",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1226)).text"
+                    },
+                    {
+                      "property": "dialog.price1",
+                      "value": "ارسال صورة"
+                    },
+                    {
+                      "property": "dialog.price2",
+                      "value": "ارسال اسم الدواء"
+                    },
+                    {
+                      "property": "dialog.choose3",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1227)).text"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "en",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "NgYku1"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.option1",
+                      "value": "Price of medicine"
+                    },
+                    {
+                      "property": "dialog.option2",
+                      "value": "prescription"
+                    },
+                    {
+                      "property": "dialog.choose1",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1225)).text"
+                    },
+                    {
+                      "property": "dialog.choose2",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1226)).text"
+                    },
+                    {
+                      "property": "dialog.price1",
+                      "value": "send picture"
+                    },
+                    {
+                      "property": "dialog.price2",
+                      "value": "send drugs name"
+                    },
+                    {
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1227)).text",
+                      "property": "dialog.choose3"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "X3xuQh"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "prompt": "${TextInput_Prompt_X3xuQh()}",
+          "property": "dialog.UserInput",
+          "validations": [
+            "equals(this.value, '#')|| equals(this.value, 'سعر دواء') || equals(this.value, 'وصفة طبية') || equals(this.value, 'Price of medicine') || equals(this.value, 'prescription')"
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "Gp5ywi"
+          },
+          "property": "conversation.menu",
+          "value": "0"
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "9i2iJc"
+          },
+          "activityProcessed": true,
+          "dialog": "BranchesDialog"
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "Mx5Nuo"
+          },
+          "condition": "dialog.UserInput",
+          "cases": [
+            {
+              "value": "Price of medicine",
+              "actions": [
+                {
+                  "$kind": "Microsoft.TextInput",
+                  "$designer": {
+                    "id": "0RfKvT"
+                  },
+                  "disabled": false,
+                  "maxTurnCount": 100,
+                  "alwaysPrompt": false,
+                  "allowInterruptions": true,
+                  "prompt": "${TextInput_Prompt_0RfKvT()}",
+                  "property": "dialog.UserInput2",
+                  "validations": [
+                    "equals(this.value, '#')|| equals(this.value, 'ارسال صورة') || equals(this.value, 'ارسال اسم الدواء') || equals(this.value, 'send picture') || equals(this.value, 'send drugs name')"
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SwitchCondition",
+                  "$designer": {
+                    "id": "HvfocN"
+                  },
+                  "condition": "dialog.UserInput2",
+                  "cases": [
+                    {
+                      "value": "send picture",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "ZwI1AT"
+                          },
+                          "property": "conversation.text",
+                          "value": "=dialog.choose1"
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "oaCg8m"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "BaliPharmaAttachmentDialog"
+                        },
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "HRM6yj"
+                          },
+                          "property": "dialog.text",
+                          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1028)).text"
+                        },
+                        {
+                          "$kind": "Microsoft.SendActivity",
+                          "$designer": {
+                            "id": "eB8xtQ"
+                          },
+                          "activity": "${SendActivity_eB8xtQ()}"
+                        },
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "u4bEtc"
+                          },
+                          "property": "dialog.Info",
+                          "value": "=concat(dialog.UserInput ,\" , \" , conversation.SelectBranch)"
+                        },
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "XFOely"
+                          },
+                          "value": {
+                            "ContactName": "=conversation.DisplayName",
+                            "ContactId": "=conversation.ContactId",
+                            "TenantID": "=conversation.TenantId",
+                            "PhoneNumber": "=conversation.phoneNumber",
+                            "information": "=dialog.Info",
+                            "AttachmetArray": "=conversation.AttachmetArray",
+                            "AreaId": "=conversation.BranchModel.id",
+                            "UserIds": "=conversation.userIds"
+                          },
+                          "property": "dialog.updateOrder"
+                        },
+                        {
+                          "$kind": "Microsoft.HttpRequest",
+                          "$designer": {
+                            "id": "1ewIbM"
+                          },
+                          "resultProperty": "dialog.OrderUpdateFinsh",
+                          "method": "POST",
+                          "url": "${conversation.URL}/api/BotAPI/SendPrescription",
+                          "body": "= dialog.updateOrder",
+                          "headers": {
+                            "accept": "text/plain",
+                            "Content-Type": "application/json-patch+json"
+                          },
+                          "responseType": "json"
+                        },
+                        {
+                          "$kind": "Microsoft.DeleteProperties",
+                          "$designer": {
+                            "id": "14P6Hd"
+                          },
+                          "properties": [
+                            "conversation.SelectBranch",
+                            "conversation.AttachmetArray"
+                          ]
+                        },
+                        {
+                          "$kind": "Microsoft.EndDialog",
+                          "$designer": {
+                            "id": "IoMyXi"
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "value": "send drugs name",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.TextInput",
+                          "$designer": {
+                            "id": "3hXliu"
+                          },
+                          "disabled": false,
+                          "maxTurnCount": 3,
+                          "alwaysPrompt": false,
+                          "allowInterruptions": false,
+                          "prompt": "${TextInput_Prompt_3hXliu()}",
+                          "invalidPrompt": "",
+                          "property": "dialog.UserInputName",
+                          "validations": [
+                            "turn.Activity.Text!=\".\""
+                          ]
+                        },
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "gQnmHq"
+                          },
+                          "property": "dialog.text",
+                          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1028)).text"
+                        },
+                        {
+                          "$kind": "Microsoft.SendActivity",
+                          "$designer": {
+                            "id": "BpCgaT"
+                          },
+                          "activity": "${SendActivity_BpCgaT()}"
+                        },
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "r8KhZB"
+                          },
+                          "property": "dialog.Info",
+                          "value": "=concat(conversation.SelectBranch , \" - \" , \" ( \" ,dialog.UserInput ,\" : \",dialog.UserInputName , \" )\")"
+                        },
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "Y3AkkU"
+                          },
+                          "value": {
+                            "ContactName": "=conversation.DisplayName",
+                            "ContactId": "=conversation.ContactId",
+                            "TenantID": "=conversation.TenantId",
+                            "PhoneNumber": "=conversation.phoneNumber",
+                            "information": "=dialog.Info",
+                            "AreaId": "=conversation.BranchModel.id",
+                            "UserIds": "=conversation.userIds"
+                          },
+                          "property": "dialog.updateOrder"
+                        },
+                        {
+                          "$kind": "Microsoft.HttpRequest",
+                          "$designer": {
+                            "id": "kxyaau"
+                          },
+                          "resultProperty": "dialog.OrderUpdateFinsh",
+                          "method": "POST",
+                          "url": "${conversation.URL}/api/BotAPI/SendPrescription",
+                          "body": "= dialog.updateOrder",
+                          "headers": {
+                            "accept": "text/plain",
+                            "Content-Type": "application/json-patch+json"
+                          },
+                          "responseType": "json"
+                        },
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "jAAPG1"
+                          },
+                          "property": "dialog.text",
+                          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1028)).text"
+                        },
+                        {
+                          "$kind": "Microsoft.EndDialog",
+                          "$designer": {
+                            "id": "etTNK7"
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "kNxMwn"
+                  },
+                  "activity": "${SendActivity_kNxMwn()}"
+                }
+              ]
+            },
+            {
+              "value": "prescription",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "KXpx9X"
+                  },
+                  "property": "conversation.text",
+                  "value": "=dialog.choose2"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "JPRBBt"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "BaliPharmaAttachmentDialog"
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "22fbzy"
+                  },
+                  "property": "dialog.Info",
+                  "value": "=concat(dialog.UserInput,\",\", conversation.SelectBranch)"
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "HEebJz"
+                  },
+                  "value": {
+                    "ContactName": "=conversation.DisplayName",
+                    "ContactId": "=conversation.ContactId",
+                    "TenantID": "=conversation.TenantId",
+                    "PhoneNumber": "=conversation.phoneNumber",
+                    "information": "=dialog.Info",
+                    "AttachmetArray": "=conversation.AttachmetArray",
+                    "AreaId": "=conversation.BranchModel.id",
+                    "UserIds": "=conversation.userIds"
+                  },
+                  "property": "dialog.updateOrder"
+                },
+                {
+                  "$kind": "Microsoft.HttpRequest",
+                  "$designer": {
+                    "id": "0BpHkD"
+                  },
+                  "resultProperty": "dialog.OrderUpdateFinsh",
+                  "method": "POST",
+                  "url": "${conversation.URL}/api/BotAPI/SendPrescription",
+                  "body": "= dialog.updateOrder",
+                  "headers": {
+                    "accept": "text/plain",
+                    "Content-Type": "application/json-patch+json"
+                  },
+                  "responseType": "json"
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "CtmhCM"
+                  },
+                  "property": "dialog.text",
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1028)).text"
+                },
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "u1WBC8"
+                  },
+                  "activity": "${SendActivity_u1WBC8()}"
+                },
+                {
+                  "$kind": "Microsoft.DeleteProperties",
+                  "$designer": {
+                    "id": "kBZrwG"
+                  },
+                  "properties": [
+                    "conversation.SelectBranch",
+                    "conversation.AttachmetArray"
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.EndDialog",
+                  "$designer": {
+                    "id": "6QypuO"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "8RxrOM"
+          },
+          "condition": "dialog.UserInput",
+          "cases": [
+            {
+              "value": "سعر دواء",
+              "actions": [
+                {
+                  "$kind": "Microsoft.TextInput",
+                  "$designer": {
+                    "id": "M2wYzc"
+                  },
+                  "disabled": false,
+                  "maxTurnCount": 3,
+                  "alwaysPrompt": false,
+                  "allowInterruptions": false,
+                  "invalidPrompt": "",
+                  "prompt": "${TextInput_Prompt_M2wYzc()}",
+                  "property": "dialog.UserInput2",
+                  "validations": [
+                    "equals(this.value, '#')|| equals(this.value, 'ارسال صورة') || equals(this.value, 'ارسال اسم الدواء') || equals(this.value, 'send picture') || equals(this.value, 'send drugs name')"
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SwitchCondition",
+                  "$designer": {
+                    "id": "aq4N0w"
+                  },
+                  "condition": "dialog.UserInput2",
+                  "cases": [
+                    {
+                      "value": "ارسال صورة",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "D3nBK7"
+                          },
+                          "property": "conversation.text",
+                          "value": "=dialog.choose1"
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "sylIRS"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "BaliPharmaAttachmentDialog"
+                        },
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "LKwdPA"
+                          },
+                          "property": "dialog.text",
+                          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1028)).text"
+                        },
+                        {
+                          "$kind": "Microsoft.SendActivity",
+                          "$designer": {
+                            "id": "09KnJ8"
+                          },
+                          "activity": "${SendActivity_09KnJ8()}"
+                        },
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "hkLnvd"
+                          },
+                          "property": "dialog.Info",
+                          "value": "=concat(dialog.UserInput,\",\", conversation.SelectBranch)"
+                        },
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "XZXybR"
+                          },
+                          "value": {
+                            "ContactName": "=conversation.DisplayName",
+                            "ContactId": "=conversation.ContactId",
+                            "TenantID": "=conversation.TenantId",
+                            "PhoneNumber": "=conversation.phoneNumber",
+                            "information": "=dialog.Info",
+                            "AttachmetArray": "=conversation.AttachmetArray",
+                            "AreaId": "=conversation.BranchModel.id",
+                            "UserIds": "=conversation.userIds"
+                          },
+                          "property": "dialog.updateOrder"
+                        },
+                        {
+                          "$kind": "Microsoft.HttpRequest",
+                          "$designer": {
+                            "id": "yKyl5B"
+                          },
+                          "resultProperty": "dialog.OrderUpdateFinsh",
+                          "method": "POST",
+                          "url": "${conversation.URL}/api/BotAPI/SendPrescription",
+                          "body": "= dialog.updateOrder",
+                          "headers": {
+                            "accept": "text/plain",
+                            "Content-Type": "application/json-patch+json"
+                          },
+                          "responseType": "json"
+                        },
+                        {
+                          "$kind": "Microsoft.DeleteProperties",
+                          "$designer": {
+                            "id": "7HOYZA"
+                          },
+                          "properties": [
+                            "conversation.SelectBranch",
+                            "conversation.AttachmetArray"
+                          ]
+                        },
+                        {
+                          "$kind": "Microsoft.EndDialog",
+                          "$designer": {
+                            "id": "nWhL44"
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "value": "ارسال اسم الدواء",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.TextInput",
+                          "$designer": {
+                            "id": "uXqMQg"
+                          },
+                          "disabled": false,
+                          "maxTurnCount": 3,
+                          "alwaysPrompt": false,
+                          "allowInterruptions": false,
+                          "prompt": "${TextInput_Prompt_uXqMQg()}",
+                          "unrecognizedPrompt": "",
+                          "invalidPrompt": "",
+                          "property": "dialog.UserInputName",
+                          "validations": [
+                            "turn.Activity.Text!=\".\""
+                          ]
+                        },
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "mH2W30"
+                          },
+                          "property": "dialog.text",
+                          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1028)).text"
+                        },
+                        {
+                          "$kind": "Microsoft.SendActivity",
+                          "$designer": {
+                            "id": "5j4W01"
+                          },
+                          "activity": "${SendActivity_5j4W01()}"
+                        },
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "AvUZIc"
+                          },
+                          "property": "dialog.Info",
+                          "value": "=concat(conversation.SelectBranch , \" - \" , \" ( \" ,dialog.UserInput ,\" : \",dialog.UserInputName , \" )\")"
+                        },
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "8bEvsJ"
+                          },
+                          "value": {
+                            "ContactName": "=conversation.DisplayName",
+                            "ContactId": "=conversation.ContactId",
+                            "TenantID": "=conversation.TenantId",
+                            "PhoneNumber": "=conversation.phoneNumber",
+                            "information": "=dialog.Info",
+                            "AreaId": "=conversation.BranchModel.id",
+                            "UserIds": "=conversation.userIds"
+                          },
+                          "property": "dialog.updateOrder"
+                        },
+                        {
+                          "$kind": "Microsoft.HttpRequest",
+                          "$designer": {
+                            "id": "haynXS"
+                          },
+                          "resultProperty": "dialog.OrderUpdateFinsh",
+                          "method": "POST",
+                          "url": "${conversation.URL}/api/BotAPI/SendPrescription",
+                          "body": "= dialog.updateOrder",
+                          "headers": {
+                            "accept": "text/plain",
+                            "Content-Type": "application/json-patch+json"
+                          },
+                          "responseType": "json"
+                        },
+                        {
+                          "$kind": "Microsoft.DeleteProperties",
+                          "$designer": {
+                            "id": "ZDFMBE"
+                          },
+                          "properties": [
+                            "conversation.SelectBranch",
+                            "conversation.AttachmetArray"
+                          ]
+                        },
+                        {
+                          "$kind": "Microsoft.EndDialog",
+                          "$designer": {
+                            "id": "4xJFiT"
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "وصفة طبية",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "4ljHX6"
+                  },
+                  "property": "conversation.text",
+                  "value": "=dialog.choose2"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "n6bJ2v"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "BaliPharmaAttachmentDialog"
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "Uts6hI"
+                  },
+                  "property": "dialog.Info",
+                  "value": "=concat(dialog.UserInput,\",\", conversation.SelectBranch)"
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "YLqt8I"
+                  },
+                  "value": {
+                    "ContactName": "=conversation.DisplayName",
+                    "ContactId": "=conversation.ContactId",
+                    "TenantID": "=conversation.TenantId",
+                    "PhoneNumber": "=conversation.phoneNumber",
+                    "information": "=dialog.Info",
+                    "AttachmetArray": "=conversation.AttachmetArray",
+                    "AreaId": "=conversation.BranchModel.id",
+                    "UserIds": "=conversation.userIds"
+                  },
+                  "property": "dialog.updateOrder"
+                },
+                {
+                  "$kind": "Microsoft.HttpRequest",
+                  "$designer": {
+                    "id": "FH0fre"
+                  },
+                  "resultProperty": "dialog.OrderUpdateFinsh",
+                  "method": "POST",
+                  "url": "${conversation.URL}/api/BotAPI/SendPrescription",
+                  "body": "= dialog.updateOrder",
+                  "headers": {
+                    "accept": "text/plain",
+                    "Content-Type": "application/json-patch+json"
+                  },
+                  "responseType": "json"
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "y2TryZ"
+                  },
+                  "property": "dialog.text",
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1028)).text"
+                },
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "uboX6n"
+                  },
+                  "activity": "${SendActivity_uboX6n()}"
+                },
+                {
+                  "$kind": "Microsoft.DeleteProperties",
+                  "$designer": {
+                    "id": "MGmdmC"
+                  },
+                  "properties": [
+                    "conversation.SelectBranch",
+                    "conversation.AttachmetArray"
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.EndDialog",
+                  "$designer": {
+                    "id": "2hhNuc"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "UFt8Ev"
+          },
+          "activity": "${SendActivity_UFt8Ev()}"
+        }
+      ]
+    }
+  ],
+  "generator": "BaliPharmaPrescriptionDialog.lg",
+  "recognizer": "BaliPharmaPrescriptionDialog.lu.qna",
+  "id": "BaliPharmaPrescriptionDialog"
+}

@@ -1,0 +1,336 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "KTvwaP",
+    "name": "JoPetrolDateDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "F0W9No"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "8GmZWm"
+          },
+          "assignments": [
+            {
+              "property": "dialog.DateCaption",
+              "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 24)).text"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.HttpRequest",
+          "$designer": {
+            "id": "59hVeH"
+          },
+          "resultProperty": "dialog.ListFuel",
+          "method": "GET",
+          "url": "${conversation.URL}/api/BotAPI/GetNineDay",
+          "responseType": "json"
+        },
+        {
+          "$kind": "Microsoft.DeleteProperty",
+          "$designer": {
+            "id": "XZlmfW"
+          },
+          "property": "dialog.UserDate"
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "V2Rvc3"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "unrecognizedPrompt": "",
+          "invalidPrompt": "",
+          "prompt": "${TextInput_Prompt_V2Rvc3()}",
+          "property": "dialog.UserDate"
+        },
+        {
+          "$kind": "Microsoft.Foreach",
+          "$designer": {
+            "id": "MB5wT5"
+          },
+          "index": "dialog.foreach.index",
+          "value": "dialog.foreach.value",
+          "itemsProperty": "dialog.ListFuel.content.result",
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "2k1xOb"
+              },
+              "property": "dialog.foreach.value",
+              "value": "=dialog.foreach.value"
+            },
+            {
+              "$kind": "Microsoft.EditArray",
+              "$designer": {
+                "id": "tCMSn8"
+              },
+              "changeType": "push",
+              "itemsProperty": "dialog.list",
+              "value": "=dialog.foreach.value"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "DBju3G"
+          },
+          "elseActions": [
+            {
+              "$kind": "Microsoft.RepeatDialog",
+              "$designer": {
+                "id": "NJFosi"
+              },
+              "activityProcessed": true
+            }
+          ],
+          "condition": "=contains(dialog.list,dialog.UserDate) || contains(dialog.UserDate, '#')"
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "TkUtr3"
+          },
+          "condition": "dialog.UserDate",
+          "cases": [
+            {
+              "value": "إدخال التاريخ يدوياً",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "O6DyHO"
+                  },
+                  "property": "conversation.DateCc",
+                  "value": "${dialog.DateCaption}"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "aOOaMk"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "JoPetrolCheckDate"
+                }
+              ]
+            }
+          ],
+          "default": [
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "uLcSqh"
+              },
+              "property": "conversation.RequestValue5",
+              "value": "${dialog.DateCaption}: ${dialog.UserDate}"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "Lwr3Ss"
+          },
+          "property": "dialog.LocationCaption",
+          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 25)).text"
+        },
+        {
+          "$kind": "Microsoft.DeleteProperty",
+          "$designer": {
+            "id": "jZhygJ"
+          },
+          "property": "dialog.UserLocation"
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "U6qM9A"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "prompt": "${TextInput_Prompt_U6qM9A()}",
+          "unrecognizedPrompt": "",
+          "invalidPrompt": "",
+          "property": "dialog.UserLocation",
+          "validations": [
+            "lessOrEquals(length(this.value), 150)&&(not(equals(this.value, '.')) || equals(this.value, '#'))"
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "w8UTDL"
+          },
+          "property": "conversation.RequestValue6before",
+          "value": "${dialog.UserLocation}"
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "dCA9oh"
+          },
+          "property": "conversation.RequestValue6",
+          "value": "=replace(conversation.RequestValue6before, ', ', 'Is_Location')"
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "bEZ68D"
+          },
+          "property": "dialog.locCaption",
+          "value": "الموقع"
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "ZUl2x2"
+          },
+          "property": "conversation.RequestValue6",
+          "value": "${dialog.locCaption}${conversation.RequestValue6}"
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "SIctMI"
+          },
+          "property": "dialog.PaymentCaption",
+          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 26)).text"
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "801ZJu"
+          },
+          "assignments": [
+            {
+              "property": "dialog.Option1",
+              "value": "eFawateercom"
+            },
+            {
+              "property": "dialog.Option2",
+              "value": "فيزا"
+            },
+            {
+              "property": "dialog.Option3",
+              "value": "نقدي"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.DeleteProperty",
+          "$designer": {
+            "id": "ICWTMN"
+          },
+          "property": "dialog.UserPayment"
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "oBEcjg"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "prompt": "${TextInput_Prompt_oBEcjg()}",
+          "unrecognizedPrompt": "",
+          "invalidPrompt": "",
+          "property": "dialog.UserPayment",
+          "validations": [
+            "equals(this.value, 'eFawateercom') || equals(this.value, 'فيزا') || equals(this.value, 'نقدي') || equals(this.value, '#')"
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "Dh5p9M"
+          },
+          "property": "conversation.RequestValue7",
+          "value": "${dialog.PaymentCaption}: ${dialog.UserPayment}"
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "p3cl2y"
+          },
+          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 27)).text",
+          "property": "dialog.FinalCaption"
+        },
+        {
+          "$kind": "Microsoft.DeleteProperty",
+          "$designer": {
+            "id": "STE2JN"
+          },
+          "property": "dialog.Select"
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "15Zkql"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "prompt": "${TextInput_Prompt_15Zkql()}",
+          "property": "dialog.Select",
+          "validations": [
+            "lessOrEquals(length(this.value), 150)"
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "vaUGDs"
+          },
+          "property": "conversation.RequestValue8",
+          "value": "${dialog.FinalCaption}: ${dialog.Select}"
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "rO69tO"
+          }
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "FrDGcP"
+          },
+          "property": "conversation.RequestValue6before",
+          "value": "${dialog.UserLocation}"
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "8bL1w8"
+          },
+          "property": "conversation.RequestValue6",
+          "value": "=replace(conversation.RequestValue6before, ', ', '--')"
+        }
+      ]
+    }
+  ],
+  "generator": "JoPetrolDateDialog.lg",
+  "recognizer": "JoPetrolDateDialog.lu.qna",
+  "id": "JoPetrolDateDialog"
+}

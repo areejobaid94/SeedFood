@@ -1,0 +1,317 @@
+﻿<div [@routerTransition]>
+    <div class=""
+        [ngClass]="darkModeService.currentSkin === 'dark' ? 'header-navbar-shadow-dark' : 'header-navbar-shadow'"></div>
+    <div class="content-wrapper container-xxl p-0">
+        <div class="content-body">
+            <div class=" d-flex flex-column flex-column-fluid">
+                <sub-header *ngIf="theme != 'theme12'" [title]="'Update Item' | localize"
+                    [description]="'Update Item Header Info' | localize">
+                    <div role="actions">
+                    </div>
+                </sub-header>
+                <sub-header *ngIf="theme === 'theme12'" [title]="'Update Item' | localize"
+                    [description]="'Update Item Header Info' | localize"> </sub-header>
+
+
+                <div [ngClass]="theme != 'theme12' ? 'container' : ''">
+                    <div class=" card-custom gutter-b"
+                        [ngClass]="darkModeService.currentSkin === 'dark' ? 'dark-card' : 'card'">
+                        <div class="card-body p-2">
+
+                            <div class="row" class="message-loader" *ngIf="showMessageLoader"
+                                style=" width: 100%;  height: 200px; ">
+                                <div id="startup">
+                                    <svg class="spinner-container" width="65px" height="65px" viewBox="0 0 52 52"
+                                        style="width: 170px; height: 170px;">
+                                        <circle class="path" cx="26px" cy="26px" r="20px" fill="none"
+                                            stroke-width="4px" />
+                                    </svg>
+                                </div>
+                            </div>
+
+
+                            <div class="row">
+                                <div class="col-12 col-lg-6">
+
+                                    <div class="form-group" name="" role="form">
+                                        <label for="file">Choose File</label>
+                                        <input type="file" id="file"
+                                            [ngClass]="darkModeService.currentSkin === 'dark' ? 'form-control-dark ' : 'form-control'"
+                                            name="AttachmentId" (change)="handleFileInput($event)" />
+
+                                    </div>
+
+                                    <button *ngIf="fileToUpload" (click)="uploadFileToActivity()"
+                                        [ngClass]="theme != 'theme12'? 'btn-primary': 'btn-primary-info' "
+                                        class="mt-1 btn"><i class="fa fa-plus"></i> {{l("Upload File")}}</button>
+
+
+                                    <div class="m-checkbox-list mt-1">
+                                        <label for="isReplec" class="kt-checkbox">
+                                            <input id="isReplec" #hasSubDistrict="ngModel" type="checkbox"
+                                                name="isReplec" [(ngModel)]="isReplec">
+                                            {{l("Replace Items")}}
+                                            <span></span>
+                                        </label>
+                                    </div>
+
+
+
+                                </div>
+
+                                <div class="col-12 col-lg-6">
+
+                                    <div class="form-group" name="" role="form">
+                                        <label for="file">Choose File</label>
+                                        <input type="file" id="file2"
+                                            [ngClass]="darkModeService.currentSkin === 'dark' ? 'form-control-dark ' : 'form-control'"
+                                            name="AttachmentId2" (change)="handleFileInput2($event)" multiple />
+
+                                    </div>
+
+
+                                    <button *ngIf="fileToUpload2" (click)="uploadFileToActivity2()"
+                                        [ngClass]="theme != 'theme12'? 'btn-primary': 'btn-primary-info' "
+                                        class="mt-1 btn"><i class="fa fa-plus"></i> {{l("Upload Image")}}</button>
+
+
+                                    <button (click)="syncImage()"
+                                        [ngClass]="theme != 'theme12'? 'btn-primary': 'btn-primary-info' "
+                                        class="mt-1 btn"><i class="fas fa-sync-alt"></i> {{l("Sync Image")}}</button>
+
+                                    <div class="m-checkbox-list mt-1">
+                                        <label for="isRepleceImage" class="kt-checkbox">
+                                            <input id="isRepleceImage" #hasSubDistrict="ngModel" type="checkbox"
+                                                name="isRepleceImage" [(ngModel)]="isRepleceImage">
+                                            {{l("Replace Image")}}
+                                            <span></span>
+                                        </label>
+                                    </div>
+
+                                </div>
+                            </div>
+
+
+                            <div class="row mt-2">
+                                <div class="col text-center" *ngIf="selectsubcatgory">
+                                    <h2>Select Sub Category</h2>
+                                    <div
+                                        style="padding: 7px;font-size: large;border: 2px solid #f42020; border-radius:25px ;color: #000;color: var(--font-color);">
+                                        {{selectsubcatgory.categoryName}}
+                                    </div>
+                                </div>
+
+                                <div class="col  text-center" *ngIf="selectcatgory">
+                                    <h2> Select Category</h2>
+                                    <div
+                                        style="padding: 7px;font-size: large;border: 2px solid #f42020; border-radius:25px ;color: #000;color: var(--font-color);">
+                                        {{selectcatgory.categoryName}}
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <div class="row align-items-center mt-2">
+
+                                <!-- <h3>Category</h3>  -->
+                                <div *ngIf="theme != 'theme12'" class="row"
+                                    style="font-weight: bold;font-size: 15px;direction: rtl;align-items: center;border-radius: 0.85rem;margin: 7px;border: solid;width: 100%;">
+
+                                    <div *ngFor="let record of catgory; let index=index" style="direction: rtl;">
+
+                                        <div id="x-{{index}}">
+                                            <button (click)="selectCategory(record)" class="btn btn-outline-danger"
+                                                style="margin: 12px;">
+
+                                                {{record.categoryName}}
+                                            </button>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+
+                                <div *ngIf="theme === 'theme12'" class="row"
+                                    style="font-weight: bold;font-size: 15px;direction: rtl;align-items: center;border-radius: 0.85rem;margin: 7px;border: solid;width: 100%;">
+
+                                    <span class="d-contents" *ngFor="let record of catgory; let index=index"
+                                        style="direction: rtl;">
+
+                                        <span id="x-{{index}}">
+                                            <button (click)="selectCategory(record)" class="btn btn-outline-danger"
+                                                style="margin: 12px;">
+                                                {{record.categoryName}}
+                                            </button>
+                                        </span>
+
+
+                                    </span>
+                                </div>
+
+                            </div>
+
+                            <div class="row align-items-center">
+                                <!-- <h3>Sub Category</h3>  -->
+                                <div *ngIf="theme != 'theme12'" class="row"
+                                    style="height: 160px;font-weight: bold;font-size: 15px;direction: rtl;align-items: center;border-radius: 0.85rem;margin: 7px;border: solid;width: 100%;">
+
+                                    <div *ngFor="let record of subcatgory; let index=index" style="direction: rtl;">
+
+
+                                        <div id="y-{{index}}">
+                                            <button (click)="selectSubCategory(record)" class="btn btn-outline-success"
+                                                style="margin: 12px;">
+
+                                                {{record.categoryName}}
+                                            </button>
+                                        </div>
+
+
+
+
+                                    </div>
+                                </div>
+                                <div *ngIf="theme === 'theme12'" class="row"
+                                    style="font-weight: bold;font-size: 15px;direction: rtl;align-items: center;border-radius: 0.85rem;margin: 7px;border: solid;width: 100%;">
+
+                                    <span class="d-contents" *ngFor="let record of subcatgory; let index=index"
+                                        style="direction: rtl;">
+
+
+                                        <span id="y-{{index}}">
+                                            <button (click)="selectSubCategory(record)" class="btn btn-outline-success"
+                                                style="margin: 12px;">
+
+                                                {{record.categoryName}}
+                                            </button>
+                                        </span>
+
+
+
+
+                                    </span>
+                                </div>
+
+
+
+                            </div>
+
+
+                            <div class="row align-items-center">
+                                <!-- <h3>Sub Category</h3>  -->
+                                <div class="row"   (scroll)="onScroll2()" #scrollItems id="ItemsDiv" *ngIf="theme != 'theme12'" 
+                                style="overflow: auto;height:300px;padding: 15px;font-weight: bold;font-size: 15px;direction: rtl;align-items: center;border-radius: 0.85rem;margin: 7px;border: solid;width: 100%;">
+                                    <div class="row w-100">
+                                        <div class="col-md-8 col-12 p-0">
+                                            <div class="d-flex ml-1 align-items-center pr-1 pb-1 pl-1 pl-md-0 pb-md-0 ">
+                                                <input
+                                                    [(ngModel)]="searchItem"
+                                                    (change)="getItemtSubCategory()"
+                                                    name="filterText"
+                                                    autoFocus
+                                                    class=" m-input"
+                                                    [ngClass]="darkModeService.currentSkin === 'dark' ? 'form-control-dark ' : 'form-control'"
+        
+                                                    placeholder="Search Item ..."
+                                                    type="text"
+                                                />
+                                                <button (click)="getItemtSubCategory()" class="search-btn btn btn-primary-info" type="button"><i class="flaticon-search-1"></i></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <span *ngFor="let record of items; let index=index"
+                                        style="direction: rtl; margin: 25px; width: 210; font-family: system-ui;">
+
+
+                                        <div id="z-{{index}}">
+
+
+
+                                            <div style="text-align: center;">
+                                                <div class="row">
+                                                    <button (click)="createOrEditctownModal.show(record)"
+                                                        style="text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;background: url({{record.imageUri}}) ; width: 140px ; margin: 12px ; height: 163px ; background-size: cover;display: inline-flex; align-items: flex-end; "
+                                                        type="button" class="btn btn-outline-success"><label
+                                                            style="color: #6cff7e;font-size: 16px;">{{record.itemName}}</label></button>
+                                                </div>
+
+
+                                            </div>
+
+                                        </div>
+
+
+
+
+                                    </span>
+                                </div>
+
+
+                                <div    
+                                   style="overflow: auto;height:300px;padding: 15px;font-weight: bold;font-size: 15px;direction: rtl;align-items: center;border-radius: 0.85rem;margin: 7px;border: solid;width: 100%;"
+                                (scroll)="onScroll2()" #scrollItems id="ItemsDiv" class="d-contents" *ngIf="theme === 'theme12'" class="row"
+                                   >
+                                   <div class="row">
+                                    <div class="col-md-8 col-12 p-0">
+                                        <div class="d-flex ml-1 align-items-center pr-1 pb-1 pl-1 pl-md-0 pb-md-0 ">
+                                            <input
+                                                [(ngModel)]="searchItem"
+                                                (change)="getItemtSubCategory()"
+                                                name="filterText"
+                                                autoFocus
+                                                class=" m-input"
+                                                [ngClass]="darkModeService.currentSkin === 'dark' ? 'form-control-dark ' : 'form-control'"
+    
+                                                placeholder="Search Item ..."
+                                                type="text"
+                                            />
+                                            <button (click)="getItemtSubCategory()" class="search-btn btn btn-primary-info" type="button"><i class="flaticon-search-1"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                    <span class="d-contents" *ngFor="let record of items; let index=index"
+                                        style="direction: rtl; margin: 25px; width: 210; font-family: system-ui;">
+
+
+                                        <span id="z-{{index}}">
+
+
+
+                                            <div style="text-align: center;">
+                                                <div class="row">
+                                                    <button (click)="createOrEditctownModal.show(record)"
+                                                        style="text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;background: url({{record.imageUri}}) ; width: 140px ; margin: 12px ; height: 163px ; background-size: cover;display: inline-flex; align-items: flex-end; "
+                                                        type="button" class="btn btn-outline-success"><label
+                                                            style="color: #6cff7e;font-size: 16px;">{{record.itemName}}</label></button>
+                                                </div>
+
+
+                                            </div>
+
+                                        </span>
+
+
+
+
+                                    </span>
+                                </div>
+
+
+
+                            </div>
+
+
+
+
+                        </div>
+                    </div>
+                </div>
+                <createOrEditctownModal #createOrEditctownModal (modalSave)="UpdateItems()"></createOrEditctownModal>
+                <!-- <viewBookingModal #viewBookingModal></viewBookingModal> -->
+
+            </div>
+        </div>
+    </div>
+</div>

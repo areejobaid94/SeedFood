@@ -1,0 +1,51 @@
+<div bsModal #assignusersmodal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="assignToUsers" aria-hidden="true" [config]="{ backdrop: 'static' }">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content" style="border-radius: 16px; padding: 0px">
+            <form #userForm="ngForm" novalidate (ngSubmit)="assignUsers()">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <span>{{ "assign ticket " | localize }}</span>
+                        <span>{{ticketId}} </span>
+                        <span>{{ "to user/users " | localize }}</span>
+                    </h4>
+                    <button *ngIf="theme != 'theme12'" type="button" class="close" (click)="close()" [attr.aria-label]="l('Close')" style="right: 0">
+                        <i aria-hidden="true" class="ki ki-close"></i>
+                    </button>
+                    <button
+                        *ngIf="theme === 'theme12'"
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"
+                        (click)="close()"
+                        aria-label="Close"
+                        style="right: 0"
+                    ></button>
+                </div>
+                <div class="modal-body">
+                    <div class="list-container">
+                        <div *ngFor="let user of selectedUsersToAssign; let i = index">
+                            <label class="custom-checkbox">
+                                <input
+                                    [ngModelOptions]="{ standalone: true }"
+                                    type="checkbox"
+                                    [checked]="user.isActive"
+                                    (change)="onCheckboxChange(user)"
+                                />
+                                <span class="checkmark"></span>
+                                {{ user.fullName }}
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer" style="min-height: 50px">
+                    <div class="">
+                        <button [disabled]="!isModified" style="background-color: #009789 !important" [busyText]="l('SavingWithThreeDot')" type="button" class="btn btn-secondary" (click)="assignUsers()">
+                            {{ l("Submit") }}
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

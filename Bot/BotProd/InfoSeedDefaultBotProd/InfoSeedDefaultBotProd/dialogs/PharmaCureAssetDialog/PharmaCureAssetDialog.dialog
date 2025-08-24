@@ -1,0 +1,624 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "6MQ7r2",
+    "name": "PharmaCureAssetDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "wWwoFD"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "fKouyq"
+          },
+          "condition": "conversation.local",
+          "cases": [
+            {
+              "value": "ar",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "ffjd8B"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.option1",
+                      "value": "منتجات الشعر"
+                    },
+                    {
+                      "property": "dialog.option2",
+                      "value": "منتجات البشرة"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "XEvhO0"
+                  },
+                  "value": "الرجاء الاختيار",
+                  "property": "dialog.text"
+                }
+              ]
+            },
+            {
+              "value": "en",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "9RHI8A"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.option1",
+                      "value": "Hair Products"
+                    },
+                    {
+                      "property": "dialog.option2",
+                      "value": "Skin Products"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "K4m8R1"
+                  },
+                  "value": "Please choose",
+                  "property": "dialog.text"
+                }
+              ]
+            }
+          ],
+          "default": [
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "PtKOnf"
+              },
+              "assignments": [
+                {
+                  "property": "dialog.option1",
+                  "value": "منتجات الشعر"
+                },
+                {
+                  "property": "dialog.option2",
+                  "value": "منتجات البشرة"
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "fZtM68"
+              },
+              "value": "الرجاء الاختيار",
+              "property": "dialog.text"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "qjoTGB"
+          },
+          "property": "conversation.StepBack",
+          "value": "1"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "BL57nP"
+          },
+          "condition": "conversation.StepBack==\"1\"",
+          "actions": [
+            {
+              "$kind": "Microsoft.DeleteProperty",
+              "$designer": {
+                "id": "ZT75qR"
+              },
+              "property": "conversation.userSelect"
+            },
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "pvajED"
+              },
+              "assignments": [
+                {
+                  "property": "conversation.stepId",
+                  "value": "1"
+                },
+                {
+                  "property": "conversation.select",
+                  "value": "=dialog.text"
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "sj2sQA"
+              },
+              "activityProcessed": true,
+              "dialog": "AssetDialog"
+            },
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "b2rBIQ"
+              },
+              "condition": "conversation.isNullList",
+              "actions": [
+                {
+                  "$kind": "Microsoft.EndDialog",
+                  "$designer": {
+                    "id": "9lT5vZ"
+                  }
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "PdITc7"
+              },
+              "condition": "conversation.DepartmentName ==\"#\"",
+              "actions": [
+                {
+                  "$kind": "Microsoft.EndDialog",
+                  "$designer": {
+                    "id": "xgEYs3"
+                  }
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "tGaNll"
+              },
+              "assignments": [
+                {
+                  "property": "conversation.StepBack",
+                  "value": "2"
+                },
+                {
+                  "property": "conversation.LevelOneId",
+                  "value": "=conversation.userSelect"
+                },
+                {
+                  "property": "conversation.Department1",
+                  "value": "=conversation.DepartmentName"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "sSJyfR"
+          },
+          "condition": "conversation.StepBack==\"2\"",
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "vKwTjD"
+              },
+              "assignments": [
+                {
+                  "property": "conversation.stepId",
+                  "value": "2"
+                },
+                {
+                  "property": "conversation.select",
+                  "value": "=dialog.text"
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "rP3AKO"
+              },
+              "activityProcessed": true,
+              "dialog": "AssetDialog"
+            },
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "81juYx"
+              },
+              "condition": "conversation.isNullList",
+              "actions": [
+                {
+                  "$kind": "Microsoft.EndDialog",
+                  "$designer": {
+                    "id": "O9VHMY"
+                  }
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "VTDcyP"
+              },
+              "condition": "conversation.DepartmentName ==\"#\"",
+              "actions": [
+                {
+                  "$kind": "Microsoft.EndDialog",
+                  "$designer": {
+                    "id": "1ZdhQR"
+                  }
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "QYI3YB"
+              },
+              "assignments": [
+                {
+                  "property": "conversation.StepBack",
+                  "value": "2"
+                },
+                {
+                  "property": "conversation.LevelTowId",
+                  "value": "=conversation.userSelect"
+                },
+                {
+                  "property": "conversation.Department2",
+                  "value": "=conversation.DepartmentName"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "53FV3K"
+          }
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "mGtjmM"
+          },
+          "condition": "conversation.DepartmentName ==\"تجميل\" ||  cconversation.DepartmentName ==\"Beautifying\"",
+          "actions": [],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.EndDialog",
+              "$designer": {
+                "id": "CWiamU"
+              }
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "WOCg7E"
+          },
+          "condition": "conversation.StepBack==\"2\"",
+          "actions": [
+            {
+              "$kind": "Microsoft.TextInput",
+              "$designer": {
+                "id": "M5c2Ec"
+              },
+              "disabled": false,
+              "maxTurnCount": 100,
+              "alwaysPrompt": false,
+              "allowInterruptions": false,
+              "invalidPrompt": "",
+              "prompt": "${TextInput_Prompt_M5c2Ec()}",
+              "property": "dialog.selectuserd",
+              "validations": [
+                "equals(this.value, 'منتجات الشعر')||equals(this.value, 'منتجات البشرة') ||equals(this.value, '#')|| equals(this.value, 'Hair Products') ||equals(this.value, 'Skin Products')"
+              ]
+            },
+            {
+              "$kind": "Microsoft.SwitchCondition",
+              "$designer": {
+                "id": "IUXzTa"
+              },
+              "cases": [
+                {
+                  "value": "منتجات الشعر",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "XihMOk"
+                      },
+                      "property": "conversation.typeId",
+                      "value": "1"
+                    }
+                  ]
+                },
+                {
+                  "value": "منتجات البشرة",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "LsBIdl"
+                      },
+                      "property": "conversation.typeId",
+                      "value": "2"
+                    }
+                  ]
+                },
+                {
+                  "value": "Hair Products",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "zzHYe2"
+                      },
+                      "property": "conversation.typeId",
+                      "value": "1"
+                    }
+                  ]
+                },
+                {
+                  "value": "Skin Products",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "2NK1rI"
+                      },
+                      "property": "conversation.typeId",
+                      "value": "2"
+                    }
+                  ]
+                }
+              ],
+              "condition": "dialog.selectuserd",
+              "default": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "QT0jga"
+                  },
+                  "property": "conversation.typeId",
+                  "value": "0"
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "cjPF6U"
+              },
+              "condition": "dialog.selectuserd ==\"#\"",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "0oUuXs"
+                  },
+                  "assignments": [
+                    {
+                      "property": "conversation.userSelect",
+                      "value": "=conversation.LevelOneId"
+                    },
+                    {
+                      "property": "conversation.StepBack",
+                      "value": "1"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.RepeatDialog",
+                  "$designer": {
+                    "id": "tB55oM"
+                  },
+                  "activityProcessed": true
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "I5EMbF"
+              },
+              "assignments": [
+                {
+                  "property": "conversation.StepBack",
+                  "value": "3"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "xt0ME3"
+          }
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "uBiPuo"
+          }
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "2oKkwE"
+          },
+          "assignments": [
+            {
+              "property": "dialog.type",
+              "value": "1"
+            },
+            {
+              "property": "dialog.isoffer",
+              "value": true
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.HttpRequest",
+          "$designer": {
+            "id": "MjxjB7"
+          },
+          "resultProperty": "dialog.Asset",
+          "method": "GET",
+          "url": "${conversation.URL}/api/BotAPI/GetAsset?tenantId=${conversation.TenantId}&phoneNumber=${conversation.phoneNumber}&typeId=${dialog.type}&levleOneId=${conversation.LevelOneId}&levelTwoId=${conversation.LevelTowId}&levelThreeId=${conversation.LevelThreeId}&levelFourId=${conversation.LevelFourId}&isOffer=${dialog.isoffer}"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "3aIgnY"
+          },
+          "condition": "dialog.Asset.content.result.count >0",
+          "elseActions": [
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "ce8TM8"
+              },
+              "property": "dialog.text",
+              "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId ==1235)).text"
+            },
+            {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "4RhSB8"
+              },
+              "activity": "${SendActivity_4RhSB8()}"
+            },
+            {
+              "$kind": "Microsoft.CancelAllDialogs",
+              "$designer": {
+                "id": "HFm59y"
+              },
+              "activityProcessed": true
+            }
+          ],
+          "actions": [
+            {
+              "$kind": "Microsoft.Foreach",
+              "$designer": {
+                "id": "8pZxPj"
+              },
+              "index": "dialog.foreach.index",
+              "value": "dialog.foreach.value",
+              "itemsProperty": "dialog.Asset.content.result",
+              "actions": [
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "AhmxbX"
+                  },
+                  "condition": "conversation.local == \"ar\"",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "qwx5hr"
+                      },
+                      "property": "dialog.arText",
+                      "value": "=dialog.foreach.value.AssetDescriptionAr"
+                    },
+                    {
+                      "$kind": "Microsoft.IfCondition",
+                      "$designer": {
+                        "id": "cMuY54"
+                      },
+                      "condition": "dialog.IsSendText==dialog.arText",
+                      "elseActions": [
+                        {
+                          "$kind": "Microsoft.SendActivity",
+                          "$designer": {
+                            "id": "6a18Jf"
+                          },
+                          "activity": "${SendActivity_6a18Jf()}"
+                        }
+                      ]
+                    },
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "QGdBL4"
+                      },
+                      "property": "dialog.IsSendText",
+                      "value": "${dialog.arText}"
+                    }
+                  ],
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "84HtnQ"
+                      },
+                      "property": "dialog.enText",
+                      "value": "=dialog.foreach.value.AssetDescriptionEn"
+                    },
+                    {
+                      "$kind": "Microsoft.IfCondition",
+                      "$designer": {
+                        "id": "zNzPoE"
+                      },
+                      "condition": "dialog.IsSendText==dialog.enText",
+                      "elseActions": [
+                        {
+                          "$kind": "Microsoft.SendActivity",
+                          "$designer": {
+                            "id": "rsYlVC"
+                          },
+                          "activity": "${SendActivity_rsYlVC()}"
+                        }
+                      ]
+                    },
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "GYXEGm"
+                      },
+                      "property": "dialog.IsSendText",
+                      "value": "${dialog.enText}"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "9QW9dF"
+                  },
+                  "activity": "${SendActivity_9QW9dF()}"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "generator": "PharmaCureAssetDialog.lg",
+  "recognizer": "PharmaCureAssetDialog.lu.qna",
+  "id": "PharmaCureAssetDialog"
+}

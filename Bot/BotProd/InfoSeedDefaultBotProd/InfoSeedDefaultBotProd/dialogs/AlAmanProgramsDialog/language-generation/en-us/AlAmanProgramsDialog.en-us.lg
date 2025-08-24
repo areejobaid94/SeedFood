@@ -1,0 +1,152 @@
+[import](common.lg)
+
+# TextInput_Prompt_hbnaIB_text()
+- ${dialog.choose}
+# TextInput_Prompt_hbnaIB()
+[Activity
+    Text = ${TextInput_Prompt_hbnaIB_text()}
+    SuggestedActions = ${dialog.option1} | ${dialog.option2} | ${dialog.option3}
+    InputHint=${conversation.InputHint}
+     Summary=${conversation.Summary}
+]
+
+# SendActivity_bviwek_text()
+- ${dialog.caption}
+# SendActivity_bviwek()
+[Activity
+    Text = ${SendActivity_bviwek_text()}
+]
+
+# TextInput_Prompt_kxxwba_text()
+- ${dialog.Volunteering}
+# TextInput_Prompt_kxxwba()
+[Activity
+    Text = ${TextInput_Prompt_kxxwba_text()}
+    SuggestedActions = ${dialog.Option}
+    InputHint=${conversation.InputHint}
+     Summary=${conversation.Summary}
+]
+
+# SendActivity_RYDaDG_text()
+- ${dialog.caption}
+# SendActivity_RYDaDG()
+[Activity
+    Text = ${SendActivity_RYDaDG_text()}
+]
+
+# TextInput_Prompt_aBjqju_text()
+- ${dialog.Volunteering}
+# TextInput_Prompt_aBjqju()
+[Activity
+    Text = ${TextInput_Prompt_aBjqju_text()}
+    SuggestedActions = ${dialog.Option}
+    InputHint=${conversation.InputHint}
+     Summary=${conversation.Summary}
+]
+
+# SendActivity_XgREfo_text()
+- ${dialog.caption}
+# SendActivity_XgREfo()
+[Activity
+    Text = ${SendActivity_XgREfo_text()}
+]
+
+# TextInput_Prompt_rcR2IZ_text()
+- ${dialog.Volunteering}
+# TextInput_Prompt_rcR2IZ()
+[Activity
+    Text = ${TextInput_Prompt_rcR2IZ_text()}
+    SuggestedActions = ${dialog.Option}
+    InputHint=${conversation.InputHint}
+     Summary=${conversation.Summary}
+]
+
+
+# SendActivity_R54Vo5_text()
+- ${dialog.caption}
+# SendActivity_R54Vo5()
+[Activity
+    Text = ${SendActivity_R54Vo5_text()}
+]
+
+# TextInput_Prompt_LBkOkU_text()
+- ${dialog.Volunteering}
+# TextInput_Prompt_LBkOkU()
+[Activity
+    Text = ${TextInput_Prompt_LBkOkU_text()}
+    SuggestedActions = ${dialog.Option}
+    InputHint=${conversation.InputHint}
+     Summary=${conversation.Summary}
+]
+
+# SendActivity_QGvHeV_text()
+- ${dialog.caption}
+# SendActivity_QGvHeV()
+[Activity
+    Text = ${SendActivity_QGvHeV_text()}
+]
+
+# TextInput_Prompt_mnZYXS_text()
+- ${dialog.Volunteering}
+# TextInput_Prompt_mnZYXS()
+[Activity
+    Text = ${TextInput_Prompt_mnZYXS_text()}
+    SuggestedActions = ${dialog.Option}
+    InputHint=${conversation.InputHint}
+     Summary=${conversation.Summary}
+]
+
+# SendActivity_N7g9Gx_text()
+- ${dialog.caption}
+# SendActivity_N7g9Gx()
+[Activity
+    Text = ${SendActivity_N7g9Gx_text()}
+]
+
+# TextInput_Prompt_GiNziJ_text()
+- ${dialog.Volunteering}
+# TextInput_Prompt_GiNziJ()
+[Activity
+    Text = ${TextInput_Prompt_GiNziJ_text()}
+    SuggestedActions = ${dialog.Option}
+    InputHint=${conversation.InputHint}
+     Summary=${conversation.Summary}
+]
+
+# SendActivity_ft7DMH_text()
+- https://www.africau.edu/images/default/sample.pdf
+# SendActivity_ft7DMH_speak()
+- sample.pdf
+# SendActivity_ft7DMH()
+[Activity
+    Text = ${SendActivity_ft7DMH_text()}
+    Speak = ${SendActivity_ft7DMH_speak()}
+]
+
+# SendActivity_rYrITp_text()
+- https://www.africau.edu/images/default/sample.pdf
+# SendActivity_rYrITp_speak()
+- sample.pdf
+# SendActivity_rYrITp()
+[Activity
+    Text = ${SendActivity_rYrITp_text()}
+    Speak = ${SendActivity_rYrITp_speak()}
+]
+
+# SendActivity_MlE6gt_text()
+- ${conversation.ChoiceCasePic}
+# SendActivity_MlE6gt_speak()
+- sample.pdf
+# SendActivity_MlE6gt()
+[Activity
+    Text = ${SendActivity_MlE6gt_text()}
+    Speak = ${SendActivity_MlE6gt_speak()}
+]
+
+# TextInput_Prompt_yD4RIs_text()
+- ${conversation.ChoiceCaseLink}
+# TextInput_Prompt_yD4RIs()
+[Activity
+    Text = ${TextInput_Prompt_yD4RIs_text()}
+    SuggestedActions = ${dialog.Option1} | ${dialog.Option2} | ${dialog.Option3}
+]

@@ -1,0 +1,298 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "JEVNQV",
+    "name": "OpticAboutUsDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "ikp3hA"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "CmPinG"
+          },
+          "condition": "conversation.local",
+          "cases": [
+            {
+              "value": "ar",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "AG5pDL"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.ListOption",
+                      "value": [
+                        "استشارات طبية مجانية",
+                        "شركات التأمين",
+                        "فروعنا"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "Jea7A6"
+                  },
+                  "assignments": [
+                    {
+                      "value": "استشارات طبية مجانية",
+                      "property": "dialog.option1"
+                    },
+                    {
+                      "value": "شركات التأمين",
+                      "property": "dialog.option2"
+                    },
+                    {
+                      "property": "dialog.option3",
+                      "value": "فروعنا"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "en",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "72TLf4"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.ListOption",
+                      "value": [
+                        "Free consultations",
+                        "Insurance companies",
+                        "Our branches"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "7Hf0Um"
+                  },
+                  "assignments": [
+                    {
+                      "value": "Free consultations",
+                      "property": "dialog.option1"
+                    },
+                    {
+                      "value": "Insurance companies",
+                      "property": "dialog.option2"
+                    },
+                    {
+                      "property": "dialog.option3",
+                      "value": "Our branches"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "gROX4u"
+          },
+          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3663)).text",
+          "property": "dialog.AboutUsCaption"
+        },
+        {
+          "$kind": "Microsoft.DeleteProperty",
+          "$designer": {
+            "id": "EGoNBA"
+          },
+          "property": "dialog.UserSelect"
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "R15G73"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "unrecognizedPrompt": "",
+          "invalidPrompt": "",
+          "property": "dialog.UserSelect",
+          "validations": [
+            "equals(this.value, 'Our branches') || equals(this.value, 'Insurance companies') || equals(this.value, 'Free consultations') || equals(this.value, 'استشارات طبية مجانية') || equals(this.value, 'شركات التأمين') || equals(this.value, 'فروعنا')   ||equals(this.value, '#')"
+          ],
+          "prompt": "${TextInput_Prompt_R15G73()}"
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "oJEW09"
+          },
+          "assignments": [
+            {
+              "property": "conversation.Department2",
+              "value": "${dialog.UserSelect}"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "XVfQmy"
+          },
+          "condition": "dialog.UserSelect",
+          "cases": [
+            {
+              "value": "استشارات طبية مجانية",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "r9AdhE"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "OpticInquiryDialog"
+                }
+              ]
+            },
+            {
+              "value": "شركات التأمين",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "X5WU3Z"
+                  },
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3665)).text",
+                  "property": "dialog.CompaniesCaption"
+                },
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "YV2fPF"
+                  },
+                  "activity": "${SendActivity_YV2fPF()}"
+                }
+              ]
+            },
+            {
+              "value": "فروعنا",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "Pegc6C"
+                  },
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3666)).text",
+                  "property": "dialog.branchesCaption"
+                },
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "Tt0N3a"
+                  },
+                  "activity": "${SendActivity_Tt0N3a()}"
+                }
+              ]
+            },
+            {
+              "value": "Free consultations",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "Fsnlpc"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "OpticInquiryDialog"
+                }
+              ]
+            },
+            {
+              "value": "Insurance companies",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "Gqb5sv"
+                  },
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3665)).text",
+                  "property": "dialog.CompaniesCaption"
+                },
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "4LLOQG"
+                  },
+                  "activity": "${SendActivity_4LLOQG()}"
+                }
+              ]
+            },
+            {
+              "value": "Our branches",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "HxyHKu"
+                  },
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3666)).text",
+                  "property": "dialog.branchesCaption"
+                },
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "yOWPBX"
+                  },
+                  "activity": "${SendActivity_yOWPBX()}"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "3mHanc"
+          }
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "9CwNh3"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "unrecognizedPrompt": "",
+          "invalidPrompt": "",
+          "prompt": "${TextInput_Prompt_9CwNh3()}",
+          "property": "dialog.UserSelect",
+          "validations": [
+            "equals(this.value, 'Our branches') || equals(this.value, 'Insurance companies') || equals(this.value, 'Free consultations') || equals(this.value, 'استشارات طبية مجانية') || equals(this.value, 'شركات التأمين') || equals(this.value, 'فروعنا')   ||equals(this.value, '#')"
+          ]
+        }
+      ]
+    }
+  ],
+  "generator": "OpticAboutUsDialog.lg",
+  "recognizer": "OpticAboutUsDialog.lu.qna",
+  "id": "OpticAboutUsDialog"
+}

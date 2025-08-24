@@ -1,0 +1,8 @@
+{
+  "$kind": "Microsoft.LuisRecognizer",
+  "id": "LUIS_OpticOrderDialog",
+  "applicationId": "=settings.luis.OpticOrderDialog_en_us_lu.appId",
+  "version": "=settings.luis.OpticOrderDialog_en_us_lu.version",
+  "endpoint": "=settings.luis.endpoint",
+  "endpointKey": "=settings.luis.endpointKey"
+}

@@ -1,0 +1,206 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "ahXzHW",
+    "name": "RaedKhalafLiveChatDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "IKmaJz"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "otNGOl"
+          },
+          "condition": "conversation.local",
+          "cases": [
+            {
+              "value": "ar",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "xPPF4e"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.option1",
+                      "value": "دردشة مباشرة"
+                    },
+                    {
+                      "property": "dialog.option2",
+                      "value": "اتصل الان"
+                    },
+                    {
+                      "property": "dialog.text",
+                      "value": "هل اعجبتك ؟"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "en",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "nNiwic"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.option1",
+                      "value": "Live Chat"
+                    },
+                    {
+                      "property": "dialog.option2",
+                      "value": "Call Now"
+                    },
+                    {
+                      "property": "dialog.text",
+                      "value": "Do you like it ?"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "r453Ja"
+          },
+          "property": "dialog.fotterMSG",
+          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1019)).text"
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "KNGR4Q"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "unrecognizedPrompt": "",
+          "prompt": "${TextInput_Prompt_KNGR4Q()}",
+          "property": "dialog.selectCall",
+          "validations": [
+            "equals(this.value, 'دردشة مباشرة') || equals(this.value, 'اتصل الان')  ||equals(this.value, '#') || equals(this.value, 'Live Chat') || equals(this.value, 'Call Now')"
+          ]
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "GBo5dm"
+          },
+          "condition": "dialog.selectCall",
+          "cases": [
+            {
+              "value": "دردشة مباشرة",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "d81UBw"
+                  },
+                  "activity": "${SendActivity_d81UBw()}"
+                },
+                {
+                  "$kind": "Microsoft.HttpRequest",
+                  "$designer": {
+                    "id": "5NyGjC"
+                  },
+                  "resultProperty": "dialog.sendLiveChat",
+                  "method": "GET",
+                  "url": "${conversation.URL}/api/BotAPI/UpdateLiveChat?TenantID=${conversation.TenantId}&&phoneNumber=${conversation.phoneNumber}&&Department1=${conversation.Department1}&&Department2=${conversation.Department2}",
+                  "responseType": "json"
+                }
+              ]
+            },
+            {
+              "value": "اتصل الان",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "V8c7DG"
+                  },
+                  "activity": "${SendActivity_V8c7DG()}"
+                },
+                {
+                  "$kind": "Microsoft.CancelAllDialogs",
+                  "$designer": {
+                    "id": "diBAfl"
+                  },
+                  "activityProcessed": true
+                }
+              ]
+            },
+            {
+              "value": "Live Chat",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "wpZu5y"
+                  },
+                  "activity": "${SendActivity_wpZu5y()}"
+                },
+                {
+                  "$kind": "Microsoft.HttpRequest",
+                  "$designer": {
+                    "id": "k29y5r"
+                  },
+                  "resultProperty": "dialog.sendLiveChat",
+                  "method": "GET",
+                  "url": "${conversation.URL}/api/BotAPI/UpdateLiveChat?TenantID=${conversation.TenantId}&&phoneNumber=${conversation.phoneNumber}&&Department1=${conversation.Department1}&&Department2=${conversation.Department2}",
+                  "responseType": "json"
+                }
+              ]
+            },
+            {
+              "value": "Call Now",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "3apYqV"
+                  },
+                  "activity": "${SendActivity_3apYqV()}"
+                },
+                {
+                  "$kind": "Microsoft.CancelAllDialogs",
+                  "$designer": {
+                    "id": "bqSJ3T"
+                  },
+                  "activityProcessed": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.CancelAllDialogs",
+          "$designer": {
+            "id": "9bI3bL"
+          },
+          "activityProcessed": true
+        }
+      ]
+    }
+  ],
+  "generator": "RaedKhalafLiveChatDialog.lg",
+  "recognizer": "RaedKhalafLiveChatDialog.lu.qna",
+  "id": "RaedKhalafLiveChatDialog"
+}

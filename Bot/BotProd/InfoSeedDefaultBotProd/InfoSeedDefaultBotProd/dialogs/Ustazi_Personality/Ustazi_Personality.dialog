@@ -1,0 +1,2869 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "ZIaV7j",
+    "name": "Ustazi_Personality",
+    "comment": "to know your son's Personality"
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "C6cZub"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "FgtAaC"
+          },
+          "property": "dialog.Sum",
+          "value": 0
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "tnOP28"
+          },
+          "condition": "conversation.local",
+          "cases": [
+            {
+              "value": "ar",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "5mF3MQ"
+                  },
+                  "property": "dialog.text",
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1129)).text"
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "FBGSX8"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.ListOption",
+                      "value": [
+                        "في الصباح",
+                        "خلال فترة ما بعد الظهر والمساء الباكر",
+                        "في وقت متأخر من الليل"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.TextInput",
+                  "$designer": {
+                    "id": "lsreo4"
+                  },
+                  "disabled": false,
+                  "maxTurnCount": 100,
+                  "alwaysPrompt": false,
+                  "allowInterruptions": true,
+                  "unrecognizedPrompt": "",
+                  "invalidPrompt": "",
+                  "prompt": "${TextInput_Prompt_lsreo4()}",
+                  "property": "dialog.UserInput",
+                  "validations": [
+                    "=contains(this.value, 'في الصباح') ||contains(this.value, 'خلال فترة ما بعد الظهر والمساء الباكر') ||contains(this.value, 'في وقت متأخر من الليل') ||contains(this.value, '#') "
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SwitchCondition",
+                  "$designer": {
+                    "id": "5dDMI8"
+                  },
+                  "condition": "dialog.UserInput",
+                  "cases": [
+                    {
+                      "value": "في الصباح",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "oUuGY5"
+                          },
+                          "property": "dialog.Sum",
+                          "value": "=sum(createArray(dialog.Sum,2))"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "خلال فترة ما بعد الظهر والمساء الباكر",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "6ZllY6"
+                          },
+                          "property": "dialog.Sum",
+                          "value": "=sum(createArray(dialog.Sum,4))"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "في وقت متأخر من الليل",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "jIcyS8"
+                          },
+                          "property": "dialog.Sum",
+                          "value": "=sum(createArray(dialog.Sum,6))"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.DeleteProperties",
+                  "$designer": {
+                    "id": "QLUd4t"
+                  },
+                  "properties": [
+                    "dialog.text",
+                    "dialog.UserInput"
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "YXvZbL"
+                  },
+                  "property": "dialog.text",
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1131)).text"
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "NWNq2m"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.Option1",
+                      "value": "سريع إلى حد ما ، مع خطوات طويلة"
+                    },
+                    {
+                      "property": "dialog.Option2",
+                      "value": "سريع إلى حد ما ، مع خطوات صغيرة"
+                    },
+                    {
+                      "property": "dialog.Option3",
+                      "value": "أقل سرعة ، توجه إلى الأعلى ، وانظر إلى العالم في وجهه"
+                    },
+                    {
+                      "property": "dialog.Option4",
+                      "value": "سرعة أقل، توجه لأسفل"
+                    },
+                    {
+                      "property": "dialog.Option5",
+                      "value": "ببطء شديد"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.TextInput",
+                  "$designer": {
+                    "id": "WNyTpW"
+                  },
+                  "disabled": false,
+                  "maxTurnCount": 100,
+                  "alwaysPrompt": false,
+                  "allowInterruptions": true,
+                  "unrecognizedPrompt": "",
+                  "invalidPrompt": "",
+                  "property": "dialog.UserInput",
+                  "prompt": "${TextInput_Prompt_WNyTpW()}",
+                  "validations": [
+                    "=contains(this.value, 'سريع إلى حد ما ، مع خطوات طويلة') ||contains(this.value, 'سريع إلى حد ما ، مع خطوات صغيرة') ||contains(this.value, 'أقل سرعة ، توجه إلى الأعلى ، وانظر إلى العالم في وجهه') ||contains(this.value, '#') ||contains(this.value, 'سرعة أقل، توجه لأسفل') ||contains(this.value, 'ببطء شديد')"
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SwitchCondition",
+                  "$designer": {
+                    "id": "8tpn5H"
+                  },
+                  "condition": "dialog.UserInput",
+                  "cases": [
+                    {
+                      "value": "سريع إلى حد ما ، مع خطوات طويلة",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "GWvijn"
+                          },
+                          "property": "dialog.Sum",
+                          "value": "=sum(createArray(dialog.Sum,6))"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "سريع إلى حد ما ، مع خطوات صغيرة",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "G8ia0I"
+                          },
+                          "property": "dialog.Sum",
+                          "value": "=sum(createArray(dialog.Sum,4))"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "أقل سرعة ، توجه إلى الأعلى ، وانظر إلى العالم في وجهه",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "ORQBSB"
+                          },
+                          "property": "dialog.Sum",
+                          "value": "=sum(createArray(dialog.Sum,7))"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "سرعة أقل، توجه لأسفل",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "qnZdNg"
+                          },
+                          "property": "dialog.Sum",
+                          "value": "=sum(createArray(dialog.Sum,2))"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "ببطء شديد",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "1aUYzF"
+                          },
+                          "property": "dialog.Sum",
+                          "value": "=sum(createArray(dialog.Sum,1))"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.DeleteProperties",
+                  "$designer": {
+                    "id": "SUYy6J"
+                  },
+                  "properties": [
+                    "dialog.text",
+                    "dialog.UserInput",
+                    "dialog.Option1",
+                    "dialog.Option2",
+                    "dialog.Option3",
+                    "dialog.Option4",
+                    "dialog.Option5"
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "bDezHF"
+                  },
+                  "property": "dialog.text",
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1132)).text"
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "rlRRup"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.Option1",
+                      "value": "قف وذراعيك مطويتين"
+                    },
+                    {
+                      "property": "dialog.Option2",
+                      "value": "اربط يديك"
+                    },
+                    {
+                      "property": "dialog.Option3",
+                      "value": "ضع إحدى يديك أو كلتيهما على الوركين"
+                    },
+                    {
+                      "property": "dialog.Option4",
+                      "value": "المس أو ادفع الشخص الذي تتحدث إليه"
+                    },
+                    {
+                      "property": "dialog.Option5",
+                      "value": "العب بأذنك أو شعرك أو المس ذقنك أو قم بتنعيم شعرك"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.TextInput",
+                  "$designer": {
+                    "id": "HR2foa"
+                  },
+                  "disabled": false,
+                  "maxTurnCount": 100,
+                  "alwaysPrompt": false,
+                  "allowInterruptions": true,
+                  "unrecognizedPrompt": "",
+                  "property": "dialog.UserInput",
+                  "prompt": "${TextInput_Prompt_HR2foa()}",
+                  "validations": [
+                    "=contains(this.value, 'قف وذراعيك مطويتين') ||contains(this.value, 'اربط يديك') ||contains(this.value, '#') ||contains(this.value, 'ضع إحدى يديك أو كلتيهما على الوركين') ||contains(this.value, 'المس أو ادفع الشخص الذي تتحدث إليه') ||contains(this.value, 'العب بأذنك أو شعرك أو المس ذقنك أو قم بتنعيم شعرك')"
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SwitchCondition",
+                  "$designer": {
+                    "id": "T04gWp"
+                  },
+                  "condition": "dialog.UserInput",
+                  "cases": [
+                    {
+                      "value": "قف وذراعيك مطويتين",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "3aybmB"
+                          },
+                          "property": "dialog.Sum",
+                          "value": "=sum(createArray(dialog.Sum,4))"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "اربط يديك",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "dxI7I1"
+                          },
+                          "property": "dialog.Sum",
+                          "value": "=sum(createArray(dialog.Sum,2))"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "ضع إحدى يديك أو كلتيهما على الوركين",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "IpDRan"
+                          },
+                          "property": "dialog.Sum",
+                          "value": "=sum(createArray(dialog.Sum,5))"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "المس أو ادفع الشخص الذي تتحدث إليه",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "wWiGKU"
+                          },
+                          "property": "dialog.Sum",
+                          "value": "=sum(createArray(dialog.Sum,7))"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "العب بأذنك أو شعرك أو المس ذقنك أو قم بتنعيم شعرك",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "B4qqG3"
+                          },
+                          "property": "dialog.Sum",
+                          "value": "=sum(createArray(dialog.Sum,6))"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.DeleteProperties",
+                  "$designer": {
+                    "id": "ZQL2VH"
+                  },
+                  "properties": [
+                    "dialog.text",
+                    "dialog.UserInput",
+                    "dialog.Option1",
+                    "dialog.Option2",
+                    "dialog.Option3",
+                    "dialog.Option4",
+                    "dialog.Option5"
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "dWXfXy"
+                  },
+                  "property": "dialog.text",
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1133)).text"
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "EbReXM"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.Option1",
+                      "value": "ثني ركبتيك مع وضع ساقيك جنبًا إلى جنب بدقة"
+                    },
+                    {
+                      "property": "dialog.Option2",
+                      "value": "عبرت رجليك"
+                    },
+                    {
+                      "property": "dialog.Option3",
+                      "value": "رجليك ممدودة أو مستقيمة"
+                    },
+                    {
+                      "property": "dialog.Option4",
+                      "value": "لولبية ساق واحدة تحتك"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.TextInput",
+                  "$designer": {
+                    "id": "vZmFMo"
+                  },
+                  "disabled": false,
+                  "maxTurnCount": 100,
+                  "alwaysPrompt": false,
+                  "allowInterruptions": true,
+                  "invalidPrompt": "",
+                  "property": "dialog.UserInput",
+                  "prompt": "${TextInput_Prompt_vZmFMo()}",
+                  "validations": [
+                    "=contains(this.value, 'ثني ركبتيك مع وضع ساقيك جنبًا إلى جنب بدقة') ||contains(this.value, 'عبرت رجليك') ||contains(this.value, 'رجليك ممدودة أو مستقيمة') ||contains(this.value, '#') ||contains(this.value, 'لولبية ساق واحدة تحتك')"
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SwitchCondition",
+                  "$designer": {
+                    "id": "nNzluL"
+                  },
+                  "condition": "dialog.UserInput",
+                  "cases": [
+                    {
+                      "value": "ثني ركبتيك مع وضع ساقيك جنبًا إلى جنب بدقة",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "iXrNHQ"
+                          },
+                          "property": "dialog.Sum",
+                          "value": "=sum(createArray(dialog.Sum,4))"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "عبرت رجليك",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "ip5xt3"
+                          },
+                          "property": "dialog.Sum",
+                          "value": "=sum(createArray(dialog.Sum,6))"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "رجليك ممدودة أو مستقيمة",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "bPOB8b"
+                          },
+                          "property": "dialog.Sum",
+                          "value": "=sum(createArray(dialog.Sum,2))"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "لولبية ساق واحدة تحتك",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "CTQCqd"
+                          },
+                          "property": "dialog.Sum",
+                          "value": "=sum(createArray(dialog.Sum,1))"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.DeleteProperties",
+                  "$designer": {
+                    "id": "0HBwr4"
+                  },
+                  "properties": [
+                    "dialog.text",
+                    "dialog.UserInput",
+                    "dialog.Option1",
+                    "dialog.Option2",
+                    "dialog.Option3",
+                    "dialog.Option4",
+                    "dialog.Option5"
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "VQciwl"
+                  },
+                  "property": "dialog.text",
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1134)).text"
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "Mo2WLI"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.Option1",
+                      "value": "ضحكة كبيرة تقديرية"
+                    },
+                    {
+                      "property": "dialog.Option2",
+                      "value": "ضحكة ولكن ليست بصوت عال"
+                    },
+                    {
+                      "property": "dialog.Option3",
+                      "value": "ضحكة مكتومة هادئة"
+                    },
+                    {
+                      "property": "dialog.Option4",
+                      "value": "ابتسامة خجولة"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.TextInput",
+                  "$designer": {
+                    "id": "By1I01"
+                  },
+                  "disabled": false,
+                  "maxTurnCount": 100,
+                  "alwaysPrompt": false,
+                  "allowInterruptions": true,
+                  "invalidPrompt": "",
+                  "property": "dialog.UserInput",
+                  "prompt": "${TextInput_Prompt_By1I01()}",
+                  "validations": [
+                    "=contains(this.value, 'ضحكة كبيرة تقديرية') ||contains(this.value, 'ضحكة ولكن ليست بصوت عال') ||contains(this.value, 'ضحكة مكتومة هادئة') ||contains(this.value, '#') ||contains(this.value, 'ابتسامة خجولة')"
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SwitchCondition",
+                  "$designer": {
+                    "id": "cX4xvu"
+                  },
+                  "condition": "dialog.UserInput",
+                  "cases": [
+                    {
+                      "value": "ضحكة كبيرة تقديرية",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "fdz7ax"
+                          },
+                          "property": "dialog.Sum",
+                          "value": "=sum(createArray(dialog.Sum,6))"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "ضحكة ولكن ليست بصوت عال",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "kUn8RL"
+                          },
+                          "property": "dialog.Sum",
+                          "value": "=sum(createArray(dialog.Sum,4))"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "ضحكة مكتومة هادئة",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "NZFiX2"
+                          },
+                          "property": "dialog.Sum",
+                          "value": "=sum(createArray(dialog.Sum,3))"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "ابتسامة خجولة",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "HK1RUK"
+                          },
+                          "property": "dialog.Sum",
+                          "value": "=sum(createArray(dialog.Sum,2))"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.DeleteProperties",
+                  "$designer": {
+                    "id": "7Ae4zd"
+                  },
+                  "properties": [
+                    "dialog.text",
+                    "dialog.UserInput",
+                    "dialog.Option1",
+                    "dialog.Option2",
+                    "dialog.Option3",
+                    "dialog.Option4",
+                    "dialog.Option5"
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "zWuXMv"
+                  },
+                  "property": "dialog.text",
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1135)).text"
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "SRdSfE"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.ListOption",
+                      "value": [
+                        "اجعل المدخل الأكثر هدوءًا وحاول البقاء دون أن يلاحظها أحد",
+                        "ادخل بهدوء وانظر حولك بحثًا عن شخص تعرفه",
+                        "ادخل بصوت عالٍ حتى يلاحظك الجميع"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.TextInput",
+                  "$designer": {
+                    "id": "dCq4Nz"
+                  },
+                  "disabled": false,
+                  "maxTurnCount": 100,
+                  "alwaysPrompt": false,
+                  "allowInterruptions": true,
+                  "unrecognizedPrompt": "",
+                  "invalidPrompt": "",
+                  "prompt": "${TextInput_Prompt_dCq4Nz()}",
+                  "property": "dialog.UserInput",
+                  "validations": [
+                    "=contains(this.value, 'ادخل بصوت عالٍ حتى يلاحظك الجميع') ||contains(this.value, 'ادخل بهدوء وانظر حولك بحثًا عن شخص تعرفه') ||contains(this.value, 'اجعل المدخل الأكثر هدوءًا وحاول البقاء دون أن يلاحظها أحد') ||contains(this.value, '#')"
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SwitchCondition",
+                  "$designer": {
+                    "id": "61Nkab"
+                  },
+                  "condition": "dialog.UserInput",
+                  "cases": [
+                    {
+                      "value": "ادخل بصوت عالٍ حتى يلاحظك الجميع",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "5lK8OR"
+                          },
+                          "property": "dialog.Sum",
+                          "value": "=sum(createArray(dialog.Sum,6))"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "ادخل بهدوء وانظر حولك بحثًا عن شخص تعرفه",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "clH377"
+                          },
+                          "property": "dialog.Sum",
+                          "value": "=sum(createArray(dialog.Sum,4))"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "اجعل المدخل الأكثر هدوءًا وحاول البقاء دون أن يلاحظها أحد",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "Epriz7"
+                          },
+                          "property": "dialog.Sum",
+                          "value": "=sum(createArray(dialog.Sum,2))"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.DeleteProperties",
+                  "$designer": {
+                    "id": "zPtYF2"
+                  },
+                  "properties": [
+                    "dialog.text",
+                    "dialog.UserInput",
+                    "dialog.Option1",
+                    "dialog.Option2",
+                    "dialog.Option3",
+                    "dialog.Option4",
+                    "dialog.Option5"
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "pHL7tr"
+                  },
+                  "property": "dialog.text",
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1137)).text"
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "fhEToI"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.ListOption",
+                      "value": [
+                        "نرحب بالفاصل",
+                        "يشعر بالغضب الشديد",
+                        "تختلف بين هذين النقيضين"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.TextInput",
+                  "$designer": {
+                    "id": "MRRhi9"
+                  },
+                  "disabled": false,
+                  "maxTurnCount": 100,
+                  "alwaysPrompt": false,
+                  "allowInterruptions": true,
+                  "unrecognizedPrompt": "",
+                  "invalidPrompt": "",
+                  "prompt": "${TextInput_Prompt_MRRhi9()}",
+                  "property": "dialog.UserInput",
+                  "validations": [
+                    "=contains(this.value, 'نرحب بالفاصل') ||contains(this.value, 'يشعر بالغضب الشديد') ||contains(this.value, 'تختلف بين هذين النقيضين') ||contains(this.value, '#')"
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SwitchCondition",
+                  "$designer": {
+                    "id": "MyBrhu"
+                  },
+                  "condition": "dialog.UserInput",
+                  "cases": [
+                    {
+                      "value": "نرحب بالفاصل",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "tUtHpA"
+                          },
+                          "property": "dialog.Sum",
+                          "value": "=sum(createArray(dialog.Sum,6))"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "يشعر بالغضب الشديد",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "zjq64I"
+                          },
+                          "property": "dialog.Sum",
+                          "value": "=sum(createArray(dialog.Sum,2))"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "تختلف بين هذين النقيضين",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "31ZIKg"
+                          },
+                          "property": "dialog.Sum",
+                          "value": "=sum(createArray(dialog.Sum,4))"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.DeleteProperties",
+                  "$designer": {
+                    "id": "FzFTXF"
+                  },
+                  "properties": [
+                    "dialog.text",
+                    "dialog.UserInput",
+                    "dialog.Option1",
+                    "dialog.Option2",
+                    "dialog.Option3",
+                    "dialog.Option4",
+                    "dialog.Option5"
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "3WCz0Q"
+                  },
+                  "property": "dialog.text",
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1119)).text"
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "bQIlYh"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.Option1",
+                      "value": "أحمر-برتقالي"
+                    },
+                    {
+                      "property": "dialog.Option2",
+                      "value": "أسود"
+                    },
+                    {
+                      "property": "dialog.Option3",
+                      "value": "أصفر-ازرق فاتح"
+                    },
+                    {
+                      "property": "dialog.Option4",
+                      "value": "اخضر"
+                    },
+                    {
+                      "property": "dialog.Option5",
+                      "value": "ازرق غامي-بنفسجي"
+                    },
+                    {
+                      "property": "dialog.Option6",
+                      "value": "ابيض"
+                    },
+                    {
+                      "property": "dialog.Option7",
+                      "value": "بني-رمادي"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "fcLjaS"
+                  },
+                  "value": [
+                    "أحمر-برتقالي",
+                    "أسود",
+                    "أصفر-ازرق فاتح",
+                    "اخضر",
+                    "ازرق غامي-بنفسجي",
+                    "ابيض",
+                    "بني-رمادي"
+                  ],
+                  "property": "dialog.List2"
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "l9XhYG"
+                  },
+                  "property": "dialog.OptionsList",
+                  "value": "=createArray(dialog.Option1,dialog.Option2,dialog.Option3,dialog.Option4,dialog.Option5,dialog.Option6,dialog.Option7)"
+                },
+                {
+                  "$kind": "Microsoft.TextInput",
+                  "$designer": {
+                    "id": "Diged8"
+                  },
+                  "disabled": false,
+                  "maxTurnCount": 100,
+                  "alwaysPrompt": false,
+                  "allowInterruptions": true,
+                  "unrecognizedPrompt": "",
+                  "property": "dialog.UserInput",
+                  "prompt": "${TextInput_Prompt_Diged8()}",
+                  "validations": [
+                    "=contains(this.value, 'أحمر-برتقالي') ||contains(this.value, 'أسود') ||contains(this.value, 'أصفر-ازرق فاتح') ||contains(this.value, '#') ||contains(this.value, 'اخضر') ||contains(this.value, 'ازرق غامي-بنفسجي') ||contains(this.value, 'ابيض') ||contains(this.value, 'بني-رمادي')"
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SwitchCondition",
+                  "$designer": {
+                    "id": "5g97io"
+                  },
+                  "condition": "dialog.UserInput",
+                  "cases": [
+                    {
+                      "value": "أحمر-برتقالي",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "dRjCza"
+                          },
+                          "property": "dialog.Sum",
+                          "value": "=sum(createArray(dialog.Sum,6))"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "أسود",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "wTZ1tO"
+                          },
+                          "property": "dialog.Sum",
+                          "value": "=sum(createArray(dialog.Sum,7))"
+                        }
+                      ]
+                    },
+                    {
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "0zjnIa"
+                          },
+                          "property": "dialog.Sum",
+                          "value": "=sum(createArray(dialog.Sum,5))"
+                        }
+                      ],
+                      "value": "أصفر-ازرق فاتح"
+                    },
+                    {
+                      "value": "اخضر",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "OEzXbL"
+                          },
+                          "property": "dialog.Sum",
+                          "value": "=sum(createArray(dialog.Sum,4))"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "ازرق غامي-بنفسجي",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "sCwkl2"
+                          },
+                          "property": "dialog.Sum",
+                          "value": "=sum(createArray(dialog.Sum,3))"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "ابيض",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "WRXwWL"
+                          },
+                          "property": "dialog.Sum",
+                          "value": "=sum(createArray(dialog.Sum,2))"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "بني-رمادي",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "vYTlAk"
+                          },
+                          "property": "dialog.Sum",
+                          "value": "=sum(createArray(dialog.Sum,1))"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.DeleteProperties",
+                  "$designer": {
+                    "id": "qeQaSI"
+                  },
+                  "properties": [
+                    "dialog.text",
+                    "dialog.UserInput",
+                    "dialog.Option1",
+                    "dialog.Option2",
+                    "dialog.Option3",
+                    "dialog.Option4",
+                    "dialog.Option5",
+                    "dialog.Option6",
+                    "dialog.Option7"
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "XwrcOj"
+                  },
+                  "property": "dialog.text",
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1120)).text"
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "IrThQf"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.Option1",
+                      "value": "متمدد على ظهرك"
+                    },
+                    {
+                      "property": "dialog.Option2",
+                      "value": "تمدد على بطنك ووجهك لأسفل"
+                    },
+                    {
+                      "property": "dialog.Option3",
+                      "value": "من جانبك ، كرة لولبية قليلاً "
+                    },
+                    {
+                      "property": "dialog.Option4",
+                      "value": "مع رأسك على ذراع واحدة "
+                    },
+                    {
+                      "property": "dialog.Option5",
+                      "value": "مع رأسك تحت الأغطية"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.TextInput",
+                  "$designer": {
+                    "id": "8vR917"
+                  },
+                  "disabled": false,
+                  "maxTurnCount": 100,
+                  "alwaysPrompt": false,
+                  "allowInterruptions": true,
+                  "unrecognizedPrompt": "",
+                  "property": "dialog.UserInput",
+                  "prompt": "${TextInput_Prompt_8vR917()}",
+                  "validations": [
+                    "=contains(this.value, 'متمدد على ظهرك') ||contains(this.value, 'تمدد على بطنك ووجهك لأسفل') ||contains(this.value, 'من جانبك ، كرة لولبية قليلاً ') ||contains(this.value, '#') ||contains(this.value, 'مع رأسك على ذراع واحدة ') ||contains(this.value, 'مع رأسك تحت الأغطية')"
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SwitchCondition",
+                  "$designer": {
+                    "id": "sSbcYH"
+                  },
+                  "condition": "dialog.UserInput",
+                  "cases": [
+                    {
+                      "value": "متمدد على ظهرك",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "05DNSk"
+                          },
+                          "property": "dialog.Sum",
+                          "value": "=sum(createArray(dialog.Sum,7))"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "تمدد على بطنك ووجهك لأسفل",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "iyXyaR"
+                          },
+                          "property": "dialog.Sum",
+                          "value": "=sum(createArray(dialog.Sum,6))"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "من جانبك ، كرة لولبية قليلاً ",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "zf6HIx"
+                          },
+                          "property": "dialog.Sum",
+                          "value": "=sum(createArray(dialog.Sum,4))"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "مع رأسك على ذراع واحدة ",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "4eJJ9S"
+                          },
+                          "property": "dialog.Sum",
+                          "value": "=sum(createArray(dialog.Sum,2))"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "مع رأسك تحت الأغطية",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "bqU3H3"
+                          },
+                          "property": "dialog.Sum",
+                          "value": "=sum(createArray(dialog.Sum,1))"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.DeleteProperties",
+                  "$designer": {
+                    "id": "7FCWvC"
+                  },
+                  "properties": [
+                    "dialog.text",
+                    "dialog.UserInput",
+                    "dialog.Option1",
+                    "dialog.Option2",
+                    "dialog.Option3",
+                    "dialog.Option4",
+                    "dialog.Option5",
+                    "dialog.Option6",
+                    "dialog.Option7"
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "CotT1M"
+                  },
+                  "property": "dialog.text",
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1121)).text"
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "82KITQ"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.Option1",
+                      "value": "السقوط"
+                    },
+                    {
+                      "property": "dialog.Option2",
+                      "value": "القتال أو الكفاح"
+                    },
+                    {
+                      "property": "dialog.Option3",
+                      "value": "البحث عن شيء أو شخص ما"
+                    },
+                    {
+                      "property": "dialog.Option4",
+                      "value": "طائر أو عائم"
+                    },
+                    {
+                      "property": "dialog.Option5",
+                      "value": "عادة ما يكون لديك نوم بلا أحلام"
+                    },
+                    {
+                      "property": "dialog.Option6",
+                      "value": "أحلامك دائما ممتعة"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.TextInput",
+                  "$designer": {
+                    "id": "5Bm45o"
+                  },
+                  "disabled": false,
+                  "maxTurnCount": 100,
+                  "alwaysPrompt": false,
+                  "allowInterruptions": true,
+                  "unrecognizedPrompt": "",
+                  "invalidPrompt": "",
+                  "property": "dialog.UserInput",
+                  "prompt": "${TextInput_Prompt_5Bm45o()}",
+                  "validations": [
+                    "=contains(this.value, 'السقوط') ||contains(this.value, 'القتال أو الكفاح') ||contains(this.value, 'البحث عن شيء أو شخص ما') ||contains(this.value, '#') ||contains(this.value, 'طائر أو عائم') ||contains(this.value, 'عادة ما يكون لديك نوم بلا أحلام') ||contains(this.value, 'أحلامك دائما ممتعة')"
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SwitchCondition",
+                  "$designer": {
+                    "id": "16RjSX"
+                  },
+                  "condition": "dialog.UserInput",
+                  "cases": [
+                    {
+                      "value": "السقوط",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "G5TOP5"
+                          },
+                          "property": "dialog.Sum",
+                          "value": "=sum(createArray(dialog.Sum,4))"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "القتال أو الكفاح",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "3z6a9Q"
+                          },
+                          "property": "dialog.Sum",
+                          "value": "=sum(createArray(dialog.Sum,2))"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "البحث عن شيء أو شخص ما",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "3tvOcl"
+                          },
+                          "property": "dialog.Sum",
+                          "value": "=sum(createArray(dialog.Sum,3))"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "طائر أو عائم",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "7Meukl"
+                          },
+                          "property": "dialog.Sum",
+                          "value": "=sum(createArray(dialog.Sum,5))"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "عادة ما يكون لديك نوم بلا أحلام",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "VjtJjJ"
+                          },
+                          "property": "dialog.Sum",
+                          "value": "=sum(createArray(dialog.Sum,6))"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "أحلامك دائما ممتعة",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "KD7ria"
+                          },
+                          "property": "dialog.Sum",
+                          "value": "=sum(createArray(dialog.Sum,1))"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "en",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "4sPTPo"
+                  },
+                  "property": "dialog.text",
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1129)).text"
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "iVumur"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.ListOption",
+                      "value": [
+                        "In the morning",
+                        "During the afternoon and early evening",
+                        "Late at night"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.TextInput",
+                  "$designer": {
+                    "id": "B8OeMq"
+                  },
+                  "disabled": false,
+                  "maxTurnCount": 100,
+                  "alwaysPrompt": false,
+                  "allowInterruptions": true,
+                  "unrecognizedPrompt": "",
+                  "invalidPrompt": "",
+                  "prompt": "${TextInput_Prompt_B8OeMq()}",
+                  "property": "dialog.UserInput",
+                  "validations": [
+                    "=contains(this.value, 'In the morning') ||contains(this.value, 'During the afternoon and early evening') ||contains(this.value, 'Late at night') ||contains(this.value, '#')"
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SwitchCondition",
+                  "$designer": {
+                    "id": "UOLGHP"
+                  },
+                  "condition": "dialog.UserInput",
+                  "cases": [
+                    {
+                      "value": "In the morning",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "NMh13H"
+                          },
+                          "property": "dialog.Sum",
+                          "value": "=sum(createArray(dialog.Sum,2))"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "During the afternoon and early evening",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "BXpCpC"
+                          },
+                          "property": "dialog.Sum",
+                          "value": "=sum(createArray(dialog.Sum,4))"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "Late at night",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "7xNqiK"
+                          },
+                          "property": "dialog.Sum",
+                          "value": "=sum(createArray(dialog.Sum,6))"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.DeleteProperties",
+                  "$designer": {
+                    "id": "nfw9Yn"
+                  },
+                  "properties": [
+                    "dialog.text",
+                    "dialog.UserInput"
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "3Ilx9j"
+                  },
+                  "property": "dialog.text",
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1131)).text"
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "TcJzze"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.Option1",
+                      "value": "Fairly fast, with long steps"
+                    },
+                    {
+                      "property": "dialog.Option2",
+                      "value": "Fairly fast, with small steps"
+                    },
+                    {
+                      "property": "dialog.Option3",
+                      "value": "Less fast, head up, looking the world in the face"
+                    },
+                    {
+                      "property": "dialog.Option4",
+                      "value": "Less fast, head down"
+                    },
+                    {
+                      "property": "dialog.Option5",
+                      "value": "Very slowly"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.TextInput",
+                  "$designer": {
+                    "id": "o81HQi"
+                  },
+                  "disabled": false,
+                  "maxTurnCount": 100,
+                  "alwaysPrompt": false,
+                  "allowInterruptions": true,
+                  "unrecognizedPrompt": "",
+                  "invalidPrompt": "",
+                  "property": "dialog.UserInput",
+                  "prompt": "${TextInput_Prompt_o81HQi()}",
+                  "validations": [
+                    "=contains(this.value, 'Fairly fast, with long steps') ||contains(this.value, 'Fairly fast, with small steps') ||contains(this.value, 'Less fast, head up, looking the world in the face') ||contains(this.value, '#') ||contains(this.value, 'Less fast, head down') ||contains(this.value, 'Very slowly') "
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SwitchCondition",
+                  "$designer": {
+                    "id": "rpzHK4"
+                  },
+                  "condition": "dialog.UserInput",
+                  "cases": [
+                    {
+                      "value": "Fairly fast, with long steps",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "ab1UML"
+                          },
+                          "property": "dialog.Sum",
+                          "value": "=sum(createArray(dialog.Sum,6))"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "Fairly fast, with small steps",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "Pb9apX"
+                          },
+                          "property": "dialog.Sum",
+                          "value": "=sum(createArray(dialog.Sum,4))"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "Less fast, head up, looking the world in the face",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "cH735S"
+                          },
+                          "property": "dialog.Sum",
+                          "value": "=sum(createArray(dialog.Sum,7))"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "Less fast, head down",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "TirrjH"
+                          },
+                          "property": "dialog.Sum",
+                          "value": "=sum(createArray(dialog.Sum,2))"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "Very slowly",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "aXno9a"
+                          },
+                          "property": "dialog.Sum",
+                          "value": "=sum(createArray(dialog.Sum,1))"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.DeleteProperties",
+                  "$designer": {
+                    "id": "hM8KOo"
+                  },
+                  "properties": [
+                    "dialog.text",
+                    "dialog.UserInput",
+                    "dialog.Option1",
+                    "dialog.Option2",
+                    "dialog.Option3",
+                    "dialog.Option4",
+                    "dialog.Option5"
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "da8Qov"
+                  },
+                  "property": "dialog.text",
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1132)).text"
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "A44CuO"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.Option1",
+                      "value": "Stand with your arms folded"
+                    },
+                    {
+                      "property": "dialog.Option2",
+                      "value": "Have your hands clasped"
+                    },
+                    {
+                      "property": "dialog.Option3",
+                      "value": "Have one or both of your hands on your hips"
+                    },
+                    {
+                      "property": "dialog.Option4",
+                      "value": "Touch or push the person to whom you are talking"
+                    },
+                    {
+                      "property": "dialog.Option5",
+                      "value": "Play with your ear or hair, touch your chin, or smooth your hair"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.TextInput",
+                  "$designer": {
+                    "id": "kJo0O1"
+                  },
+                  "disabled": false,
+                  "maxTurnCount": 100,
+                  "alwaysPrompt": false,
+                  "allowInterruptions": true,
+                  "unrecognizedPrompt": "",
+                  "property": "dialog.UserInput",
+                  "prompt": "${TextInput_Prompt_kJo0O1()}",
+                  "validations": [
+                    "=contains(this.value, 'Stand with your arms folded') ||contains(this.value, 'Have your hands clasped') ||contains(this.value, 'Have one or both of your hands on your hips') ||contains(this.value, '#') ||contains(this.value, 'Touch or push the person to whom you are talking') ||contains(this.value, 'Play with your ear or hair, touch your chin, or smooth your hair')"
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SwitchCondition",
+                  "$designer": {
+                    "id": "ELSSAD"
+                  },
+                  "condition": "dialog.UserInput",
+                  "cases": [
+                    {
+                      "value": "Stand with your arms folded",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "1Ixhvd"
+                          },
+                          "property": "dialog.Sum",
+                          "value": "=sum(createArray(dialog.Sum,4))"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "Have your hands clasped",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "bBVmKe"
+                          },
+                          "property": "dialog.Sum",
+                          "value": "=sum(createArray(dialog.Sum,2))"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "Have one or both of your hands on your hips",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "giCEFU"
+                          },
+                          "property": "dialog.Sum",
+                          "value": "=sum(createArray(dialog.Sum,5))"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "Touch or push the person to whom you are talking",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "TeJd6E"
+                          },
+                          "property": "dialog.Sum",
+                          "value": "=sum(createArray(dialog.Sum,7))"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "Play with your ear or hair, touch your chin, or smooth your hair",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "krqHY0"
+                          },
+                          "property": "dialog.Sum",
+                          "value": "=sum(createArray(dialog.Sum,6))"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.DeleteProperties",
+                  "$designer": {
+                    "id": "7rbiv7"
+                  },
+                  "properties": [
+                    "dialog.text",
+                    "dialog.UserInput",
+                    "dialog.Option1",
+                    "dialog.Option2",
+                    "dialog.Option3",
+                    "dialog.Option4",
+                    "dialog.Option5"
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "iOWljB"
+                  },
+                  "property": "dialog.text",
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1133)).text"
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "w7ReRD"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.Option1",
+                      "value": "Your knees bent, with your legs neatly side by side"
+                    },
+                    {
+                      "property": "dialog.Option2",
+                      "value": "Your legs crossed"
+                    },
+                    {
+                      "property": "dialog.Option3",
+                      "value": "Your legs stretched out or straight"
+                    },
+                    {
+                      "property": "dialog.Option4",
+                      "value": "One leg curled under you"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.TextInput",
+                  "$designer": {
+                    "id": "CZdYVj"
+                  },
+                  "disabled": false,
+                  "maxTurnCount": 100,
+                  "alwaysPrompt": false,
+                  "allowInterruptions": true,
+                  "invalidPrompt": "",
+                  "property": "dialog.UserInput",
+                  "prompt": "${TextInput_Prompt_CZdYVj()}",
+                  "validations": [
+                    "=contains(this.value, 'Your knees bent, with your legs neatly side by side') ||contains(this.value, 'Your legs crossed') ||contains(this.value, 'Your legs stretched out or straight') ||contains(this.value, '#') ||contains(this.value, 'One leg curled under you')"
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SwitchCondition",
+                  "$designer": {
+                    "id": "nloavP"
+                  },
+                  "condition": "dialog.UserInput",
+                  "cases": [
+                    {
+                      "value": "Your knees bent, with your legs neatly side by side",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "aVErl3"
+                          },
+                          "property": "dialog.Sum",
+                          "value": "=sum(createArray(dialog.Sum,4))"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "Your legs crossed",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "gDuc1c"
+                          },
+                          "property": "dialog.Sum",
+                          "value": "=sum(createArray(dialog.Sum,6))"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "Your legs stretched out or straight",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "BIwI61"
+                          },
+                          "property": "dialog.Sum",
+                          "value": "=sum(createArray(dialog.Sum,2))"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "One leg curled under you",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "OeSvCd"
+                          },
+                          "property": "dialog.Sum",
+                          "value": "=sum(createArray(dialog.Sum,1))"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.DeleteProperties",
+                  "$designer": {
+                    "id": "qJPzCT"
+                  },
+                  "properties": [
+                    "dialog.text",
+                    "dialog.UserInput",
+                    "dialog.Option1",
+                    "dialog.Option2",
+                    "dialog.Option3",
+                    "dialog.Option4",
+                    "dialog.Option5"
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "NfPV4v"
+                  },
+                  "property": "dialog.text",
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1134)).text"
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "Mr1fwq"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.Option1",
+                      "value": "A big, appreciative laugh"
+                    },
+                    {
+                      "property": "dialog.Option2",
+                      "value": "A laugh, but not a loud one"
+                    },
+                    {
+                      "property": "dialog.Option3",
+                      "value": "A quiet chuckle"
+                    },
+                    {
+                      "property": "dialog.Option4",
+                      "value": "A sheepish smile"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.TextInput",
+                  "$designer": {
+                    "id": "ngQ5As"
+                  },
+                  "disabled": false,
+                  "maxTurnCount": 100,
+                  "alwaysPrompt": false,
+                  "allowInterruptions": true,
+                  "invalidPrompt": "",
+                  "property": "dialog.UserInput",
+                  "prompt": "${TextInput_Prompt_ngQ5As()}",
+                  "validations": [
+                    "=contains(this.value, 'A big, appreciative laugh') ||contains(this.value, 'A laugh, but not a loud one') ||contains(this.value, 'A quiet chuckle') ||contains(this.value, '#') ||contains(this.value, 'A sheepish smile')"
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SwitchCondition",
+                  "$designer": {
+                    "id": "PROOcY"
+                  },
+                  "condition": "dialog.UserInput",
+                  "cases": [
+                    {
+                      "value": "A big, appreciative laugh",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "0ILLj5"
+                          },
+                          "property": "dialog.Sum",
+                          "value": "=sum(createArray(dialog.Sum,6))"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "A laugh, but not a loud one",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "tG7mmZ"
+                          },
+                          "property": "dialog.Sum",
+                          "value": "=sum(createArray(dialog.Sum,4))"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "A quiet chuckle",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "fY2Z4W"
+                          },
+                          "property": "dialog.Sum",
+                          "value": "=sum(createArray(dialog.Sum,3))"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "A sheepish smile",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "d5wS6F"
+                          },
+                          "property": "dialog.Sum",
+                          "value": "=sum(createArray(dialog.Sum,2))"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.DeleteProperties",
+                  "$designer": {
+                    "id": "iCthOB"
+                  },
+                  "properties": [
+                    "dialog.text",
+                    "dialog.UserInput",
+                    "dialog.Option1",
+                    "dialog.Option2",
+                    "dialog.Option3",
+                    "dialog.Option4",
+                    "dialog.Option5"
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "7pLMdn"
+                  },
+                  "property": "dialog.text",
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1135)).text"
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "3VMiWC"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.ListOption",
+                      "value": [
+                        "Make a loud entrance, so that everyone notices you",
+                        "Make a quiet entrance, looking around for someone you know",
+                        "Make the quietest entrance, trying to stay unnoticed"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.TextInput",
+                  "$designer": {
+                    "id": "eB1Tkf"
+                  },
+                  "disabled": false,
+                  "maxTurnCount": 3,
+                  "alwaysPrompt": false,
+                  "allowInterruptions": false,
+                  "unrecognizedPrompt": "",
+                  "invalidPrompt": "",
+                  "prompt": "${TextInput_Prompt_eB1Tkf()}",
+                  "property": "dialog.UserInput",
+                  "validations": [
+                    "=contains(this.value, 'Make a loud entrance, so that everyone notices you') ||contains(this.value, 'Make a quiet entrance, looking around for someone you know') ||contains(this.value, 'Make the quietest entrance, trying to stay unnoticed') ||contains(this.value, '#') "
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SwitchCondition",
+                  "$designer": {
+                    "id": "N1annH"
+                  },
+                  "condition": "dialog.UserInput",
+                  "cases": [
+                    {
+                      "value": "Make a loud entrance, so that everyone notices you",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "YWppFr"
+                          },
+                          "property": "dialog.Sum",
+                          "value": "=sum(createArray(dialog.Sum,6))"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "Make a quiet entrance, looking around for someone you know",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "bbDJiY"
+                          },
+                          "property": "dialog.Sum",
+                          "value": "=sum(createArray(dialog.Sum,4))"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "Make the quietest entrance, trying to stay unnoticed",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "fCtykm"
+                          },
+                          "property": "dialog.Sum",
+                          "value": "=sum(createArray(dialog.Sum,2))"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.DeleteProperties",
+                  "$designer": {
+                    "id": "X7uIIO"
+                  },
+                  "properties": [
+                    "dialog.text",
+                    "dialog.UserInput",
+                    "dialog.Option1",
+                    "dialog.Option2",
+                    "dialog.Option3",
+                    "dialog.Option4",
+                    "dialog.Option5"
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "LIpmE0"
+                  },
+                  "property": "dialog.text",
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1137)).text"
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "6Uz8NF"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.ListOption",
+                      "value": [
+                        "Welcome the break",
+                        "Feel extremely irritated",
+                        "Vary between these two extremes"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.TextInput",
+                  "$designer": {
+                    "id": "DzXK10"
+                  },
+                  "disabled": false,
+                  "maxTurnCount": 100,
+                  "alwaysPrompt": false,
+                  "allowInterruptions": true,
+                  "unrecognizedPrompt": "",
+                  "invalidPrompt": "",
+                  "prompt": "${TextInput_Prompt_DzXK10()}",
+                  "property": "dialog.UserInput",
+                  "validations": [
+                    "=contains(this.value, 'Welcome the break') ||contains(this.value, 'Feel extremely irritated') ||contains(this.value, 'Vary between these two extremes') ||contains(this.value, '#')"
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SwitchCondition",
+                  "$designer": {
+                    "id": "JcjbNq"
+                  },
+                  "condition": "dialog.UserInput",
+                  "cases": [
+                    {
+                      "value": "Welcome the break",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "sKyqsH"
+                          },
+                          "property": "dialog.Sum",
+                          "value": "=sum(createArray(dialog.Sum,6))"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "Feel extremely irritated",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "C2Y1eb"
+                          },
+                          "property": "dialog.Sum",
+                          "value": "=sum(createArray(dialog.Sum,2))"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "Vary between these two extremes",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "QbERTK"
+                          },
+                          "property": "dialog.Sum",
+                          "value": "=sum(createArray(dialog.Sum,4))"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.DeleteProperties",
+                  "$designer": {
+                    "id": "8eo4ik"
+                  },
+                  "properties": [
+                    "dialog.text",
+                    "dialog.UserInput",
+                    "dialog.Option1",
+                    "dialog.Option2",
+                    "dialog.Option3",
+                    "dialog.Option4",
+                    "dialog.Option5"
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "pohNfA"
+                  },
+                  "property": "dialog.text",
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1119)).text"
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "T14vaK"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.Option1",
+                      "value": "Red-orange"
+                    },
+                    {
+                      "property": "dialog.Option2",
+                      "value": "Black"
+                    },
+                    {
+                      "property": "dialog.Option3",
+                      "value": "Yellow-light blue"
+                    },
+                    {
+                      "property": "dialog.Option4",
+                      "value": "Green"
+                    },
+                    {
+                      "property": "dialog.Option5",
+                      "value": "Dark blue-purple"
+                    },
+                    {
+                      "property": "dialog.Option6",
+                      "value": "White"
+                    },
+                    {
+                      "property": "dialog.Option7",
+                      "value": "Brown-gray"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "5Le2or"
+                  },
+                  "property": "dialog.List2",
+                  "value": [
+                    "Red-orange",
+                    "Black",
+                    "Yellow-light blue",
+                    "Green",
+                    "Dark blue-purple",
+                    "White",
+                    "Brown-gray"
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "yOUEMg"
+                  },
+                  "property": "dialog.OptionsList",
+                  "value": "=createArray(dialog.Option1,dialog.Option2,dialog.Option3,dialog.Option4,dialog.Option5,dialog.Option6,dialog.Option7)"
+                },
+                {
+                  "$kind": "Microsoft.TextInput",
+                  "$designer": {
+                    "id": "nnuPwl"
+                  },
+                  "disabled": false,
+                  "maxTurnCount": 100,
+                  "alwaysPrompt": false,
+                  "allowInterruptions": true,
+                  "unrecognizedPrompt": "",
+                  "invalidPrompt": "",
+                  "property": "dialog.UserInput",
+                  "prompt": "${TextInput_Prompt_nnuPwl()}",
+                  "validations": [
+                    "=contains(this.value, 'Red-orange') ||contains(this.value, 'Black') ||contains(this.value, 'Yellow-light blue') ||contains(this.value, '#') ||contains(this.value, 'Green') ||contains(this.value, 'Dark blue-purple') ||contains(this.value, 'White') ||contains(this.value, 'Brown-gray') "
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SwitchCondition",
+                  "$designer": {
+                    "id": "9lfgsP"
+                  },
+                  "condition": "dialog.UserInput",
+                  "cases": [
+                    {
+                      "value": "Red-orange",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "eAldI3"
+                          },
+                          "property": "dialog.Sum",
+                          "value": "=sum(createArray(dialog.Sum,6))"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "Black",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "lz1RRA"
+                          },
+                          "property": "dialog.Sum",
+                          "value": "=sum(createArray(dialog.Sum,7))"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "Yellow-light blue",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "FnqLPu"
+                          },
+                          "property": "dialog.Sum",
+                          "value": "=sum(createArray(dialog.Sum,5))"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "Green",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "jqUB1e"
+                          },
+                          "property": "dialog.Sum",
+                          "value": "=sum(createArray(dialog.Sum,4))"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "Dark blue-purple",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "jSjVFJ"
+                          },
+                          "property": "dialog.Sum",
+                          "value": "=sum(createArray(dialog.Sum,3))"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "White",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "MzbLGP"
+                          },
+                          "property": "dialog.Sum",
+                          "value": "=sum(createArray(dialog.Sum,2))"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "Brown-gray",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "rVUJcT"
+                          },
+                          "property": "dialog.Sum",
+                          "value": "=sum(createArray(dialog.Sum,1))"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.DeleteProperties",
+                  "$designer": {
+                    "id": "AGnjHr"
+                  },
+                  "properties": [
+                    "dialog.text",
+                    "dialog.UserInput",
+                    "dialog.Option1",
+                    "dialog.Option2",
+                    "dialog.Option3",
+                    "dialog.Option4",
+                    "dialog.Option5",
+                    "dialog.Option6",
+                    "dialog.Option7"
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "XgtmoS"
+                  },
+                  "property": "dialog.text",
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1120)).text"
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "uASjNy"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.Option1",
+                      "value": "Stretched out on your back"
+                    },
+                    {
+                      "property": "dialog.Option2",
+                      "value": "Stretched out face down on your stomach"
+                    },
+                    {
+                      "property": "dialog.Option3",
+                      "value": "On your side, slightly curled"
+                    },
+                    {
+                      "property": "dialog.Option4",
+                      "value": "With your head on one arm"
+                    },
+                    {
+                      "property": "dialog.Option5",
+                      "value": "With your head under the covers"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.TextInput",
+                  "$designer": {
+                    "id": "1GLzk9"
+                  },
+                  "disabled": false,
+                  "maxTurnCount": 100,
+                  "alwaysPrompt": false,
+                  "allowInterruptions": true,
+                  "unrecognizedPrompt": "",
+                  "invalidPrompt": "",
+                  "property": "dialog.UserInput",
+                  "prompt": "${TextInput_Prompt_1GLzk9()}",
+                  "validations": [
+                    "=contains(this.value, 'Stretched out on your back') ||contains(this.value, 'Stretched out face down on your stomach') ||contains(this.value, 'On your side, slightly curled') ||contains(this.value, '#') ||contains(this.value, 'With your head on one arm') ||contains(this.value, 'With your head under the covers') "
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SwitchCondition",
+                  "$designer": {
+                    "id": "AcUXLH"
+                  },
+                  "condition": "dialog.UserInput",
+                  "cases": [
+                    {
+                      "value": "Stretched out on your back",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "liXhF4"
+                          },
+                          "property": "dialog.Sum",
+                          "value": "=sum(createArray(dialog.Sum,7))"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "Stretched out face down on your stomach",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "Cbtio3"
+                          },
+                          "property": "dialog.Sum",
+                          "value": "=sum(createArray(dialog.Sum,6))"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "On your side, slightly curled",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "IaJaNJ"
+                          },
+                          "property": "dialog.Sum",
+                          "value": "=sum(createArray(dialog.Sum,4))"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "With your head on one arm",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "Qto8ZN"
+                          },
+                          "property": "dialog.Sum",
+                          "value": "=sum(createArray(dialog.Sum,2))"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "With your head under the covers",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "KzL0QV"
+                          },
+                          "property": "dialog.Sum",
+                          "value": "=sum(createArray(dialog.Sum,1))"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.DeleteProperties",
+                  "$designer": {
+                    "id": "hGGV1v"
+                  },
+                  "properties": [
+                    "dialog.text",
+                    "dialog.UserInput",
+                    "dialog.Option1",
+                    "dialog.Option2",
+                    "dialog.Option3",
+                    "dialog.Option4",
+                    "dialog.Option5",
+                    "dialog.Option6",
+                    "dialog.Option7"
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "yEXccW"
+                  },
+                  "property": "dialog.text",
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1121)).text"
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "ZjOEy0"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.Option1",
+                      "value": "Falling"
+                    },
+                    {
+                      "property": "dialog.Option2",
+                      "value": "Fighting or struggling"
+                    },
+                    {
+                      "property": "dialog.Option3",
+                      "value": "Searching for something or somebody"
+                    },
+                    {
+                      "property": "dialog.Option4",
+                      "value": "Flying or floating"
+                    },
+                    {
+                      "property": "dialog.Option5",
+                      "value": "You usually have dreamless sleep"
+                    },
+                    {
+                      "property": "dialog.Option6",
+                      "value": "Your dreams are always pleasant"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.TextInput",
+                  "$designer": {
+                    "id": "57jWzB"
+                  },
+                  "disabled": false,
+                  "maxTurnCount": 100,
+                  "alwaysPrompt": false,
+                  "allowInterruptions": true,
+                  "unrecognizedPrompt": "",
+                  "invalidPrompt": "",
+                  "property": "dialog.UserInput",
+                  "prompt": "${TextInput_Prompt_57jWzB()}",
+                  "validations": [
+                    "=contains(this.value, 'Falling') ||contains(this.value, 'Fighting or struggling') ||contains(this.value, 'Searching for something or somebody') ||contains(this.value, '#') ||contains(this.value, 'Flying or floating') ||contains(this.value, 'You usually have dreamless sleep') ||contains(this.value, 'Your dreams are always pleasant') "
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SwitchCondition",
+                  "$designer": {
+                    "id": "lrVKGN"
+                  },
+                  "condition": "dialog.UserInput",
+                  "cases": [
+                    {
+                      "value": "Falling",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "PT4GsG"
+                          },
+                          "property": "dialog.Sum",
+                          "value": "=sum(createArray(dialog.Sum,4))"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "Fighting or struggling",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "NapcoJ"
+                          },
+                          "property": "dialog.Sum",
+                          "value": "=sum(createArray(dialog.Sum,2))"
+                        }
+                      ]
+                    },
+                    {
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "NfdpsZ"
+                          },
+                          "property": "dialog.Sum",
+                          "value": "=sum(createArray(dialog.Sum,3))"
+                        }
+                      ],
+                      "value": "Searching for something or somebody"
+                    },
+                    {
+                      "value": "Flying or floating",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "2MdJPG"
+                          },
+                          "property": "dialog.Sum",
+                          "value": "=sum(createArray(dialog.Sum,5))"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "You usually have dreamless sleep",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "QlQ3eA"
+                          },
+                          "property": "dialog.Sum",
+                          "value": "=sum(createArray(dialog.Sum,6))"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "Your dreams are always pleasant",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "1fWKFC"
+                          },
+                          "property": "dialog.Sum",
+                          "value": "=sum(createArray(dialog.Sum,1))"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "default": []
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "zea5or"
+          },
+          "condition": "20>=dialog.Sum && dialog.Sum >=0 ",
+          "elseActions": [
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "6GL0XL"
+              },
+              "condition": "30>=dialog.Sum && dialog.Sum >=21",
+              "elseActions": [
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "uU17Rl"
+                  },
+                  "condition": "40>=dialog.Sum && dialog.Sum >=31",
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.IfCondition",
+                      "$designer": {
+                        "id": "VTOR4f"
+                      },
+                      "condition": "50>=dialog.Sum && dialog.Sum >=41 ",
+                      "elseActions": [
+                        {
+                          "$kind": "Microsoft.IfCondition",
+                          "$designer": {
+                            "id": "8j1zIf"
+                          },
+                          "condition": "60>=dialog.Sum && dialog.Sum >=51",
+                          "elseActions": [
+                            {
+                              "$kind": "Microsoft.IfCondition",
+                              "$designer": {
+                                "id": "G62XUF"
+                              },
+                              "condition": " dialog.Sum >=61",
+                              "actions": [
+                                {
+                                  "$kind": "Microsoft.SetProperty",
+                                  "$designer": {
+                                    "id": "o32c3w"
+                                  },
+                                  "property": "dialog.result",
+                                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1127)).text"
+                                },
+                                {
+                                  "$kind": "Microsoft.SendActivity",
+                                  "$designer": {
+                                    "id": "J1LP7m"
+                                  },
+                                  "activity": "${SendActivity_J1LP7m()}"
+                                }
+                              ]
+                            }
+                          ],
+                          "actions": [
+                            {
+                              "$kind": "Microsoft.SetProperty",
+                              "$designer": {
+                                "id": "YiIu1t"
+                              },
+                              "property": "dialog.result",
+                              "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1126)).text"
+                            },
+                            {
+                              "$kind": "Microsoft.SendActivity",
+                              "$designer": {
+                                "id": "y5fbPF"
+                              },
+                              "activity": "${SendActivity_y5fbPF()}"
+                            }
+                          ]
+                        }
+                      ],
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "R7ZpPU"
+                          },
+                          "property": "dialog.result",
+                          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1125)).text"
+                        },
+                        {
+                          "$kind": "Microsoft.SendActivity",
+                          "$designer": {
+                            "id": "83aa7Z"
+                          },
+                          "activity": "${SendActivity_83aa7Z()}"
+                        }
+                      ]
+                    }
+                  ],
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "Rx6Zqs"
+                      },
+                      "property": "dialog.result",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1124)).text"
+                    },
+                    {
+                      "$kind": "Microsoft.SendActivity",
+                      "$designer": {
+                        "id": "B4ksVm"
+                      },
+                      "activity": "${SendActivity_B4ksVm()}"
+                    }
+                  ]
+                }
+              ],
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "t2NvYS"
+                  },
+                  "property": "dialog.result",
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1123)).text"
+                },
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "2k3pjj"
+                  },
+                  "activity": "${SendActivity_2k3pjj()}"
+                }
+              ]
+            }
+          ],
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "YMhd4T"
+              },
+              "property": "dialog.result",
+              "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1122)).text"
+            },
+            {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "5Jn1oz"
+              },
+              "activity": "${SendActivity_5Jn1oz()}"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "KRVvss"
+          },
+          "activityProcessed": true,
+          "dialog": "UstaziContactUs"
+        }
+      ]
+    }
+  ],
+  "generator": "Ustazi_Personality.lg",
+  "recognizer": "Ustazi_Personality.lu.qna",
+  "id": "Ustazi_Personality"
+}

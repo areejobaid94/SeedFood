@@ -1,0 +1,17 @@
+[import](common.lg)
+
+# TextInput_Prompt_RSSqAO()
+[Activity
+    Text = ${TextInput_Prompt_RSSqAO_text()}
+    SuggestedActions = ${dialog.Button}
+]
+
+# TextInput_Prompt_RSSqAO_text()
+- ${conversation.InputHint}
+# TextInput_Prompt_TSrJlh()
+[Activity
+    Text = ${TextInput_Prompt_TSrJlh_text()}
+]
+
+# TextInput_Prompt_TSrJlh_text()
+- ${dialog.inquiryCaption}

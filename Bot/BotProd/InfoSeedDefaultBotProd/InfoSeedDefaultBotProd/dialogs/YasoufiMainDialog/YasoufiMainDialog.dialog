@@ -1,0 +1,334 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "sDUifd",
+    "name": "YasoufiMainDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "VORo6K"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "dRnMB6"
+          },
+          "condition": "conversation.local",
+          "cases": [
+            {
+              "value": "ar",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "YYyNPg"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.ListOption",
+                      "value": [
+                        "لعمل طلبية توصيل",
+                        "عنوان المعرض ومواعيد الدوام",
+                        "شروط التوصيل",
+                        "للإستفسار"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "en",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "kmLQO2"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.ListOption",
+                      "value": [
+                        "Make order for delivery",
+                        "Store address and working hours",
+                        "Delivery terms",
+                        "For inquiries"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "lI36li"
+          },
+          "assignments": [
+            {
+              "property": "dialog.text",
+              "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3)).text"
+            },
+            {
+              "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1)).text",
+              "property": "dialog.WelcomeMessage"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "DR2X9G"
+          },
+          "activity": "${SendActivity_DR2X9G()}"
+        },
+        {
+          "$kind": "Microsoft.DeleteProperty",
+          "$designer": {
+            "id": "2FbIA7"
+          },
+          "property": "dialog.UserSelect"
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "ZLfgRL"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "unrecognizedPrompt": "",
+          "invalidPrompt": "",
+          "prompt": "${TextInput_Prompt_ZLfgRL()}",
+          "validations": [
+            "equals(this.value, 'لعمل طلبية توصيل') || equals(this.value, 'عنوان المعرض ومواعيد الدوام')  || equals(this.value, 'شروط التوصيل') || equals(this.value, 'للإستفسار') || equals(this.value, 'Make order for delivery') || equals(this.value, 'Store address and working hours')  || equals(this.value, 'Delivery terms')  || equals(this.value, 'For inquiries') ||equals(this.value, '#')"
+          ],
+          "property": "dialog.UserSelect"
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "YgL2x2"
+          },
+          "condition": "dialog.UserSelect",
+          "cases": [
+            {
+              "value": "Make order for delivery",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "NRFMQV"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "YasoufiOrderDialog"
+                }
+              ]
+            },
+            {
+              "value": "Store address and working hours",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "1U9Vjx"
+                  },
+                  "property": "conversation.Department1",
+                  "value": "${dialog.UserSelect}"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "vO6Bo4"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "YasoufiStoreDialog"
+                }
+              ]
+            },
+            {
+              "value": "Delivery terms",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "TPyhF2"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "YasoufiDeliveryDailog"
+                }
+              ]
+            },
+            {
+              "value": "For inquiries",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "l3NIHu"
+                  },
+                  "property": "conversation.Department1",
+                  "value": "${dialog.UserSelect}"
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "vZMxdy"
+                  },
+                  "property": "dialog.FirstInquiries",
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 4)).text"
+                },
+                {
+                  "$kind": "Microsoft.DeleteProperty",
+                  "$designer": {
+                    "id": "mIdLuk"
+                  },
+                  "property": "dialog.UserInput"
+                },
+                {
+                  "$kind": "Microsoft.TextInput",
+                  "$designer": {
+                    "id": "xyiwTp"
+                  },
+                  "disabled": false,
+                  "maxTurnCount": 100,
+                  "alwaysPrompt": false,
+                  "allowInterruptions": true,
+                  "prompt": "${TextInput_Prompt_xyiwTp()}",
+                  "unrecognizedPrompt": "",
+                  "invalidPrompt": "",
+                  "property": "dialog.UserInput"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "HbV3GZ"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "LiveChatDialog"
+                }
+              ]
+            },
+            {
+              "value": "لعمل طلبية توصيل",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "T89b3n"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "YasoufiOrderDialog"
+                }
+              ]
+            },
+            {
+              "value": "عنوان المعرض ومواعيد الدوام",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "VIkJta"
+                  },
+                  "property": "conversation.Department1",
+                  "value": "${dialog.UserSelect}"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "L9NGPZ"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "YasoufiStoreDialog"
+                }
+              ]
+            },
+            {
+              "value": "شروط التوصيل",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "J3XNcU"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "YasoufiDeliveryDailog"
+                }
+              ]
+            },
+            {
+              "value": "للإستفسار",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "MqAKWS"
+                  },
+                  "property": "conversation.Department1",
+                  "value": "${dialog.UserSelect}"
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "3xdV5G"
+                  },
+                  "property": "dialog.FirstInquiries",
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 4)).text"
+                },
+                {
+                  "$kind": "Microsoft.DeleteProperty",
+                  "$designer": {
+                    "id": "9Ggdj0"
+                  },
+                  "property": "dialog.UserInput"
+                },
+                {
+                  "$kind": "Microsoft.TextInput",
+                  "$designer": {
+                    "id": "0upObX"
+                  },
+                  "disabled": false,
+                  "maxTurnCount": 100,
+                  "alwaysPrompt": false,
+                  "allowInterruptions": true,
+                  "prompt": "${TextInput_Prompt_0upObX()}",
+                  "unrecognizedPrompt": "",
+                  "invalidPrompt": "",
+                  "property": "dialog.UserInput"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "NsMB18"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "LiveChatDialog"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "08r72x"
+          }
+        }
+      ]
+    }
+  ],
+  "generator": "YasoufiMainDialog.lg",
+  "recognizer": "YasoufiMainDialog.lu.qna",
+  "id": "YasoufiMainDialog"
+}

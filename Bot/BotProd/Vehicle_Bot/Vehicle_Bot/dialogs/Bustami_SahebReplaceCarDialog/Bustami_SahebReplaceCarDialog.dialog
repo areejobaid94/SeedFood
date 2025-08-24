@@ -1,0 +1,325 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "ysN6Ky",
+    "name": "Bustami_SahebReplaceCarDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "fjUBPC"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "ZhayIL"
+          },
+          "condition": "conversation.local",
+          "cases": [
+            {
+              "value": "ar",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "cbKp2X"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.choose",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId ==5)).text"
+                    },
+                    {
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId ==6)).text",
+                      "property": "conversation.sendpic"
+                    },
+                    {
+                      "property": "dialog.sendpic2",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId ==7)).text"
+                    },
+                    {
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId ==8)).text",
+                      "property": "dialog.choosetype"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "q09VLJ"
+                  },
+                  "value": "التواصل مع القسم",
+                  "property": "dialog.op1"
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "2lbYh2"
+                  },
+                  "property": "dialog.op2",
+                  "value": "قدم الطلب"
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "7IfYyq"
+                  },
+                  "property": "dialog.textc",
+                  "value": "الرجاء الاتصال على الرقم التالي : 962796101720"
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "wGbcch"
+                  },
+                  "property": "dialog.tx1",
+                  "value": "الرجاء الاختيار من القائمة "
+                }
+              ]
+            },
+            {
+              "value": "en",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "hdulN9"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.choose",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId ==5)).text"
+                    },
+                    {
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId ==6)).text",
+                      "property": "conversation.sendpic"
+                    },
+                    {
+                      "property": "dialog.sendpic2",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId ==7)).text"
+                    },
+                    {
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId ==8)).text",
+                      "property": "dialog.choosetype"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "E71UVR"
+                  },
+                  "value": "Contact Us",
+                  "property": "dialog.op1"
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "EMkize"
+                  },
+                  "property": "dialog.op2",
+                  "value": "Apply"
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "4qklcJ"
+                  },
+                  "property": "dialog.textc",
+                  "value": "Please call the following number: 962796101720"
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "Y4CQFa"
+                  },
+                  "property": "dialog.tx1",
+                  "value": "Please choose from the list"
+                }
+              ]
+            }
+          ],
+          "default": []
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "m7nCEm"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": false,
+          "prompt": "${TextInput_Prompt_m7nCEm()}",
+          "unrecognizedPrompt": "",
+          "invalidPrompt": "",
+          "property": "dialog.userselect",
+          "validations": [
+            "=equals(this.value, 'التواصل مع القسم')|| equals(this.value, 'Contact Us')|| equals(this.value, '#') || equals(this.value, 'قدم الطلب')|| equals(this.value, 'Apply')"
+          ]
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "b2kvyt"
+          },
+          "condition": "dialog.userselect==\"التواصل مع القسم\" || dialog.userselect==\"Contact Us\"",
+          "actions": [
+            {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "8K70Z4"
+              },
+              "activity": "${SendActivity_8K70Z4()}"
+            },
+            {
+              "$kind": "Microsoft.CancelAllDialogs",
+              "$designer": {
+                "id": "eAP53G"
+              },
+              "activityProcessed": false
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "RMO3GD"
+          },
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "niAwfg"
+              },
+              "property": "conversation.IsLiveChat",
+              "value": false
+            },
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "szfD7W"
+              },
+              "activityProcessed": false,
+              "dialog": "MainDialog"
+            },
+            {
+              "$kind": "Microsoft.CancelAllDialogs",
+              "$designer": {
+                "id": "ykN6Ex"
+              },
+              "activityProcessed": false
+            }
+          ],
+          "condition": "dialog.userselect==\"#\""
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "w92czk"
+          },
+          "activityProcessed": false,
+          "dialog": "Bustami_SahebUploadImgDialog"
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "EpA9Fm"
+          },
+          "property": "conversation.sendpic",
+          "value": "= dialog.sendpic2"
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "FrbZC8"
+          },
+          "activityProcessed": false,
+          "dialog": "Bustami_SahebUploadImgDialog"
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "SQH4LE"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": false,
+          "unrecognizedPrompt": "",
+          "prompt": "${TextInput_Prompt_SQH4LE()}",
+          "property": "dialog.InputThree"
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "KdHrcf"
+          },
+          "property": "dialog.isPic",
+          "value": "true"
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "7CLU9l"
+          },
+          "property": "dialog.TimeDate",
+          "value": "${dialog.InputThree}"
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "9kMTiB"
+          },
+          "property": "dialog.updateOrder",
+          "value": {
+            "ContactName": "=conversation.DisplayName",
+            "ContactId": "=conversation.ContactId",
+            "TenantID": "=conversation.TenantId",
+            "PhoneNumber": "=conversation.phoneNumber",
+            "information": "=dialog.TimeDate",
+            "AttachmetArray": "=conversation.AttachmetArray",
+            "DepartmentId": "=conversation.BustamiID"
+          }
+        },
+        {
+          "$kind": "Microsoft.HttpRequest",
+          "$designer": {
+            "id": "6H52We"
+          },
+          "resultProperty": "dialog.OrderUpdateFinsh",
+          "method": "POST",
+          "url": "${conversation.URL}/api/BotAPI/SendPrescription",
+          "body": "= dialog.updateOrder",
+          "headers": {
+            "accept": "text/plain"
+          },
+          "responseType": "json"
+        },
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "YuPoyj"
+          },
+          "activity": "${SendActivity_YuPoyj()}"
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "Vrm6dr"
+          }
+        }
+      ]
+    }
+  ],
+  "generator": "Bustami_SahebReplaceCarDialog.lg",
+  "recognizer": "Bustami_SahebReplaceCarDialog.lu.qna",
+  "id": "Bustami_SahebReplaceCarDialog"
+}

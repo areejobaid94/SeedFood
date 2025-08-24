@@ -1,0 +1,30 @@
+[import](common.lg)
+
+# SendActivity_XKjoaY_text()
+- ${dialog.text}
+# SendActivity_XKjoaY()
+[Activity
+    Text = ${SendActivity_XKjoaY_text()}
+]
+
+# TextInput_Prompt_eVkWML_text()
+- ${dialog.textAppointment}
+# TextInput_Prompt_eVkWML()
+[Activity
+    Text = ${TextInput_Prompt_eVkWML_text()}
+    SuggestedActions = ${dialog.Option1} | ${dialog.Option2}
+]
+
+# TextInput_Prompt_uiHlVN_text()
+- ${dialog.YourName}
+# TextInput_Prompt_uiHlVN()
+[Activity
+    Text = ${TextInput_Prompt_uiHlVN_text()}
+]
+
+# TextInput_Prompt_RBfP0b_text()
+- ${dialog.Date}
+# TextInput_Prompt_RBfP0b()
+[Activity
+    Text = ${TextInput_Prompt_RBfP0b_text()}
+]

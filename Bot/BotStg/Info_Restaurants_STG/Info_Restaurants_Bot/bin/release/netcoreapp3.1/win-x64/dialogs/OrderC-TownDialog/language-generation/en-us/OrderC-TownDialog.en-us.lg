@@ -1,0 +1,25 @@
+[import](common.lg)
+
+# TextInput_Prompt_reVJjt()
+[Activity
+    Text = ${TextInput_Prompt_reVJjt_text()}
+    SuggestedActions = ${dialog.op1} | ${dialog.op2}
+]
+
+# TextInput_Prompt_reVJjt_text()
+- ${dialog.text}
+# SendActivity_C6gbdy()
+[Activity
+    Text = ${SendActivity_C6gbdy_text()}
+]
+
+# SendActivity_C6gbdy_text()
+- ${conversation.FeedBackTextThanks}
+# TextInput_Prompt_8BXgue()
+[Activity
+    Text = ${TextInput_Prompt_8BXgue_text()}
+    SuggestedActions = ${dialog.Option1} | ${dialog.Option2}
+]
+
+# TextInput_Prompt_8BXgue_text()
+- ${dialog.text}

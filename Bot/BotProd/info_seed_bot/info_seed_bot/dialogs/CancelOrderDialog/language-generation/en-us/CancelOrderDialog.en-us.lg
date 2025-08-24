@@ -1,0 +1,28 @@
+[import](common.lg)
+
+#OrderNumberWrong(text,Option,Summary)
+[Activity
+  Text= ${text}
+  SuggestedActions =${Option}
+  Summary =  ${Summary}  
+]
+
+#CancelOrderText(TextCancel,Summary)
+[Activity
+  Text= ${TextCancel}
+   Summary =  ${Summary}  
+]
+# SendActivity_bSnhv3()
+- ${dialog.CancelUpdate.content.result.textCancelOrder}
+# SendActivity_ARGvUI()
+- ${conversation.SeccesCancelOrder}
+# TextInput_Prompt_JTTaBC()
+- ${OrderNumberWrong(conversation.FailCancelOrder,conversation.EnterNewOrderNumber,conversation.Summary)}
+# TextInput_Prompt_uPpD14()
+[Activity
+    Text= ${conversation.SelectTypeOfDeleteText}
+    SuggestedActions = حجز  | طلب
+    Summary=${conversation.Summary}
+]
+# TextInput_Prompt_7KID5F()
+- ${CancelOrderText(conversation.CancelOrder_Text,conversation.Summary)}

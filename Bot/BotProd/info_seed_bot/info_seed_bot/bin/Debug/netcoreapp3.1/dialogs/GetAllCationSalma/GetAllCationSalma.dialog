@@ -1,0 +1,97 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "pMuVqt",
+    "name": "GetAllCationSalma",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "8ofQmB"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.Foreach",
+          "$designer": {
+            "id": "fxXhOY"
+          },
+          "index": "dialog.foreach.index",
+          "value": "dialog.foreach.value",
+          "itemsProperty": "conversation.AllCaption.content.result",
+          "actions": [
+            {
+              "$kind": "Microsoft.SwitchCondition",
+              "$designer": {
+                "id": "R7aNTw"
+              },
+              "condition": "dialog.foreach.value.textResourceId",
+              "cases": [
+                {
+                  "value": "44",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "EIKy3K"
+                      },
+                      "property": "conversation.SelectTypeOfDeleteText",
+                      "value": "=dialog.foreach.value.text"
+                    }
+                  ]
+                },
+                {
+                  "value": "45",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "ezFBcj"
+                      },
+                      "property": "conversation.EnterBookingNumberText",
+                      "value": "=dialog.foreach.value.text"
+                    }
+                  ]
+                },
+                {
+                  "value": "46",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "9K5erW"
+                      },
+                      "property": "conversation.RKHKushanPhotos_Text",
+                      "value": "=dialog.foreach.value.text"
+                    }
+                  ]
+                },
+                {
+                  "value": "47",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "G4S0mr"
+                      },
+                      "property": "conversation.RKHConnectUs_text",
+                      "value": "=dialog.foreach.value.text"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "generator": "GetAllCationSalma.lg",
+  "recognizer": "GetAllCationSalma.lu.qna",
+  "id": "GetAllCationSalma"
+}

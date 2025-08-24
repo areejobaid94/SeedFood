@@ -1,0 +1,28 @@
+﻿CREATE TABLE [dbo].[Query] (
+    [Id]                     INT            NOT NULL,
+    [TenantId]               INT            NULL,
+    [AvatarUrl]              NVARCHAR (512) NULL,
+    [DisplayName]            NVARCHAR (512) NULL,
+    [PhoneNumber]            NVARCHAR (512) NULL,
+    [SunshineAppID]          NVARCHAR (512) NULL,
+    [IsLockedByAgent]        BIT            NOT NULL,
+    [LockedByAgentName]      NVARCHAR (512) NULL,
+    [IsOpen]                 BIT            NOT NULL,
+    [Website]                NVARCHAR (512) NULL,
+    [EmailAddress]           NVARCHAR (512) NULL,
+    [Description]            NTEXT          NULL,
+    [ChatStatuseId]          INT            NULL,
+    [ContactStatuseId]       INT            NULL,
+    [CreationTime]           DATETIME2 (7)  NOT NULL,
+    [CreatorUserId]          BIGINT         NULL,
+    [DeleterUserId]          BIGINT         NULL,
+    [DeletionTime]           DATETIME2 (7)  NULL,
+    [IsDeleted]              BIT            NOT NULL,
+    [LastModificationTime]   DATETIME2 (7)  NULL,
+    [LastModifierUserId]     BIGINT         NULL,
+    [UserId]                 NTEXT          NULL,
+    [IsConversationExpired]  BIT            NOT NULL,
+    [IsBlock]                BIT            NOT NULL,
+    [SunshineConversationId] NTEXT          NULL
+);
+

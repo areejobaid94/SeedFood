@@ -1,0 +1,18 @@
+[import](common.lg)
+
+# TextInput_Prompt_Ye54Wa()
+- ${conversation.Maintenance_CustomerName}
+# TextInput_Prompt_7WwEVw()
+- ${conversation.Maintenance_PhoneNumber1}
+# TextInput_Prompt_5uIzJm()
+- ${conversation.Maintenance_PhoneNumber2}
+# TextInput_Prompt_IH37Ml()
+- ${conversation.Maintenance_PhoneType}
+# TextInput_Prompt_MLo7Ii()
+- ${conversation.Maintenance_Damage}
+# TextInput_Prompt_7kByOf()
+[Activity
+  Text= ${conversation.Maintenance_Summary}
+  SuggestedActions =   ${dialog.Option1} |  ${dialog.Option2}
+  Summary =   ${dialog.Summary}  
+]

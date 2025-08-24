@@ -1,0 +1,108 @@
+[import](common.lg)
+#ButtonBranshList(Text)
+- ``` 
+{
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "version": "1.0",
+    "type": "AdaptiveCard",
+    "body": [
+          {
+            "type": "TextBlock",
+            "text": "${Text}"
+        },
+        {
+            "type": "Input.ChoiceSet",
+            "choices": [
+                 {
+                    "title": "الدوار السابع",
+                    "value": "الدوار السابع"
+              },
+                 {
+                    "title": "شارع المدينة",
+                    "value": "شارع المدينة"
+              },
+                 {
+                    "title": "جاليريا مول",
+                    "value": "جاليريا مول"
+              },
+                 {
+                    "title": "الشميساني",
+                    "value": "الشميساني"
+              }
+                               
+            ],
+            "placeholder": "",
+            "id": "InputAdultos"
+        }
+    ]
+}
+ ```
+
+
+ #ButtonBranshListE(Text)
+- ``` 
+{
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "version": "1.0",
+    "type": "AdaptiveCard",
+    "body": [
+          {
+            "type": "TextBlock",
+            "text": "${Text}"
+        },
+        {
+            "type": "Input.ChoiceSet",
+            "choices": [
+                 {
+                    "title": "Seventh Circle",
+                    "value": "Seventh Circle"
+              },
+                 {
+                    "title": "Almadina Street",
+                    "value": "Almadina Street"
+              },
+                 {
+                    "title": "Galleria Mall",
+                    "value": "Galleria Mall"
+              },
+                 {
+                    "title": "Shmeisani",
+                    "value": "Shmeisani"
+              }
+                               
+            ],
+            "placeholder": "",
+            "id": "InputAdultos"
+        }
+    ]
+}
+ ```
+# SendActivity_C5oqnB()
+-فرع الدوار السابع - خلف الملكية مقابل البنك العربي- 0781566666  \r\n https://www.google.com/maps?q=31.956636428833008,35.85547637939453&z=17&hl=en
+# SendActivity_O7mDPP()
+- فرع شارع المدينة المنورة - بجانب بكداش للحلويات مقابل البنك العربي. - 0781544444 \r\n https://www.google.com/maps?q=31.997438430786133,35.87196350097656&z=17&hl=en
+# SendActivity_qGCHJH()
+- فرع جاليريا مول - طابق LG - 0781930000 \r\n https://www.google.com/maps?q=31.959123611450195,35.86214065551758&z=17&hl=en
+# SendActivity_kPvCq2()
+- فرع الشميساني - مقابل بنك القاهرة عمان - 0785044444 \r\n https://www.google.com/maps?q=31.98188018798828,35.89316177368164&z=17&hl=en
+# SendActivity_WAKUlZ()
+- Seventh Circle Branch - Behind the property, opposite the Arab Bank - 0781566666 \r\n https://www.google.com/maps?q=31.956636428833008,35.85547637939453&z=17&hl=en
+# SendActivity_6fcZ7N()
+
+- Al-Madina Al-Munawwarah Street Branch - next to Bakdash Sweets, opposite the Arab Bank. - 0781544444 \r\n https://www.google.com/maps?q=31.997438430786133,35.87196350097656&z=17&hl=en
+# SendActivity_5hfWiJ()
+- Galleria Mall Branch - LG Floor - 0781930000 \r\n https://www.google.com/maps?q=31.959123611450195,35.86214065551758&z=17&hl=en
+# SendActivity_YL0Cqd()
+- Shmeisani branch - opposite Cairo Amman Bank - 0785044444 \r\n https://www.google.com/maps?q=31.98188018798828,35.89316177368164&z=17&hl=en
+# TextInput_Prompt_AL8O8W()
+[Activity
+    Attachments = ${json(ButtonBranshList(dialog.TextRate))}
+    InputHint=${dialog.InputHint}
+     Summary=${conversation.Summary}
+]
+# TextInput_Prompt_THj2WE()
+[Activity
+    Attachments = ${json(ButtonBranshListE(dialog.TextRate))}
+    InputHint=${dialog.InputHint}
+     Summary=${conversation.Summary}
+]

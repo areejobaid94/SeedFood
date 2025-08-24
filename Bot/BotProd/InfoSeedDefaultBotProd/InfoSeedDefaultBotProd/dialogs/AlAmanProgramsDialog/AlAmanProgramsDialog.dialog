@@ -1,0 +1,543 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "BsmIlp",
+    "name": "AlAmanProgramsDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "kYd3oV"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "3I4LiX"
+          },
+          "condition": "conversation.local",
+          "cases": [
+            {
+              "value": "ar",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "CPAH9L"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.Volunteering",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 11)).text"
+                    },
+                    {
+                      "property": "dialog.choose",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 6)).text"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "zTabX5"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.option1",
+                      "value": "المنح الدراسية"
+                    },
+                    {
+                      "property": "dialog.option2",
+                      "value": "الدعم المعيشي"
+                    },
+                    {
+                      "property": "dialog.option3",
+                      "value": "بناء القدرات"
+                    },
+                    {
+                      "property": "dialog.option",
+                      "value": "تبرع"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "en",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "zDf3b9"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.Volunteering",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 11)).text"
+                    },
+                    {
+                      "property": "dialog.choose",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 6)).text"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "LfpHaQ"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.option1",
+                      "value": "Scholarships"
+                    },
+                    {
+                      "property": "dialog.option2",
+                      "value": "Living Support"
+                    },
+                    {
+                      "property": "dialog.option3",
+                      "value": "capability-building"
+                    },
+                    {
+                      "value": "Donate",
+                      "property": "dialog.option"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "default": []
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "hbnaIB"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "prompt": "${TextInput_Prompt_hbnaIB()}",
+          "property": "dialog.progInput",
+          "validations": [
+            "=equals(this.value, '#')|| equals(this.value, 'capability-building') || equals(this.value, 'Living Support') || equals(this.value, 'Scholarships')|| equals(this.value, 'بناء القدرات')|| equals(this.value, 'الدعم المعيشي') || equals(this.value, 'المنح الدراسية')"
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "f1mySf"
+          },
+          "property": "conversation.preText",
+          "value": "=dialog.progInput"
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "yMMemF"
+          },
+          "condition": "dialog.progInput",
+          "cases": [
+            {
+              "value": "المنح الدراسية",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "lxlt7G"
+                  },
+                  "property": "dialog.caption",
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 14)).text"
+                },
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "bviwek"
+                  },
+                  "activity": "${SendActivity_bviwek()}"
+                },
+                {
+                  "$kind": "Microsoft.TextInput",
+                  "$designer": {
+                    "id": "kxxwba"
+                  },
+                  "disabled": false,
+                  "maxTurnCount": 100,
+                  "alwaysPrompt": false,
+                  "allowInterruptions": true,
+                  "prompt": "${TextInput_Prompt_kxxwba()}",
+                  "invalidPrompt": "",
+                  "property": "dialog.UserInputs",
+                  "validations": [
+                    "=equals(this.value, '#')|| equals(this.value, 'Donate') || equals(this.value, 'تبرع')"
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "5I8rxR"
+                  },
+                  "assignments": [
+                    {
+                      "property": "conversation.ChoiceCasePic",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 16)).text"
+                    },
+                    {
+                      "property": "conversation.ChoiceCaseLink",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 15)).text"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "pTgguM"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "AlAmanVolunteeringChoicesDialog"
+                }
+              ]
+            },
+            {
+              "value": "الدعم المعيشي",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "Y2UWGR"
+                  },
+                  "property": "dialog.caption",
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 12)).text"
+                },
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "RYDaDG"
+                  },
+                  "activity": "${SendActivity_RYDaDG()}"
+                },
+                {
+                  "$kind": "Microsoft.TextInput",
+                  "$designer": {
+                    "id": "aBjqju"
+                  },
+                  "disabled": false,
+                  "maxTurnCount": 100,
+                  "alwaysPrompt": false,
+                  "allowInterruptions": true,
+                  "prompt": "${TextInput_Prompt_aBjqju()}",
+                  "invalidPrompt": "",
+                  "property": "dialog.UserInputs",
+                  "validations": [
+                    "=equals(this.value, '#')|| equals(this.value, 'Donate') || equals(this.value, 'تبرع')"
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "ptbot9"
+                  },
+                  "assignments": [
+                    {
+                      "property": "conversation.ChoiceCasePic",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 20)).text"
+                    },
+                    {
+                      "property": "conversation.ChoiceCaseLink",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 19)).text"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "c83UUE"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "AlAmanVolunteeringChoicesDialog"
+                }
+              ]
+            },
+            {
+              "value": "بناء القدرات",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "0XZfl1"
+                  },
+                  "property": "dialog.caption",
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 13)).text"
+                },
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "XgREfo"
+                  },
+                  "activity": "${SendActivity_XgREfo()}"
+                },
+                {
+                  "$kind": "Microsoft.TextInput",
+                  "$designer": {
+                    "id": "rcR2IZ"
+                  },
+                  "disabled": false,
+                  "maxTurnCount": 100,
+                  "alwaysPrompt": false,
+                  "allowInterruptions": true,
+                  "prompt": "${TextInput_Prompt_rcR2IZ()}",
+                  "property": "dialog.UserInputs",
+                  "validations": [
+                    "=equals(this.value, '#')|| equals(this.value, 'Donate') || equals(this.value, 'تبرع')"
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "G8tt9m"
+                  },
+                  "assignments": [
+                    {
+                      "property": "conversation.ChoiceCasePic",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 18)).text"
+                    },
+                    {
+                      "property": "conversation.ChoiceCaseLink",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 17)).text"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "TtaQNy"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "AlAmanVolunteeringChoicesDialog"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "7lTVOZ"
+          },
+          "condition": "dialog.progInput",
+          "cases": [
+            {
+              "value": "Scholarships",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "YeBlDa"
+                  },
+                  "property": "dialog.caption",
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 14)).text"
+                },
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "N7g9Gx"
+                  },
+                  "activity": "${SendActivity_N7g9Gx()}"
+                },
+                {
+                  "$kind": "Microsoft.TextInput",
+                  "$designer": {
+                    "id": "GiNziJ"
+                  },
+                  "disabled": false,
+                  "maxTurnCount": 100,
+                  "alwaysPrompt": false,
+                  "allowInterruptions": true,
+                  "prompt": "${TextInput_Prompt_GiNziJ()}",
+                  "property": "dialog.UserInputs",
+                  "validations": [
+                    "=equals(this.value, '#')|| equals(this.value, 'Donate') || equals(this.value, 'تبرع')"
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "WBRoIk"
+                  },
+                  "assignments": [
+                    {
+                      "property": "conversation.ChoiceCasePic",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 16)).text"
+                    },
+                    {
+                      "property": "conversation.ChoiceCaseLink",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 15)).text"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "QU1hEI"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "AlAmanVolunteeringChoicesDialog"
+                }
+              ]
+            },
+            {
+              "value": "Living Support",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "nPYl3f"
+                  },
+                  "property": "dialog.caption",
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 12)).text"
+                },
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "QGvHeV"
+                  },
+                  "activity": "${SendActivity_QGvHeV()}"
+                },
+                {
+                  "$kind": "Microsoft.TextInput",
+                  "$designer": {
+                    "id": "mnZYXS"
+                  },
+                  "disabled": false,
+                  "maxTurnCount": 100,
+                  "alwaysPrompt": false,
+                  "allowInterruptions": true,
+                  "prompt": "${TextInput_Prompt_mnZYXS()}",
+                  "property": "dialog.UserInputs",
+                  "validations": [
+                    "=equals(this.value, '#')|| equals(this.value, 'Donate') || equals(this.value, 'تبرع')"
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "LXRAkZ"
+                  },
+                  "assignments": [
+                    {
+                      "property": "conversation.ChoiceCasePic",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 20)).text"
+                    },
+                    {
+                      "property": "conversation.ChoiceCaseLink",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 19)).text"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "LJrK5k"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "AlAmanVolunteeringChoicesDialog"
+                }
+              ]
+            },
+            {
+              "value": "capability-building",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "QfA9Di"
+                  },
+                  "property": "dialog.caption",
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 13)).text"
+                },
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "R54Vo5"
+                  },
+                  "activity": "${SendActivity_R54Vo5()}"
+                },
+                {
+                  "$kind": "Microsoft.TextInput",
+                  "$designer": {
+                    "id": "LBkOkU"
+                  },
+                  "disabled": false,
+                  "maxTurnCount": 100,
+                  "alwaysPrompt": false,
+                  "allowInterruptions": true,
+                  "prompt": "${TextInput_Prompt_LBkOkU()}",
+                  "property": "dialog.UserInputs",
+                  "validations": [
+                    "=equals(this.value, '#')|| equals(this.value, 'Donate') || equals(this.value, 'تبرع')"
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "74TXHX"
+                  },
+                  "assignments": [
+                    {
+                      "property": "conversation.ChoiceCasePic",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 18)).text"
+                    },
+                    {
+                      "property": "conversation.ChoiceCaseLink",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 17)).text"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "KMPfQB"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "AlAmanVolunteeringChoicesDialog"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.CancelAllDialogs",
+          "$designer": {
+            "id": "7zT6Vp"
+          },
+          "activityProcessed": true
+        },
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "ft7DMH"
+          },
+          "activity": "${SendActivity_ft7DMH()}"
+        },
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "rYrITp"
+          },
+          "activity": "${SendActivity_rYrITp()}"
+        }
+      ]
+    }
+  ],
+  "generator": "AlAmanProgramsDialog.lg",
+  "recognizer": "AlAmanProgramsDialog.lu.qna",
+  "id": "AlAmanProgramsDialog"
+}

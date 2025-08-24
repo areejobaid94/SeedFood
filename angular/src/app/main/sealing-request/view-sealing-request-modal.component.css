@@ -1,0 +1,23 @@
+embed#plugin {
+    height: 68%;
+    width: 33%;
+ }
+ .elestyle{
+     font-size: 16px !important;
+     padding: 0px !important;
+     margin-right: 3px;
+ }
+  .receipt.sheet { width: 80mm; height: 210mm } /* change height as you like */
+ @media print { .receipt { width: 80mm ;background-color: rgb(255, 0, 0); } } /* this line is needed for fixing Chrome's bug */
+span{
+    display: contents;
+}
+.mr-1, .mx-1 {
+    margin-right: 1rem !important;
+}
+.break-line{
+    line-break: anywhere;
+}
+.bi-clipboard-data-fill{
+    font-size: 20px;
+}

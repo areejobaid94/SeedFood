@@ -1,0 +1,50 @@
+[import](common.lg)
+
+# TextInput_Prompt_BwYzJX()
+[Activity
+    Attachments = ${json(ButtonList(dialog.HintPlaseCaption,dialog.OptionList))}
+    InputHint=${conversation.InputHint}
+     Summary=${conversation.Summary}
+]
+# SendActivity_ZKZCR2()
+[Activity
+    Text = ${SendActivity_ZKZCR2_text()}
+]
+
+# SendActivity_ZKZCR2_text()
+- ${dialog.CardCaption}
+# TextInput_Prompt_mFbmxH()
+[Activity
+    Text = ${TextInput_Prompt_mFbmxH_text()}
+    SuggestedActions = ${dialog.Option1} | ${dialog.Option2}
+]
+
+# TextInput_Prompt_mFbmxH_text()
+- ${dialog.ShargeCaption}
+# TextInput_Prompt_0OoOkQ()
+[Activity
+    Text = ${TextInput_Prompt_0OoOkQ_text()}
+]
+
+# TextInput_Prompt_0OoOkQ_text()
+- ${dialog.ProblemCaption}
+# TextInput_Prompt_JL76o9()
+[Activity
+    Text = ${TextInput_Prompt_JL76o9_text()}
+]
+
+# TextInput_Prompt_JL76o9_text()
+- ${dialog.ProblemLocCaption}
+# SendActivity_KL0W7M_text()
+- ${dialog.ReqCaption}
+# SendActivity_KL0W7M()
+[Activity
+    Text = ${SendActivity_KL0W7M_text()}
+]
+
+# SendActivity_hSS8PW_text()
+- ${dialog.ReqCaption}
+# SendActivity_hSS8PW()
+[Activity
+    Text = ${SendActivity_hSS8PW_text()}
+]

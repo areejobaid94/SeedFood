@@ -1,0 +1,11 @@
+[import](common.lg)
+
+
+# TextInput_Prompt_0Pihnd_text()
+- ${dialog.text}
+# TextInput_Prompt_0Pihnd()
+[Activity
+    Text = ${TextInput_Prompt_0Pihnd_text()}
+    SuggestedActions = ${dialog.Op1} | ${dialog.Op2}
+]
+

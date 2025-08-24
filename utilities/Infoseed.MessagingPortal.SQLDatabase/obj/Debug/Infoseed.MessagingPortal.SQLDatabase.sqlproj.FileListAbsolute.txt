@@ -1,0 +1,10 @@
+D:\LastRepos\SeedFood\utilities\Infoseed.MessagingPortal.SQLDatabase\bin\Debug\Infoseed.MessagingPortal.SQLDatabase.dacpac
+D:\LastRepos\SeedFood\utilities\Infoseed.MessagingPortal.SQLDatabase\bin\Debug\Infoseed.MessagingPortal.SQLDatabase.dll
+D:\LastRepos\SeedFood\utilities\Infoseed.MessagingPortal.SQLDatabase\bin\Debug\Infoseed.MessagingPortal.SQLDatabase.pdb
+D:\LastRepos\SeedFood\utilities\Infoseed.MessagingPortal.SQLDatabase\obj\Debug\Infoseed.MessagingPortal.SQLDatabase.sqlprojAssemblyReference.cache
+D:\LastRepos\SeedFood\utilities\Infoseed.MessagingPortal.SQLDatabase\obj\Debug\Model.xml
+D:\LastRepos\SeedFood\utilities\Infoseed.MessagingPortal.SQLDatabase\obj\Debug\refactor.xml
+D:\LastRepos\SeedFood\utilities\Infoseed.MessagingPortal.SQLDatabase\obj\Debug\postdeploy.sql
+D:\LastRepos\SeedFood\utilities\Infoseed.MessagingPortal.SQLDatabase\obj\Debug\predeploy.sql
+D:\LastRepos\SeedFood\utilities\Infoseed.MessagingPortal.SQLDatabase\obj\Debug\Infoseed.MessagingPortal.SQLDatabase.dll
+D:\LastRepos\SeedFood\utilities\Infoseed.MessagingPortal.SQLDatabase\obj\Debug\Infoseed.MessagingPortal.SQLDatabase.pdb

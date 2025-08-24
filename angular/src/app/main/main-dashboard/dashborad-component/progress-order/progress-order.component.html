@@ -1,0 +1,116 @@
+<div class="content-wrapper container-xxl p-0">
+    <div class="content-body">
+        <section>
+            <div class="card p-1">
+                <div class="d-flex flex-column flex-sm-row justify-content-sm-between">
+                    <div class="card-title">
+                        <h4 class="title-compaign-progress">Order</h4>
+                        <h4 class="numeric-compaign-progress">115</h4>
+                        <h4 class="hint-compaign-progress">Total Order</h4>
+                    </div>
+                    <form>
+                        <fieldset class="form-group">
+                          <ng-select [items]="allBranches" class="ng-select"   [(ngModel)]="dasboardService.branchId" [bindValue]="'id'" name="areaName" bindLabel="areaName"
+                            placeholder="Select Branch"  (change)="dasboardService.getDashboardOrdersInfo()"></ng-select>
+                        </fieldset>
+                      </form>
+                </div>
+              
+
+                <div class="d-flex justify-content-evenly">
+                    <div>
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="#009789"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            class="icon icon-tabler icons-tabler-outline icon-tabler-message-circle-check"
+                        >
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                            <path
+                                d="M11.042 19.933a9.798 9.798 0 0 1 -3.342 -.933l-4.7 1l1.3 -3.9c-2.324 -3.437 -1.426 -7.872 2.1 -10.374c3.526 -2.501 8.59 -2.296 11.845 .48c2.127 1.814 3.052 4.36 2.694 6.808"
+                            />
+                            <path d="M15 19l2 2l4 -4" />
+                        </svg>
+                        Completed Order:
+                        <span style="color: #009789;" >355</span>
+                        
+                    </div>
+                    <div>
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="#FCA004"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            class="icon icon-tabler icons-tabler-outline icon-tabler-message-circle-question"
+                        >
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                            <path
+                                d="M15.02 19.52c-2.341 .736 -5 .606 -7.32 -.52l-4.7 1l1.3 -3.9c-2.324 -3.437 -1.426 -7.872 2.1 -10.374c3.526 -2.501 8.59 -2.296 11.845 .48c1.649 1.407 2.575 3.253 2.742 5.152"
+                            />
+                            <path d="M19 22v.01" />
+                            <path d="M19 19a2.003 2.003 0 0 0 .914 -3.782a1.98 1.98 0 0 0 -2.414 .483" />
+                        </svg>
+                        pending Order:
+                        
+                        <span style="color: #FCA004;" >60</span>
+                    </div>
+                    <div>
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="#E4263B"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            class="icon icon-tabler icons-tabler-outline icon-tabler-message-circle-cancel"
+                        >
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                            <path
+                                d="M12.015 19.98a9.87 9.87 0 0 1 -4.315 -.98l-4.7 1l1.3 -3.9c-2.324 -3.437 -1.426 -7.872 2.1 -10.374c3.526 -2.501 8.59 -2.296 11.845 .48c1.927 1.644 2.867 3.887 2.761 6.114"
+                            />
+                            <path d="M19 19m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
+                            <path d="M17 21l4 -4" />
+                        </svg>
+                        Canceled:
+                        <span style="color: #E4263B;" >40</span>
+                        
+                    </div>
+                </div>
+
+                <div class="card-body p-0">
+                    <div id="chart" style="width: 100%">
+                        <apx-chart
+                            [series]="chartOptions.series"
+                            [chart]="chartOptions.chart"
+                            [dataLabels]="chartOptions.dataLabels"
+                            [stroke]="chartOptions.stroke"
+                            [colors]="chartOptions.colors"
+                            [fill]="chartOptions.fill"
+                            [plotOptions]="chartOptions.plotOptions"
+                            [title]="chartOptions.title"
+                            [yaxis]="chartOptions.yaxis"
+                            [xaxis]="chartOptions.xaxis"
+                            [tooltip]="chartOptions.tooltip"
+                            [grid]="chartOptions.grid"
+                            [legend]="chartOptions.legend"
+                        ></apx-chart>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>

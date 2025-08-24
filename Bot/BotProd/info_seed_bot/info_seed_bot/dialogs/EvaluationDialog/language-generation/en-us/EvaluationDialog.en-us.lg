@@ -1,0 +1,106 @@
+[import](common.lg)
+
+
+
+#ButtonRateList(Text)
+- ``` 
+{
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "version": "1.0",
+    "type": "AdaptiveCard",
+    "body": [
+          {
+            "type": "TextBlock",
+            "text": "${Text}"
+        },
+        {
+            "type": "Input.ChoiceSet",
+            "choices": [
+                 {
+                    "title": "⭐ ( ضعيف)",
+                    "value": "⭐ ( ضعيف)"
+              },
+                 {
+                    "title": "⭐⭐ ( مقبول)",
+                    "value": "⭐⭐ ( مقبول)"
+              },
+                 {
+                    "title": "⭐⭐⭐ ( جيد)",
+                    "value": "⭐⭐⭐ ( جيد)"
+              },
+                 {
+                    "title": "⭐⭐⭐⭐ ( جيد جدا)",
+                    "value": "⭐⭐⭐⭐ ( جيد جدا)"
+              },
+                 {
+                    "title": "⭐⭐⭐⭐⭐ ( ممتاز)",
+                    "value": "⭐⭐⭐⭐⭐ ( ممتاز)"
+              }
+                               
+            ],
+            "placeholder": "",
+            "id": "InputAdultos"
+        }
+    ]
+}
+ ```
+ #ButtonRateListE(Text)
+- ``` 
+{
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "version": "1.0",
+    "type": "AdaptiveCard",
+    "body": [
+          {
+            "type": "TextBlock",
+            "text": "${Text}"
+        },
+        {
+            "type": "Input.ChoiceSet",
+            "choices": [
+                 {
+                    "title": "⭐ ( weak)",
+                    "value": "⭐ ( weak)"
+              },
+                 {
+                    "title": "⭐⭐ ( Acceptable)",
+                    "value": "⭐⭐ ( Acceptable)"
+              },
+                 {
+                    "title": "⭐⭐⭐ ( Good)",
+                    "value": "⭐⭐⭐ ( Good)"
+              },
+                 {
+                    "title": "⭐⭐⭐⭐ ( very good)",
+                    "value": "⭐⭐⭐⭐ ( very good)"
+              },
+                 {
+                    "title": "⭐⭐⭐⭐⭐ ( excellent)",
+                    "value": "⭐⭐⭐⭐⭐ ( excellent)"
+              }
+                               
+            ],
+            "placeholder": "",
+            "id": "InputAdultos"
+        }
+    ]
+}
+ ```
+# AttachmentInput_Prompt_1mQZP1()
+- ${conversation.EvaluationText}
+# SendActivity_hTP3YH()
+- ${conversation.FeedBackTextThanks}
+# TextInput_Prompt_YOf5WT()
+[Activity
+    Attachments = ${json(ButtonRateList(conversation.TextRate))}
+    InputHint=${dialog.InputHint}
+     Summary=${conversation.Summary}
+]
+# TextInput_Prompt_posVDB()
+[Activity
+    Attachments = ${json(ButtonRateListE(dialog.TextRate))}
+    InputHint=${dialog.InputHint}
+     Summary=${conversation.Summary}
+]
+# SendActivity_fhyswm()
+- ${conversation.EvaluationText}

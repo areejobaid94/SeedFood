@@ -1,0 +1,302 @@
+<div bsModal #createOrEditModal="bs-modal" class="modal fade h-100" tabindex="-1" role="dialog" aria-labelledby="createOrEditModal" aria-hidden="true">
+    <div *ngIf="theme != 'theme12'" class="modal-dialog modal-lg">
+        <div class="modal-content h-100 modal-content">
+                <div class="modal-header">
+                    <h6  class="modal-title">
+                        <img lazyLoad="/assets/common/images/assign-list.svg" alt="icon" class="icon" />
+                        Create/Edit Location
+                    </h6>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="close()" aria-label="Close">X</button>
+                </div>
+                <div class="modal-body">
+                    <div class="row m-1" *ngIf="isCreate">
+                        <label>Country: *</label>
+                        <select required
+                            [class.error]="submitted && count.invalid" #count="ngModel" 
+                            [ngClass]="darkModeService.currentSkin === 'dark' ? 'form-control-dark ' : 'form-control'" 
+                            id="count" 
+                            name="count" 
+                            (change)="onChangeCountry($event)" 
+                            [(ngModel)]="location.countryId">
+                            <option *ngFor="let count of country" [value]="count.locationId">{{count.locationName}}</option>
+                        </select>
+                        <p class="text-danger" *ngIf="submitted && count.invalid">{{l("ThisFieldIsRequired") }}</p> 
+                    </div>
+                    <div class="row m-1" *ngIf="isCreate">
+                        <label>City: *</label>
+                        <select required
+                            [class.error]="submitted && city.invalid" #city="ngModel" 
+                            [ngClass]="darkModeService.currentSkin === 'dark' ? 'form-control-dark ' : 'form-control'" 
+                            id="city" 
+                            name="city" 
+                            (change)="onChangeCity($event)" 
+                            [(ngModel)]="location.cityId">
+                            <option *ngFor="let city of cities" [value]="city.locationId">{{city.locationName}}</option>
+                        </select>
+                        <p class="text-danger" *ngIf="submitted && city.invalid">{{l("ThisFieldIsRequired") }}</p> 
+                    </div>
+                    <div class="row m-1" *ngIf="areas && areas.length > 0 && isCreate">
+                        <label>Area: *</label>
+                        <select 
+                            required
+                            [class.error]="submitted && area.invalid" #area="ngModel" 
+                            [ngClass]="darkModeService.currentSkin === 'dark' ? 'form-control-dark ' : 'form-control'" 
+                            id="area" 
+                            name="area" 
+                            (change)="onChangeArea($event)" 
+                            [(ngModel)]="location.areaId" >
+                            <option *ngFor="let area of areas" [value]="area.locationId">{{area.locationName}}</option>
+                        </select>
+                        <p class="text-danger" *ngIf="submitted && area.invalid">{{l("ThisFieldIsRequired") }}</p> 
+                    </div>
+                    <div class="row m-1" *ngIf="districts && districts.length > 0 && isCreate">
+                        <label>District: *</label>
+                        <select required
+                            [class.error]="submitted && district.invalid" #district="ngModel" 
+                            [ngClass]="darkModeService.currentSkin === 'dark' ? 'form-control-dark ' : 'form-control'" 
+                            id="district" 
+                            name="district" 
+                            [(ngModel)]="location.locationId">
+                            <option *ngFor="let district of districts" [value]="district.locationId" >{{district.locationName}}</option>
+                        </select>
+                        <p class="text-danger" *ngIf="submitted && district.invalid">{{l("ThisFieldIsRequired") }}</p> 
+                    </div>
+                    <div class="row m-1"  *ngIf="!isCreate">
+                        <div class="col-lg-4 col-sm-6 mb-1 media">
+                            <div class="avatar bg-light-primary-info rounded">
+                                <div class="avatar-content">
+                                    <i class="bi bi-geo-alt"></i>
+                                </div>
+                            </div>
+                            <h6 class="ml-1 mt-auto"
+                             >
+                                City:   {{location.countryName}}
+                            </h6>
+                        </div>
+                        <div class="col-lg-4 col-sm-6 mb-1 media">
+                            <div class="avatar bg-light-primary-info rounded">
+                                <div class="avatar-content">
+                                    <i class="bi bi-geo-alt"></i>
+                                </div>
+                            </div>
+                            <h6 class="ml-1 mt-auto"
+                             >
+                                City:   {{location.cityName}}
+                            </h6>
+                        </div>
+
+                        <div class="col-lg-4 col-sm-6 mb-1 media">
+                            <div class="avatar bg-light-primary-info rounded">
+                                <div class="avatar-content">
+                                    <i class="bi bi-geo-alt"></i>
+                                </div>
+                            </div>
+                            <h6 class="ml-1 mt-auto"
+                              >
+                                Area:   {{location.areaName}}
+                            </h6>
+                        </div>
+
+                        <div class="col-lg-4 col-sm-6 mb-1 media"  *ngIf="location.locationName">
+                            <div class="avatar bg-light-primary-info rounded">
+                                <div class="avatar-content">
+                                    <i class="bi bi-geo-alt"></i>
+                                </div>
+                            </div>
+                            <h6 class="ml-1 mt-auto"
+                              >
+                                District:   {{location.locationName}}
+                            </h6>
+                        </div>
+                    </div>
+                    <div class="row m-1" >
+                        <label>Delivery Cost* <small>({{currency}})</small></label>
+                        <input required min="0"
+                        [class.error]="submitted && cost.invalid" #cost="ngModel" 
+                         type="number" class="form-control"  id="headerType" name="headerType" name="deliveryCost" [(ngModel)]="location.deliveryCost"  />
+                        <p class="text-danger" *ngIf="submitted && cost.invalid">{{l("ThisFieldIsRequired") }}</p> 
+                    </div>
+
+                    <div class="row m-1">
+                        <label>Select Branch: *</label>
+                        <select required 
+                            [class.error]="submitted && branch.invalid" 
+                            #branch="ngModel" 
+                            name="branch" 
+                            [(ngModel)]="location.branchAreaId"   
+                            [ngClass]="darkModeService.currentSkin === 'dark' ? 'form-control-dark ' : 'form-control'" 
+                            id="branch"
+                            required>
+                            <option  disabled value="null" style="font-family: system-ui; font-size: 20px"></option>
+                            <option *ngFor="let branch of branchs" [value]="branch.id" style="font-family: system-ui; font-size: 20px">
+                                {{branch.areaName}} {{branch.areaCoordinate}}
+                            </option>
+                        </select>
+                        <p class="text-danger" *ngIf="submitted && branch.invalid">{{l("ThisFieldIsRequired") }}</p>
+                    </div>
+                    <div class="row m-1 m-checkbox-list form-check form-switch">
+                        <input [(ngModel)]="location.isAvailable" id="isAvailable" type="checkbox" name="isAvailable" class="form-check-input" />
+                        <label for="isAvailable">{{l("Is Location Available")}}</label>
+                    </div>
+                  
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" (click)="close()">Cancel</button>
+                    <button (click)="save()"  type="button" class="btn btn-primary " [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')">
+                        <i class="fa fa-save"></i> <span>{{l("Save")}}</span>
+                    </button>
+                </div>
+        </div>
+    </div>
+    <div *ngIf="theme === 'theme12'" class="modal-dialog modal-lg">
+        <div class="modal-content">
+                <div class="modal-header">
+                    <h6  class="modal-title">
+                        <img lazyLoad="/assets/common/images/assign-list.svg" alt="icon"  class="icon" />
+                        {{ l("addLocation") }}
+                    </h6>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="close()"
+                    aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row m-1" *ngIf="isCreate">
+                        <label>Country: *</label>
+                        <select required
+                            [class.error]="submitted && count.invalid" #count="ngModel" 
+                            [ngClass]="darkModeService.currentSkin === 'dark' ? 'form-control-dark ' : 'form-control'" 
+                            id="count" 
+                            name="count" 
+                            (change)="onChangeCountry($event)" 
+                            [(ngModel)]="location.countryId">
+                            <option *ngFor="let count of country" [value]="count.locationId">{{count.locationName}}</option>
+                        </select>
+                        <p class="text-danger" *ngIf="submitted && count.invalid">{{l("ThisFieldIsRequired") }}</p> 
+                    </div>
+                    
+                    <div class="row m-1" *ngIf="isCreate">
+                        <label>{{ l("city") }}:*</label>
+                        <select  required   
+                            [class.error]="submitted && city.invalid" #city="ngModel" 
+                            [ngClass]="darkModeService.currentSkin === 'dark' ? 'form-control-dark ' : 'form-control'" 
+                            id="city" 
+                            name="city" 
+                            (change)="onChangeCity($event)" 
+                            [(ngModel)]="location.cityId">
+                        <option *ngFor="let city of cities" [value]="city.locationId">{{city.locationName}}</option>
+                        </select>
+                        <p class="text-danger" *ngIf="submitted && city.invalid">{{l("ThisFieldIsRequired") }}</p> 
+                    </div>
+                    <div class="row m-1" *ngIf="areas && areas.length > 0 && isCreate">
+                        <label>{{ l("area") }}: *</label>
+                        <select required 
+                            [class.error]="submitted && area.invalid" #area="ngModel" 
+                            [ngClass]="darkModeService.currentSkin === 'dark' ? 'form-control-dark ' : 'form-control'" 
+                            id="area" 
+                            name="area" 
+                            (change)="onChangeArea($event)" 
+                            [(ngModel)]="location.areaId" >
+                            <option *ngFor="let area of areas" [value]="area.locationId">{{area.locationName}}</option>
+                        </select>
+                        <p class="text-danger" *ngIf="submitted && area.invalid">{{l("ThisFieldIsRequired") }}</p> 
+                    </div>
+                    <div class="row m-1" *ngIf="districts && districts.length > 0 && isCreate">
+                        <label>{{ l("district") }}: *</label>
+                        <select  required
+                            [class.error]="submitted && district.invalid" #district="ngModel" 
+                            [ngClass]="darkModeService.currentSkin === 'dark' ? 'form-control-dark ' : 'form-control'" 
+                            id="district" 
+                            name="district"
+                            [(ngModel)]="location.locationId">
+                            <option *ngFor="let district of districts" [value]="district.locationId" >{{district.locationName}}</option>
+                        </select>
+                        <p class="text-danger" *ngIf="submitted && district.invalid">{{l("ThisFieldIsRequired") }}</p> 
+                    </div>
+
+                    <div class="row m-1"  *ngIf="!isCreate">
+
+                        <div class="col-lg-4 col-sm-6 mb-1 media">
+                            <div class="avatar bg-light-primary-info rounded">
+                                <div class="avatar-content">
+                                    <i class="bi bi-geo-alt"></i>
+                                </div>
+                            </div>
+                            <h6 class="ml-1 mt-auto"
+                              >
+                              {{ l("city") }}:   {{location.cityName}}
+                            </h6>
+                        </div>
+
+                        <div class="col-lg-4 col-sm-6 mb-1 media">
+                            <div class="avatar bg-light-primary-info rounded">
+                                <div class="avatar-content">
+                                    <i class="bi bi-geo-alt"></i>
+                                </div>
+                            </div>
+                            <h6 class="ml-1 mt-auto"
+                              >
+                              {{ l("area") }}:   {{location.areaName}}
+                            </h6>
+                        </div>
+
+                        <div class="col-lg-4 col-sm-6 mb-1 media"  *ngIf="location.locationName">
+                            <div class="avatar bg-light-primary-info rounded">
+                                <div class="avatar-content">
+                                    <i class="bi bi-geo-alt"></i>
+                                </div>
+                            </div>
+                            <h6 class="ml-1 mt-auto"
+                               >
+                               {{ l("district") }}:   {{location.locationName}}
+                            </h6>
+                        </div>
+                    </div>
+
+                    <div class="row m-1" >
+                        <label>{{ l("deliveryCost") }}* <small>({{currency}})</small></label>
+                        <input 
+                            min="0" 
+                            required 
+                            type="number" 
+                            [class.error]="submitted && cost.invalid" #cost="ngModel" 
+                            class="form-control" 
+                            id="deliveryCost" 
+                            name="deliveryCost" 
+                            [(ngModel)]="location.deliveryCost"  />
+                        <p class="text-danger" *ngIf="submitted && cost.invalid">{{l("ThisFieldIsRequired") }}</p> 
+
+                    </div>
+
+                    <div class="row m-1">
+                        <label>{{ l("branch") }}: *</label>
+                        <select required 
+                            [class.error]="submitted && branch.invalid" 
+                            #branch="ngModel"
+                            [ngClass]="darkModeService.currentSkin === 'dark' ? 'form-control-dark ' : 'form-control'" 
+                            name="branch" 
+                            [(ngModel)]="location.branchAreaId"   
+                            id="branch"
+                            required >
+                            <option  disabled value="null" style="font-family: system-ui; font-size: 20px"></option>
+                            <option *ngFor="let branch of branchs" [value]="branch.id" style="font-family: system-ui; font-size: 20px">
+                                {{branch.areaName}} {{branch.areaCoordinate}}
+                            </option>
+                        </select>
+                        <p class="text-danger" *ngIf="submitted && branch.invalid">{{l("ThisFieldIsRequired") }}</p> 
+
+                    </div>
+                    <div class="row m-1 m-checkbox-list form-check form-switch" >
+                        <input  [(ngModel)]="location.isAvailable" id="isAvailable" type="checkbox" name="isAvailable" class="form-check-input" />
+                        <label for="isAvailable">{{l("isAvailable")}}</label>
+                    </div>
+                 
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" (click)="close()">{{ l("Cancel") }}</button>
+                    <button (click)="save()" class="btn btn-primary-info" type="button" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')">
+                        <i class="fa fa-save"></i> <span>{{l("Save")}}</span>
+                    </button>
+                </div>
+   
+        </div>
+    </div>
+</div>

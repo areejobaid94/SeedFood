@@ -1,0 +1,150 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "WmnEgq",
+    "name": "MangaOfferCompDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "HRgGbo"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "5Ytyyt"
+          },
+          "condition": "conversation.local",
+          "cases": [
+            {
+              "value": "ar",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "9wAqiO"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.Option1",
+                      "value": "للإستفسار"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "en",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "D9HMAH"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.Option1",
+                      "value": "For inquiries"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "z3n9Qj"
+          },
+          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3625)).text",
+          "property": "dialog.FirstCaption"
+        },
+        {
+          "$kind": "Microsoft.DeleteProperty",
+          "$designer": {
+            "id": "4jSpqn"
+          },
+          "property": "dialog.UserSelect"
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "BXLuDn"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "prompt": "${TextInput_Prompt_BXLuDn()}",
+          "unrecognizedPrompt": "",
+          "property": "dialog.UserSelect",
+          "validations": [
+            "equals(this.value, 'للإستفسار') || equals(this.value, 'For inquiries') || equals(this.value, '#')"
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "Q5ZBUr"
+          },
+          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3626)).text",
+          "property": "dialog.Caption"
+        },
+        {
+          "$kind": "Microsoft.DeleteProperty",
+          "$designer": {
+            "id": "xAhKQE"
+          },
+          "property": "dialog.Select"
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "clzsHb"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "unrecognizedPrompt": "",
+          "invalidPrompt": "",
+          "prompt": "${TextInput_Prompt_clzsHb()}",
+          "property": "dialog.Select"
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "wu09Eb"
+          },
+          "property": "conversation.TickitCaption",
+          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3610)).text"
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "0hCn5R"
+          },
+          "activityProcessed": true,
+          "dialog": "LiveChatDialog"
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "RMH9Gq"
+          }
+        }
+      ]
+    }
+  ],
+  "generator": "MangaOfferCompDialog.lg",
+  "recognizer": "MangaOfferCompDialog.lu.qna",
+  "id": "MangaOfferCompDialog"
+}

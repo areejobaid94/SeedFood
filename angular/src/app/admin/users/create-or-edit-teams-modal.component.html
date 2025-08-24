@@ -1,0 +1,79 @@
+<div
+    appBsModal
+    #createOrEditTeamsModal="bs-modal"
+  
+    class="modal fade"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="createOrEditTeamsModal"
+    aria-hidden="true"
+    [config]="{ backdrop: 'static', keyboard: !saving }"
+>
+
+    <div class="modal-dialog modal-lg" *ngIf="theme === 'theme12'">
+        <div  class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <span >{{ "Create New Teams" | localize }}</span>
+                    </h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="close()" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+         
+
+
+
+
+                      <div class="modal-content" style="border-radius: 16px; padding: 0px">
+                        <form #userForm="ngForm" novalidate (ngSubmit)="assignUsers()">
+                            <div class="modal-body">
+
+
+                                <div class="w-100 d-flex justify-content-center align-items-baseline my-2" >
+                                    <div class="d-flex flex-column col-12"    >
+                                      <label for="GroupName" >{{l("Teams Name") }}</label>
+                                      <input id="GroupNameModel" name="GroupName" [maxlength]="20" type="text" class="col-12 form-control customInput"
+                                      [(ngModel)]="groupNameModel"
+                                        placeholder="Group name"  />
+                                        <p class="text-danger" *ngIf="groupNameStatus === 1">{{l("groupNamecantbeempty") }}</p>
+                                        <p class="text-danger" *ngIf="groupNameStatus === 3">{{l("groupNamealreadyexist") }}</p>
+                                    </div>
+                                </div>
+
+
+
+                                <div class="list-container">
+                                    <div *ngFor="let user of selectedUsersToAssign; let i = index">
+                                        <label class="custom-checkbox">
+                                            <input
+                                                [ngModelOptions]="{ standalone: true }"
+                                                type="checkbox"
+                                                [checked]="user.isActive"
+                                                (change)="onCheckboxChange(user)"
+                                            />
+                                            <span class="checkmark"></span>
+                                            {{ user.fullName }}
+                                        </label>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                            <div class="modal-footer" style="min-height: 50px">
+                                <div class="">
+                                    <button [disabled]="!isModified" style="background-color: #009789 !important" [busyText]="l('SavingWithThreeDot')" type="button" class="btn btn-secondary" (click)="save()">
+                                        {{ l("Save") }}
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+           
+
+                    
+                </div>
+             
+      
+        </div>
+    </div>
+</div>

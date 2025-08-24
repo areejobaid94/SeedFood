@@ -1,0 +1,9 @@
+[import](common.lg)
+
+
+# TextInput_Prompt_c7VstC()
+[Activity
+  Text= الرجاء اختيار المطعم
+  SuggestedActions = الجنوبية  | الشمالية
+]
+

@@ -1,0 +1,28 @@
+[import](common.lg)
+
+
+# TextInput_Prompt_yIS8vN()
+[Activity
+    Attachments = ${json(ButtonList2(conversation.MessageSelect,dialog.ListFuel.content.result))}
+     InputHint= ${conversation.MessageSelect}
+     Summary=${dialog.Summary}
+]
+
+
+
+
+
+
+# TextInput_Prompt_uNMNdV()
+[Activity
+    Attachments = ${json(ButtonList2(conversation.AssetsCaption,dialog.ListFuel.content.result))}
+     InputHint= ${conversation.MessageSelect}
+     Summary=${dialog.Summary}
+]
+
+
+
+
+
+
+

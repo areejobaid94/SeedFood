@@ -1,0 +1,132 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "Ig5lyY",
+    "name": "YasoufiOrderDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "c4ENon"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "NwUPVN"
+          },
+          "activityProcessed": true,
+          "dialog": "YasoufiBrancheDialog"
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "TiAtVR"
+          },
+          "activityProcessed": true,
+          "dialog": "YasoufiLinkDialog"
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "5kLHBQ"
+          },
+          "activityProcessed": true,
+          "dialog": "YasoufiOrDetailsDialog"
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "pzihYF"
+          },
+          "value": "Delivery",
+          "property": "conversation.TypeChoes"
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "imu3f0"
+          },
+          "activityProcessed": true,
+          "dialog": "YasoufiOrDeliveryDialog"
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "qqSHm6"
+          },
+          "assignments": [
+            {
+              "property": "conversation.IsSpecialRequest",
+              "value": false
+            },
+            {
+              "property": "conversation.SpecialRequest",
+              "value": "\"\""
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.HttpRequest",
+          "$designer": {
+            "id": "69vhub"
+          },
+          "resultProperty": "dialog.areaId",
+          "method": "GET",
+          "url": "${conversation.URL}/api/BotAPI/GetAreasByID?TenantID=${conversation.TenantId}&AreaID=${conversation.LocationId}",
+          "responseType": "json"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "j7tlaZ"
+          },
+          "condition": "conversation.local==\"ar\"",
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "3EuDGA"
+              },
+              "property": "conversation.LocationAreaName",
+              "value": "${dialog.areaId.content.result.AreaName}"
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "JYek5P"
+              },
+              "property": "conversation.LocationAreaName",
+              "value": "${dialog.areaId.content.result.AreaNameEnglish}"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "HaX53d"
+          },
+          "activityProcessed": true,
+          "dialog": "YasoufiFinishOrDialog"
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "Zx88vC"
+          }
+        }
+      ]
+    }
+  ],
+  "generator": "YasoufiOrderDialog.lg",
+  "recognizer": "YasoufiOrderDialog.lu.qna",
+  "id": "YasoufiOrderDialog"
+}

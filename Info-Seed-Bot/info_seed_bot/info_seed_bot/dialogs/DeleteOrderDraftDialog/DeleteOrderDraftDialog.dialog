@@ -1,0 +1,57 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "s9dXrs",
+    "name": "DeleteOrderDraftDialog",
+    "description": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "B4B0zZ"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.HttpRequest",
+          "$designer": {
+            "id": "IJTqiK"
+          },
+          "method": "GET",
+          "headers": {},
+          "responseType": "json",
+          "resultProperty": " dialog.deleteDrft",
+          "url": "${conversation.URL}/api/NewBotAPI/DeleteOrderDraft?tenantID=${conversation.TenantId}&orderId=${conversation.OrderId}"
+        },
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "XADSV4"
+          },
+          "activity": "${SendActivity_XADSV4()}"
+        },
+        {
+          "$kind": "Microsoft.ReplaceDialog",
+          "$designer": {
+            "id": "c5UOnw"
+          },
+          "activityProcessed": true,
+          "dialog": "WelcomeDialog"
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "iVDkUX"
+          }
+        }
+      ]
+    }
+  ],
+  "generator": "DeleteOrderDraftDialog.lg",
+  "recognizer": "DeleteOrderDraftDialog.lu.qna",
+  "id": "DeleteOrderDraftDialog"
+}

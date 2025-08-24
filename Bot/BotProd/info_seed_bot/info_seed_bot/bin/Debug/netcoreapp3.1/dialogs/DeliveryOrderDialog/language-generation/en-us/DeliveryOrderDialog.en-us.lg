@@ -1,0 +1,85 @@
+[import](common.lg)
+
+
+#ButtonList(Text,List)
+- ``` 
+{
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "version": "1.0",
+    "type": "AdaptiveCard",
+    "body": [
+          {
+            "type": "TextBlock",
+            "text": "${Text}"
+        },
+        {
+            "type": "Input.ChoiceSet",
+            "choices": [
+                ${join(getChoiceList(List),',')}
+                               
+            ],
+            "placeholder": "",
+            "id": "InputAdultos"
+        }
+    ]
+}
+ ```
+# getChoiceList(adaptiveCardAccounts)
+- ${foreach(adaptiveCardAccounts, x, getChoice( x))}
+
+ #getChoice(listC)
+- ``` 
+ {
+     "title": "${listC}",
+     "value": "${listC}"
+ }
+ ```
+
+
+#DeliveryCostText(text,Option1,Option2,Summary)
+[Activity
+  Text= ${text}
+  SuggestedActions = ${Option1} | ${Option2}
+  Summary =  ${Summary}  
+]
+
+#TakeOrdarText(text,Option1,Option2,Summary)
+[Activity
+  Text= ${text}
+  SuggestedActions = ${Option1} | ${Option2}
+  Summary =  ${Summary}  
+]
+
+#DeliveryOrderText(text,Summary)
+[Activity
+  Text= ${text}
+  Summary =  ${Summary}  
+]
+
+# SendActivity_sgNLE7()
+- ${conversation.DontSupportLocation}
+# TextInput_Prompt_eDioce()
+- ${DeliveryCostText(conversation.DeliveryCostText,conversation.Confirm,conversation.Cancel,conversation.Summary)}
+# TextInput_Prompt_aIFQAt()
+- ${DeliveryOrderText(conversation.DeliveryOrderText,conversation.Summary)}
+# TextInput_Prompt_yp3I14()
+[Activity
+    Text= ${dialog.text}
+    SuggestedActions = ${dialog.Option1} | ${dialog.Option2}
+     Summary=${conversation.Summary}
+]
+# TextInput_Prompt_2pTgjy()
+- ${DeliveryOrderText(conversation.DeliveryOrderText,conversation.Summary)}
+# TextInput_Prompt_rVstwY()
+[Activity
+    Attachments = ${json(ButtonList(dialog.text,dialog.LocationTow.content.result))}
+    InputHint=منطقتك
+]
+# TextInput_Prompt_DNNHuk()
+[Activity
+    Text= ${dialog.text}
+    SuggestedActions = ${dialog.Option1} | ${dialog.Option2}
+     Summary=${conversation.Summary}
+]
+# TextInput_Prompt_seeMcw()
+- ${TakeOrdarText(conversation.TakeOrdarType,conversation.FromBranch,conversation.Delivery,conversation.Summary)}

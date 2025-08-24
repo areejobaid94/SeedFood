@@ -1,0 +1,14 @@
+[import](common.lg)
+
+#SelectLocal(text,arbic,english)
+[Activity
+  Text= ${text}
+  SuggestedActions =   ${arbic} |  ${english} 
+]
+# TextInput_Prompt_wrTqhG()
+[Activity
+  Text= ${dialog.text}
+  SuggestedActions = ${dialog.ar} | ${dialog.en}
+  Summary =  ${dialog.Summary}  
+]
+

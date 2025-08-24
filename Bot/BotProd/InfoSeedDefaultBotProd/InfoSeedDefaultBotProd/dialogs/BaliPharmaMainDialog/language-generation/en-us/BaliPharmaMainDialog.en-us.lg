@@ -1,0 +1,17 @@
+[import](common.lg)
+
+# SendActivity_jYN1iS()
+[Activity
+    Text = ${SendActivity_jYN1iS_text()}
+]
+
+# SendActivity_jYN1iS_text()
+- ${dialog.welcome}
+# TextInput_Prompt_fZnO0k()
+[Activity
+    Text = ${TextInput_Prompt_fZnO0k_text()}
+    SuggestedActions = ${dialog.option1} | ${dialog.option2} | ${dialog.option3}
+]
+
+# TextInput_Prompt_fZnO0k_text()
+- ${conversation.choose}

@@ -1,0 +1,10 @@
+[import](common.lg)
+
+# TextInput_Prompt_6GvMac()
+[Activity
+    Text = ${TextInput_Prompt_6GvMac_text()}
+    SuggestedActions = ${dialog.Option1} | ${dialog.Option2} | ${dialog.Option3}
+]
+
+# TextInput_Prompt_6GvMac_text()
+- ${dialog.text}

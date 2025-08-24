@@ -1,0 +1,28 @@
+<div [@routerTransition]>
+    <div class=" d-flex flex-column flex-column-fluid">
+        <sub-header [title]="'Services' | localize">
+        </sub-header>
+        <div>
+            <div class="card card-custom gutter-b">
+                <div class="card-body">
+                    <tabset>
+                        <tab heading="{{'InfoSeedServices' | localize}}">
+                            <infoSeedServices-component></infoSeedServices-component>
+                        </tab>
+                        <tab heading="{{'ServiceFrquencies' | localize}}">
+                            <serviceFrquencies-component></serviceFrquencies-component>
+                        </tab>
+                        <tab heading="{{'ServiceStatuses' | localize}}">
+                            <serviceStatuses-component></serviceStatuses-component>
+                        </tab>
+                        <tab heading="{{'ServiceTypes' | localize}}">
+                            <serviceTypes-component></serviceTypes-component>
+                        </tab>
+                    </tabset>
+                </div>
+            </div>
+        </div>
+    </div>
+    <auditLogDetailModal #auditLogDetailModal></auditLogDetailModal>
+    <entityChangeDetailModal #entityChangeDetailModal></entityChangeDetailModal>
+</div>

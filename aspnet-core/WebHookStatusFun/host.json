@@ -1,0 +1,56 @@
+{
+  "IsEncrypted": false,
+  "version": "2.0",
+  "logging": {
+    "applicationInsights": {
+      "samplingExcludedTypes": "Request",
+      "samplingSettings": {
+        "isEnabled": true
+      }
+    }
+  },
+  "Values": {
+
+    "AzureWebJobsStorage": "DefaultEndpointsProtocol=https;AccountName=infoseedstoragestg;AccountKey=sc089/Ku+IUBAbCwGnlumuK72RultGBqL/TwHS36SJHlCx3uC9dtEKjJJJHPRiRrAMwrIs2FyP6Z+ASt8j6gWg==;EndpointSuffix=core.windows.net",
+    "CosmosDBSettings": {
+      "AuthKey": "oixCrEB8X12y9TseyjOubhFRHiU0Q2wQBfX8GesNqaqfk2Xk5WlyBvmaInirAQkkOqnFX6W3lU829LHYod5xpA==",
+      "ConversationsCollection": "Conversations",
+      "CustomersCollection": "Customers",
+      "Database": "InfoSeed",
+      "EndPoint": "https://infoseed-cosmosdb-stg.documents.azure.com:443/",
+      "ItemsCollection": "Items"
+    },
+
+    //"AzureWebJobsStorage": "DefaultEndpointsProtocol=https;AccountName=infoseedmediastorageqa;AccountKey=JS3p9lX/nSALmF2TLvn8fWZWX3wRXjUkmajon7srbM93DKeSWblZJfuk0664Qbp/sw0lEPigVokg+AStkRNt1Q==;EndpointSuffix=core.windows.net",
+    //"CosmosDBSettings": {
+    //  "EndPoint": "https://teaminbox.documents.azure.com:443/",
+    //  "AuthKey": "V0fNg9dCGFkYRxDC7Ffdh9FCzTFTcN7GWEYQE6QJgjg7tAfpePQzzAUskz5jDMlJT65CYNu1oCOwACDbU7NnAw==",
+    //  "Database": "InfoSeed",
+    //  "ItemsCollection": "Items",
+    //  "ConversationsCollection": "Conversations",
+    //  "CustomersCollection": "Customers"
+    //},
+
+
+    //"AzureWebJobsStorage": "DefaultEndpointsProtocol=https;AccountName=infoseedmediastorageprod;AccountKey=H9ZtPbCTB32FioP7waMAdrGV02pRFPeCTyyFPq3+z8Zz2Py0qxFM3upLGhwRXj6jU9MTSxZAGFke/6zGOhW5MA==;EndpointSuffix=core.windows.net",
+    //"CosmosDBSettings": {
+    //  "EndPoint": "https://infoseed-cosmosdb-prod.documents.azure.com:443/",
+    //  "AuthKey": "oQCAv3tSssTwitSya2dthggCXbtWfPtLbiHrLN6cmf0i5HryI5aMVPRkKcyxzk9vbQZKNxL9HJXeF0tTMsk4Jw==",
+    //  "Database": "teaminbox",
+    //  "ItemsCollection": "Items",
+    //  "ConversationsCollection": "Conversations",
+    //  "CustomersCollection": "Customers"
+    //},
+
+    "ConnectionStrings": {
+      //"Default": "Server=tcp:info-seed-db-server-prod.database.windows.net,1433;Initial Catalog=InfoSeedDB-Prod;Persist Security Info=False;User ID=devadmin;Password=P@ssw0rd;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
+      //"Default": "Server=tcp:info-seed-db-server-qa.database.windows.net,1433;Initial Catalog=InfoSeedDB-QA;Persist Security Info=False;User ID=devadmin;Password=P@ssw0rd;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
+      "Default": "Server=tcp:info-seed-db-server-stg.database.windows.net,1433;Initial Catalog=InfoSeedDB-Stg;Persist Security Info=False;User ID=devadmin;Password=P@ssw0rd;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
+
+    },
+    "InfoSeedTime": {
+      "AddHour": "3",
+      "DivHour": "-3"
+    }
+  }
+}

@@ -1,0 +1,10 @@
+[import](common.lg)
+
+# AttachmentInput_Prompt_dEbiSl_text()
+- ${conversation.AttachmentText}
+# AttachmentInput_Prompt_dEbiSl()
+[Activity
+    Text = ${AttachmentInput_Prompt_dEbiSl_text()}
+     Summary=${conversation.Summary}
+]
+

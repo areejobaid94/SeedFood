@@ -1,0 +1,28 @@
+<div
+    bsModal
+    #imageCroppersComponent="bs-modal"
+    class="modal fade"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="createOrEditModal"
+    aria-hidden="true"
+    style="height: 100%"
+    [config]="{ backdrop: 'static' }"
+>
+ 
+    <div  class="modal-dialog modal-lg">
+        <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title"><span>Image Cropper</span></h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="close()" aria-label="Close"></button>
+                </div>
+
+
+            
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary-info" (click)="close()">Cancel</button>
+                </div>
+      
+        </div>
+    </div>
+</div>

@@ -1,0 +1,40 @@
+.text-decoration-underline{
+    text-decoration: underline;
+}
+
+.card-overview{
+    position: relative;
+}
+
+.custome-text{
+    text-decoration: underline !important; 
+}
+
+.transaction{
+    cursor: pointer;
+    position: absolute;
+    top: 13px;
+    left: 9px;
+}
+
+.usageDetails{
+    cursor: pointer;
+    position: absolute;
+    bottom: 1px;
+    left: 7px;
+
+}
+
+.bills{
+    cursor: pointer;
+    position: absolute;
+    bottom: 1px;
+    right: 9px;
+}
+
+.addFunds{
+    cursor: pointer;
+    position: absolute;
+    top: 13px;
+    right: 9px;
+}

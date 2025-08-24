@@ -1,0 +1,127 @@
+﻿@page
+@model Infoseed.MassagingPort.OrderingMenu.Pages.OrdersModel
+
+
+
+@{
+
+
+
+}
+@using Infoseed.MessagingPortal.Orders
+@Html.HiddenFor(Model=>Model.TenantID)
+@Html.HiddenFor(Model=>Model.ContactId)
+@Html.HiddenFor(Model=>Model.AreaId)
+@Html.HiddenFor(Model=>Model.Lang)
+
+
+
+
+
+
+
+
+<button class="btn-secondary myBtn" id="myBtn" title="Go to top"><span class=" mdi mdi-arrow-collapse-up"></span></button>
+
+
+<section class="section-padding  col-12 bg-white p-3 dirc ">
+    <div class="card-header p-0">
+        <a href="/@Model.UrlKey" class="list-group-item list-group-item-action float"><i aria-hidden="true" class="mdi mdi-backspace"></i> @localizer.Get("backtohome") </a>
+
+
+        <h2 class="card-header text-center  ">@localizer.Get("myOrders")</h2>
+    </div>
+
+    @if (Model.lstOrderingMenuOrdersHistoryModel != null)
+    {
+        @foreach (var order in Model.lstOrderingMenuOrdersHistoryModel)
+        {
+            <a class="p-0" data-target="#OrderItems" data-toggle="modal" >
+                <div class="card-body p-2 bg-white border btn-order-detials" data-id="@order.Id" data-status="@order.OrderStatus">
+                    <div class="cart-list-product p-0 border-none">
+
+                        <h4>
+                            @if (@order.OrderStatus == OrderStatusEunm.Done)
+                            {
+                                <strong class=" float"><span class="mdi mdi-approval text-success"></span>@order.OrderStatus</strong>
+
+
+                            }
+
+                            else
+                            {
+                                @if (@order.OrderStatus == OrderStatusEunm.Cancel || @order.OrderStatus == OrderStatusEunm.Deleted || @order.OrderStatus == OrderStatusEunm.Canceled)
+                                {
+                                    <strong class=" float"> <span class="mdi mdi-approval text-danger"></span> @order.OrderStatus</strong>
+
+
+                                }
+                                else
+                                {
+
+
+                                    <strong class="float"><span class=" text-primary mdi mdi-approval"></span>@order.OrderStatus</strong>
+
+                                }
+                            }
+@*                            <span class=" btn btn-secondary float-"> <i class="mdi mdi-repeat"></i>reOrder</span>
+*@
+                        </h4>
+                        <p class="p-0 m-0  float  col-12">
+                            <span class="mdi mdi-calendar float">@order.OrderDate</span>
+                            <span class="float-">orderNo: @order.OrderNumber</span>
+                        </p>
+
+                        <p class="p-0 m-0 float col-12">
+                            <span class="mdi mdi-map-marker-circle"></span>@order.OrderType
+
+                            @if (order.OrderType == OrderTypeEunm.Delivery)
+                            {
+                                @if (order.StreetName !="" && order.StreetName != null )
+                                {
+                                    <small>: @order.StreetName|@order.BuildingNumber|@order.FloorNo|@order.ApartmentNumber</small>
+                                }
+
+                            }
+                        </p>
+                        <p> <strong class="float- p-1">Total: @order.OrderTotalPrice</strong> 
+                            @if (order.IsItemOffer==true)
+                            {
+                                <strong class=" float- p-1">OrderDiscount: @Math.Round(order.ItemOffer,0)%</strong>
+                            }
+                            @if (order.OrderType == OrderTypeEunm.Delivery)
+                            {
+                                <strong class="float- p-1">DeliveryCost: @order.DeliveryCost</strong>
+                            }
+
+                        </p>
+
+                        @if(order.OrderTotalPoint!= 0){<p><strong class="float- col-12">TotalPoint: @order.OrderTotalPoint</strong></p>}
+                   
+
+                    </div>
+                </div>
+            </a>
+        }
+
+    }
+
+
+</section>
+<div class="modal fade login-modal-main " id="md-OrderItems">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content" >
+            <div class="modal-body">
+
+             
+         <div id="divOrderItems">
+
+         </div>
+            </div>
+        </div>
+
+
+
+
+    </div>
+</div>

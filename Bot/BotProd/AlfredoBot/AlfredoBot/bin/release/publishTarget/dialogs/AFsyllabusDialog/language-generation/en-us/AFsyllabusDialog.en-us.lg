@@ -1,0 +1,25 @@
+[import](common.lg)
+
+# TextInput_Prompt_KTndAk()
+[Activity
+    Text = ${TextInput_Prompt_KTndAk_text()}
+    SuggestedActions = ${dialog.option1} | ${dialog.option2} | ${dialog.option3}
+]
+
+# TextInput_Prompt_KTndAk_text()
+- ${conversation.InputHint}
+# TextInput_Prompt_rQ0BK6_text()
+- ${conversation.InputHint}
+# TextInput_Prompt_rQ0BK6()
+[Activity
+    Text = ${TextInput_Prompt_rQ0BK6_text()}
+    SuggestedActions = ${dialog.Option1} | ${dialog.Option2}
+]
+
+# TextInput_Prompt_G15SVa_text()
+- ${conversation.InputHint}
+# TextInput_Prompt_G15SVa()
+[Activity
+    Text = ${TextInput_Prompt_G15SVa_text()}
+    SuggestedActions = ${dialog.Option1} | ${dialog.Option2}
+]

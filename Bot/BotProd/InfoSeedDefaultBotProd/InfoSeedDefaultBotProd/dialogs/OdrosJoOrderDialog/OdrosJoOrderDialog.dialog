@@ -1,0 +1,245 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "ZPmTiQ",
+    "name": "OdrosJoOrderDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "4vop1r"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "yRkYOg"
+          },
+          "property": "conversation.TypeChoes",
+          "value": "PickUp"
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "yR5GvA"
+          },
+          "activityProcessed": true,
+          "dialog": "OdrosJoBranchDialog"
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "ClTLlN"
+          },
+          "assignments": [
+            {
+              "property": "conversation.BayType",
+              "value": "No select"
+            },
+            {
+              "property": "conversation.selectTime",
+              "value": "\"\""
+            },
+            {
+              "property": "conversation.selectDay",
+              "value": "\"\""
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "8C3E3K"
+          },
+          "activityProcessed": true,
+          "dialog": "SendMenuLinkDialog"
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "qV7QTZ"
+          },
+          "activityProcessed": true,
+          "dialog": "OrderDetalisDialog"
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "d2hQn5"
+          },
+          "assignments": [
+            {
+              "property": "conversation.IsSpecialRequest",
+              "value": false
+            },
+            {
+              "property": "conversation.SpecialRequest",
+              "value": "\"\""
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "Nvb8Xx"
+          },
+          "condition": "conversation.TypeChoes ==\"PickUp\"",
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "IlgWY3"
+              },
+              "assignments": [
+                {
+                  "property": "dialog.nameCaption",
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3706)).text"
+                },
+                {
+                  "property": "dialog.PhoneCaption",
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3707)).text"
+                },
+                {
+                  "property": "dialog.AddressCaption",
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3708)).text"
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.DeleteProperty",
+              "$designer": {
+                "id": "74BvFv"
+              },
+              "property": "dialog.userName"
+            },
+            {
+              "$kind": "Microsoft.TextInput",
+              "$designer": {
+                "id": "hPayDY"
+              },
+              "disabled": false,
+              "maxTurnCount": 100,
+              "alwaysPrompt": false,
+              "allowInterruptions": true,
+              "unrecognizedPrompt": "",
+              "invalidPrompt": "",
+              "prompt": "${TextInput_Prompt_hPayDY()}",
+              "property": "dialog.userName"
+            },
+            {
+              "$kind": "Microsoft.DeleteProperty",
+              "$designer": {
+                "id": "E4HAWl"
+              },
+              "property": "dialog.UserPhone"
+            },
+            {
+              "$kind": "Microsoft.TextInput",
+              "$designer": {
+                "id": "cMYNAJ"
+              },
+              "disabled": false,
+              "maxTurnCount": 100,
+              "alwaysPrompt": false,
+              "allowInterruptions": true,
+              "prompt": "${TextInput_Prompt_cMYNAJ()}",
+              "unrecognizedPrompt": "",
+              "invalidPrompt": "",
+              "property": "dialog.UserPhone"
+            },
+            {
+              "$kind": "Microsoft.DeleteProperty",
+              "$designer": {
+                "id": "N5RVQT"
+              },
+              "property": "dialog.UserAddress"
+            },
+            {
+              "$kind": "Microsoft.TextInput",
+              "$designer": {
+                "id": "cuCf8h"
+              },
+              "disabled": false,
+              "maxTurnCount": 100,
+              "alwaysPrompt": false,
+              "allowInterruptions": true,
+              "unrecognizedPrompt": "",
+              "invalidPrompt": "",
+              "prompt": "${TextInput_Prompt_cuCf8h()}",
+              "property": "dialog.UserAddress"
+            },
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "QouLkw"
+              },
+              "assignments": [
+                {
+                  "property": "dialog.NoteCaption",
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3709)).text"
+                },
+                {
+                  "value": "=replace(dialog.NoteCaption, '{0}', dialog.userName)",
+                  "property": "dialog.NoteCaption"
+                },
+                {
+                  "property": "dialog.NoteCaption",
+                  "value": "=replace(dialog.NoteCaption, '{1}', dialog.UserPhone)"
+                },
+                {
+                  "property": "dialog.NoteCaption",
+                  "value": "=replace(dialog.NoteCaption, '{2}', dialog.UserAddress)"
+                },
+                {
+                  "property": "conversation.IsSpecialRequest",
+                  "value": true
+                },
+                {
+                  "property": "conversation.SpecialRequest",
+                  "value": "${dialog.NoteCaption}"
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "nGlULg"
+              },
+              "activityProcessed": true,
+              "dialog": "OrderFinishDialog"
+            },
+            {
+              "$kind": "Microsoft.EndDialog",
+              "$designer": {
+                "id": "TdgmEy"
+              }
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "HKUrFP"
+          }
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "w9knb6"
+          },
+          "activityProcessed": true,
+          "dialog": "AddNoteDialog"
+        }
+      ]
+    }
+  ],
+  "generator": "OdrosJoOrderDialog.lg",
+  "recognizer": "OdrosJoOrderDialog.lu.qna",
+  "id": "OdrosJoOrderDialog"
+}

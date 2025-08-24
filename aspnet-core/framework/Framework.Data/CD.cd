@@ -1,0 +1,82 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Framework.Data.AzureStorageHelper">
+    <Position X="1.75" Y="0.75" Width="3" />
+    <TypeIdentifier>
+      <HashCode>EUAAAYAIEAAAIABBAAAEQAEAQEBACgAgAAEAIAAgAAA=</HashCode>
+      <FileName>AzureStorage\AzureStorageHelper.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Framework.Data.Constants">
+    <Position X="10.75" Y="2.75" Width="2.5" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Class Name="Framework.Data.Constants.AzureConfiguration">
+        <TypeIdentifier>
+          <NewMemberFileName>Constants.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+      <Class Name="Framework.Data.Constants.DocumentDBConfiguration">
+        <TypeIdentifier>
+          <NewMemberFileName>Constants.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Class>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Constants.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Framework.Data.DataException">
+    <Position X="7.75" Y="6" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAEAAAAAAAgAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>DataException.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Framework.Data.DocumentDBHelper&lt;T&gt;">
+    <Position X="7.75" Y="0.75" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAQAAAAIAAQAAAAAABBAAAABAAAAAAEAABABQAAA=</HashCode>
+      <FileName>DocumentDB\DocumentDBHelper.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Framework.Data.DocumentResult">
+    <Position X="7.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAACAAAAAAAAAA=</HashCode>
+      <FileName>DocumentDB\DocumentResult.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Framework.Data.SqlDataHelper">
+    <Position X="5.25" Y="0.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgIAAAACAAAAAIAAAAAAAAMAABAIABgCAAAEA=</HashCode>
+      <FileName>SQL\SqlDataHelper.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Framework.Data.SystemDataTypes">
+    <Position X="5.25" Y="5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAQAgAAAAQAAAAAAAIAACBAQAEEQAAAAAACA=</HashCode>
+      <FileName>SQL\SystemDataTypes.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Framework.Data.DataExtensions">
+    <Position X="1.75" Y="6.5" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAIAAAAAQAAAAAABACAAAAAAAAAAAAAAAAQAAA=</HashCode>
+      <FileName>DataExtensions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Enum Name="Framework.Data.CollectionTypes">
+    <Position X="10.75" Y="0.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>ACAAAAAAAAAACAAAAAgAAAAAAAABAAAhAAAAAAAAAAA=</HashCode>
+      <FileName>DocumentDB\CollectionTypes.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

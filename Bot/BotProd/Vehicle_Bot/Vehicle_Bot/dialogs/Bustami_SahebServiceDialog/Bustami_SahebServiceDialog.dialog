@@ -1,0 +1,237 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "xObehK",
+    "name": "Bustami_SahebServiceDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "V8T8Zr"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "mCvUyN"
+          },
+          "condition": "conversation.local",
+          "cases": [
+            {
+              "value": "ar",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "CERT7p"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.text",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId ==20)).text"
+                    },
+                    {
+                      "property": "dialog.Summary",
+                      "value": "يمكنك إرسال # في أي وقت للعودة إلى القائمة الرئيسية"
+                    },
+                    {
+                      "property": "dialog.send",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId ==21)).text"
+                    },
+                    {
+                      "property": "conversation.sendpic",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId ==22)).text"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "QU2NvM"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.Option1",
+                      "value": "نعم"
+                    },
+                    {
+                      "property": "dialog.Option2",
+                      "value": "لا"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "en",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "DSO7Ok"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.text",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId ==20)).text"
+                    },
+                    {
+                      "property": "dialog.Summary",
+                      "value": "Enter # to back to Main Menu"
+                    },
+                    {
+                      "property": "dialog.send",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId ==21)).text"
+                    },
+                    {
+                      "property": "conversation.sendpic",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId ==22)).text"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "lkqhEx"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.Option1",
+                      "value": "Yes"
+                    },
+                    {
+                      "property": "dialog.Option2",
+                      "value": "No"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "default": []
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "yMSnD4"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "unrecognizedPrompt": "",
+          "invalidPrompt": "",
+          "prompt": "${TextInput_Prompt_yMSnD4()}",
+          "property": "dialog.UserDis"
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "MA5znG"
+          },
+          "property": "dialog.TimeDate",
+          "value": "${dialog.UserDis} "
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "XT6T7U"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "prompt": "${TextInput_Prompt_XT6T7U()}",
+          "property": "dialog.UserInput",
+          "validations": [
+            "=contains(this.value, '#') || equals(this.value, 'No')  || equals(this.value, 'Yes')|| equals(this.value, 'لا')|| equals(this.value, 'نعم')"
+          ]
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "gkAJhv"
+          },
+          "condition": "dialog.UserInput==\"Yes\" || dialog.UserInput==\"نعم\"",
+          "elseActions": [
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "koWjff"
+              },
+              "property": "dialog.updateOrder",
+              "value": {
+                "ContactName": "=conversation.DisplayName",
+                "ContactId": "=conversation.ContactId",
+                "TenantID": "=conversation.TenantId",
+                "PhoneNumber": "=conversation.phoneNumber",
+                "information": "=dialog.TimeDate",
+                "DepartmentId": "=conversation.BustamiID"
+              }
+            }
+          ],
+          "actions": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "cXogaD"
+              },
+              "activityProcessed": true,
+              "dialog": "Bustami_SahebUploadImgDialog"
+            },
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "IpcUaj"
+              },
+              "property": "dialog.updateOrder",
+              "value": {
+                "ContactName": "=conversation.DisplayName",
+                "ContactId": "=conversation.ContactId",
+                "TenantID": "=conversation.TenantId",
+                "PhoneNumber": "=conversation.phoneNumber",
+                "information": "=dialog.UserDis",
+                "AttachmetArray": "=conversation.AttachmetArray",
+                "DepartmentId": "=conversation.BustamiID"
+              }
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.HttpRequest",
+          "$designer": {
+            "id": "0Qw6no"
+          },
+          "resultProperty": "dialog.OrderUpdateFinsh",
+          "method": "POST",
+          "url": "${conversation.URL}/api/BotAPI/SendPrescription",
+          "body": "= dialog.updateOrder",
+          "headers": {},
+          "responseType": "json"
+        },
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "gQWY02"
+          },
+          "activity": "${SendActivity_gQWY02()}"
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "NwCU03"
+          }
+        }
+      ]
+    }
+  ],
+  "generator": "Bustami_SahebServiceDialog.lg",
+  "recognizer": "Bustami_SahebServiceDialog.lu.qna",
+  "id": "Bustami_SahebServiceDialog"
+}

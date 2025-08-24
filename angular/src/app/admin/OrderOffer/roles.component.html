@@ -1,0 +1,91 @@
+<div [@routerTransition]>
+    <div class=" d-flex flex-column flex-column-fluid">
+        <sub-header [title]="'Roles' | localize" [description]="'RolesHeaderInfo' | localize">
+            <div role="actions">
+                <!-- <button (click)="createRole()" *ngIf="'Pages.Administration.Roles.Create' | permission"
+                    class="btn btn-primary"><i class="fa fa-plus"></i> {{"CreateNewRole" | localize}}</button> -->
+            </div>
+        </sub-header>
+                
+        <div class="md-checkbox-list">
+            <div>
+                <label for="isOrderOffer" class="checkbox">
+                    <input id="isOrderOffer" type="checkbox"
+                        name="isOrderOffer"
+                        [(ngModel)]="isOrderOffer">
+                    <span></span>
+                    {{"isOrderOffer" | localize}}
+                </label>
+            </div>
+        </div>
+
+        <!-- <div *ngIf="isOrderOffer" style="text-align: end;">
+            <button class="btn btn-primary"                         
+               (click)="createRule()"><i class="fa fa-plus"></i>{{"Create Rule" | localize}}
+            </button>
+        </div> -->
+
+        <br>
+        <br>
+        <br>
+
+
+        <div  class="form-group" style=" font-family: system-ui;" *ngFor="let orderOffer of orderOffers; let index=index">
+
+            <div class="row"  *ngIf="isOrderOffer" style="  border-radius: 4px;  border: 1px solid #c02d2d; align-items: center; padding: 10px;">
+
+                <div class="col">
+                    <label > <strong>if total value =</strong></label>
+                </div>
+                <div class="col">
+                    <input  class="form-control m-input"  [(ngModel)]="orderOffer.feesStart"  style="width: 70px; border: 2px solid;">
+                </div>
+                <div class="col">
+                    <label > <strong> => </strong></label>
+                </div>
+                <div class="col">
+                    <input  class="form-control m-input"   [(ngModel)]="orderOffer.feesEnd" style="width: 70px; border: 2px solid;"> 
+                </div>                            
+                <div class="col">    
+                    <!-- <label>City:</label>
+                    <select (change)="onChangeCity($event)" class="form-control">
+                        <option *ngFor="let city of cities" [value]="city.id">{{city.locationName}}</option>
+                    </select> -->
+                    <input  class="form-control m-input" type="text"  [(ngModel)]="orderOffer.cities" style="border: 2px solid;" > 
+                </div>
+                <div class="col">
+                    <label ><strong>Area</strong> </label>
+                </div>
+                <div class="col">
+                    <!-- <ng-multiselect-dropdown
+
+                    [placeholder]="'custom placeholder'"
+                    [settings]="dropdownSettings"
+                    [data]="dropdownList"          
+                    [(ngModel)]="selectedItems"            
+                    (onSelect)="onItemSelect($event)"
+                    (onSelectAll)="onSelectAll($event)"          
+                    >           
+                </ng-multiselect-dropdown> -->
+                    <input  class="form-control m-input" type="text"  [(ngModel)]="orderOffer.area" style="border: 2px solid;" > 
+                </div>
+                <div class="col">
+                    <label > <strong>delivery fees : </strong> </label>
+                </div>
+                <div class="col">
+                    <input  class="form-control m-input"   [(ngModel)]="orderOffer.newFees"  style="width: 70px; border: 2px solid;"> 
+                </div>
+
+                <!-- <div class="col" style="text-align: end;" (click)="onRemove(orderOffer)">
+                    <i class="fa fa-trash"></i>
+                </div> -->
+
+
+               
+
+            </div>
+        </div>
+
+        <!-- <createOrEditorderofferModal #createOrEditorderofferModal (modalSave)="getCities()"></createOrEditorderofferModal> -->
+    </div>
+</div>

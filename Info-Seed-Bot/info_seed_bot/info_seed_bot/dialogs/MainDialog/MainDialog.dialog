@@ -1,0 +1,398 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "6tZfvJ",
+    "name": "MainDialog",
+    "description": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "8J6YIA"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "gWm5WA"
+          },
+          "condition": "conversation.local",
+          "cases": [
+            {
+              "value": "ar",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "2BEWZI"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.Orders",
+                      "value": "للطلبات"
+                    },
+                    {
+                      "property": "dialog.CancelOrder",
+                      "value": "لالغاء الطلب"
+                    },
+                    {
+                      "property": "dialog.Complaints",
+                      "value": "للإستفسارات"
+                    },
+                    {
+                      "property": "dialog.Booking",
+                      "value": "الحجوزات"
+                    },
+                    {
+                      "property": "dialog.CancelBooking",
+                      "value": "الغاء الطلب-الحجز"
+                    },
+                    {
+                      "property": "dialog.Orders1",
+                      "value": "بدي اطلب🚚"
+                    },
+                    {
+                      "property": "dialog.WhereLocation",
+                      "value": "وين موقعكم؟📍"
+                    },
+                    {
+                      "property": "dialog.Complaints1",
+                      "value": "عندي شكوى-تعليق"
+                    },
+                    {
+                      "property": "dialog.Orders2",
+                      "value": "بدي أطلب"
+                    },
+                    {
+                      "property": "dialog.CancelOrder2",
+                      "value": "قررت الغي طلبي"
+                    },
+                    {
+                      "property": "dialog.Complaints2",
+                      "value": "عروض C-town"
+                    },
+                    {
+                      "property": "dialog.maintenance",
+                      "value": "للصيانة"
+                    },
+                    {
+                      "property": "dialog.LocationH",
+                      "value": "مواقع هارمونكس"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "en",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "X5RU09"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.Orders",
+                      "value": "Orders"
+                    },
+                    {
+                      "property": "dialog.CancelOrder",
+                      "value": "Cancel Order"
+                    },
+                    {
+                      "property": "dialog.Complaints",
+                      "value": "Complaints"
+                    },
+                    {
+                      "property": "dialog.Booking",
+                      "value": "Booking"
+                    },
+                    {
+                      "property": "dialog.CancelBooking",
+                      "value": "Cancel Order-Booking"
+                    },
+                    {
+                      "property": "dialog.Orders1",
+                      "value": "I want to order"
+                    },
+                    {
+                      "property": "dialog.WhereLocation",
+                      "value": "Location"
+                    },
+                    {
+                      "property": "dialog.Complaints1",
+                      "value": "Comment"
+                    },
+                    {
+                      "property": "dialog.Orders2",
+                      "value": "Orders"
+                    },
+                    {
+                      "property": "dialog.CancelOrder2",
+                      "value": "Cancel Order"
+                    },
+                    {
+                      "property": "dialog.Complaints2",
+                      "value": "C-town Offer"
+                    },
+                    {
+                      "property": "dialog.maintenance",
+                      "value": "Maintenance"
+                    },
+                    {
+                      "property": "dialog.LocationH",
+                      "value": "Location"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "default": [
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "0raLFR"
+              },
+              "assignments": [
+                {
+                  "property": "dialog.Orders",
+                  "value": "للطلبات"
+                },
+                {
+                  "property": "dialog.CancelOrder",
+                  "value": "لالغاء الطلب"
+                },
+                {
+                  "property": "dialog.Complaints",
+                  "value": "للإستفسارات"
+                },
+                {
+                  "property": "dialog.Booking",
+                  "value": "الحجوزات"
+                },
+                {
+                  "property": "dialog.CancelBooking",
+                  "value": "الغاء الطلب-الحجز"
+                },
+                {
+                  "property": "dialog.Orders1",
+                  "value": "بدي اطلب🚚"
+                },
+                {
+                  "property": "dialog.WhereLocation",
+                  "value": "وين موقعكم؟📍"
+                },
+                {
+                  "property": "dialog.Complaints1",
+                  "value": "عندي شكوى-تعليق"
+                },
+                {
+                  "property": "dialog.Orders2",
+                  "value": "بدي أطلب"
+                },
+                {
+                  "property": "dialog.CancelOrder2",
+                  "value": "قررت الغي طلبي"
+                },
+                {
+                  "property": "dialog.Complaints2",
+                  "value": "عروض C-town"
+                },
+                {
+                  "property": "dialog.maintenance",
+                  "value": "للصيانة"
+                },
+                {
+                  "property": "dialog.LocationH",
+                  "value": "مواقع هارمونكس"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "aJLIel"
+          },
+          "property": "dialog.MainType",
+          "value": "1"
+        },
+        {
+          "$kind": "Microsoft.DeleteProperty",
+          "$designer": {
+            "id": "LlnONF"
+          },
+          "property": "conversation.SelectMain"
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "ZIvdkl"
+          },
+          "condition": "conversation.TenantId",
+          "cases": [
+            {
+              "value": "21",
+              "actions": [
+                {
+                  "$kind": "Microsoft.TextInput",
+                  "$designer": {
+                    "id": "3RPn0R"
+                  },
+                  "disabled": false,
+                  "maxTurnCount": 100,
+                  "alwaysPrompt": false,
+                  "allowInterruptions": false,
+                  "prompt": "${TextInput_Prompt_3RPn0R()}",
+                  "unrecognizedPrompt": "",
+                  "invalidPrompt": "",
+                  "defaultValueResponse": "",
+                  "property": "conversation.SelectMain",
+                  "validations": [
+                    "contains(this.value, 'للطلبات') || contains(this.value, 'لالغاء الطلب') || contains(this.value, 'للإستفسارات') ||contains(this.value, 'الحجوزات') ||contains(this.value, 'الغاء الطلب-الحجز') ||contains(this.value, 'Orders') ||contains(this.value, 'Cancel Order') ||contains(this.value, 'Complaints') ||contains(this.value, 'Booking') || contains(this.value, 'Cancel Order-Booking')"
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "34",
+              "actions": [
+                {
+                  "$kind": "Microsoft.TextInput",
+                  "$designer": {
+                    "id": "H6OqB6"
+                  },
+                  "disabled": false,
+                  "maxTurnCount": 100,
+                  "alwaysPrompt": false,
+                  "allowInterruptions": false,
+                  "prompt": "${TextInput_Prompt_H6OqB6()}",
+                  "unrecognizedPrompt": "",
+                  "invalidPrompt": "",
+                  "defaultValueResponse": "",
+                  "property": "conversation.SelectMain",
+                  "validations": [
+                    "contains(this.value, 'بدي أطلب') || contains(this.value, 'قررت الغي طلبي') || contains(this.value, 'عروض C-town') ||contains(this.value, 'الحجوزات') ||contains(this.value, 'الغاء الطلب-الحجز') ||contains(this.value, 'Orders') ||contains(this.value, 'Cancel Order') ||contains(this.value, 'C-town Offer') ||contains(this.value, 'Booking') || contains(this.value, 'Cancel Order-Booking')"
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "35",
+              "actions": [
+                {
+                  "$kind": "Microsoft.TextInput",
+                  "$designer": {
+                    "id": "u4RgpZ"
+                  },
+                  "disabled": false,
+                  "maxTurnCount": 100,
+                  "alwaysPrompt": false,
+                  "allowInterruptions": false,
+                  "prompt": "${TextInput_Prompt_u4RgpZ()}",
+                  "unrecognizedPrompt": "",
+                  "invalidPrompt": "",
+                  "defaultValueResponse": "",
+                  "property": "conversation.SelectMain",
+                  "validations": [
+                    "contains(this.value, 'بدي اطلب🚚') || contains(this.value, 'وين موقعكم؟📍') || contains(this.value, 'عندي شكوى-تعليق') ||contains(this.value, 'I want to order') ||contains(this.value, 'Location') ||contains(this.value, 'Comment')"
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "36",
+              "actions": [
+                {
+                  "$kind": "Microsoft.TextInput",
+                  "$designer": {
+                    "id": "zjtOgv"
+                  },
+                  "disabled": false,
+                  "maxTurnCount": 100,
+                  "alwaysPrompt": false,
+                  "allowInterruptions": false,
+                  "prompt": "${TextInput_Prompt_zjtOgv()}",
+                  "unrecognizedPrompt": "",
+                  "invalidPrompt": "",
+                  "defaultValueResponse": "",
+                  "property": "conversation.SelectMain",
+                  "validations": [
+                    "contains(this.value, 'للطلبات') || contains(this.value, 'للصيانة') || contains(this.value, 'مواقع هارمونكس') || contains(this.value, 'Orders') ||contains(this.value, 'Maintenance') ||contains(this.value, 'Location')"
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "1000",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "PLF6Z3"
+                  },
+                  "property": "dialog.test1",
+                  "value": "hi hassan "
+                },
+                {
+                  "$kind": "Microsoft.TextInput",
+                  "$designer": {
+                    "id": "C4wi7T"
+                  },
+                  "disabled": false,
+                  "maxTurnCount": 100,
+                  "alwaysPrompt": false,
+                  "allowInterruptions": false,
+                  "unrecognizedPrompt": "",
+                  "invalidPrompt": "",
+                  "property": "conversation.SelectMain",
+                  "validations": [
+                    "contains(this.value, 'للطلبات') || contains(this.value, 'لالغاء الطلب') || contains(this.value, 'للإستفسارات') ||contains(this.value, 'الحجوزات') ||contains(this.value, 'الغاء الطلب-الحجز') ||contains(this.value, 'Orders') ||contains(this.value, 'Cancel Order') ||contains(this.value, 'Complaints') ||contains(this.value, 'Booking') || contains(this.value, 'Cancel Order-Booking')"
+                  ],
+                  "prompt": "${TextInput_Prompt_C4wi7T()}"
+                }
+              ]
+            }
+          ],
+          "default": [
+            {
+              "$kind": "Microsoft.TextInput",
+              "$designer": {
+                "id": "deeKS1"
+              },
+              "disabled": false,
+              "maxTurnCount": 100,
+              "alwaysPrompt": false,
+              "allowInterruptions": false,
+              "prompt": "${TextInput_Prompt_deeKS1()}",
+              "unrecognizedPrompt": "",
+              "invalidPrompt": "",
+              "defaultValueResponse": "",
+              "property": "conversation.SelectMain",
+              "validations": [
+                "contains(this.value, 'للطلبات') || contains(this.value, 'لالغاء الطلب') || contains(this.value, 'للإستفسارات') ||contains(this.value, 'الحجوزات') ||contains(this.value, 'الغاء الطلب-الحجز') ||contains(this.value, 'Orders') ||contains(this.value, 'Cancel Order') ||contains(this.value, 'Complaints') ||contains(this.value, 'Booking') || contains(this.value, 'Cancel Order-Booking')"
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "tN95EF"
+          }
+        }
+      ]
+    }
+  ],
+  "generator": "MainDialog.lg",
+  "recognizer": "MainDialog.lu.qna",
+  "id": "MainDialog"
+}

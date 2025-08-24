@@ -1,0 +1,362 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "name": "Info_Restaurants_Bot",
+    "description": "",
+    "id": "A79tBe"
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnConversationUpdateActivity",
+      "$designer": {
+        "id": "376720",
+        "comment": "This trigger runs when a conversation update activity is sent to the bot. This indicates a user or bot being added or removed from a conversation."
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.CancelAllDialogs",
+          "$designer": {
+            "id": "l1GBWp"
+          },
+          "activityProcessed": true
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnUnknownIntent",
+      "$designer": {
+        "id": "mb2n1u",
+        "comment": "This trigger fires when an incoming activity is not handled by any other trigger."
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "FkwnMl"
+          },
+          "condition": "conversation.IsLiveChat==true",
+          "elseActions": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "WJ4S8l"
+              },
+              "activityProcessed": true,
+              "dialog": "ClearDialog"
+            },
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "TUUYV9"
+              },
+              "activityProcessed": true,
+              "dialog": "MainDialog"
+            },
+            {
+              "$kind": "Microsoft.EndDialog",
+              "$designer": {
+                "id": "IekuJ5"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "sZ8mJc",
+        "name": "welcome"
+      },
+      "intent": "welcome",
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "KdC9Mp"
+          },
+          "property": "conversation.IsLiveChat",
+          "value": false
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "364MnV"
+          },
+          "activityProcessed": true,
+          "dialog": "ClearDialog"
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "H7VV2i"
+          },
+          "activityProcessed": true,
+          "dialog": "MainDialog"
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "VOMkzx"
+          }
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "enNNwW",
+        "name": "Stop"
+      },
+      "intent": "Stop",
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "Uiia0k"
+          },
+          "property": "conversation.IsLiveChat",
+          "value": false
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "Wd3MBi"
+          },
+          "activityProcessed": true,
+          "dialog": "StartDialog"
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "waleAs"
+          },
+          "activityProcessed": true,
+          "dialog": "StopCustomerBehaviorDialog"
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "ZUQC9B",
+        "name": "Start"
+      },
+      "intent": "Start",
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "NtC2Zw"
+          },
+          "property": "conversation.IsLiveChat",
+          "value": false
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "wrNwuj"
+          },
+          "activityProcessed": true,
+          "dialog": "StartDialog"
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "k3gHhj"
+          },
+          "activityProcessed": true,
+          "dialog": "StartCustomerBehaviorDialog"
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "Zrecwd",
+        "name": "Cancel"
+      },
+      "intent": "Cancel",
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "fgLKyk"
+          },
+          "property": "conversation.IsLiveChat",
+          "value": false
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "53aE7Y"
+          },
+          "activityProcessed": true,
+          "dialog": "CancelOrderDialog"
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "HQYqXB"
+          },
+          "activityProcessed": true,
+          "dialog": "ClearDialog"
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "qkjLOW"
+          },
+          "activityProcessed": true,
+          "dialog": "MainDialog"
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "WlVaL1"
+          }
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "66uGgP",
+        "name": "StartDialog"
+      },
+      "intent": "StartDialog",
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "pWt9EV"
+          },
+          "property": "conversation.IsLiveChat",
+          "value": false
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "RAUVG3"
+          },
+          "property": "dialog.IsBundleActive",
+          "value": true
+        },
+        {
+          "$kind": "Microsoft.HttpRequest",
+          "$designer": {
+            "id": "5xQGUs"
+          },
+          "resultProperty": "dialog.update",
+          "method": "GET",
+          "url": "${conversation.URL}/api/BotAPI/SetBundleActiveInfoseed?TenantId=${conversation.TenantId}&IsBundleActive=${dialog.IsBundleActive}&phonenumber=${conversation.phoneNumber}",
+          "responseType": "json"
+        },
+        {
+          "$kind": "Microsoft.CancelAllDialogs",
+          "$designer": {
+            "id": "1UxYSO"
+          },
+          "activityProcessed": true
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "Whv05T",
+        "name": "EndDialig"
+      },
+      "intent": "EndDialig",
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "sLmDxI"
+          },
+          "property": "conversation.IsLiveChat",
+          "value": false
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "t01y0v"
+          },
+          "property": "dialog.IsBundleActive",
+          "value": false
+        },
+        {
+          "$kind": "Microsoft.HttpRequest",
+          "$designer": {
+            "id": "Muethu"
+          },
+          "resultProperty": "dialog.update",
+          "method": "GET",
+          "url": "${conversation.URL}/api/BotAPI/SetBundleActiveInfoseed?TenantId=${conversation.TenantId}&IsBundleActive=${dialog.IsBundleActive}",
+          "responseType": "json"
+        },
+        {
+          "$kind": "Microsoft.CancelAllDialogs",
+          "$designer": {
+            "id": "e4C7se"
+          },
+          "activityProcessed": true
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "TiRORd",
+        "name": "evaluation"
+      },
+      "intent": "evaluation",
+      "actions": [
+        {
+          "$kind": "Microsoft.CancelAllDialogs",
+          "$designer": {
+            "id": "A6mPLo"
+          },
+          "activityProcessed": true
+        }
+      ]
+    }
+  ],
+  "generator": "Info_Restaurants_Bot.lg",
+  "id": "Info_Restaurants_Bot",
+  "recognizer": {
+    "$kind": "Microsoft.RegexRecognizer",
+    "intents": [
+      {
+        "intent": "welcome",
+        "pattern": "#"
+      },
+      {
+        "intent": "Stop",
+        "pattern": "STOP"
+      },
+      {
+        "intent": "Start",
+        "pattern": "START"
+      },
+      {
+        "intent": "Cancel",
+        "pattern": "CANCEL"
+      },
+      {
+        "intent": "StartDialog",
+        "pattern": "HJSS"
+      },
+      {
+        "intent": "EndDialig",
+        "pattern": "HJSE"
+      },
+      {
+        "intent": "evaluation",
+        "pattern": "EvaluationQuestion"
+      }
+    ]
+  }
+}

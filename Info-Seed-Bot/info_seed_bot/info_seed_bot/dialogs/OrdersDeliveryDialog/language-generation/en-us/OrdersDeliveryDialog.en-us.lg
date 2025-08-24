@@ -1,0 +1,30 @@
+[import](common.lg)
+
+# TextInput_Prompt_MyHHfp()
+- ${conversation.FromWhere_Text}
+# TextInput_Prompt_4qIXVK()
+- ${conversation.InformationOrder_Text}
+# TextInput_Prompt_o0HT2D()
+- ${conversation.ToWhere_Text}
+# SendActivity_9dcBla()
+- ${conversation.DontSupportLocation}
+# SendActivity_NggmJQ()
+- ${conversation.DontSupportLocation}
+# TextInput_Prompt_Ug6Nzn()
+[Activity
+    Text= ${conversation.DeliveryFromTo_Text}
+    SuggestedActions = ${conversation.Confirm} | ${conversation.Cancel}
+     Summary=${conversation.Summary}
+]
+# SendActivity_1lCmLs()
+- ${conversation.DeleteDraftText}
+# TextInput_Prompt_pA8s15()
+[Activity
+    Text= ${conversation.DeliveryCostText}
+    SuggestedActions = ${conversation.Confirm} | ${conversation.Cancel}
+     Summary=${conversation.Summary}
+]
+# SendActivity_i0mvg2()
+- ${conversation.NotSupportFromTo_Text}
+# TextInput_Prompt_UnLb4n()
+- ${conversation.OrderDeliveryDitales_text}

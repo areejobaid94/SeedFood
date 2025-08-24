@@ -1,0 +1,423 @@
+﻿@model Infoseed.MassagingPort.OrderingMenu.Pages.Model.OrderingMenuProductDetailsModel
+@{
+    ViewData["Title"]= "single product page";
+}
+
+
+<section class="shop-single p-0 mt-3 ">
+
+    <input id="hdId" type="hidden" value="@Model.Id" />
+    <input id="hdItemName" type="hidden" value="@Model.Name" />
+    <input id="hdItemNameAR" type="hidden" value="@Model.NameArabic" />
+    <input id="hdItemNameEN" type="hidden" value="@Model.NameEnglish" />
+    <input id="hdItemPrice" type="hidden" value="@Model.ViewPrice" />
+    <input id="hdItemImageUrl" type="hidden" value="@Model.ImageUri" />
+    <input id="hdItemDiscount" type="hidden" value="@Model.Discount" />
+    <input id="hdTenantId" type="hidden" value="@Model.TenantId" />
+    <input id="ContactId" type="hidden" value="@Model.ContactId" />
+    <input id="LoyaltyPoints" type="hidden" value="@Model.ViewPoint" />
+    <input id="IsLoyalClick" type="hidden" value="@Model.IsLoyalClick.ToString()" />
+    <div class=" col-12 d-flex flex-wrap">
+        <div class="col-md-6 dirc p-1">
+            <div class="shop-detail-right product-header p-0">
+
+
+                <div class=" m-0 col-lg-12 p-0 col-12 col-md-12">
+                    @if (@Model.Discount != null && @Model.Discount != "" )
+                    {
+                        @if (!@Model.IsLoyalClick)
+                        {
+                            <span class="badge badge-success">@Model.Discount %@localizer.Get("off")</span>
+                        }
+                    }
+                    <div class=" p-0">
+
+                        @if (@Model.ImageUri != null && @Model.ImageUri != "")
+                        {
+
+                            <img class=" img-fluid1" src="@Model.ImageUri" alt="">
+                        }
+                        else
+                        {
+                            <img class="img-fluid1" src="img/404.png" alt="">
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+
+        <div class="col-md-6 dirc p-1">
+            <div class=" product-header">
+
+
+                <blockquote class="blockquote text-center">
+                    <h2 class="mb-0">@Model.Name </h2>
+
+                                         @if(Model.ItemDescription != ""){
+
+                    <footer class="blockquote-footer p-3 "> (@Model.ItemDescription) </footer>
+
+                                         }else{
+                                             <footer class="p-3"></footer>
+                                         }
+                   @if(Model.IsLoyalClick){
+
+                       <span class="text-success offer-price  p-3"><strong      id="stItemPoint"> @Model.LoyaltyPoints <span class="lead  text-warning mdi mdi-star-circle"></span></strong> </span>
+
+
+                    }
+                    
+                    else{
+                       @if (@Model.Discount != null)
+                        {
+                        <p class="mb-0">
+
+                          
+                            @if (Model.OldPrice != null && Model.OldPrice != Model.Price)
+                            {
+                                <span class="regular-price "><i class="mdi mdi-tag-outline"></i> @Model.OldPrice </span>
+                            }
+
+
+
+                            <span class="text-success   p-3"><strong> @Model.Price <span class="currencyCode"></span></strong> </span>
+
+                        </p>
+
+                    }
+                    else
+                    {
+                        <p class="mb-0"><span>@Model.OldPrice</span></p>
+                    }
+                    }
+                </blockquote>
+            </div>
+
+
+
+
+
+        </div>
+    </div>
+        <div id="errormsg" class="erorrmsg dirc  pl-1 pr-1" >
+        <h6 class="text-danger  text-center  ">
+            @localizer.Get("NoPoint")
+    ,@localizer.Get("yourpoint") (<strong class="MyPoints">0</strong>) </h6>
+            </div>
+
+
+    <form name="my-form">
+        <div class="shop-filters ">
+
+
+            @foreach (var option in Model.lstOrderingMenuItemSpecificationsModel)
+            {
+                <div class="content card">
+
+                    <div class="specifications-cart @option.SpecificationDescription" data-uniqueid="@option.UniqueId" data-specificationname="@option.SpecificationDescription" onclick="GoToNext(@option.UniqueId)" id="@option.Id" data-specificationid="@option.Id" data-isrequired="@option.IsRequired" data-maxselectnumber="@option.MaxSelectNumber" data-ismulti="@option.IsMultipleSelection">
+                        <h4 class="float col-7" data-target="#coSpecifications_@option.UniqueId">@option.SpecificationDescription</h4>
+                        @if (@option.IsRequired)
+                        {
+                            <a class="float- col-5" id="req_@option.Id">
+                                <span class="mdi mdi-star "></span>(@localizer.Get("required"))
+
+                                @if (@option.MaxSelectNumber != 0)
+                                {
+                                 <p class="m-0 p-0">  <small>(@localizer.Get("atmost") @option.MaxSelectNumber)</small></p>
+
+                                }
+
+                                </a>
+                        }
+
+                        @if (@option.lstOrderingMenuSpecificationChoiceModel != null)
+                        {
+                            @if (@option.IsMultipleSelection)
+                            {
+
+                                <div id="coSpecifications_@option.UniqueId">
+                                    <div class="card-body card-shop-filters p-0  m-0 dirc">
+                                        @foreach (var choices in option.lstOrderingMenuSpecificationChoiceModel)
+                                        {
+
+                                            <div class="custom-control custom-checkbox dirc p-0">
+                                                <div class="px">
+                                                    <label class=" float m-0 border-bottom">
+                                                        <input type="checkbox" data-id="@choices.Id" data-name="@choices.SpecificationChoiceDescription" data-price="@choices.Price" data-loyaltyPoints="@choices.LoyaltyPoints" class="choices-selected option-input checkbox ch-checkbox_@option.UniqueId" name="rd2_@option.Id@option.UniqueId" id="rd_@choices.Id" />
+                                                        @choices.SpecificationChoiceDescription
+
+                                                        @if (Model.IsLoyalClick)
+                                                        {
+                                                            if (choices.LoyaltyPoints != 0)
+                                                            {
+                                                                <span class="badge text-warning float-">@choices.LoyaltyPoints  <span class="lead  text-warning mdi mdi-star-circle"></span></span>
+
+                                                            }
+                                                            else
+                                                            {
+
+                                                                <span class="badge text-success float-">@localizer.Get("Free")</span>
+
+                                                            }
+
+
+
+                                                        }
+                                                        else
+                                                        {
+                                                            @if (@choices.Price.ToString() != "0.00")
+                                                            {
+                                                                <span class="badge text-dark float-">@choices.Price <strong class="currencyCode"></strong></span>
+                                                            }
+                                                            else
+                                                            {
+                                                                <span class="badge text-success float-">@localizer.Get("Free")</span>
+                                                            }
+                                                        }
+                                                    
+                                                    </label>
+                                                </div>
+
+                                            </div>
+                                     
+                                        }
+
+                                    </div>
+                                </div>
+                            }
+                            else
+                            {
+
+                                <div id="coSpecifications_@option.UniqueId" >
+                                    <div class="card-body card-shop-filters m-0">
+                                        @foreach (var choices in option.lstOrderingMenuSpecificationChoiceModel)
+                                        {
+                                            <div class="custom-control custom-radio dirc p-0 ">
+                                                <div class='px'>
+                                                    <label class=" float m-0 border-bottom">
+                                                        <input type="radio" class="choices-selected option-input radio ch-radio_@option.UniqueId" data-id="@choices.Id"  data-loyaltyPoints="@choices.LoyaltyPoints"  data-name=" @choices.SpecificationChoiceDescription" data-price="@choices.Price" name="rd2_@option.Id@option.UniqueId" id="rd_@choices.Id" />
+                                                        @choices.SpecificationChoiceDescription
+
+
+                                                             @if (Model.IsLoyalClick)
+                                                    {
+                                                        if(choices.LoyaltyPoints!=0){
+                                                            <span class="badge text-warning float-">@choices.LoyaltyPoints  <span class="lead  text-warning mdi mdi-star-circle"></span></span>
+
+                                                        }
+                                                        else{
+
+                                                            <span class="badge text-success float-">@localizer.Get("Free")</span>
+
+                                                        }
+
+
+
+                                                    }else{
+                                                        @if (@choices.Price.ToString() != "0.00")
+                                                        {
+                                                            <span class="badge text-dark float-">@choices.Price <strong class="currencyCode"></strong></span>
+                                                        }
+                                                        else
+                                                        {
+                                                            <span class="badge text-success float-">@localizer.Get("Free")</span>
+                                                        }
+                                                        }
+                                                    </label>
+                                                </div>
+
+                                            </div>
+
+                                        }
+
+                                    </div>
+                                </div>
+
+                            }
+
+
+                        }
+                    </div>
+                </div>
+            }
+            @*     
+                
+            
+            
+            
+            
+            
+            // add on's'
+
+
+
+
+
+
+
+            *@
+            @if (Model.lstOrderingMenuItemAdditionsCategorysModel != null)
+            {
+
+                foreach (var ons in Model.lstOrderingMenuItemAdditionsCategorysModel)
+                {
+                    <div class='content card '>
+
+                        <div class="specifications-cart"  id="@ons.Id" onclick="GoToNext(@ons.Id)">
+
+
+                            <div>
+                                <div class="card-body card-shop-filters p-0 dirc ">
+                                    @foreach (var extra in ons.OrderingMenuItemAdditionModel)
+                                    {
+                                        <div class="custom-control custom-checkbox dirc p-0">
+
+                                            <div class="px mb-2">
+
+                                                <label class="float border-bottom">
+                                                    <div class="d-flex col-3 p-0 float ">
+                                                        <button class=" btn minus col-4 col-xl-3 col-md-3 btnaddtional">-</button>
+                                                        <input class="input col-3 p-0 m-0 hdItemQtyAddtional btnaddtional ItemQtyAddtional-productdetails " type="text" value="0" data-itemadditionsid="@extra.ItemAdditionsId" data-itemadditionscategoryid="@extra.ItemAdditionsCategoryId" data-nameen="@extra.NameEnglish" data-name="@extra.Name" data-price="@extra.price" data-loyaltyPoints="@extra.LoyaltyPoints">
+                                                        <button class=" btn plus col-4 col-xl-3 col-md-3 btnaddtional">+</button>
+                                                    </div>
+                                                    <span class="float">
+
+                                                        @extra.Name
+
+                                                    </span>
+
+
+
+                                                    @if (Model.IsLoyalClick)
+                                                    {
+                                                        if(extra.LoyaltyPoints!=0){
+                                                            <span class="badge text-warning float-">@extra.LoyaltyPoints  <span class="lead  text-warning mdi mdi-star-circle"></span></span>
+
+                                                        }
+                                                        else{
+
+                                                            <span class="badge text-success float-">@localizer.Get("Free")</span>
+
+                                                        }
+
+
+
+                                                    }else{
+                                                    @if (@extra.price.ToString() != "0.00")
+                                                    {
+                                                        <span class="badge text-dark float-">@extra.price <strong class="currencyCode"></strong></span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span class="badge text-success float-">@localizer.Get("Free")</span>
+                                                    }}
+                                                </label>
+                                            </div>
+
+
+
+
+
+                                        </div>
+                                    }
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+
+
+                }
+
+            }
+
+    
+            <div class='content card border'>
+                <div class="float d-flex col-12 dirc">
+                    <div class=" flex btn  btn-sm   col-4">
+                        <h4 class="pt-2">  @localizer.Get("Qty")</h4>
+
+
+                    </div>
+                    <div class=" flex btn  btn-sm    col-8 dirc">
+                        <button class=" btn minus1 col-3  col-lg-1 col-xl-1 p-1 choices-selected">-</button>
+                        <input id="txtItemQty" class="input col-3 p-0 m-0 hdItemQty choices-selected " type="text" value="1">
+                        <button class=" btn plus col-3 col-lg-1 col-xl-1   p-1 choices-selected">+</button>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+
+        @if (@Model.IsInService != false)
+        {
+
+                if ( Model.IsApplayLoyalty && !Model.IsLoyalClick)
+                {
+
+                <div class="erorrmsg float col-12 pointss_@Model.Id" id="pointss">
+
+                    </div>
+                }
+   @*         <input name="Note" id="ItemNotes" rows="2" maxlength="150" class="erorrmsg
+    col-12 p-1 dirc" placeholder="@localizer.Get("Note")" >
+            *@
+            <button id="btnAddToCart"   type="submit" class="btn btn-secondary float btn-lg col-12 pb-3 sticky-bottom"> 
+                <span class="float-"> 
+                @if ( Model.IsLoyalClick)
+                    {
+                        <strong id="stItemTotalLoyaltyPoints"> @Model.ViewPoint</strong>
+                        <strong class="text-warning mdi mdi-star-circle"></strong>
+                    }
+                    else
+                    {
+                        <strong id="stItemTotalPrice"> @Model.ViewPrice</strong>
+                        <strong class="currencyCode"></strong>
+                    }
+                   
+
+                </span>
+                <i class="mdi mdi-cart-outline"></i> @localizer.Get("addtocart")
+                </button>
+      
+        
+        }
+        else
+        {
+            <button class="btn btn-secondary  float btn-lg col-12 pb-3  sticky-bottom disabled "><i class="mdi mdi-cart-outline"></i> @localizer.Get("availablity")</button>
+
+        }
+
+
+
+
+
+
+    </form>
+
+
+
+</section>
+
+
+@*
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- select2 Js -->
+    <script src="vendor/select2/js/select2.min.js"></script>
+    <!-- Owl Carousel -->
+    <script src="vendor/owl-carousel/owl.carousel.js"></script>
+    <!-- Custom -->
+    <script src="js/custom.js"></script>*@

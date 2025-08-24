@@ -1,0 +1,26 @@
+<div [@routerTransition]>
+    <div class=" d-flex flex-column flex-column-fluid">
+        <sub-header [title]="'Payments' | localize">
+        </sub-header>
+        <div>
+            <div class="card card-custom gutter-b">
+                <div class="card-body">
+                    <tabset>
+                        <tab heading="{{'PaymentMethods' | localize}}">
+                            <paymentMethods-component></paymentMethods-component>
+                        </tab>
+                        <tab heading="{{'Currencies' | localize}}">
+                            <currencies-component></currencies-component>
+                        </tab>
+                        <tab heading="{{'Banks' | localize}}">
+                            <banks-component></banks-component>
+                        </tab>
+                       
+                    </tabset>
+                </div>
+            </div>
+        </div>
+    </div>
+    <auditLogDetailModal #auditLogDetailModal></auditLogDetailModal>
+    <entityChangeDetailModal #entityChangeDetailModal></entityChangeDetailModal>
+</div>

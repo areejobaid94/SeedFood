@@ -1,0 +1,349 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "nDJ9kJ",
+    "name": "Maintenance",
+    "description": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "SPmSuV"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "X6PzP9"
+          },
+          "property": "conversation.DialogName",
+          "value": "MaintenanceDialog"
+        },
+        {
+          "$kind": "Microsoft.DeleteProperty",
+          "$designer": {
+            "id": "bmmvKf"
+          },
+          "property": "conversation.CustomerName"
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "Ye54Wa"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "prompt": "${TextInput_Prompt_Ye54Wa()}",
+          "unrecognizedPrompt": "",
+          "invalidPrompt": "",
+          "defaultValueResponse": "",
+          "property": "conversation.CustomerName"
+        },
+        {
+          "$kind": "Microsoft.DeleteProperty",
+          "$designer": {
+            "id": "gLTYw4"
+          },
+          "property": "conversation.PhoneNumber1"
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "7WwEVw"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "prompt": "${TextInput_Prompt_7WwEVw()}",
+          "unrecognizedPrompt": "",
+          "invalidPrompt": "",
+          "defaultValueResponse": "",
+          "property": "conversation.PhoneNumber1"
+        },
+        {
+          "$kind": "Microsoft.DeleteProperty",
+          "$designer": {
+            "id": "7GDdFp"
+          },
+          "property": "conversation.PhoneNumber2"
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "5uIzJm"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "prompt": "${TextInput_Prompt_5uIzJm()}",
+          "unrecognizedPrompt": "",
+          "invalidPrompt": "",
+          "defaultValueResponse": "",
+          "property": "conversation.PhoneNumber2"
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "N5VqlG"
+          },
+          "assignments": [
+            {
+              "property": "conversation.OrderTotal",
+              "value": "0"
+            },
+            {
+              "property": "conversation.menu",
+              "value": "0"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "bt84Rz"
+          },
+          "activityProcessed": true,
+          "dialog": "DeliveryOrderDialog"
+        },
+        {
+          "$kind": "Microsoft.DeleteProperty",
+          "$designer": {
+            "id": "kgCmP7"
+          },
+          "property": "conversation.DialogName"
+        },
+        {
+          "$kind": "Microsoft.DeleteProperty",
+          "$designer": {
+            "id": "cj8U0E"
+          },
+          "property": "conversation.PhoneType"
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "IH37Ml"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "prompt": "${TextInput_Prompt_IH37Ml()}",
+          "unrecognizedPrompt": "",
+          "invalidPrompt": "",
+          "defaultValueResponse": "",
+          "property": "conversation.PhoneType"
+        },
+        {
+          "$kind": "Microsoft.DeleteProperty",
+          "$designer": {
+            "id": "KwiV6H"
+          },
+          "property": "conversation.Damage"
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "MLo7Ii"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "prompt": "${TextInput_Prompt_MLo7Ii()}",
+          "unrecognizedPrompt": "",
+          "invalidPrompt": "",
+          "defaultValueResponse": "",
+          "property": "conversation.Damage"
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "Lp1Fpc"
+          },
+          "assignments": [
+            {
+              "property": "conversation.Maintenance_Summary",
+              "value": "=replace(conversation.Maintenance_Summary, '{0}', conversation.CustomerName)"
+            },
+            {
+              "property": "conversation.Maintenance_Summary",
+              "value": "=replace(conversation.Maintenance_Summary, '{1}', conversation.PhoneNumber1)"
+            },
+            {
+              "property": "conversation.Maintenance_Summary",
+              "value": "=replace(conversation.Maintenance_Summary, '{2}', conversation.PhoneNumber2)"
+            },
+            {
+              "property": "conversation.Maintenance_Summary",
+              "value": "=replace(conversation.Maintenance_Summary, '{3}', conversation.LocationInfo.address)"
+            },
+            {
+              "property": "conversation.Maintenance_Summary",
+              "value": "=replace(conversation.Maintenance_Summary, '{4}', conversation.PhoneType)"
+            },
+            {
+              "property": "conversation.Maintenance_Summary",
+              "value": "=replace(conversation.Maintenance_Summary, '{5}', conversation.Damage)"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "BMJsAG"
+          },
+          "condition": "conversation.local==\"ar\"",
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "MRurLf"
+              },
+              "assignments": [
+                {
+                  "property": "dialog.Option1",
+                  "value": "تاكيد"
+                },
+                {
+                  "property": "dialog.Option2",
+                  "value": "تعديل"
+                }
+              ]
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "PH0s6C"
+              },
+              "assignments": [
+                {
+                  "property": "dialog.Option1",
+                  "value": "Confirm"
+                },
+                {
+                  "property": "dialog.Option2",
+                  "value": "Edit"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.DeleteProperty",
+          "$designer": {
+            "id": "MuCBox"
+          },
+          "property": "dialog.selectUser"
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "7kByOf"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "prompt": "${TextInput_Prompt_7kByOf()}",
+          "unrecognizedPrompt": "",
+          "invalidPrompt": "",
+          "property": "dialog.selectUser",
+          "validations": [
+            "contains(this.value, 'تاكيد') || contains(this.value, 'تعديل') || contains(this.value, 'Confirm')|| contains(this.value, 'Edit')  || contains(this.value, '#') "
+          ]
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "dy2SLR"
+          },
+          "condition": "dialog.selectUser==\"تعديل\" || dialog.selectUser==\"Edit\"",
+          "actions": [
+            {
+              "$kind": "Microsoft.RepeatDialog",
+              "$designer": {
+                "id": "uLokIG"
+              },
+              "activityProcessed": true
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "zdVg3r"
+          },
+          "property": "conversation.UpdateMaintenance",
+          "value": {
+            "ContactId": "=conversation.ContactId",
+            "TenantID": "=conversation.TenantId",
+            "BotLocal": "=conversation.local",
+            "Address": "=conversation.LocationInfo.address",
+            "CustomerName": "=conversation.CustomerName",
+            "PhoneNumber1": "=conversation.PhoneNumber1",
+            "PhoneNumber2": "=conversation.PhoneNumber2",
+            "PhoneType": "=conversation.PhoneType",
+            "Damage": "=conversation.Damage",
+            "DeliveryCostAfter": "=conversation.LocationInfo.deliveryCostAfter",
+            "phoneNumber": "=conversation.phoneNumber",
+            "DisplayName": "=conversation.DisplayName",
+            "UserId": "=conversation.UserId",
+            "LocationFrom": "=conversation.LocationFrom"
+          }
+        },
+        {
+          "$kind": "Microsoft.HttpRequest",
+          "$designer": {
+            "id": "UDmk8V"
+          },
+          "method": "POST",
+          "url": "${conversation.URL}/api/BotAPI/UpdateMaintenance",
+          "body": "= conversation.UpdateMaintenance",
+          "headers": {
+            "accept": "text/plain",
+            "Content-Type": "application/json-patch+json"
+          },
+          "resultProperty": "dialog.OrderUpdate",
+          "responseType": "json"
+        },
+        {
+          "$kind": "Microsoft.DeleteProperties",
+          "$designer": {
+            "id": "PINogr"
+          },
+          "properties": [
+            "conversation.LocationInfo.address",
+            "conversation.CustomerName",
+            "conversation.PhoneNumber1",
+            "conversation.PhoneNumber2",
+            "conversation.PhoneType",
+            "conversation.Damage",
+            "conversation.LocationInfo.deliveryCostAfter",
+            "conversation.LocationInfo"
+          ]
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "36Cssa"
+          }
+        }
+      ]
+    }
+  ],
+  "generator": "Maintenance.lg",
+  "recognizer": "Maintenance.lu.qna",
+  "id": "Maintenance"
+}

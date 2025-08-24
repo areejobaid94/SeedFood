@@ -1,0 +1,346 @@
+<div appBsModal #editModal="bs-modal" (onShown)="onShown()" class="modal fade" tabindex="-1" role="dialog"
+    aria-labelledby="editModal" aria-hidden="true" [config]="{backdrop: 'static', keyboard: !saving}">
+    <div class="modal-dialog modal-lg">
+
+        <div class="modal-content">
+
+            <form #tenantEditForm="ngForm" role="form" novalidate class="form-validation" (submit)="save()"
+                *ngIf="tenant && active">
+
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <span>{{"EditTenant" | localize}}: {{tenant.tenancyName}}</span>
+                    </h5>
+                    <button type="button" class="close" (click)="close()" [attr.aria-label]="l('Close')"
+                        [disabled]="saving">
+                         <i aria-hidden="true" class="ki ki-close"></i>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+
+                    <div class="form-group">
+                        <label for="Name">{{"TenantName" | localize}} *</label>
+                        <input id="Name" #nameInput="ngModel" type="text" name="Name" class="form-control"
+                               [ngClass]="{'edited':tenant.name}" [(ngModel)]="tenant.name" required maxlength="128">
+                        <validation-messages [formCtrl]="nameInput"></validation-messages>
+                    </div>
+
+                    <div class="form-group" *ngIf="currentConnectionString">
+                        <label for="DatabaseConnectionString">{{"DatabaseConnectionString" | localize}} *</label>
+                        <input id="DatabaseConnectionString" #connectionStringInput="ngModel" type="text"
+                               name="ConnectionString" class="form-control" [(ngModel)]="tenant.connectionString" required
+                               maxlength="1024">
+                        <validation-messages [formCtrl]="connectionStringInput"></validation-messages>
+                    </div>
+
+                    <div *ngIf="currentConnectionString">
+                        <span class="help-block text-warning">{{"TenantDatabaseConnectionStringChangeWarningMessage" | localize}}</span>
+                    </div>
+<!-- 
+                    <div class="form-group">
+                        <label for="edition">{{"Edition" | localize}}</label>
+                        <select id="edition" name="edition" class="form-control" [(ngModel)]="tenant.editionId"
+                                (change)="onEditionChange()">
+                            <option *ngFor="let edition of editions" [value]="edition.value">
+                                {{edition.displayText}}
+                            </option>
+                        </select>
+                    </div> -->
+                    <div class="form-group">
+                        <label for="LegalID">{{"LegalID" | localize}} *</label>
+                        <input id="LegalID" #legalIDInput="ngModel" class="form-control" type="text"
+                               [ngClass]="{'edited':tenant.legalID}" name="legalID"
+                               [(ngModel)]="tenant.legalID" #legalID="ngModel">
+                        <validation-messages [formCtrl]="legalIDInput"></validation-messages>
+                    </div>
+
+                    
+                    <div class="form-group">
+                        <label for="website">{{"Tenant website" | localize}} *</label>
+                        <input id="website" #addressInput="ngModel" class="form-control" type="text"
+                               [ngClass]="{'edited':tenant.website}" name="website"
+                               [(ngModel)]="tenant.website" #website="ngModel">
+                     
+                    </div>
+
+                    <!-- <div class="form-group">
+                        <label for="CustomerLegalName">{{"CustomerLegalName" | localize}} *</label>
+                        <input id="CustomerLegalName" #customerLegalNameInput="ngModel" class="form-control" type="text"
+                               [ngClass]="{'edited':tenant.customerLegalName}" name="customerLegalName"
+                               [(ngModel)]="tenant.customerLegalName" #customerLegalName="ngModel">
+                        <validation-messages [formCtrl]="customerLegalNameInput"></validation-messages>
+                    </div> -->
+                    <div class="form-group">
+                        <label for="PhoneNumber">{{"PhoneNumber" | localize}} *</label>
+                        <input id="PhoneNumber" #phoneNumberInput="ngModel" class="form-control" type="text"
+                               [ngClass]="{'edited':tenant.phoneNumber}" name="phoneNumber"
+                               [(ngModel)]="tenant.phoneNumber" #phoneNumber="ngModel">
+                        <validation-messages [formCtrl]="phoneNumberInput"></validation-messages>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="Address">{{"Address" | localize}} *</label>
+                        <input id="Aaddress" #addressInput="ngModel" class="form-control" type="text"
+                               [ngClass]="{'edited':tenant.address}" name="address"
+                               [(ngModel)]="tenant.address" #customerLegalName="ngModel">
+                        <validation-messages [formCtrl]="addressInput"></validation-messages>
+                    </div>
+
+                    <!-- <div class="form-group">
+                        <label for="ContactPersonEmail">{{"ContactPersonEmail" | localize}} *</label>
+                        <input id="ContactPersonEmail" #contactPersonEmailInput="ngModel" type="email"
+                               name="ContactPersonEmail" class="form-control" [(ngModel)]="tenant.contactPersonEmail"
+                               [ngClass]="{'edited':tenant.contactPersonEmail}" required
+                               pattern="^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$" maxlength="256">
+                        <validation-messages [formCtrl]="contactPersonEmailInput"></validation-messages>
+                    </div> -->
+
+                    <!-- <div class="form-group">
+                        <label for="Email">{{"Email" | localize}} *</label>
+                        <input id="Email" #emailInput="ngModel" type="email"
+                               name="email" class="form-control" [(ngModel)]="tenant.email"
+                               [ngClass]="{'edited':tenant.email}" required
+                               pattern="^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$" maxlength="256">
+                        <validation-messages [formCtrl]="emailInput"></validation-messages>
+                    </div> -->
+
+            
+                    <!-- <div class="form-group">
+                        <label for="CustomerStatusID">{{"CustomerStatusID" | localize}} *</label>
+                        <input id="CustomerStatusID" #customerStatusIDInput="ngModel" class="form-control" type="text"
+                               [ngClass]="{'edited':tenant.customerStatusID}" name="customerStatusID"
+                               [(ngModel)]="tenant.customerStatusID" #contactPersonName="ngModel">
+                        <validation-messages [formCtrl]="customerStatusIDInput"></validation-messages>
+                    </div> -->
+
+                  
+                    
+                    <!-- <div class="form-group">
+                        <label for="ContactPersonName">{{"ContactPersonName" | localize}} *</label>
+                        <input id="ContactPersonName" #contactPersonNameInput="ngModel" class="form-control" type="text"
+                               [ngClass]="{'edited':tenant.contactPersonName}" name="contactPersonName"
+                               [(ngModel)]="tenant.contactPersonName" #contactPersonName="ngModel">
+                        <validation-messages [formCtrl]="contactPersonNameInput"></validation-messages>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="ContactPersonPhoneNumber">{{"ContactPersonPhoneNumber" | localize}} *</label>
+                        <input id="ContactPersonPhoneNumber" #contactPersonPhoneNumberInput="ngModel" class="form-control" type="text"
+                               [ngClass]="{'edited':tenant.contactPersonPhoneNumber}" name="contactPersonPhoneNumber"
+                               [(ngModel)]="tenant.contactPersonPhoneNumber" #contactPersonPhoneNumber="ngModel">
+                        <validation-messages [formCtrl]="contactPersonPhoneNumberInput"></validation-messages>
+                    </div> -->
+
+
+                    <!-- <div class="form-group">
+                        <label for="SmoochAppID">{{"SmoochAppID" | localize}} *</label>
+                        <input id="SmoochAppID" #smoochAppIDInput="ngModel" class="form-control" type="text"
+                               [ngClass]="{'edited':tenant.smoochAppID}" name="smoochAppID"
+                               [(ngModel)]="tenant.smoochAppID" #contactPersonPhoneNumber="ngModel">
+                        <validation-messages [formCtrl]="smoochAppIDInput"></validation-messages>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="SmoochAPIKeyID">{{"SmoochAPIKeyID" | localize}} *</label>
+                        <input id="SmoochAPIKeyID" #smoochAPIKeyIDInput="ngModel" class="form-control" type="text"
+                               [ngClass]="{'edited':tenant.smoochAPIKeyID}" name="smoochAPIKeyID"
+                               [(ngModel)]="tenant.smoochAPIKeyID" #contactPersonPhoneNumber="ngModel">
+                        <validation-messages [formCtrl]="smoochAPIKeyIDInput"></validation-messages>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="SmoochSecretKey">{{"SmoochSecretKey" | localize}} *</label>
+                        <input id="SmoochSecretKey" #smoochSecretKeyInput="ngModel" class="form-control" type="text"
+                               [ngClass]="{'edited':tenant.smoochSecretKey}" name="smoochSecretKey"
+                               [(ngModel)]="tenant.smoochSecretKey" #contactPersonPhoneNumber="ngModel">
+                        <validation-messages [formCtrl]="smoochSecretKeyInput"></validation-messages>
+                    </div> -->
+                    <div class="form-group">
+                        <label for="TenantType">{{"TenantType" | localize}} *</label>
+                    <select class="form-control" name="TenantType" id="TenantType"  [(ngModel)]="tenant.tenantType"   style="font-family: system-ui;" required>                               
+                        <option [value]="0" >Shop</option>
+                        <option [value]="1" >Delivery</option>
+                        <option [value]="2" >Sales</option>
+                        <option [value]="4" >Booking</option>
+                    </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="templateId">{{"Template Number" | localize}} *</label>
+                        <select id="templateId" name="templateId" class="form-control" [(ngModel)]="tenant.botTemplateId">
+                            <option></option>
+                            <option *ngFor="let Template of botTemplates" [value]="Template.id">
+                                {{Template.templateName}}
+                            </option>
+                        </select>
+                        <!-- <select class="form-control" #smoochAPIKeyIDInput="ngModel"  name="templateId" id="templateId"  [(ngModel)]="tenant.botTemplateId"   style="font-family: system-ui;">                               
+                            <option [value]="1" >Template 1</option>
+                            <option [value]="2" >Template 2</option>
+                            <option [value]="3" >Template 3</option>
+                            <option [value]="4" >Template 4</option>
+                        </select> -->
+                    </div>
+
+
+                    <div class="form-group">
+                        <label for="PhoneNumberId">{{"Phone Number ID" | localize}} *</label>
+                        <input id="PhoneNumberId" #smoochSecretKeyInput="ngModel" class="form-control" type="text"
+                            [ngClass]="{'edited':tenant.d360Key}" name="PhoneNumberId"
+                            [(ngModel)]="tenant.d360Key" #contactPersonPhoneNumber="ngModel">
+                        <!-- <validation-messages [formCtrl]="smoochSecretKeyInput"></validation-messages> -->
+                    </div>
+                    <div class="form-group">
+                        <label for="AccessToken">{{"Access Token" | localize}} *</label>
+                        <input id="AccessToken" #smoochSecretKeyInput="ngModel" class="form-control" type="text"
+                            [ngClass]="{'edited':tenant.accessToken}" name="AccessToken"
+                            [(ngModel)]="tenant.accessToken" #contactPersonPhoneNumber="ngModel">
+                        <!-- <validation-messages [formCtrl]="smoochSecretKeyInput"></validation-messages> -->
+                    </div>
+                    <div class="form-group">
+                        <label for="WhatsAppAccountID">{{"WhatsApp Account ID" | localize}} *</label>
+                        <input id="WhatsAppAccountID" #smoochSecretKeyInput="ngModel" class="form-control" type="text"
+                            [ngClass]="{'edited':tenant.whatsAppAccountID}" name="WhatsAppAccountID"
+                            [(ngModel)]="tenant.whatsAppAccountID" #contactPersonPhoneNumber="ngModel">
+                        <!-- <validation-messages [formCtrl]="smoochSecretKeyInput"></validation-messages> -->
+                    </div>
+
+                    <br>
+                    <div class="form-group">
+                        <label for="whatsAppAppID">{{"WhatsApp App ID" | localize}} *</label>
+                        <input id="whatsAppAppID" #smoochSecretKeyInput="ngModel" class="form-control" type="text"
+                            [ngClass]="{'edited':tenant.whatsAppAppID}" name="whatsAppAppID"
+                            [(ngModel)]="tenant.whatsAppAppID" #whatsAppAppID="ngModel">
+                        <!-- <validation-messages [formCtrl]="smoochSecretKeyInput"></validation-messages> -->
+                    </div>
+
+                    <br>
+                    <!-- <div class="form-group">
+                        <label for="zohoCustomerId">{{"Zoho Customer Id" | localize}} *</label>
+                        <input id="zohoCustomerId" #smoochSecretKeyInput="ngModel" class="form-control" type="text"
+                            [ngClass]="{'edited':tenant.zohoCustomerId}" name="zohoCustomerId"
+                            [(ngModel)]="tenant.zohoCustomerId" #zohoCustomerId="ngModel">
+                     
+                    </div> -->
+
+                    <br>
+                    <div class="form-group">
+                        <label for="biDailyLimit">{{"Bi Daily Limit" | localize}} *</label>
+                        <input id="biDailyLimit" #smoochSecretKeyInput="ngModel" class="form-control" type="text"
+                            [ngClass]="{'edited':tenant.biDailyLimit}" name="biDailyLimit"
+                            [(ngModel)]="tenant.biDailyLimit" #biDailyLimit="ngModel">
+                        <!-- <validation-messages [formCtrl]="smoochSecretKeyInput"></validation-messages> -->
+                    </div>
+
+                    <br>
+                    <div class="checkbox-list">
+                        <label class="checkbox">
+                            <input id="EditTenant_IsBotActive" type="checkbox" name="IsBotActive"
+                                   [(ngModel)]="tenant.isBotActive">
+                            <span></span>
+                            {{"IsBotActive" | localize}}
+                        </label>
+                    </div>
+                    
+                    <br>
+                    
+                    <div class="form-group">
+                        <label for="DirectLineSecret ">{{"DirectLineSecret " | localize}} *</label>
+                        <input id="DirectLineSecret " #directLineSecretInput="ngModel" class="form-control" type="text"
+                               [ngClass]="{'edited':tenant.directLineSecret }" name="directLineSecret"
+                               [(ngModel)]="tenant.directLineSecret" #contactPersonPhoneNumber="ngModel">
+                        <validation-messages [formCtrl]="directLineSecretInput"></validation-messages>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="botId">{{"botId" | localize}} *</label>
+                        <input id="botId" #botIdInput="ngModel" class="form-control" type="text"
+                               [ngClass]="{'edited':tenant.botId}" name="botId"
+                               [(ngModel)]="tenant.botId" #contactPersonPhoneNumber="ngModel">
+                        <validation-messages [formCtrl]="botIdInput"></validation-messages>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="BotLocal">{{"Tenant Bot Local" | localize}} *</label>
+                    <select class="form-control" #smoochAPIKeyIDInput="ngModel"  name="BotLocal" id="BotLocal"  [(ngModel)]="tenant.botLocal"   style="font-family: system-ui;" required>                               
+                        <option [value]="0" >All</option>
+                        <option [value]="1" >Arabic</option>
+                        <option [value]="2" >English</option>
+                      </select>
+                    </div>
+
+
+
+                    <div class="form-group">
+                        <label for="DueDay">{{"Invoice Number" | localize}} *</label>
+                        <input id="DueDay" #customerStatusIDInput="ngModel" class="form-control" type="number"
+                               [ngClass]="{'edited':tenant.dueDay}" name="DueDay"
+                               [(ngModel)]="tenant.dueDay" #contactPersonName="ngModel" required>
+                        <!-- <validation-messages [formCtrl]="customerStatusIDInput"></validation-messages> -->
+                    </div>
+
+                   
+
+
+
+
+                    <div [hidden]="!isSubscriptionFieldsVisible" class="checkbox-list">
+                        <label class="checkbox">
+                            <input id="CreateTenant_IsUnlimited" type="checkbox" name="IsUnlimited"
+                                   [(ngModel)]="isUnlimited" (ngModelChange)="onUnlimitedChange()" />
+                            <span></span>
+                            {{"UnlimitedTimeSubscription" | localize}}
+                        </label>
+                    </div>
+                    
+                    <br>
+                    <div [hidden]="isUnlimited || !isSubscriptionFieldsVisible" class="form-group"
+                         [ngClass]="{'has-error': !subscriptionEndDateUtcIsValid }">
+                        <label for="SubscriptionEndDateUtc">{{"SubscriptionEndDateUtc" | localize}}</label>
+                        <input id="SubscriptionEndDateUtc" type="datetime" #SubscriptionEndDateUtc
+                               name="SubscriptionEndDateUtc" class="form-control" bsDatepicker datePickerMomentModifier
+                               (dateChange)="subscriptionEndDateChange($event)" [(date)]="tenant.subscriptionEndDateUtc"
+                               [bsConfig]="{ adaptivePosition: true }" [required]="!isUnlimited" />
+                    </div>
+
+                    <div [hidden]="isUnlimited ||!isSubscriptionFieldsVisible" class="checkbox-list">
+                        <label class="checkbox">
+                            <input id="CreateTenant_IsInTrialPeriod" type="checkbox" name="IsInTrialPeriod"
+                                   [disabled]="selectedEditionIsFree()" [(ngModel)]="tenant.isInTrialPeriod">
+                            <span></span>
+                            {{"IsInTrialPeriod" | localize}}
+                        </label>
+                    </div>
+
+
+
+                    <div class="checkbox-list">
+                        <label class="checkbox">
+                            <input id="EditTenant_IsActive" type="checkbox" name="IsActive"
+                                   [(ngModel)]="tenant.isActive">
+                            <span></span>
+                            {{"Active" | localize}}
+                        </label>
+                    </div>
+                    <div class="checkbox-list">
+                        <label class="checkbox">
+                            <input id="EditTenant_isD360Dialog" type="checkbox" name="isD360Dialog"
+                                   [(ngModel)]="tenant.isD360Dialog">
+                            <span></span>
+                            {{"Is 360Dialog" | localize}}
+                        </label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" [disabled]="saving" class="btn btn-light-primary font-weight-bold"
+                        (click)="close()">{{"Cancel" | localize}}</button>
+                    <button type="submit" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')"
+                        class="btn btn-primary font-weight-bold"
+                        [disabled]="!tenantEditForm.form.valid || saving || !subscriptionEndDateUtcIsValid"><i
+                            class="fa fa-save"></i> <span>{{"Save" | localize}}</span></button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

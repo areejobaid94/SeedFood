@@ -1,0 +1,82 @@
+[import](common.lg)
+
+# TextInput_Prompt_8kYC8i()
+[Activity
+    Attachments = ${json(ButtonList(conversation.choose,dialog.SalesLst))}
+     InputHint=${dialog.InputHint}
+     Summary=${conversation.Summary}
+]
+
+
+
+
+# TextInput_Prompt_8kYC8i_text()
+- ${conversation.choose}
+# SendActivity_1gtnop()
+[Activity
+    Text = ${SendActivity_1gtnop_text()}
+]
+
+# SendActivity_1gtnop_text()
+- ${dialog.Location}
+# SendActivity_nAh25J_text()
+- ${dialog.Location}
+# SendActivity_nAh25J()
+[Activity
+    Text = ${SendActivity_nAh25J_text()}
+]
+
+# TextInput_Prompt_Slinw7()
+[Activity
+    Text = ${dialog.Contact}
+    SuggestedActions = ${dialog.ContactOption}
+     Summary=${dialog.Summary}
+]
+
+# TextInput_Prompt_Slinw7_text()
+- ${dialog.Contact}
+# TextInput_Prompt_bXJsAt()
+[Activity
+    Text = ${dialog.Contact}
+    SuggestedActions = ${dialog.ContactOption}
+     Summary=${dialog.Summary}
+]
+
+# TextInput_Prompt_GMu9Ds_text()
+- ${dialog.text}
+# TextInput_Prompt_GMu9Ds()
+[Activity
+    Text = ${TextInput_Prompt_GMu9Ds_text()}
+        InputHint = ${dialog.Summary}
+    Summary=${conversation.Summary}
+]
+
+# SendActivity_pwnhR6_text()
+- ${conversation.Thanks}
+# SendActivity_pwnhR6()
+[Activity
+    Text = ${SendActivity_pwnhR6_text()}
+]
+
+# TextInput_Prompt_HKuXxU()
+[Activity
+    Text = ${conversation.choose}
+    SuggestedActions = ${dialog.Complaint1} | ${dialog.Complaint2}
+    Summary=${conversation.Summary}
+
+]
+# TextInput_Prompt_zfnTR2_text()
+- ${dialog.text}
+# TextInput_Prompt_zfnTR2()
+[Activity
+    Text = ${TextInput_Prompt_zfnTR2_text()}
+       Summary=${conversation.Summary}
+
+]
+
+# SendActivity_bCXClT_text()
+- ${conversation.Thanks}
+# SendActivity_bCXClT()
+[Activity
+    Text = ${SendActivity_bCXClT_text()}
+]

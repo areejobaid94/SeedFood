@@ -1,0 +1,10 @@
+[import](common.lg)
+
+# TextInput_Prompt_Ror8aG()
+[Activity
+    Text = ${TextInput_Prompt_Ror8aG_text()}
+    SuggestedActions = ${dialog.ar} | ${dialog.en}
+]
+
+# TextInput_Prompt_Ror8aG_text()
+- ${dialog.text}

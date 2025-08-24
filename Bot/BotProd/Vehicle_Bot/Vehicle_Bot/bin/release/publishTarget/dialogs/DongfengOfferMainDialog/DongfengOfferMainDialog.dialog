@@ -1,0 +1,224 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "LVc0wJ",
+    "name": "DongfengOfferMainDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "6IEaGX"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "3pKDYS"
+          },
+          "condition": "conversation.local",
+          "cases": [
+            {
+              "value": "ar",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "bzFw1S"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.Option1",
+                      "value": "تواصل مباشرة"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "en",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "1s1qMa"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.Option1",
+                      "value": "Contact directly"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "aVgJtQ"
+          },
+          "property": "dialog.HintCaption",
+          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3)).text"
+        },
+        {
+          "$kind": "Microsoft.DeleteProperty",
+          "$designer": {
+            "id": "lJxvse"
+          },
+          "property": "dialog.UserSelect"
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "4NYdQm"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "unrecognizedPrompt": "",
+          "invalidPrompt": "",
+          "prompt": "${TextInput_Prompt_4NYdQm()}",
+          "property": "dialog.UserSelect",
+          "validations": [
+            "equals(this.value, 'Contact directly') || equals(this.value, 'تواصل مباشرة') || equals(this.value, '#')"
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "byRMGb"
+          },
+          "property": "dialog.inquiryCaption",
+          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1072)).text"
+        },
+        {
+          "$kind": "Microsoft.DeleteProperty",
+          "$designer": {
+            "id": "AyHILc"
+          },
+          "property": "dialog.Select"
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "0xbSet"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "unrecognizedPrompt": "",
+          "invalidPrompt": "",
+          "property": "dialog.Select",
+          "prompt": "${TextInput_Prompt_0xbSet()}"
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "vqpqDO"
+          },
+          "activityProcessed": true,
+          "dialog": "DongfengLiveCDialog"
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "X30ayZ"
+          }
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "Cvg4q9"
+          },
+          "assignments": [
+            {
+              "property": "conversation.isoffer",
+              "value": true
+            },
+            {
+              "property": "conversation.StepBack",
+              "value": "1"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "3UD8ML"
+          },
+          "activityProcessed": true,
+          "dialog": "DongfengOffersLoopDialog"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "RdZ8sw"
+          },
+          "condition": "conversation.DepartmentName ==\"#\"",
+          "actions": [
+            {
+              "$kind": "Microsoft.DeleteProperty",
+              "$designer": {
+                "id": "ZqtAHd"
+              },
+              "property": "dialog.type"
+            },
+            {
+              "$kind": "Microsoft.EndDialog",
+              "$designer": {
+                "id": "WxxjyC"
+              }
+            },
+            {
+              "$kind": "Microsoft.RepeatDialog",
+              "$designer": {
+                "id": "drLpr3"
+              },
+              "activityProcessed": true
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "ZEI9ug"
+          },
+          "property": "conversation.isoffer",
+          "value": true
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "aYRFGv"
+          },
+          "assignments": [
+            {
+              "property": "conversation.typeId",
+              "value": "0"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "8TV1mt"
+          },
+          "activityProcessed": true,
+          "dialog": "AssetOffersDialog"
+        }
+      ]
+    }
+  ],
+  "generator": "DongfengOfferMainDialog.lg",
+  "recognizer": "DongfengOfferMainDialog.lu.qna",
+  "id": "DongfengOfferMainDialog"
+}

@@ -1,0 +1,111 @@
+body {
+    background-color: #74EBD5;
+    background-image: linear-gradient(90deg, #74EBD5 0%, #9FACE6 100%);
+  
+    min-height: 100vh;
+  }
+  
+  ::-webkit-scrollbar {
+    width: 5px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    width: 5px;
+    background: #f5f5f5;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    width: 1em;
+    background-color: #ddd;
+    outline: 1px solid slategrey;
+    border-radius: 1rem;
+  }
+  
+  .text-small {
+    font-size: 0.9rem;
+  }
+  
+  .messages-box,
+  .chat-box {
+    height: auto !important;
+    overflow-y: scroll;
+  }
+  
+  .rounded-lg {
+    border-radius: 0.5rem;
+  }
+  
+  input::placeholder {
+    font-size: 0.9rem;
+    color: #999;
+  }
+  .bg-light {
+    background-color: #f0f0f0!important;
+  }
+  .chat-area-bg {
+  background: url("/assets/common/images/floor-tile.png") repeat;
+  /* padding-bottom: 20px; */
+  }
+  .chat-area-bg.background {
+  opacity: 0.4;
+  }
+  
+  .sender-speech-bubble {
+  
+  position: relative;
+  max-width: 30em;
+  
+  background-color: #fff;
+  padding: 1.125em 1.5em;
+  font-size: 1.25em;
+  border-radius: 1rem;
+  box-shadow:	0 0.125rem 0.5rem rgba(0, 0, 0, .3), 0 0.0625rem 0.125rem rgba(0, 0, 0, .2);
+  }
+  
+  .sender-speech-bubble::before {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 0;
+  bottom: 100%;
+  left: 1.5em;
+  border: .75rem solid transparent;
+  border-top: none;
+  border-bottom-color: #fff;
+  filter: drop-shadow(0 -0.0625rem 0.0625rem rgba(0, 0, 0, .1));
+  }
+  
+  .reciever-speech-bubble {
+  
+  position: relative;
+  max-width: 30em;
+  
+  background-color: #DCF8C6;
+  padding: 1.125em 1.5em;
+  font-size: 1.25em;
+  border-radius: 1rem;
+  box-shadow:	0 0.125rem 0.5rem rgba(0, 0, 0, .3), 0 0.0625rem 0.125rem rgba(0, 0, 0, .2);
+  }
+  
+  .reciever-speech-bubble::before {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 0;
+  bottom: 100%;
+  right: 1.5em;
+  border: .75rem solid transparent;
+  border-top: none;
+  border-bottom-color: #DCF8C6;
+  filter: drop-shadow(0 -0.0625rem 0.0625rem rgba(0, 0, 0, .1));
+  }
+  
+  .img-wrap {
+  position: relative;
+  }
+  .img-wrap .close {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  z-index: 100;
+  }

@@ -1,0 +1,23 @@
+[import](common.lg)
+
+# TextInput_Prompt_dAe0I6()
+[Activity
+    Text = ${TextInput_Prompt_dAe0I6_text()}
+]
+
+# TextInput_Prompt_dAe0I6_text()
+- ${dialog.text}
+# AttachmentInput_Prompt_8WbYSd()
+[Activity
+    Text = ${AttachmentInput_Prompt_8WbYSd_text()}
+]
+
+# AttachmentInput_Prompt_NyQ8SK()
+[Activity
+    Text = ${AttachmentInput_Prompt_NyQ8SK_text()}
+]
+
+# AttachmentInput_Prompt_8WbYSd_text()
+- ${dialog.text}
+# AttachmentInput_Prompt_NyQ8SK_text()
+- ${dialog.text}

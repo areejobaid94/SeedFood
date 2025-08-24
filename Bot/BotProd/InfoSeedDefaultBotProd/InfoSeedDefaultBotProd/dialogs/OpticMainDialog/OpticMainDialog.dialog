@@ -1,0 +1,235 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "rnZIcz",
+    "name": "OpticMainDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "niqfwy"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "iEu6oZ"
+          },
+          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3661)).text",
+          "property": "dialog.WelcomeCaption"
+        },
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "CmoFq6"
+          },
+          "activity": "${SendActivity_CmoFq6()}"
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "D9RTDm"
+          },
+          "condition": "conversation.local",
+          "cases": [
+            {
+              "value": "ar",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "vKX1i7"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.Option1",
+                      "value": "معلومات عنا"
+                    },
+                    {
+                      "property": "dialog.Option2",
+                      "value": "فحص النظر"
+                    },
+                    {
+                      "property": "dialog.Option3",
+                      "value": "متجرنا"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "en",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "kjsYTu"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.Option1",
+                      "value": "About Us"
+                    },
+                    {
+                      "property": "dialog.Option2",
+                      "value": "Vision Examination"
+                    },
+                    {
+                      "property": "dialog.Option3",
+                      "value": "Our Store"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "LUPE6T"
+          },
+          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3662)).text",
+          "property": "dialog.PleaseChooseCaption"
+        },
+        {
+          "$kind": "Microsoft.DeleteProperty",
+          "$designer": {
+            "id": "SLQqgn"
+          },
+          "property": "dialog.UserSelect"
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "2QOwnX"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "prompt": "${TextInput_Prompt_2QOwnX()}",
+          "unrecognizedPrompt": "",
+          "property": "dialog.UserSelect",
+          "validations": [
+            "equals(this.value, 'معلومات عنا') || equals(this.value, 'Our Store') || equals(this.value, 'Vision Examination') || equals(this.value, 'متجرنا') || equals(this.value, 'About Us') || equals(this.value, 'فحص النظر')   ||equals(this.value, '#')"
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "IDugJv"
+          },
+          "assignments": [
+            {
+              "property": "conversation.Department1",
+              "value": "${dialog.UserSelect}"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "nLzLA0"
+          },
+          "condition": "dialog.UserSelect",
+          "cases": [
+            {
+              "value": "معلومات عنا",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "phPkb9"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "OpticAboutUsDialog"
+                }
+              ]
+            },
+            {
+              "value": "فحص النظر",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "RpKxQK"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "OpticVisionDialog"
+                }
+              ]
+            },
+            {
+              "value": "متجرنا",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "EBVxWP"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "OpticOrderDialog"
+                }
+              ]
+            },
+            {
+              "value": "About Us",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "teptXt"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "OpticAboutUsDialog"
+                }
+              ]
+            },
+            {
+              "value": "Vision Examination",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "6PJi9Z"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "OpticVisionDialog"
+                }
+              ]
+            },
+            {
+              "value": "Our Store",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "aKKMoz"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "OpticOrderDialog"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "T37RqV"
+          }
+        }
+      ]
+    }
+  ],
+  "generator": "OpticMainDialog.lg",
+  "recognizer": "OpticMainDialog.lu.qna",
+  "id": "OpticMainDialog"
+}

@@ -1,0 +1,170 @@
+.alert-box {
+    color: #555;
+    border-radius: 13px;
+    font-family: Tahoma, Geneva, Arial, sans-serif;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 10px 36px 10px 36px;
+    margin: 10px;
+    width: fit-content;
+}
+
+.alert-box span {
+    font-weight: bold;
+    text-transform: uppercase;
+}
+th {
+    font-family: Verdana, Geneva, Tahoma, sans-serif !important ;
+    font-size: 16px !important ;
+    font-weight: 700 !important ;
+    line-height: 19.45px !important ;
+    letter-spacing: 1px !important ;
+    text-align: left !important ;
+    color: rgba(94, 88, 115, 1) !important;
+    text-transform: uppercase !important;
+}
+
+.custome-badge {
+    padding: 8px 16px 8px 16px;
+    gap: 3px;
+    border-radius: 17px;
+    opacity: 0px;
+    font-family: Verdana;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 18px;
+    text-align: center;
+}
+.table-header {
+    background-color: rgba(243, 242, 247, 1) !important;
+}
+.custom-chart-icon {
+    border-radius: 5px !important;
+    padding: 2px !important;
+    background-color: rgba(209, 255, 250, 1) !important;
+    color: rgba(0, 151, 137, 1) !important;
+}
+
+.custom-report-icon {
+    border-radius: 5px !important;
+    padding: 2px !important;
+    background-color: rgba(255, 245, 245, 1) !important;
+    color: rgba(254, 113, 106, 1) !important;
+}
+.custom-download-icon {
+    border-radius: 5px !important;
+    padding: 2px !important;
+    background-color: rgba(254, 246, 247, 1) !important;
+    color: rgba(107, 114, 128, 1) !important;
+}
+
+::ng-deep .p-paginator {
+    justify-content: end !important;
+}
+
+.custom-delete-icon {
+    border-radius: 5px !important;
+    padding: 2px !important;
+    background-color: rgba(254, 246, 247, 1) !important;
+    color: rgba(228, 38, 59, 1) !important;
+}
+
+.custome-title-span {
+    font-family: Verdana !important ;
+    font-size: 16px !important ;
+    font-weight: 400 !important ;
+    line-height: 21px !important ;
+    /* color: rgba(37, 39, 44, 1) !important; */
+}
+.custome-badge-schedual {
+    background-color: rgba(237, 233, 254, 1);
+    color: rgba(139, 92, 246, 1);
+}
+
+.custome-badge-sent {
+    background-color: rgba(40, 199, 111, 0.12);
+    color: rgba(40, 199, 111, 1);
+}
+
+.custome-badge-draft {
+    background-color: rgba(108, 117, 125, 0.12);
+
+    color: rgba(130, 134, 139, 1);
+}
+
+.custome-badge-active {
+    background-color: rgba(14, 165, 233, 0.1);
+
+    color: rgba(14, 165, 233, 1);
+}
+
+.custome-badge-inactive {
+    background-color: rgba(255, 245, 245, 1);
+
+    color: rgba(254, 113, 106, 1);
+}
+
+.error {
+    background: #ffecec;
+    border: 1px solid #f5aca6;
+}
+.success {
+    background: #e9ffd9;
+    border: 1px solid #a6ca8a;
+}
+.warning {
+    background: #fff8c4;
+    border: 1px solid #f2c779;
+}
+.notice {
+    background: #e3f7fc;
+    border: 1px solid #8ed9f6;
+}
+.color-green {
+    color: #009789 !important;
+}
+/* Center tab navigation items */
+::ng-deep .p-tabview .p-tabview-nav {
+    justify-content: center !important;
+}
+
+/* Hide ink bar and panels */
+::ng-deep .p-tabview .p-tabview-ink-bar {
+    display: none !important;
+}
+
+::ng-deep .p-tabview .p-tabview-panels {
+    display: none !important;
+}
+
+/* Style active tab header */
+::ng-deep .p-tabview .p-tabview-nav li.p-highlight .p-tabview-nav-link {
+    background: #ffffff;
+    border-color: #009789 !important;
+    color: #009789 !important;
+}
+
+::ng-deep .p-tabview .p-tabview-nav li.p-highlight .p-tabview-nav-link:focus {
+    background: #ffffff;
+    border-color: #009789 !important;
+    color: #009789 !important;
+}
+
+/* Hide tab header text on mobile devices */
+@media (max-width: 768px) {
+    ::ng-deep .p-tabview .p-tabview-nav .p-tabview-nav-link span {
+        display: none;
+    }
+
+    .btn .color-green {
+        display: none;
+    }
+
+    ::ng-deep .p-tabview .p-tabview-nav .p-tabview-nav-link i {
+        font-size: 24px;
+    }
+
+    .btn i {
+        font-size: 12px;
+    }
+}

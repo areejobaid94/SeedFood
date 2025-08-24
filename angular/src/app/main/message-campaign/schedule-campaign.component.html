@@ -1,0 +1,50 @@
+<div bsModal #scheduleCampaign="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="scheduleCampaign" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <span>{{ l("messageSchedualing") }}</span>
+                    </h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="close()" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="date" class="form-label"> {{ l("selectDate")}} *</label>
+                        
+                                <ng2-flatpickr
+                        
+                                  [config]="endDateOptions"
+                                  [setDate]="dateAndTime"
+                                  #endDatePicker
+                                  required
+                                  [class.error]="submitted &&
+                                  !endDatePicker.flatpickrElement.nativeElement.children[0].willValidate"></ng2-flatpickr>
+                                <p class="text-danger" *ngIf="submitted &&
+                                  endDatePicker.flatpickrElement.nativeElement.children[0].value ===
+                                  ''"> {{ l("ThisFieldIsRequired")}}</p>
+                        
+                              </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-6">
+
+                        </div>
+                    </div>
+                </div>
+         
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" (click)="close()">{{ l("Cancel") }}</button>
+                    <button type="button" class="btn btn-primary-info mr-1"  (click)="save()" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')">
+                        {{ l("Save") }}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

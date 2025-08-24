@@ -1,0 +1,135 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "LLZ1Rq",
+    "name": "DongfengInquiryDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "Y14KzZ"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "gVH6pj"
+          },
+          "condition": "conversation.local",
+          "cases": [
+            {
+              "value": "ar",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "ZIa9cH"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.Button",
+                      "value": "للاستفسار"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "en",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "NpqdL3"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.Button",
+                      "value": "To inquire"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.DeleteProperty",
+          "$designer": {
+            "id": "8g6ckH"
+          },
+          "property": "dialog.UserSelect"
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "RSSqAO"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "unrecognizedPrompt": "",
+          "invalidPrompt": "",
+          "property": "dialog.UserSelect",
+          "validations": [
+            "equals(this.value, 'To inquire') || equals(this.value, 'للاستفسار') || equals(this.value, '#')"
+          ],
+          "prompt": "${TextInput_Prompt_RSSqAO()}"
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "56xqwn"
+          },
+          "property": "dialog.inquiryCaption",
+          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1072)).text"
+        },
+        {
+          "$kind": "Microsoft.DeleteProperty",
+          "$designer": {
+            "id": "mGlu7R"
+          },
+          "property": "dialog.Select"
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "TSrJlh"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "unrecognizedPrompt": "",
+          "invalidPrompt": "",
+          "property": "dialog.Select",
+          "prompt": "${TextInput_Prompt_TSrJlh()}"
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "jcqXhJ"
+          },
+          "activityProcessed": true,
+          "dialog": "DongfengLiveCDialog"
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "LQwT5m"
+          }
+        }
+      ]
+    }
+  ],
+  "generator": "DongfengInquiryDialog.lg",
+  "recognizer": "DongfengInquiryDialog.lu.qna",
+  "id": "DongfengInquiryDialog"
+}

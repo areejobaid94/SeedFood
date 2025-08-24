@@ -1,0 +1,234 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "rflHse",
+    "name": "OpticVisionDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "KdjiZh"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "L0HLQd"
+          },
+          "condition": "conversation.local",
+          "cases": [
+            {
+              "value": "ar",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "sD9LbF"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.ListOption",
+                      "value": [
+                        "فحص نظر متنقل",
+                        "فحص داخل فروعنا"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "c622P7"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.Option1",
+                      "value": "فحص نظر متنقل"
+                    },
+                    {
+                      "property": "dialog.Option2",
+                      "value": "فحص داخل فروعنا"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "en",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "nJuIPf"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.ListOption",
+                      "value": [
+                        "Mobile Examination",
+                        "Onsite Examination"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "ElGbI4"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.Option1",
+                      "value": "Mobile Examination"
+                    },
+                    {
+                      "property": "dialog.Option2",
+                      "value": "Onsite Examination"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "0SvGL4"
+          },
+          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3667)).text",
+          "property": "dialog.text"
+        },
+        {
+          "$kind": "Microsoft.DeleteProperty",
+          "$designer": {
+            "id": "KcPz15"
+          },
+          "property": "dialog.UserSelect"
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "rvcuHX"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "unrecognizedPrompt": "",
+          "invalidPrompt": "",
+          "property": "dialog.UserSelect",
+          "validations": [
+            "equals(this.value, 'فحص داخل فروعنا') || equals(this.value, 'فحص نظر متنقل') || equals(this.value, 'Mobile Examination') || equals(this.value, 'Onsite Examination')  || equals(this.value, '#')"
+          ],
+          "prompt": "${TextInput_Prompt_rvcuHX()}"
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "fbHbP2"
+          },
+          "assignments": [
+            {
+              "property": "conversation.Department2",
+              "value": "${dialog.UserSelect}"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "a4UCLR"
+          },
+          "condition": "dialog.UserSelect",
+          "cases": [
+            {
+              "value": "فحص نظر متنقل",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "cGfvPN"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "OpticEyeExamDialog"
+                }
+              ]
+            },
+            {
+              "value": "فحص داخل فروعنا",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "Oi9Qh5"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "OpticOurBranchDialog"
+                }
+              ]
+            },
+            {
+              "value": "Mobile Examination",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "MxeL04"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "OpticEyeExamDialog"
+                }
+              ]
+            },
+            {
+              "value": "Onsite Examination",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "fy6K3J"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "OpticOurBranchDialog"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "CUXbZf"
+          }
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "sYpwb9"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "unrecognizedPrompt": "",
+          "invalidPrompt": "",
+          "prompt": "${TextInput_Prompt_sYpwb9()}",
+          "property": "dialog.UserSelect",
+          "validations": [
+            "equals(this.value, 'فحص داخل فروعنا') || equals(this.value, 'فحص نظر متنقل') || equals(this.value, 'Mobile eye examination') || equals(this.value, 'Examination within our branches')  || equals(this.value, '#')"
+          ]
+        }
+      ]
+    }
+  ],
+  "generator": "OpticVisionDialog.lg",
+  "recognizer": "OpticVisionDialog.lu.qna",
+  "id": "OpticVisionDialog"
+}

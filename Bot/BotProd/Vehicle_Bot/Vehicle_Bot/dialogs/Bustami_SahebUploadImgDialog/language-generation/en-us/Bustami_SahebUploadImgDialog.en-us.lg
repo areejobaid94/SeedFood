@@ -1,0 +1,9 @@
+[import](common.lg)
+
+# AttachmentInput_Prompt_JXel9J()
+[Activity
+    Text = ${AttachmentInput_Prompt_JXel9J_text()}
+]
+
+# AttachmentInput_Prompt_JXel9J_text()
+- ${conversation.sendpic}

@@ -1,0 +1,147 @@
+<div>
+    <div class="header-navbar-shadow"
+        ></div>
+    <div class="content-wrapper container-xxl p-0">
+        <div class="content-body">
+            <div class="d-flex flex-column flex-column-fluid">
+                <sub-header *ngIf="pharmaCureFlag" [title]="'requestPage' | localize"
+                    [description]="'requestHeaderInfo' | localize"></sub-header>
+                <sub-header *ngIf="!pharmaCureFlag" [title]="'requestPage' | localize"
+                    [description]="'requestHeaderInfo' | localize"></sub-header>
+                <div [ngClass]="theme != 'theme12' ? 'container' : ''">
+                    <div class="card card-custom gutter-b"
+                      >
+                        <div class="card-body p-0">
+                            <div class="align-items-center">
+                                <!--<Primeng-Datatable-Start>-->
+                                <div [ngClass]="darkModeService.currentSkin === 'dark' ? 'table-dark' : 'light'"
+                                    class="primeng-datatable-container" [busyIf]="primengTableHelper.isLoading">
+                                    <p-table [ngClass]="darkModeService.currentSkin === 'dark' ? 'table-dark' : 'light'"
+                                        #dataTable (onLazyLoad)="getSellingRequests($event)"
+                                        [value]="primengTableHelper.records"
+                                        rows="20" 
+                                        [paginator]="false"
+                                        [lazy]="true" 
+                                        [scrollable]="true"
+                                         ScrollWidth="100%"
+                                        [responsive]="primengTableHelper.isResponsive"
+                                        [resizableColumns]="primengTableHelper.resizableColumns">
+                                       
+                                        <ng-template pTemplate="header">
+                                            <tr>
+                                                <th
+                                                    [ngClass]="darkModeService.currentSkin === 'dark' ? 'dark-table' : ''">
+                                                    {{ l("Actions") }}</th>
+
+                                                <th [ngClass]="darkModeService.currentSkin === 'dark' ? 'dark-table' : ''"
+                                                    pSortableColumn="CreatedBy">{{ l("customer") }}</th>
+
+                                                <th [ngClass]="darkModeService.currentSkin === 'dark' ? 'dark-table' : ''"
+                                                    pSortableColumn="CreatedOn">{{ l("Date") }}</th>
+
+                                                <th [ngClass]="darkModeService.currentSkin === 'dark' ? 'dark-table' : ''"    pSortableColumn="Price">{{ l("Data") }}</th>
+
+                                                <th [ngClass]="darkModeService.currentSkin === 'dark' ? 'dark-table' : ''"
+                                                    class="text-center" pSortableColumn="Status">{{ l("Status") }}</th>
+                                            </tr>
+                                        </ng-template>
+                                        <ng-template pTemplate="body" let-record="$implicit" let-i="rowIndex">
+                                            <tr>
+                                                <td
+                                                    [ngClass]="darkModeService.currentSkin === 'dark' ? 'table-dark' : ''">
+                                                    <div class="btn-group dropdown" dropdown container="body">
+                                                        <button
+                                                            [ngClass]="theme != 'theme12' ? 'btn-primary' : 'btn-primary-info'"
+                                                            class="dropdown-toggle btn btn-sm " style="cursor: pointer"
+                                                            dropdownToggle>
+                                                            <i class="fa fa-cog"></i><span class="caret"></span>
+                                                        </button>
+                                                        <ul [ngClass]="darkModeService.currentSkin === 'dark' ? 'drop-down-dark' : ''"
+                                                            class="dropdown-menu" *dropdownMenu>
+                                                            <li>
+                                                                <a href="javascript:;" class="dropdown-item"
+                                                                    (click)="viewSellingRequestModal.viewDetails(record)">{{
+                                                                    l("view")
+                                                                    }}</a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </td>
+
+                                                <td
+                                                (click)="viewSellingRequestModal.viewDetails(record)"
+                                                    [ngClass]="darkModeService.currentSkin === 'dark' ? 'table-dark' : ''">
+                                                    <span class="p-column-title"> {{ l("CreatedBy") }}</span>
+                                                    {{ record.createdBy }}
+                                                </td>
+
+                                                <td [ngClass]="darkModeService.currentSkin === 'dark' ? 'table-dark' : ''"
+                                                    (click)="viewSellingRequestModal.viewDetails(record)">
+                                                    <span class="p-column-title"> {{ l("CreatedOn") }}</span>
+                                                    {{ record.createdOn | momentFormat:'YYYY-MM-DD, HH:mm' }}
+                                                </td>
+
+                                                <td [ngClass]="darkModeService.currentSkin === 'dark' ? 'table-dark' : ''"
+                                                  
+                                                    (click)="viewSellingRequestModal.viewDetails(record)">
+                                                    <span class="p-column-title"> {{ l("Data") }}</span>
+                                                    {{ record.contactInfo }}
+                                                </td>
+                                                <td [ngClass]="darkModeService.currentSkin === 'dark' ? 'table-dark' : ''"
+                                                    class="text-center" *ngIf="theme != 'theme12'"
+                                                    (click)="viewSellingRequestModal.viewDetails(record)">
+                                                    <span class="p-column-title"> {{ l("Status") }}</span>
+
+                                                    <span *ngIf="record.sellingRequestStatus == 2"
+                                                        class="badge badge-success">
+                                                        {{ l("done") }}
+                                                    </span>
+                                                    <span *ngIf="record.sellingRequestStatus == 1"
+                                                        class="badge badge-danger">
+                                                        {{ l("pending") }}
+                                                    </span>
+                                                    <span *ngIf="record.sellingRequestStatus == 3"
+                                                        class="badge badge-secondary">
+                                                        {{ l("deleted") }}
+                                                    </span>
+                                                </td>
+                                                <td [ngClass]="darkModeService.currentSkin === 'dark' ? 'table-dark' : ''"
+                                                    *ngIf="theme === 'theme12'"
+                                                    (click)="viewSellingRequestModal.viewDetails(record)">
+                                                    <span class="p-column-title"> {{ l("Status") }}</span>
+                                                    <span *ngIf="record.sellingRequestStatus == 2"
+                                                        class="w-100 badge badge-pill badge-light-success mr-1">{{ l("done") }}</span>
+
+                                                    <span *ngIf="record.sellingRequestStatus == 1"
+                                                        class="w-100 badge badge-pill badge-light-danger mr-1">{{ l("pending") }}</span>
+
+                                                    <span *ngIf="record.sellingRequestStatus == 3"
+                                                        class="w-100 badge badge-pill badge-light-secondary mr-1">{{ l("deleted") }}</span>
+                                                </td>
+                                            </tr>
+                                        </ng-template>
+                                    </p-table>
+                                    <div class="primeng-no-data" *ngIf="primengTableHelper.totalRecordsCount == 0">
+                                        {{ l("NoData") }}
+                                    </div>
+                                    <div class="primeng-paging-container">
+                                        <p-paginator [ngClass]="darkModeService.currentSkin === 'dark' ? 'dark' : ''"
+                                            [rows]="20" #paginator
+                                            (onPageChange)="getSellingRequests($event)"
+                                            [totalRecords]="primengTableHelper.totalRecordsCount"
+                                            [rowsPerPageOptions]="[10,20,30]">
+                                        </p-paginator>
+                                        <span class="total-records-count">
+                                            {{l('TotalRecordsCount', primengTableHelper.totalRecordsCount)}}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <viewSellingRequestModal #viewSellingRequestModalComponent></viewSellingRequestModal>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,70 @@
+[import](common.lg)
+
+# TextInput_Prompt_VA02IL()
+[Activity
+    Text = ${TextInput_Prompt_VA02IL_text()}
+    SuggestedActions = ${dialog.Option1} | ${dialog.Option2} | ${dialog.Option3}
+]
+
+# TextInput_Prompt_VA02IL_text()
+- ${dialog.text}
+# TextInput_Prompt_BFNJTQ()
+[Activity
+    Text = ${TextInput_Prompt_BFNJTQ_text()}
+    SuggestedActions = ${dialog.Option4} | ${dialog.Option5}
+]
+
+# TextInput_Prompt_BFNJTQ_text()
+- ${dialog.text}
+# SendActivity_U12XRY()
+[Activity
+    Text = ${SendActivity_U12XRY_text()}
+]
+
+# SendActivity_U12XRY_text()
+- +962 7 8880 0808
+# TextInput_Prompt_lAhI24_text()
+- ${dialog.text}
+# TextInput_Prompt_lAhI24()
+[Activity
+    Text = ${TextInput_Prompt_lAhI24_text()}
+    SuggestedActions = ${dialog.Option4} | ${dialog.Option5}
+]
+
+# SendActivity_MEsvO6_text()
+- +962 7 8880 0808
+# SendActivity_MEsvO6()
+[Activity
+    Text = ${SendActivity_MEsvO6_text()}
+]
+
+# TextInput_Prompt_pUPPhy_text()
+- ${dialog.text}
+# TextInput_Prompt_pUPPhy()
+[Activity
+    Text = ${TextInput_Prompt_pUPPhy_text()}
+    SuggestedActions = ${dialog.Option4} | ${dialog.Option5}
+]
+
+# SendActivity_wSXoyO_text()
+- +962 7 8880 0808
+# SendActivity_wSXoyO()
+[Activity
+    Text = ${SendActivity_wSXoyO_text()}
+]
+
+# TextInput_Prompt_IkmQVM_text()
+- ${dialog.text}
+# TextInput_Prompt_IkmQVM()
+[Activity
+    Text = ${TextInput_Prompt_IkmQVM_text()}
+    SuggestedActions = ${dialog.Option3} | ${dialog.Option4}
+]
+
+# SendActivity_kV6st8_text()
+- +962 7 8880 0808
+# SendActivity_kV6st8()
+[Activity
+    Text = ${SendActivity_kV6st8_text()}
+]
+

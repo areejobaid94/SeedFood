@@ -1,0 +1,862 @@
+
+<div *ngIf="theme === 'theme12'" class="header-navbar-shadow"></div>
+<div class="content-wrapper p-0 container-xxl">
+    <div class="content-body">
+        <div class="row mb-2">
+            <div class="col-12">
+                <label for="range-input">
+                    <span class="font-size-h6 mr-1">{{ l("selectDateRange") }}</span>
+                    <input [ngClass]="darkModeService.currentSkin === 'dark' ?
+                        'date-picker-dark ' : ''" placeholder="Select range"
+                        class="range-input" name="range-input"
+                        id="range-input" placement="right"
+                        (ngModelChange)="onDateRangeUpdate($event)"
+                        [(ngModel)]="dateRange" [bsValue]="dateRange"
+                        [bsConfig]="dateRangePickerOptions"
+                        bsDaterangepicker />
+                </label>
+            </div>
+        </div>
+        <!-- Stastic -->
+        <div class="row match-height">
+            <div class="col-lg-6 col-md-12 col-sm-12"
+              >
+                <div class=" mb-auto mt-auto">
+                    <h1 class="mb-1 welcome">{{ l("welcome") }}
+                        {{appSession.tenancyName | titlecase}}!</h1>
+                    <p class="welcome-p">{{ l("welcomeMessage") }}</p>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-sm-6 col-12">
+                <div class="card">
+                    <div class="card-header d-flex flex-column
+                        align-items-start">
+                        <div class="avatar bg-light-primary p-50 m-0">
+                            <div class="avatar-content">
+                                <i class="fa fa-users  font-medium-5"></i>
+                            </div>
+                        </div>
+                        <h2 class="font-weight-bolder mt-1">{{ totalSessions }}</h2>
+                        <p class="mb-0">{{ l("totalSessions") }}</p>
+                    </div>
+                </div>
+            </div>
+            <div 
+                class="col-lg-3 col-sm-6 col-12">
+                <div class="card">
+                    <div class="card-header d-flex flex-column
+                        align-items-start">
+                        <div class="avatar bg-light-info p-50 m-0">
+                            <div class="avatar-content">
+                                <i class="fab fa-facebook-f font-medium-5"></i>
+                            </div>
+                        </div>
+                        <h2 class="font-weight-bolder mt-1">{{
+                            TotalUsageFreeEntry }}</h2>
+                        <p class="mb-0">{{ l("totalFacebookEntry") }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--End of Stastic-->
+
+        <!-- Conversations bunddle -->
+        <div class="row match-height">
+            <div class="col-sm-6 col-xl-4" >
+                <div class="card card-statistic">
+                    <div class="card-body statistics-body p-2">
+                        <div class="media">
+                            <div class="avatar bg-light-info mr-1">
+                                <div class="avatar-content">
+                                    <i class="far fa-comments avatar-icon"></i>
+                                </div>
+                            </div>
+                            <div class="media-body my-auto">
+
+                                <h4 class="font-weight-bolder mb-0"
+                                    ngbPopover="Total Used" placement="bottom"
+                                    triggers="mouseenter:mouseleave">
+                                    {{ TotalUsageFreeConversationWA }}/{{
+                                    TotalFreeConversationWA }}
+                                    <i (click)="refresh()" class="bi
+                                        bi-arrow-clockwise"></i>
+                                </h4>
+                                <p class="card-text font-small-3 mb-0">{{
+                                    l("freeConversations") }}</p>
+                                <p class="card-text font-small-3 mb-0">
+                                    <small>{{ l("total") }}: </small><strong>{{
+                                        TotalFreeConversationWA }}</strong>
+                                </p>
+                                <p class="card-text font-small-3 mb-0">
+                                    <small>{{ l("remaining") }}: </small><strong>{{
+                                        remainingConversation }}</strong>
+                                    <ngb-progressbar type="danger"
+                                        [height]="'6px'"
+                                        [max]="TotalFreeConversationWA"
+                                        [value]="remainingConversation"></ngb-progressbar>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-6 col-xl-4">
+                <div class="card card-statistic">
+                    <div class="card-body statistics-body p-2">
+                        <div class="media">
+                            <div class="avatar bg-light-danger mr-1">
+                                <div class="avatar-content">
+                                    <i class="far fa-comments avatar-icon"></i>
+                                </div>
+                            </div>
+                            <div class="media-body my-auto">
+                                <h4 class="font-weight-bolder mb-0"
+                                    ngbPopover="Total Used" placement="bottom"
+                                    triggers="mouseenter:mouseleave">{{
+                                    totalUsedOfMarketing }}/{{
+                                    TotalBIConversation }}</h4>
+                                <p class="card-text font-small-3 mb-0">{{
+                                    l("outBoundConversations") }}</p>
+                                <p class="card-text font-small-3 mb-0">
+                                    <small>{{ l("total") }} : </small><strong>{{
+                                        TotalBIConversation }}</strong>
+                                </p>
+                                <p class="card-text font-small-3 mb-0">
+                                    <small>{{ l("remaining") }} : </small><strong>{{
+                                        remainingBIConversation }}</strong>
+                                    <ngb-progressbar type="danger"
+                                        [height]="'6px'"
+                                        [max]="TotalBIConversation"
+                                        [value]="remainingBIConversation"></ngb-progressbar>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div  class="col-sm-6 col-xl-4">
+                <div class="card card-statistic">
+                    <div class="card-body statistics-body p-2">
+                        <div class="media">
+                            <div class="avatar bg-light-info mr-1">
+                                <div class="avatar-content">
+                                    <i class="far fa-comments avatar-icon"></i>
+                                </div>
+                            </div>
+                            <div class="media-body my-auto">
+                                <h4 class="font-weight-bolder mb-0"
+                                    ngbPopover="Total Used" placement="bottom"
+                                    triggers="mouseenter:mouseleave">{{
+                                    totalUsedOfServices }}/{{
+                                    TotalUIConversation }}</h4>
+                                <p class="card-text font-small-3 mb-0">
+                                    {{ l("inBoundConverstaions") }}
+                                </p>
+                                <p class="card-text font-small-3 mb-0">
+                                    <small>{{ l("total") }} : </small><strong>{{
+                                        TotalUIConversation }}</strong>
+                                </p>
+                                <p class="card-text font-small-3 mb-0">
+                                    <small>{{ l("remaining") }} : </small><strong>{{
+                                        remainingUIConversation }}</strong>
+                                    <ngb-progressbar type="danger"
+                                        [height]="'6px'"
+                                        [max]="TotalUIConversation"
+                                        [value]="remainingUIConversation"></ngb-progressbar>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--End of Conversations bunddle -->
+
+        <div class="row match-height">
+            <div class="col-lg-6 col-12" >
+                <div class="row match-height">
+                    <!-- WhatsApp Campaign -->
+                    <div class="col-12" 
+                        *ngIf="isHasPermissionCampiagn">
+                        <div class="card  card-statistic">
+                            <div class="pb-0 card-header">
+                                <h4>{{ l("campaign") }}</h4>
+                            </div>
+                            <div class="card-body pb-50 pt-0 p-2">
+                                <div class="row">
+                                    <div class="col-sm-2 col-12 d-flex
+                                        flex-column flex-wrap text-center">
+                                        <h1 class="font-large-2
+                                            font-weight-bolder mt-2 mb-0">
+                                            {{ totalCampaign }}
+                                        </h1>
+                                        <p class="card-text">{{ l("campaign") }}</p>
+                                    </div>
+                                </div>
+                                <div class="row my-1">
+                                    <div class="col-sm-12 col-xl-4 mb-2
+                                        mb-xl-0">
+                                        <p class="mb-50">{{ l("deliverd") }}: {{
+                                            deliverdCampaign }}</p>
+                                        <ngb-progressbar type="success"
+                                            [height]="'6px'"
+                                            [max]="totalCampaign"
+                                            [value]="deliverdCampaign"></ngb-progressbar>
+                                    </div>
+
+                                    <div class="col-sm-12 col-xl-4 mb-2
+                                        mb-xl-0">
+                                        <p class="mb-50">{{ l("read") }}: {{
+                                            readCampaign }}</p>
+
+                                        <ngb-progressbar type="info"
+                                            [height]="'6px'"
+                                            [max]="totalCampaign"
+                                            [value]="readCampaign"></ngb-progressbar>
+                                    </div>
+                                    <div class="col-sm-12 col-xl-4 mb-2
+                                        mb-xl-0">
+                                        <p class="mb-50">{{ l("sent") }}: {{
+                                            sentCampaign }}</p>
+                                        <ngb-progressbar type="primary"
+                                            [height]="'6px'"
+                                            [max]="totalCampaign"
+                                            [value]="sentCampaign"></ngb-progressbar>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- WhatsApp Campaign-->
+
+                    <!-- Contact -->
+                    <div class="col-12 " 
+                        *ngIf="isHasPermissionContacts">
+                        <div class="card card-statistic">
+                            <div class="card-header pb-0">
+                                <h4>{{ l("contacts") }}</h4>
+                            </div>
+                            <div class="card-body pb-50 pt-0 p-2">
+                                <div class="row">
+                                    <div class="col-sm-2 col-12 d-flex
+                                        flex-column flex-wrap text-center"
+                                     >
+                                        <h1 class="font-large-2
+                                            font-weight-bolder mt-2 mb-0">
+                                            {{ totalContacts }}
+                                        </h1>
+                                        <p class="card-text">{{ l("contacts") }}</p>
+                                    </div>
+                                </div>
+                                <div class="row my-1">
+                                    <div class="col-sm-12 col-xl-4 mb-2
+                                        mb-xl-0">
+                                        <p class="mb-50">{{ l("optIn") }}: {{
+                                            optInContacts }}</p>
+                                        <ngb-progressbar type="success"
+                                            [height]="'6px'"
+                                            [max]="totalContacts"
+                                            [value]="optInContacts"></ngb-progressbar>
+                                    </div>
+
+                                    <div class="col-sm-12 col-xl-4 mb-2
+                                        mb-xl-0">
+                                        <p class="mb-50">{{ l("optOut") }}: {{
+                                            optOutContacts }}</p>
+                                        <ngb-progressbar type="success"
+                                            [height]="'6px'"
+                                            [max]="totalContacts"
+                                            [value]="optOutContacts"></ngb-progressbar>
+                                    </div>
+
+                                    <div class="col-sm-12 col-xl-4 mb-2
+                                        mb-xl-0">
+                                        <p class="mb-50">{{ l("netural") }}: {{
+                                            neturalContacts }}</p>
+                                        <ngb-progressbar type="success"
+                                            [height]="'6px'"
+                                            [max]="totalContacts"
+                                            [value]="neturalContacts"></ngb-progressbar>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--End of contacts-->
+                </div>
+            </div>
+            <!-- Live Chat -->
+            <div class="col-lg-6 col-12" *ngIf="isHasPermissionLiveChat"
+               >
+                        <div class="card">
+                            <div class="card-header d-flex
+                                justify-content-between pb-0">
+                                <h4 class="card-title">{{ l("supportTracker") }}</h4>
+                            </div>
+                            <div class="card-body p-2">
+                                <div class="row">
+                                    <div class="col-sm-2 col-12 d-flex
+                                        flex-column flex-wrap text-center">
+                                        <h1 class="font-large-2
+                                            font-weight-bolder mt-2 mb-0">
+                                            {{ totalTicket }}
+                                        </h1>
+                                        <p class="card-text">{{ l("tickets") }}</p>
+                                    </div>
+                                    <div class="col-sm-10 col-12 d-flex
+                                        justify-content-center" #supportChartRef>
+                                        <div id="supportChartoptions">
+                                            <apx-chart
+                                                [series]="[closedTicketsChart]"
+                                                [chart]="{
+                                                height: 290,
+                                                width: 200,
+                                                type: 'radialBar',
+                                                sparkline: {
+                                                enabled: false
+                                                }
+                                                }"
+                                                [plotOptions]="supportChartoptions.plotOptions"
+                                                [colors]="supportChartoptions.colors"
+                                                [fill]="supportChartoptions.fill"
+                                                [stroke]="supportChartoptions.stroke"
+                                                [labels]="supportChartoptions.labels"></apx-chart>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-flex card-footer p-1
+                                justify-content-between mt-1">
+                                <div class="text-center">
+                                    <p class="card-text mb-50">{{ l("pending")
+                                        }}</p>
+                                    <span class="font-large-1 font-weight-bold">{{
+                                        pendingTickets }}</span>
+                                </div>
+                                <div class="text-center">
+                                    <p class="card-text mb-50">{{ l("opened") }}</p>
+                                    <span class="font-large-1 font-weight-bold">{{
+                                        openedTickets }}</span>
+                                </div>
+                                <div class="text-center">
+                                    <p class="card-text mb-50">{{ l("closed") }}</p>
+                                    <span class="font-large-1 font-weight-bold">{{
+                                        closedTickets }}</span>
+                                </div>
+                            </div>
+                        </div>
+                   
+            </div>
+            <!--End of Live chat-->
+
+            <!-- Request -->
+            <div class="col-lg-6 col-12" *ngIf="isHasPermissionRequest"
+               >
+                        <div class="card">
+                            <div class="card-header pb-0 d-flex
+                                justify-content-between align-items-center">
+                                <h4 class="card-title">{{ l("request") }}</h4>
+                            </div>
+                            <div class="card-body  p-2">
+                                <div class="col-sm-2 col-12 d-flex flex-column
+                                    flex-wrap text-center">
+                                    <h1 class="font-large-2 font-weight-bolder
+                                        mt-2 mb-0">
+                                        {{ totalRequests }}
+                                    </h1>
+                                    <p class="card-text">{{ l("request") }}</p>
+                                </div>
+                                <div id="requestChartoptions" class="mb-1 mt-1
+                                    pt-1" #requestChartRef>
+                                    <!-- Apexchart component-->
+                                    <apx-chart [chart]="{
+                                        height: 290,
+                                        width: 500,
+                                        type: 'radialBar',
+                                        sparkline: {
+                                        enabled: true
+                                        },
+                                        dropShadow: {
+                                        enabled: true,
+                                        blur: 3,
+                                        left: 1,
+                                        top: 1,
+                                        opacity: 0.1
+                                        }
+                                        }" [colors]="requestChartoptions.colors"
+                                        [plotOptions]="requestChartoptions.plotOptions"
+                                        [fill]="requestChartoptions.fill"
+                                        [series]="[closeRequestsChart]"
+                                        [stroke]="requestChartoptions.stroke"
+                                        [grid]="requestChartoptions.grid"></apx-chart>
+                                    <!-- / Apexchart component-->
+                                </div>
+                            </div>
+
+                            <div class="d-flex card-footer p-1
+                                justify-content-between mt-1">
+                                <div class="text-center">
+                                    <p class="card-text mb-50">{{ l("closed") }}</p>
+                                    <span class="font-large-1 font-weight-bold">{{
+                                        closedRequests }}</span>
+                                </div>
+                                <div class="text-center">
+                                    <p class="card-text mb-50">{{ l("opened") }}</p>
+                                    <span class="font-large-1 font-weight-bold">{{
+                                        openedRequests }}</span>
+                                </div>
+
+                                <div class="text-center">
+                                    <p class="card-text mb-50">{{ l("pending")
+                                        }}</p>
+                                    <span class="font-large-1 font-weight-bold">{{
+                                        pendingRequests }}</span>
+                                </div>
+                            </div>
+                        </div>
+                  
+            </div>
+            <!--End of Request-->
+
+            <!-- Orders -->
+            <div class="col-lg-6 col-12" *ngIf="isHasPermissionOrder"
+               >
+                        <div class="card earnings-card">
+                            <div class="card-body p-1">
+                                <div class="row">
+                                    <h4 class="card-title mb-1">{{ l("orders")
+                                        }}</h4>
+                                    <div>
+                                        <div id="earningChartRef"
+                                            #earningChartRef>
+                                            <!-- Apexchart component-->
+                                            <apx-chart [chart]="{
+                                                type: 'donut',
+                                                height: 300,
+                                                width: 500,
+                                                toolbar: {
+                                                show: false
+                                                }
+                                                }"
+                                                [dataLabels]="earningChartoptions.dataLabels"
+                                                [series]="earningChartoptions.series"
+                                                [legend]="earningChartoptions.legend"
+                                                [labels]="earningChartoptions.labels"
+                                                [stroke]="earningChartoptions.stroke"
+                                                [colors]="earningChartoptions.colors"
+                                                [grid]="earningChartoptions.grid"
+                                                [plotOptions]="earningChartoptions.plotOptions"></apx-chart>
+                                            <!-- / Apexchart component-->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer p-2">
+                                <div class="row mt-1">
+                                    <div class="col text-center">
+                                        <p class="card-text mb-50">{{ l("total")
+                                            }}</p>
+                                        <span class="font-large-1
+                                            font-weight-bold">{{ totalOrders }}</span>
+                                    </div>
+                                    <div class="col text-center">
+                                        <p class="card-text mb-50">{{
+                                            l("closed") }}</p>
+                                        <span class="font-large-1
+                                            font-weight-bold">{{ closeOrders }}</span>
+                                    </div>
+                                    <div class="col text-center">
+                                        <p class="card-text mb-50">{{
+                                            l("pending") }}</p>
+                                        <span class="font-large-1
+                                            font-weight-bold">{{ pendingOrders
+                                            }}</span>
+                                    </div>
+                                </div>
+
+                                <div class="row mt-1">
+                                    <div class="col text-center">
+                                        <p class="card-text mb-50">{{
+                                            l("canceled") }}</p>
+                                        <span class="font-large-1
+                                            font-weight-bold">{{ canceledOrders
+                                            }}</span>
+                                    </div>
+                                    <div class="col text-center">
+                                        <p class="card-text mb-50">{{
+                                            l("deleted") }}</p>
+                                        <span class="font-large-1
+                                            font-weight-bold">{{ deletedOrders
+                                            }}</span>
+                                    </div>
+                                    <div class="col text-center">
+                                        <p class="card-text mb-50">{{
+                                            l("preOrder") }}</p>
+                                        <span class="font-large-1
+                                            font-weight-bold">{{ preOrders }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                 
+            </div>
+            <!--End Of Orders-->
+
+            <!-- orders Table-->
+            <div class="col-lg-6 col-12"
+                *ngIf="isHasPermissionOrder">
+                        <div class="card card-browser-states">
+                            <div class="card-header">
+                                <div class="broweser-states-header">
+                                    <div class="broweser-states-heade">
+                                        <h4 class="card-title">{{ l("Users") }}
+                                            ({{ l("doneOrders") }})</h4>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body doneOrders p-2">
+                                <div class="browser-states p-1 mb-2"
+                                    *ngFor="let
+                                    user of users; let index= index">
+
+                                    <div class="media">
+                                        <img *ngIf="user.profilePictureUrl"
+                                            [src]="user.profilePictureUrl"
+                                            class="rounded mr-1" height="30"
+                                            alt="Google
+                                            Chrome" />
+                                        <h6 class="align-self-center mb-0">{{
+                                            user.name }}</h6>
+                                    </div>
+                                    <div class="d-flex align-items-center">
+                                        <div class="font-weight-bold
+                                            text-body-heading mr-1">{{
+                                            (user.totalOfOrder / totalOrders) %
+                                            100 | percent }}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                   
+
+            </div>
+
+            <!-- User performance for tickets Table-->
+            <div class="col-lg-6 col-12"
+                *ngIf="isHasPermissionLiveChat">
+                        <div class="card card-browser-states">
+                            <div class="card-header">
+                                <div class="row">
+                                    <h4 class="card-title">User performance
+                                    </h4>
+                                    <div
+                                        class="col-sm-12 col-12 d-flex flex-column flex-wrap mt-1">
+                                        <h1>{{ticketPerformence.totalTickets}}
+                                        </h1>
+                                        <p> {{ l("total") }} {{ l("tickest") }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body mt-0 pt-0">
+                                <div class="ticketPerformance">
+
+                                    <div class="row">
+                                        <table>
+                                            <tr class="sticky-header">
+                                                <th style="width:25%"
+                                                    class="p-1"> {{ l("User") }}</th>
+                                                <th style="width:25%"
+                                                    class="p-1">Completed</th>
+                                                <th style="width:25%"
+                                                    class="p-1">Opened</th>
+                                                <th style="width:25%"
+                                                    class="p-1">Avg of
+                                                    resolution time</th>
+                                            </tr>
+                                            <tr
+                                                class="border"
+                                                *ngFor="let user of ticketPerformence.userPerformanceTicketModel; let index= index">
+                                                <td style="width:25%"
+                                                    class="p-1">
+                                                    <div class="media">
+                                                        <div class="row">
+                                                            <div class="col-3">
+                                                                <img
+                                                                    src="./../../../../assets/images/avatarImage.png"
+                                                                    class="rounded mr-1"
+                                                                    height="30"
+                                                                    alt="User Image" />
+                                                            </div>
+                                                            <div class="col-8">
+                                                                <div class="row">
+                                                                    <h6
+                                                                        class="align-self-center mb-0">{{
+                                                                        user.userName
+                                                                        }}</h6>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div
+                                                                        class="font-small-2 text-muted">{{user.emailAddress}}
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </td>
+                                                <td style="width:25%"
+                                                    class="p-1">
+                                                    {{user.totalClose}} %
+                                                    <div
+                                                        class="row font-small-2">#
+                                                        Of Completed tickets
+                                                    </div>
+                                                </td>
+                                                <td style="width:25%"
+                                                    class="p-1">
+                                                    {{user.totalOpen}} %
+                                                    <div
+                                                        class="row font-small-2">
+                                                        # Of opened tickets
+                                                    </div>
+                                                </td>
+                                                <td style="width:25%"
+                                                    class="p-1">
+                                                    {{user.avg_ActionTime}}
+                                                </td>
+                                                <hr />
+                                            </tr>
+                                        </table>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                
+
+            </div>
+
+            <!-- User performance for booking Table-->
+            <div class="col-lg-6 col-12"
+                *ngIf="isHasPermissionBooking">
+                        <div class="card card-browser-states">
+                            <div class="card-header">
+                                <div class="row">
+                                    <h4 class="card-title">User performance
+                                    </h4>
+                                    <div
+                                        class="col-sm-12 col-12 d-flex flex-column flex-wrap mt-1">
+                                        <h1>{{bookingPerformence.totalBooking}}
+                                        </h1>
+                                        <p> {{ l("total") }} {{ l("Appoitments")
+                                            }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body mt-0 pt-0 ">
+                                <div class="ticketPerformance">
+                                    <div class="row">
+                                        <table>
+                                            <tr class="sticky-header">
+                                                <th style="width:15%"
+                                                    class="p-1"> {{ l("User") }}</th>
+                                                <th style="width:15%"
+                                                    class="p-1">Booked</th>
+                                                <th style="width:15%"
+                                                    class="p-1">Confirmed</th>
+                                                <th style="width:15%"
+                                                    class="p-1">Canceled</th>
+                                                <th style="width:15%"
+                                                    class="p-1">Deleted</th>
+                                                <th style="width:15%"
+                                                    class="p-1">Pending</th>
+
+                                            </tr>
+                                            <tr class="border"
+                                                *ngFor="let user of bookingPerformence.userPerformanceBookingModel; let index= index">
+                                                <td style="width:15%"
+                                                    class="p-1">
+                                                    <div class="media">
+                                                        <div class="row">
+                                                            <div class="col-3">
+                                                                <img
+                                                                    src="./../../../../assets/images/avatarImage.png"
+                                                                    class="rounded mr-1"
+                                                                    height="30"
+                                                                    alt="User Image" />
+                                                            </div>
+                                                            <div class="col-8">
+                                                                <div class="row">
+                                                                    <h6
+                                                                        class="align-self-center mb-0">{{
+                                                                        user.userName
+                                                                        }}</h6>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div
+                                                                        class="font-small-2 text-muted">{{user.emailAddress}}
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </td>
+                                                <td style="width:15%"
+                                                    class="p-1">
+                                                    {{user.totalBooked}} %
+                                                    <div
+                                                        class="row font-small-2">
+                                                        # Of booked Appoitments
+                                                    </div>
+                                                </td>
+                                                <td style="width:15%"
+                                                    class="p-1">
+                                                    {{user.totalConfirmed}} %
+                                                    <div
+                                                        class="row font-small-2">
+                                                        # Of confirmed
+                                                        Appoitments
+                                                    </div>
+                                                </td>
+                                                <td style="width:15%"
+                                                    class="p-1">
+                                                    {{user.totalCancelled}} %
+                                                    <div
+                                                        class="row font-small-2">
+                                                        # Of canceled
+                                                        Appoitments
+                                                    </div>
+                                                </td>
+                                                <td style="width:15%"
+                                                    class="p-1">
+                                                    {{user.totalDeleted}} %
+                                                    <div
+                                                        class="row font-small-2">
+                                                        # Of Deleted
+                                                        Appoitments
+                                                    </div>
+                                                </td>
+                                                <td style="width:15%"
+                                                    class="p-1">
+                                                    {{user.totalPending}} %
+                                                    <div
+                                                        class="row font-small-2">
+                                                        # Of pending
+                                                        Appoitments
+                                                    </div>
+                                                </td>
+                                                <hr />
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+               
+            </div>
+
+            <!-- User performance for order Table-->
+            <div class="col-lg-6 col-12"
+                *ngIf="isHasPermissionOrder">
+                        <div class="card card-browser-states">
+                            <div class="card-header">
+                                <div class="row">
+                                    <h4 class="card-title">User performance
+                                    </h4>
+                                    <div
+                                        class="col-sm-12 col-12 d-flex flex-column flex-wrap mt-1">
+                                        <h1>{{orderPerformence.totalOrders}}
+                                        </h1>
+                                        <p> {{ l("total") }} {{ l("Orders")
+                                            }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body mt-0 pt-0 ">
+                                <div class="ticketPerformance">
+                                    <div class="row">
+                                        <table>
+                                            <tr class="sticky-header">
+                                                <th style="width:25%"
+                                                    class="p-1"> {{ l("User") }}</th>
+                                                <th style="width:25%"
+                                                    class="p-1">Completed</th>
+                                                <th style="width:25%"
+                                                    class="p-1">Deleted</th>
+                                                <th style="width:25%"
+                                                    class="p-1">Avg of action
+                                                    time </th>
+
+                                            </tr>
+                                            <tr class="border"
+                                                *ngFor="let user of orderPerformence.userPerformanceOrderModel; let index= index">
+                                                <td style="width:25%"
+                                                    class="p-1">
+                                                    <div class="media">
+                                                        <div class="row">
+                                                            <div class="col-3">
+                                                                <img
+                                                                    src="./../../../../assets/images/avatarImage.png"
+                                                                    class="rounded mr-1"
+                                                                    height="30"
+                                                                    alt="User Image" />
+                                                            </div>
+                                                            <div class="col-8">
+                                                                <div class="row">
+                                                                    <h6
+                                                                        class="align-self-center mb-0">{{
+                                                                        user.userName
+                                                                        }}</h6>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div
+                                                                        class="font-small-2 text-muted">{{user.emailAddress}}
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </td>
+                                                <td style="width:25%"
+                                                    class="p-1">
+                                                    {{user.countDone}} %
+                                                    <div
+                                                        class="row font-small-2">
+                                                        # Of done orders
+                                                    </div>
+                                                </td>
+                                                <td style="width:25%"
+                                                    class="p-1">
+                                                    {{user.countDelete}} %
+                                                    <div
+                                                        class="row font-small-2">
+                                                        # Of deleted
+                                                        orders
+                                                    </div>
+                                                </td>
+                                                <td style="width:25%"
+                                                    class="p-1">
+                                                    {{user.avg_ActionTime}} 
+                                                </td>
+                                               
+                                                <hr />
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                  
+            </div>
+        </div>
+    </div>
+
+</div>

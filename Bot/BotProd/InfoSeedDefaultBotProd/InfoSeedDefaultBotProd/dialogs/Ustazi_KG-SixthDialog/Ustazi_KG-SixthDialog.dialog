@@ -1,0 +1,182 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "qPMC08",
+    "name": "Ustazi_KG-SixthDialog",
+    "comment": "level: KG-sixth \n"
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "qbiQaw"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "RoQi8J"
+          },
+          "condition": "conversation.local",
+          "cases": [
+            {
+              "value": "ar",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "0sfy8v"
+                  },
+                  "property": "dialog.text",
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1114)).text"
+                }
+              ]
+            },
+            {
+              "value": "en",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "JKs5Ki"
+                  },
+                  "property": "dialog.text",
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1114)).text"
+                }
+              ]
+            }
+          ],
+          "default": []
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "rDpdgB"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "unrecognizedPrompt": "",
+          "invalidPrompt": "",
+          "prompt": "${TextInput_Prompt_rDpdgB()}",
+          "property": "dialog.UserInput",
+          "validations": [
+            "=contains(this.value, '1') ||contains(this.value, '2') ||contains(this.value, '3') ||contains(this.value, '4') ||contains(this.value, '#') "
+          ]
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "XEbBQs"
+          },
+          "condition": "dialog.UserInput",
+          "cases": [
+            {
+              "value": "1",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "dnzu6o"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "Ustazi_KG-Sixth1ChildDialog"
+                }
+              ]
+            },
+            {
+              "value": "2",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "KEVM27"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "Ustazi_KG-Sixth2ChildDialog"
+                }
+              ]
+            },
+            {
+              "value": "3",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "Nc0Mkx"
+                  },
+                  "value": "3",
+                  "property": "conversation.ChildNum"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "kKrMMw"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "Ustazi_KG-Sixth3ChildDialog"
+                }
+              ]
+            },
+            {
+              "value": "4",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "FX2v5o"
+                  },
+                  "value": "4",
+                  "property": "conversation.ChildNum"
+                },
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "1uUCng"
+                  },
+                  "condition": "conversation.Curr=='national'",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "ZoNQrY"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "Ustazi_KG-Sixth4ChildDialog"
+                    }
+                  ],
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "NG50CN"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "Ustazi_KG-Sixth3ChildDialog"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "cBegDQ"
+          },
+          "activityProcessed": true,
+          "dialog": "UstaziContactUs"
+        }
+      ]
+    }
+  ],
+  "generator": "Ustazi_KG-SixthDialog.lg",
+  "recognizer": "Ustazi_KG-SixthDialog.lu.qna",
+  "id": "Ustazi_KG-SixthDialog"
+}

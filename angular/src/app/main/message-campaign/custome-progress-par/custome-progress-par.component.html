@@ -1,0 +1,90 @@
+<div class="content-wrapper container-xxl p-3">
+    <div class="content-body">
+        <section *ngIf="details; else loading">
+            <div>
+                <div class="d-flex flex-column flex-sm-row justify-content-sm-between">
+                    <div class="card-title">
+                        <h4 class="title-compaign-progress">{{ details.title + " " }} {{ l("campaign") }}</h4>
+                        <h4 class="numeric-compaign-progress">{{ details.totalNumbers }}</h4>
+                        <h4 class="hint-compaign-progress">{{ l("messageSent") }}</h4>
+                    </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="close()" aria-label="Close"></button>
+                </div>
+
+                <div class="card-body p-0 m-0">
+
+                    <div class="progress-wrapper mb-3">
+                        <div class="mb-25">
+                            <div class="d-flex justify-content-between">
+                                <h4><span class="progress-bar-dot custome-dot Delivered-progress-span"></span> {{ l("Sent") }}</h4>
+                                <h3>{{details.totalNumbers > 0 ? ((details.totalSent / details.totalNumbers) * 100).toFixed(1) : '0.0' }}%  ({{details.totalSent}})</h3>
+                                <!-- <h3>{{floorIt(details.totalSent)}}% ({{ details.totalSent }})</h3> -->
+                            </div>
+                        </div>
+                        <ngb-progressbar class="mb-25 Delivered-progress custome-progresspar" [value]="details.totalDelivered" [max]="details.totalSent"></ngb-progressbar>
+                    </div>
+
+                    <div class="progress-wrapper mb-3">
+                        <div class="mb-25">
+                            <div class="d-flex justify-content-between">
+                                <h4><span class="progress-bar-dot custome-dot Delivered-progress-span"></span> {{ l("delivered") }}</h4>
+                                <h3>{{ details.totalNumbers > 0 ? ((details.totalDelivered / details.totalNumbers) * 100).toFixed(1) : '0.0' }}% ({{ details.totalDelivered }})</h3>
+                            </div>
+                        </div>
+                        <ngb-progressbar class="mb-25 Delivered-progress custome-progresspar" [value]="details.totalDelivered" [max]="details.totalSent"></ngb-progressbar>
+                    </div>
+
+                    <div class="progress-wrapper mb-3">
+                        <div class="mb-25">
+                            <div class="d-flex justify-content-between">
+                                <h4><span class="progress-bar-dot custome-dot Read-progress-span"></span> {{ l("read") }}</h4>
+                                <h3>{{details.totalNumbers > 0 ?  ((details.totalRead /  details.totalNumbers) * 100).toFixed(1) : '0.0' }}% ({{ details.totalRead }})</h3>
+                                <!-- <h3>{{floorIt(details.readPercentage)}}% ({{ details.totalRead }})</h3> -->
+
+                            </div>
+                        </div>
+                        <ngb-progressbar class="mb-25 Read-progress custome-progresspar" [value]="details.totalRead" [max]="details.totalSent"></ngb-progressbar>
+                    </div>
+                    <!-- <div class="progress-wrapper mb-3">
+                        <div class="mb-25">
+                            <div class="d-flex justify-content-between">
+                                <h4><span class="progress-bar-dot custome-dot Replied-progress-span"></span> {{ l("replied") }}</h4>
+                                <h3>{{ details.totalReplied }}</h3>
+                            </div>
+                        </div>
+                        <ngb-progressbar class="mb-25 Replied-progress custome-progresspar" [value]="details.totalReplied" [max]="details.totalSent"></ngb-progressbar>
+                    </div> -->
+
+                    <!-- <div class="progress-wrapper mb-3">
+                        <div class="mb-25">
+                            <div class="d-flex justify-content-between">
+                                <h4><span class="progress-bar-dot custome-dot Send-progress-span"></span> {{ l("waiting") }}</h4>
+                                <h3>{{ details.totalProcessing }}</h3>
+                            </div>
+                        </div>
+                        <ngb-progressbar class="mb-25 Send-progress custome-progresspar" [value]="details.totalProcessing" [max]="details.totalSent"></ngb-progressbar>
+                    </div> -->
+
+                    <div class="progress-wrapper">
+                        <div class="mb-25">
+                            <div class="d-flex justify-content-between">
+                                <h4><span class="progress-bar-dot custome-dot Faild-progress-span"></span> {{ l("faild") }}</h4>
+                                <h3>{{details.totalNumbers > 0 ? ((details.totalFailed /  details.totalNumbers) * 100).toFixed(1): '0.0'  }}%  ({{ details.totalFailed }})</h3>
+                            </div>
+                        </div>
+                        <ngb-progressbar class="mb-25 Faild-progress custome-progresspar" [value]="details.totalFailed" [max]="details.totalSent"></ngb-progressbar>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <ng-template #loading>
+            <div class="d-flex flex-column flex-sm-row justify-content-sm-between">
+                <div class="card-title"></div>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="close()" aria-label="Close"></button>
+            </div>
+            <div class="spinner-loading">
+                <p-progressSpinner styleClass="w-4rem h-4rem" strokeWidth="5" fill="var(--surface-ground)" animationDuration=".3s"></p-progressSpinner>
+            </div>
+        </ng-template>
+    </div>
+</div>

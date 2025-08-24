@@ -1,0 +1,185 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "xPdvtv",
+    "name": "MangaHairDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "TObshK"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "OXFE7I"
+          },
+          "condition": "conversation.local",
+          "cases": [
+            {
+              "value": "ar",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "CLeR97"
+                  },
+                  "property": "dialog.FirsList",
+                  "value": [
+                    "ابره علاجية للشعر",
+                    "حمام زيت",
+                    "رفعة كاملة",
+                    "نص رفعة",
+                    "قص شعر مع ويفي",
+                    "قص شعر مع سشوار",
+                    "بروتين",
+                    "ويفي",
+                    "سشوار",
+                    "قص",
+                    "صبغة جذور",
+                    "صبغة كامل",
+                    "خصل",
+                    "خصل+صبغة",
+                    "حواجب",
+                    "شوارب",
+                    "حف وجه مع حواجب",
+                    "حف وجه بدون حواجب"
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "en",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "MCmPUH"
+                  },
+                  "value": [
+                    "Therapeutic needle for hair",
+                    "Oil treatment",
+                    "full up-do",
+                    "half up-do",
+                    "hair cut with wavy hair",
+                    "hair cut and blow out",
+                    "Protein treatment",
+                    "Wavy hair",
+                    "hair blowout",
+                    "Cut",
+                    "Root tincture",
+                    "Full tincture",
+                    "Tuft",
+                    "Tufts+dye",
+                    "Eyebrows",
+                    "Mustaches",
+                    "Shaving a face with eyebrows",
+                    "Shaving a face without eyebrows"
+                  ],
+                  "property": "dialog.FirsList"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "soZKqL"
+          },
+          "property": "dialog.HintPlaseCaption",
+          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3620)).text"
+        },
+        {
+          "$kind": "Microsoft.DeleteProperty",
+          "$designer": {
+            "id": "BukKFg"
+          },
+          "property": "dialog.Select"
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "BBJ0yu"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "unrecognizedPrompt": "",
+          "validations": [],
+          "prompt": "${TextInput_Prompt_BBJ0yu()}",
+          "property": "dialog.Select"
+        },
+        {
+          "$kind": "Microsoft.Foreach",
+          "$designer": {
+            "id": "goZBXP"
+          },
+          "index": "dialog.foreach.index",
+          "value": "dialog.foreach.value",
+          "itemsProperty": "dialog.FirsList",
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "mgD0pl"
+              },
+              "property": "dialog.foreach.value",
+              "value": "=dialog.foreach.value"
+            },
+            {
+              "$kind": "Microsoft.EditArray",
+              "$designer": {
+                "id": "voCODi"
+              },
+              "changeType": "push",
+              "itemsProperty": "dialog.list",
+              "value": "=dialog.foreach.value"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "wzWwI9"
+          },
+          "condition": "=contains(dialog.list,dialog.Select) || contains(dialog.Select, '#')",
+          "elseActions": [
+            {
+              "$kind": "Microsoft.RepeatDialog",
+              "$designer": {
+                "id": "W7748k"
+              },
+              "activityProcessed": true
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "fk0oPE"
+          },
+          "property": "conversation.RequestValue4",
+          "value": "${dialog.Select}"
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "xMnK2o"
+          }
+        }
+      ]
+    }
+  ],
+  "generator": "MangaHairDialog.lg",
+  "recognizer": "MangaHairDialog.lu.qna",
+  "id": "MangaHairDialog"
+}

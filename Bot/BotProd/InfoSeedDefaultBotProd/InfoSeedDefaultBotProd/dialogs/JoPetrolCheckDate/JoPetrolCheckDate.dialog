@@ -1,0 +1,103 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "QFC9m1",
+    "name": "JoPetrolCheckDate",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "Y9uf8M"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "FHoq44"
+          },
+          "assignments": [
+            {
+              "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 28)).text",
+              "property": "dialog.InputDate"
+            },
+            {
+              "value": "يرجى كتابة التاريخ بشكل صحيح (dd-MM-yyyy)",
+              "property": "dialog.SumDate"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.DeleteProperty",
+          "$designer": {
+            "id": "esWCoo"
+          },
+          "property": "dialog.userSelect"
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "VgXmsO"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "unrecognizedPrompt": "",
+          "invalidPrompt": "",
+          "prompt": "${TextInput_Prompt_VgXmsO()}",
+          "property": "dialog.userSelect"
+        },
+        {
+          "$kind": "Microsoft.HttpRequest",
+          "$designer": {
+            "id": "GJEOh0"
+          },
+          "method": "GET",
+          "url": "${conversation.URL}/api/BotAPI/IsValidDate?date=${dialog.userSelect}",
+          "responseType": "json",
+          "resultProperty": "dialog.IsValidDate"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "S62n8a"
+          },
+          "condition": "dialog.IsValidDate.content.result ==True",
+          "elseActions": [
+            {
+              "$kind": "Microsoft.RepeatDialog",
+              "$designer": {
+                "id": "tAWrKx"
+              },
+              "activityProcessed": true
+            }
+          ],
+          "actions": []
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "k3jdQw"
+          },
+          "property": "conversation.RequestValue5",
+          "value": "${conversation.DateCc}: ${dialog.userSelect}"
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "P7dXhA"
+          }
+        }
+      ]
+    }
+  ],
+  "generator": "JoPetrolCheckDate.lg",
+  "recognizer": "JoPetrolCheckDate.lu.qna",
+  "id": "JoPetrolCheckDate"
+}

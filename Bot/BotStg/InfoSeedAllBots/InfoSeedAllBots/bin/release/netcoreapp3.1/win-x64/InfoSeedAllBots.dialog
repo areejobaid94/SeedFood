@@ -1,0 +1,217 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "name": "InfoSeedAllBots",
+    "description": "",
+    "id": "A79tBe"
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnConversationUpdateActivity",
+      "$designer": {
+        "id": "376720",
+        "comment": "This trigger runs when a conversation update activity is sent to the bot. This indicates a user or bot being added or removed from a conversation."
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.CancelAllDialogs",
+          "$designer": {
+            "id": "c7IKsU"
+          },
+          "activityProcessed": true
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnUnknownIntent",
+      "$designer": {
+        "id": "mb2n1u",
+        "comment": "This trigger fires when an incoming activity is not handled by any other trigger."
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "Y27SV3"
+          },
+          "elseActions": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "WuNwr3"
+              },
+              "activityProcessed": true,
+              "dialog": "MainDialog"
+            }
+          ],
+          "condition": "conversation.IsLiveChat==true"
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "0kNzZn",
+        "name": "Welcome"
+      },
+      "intent": "Welcome",
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "trjXjd"
+          },
+          "property": "conversation.IsLiveChat",
+          "value": false
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "9l50Jz"
+          },
+          "activityProcessed": true,
+          "dialog": "MainDialog"
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "pWyTkT"
+          }
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "p2nQAT",
+        "name": "Confirm"
+      },
+      "intent": "Confirm",
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "76Smi9"
+          },
+          "property": "conversation.IsLiveChat",
+          "value": false
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "xOLBBr"
+          },
+          "activityProcessed": true,
+          "dialog": "ConfirmBookingTriggerDialog"
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "HIJI25",
+        "name": "Reject"
+      },
+      "intent": "Reject",
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "QiCH5S"
+          },
+          "property": "conversation.IsLiveChat",
+          "value": false
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "QNoxnM"
+          },
+          "activityProcessed": true,
+          "dialog": "CancelBookingTriggerDialog"
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "b8OCSP",
+        "name": "ConfirmAr"
+      },
+      "intent": "ConfirmAr",
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "xzjg9x"
+          },
+          "property": "conversation.IsLiveChat",
+          "value": false
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "dkVhKJ"
+          },
+          "activityProcessed": true,
+          "dialog": "ConfirmBookingTriggerDialog"
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "mPJuur",
+        "name": "RejectAr"
+      },
+      "intent": "RejectAr",
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "aYKixX"
+          },
+          "property": "conversation.IsLiveChat",
+          "value": false
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "X7LAWQ"
+          },
+          "activityProcessed": true,
+          "dialog": "CancelBookingTriggerDialog"
+        }
+      ]
+    }
+  ],
+  "generator": "InfoSeedAllBots.lg",
+  "id": "InfoSeedAllBots",
+  "recognizer": {
+    "$kind": "Microsoft.RegexRecognizer",
+    "intents": [
+      {
+        "intent": "Welcome",
+        "pattern": "#"
+      },
+      {
+        "intent": "Confirm",
+        "pattern": "Confirm"
+      },
+      {
+        "intent": "Reject",
+        "pattern": "Reject"
+      },
+      {
+        "intent": "ConfirmAr",
+        "pattern": "تأكيد"
+      },
+      {
+        "intent": "RejectAr",
+        "pattern": "رفض"
+      }
+    ]
+  }
+}

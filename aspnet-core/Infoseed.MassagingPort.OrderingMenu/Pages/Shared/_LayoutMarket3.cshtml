@@ -1,0 +1,146 @@
+﻿@using Infoseed.MassagingPort.OrderingMenu.Pages.Model
+
+@{
+    Layout = "_LayoutMain2";
+
+}
+
+
+ 
+@RenderBody()
+
+
+
+<!--start Modal allcatgories-->
+<div class="modal fade fullPage-modal" id="modal-view-allcatgories" tabindex="-1" role="dialog"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">@localizer.Get("View all ratings")</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i class="icon-close"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <ul class="row catgory-list">
+                        <li class="col-md-4">
+                            <div class="d-flex align-items-center flex-column main-cat-item mx-0">
+                                <div class="image">
+                                    <img src="~/desgin/img/demo//img-01.png" alt="Img-01">
+                                </div>
+                                <label>شاورما </label>
+                            </div>
+                        </li>
+
+                        <li class="col-md-4">
+                            <div class="d-flex align-items-center flex-column main-cat-item mx-0">
+                                <div class="image">
+                                    <img src="~/desgin/img/demo//no-image.png" alt="Img-01">
+                                </div>
+                                <label>شاورما </label>
+                            </div>
+                        </li>
+
+
+                        <li class="col-md-4">
+                            <div class="d-flex align-items-center flex-column main-cat-item mx-0">
+                                <div class="image">
+                                    <img src="~/desgin/img/demo//img-02.png" alt="Img-01">
+                                </div>
+                                <label>شاورما </label>
+                            </div>
+                        </li>
+
+                        <li class="col-md-4">
+                            <div class="d-flex align-items-center flex-column main-cat-item mx-0">
+                                <div class="image">
+                                    <img src="~/desgin/img/demo//img-01.png" alt="Img-01">
+                                </div>
+                                <label>شاورما </label>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+
+
+        </div>
+    </div>
+</div><!--///////////End Modal allcatgories-->
+<!--start modal-checkout-->
+<div class="modal fade fullPage-modal" id="modal-checkout" tabindex="-1" role="dialog"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable" role="document">
+        <div class="modal-content" id="divSidebarBody">
+        
+
+        </div>
+    </div>
+</div><!--///////////End modal-checkout-->
+<!--start modal-add-payment-->
+<div class="modal fade" id="modal-add-payment" tabindex="1" role="dialog" aria-labelledby="Card-modal-add-payment"
+     aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"> ادخل معلومات البطاقة</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i class="icon-close"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+
+                    <div class="row my-3">
+                        <div class="form-group col-12">
+                            <input type="text" class="form-control" placeholder="معلومات البطاقة">
+                        </div>
+                        <div class="form-group col-6">
+                            <input type="text" class="form-control" placeholder="تاريخ الأنتهاء">
+                        </div>
+                        <div class="form-group col-6">
+                            <input type="password" class="form-control" placeholder="CVV">
+                        </div>
+                        <div class="form-group col-12">
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="paymentTerms">
+                                <label class="custom-control-label" for="paymentTerms">
+                                    سوم هو نموذج افتراضي يوضع في التصاميم لتعرض على العميل ليتصور طريقه وضع النصوص
+                                    بالتصاميم
+                                </label>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">الغاء</button>
+                <button type="button" class="btn btn-primary"> اضافة</button>
+            </div>
+        </div>
+    </div>
+</div><!--///////////End modal-add-payment-->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

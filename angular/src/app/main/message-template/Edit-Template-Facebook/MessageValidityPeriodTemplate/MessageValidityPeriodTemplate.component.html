@@ -1,0 +1,33 @@
+<div class="form-group " >
+  <h3>Message validity period</h3>
+   <p>You can set a custom validity period that your utility message must be delivered by before it expires. If a message is not delivered within this timeframe, you will not be charged and your customer will not see the message.</p>
+   <h3>Set custom validity period for your message</h3>   
+   <div class="validity-toggle-container">
+<p>If you don't set a custom validity period, the standard 30 days WhatsApp message validity period will be applied.</p>
+<div class="custom-toggle">
+  <label class="switch">
+    <input type="checkbox" [(ngModel)]="isCustomValidity" 
+    (ngModelChange)="onToggleValidity($event)"
+    />
+    <span class="slider"></span>
+  </label>
+</div>
+   </div>
+   <div *ngIf="isCustomValidity">
+    <!-- <div *ngIf="isCustomValidity"> -->
+     <label>Validity period</label>
+     <select name="ValidityPeriod" [(ngModel)]="template.message_send_ttl_seconds" id="ValidityPeriod">
+       <option value=".5">30 seconds</option>
+       <option value="60">1 minute</option>
+       <option value="120">2 minutes</option>
+       <option value="240">3 minutes</option>
+       <option value="300">5 minutes</option>
+       <option value="600">10 minutes</option>
+       <option value="900">15 minutes</option>
+       <option value="1800">30 minutes</option>
+       <option value="3600">1 hour</option>
+       <option value="180">3 hours</option>
+       <option value="360">6 hours</option>
+     </select>
+   </div>
+</div>

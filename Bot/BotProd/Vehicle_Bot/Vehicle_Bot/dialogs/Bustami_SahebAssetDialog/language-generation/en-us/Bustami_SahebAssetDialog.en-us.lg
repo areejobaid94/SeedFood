@@ -1,0 +1,33 @@
+[import](common.lg)
+
+
+# SendActivity_WZbwRu_text()
+- ${dialog.arText}
+# SendActivity_WZbwRu()
+[Activity
+    Text = ${SendActivity_WZbwRu_text()}
+]
+
+# SendActivity_ldABdc_text()
+- ${dialog.enText}
+# SendActivity_ldABdc()
+[Activity
+    Text = ${SendActivity_ldABdc_text()}
+]
+
+
+# SendActivity_XtSdpR()
+[Activity
+    Text= ${dialog.foreach.value.AttachmentUrl}
+    InputHint=${dialog.foreach.value.AttachmentType}
+    Speak =  ${dialog.foreach.value.AttachmentName}
+     
+]
+
+# SendActivity_nKKwXU_text()
+- . . .
+# SendActivity_nKKwXU()
+[Activity
+    Text = ${SendActivity_nKKwXU_text()}
+]
+

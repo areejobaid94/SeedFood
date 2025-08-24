@@ -1,0 +1,8 @@
+{
+  "runtimeOptions": {
+    "additionalProbingPaths": [
+      "C:\\Users\\audia\\.dotnet\\store\\|arch|\\|tfm|",
+      "C:\\Users\\audia\\.nuget\\packages"
+    ]
+  }
+}

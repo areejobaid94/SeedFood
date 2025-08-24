@@ -1,0 +1,9 @@
+[import](common.lg)
+
+# SendActivity_cqyrqB()
+[Activity
+    Text = ${SendActivity_cqyrqB_text()}
+]
+
+# SendActivity_cqyrqB_text()
+- ${dialog.text}

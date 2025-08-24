@@ -1,0 +1,15 @@
+[import](common.lg)
+
+# TextInput_Prompt_zSlYIG()
+- ${ComplaintsText(conversation.FeedBackTest,Summary)}
+
+#ComplaintsText(text,Summary)
+[Activity
+  Text= ${text}
+  Summary =  ${Summary}  
+]
+
+# TextInput_Prompt_RLATP5()
+- ${ComplaintsText(conversation.FeedBackTest,Summary)}
+# SendActivity_EGKjaj()
+- ${conversation.FeedBackTextThanks}

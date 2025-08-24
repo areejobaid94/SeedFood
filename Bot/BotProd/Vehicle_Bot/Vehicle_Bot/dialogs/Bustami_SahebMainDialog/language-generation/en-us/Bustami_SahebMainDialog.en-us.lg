@@ -1,0 +1,39 @@
+[import](common.lg)
+
+# TextInput_Prompt_CnEDlF()
+[Activity
+    Text = ${TextInput_Prompt_CnEDlF_text()}
+    SuggestedActions = ${dialog.Option1} | ${dialog.Option2} | ${dialog.Option3}
+]
+
+# TextInput_Prompt_CnEDlF_text()
+- ${dialog.text}
+# SendActivity_4gfIbJ()
+[Activity
+    Text = ${SendActivity_4gfIbJ_text()}
+]
+
+# SendActivity_4gfIbJ_text()
+- ${dialog.DiscLink}
+# SendActivity_HCg7if_text()
+- ${dialog.DiscLink}
+# SendActivity_HCg7if()
+[Activity
+    Text = ${SendActivity_HCg7if_text()}
+]
+
+# TextInput_Prompt_jmMWus()
+[Activity
+    Text = ${TextInput_Prompt_jmMWus_text()}
+]
+
+# TextInput_Prompt_jmMWus_text()
+- ${dialog.displaystext}
+# TextInput_Prompt_d3UePY()
+[Activity
+    Attachments = ${json(ButtonList(dialog.text,dialog.Lst))}
+     InputHint=${conversation.InputHint}
+     Summary=${conversation.Summary}
+]
+# TextInput_Prompt_d3UePY_text()
+- ${dialog.text}

@@ -1,0 +1,56 @@
+[import](common.lg)
+
+# SendActivity_7Aysly_text()
+- ${dialog.choose1}
+# SendActivity_7Aysly()
+[Activity
+    Text = ${SendActivity_7Aysly_text()}
+]
+
+# SendActivity_zxxPjF_text()
+- ${dialog.choose2}
+# SendActivity_zxxPjF()
+[Activity
+    Text = ${SendActivity_zxxPjF_text()}
+]
+
+# TextInput_Prompt_QjC9W0()
+[Activity
+    Text = ${TextInput_Prompt_QjC9W0_text()}
+    SuggestedActions = ${dialog.option1} | ${dialog.option2}
+]
+
+# TextInput_Prompt_QjC9W0_text()
+- ${conversation.choose}
+# TextInput_Prompt_Ff8yGl()
+[Activity
+    Text = ${TextInput_Prompt_Ff8yGl_text()}
+    SuggestedActions = ${dialog.choose3} | ${dialog.choose1}
+]
+
+# TextInput_Prompt_Ff8yGl_text()
+- ${conversation.choose}
+# TextInput_Prompt_Ju0XjU_text()
+- ${conversation.choose}
+# TextInput_Prompt_Ju0XjU()
+[Activity
+    Text = ${TextInput_Prompt_Ju0XjU_text()}
+    SuggestedActions = ${dialog.choose2} | ${dialog.choose1}
+]
+
+# TextInput_Prompt_G73y5c_text()
+- ${conversation.choose}
+# TextInput_Prompt_G73y5c()
+[Activity
+    Text = ${TextInput_Prompt_G73y5c_text()}
+    SuggestedActions = ${dialog.choose3} | ${dialog.choose1}
+]
+
+# TextInput_Prompt_jfeC9J_text()
+- ${conversation.choose}
+# TextInput_Prompt_jfeC9J()
+[Activity
+    Text = ${TextInput_Prompt_jfeC9J_text()}
+    SuggestedActions = ${dialog.choose2} | ${dialog.choose1}
+]
+

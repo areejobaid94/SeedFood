@@ -1,0 +1,189 @@
+<div bsModal #campaignStatistics="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="campaignStatistics" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div>
+            <div class="modal-content">
+                <div class="modal-body m-0 p-0">
+                    <app-custome-progress-par (closeModel)="close()" [details]="campaignDetails2" class="col-12 col-md-6"></app-custome-progress-par>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- *********************************************** OLD CHART ************************************************ -->
+
+<!-- <div bsModal #campaignStatistics="bs-modal" class="modal fade" tabindex="-1"
+    role="dialog" aria-labelledby="campaignStatistics" aria-hidden="true">
+    <div class="modal-dialog modal-md">
+        <div>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <span>{{ l("Details") }}</span>
+                    </h4>
+                    <button type="button" class="btn-close"
+                        data-bs-dismiss="modal" aria-label="Close"
+                        (click)="close()" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-6 col-lg-4 text-center ">
+                            <div class="transaction-item">
+                                <div class="media">
+                                    <div
+                                        class="avatar mr-1 bg-light-primary rounded">
+                                        <div class="avatar-content">
+                                            <i class="bi bi-megaphone-fill"></i>
+                                        </div>
+                                    </div>
+                                    <div class="media-body">
+                                        <h6 class="transaction-title">{{
+                                            campaignDetails.title }}</h6>
+                                        <span
+                                            *ngIf="campaignDetails.status == 0"
+                                            class="w-100 badge badge-pill badge-light-secondary">{{ l("draft") }}</span>
+                                        <span
+                                            *ngIf="campaignDetails.status == 1"
+                                            class="w-100 badge badge-pill badge-light-dark">{{ l("sent") }}</span>
+                                        <span
+                                            *ngIf="campaignDetails.status == 2"
+                                            class="w-100 badge badge-pill badge-light-warning">{{ l("scheduled") }}</span>
+                                        <span
+                                            *ngIf="campaignDetails.status == 3"
+                                            class="w-100 badge badge-pill badge-light-success">{{ l("Active") }}</span>
+                                        <span
+                                            *ngIf="campaignDetails.status == 4"
+                                            class="w-100 badge badge-pill badge-light-danger">{{ l("inActive") }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row mt-1" *ngIf="showCharts">
+                        <div class="col-6 mt-1 col-lg-4 text-center">
+                            <h3 class="d-contents mr-1">{{
+                                campaignDetails2.totalSent }}</h3>
+                            <span >{{ l("sent") }}</span>
+                            <div id="chartRefOptions" #chartRef>
+                         
+                                <apx-chart
+                                    [chart]="sentChartoptions.chart"
+                                    [grid]="sentChartoptions.grid"
+                                    [colors]="sentChartoptions.colors"
+                                    [series]="[campaignDetails2.sentPercentage]"
+                                    [plotOptions]="sentChartoptions.plotOptions"
+                                    [stroke]="sentChartoptions.stroke"></apx-chart>
+                                {{ campaignDetails2.sentPercentage | number : '1.1-1'}} %
+                             
+                            </div>
+                        </div>
+
+                  
+                        <div class="col-6 mt-1 col-lg-4 text-center">
+                            <h3 class="d-contents mr-1">{{
+                                campaignDetails2.totalProcessing }}</h3>
+                            <span >{{ l("hanging") }}</span>
+                            <div id="hangingChartoptions" #hangedRef>
+                           
+                                <apx-chart
+                                    [chart]="hangingChartoptions.chart"
+                                    [grid]="hangingChartoptions.grid"
+                                    [colors]="hangingChartoptions.colors"
+                                    [series]="[campaignDetails2.processingPercentage]"
+                                    [plotOptions]="hangingChartoptions.plotOptions"
+                                    [stroke]="hangingChartoptions.stroke"></apx-chart>
+                                {{ campaignDetails2.processingPercentage | number : '1.1-1' }} %
+                              
+                            </div>
+                        </div>
+
+                     
+
+                        <div class="col-6 mt-1 col-lg-4 text-center">
+                            <h3 class="d-contents mr-1">{{
+                                campaignDetails2.totalDelivered }}</h3>
+                            <span >{{ l("deliverd") }}</span>
+                            <div id="deliverdChartoptions" #deliverdchartRef>
+                               
+                                <apx-chart
+                                    [chart]="deliverdChartoptions.chart"
+                                    [grid]="deliverdChartoptions.grid"
+                                    [colors]="deliverdChartoptions.colors"
+                                    [series]="[campaignDetails2.deliveredPercentage]"
+                                    [plotOptions]="deliverdChartoptions.plotOptions"
+                                    [stroke]="deliverdChartoptions.stroke"></apx-chart>
+                                {{ campaignDetails2.deliveredPercentage | number : '1.1-1' }} %
+                          
+                            </div>
+                        </div>
+                            <hr class="mt-1">
+                      
+                        <div class="col-6 mt-1 col-lg-4 text-center">
+                            <h3 class="d-contents mr-1">{{
+                                campaignDetails2.totalRead }}</h3>
+                            <span>{{ l("read") }}</span>
+                            <div id="readChartoptions" #readchartRef>
+                             
+                                <apx-chart
+                                    [chart]="readChartoptions.chart"
+                                    [grid]="readChartoptions.grid"
+                                    [colors]="readChartoptions.colors"
+                                    [series]="[campaignDetails2.readPercentage]"
+                                    [plotOptions]="readChartoptions.plotOptions"
+                                    [stroke]="readChartoptions.stroke"></apx-chart>
+                                {{ campaignDetails2.readPercentage | number :'1.1-1' }} %
+                              
+                            </div>
+                        </div>
+
+                        <div class="col-6 mt-1 col-lg-4 text-center">
+                            <h3 class="d-contents mr-1">{{
+                                campaignDetails2.totalFailed }}</h3>
+                            <span >{{ l("Failed") }}</span>
+                            <div id="failedChartoptions"
+                                #failedchartRef>
+                               
+                                <apx-chart
+                                    [chart]="failedChartoptions.chart"
+                                    [grid]="failedChartoptions.grid"
+                                    [colors]="failedChartoptions.colors"
+                                    [series]="[campaignDetails2.failedPercentage]  "
+                                    [plotOptions]="failedChartoptions.plotOptions"
+                                    [stroke]="failedChartoptions.stroke"></apx-chart>
+                                {{campaignDetails2.failedPercentage | number : '1.1-1'}} %
+                              
+                            </div>
+                        </div>
+
+                   
+                        <div class="col-6 mt-1 col-lg-4 text-center">
+                            <h3 class="d-contents mr-1">{{
+                                campaignDetails2.totalReplied }}</h3>
+                            <span >{{ l("replied") }}</span>
+                            <div id="repliedChartoptions"
+                            #repliedchartRef>
+                          
+                                <apx-chart
+                                [chart]="repliedChartoptions.chart"
+                                [grid]="repliedChartoptions.grid"
+                                [colors]="repliedChartoptions.colors"
+                                [series]="[campaignDetails2.repliedPercentage]"
+                                [plotOptions]="repliedChartoptions.plotOptions"
+                                [stroke]="repliedChartoptions.stroke"
+                              ></apx-chart>
+                              {{campaignDetails2.repliedPercentage | number : '1.1-1'}} %
+                          
+                            </div>
+                        </div>
+                    </div>
+                  
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default"
+                        (click)="close()">{{ l("Close") }}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> -->

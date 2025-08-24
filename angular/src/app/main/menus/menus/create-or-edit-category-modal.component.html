@@ -1,0 +1,225 @@
+<div bsModal #createOrEditCategoryComponent="bs-modal" class="overflow-y modal fade" tabindex="-1" role="dialog"
+    aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{ backdrop: 'static' }">
+    <div *ngIf="theme != 'theme12'" class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4  class="modal-title">
+                    <span> Category</span>
+
+                </h4>
+
+            </div>
+            <div class="row">
+                <div class="col-md-12 p-6">
+                    <form [formGroup]="menuForm">
+                        <div>
+                            <div class="form-group" *ngIf="isAdmin">
+                                <label>Category Name arabic *</label>
+                                <input required [class.error]="submitted && menuForm.controls.name.invalid"
+                                    placeholder="Category Name Arabic" type="text" class="form-control"
+                                    formControlName="name" />
+                                <p class="text-danger" *ngIf="submitted && menuForm.controls.name.invalid">This field is
+                                    required</p>
+                            </div>
+                            <div class="form-group" *ngIf="!isAdmin">
+                                <label>Category Name Arabic *</label>
+                                <input disabled placeholder="Menu Name Arabic" type="text" class="form-control"
+                                    formControlName="name" style="font-family: system-ui " />
+                            </div>
+
+                            <div class="form-group" *ngIf="isAdmin">
+                                <label>Category Name English *</label>
+
+                                <input required placeholder="Category Name English" type="text" class="form-control"
+                                    formControlName="nameEnglish"
+                                    [class.error]="submitted && menuForm.controls.nameEnglish.invalid" />
+                                <p class="text-danger" *ngIf="submitted && menuForm.controls.nameEnglish.invalid">This
+                                    field is required</p>
+                            </div>
+                            <div class="form-group" *ngIf="!isAdmin">
+                                <label>Category Name English *</label>
+
+                                <input disabled placeholder="Category Name English" type="text" class="form-control"
+                                    formControlName="nameEnglish" style="font-family: system-ui" />
+                            </div>
+
+                            <div class="form-group" *ngIf="isAdmin">
+                                <label>Priority *</label>
+                                <input min="0" required placeholder="Priority" type="number"
+                                    [class.error]="submitted && menuForm.controls.priority.invalid" class="form-control"
+                                    formControlName="priority" />
+                                <p class="text-danger" *ngIf="submitted && menuForm.controls.priority.invalid">This
+                                    field is required and must be above 0</p>
+                            </div>
+                            <div class="form-group" *ngIf="!isAdmin">
+                                <label>Priority *</label>
+                                <input disabled placeholder="Priority" type="number" class="form-control"
+                                    formControlName="priority" style="font-family: system-ui" />
+                            </div>
+
+                            <div class="form-group" [class.show]="isAdmin">
+                                <label>Logo Image</label>
+                                <input accept="image/*" type="file" class="form-control"
+                                    style="width: 100px" #file (change)="onFileChange1($event,modalBasic)" />
+                                <div *ngIf="categoryImage" class="product-img">
+                                    <img [src]="categoryImage" alt="Category Image" style="width: 100px; height: 100px" />
+                                    <!-- <button class="btn btn-danger" style="width: 120px" (click)="openFileUploder1()">Replace</button> -->
+                                </div>
+                            </div>
+                            <div class="form-group" *ngIf="!isAdmin">
+                                <label>Logo Image</label>
+                                <input accept="image/*" disabled type="file" #file  class="form-control"
+                                    style="width: 100px"  (change)="onFileChange1($event,modalBasic)" />
+                                <div *ngIf="categoryImage" class="product-img">
+                                    <img alt="Category Image" [src]="categoryImage" style="width: 100px; height: 100px" />
+                                    <!-- <button disabled class="btn btn-danger" style="width: 120px" (click)="openFileUploder1()">Replace</button> -->
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" (click)="close()">{{ l("Cancel") }}</button>
+                            <button [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')" type="button"
+                                class="btn btn-primary" (click)="addCategory()">Save</button>
+                            <!--  -->
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div [hidden]="theme != 'theme12'" class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4  class="modal-title">
+                    <span> {{ l("categories") }}</span>
+
+                </h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="close()"
+                    aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <form [formGroup]="menuForm">
+                        <div class="col-12 mb-1 form-group"  [hidden]="!isAdmin">
+                            <div class="mt-1 justify-content-center row mb-1" *ngIf="categoryImage">
+                                <img  alt="Category Image" class="editCategoryImage" [src]="categoryImage" />
+                            </div>
+                            <div class="mt-1 justify-content-center row mb-1" *ngIf="loadImage">
+                                <div class="spinner-border text-warning m-auto" role="status">
+                                    <span class="sr-only">Loading...</span>
+                                </div>
+                            </div>
+                            <div class="row justify-content-center">
+                                <input accept="image/*" #file class="w-50" type="file" 
+                                class="form-control"
+                                    (change)="onFileChange1($event,modalBasic)" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 mb-1 form-group" *ngIf="!isAdmin">
+                                <div class="mt-1  justify-content-center row mb-1" *ngIf="categoryImage">
+                                    <img alt="Category Image" class="product-img" [src]="categoryImage" />
+                                </div>
+                                <div class="mt-1 justify-content-center row mb-1" *ngIf="loadImage">
+                                    <div class="spinner-border text-warning m-auto" role="status">
+                                        <span class="sr-only">Loading...</span>
+                                    </div>
+                                </div>
+                                <div class="row justify-content-center">
+                                    <input accept="image/*" class="w-50" disabled type="file" #file 
+                                    class="form-control"
+                                        (change)="onFileChange1($event,modalBasic)" />
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-xl-6 mb-1 form-group" *ngIf="isAdmin">
+                                <label>{{ l("categoryNameAr") }} *</label>
+                                <input required type="text"
+                                class="form-control"
+                                    formControlName="name"
+                                    [class.error]="submitted && menuForm.controls.name.invalid" />
+                                <p class="text-danger" *ngIf="submitted && menuForm.controls.name.invalid">This field is
+                                    required</p>
+
+                            </div>
+                            <div class="col-12 col-xl-6 mb-1 form-group" *ngIf="!isAdmin">
+                                <label>{{ l("categoryNameAr") }} *</label>
+                                <input disabled type="text"
+                                class="form-control"
+                                    formControlName="name" />
+                            </div>
+
+                            <div class="col-12 col-xl-6 mb-1 form-group" *ngIf="isAdmin">
+                                <label>{{ l("categoryNameEn") }} *</label>
+                                <input required  type="text"
+                                class="form-control"
+                                    formControlName="nameEnglish"
+                                    [class.error]="submitted && menuForm.controls.nameEnglish.invalid" />
+                                <p class="text-danger" *ngIf="submitted && menuForm.controls.nameEnglish.invalid">This
+                                    field
+                                    is required</p>
+                            </div>
+                            <div class="col-12 col-xl-6 mb-1 form-group" *ngIf="!isAdmin">
+                                <label>{{ l("categoryNameEn") }} *</label>
+                                <input disabled  type="text"
+                                class="form-control"
+                                    formControlName="nameEnglish" />
+                            </div>
+
+                            <div class="col-12 col-xl-6 mb-1 form-group" *ngIf="isAdmin">
+                                <label>{{ l("priority") }} *</label>
+                                <input min="0" required  type="number"
+                                class="form-control"
+                                    formControlName="priority"
+                                    [class.error]="submitted && menuForm.controls.priority.invalid" />
+                                <p class="text-danger" *ngIf="submitted && menuForm.controls.priority.invalid">This
+                                    field is
+                                    required and must be above 0</p>
+                            </div>
+                            <div class="col-12 col-xl-6 mb-1 form-group" *ngIf="!isAdmin">
+                                <label>{{ l("priority") }} *</label>
+                                <input disabled type="number"
+                                class="form-control"
+                                    formControlName="priority" />
+                            </div>
+                        </div>
+
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-default" (click)="close()">
+                        {{ l("Cancel") }}
+                    </button>
+                    <button [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')" type="button"
+                        class="btn btn-primary-info" (click)="addCategory()">
+                        {{ l("Save") }}
+                    </button>
+                    <!-- [disabled]="!menuForm.valid" -->
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<ng-template #modalBasic let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="myModalLabel1">  {{ l("imageCropper") }}</h4>
+    </div>
+    <div class="modal-body" tabindex="0" ngbAutofocus>
+        <image-cropper [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true" [aspectRatio]="1"
+           [cropperStaticWidth]="300" [cropperStaticHeight]="300" [onlyScaleDown]="true" [imageQuality]="80" 
+            (imageCropped)="imageCroppedFile($event)"></image-cropper>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" (click)="modal.dismiss('Cross click')"
+            rippleEffect>  {{ l("Cancel") }}</button>
+        <button type="button" [ngClass]="theme != 'theme12' ? 'btn-primary' : 'btn-primary-info'" class="btn"
+            (click)="saveImage(file); modal.close('Accept click')" rippleEffect>
+            {{ l("accept") }}
+        </button>
+    </div>
+</ng-template>

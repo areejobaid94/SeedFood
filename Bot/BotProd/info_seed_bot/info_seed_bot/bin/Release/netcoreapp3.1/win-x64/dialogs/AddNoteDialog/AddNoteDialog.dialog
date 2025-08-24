@@ -1,0 +1,122 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "ZD77WA",
+    "name": "AddNoteDialog",
+    "description": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "pcPhXn"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.DeleteProperty",
+          "$designer": {
+            "id": "KDr0eS"
+          },
+          "property": "dialog.SpecialRequest"
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "T6Yzhm"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "prompt": "${TextInput_Prompt_T6Yzhm()}",
+          "unrecognizedPrompt": "",
+          "property": "dialog.SpecialRequest",
+          "validations": [
+            "contains(this.value, 'نعم') || contains(this.value, 'لا') || contains(this.value, 'Yes') || contains(this.value, 'No') || contains(this.value, '#') "
+          ]
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "nWrnCt"
+          },
+          "condition": "dialog.SpecialRequest==\"لا\" ||  dialog.SpecialRequest==\"No\"",
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "wvWfzb"
+              },
+              "assignments": [
+                {
+                  "property": "conversation.IsSpecialRequest",
+                  "value": false
+                },
+                {
+                  "property": "conversation.SpecialRequest",
+                  "value": "\"\""
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.EndDialog",
+              "$designer": {
+                "id": "ROVOQ0"
+              }
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.DeleteProperty",
+          "$designer": {
+            "id": "hBwKok"
+          },
+          "property": "dialog.noteTest"
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "VMnmF0"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "prompt": "${TextInput_Prompt_VMnmF0()}",
+          "unrecognizedPrompt": "",
+          "invalidPrompt": "",
+          "property": "dialog.noteTest"
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "H77ZUU"
+          },
+          "assignments": [
+            {
+              "property": "conversation.SpecialRequest",
+              "value": "${dialog.noteTest}"
+            },
+            {
+              "property": "conversation.IsSpecialRequest",
+              "value": true
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "X0TC7h"
+          }
+        }
+      ]
+    }
+  ],
+  "generator": "AddNoteDialog.lg",
+  "recognizer": "AddNoteDialog.lu.qna",
+  "id": "AddNoteDialog"
+}

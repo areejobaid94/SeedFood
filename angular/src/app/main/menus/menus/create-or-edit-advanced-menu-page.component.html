@@ -1,0 +1,195 @@
+
+    <div class="header-navbar-shadow"></div>
+    <div class="content-wrapper container-xxl p-0">
+        <div class="content-body">
+            <div class="d-flex flex-column flex-column-fluid">
+                <div class="content-header row  content-header row  subheader subheader-transparent align-items-center  d-flex flex-sm-nowrap flex-wrap justify-content-between"
+                [ngClass]="theme != 'theme12'? 'container' : ''">
+                <div *ngIf="theme != 'theme12'" class="mt-1 content-header-left mt-3 col-md-9 col-12 mb-2">
+                    <div class="row breadcrumbs-top">
+                        <div class="col-12 d-flex">
+                            <h2 class="content-header-title float-left mb-0"> {{ l("menus") }}</h2>
+                            <div class="breadcrumb-wrapper d-flex">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item cursor-pointer">
+                                        <a (click)="goToDashboard()"> {{ l("home") }}</a>
+                                    </li>
+                                    <li class="breadcrumb-item cursor-pointer ">
+                                        <a (click)="back()"> {{ l("menus") }}</a>
+                                    </li>
+                                    <li class="breadcrumb-item ">
+                                        <span> {{ l("manageMenu") }}</span>
+                                    </li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="theme === 'theme12'" class="content-header-left col-md-9 col-12 mb-2">
+                    <div class="row breadcrumbs-top">
+                        <div class="col-12 d-flex">
+                            <h2
+                                class="content-header-title float-left mb-0"> {{ l("menus") }}</h2>
+                            <div class="breadcrumb-wrapper d-flex">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item cursor-pointer">
+                                        <a (click)="goToDashboard()"> {{ l("home") }}</a>
+                                    </li>
+                                    <li class="breadcrumb-item cursor-pointer">
+                                        <a (click)="back()"> {{ l("menus") }}</a>
+                                    </li>
+                                    <li class="breadcrumb-item ">
+                                        <span> {{ l("manageMenu") }}</span>
+                                    </li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+               <div [ngClass]="theme != 'theme12' ? 'container' : ''">
+             
+                    <div class="card-custom gutter-b card">
+                        <div class="card-body">
+                            
+                                <div class="row p-0 p-xxl-2 p-md-2">
+                                    <div class="col-12 col-xl-6 mb-1">
+                                        <div class="form-group">
+                                            <label> {{ l("branch") }}</label>
+                                            <ng-multiselect-dropdown   [ngClass]="darkModeService.currentSkin === 'dark' ? 'dark ' : ''" name="branches"  [settings]="dropdownSettings" [data]="rType" [(ngModel)]="selectedAreaIds">
+                                            </ng-multiselect-dropdown>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-xl-6 mb-1">
+                                        <div class="form-group">
+                                            <label> {{ l("priority") }} </label>
+                                            <input min="0"  name="priority" type="number" 
+                                            class="form-control"
+                                            [(ngModel)]="priority" />
+                                          </div>
+                                    </div>
+
+                                    <div class="col-12 col-xl-6 mb-1">
+                                        <div class="form-group">
+                                            <label> {{ l("menuNameAr") }} *</label>
+                                            <input required [class.error]="submitted && arabicName.invalid" #arabicName="ngModel" name="menuName" type="text"   class="form-control customInput" [(ngModel)]="menuName" />
+                                            <p class="text-danger" *ngIf="submitted && arabicName.invalid" >{{l("ThisFieldIsRequired") }}</p> 
+                                       </div>
+                                    </div>
+                                    <div class="col-12 col-xl-6  mb-1">
+                                        <div class="form-group">
+                                            <label>{{ l("arabicDisc") }} </label>
+                                            <input
+                                            name="menuDescription"
+                                            type="text"
+                                            class="form-control customInput"
+                                            [(ngModel)]="menuDescription"
+                                            
+                                        />
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12 col-xl-6  mb-1">
+                                        <div class="form-group">
+                                            <label>{{ l("menuNameEn") }}  *</label>
+                                            <input
+                                            name="menuNameEnglish"
+                                            type="text"
+                                            class="customInput form-control"
+                                            required
+                                            [class.error]="submitted && englishName.invalid" #englishName="ngModel"
+                                            [(ngModel)]="menuNameEnglish"
+                                        />
+                                        <p class="text-danger" *ngIf="submitted && englishName.invalid">{{l("ThisFieldIsRequired") }}</p> 
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-xl-6 mb-1">
+                                        <div class="form-group">
+                                            <label>{{ l("englishDisc") }}  </label>
+                                            <input
+                                            name="menuDescriptionEnglish"
+                                            type="text"
+                                            class="customInput form-control"
+                                            [(ngModel)]="menuDescriptionEnglish"
+                                          
+                                        />
+                                    
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12 col-xl-6">
+                                        <div class="row">
+                                        <div class="col-12 col-xl-6">
+                                            <label for="uplode1">{{ l("logoImage") }} </label>
+                                            <input     #filee  accept="image/png, image/Jpg, image/jpeg"  type="file" id="upload" class="form-control"  (change)="onFileChange($event,modalBasic)" />
+                                         </div>
+                                     
+                                        <div class="col-12 col-xl-12">
+                                            <div class="product-img" *ngIf="menuImage">
+                                                <img alt="Advanced Menu Image" class="logoImage2 mt-2" [src]="menuImage" />
+                                            </div>
+                                           
+                                        </div>
+                                        </div>
+                                    </div>
+
+                                
+
+                                  
+                                </div>  
+                                <div class="modal-footer mt-2">
+                                        <button type="button" 
+                                        [ngClass]="theme != 'theme12' ? 'btn-outline-primary':'btn-outline-primary-info'"
+                                        class="btn " (click)="back()">{{ l("previus") }} </button>
+
+                                        <button
+                                            
+                                            type="button"
+                                            class="btn  "
+                                            (click)="save()"
+                                            [buttonBusy]="saving"  
+                                            [ngClass]="theme != 'theme12' ? 'btn-primary':'btn-primary-info'"
+                                            [busyText]="l('SavingWithThreeDot')"
+                                        >
+                                            <i class="fa fa-save"></i>
+                                            <span>{{ l("Save") }}</span>
+                                        </button>
+                                      
+                                                    
+                                       </div>
+                      
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+     
+    </div>
+
+    <ng-template #modalBasic let-modal>
+        <div class="modal-header">
+          <h4 class="modal-title" id="myModalLabel1">{{ l("imageCropper") }}</h4>
+        </div>
+        <div class="modal-body" tabindex="0" ngbAutofocus>
+          <image-cropper
+          [imageChangedEvent]="imageChangedEvent"
+          [maintainAspectRatio]="true"
+          [aspectRatio]="4 / 4"
+          [resizeToWidth]="200"
+          (imageCropped)="imageCroppedFile($event)"
+      ></image-cropper>
+        </div>
+        <div class="modal-footer">
+            <button type="button"
+             class="btn btn-default" (click)="modal.dismiss('Cross click')" rippleEffect>
+             {{ l("Cancel") }}
+              </button>
+          <button type="button"
+          [ngClass]="theme != 'theme12' ? 'btn-primary':'btn-primary-info'"
+          class="btn" (click)="saveImage(file);modal.close('Accept click')" rippleEffect>
+          {{ l("accept") }}
+          </button>
+       
+        </div>
+      </ng-template>

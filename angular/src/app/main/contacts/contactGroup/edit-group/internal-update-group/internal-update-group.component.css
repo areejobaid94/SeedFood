@@ -1,0 +1,73 @@
+.p-checkbox:not(.p-checkbox-disabled) .p-checkbox-box:hover {
+    border-color: #009789;
+}
+
+::ng-deep .p-checkbox:not(.p-checkbox-disabled) .p-checkbox-box:hover {
+    border-color: #009789;
+}
+
+.p-checkbox .p-checkbox-box.p-highlight {
+    border-color: #009789 !important;
+    background: #009789 !important;
+}
+
+::ng-deep .p-checkbox .p-checkbox-box.p-highlight {
+    border-color: #009789 !important;
+    background: #009789 !important;
+}
+
+::ng-deep .p-paginator .p-paginator-pages .p-paginator-page.p-highlight {
+    background: #00978924;
+    border-color: #00978900;
+    color: #009789;
+}
+
+.p-paginator .p-paginator-pages .p-paginator-page.p-highlight {
+    background: #00978924;
+    border-color: #00978900;
+    color: #009789;
+}
+
+:host ::ng-deep {
+ .dropdown-btn{
+    padding: 8px 13px !important;
+    margin-top: 1px !important;
+  }
+  .dropdown-multiselect__caret{
+    margin: 3px 1px !important;
+  }
+}
+
+.save-Container-w {
+    display: flex;
+    justify-content: space-between;
+}
+.save-Container {
+    display: flex;
+    justify-content: flex-end;
+}
+::ng-deep .col .p-datatable .p-datatable-tbody > tr > .customer-behaviour
+{
+  text-align: center;
+  width: 100px;
+  padding-right: 50px;
+}
+
+::ng-deep td.optOut.customer-behaviour {
+  color: red;
+}
+
+::ng-deep td.optin.customer-behaviour{
+  color: green;
+}
+
+::ng-deep .col .p-datatable .p-datatable-thead > tr > th.behaviour-column{
+  width:20%;
+  text-align: center;
+  padding-right: 50px;
+}
+
+/* ::ng-deep .multiselect-dropdown .dropdown-btn {
+    padding: 8px 13px;
+    margin-top: 2px;
+} */

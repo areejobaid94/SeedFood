@@ -1,0 +1,411 @@
+<div [@routerTransition]>
+    <div class="header-navbar-shadow"></div>
+    <div class="content-wrapper container-xxl p-0">
+        <div class="content-body">
+            <p-dialog
+                header="Header"
+                [(visible)]="visible"
+                [closeOnEscape]="false"
+                [closable]="false"
+                [modal]="true"
+                [style]="{ width: '50rem' }"
+                [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }"
+            >
+                <ng-template pTemplate="header">
+                    <div class="inline-flex align-items-center justify-content-center gap-2">
+                        <span class="font-bold white-space-nowrap">Edit Phone Number</span>
+                    </div>
+                </ng-template>
+                <input
+                    class="form-control m-input"
+                    (keypress)="onKeyPress($event)"
+                    maxlength="15"
+                    [(ngModel)]="phoneNumberEdited"
+                    type="text"
+                    name="phoneNumberEdit"
+                    id="phoneNumberEdit"
+                />
+                <ng-template pTemplate="footer">
+                    <button icon="pi pi-trash" (click)="visible = false" class="btn btn-outline-primary-info" type="button">
+                        {{ l("close") }}
+                    </button>
+                    <button icon="pi pi-check" (click)="handleSubmitDialog()" [buttonBusy]="isDialogSubmitted" class="btn btn-primary-info" type="button" [autofocus]="true">
+                        {{ l("save") }}
+                    </button>
+                </ng-template>
+            </p-dialog>
+            <div class="d-flex flex-column flex-column-fluid">
+                <sub-header [hidden]="theme === 'theme12'" [title]="'campaignContacts' | localize">
+                    <div role="actions"></div>
+                </sub-header>
+
+                <!-- theme 12 sub header-->
+                <sub-header [hidden]="theme != 'theme12'" [title]="'campaignContacts' | localize" [description]="'externalContactsHeaderInfo' | localize"></sub-header>
+                <!-- end of theme 12 sub header-->
+                <div [ngClass]="theme != 'theme12' ? 'container' : ''">
+                    <div class="card card-custom gutter-b">
+                        <div class="card-body">
+                            <form *ngIf="theme != 'theme12'" class="form p-1" autocomplete="off">
+                                <div>
+                                    <div class="row align-items-center">
+                                        <!-- <div class="mb-1 col-md-6 col-6 d-flex justify-content-md-start">
+                                            <input [(ngModel)]="name" name="name" autoFocus class="form-control m-input"
+                                            [placeholder]="'searchByName' | localize" type="text" />
+                                        </div> -->
+                                        <div class="mb-1 input-group col-md-6 col-6 d-flex justify-content-md-end">
+                                            <input
+                                                [(ngModel)]="phone"
+                                                name="phone"
+                                                autoFocus
+                                                class="ml-1 form-control m-input"
+                                                [placeholder]="'searchByPhone' | localize"
+                                                type="text"
+                                            />
+                                            <button (click)="getContacts()" class="btn btn-primary" type="submit"><i class="flaticon-search-1"></i></button>
+                                        </div>
+<!-- 
+                                        <div class="col-6 mb-1">
+                                            <div class="form-group">
+                                                <select class="form-control" id="template" name="template" (change)="getCampaign()" [(ngModel)]="templateId">
+                                                    <option value="null" disabled>{{ l("chooseTemplate") }}</option>
+                                                    <option *ngFor="let t of templates" [value]="t.localTemplateId">
+                                                        {{ t.name }}
+                                                    </option>
+                                                </select>
+                                            </div>
+                                        </div> -->
+
+                                        <div class="col-6 mb-1">
+                                            <div class="form-group">
+                                                <select class="form-control" id="messageStatus" name="messageStatus" [(ngModel)]="messageStatus">
+                                                    <option value="null" disabled>{{ l("messageStatus") }}</option>
+                                                    <option value="all">{{ l("All") }}</option>
+                                                    <option value="sent">{{ l("sent") }}</option>
+                                                    <option value="delivered">{{ l("deliverd") }}</option>
+                                                    <option value="read">{{ l("read") }}</option>
+                                                    <option value="failed">{{ l("Failed") }}</option>
+                                                    <!-- <option value="hanged">{{ l("hanging") }}</option> -->
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <!-- <div class="col-6 mb-1" [hidden]="!campaignFlag">
+                                            <div class="form-group">
+                                                <label for="campaign"> {{ l("campaign") }} </label>
+                                                <select class="form-control" id="campaign" name="campaign" (change)="getContacts()" [(ngModel)]="campaignId">
+                                                    <option disabled value="null">{{ l("chooseCampaigm") }}</option>
+                                                    <option *ngFor="let cam of campaign" [value]="cam.id">{{ cam.title }}</option>
+                                                </select>
+                                            </div>
+                                        </div> -->
+
+                                        <!-- <div class="col-md-6 col-12 mt-1 text-right" *ngIf="campaignId && messageStatus">
+                                            <button (click)="generateReport()" class="btn btn-light">{{ l("generateReport") }}</button>
+                                        </div> -->
+                                    </div>
+                                </div>
+                            </form>
+
+                            <form autocomplete="off" [hidden]="theme != 'theme12'">
+                                <div class="row mb-2">
+                                    <!-- <div class="col-md-6 col-12">
+                                        <div
+                                            class="d-flex ml-xl-1 ml-md-1 align-items-center pr-1 pb-1 pl-1 pl-md-0 pb-md-0">
+                                            <input [(ngModel)]="name" name="name" autoFocus
+                                            [ngClass]="darkModeService.currentSkin === 'dark' ? 'form-control-dark ' : 'form-control'"    
+                                            class=" m-input" [placeholder]="'searchByName' | localize" type="text" />
+                                        </div>
+                                    </div> -->
+                                    <div class="col-md-6 col-12 mt-1">
+                                        <div class="d-flex ml-xl-1 ml-md-1 align-items-center pr-1 pb-1 pl-1 pl-md-0 pb-md-0">
+                                            <input [(ngModel)]="phone" name="phone" autoFocus class="form-control m-input" [placeholder]="'searchByPhone' | localize" type="text" />
+                                            <button (click)="getContacts()" class="btn btn-primary-info" type="submit"><i class="flaticon-search-1"></i></button>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-12 mt-1">
+                                        <div class="form-group d-flex ml-xl-1 ml-md-1 align-items-center pr-1 pb-1 pl-1 pl-md-0 pb-md-0">
+                                            <select
+                                                (change)="getCampaign()"
+                                                [ngClass]="darkModeService.currentSkin === 'dark' ? 'form-control-dark ' : 'form-control'"
+                                                id="template"
+                                                name="template"
+                                                [(ngModel)]="templateId"
+                                                required
+                                            >
+                                                <option value="null" disabled>{{ l("chooseTemplate") }}</option>
+                                                <option *ngFor="let t of templates" [value]="t.localTemplateId">
+                                                    {{ t.name }}
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-12 mt-1">
+                                        <div class="form-group d-flex ml-xl-1 ml-md-1 align-items-center pr-1 pb-1 pl-1 pl-md-0 pb-md-0">
+                                            <select
+                                                (change)="getContacts()"
+                                                [ngClass]="darkModeService.currentSkin === 'dark' ? 'form-control-dark ' : 'form-control'"
+                                                id="messageStatus"
+                                                name="messageStatus"
+                                                [(ngModel)]="messageStatus"
+                                            >
+                                                <option value="null" disabled>{{ l("messageStatus") }}</option>
+                                                <option value="all">{{ l("All") }}</option>
+                                                <option value="sent">{{ l("sent") }}</option>
+                                                <option value="delivered">{{ l("deliverd") }}</option>
+                                                <option value="read">{{ l("read") }}</option>
+                                                <option value="failed">{{ l("Failed") }}</option>
+                                                <!-- <option value="hanged">{{ l("hanging") }}</option> -->
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 col-12 mt-1" [hidden]="!campaignFlag">
+                                        <div class="form-group d-flex ml-xl-1 ml-md-1 align-items-center pr-1 pb-1 pl-1 pl-md-0 pb-md-0">
+                                            <select
+                                                [ngClass]="darkModeService.currentSkin === 'dark' ? 'form-control-dark ' : 'form-control'"
+                                                id="campaignId"
+                                                name="campaignId"
+                                                (change)="getContacts()"
+                                                [(ngModel)]="campaignId"
+                                            >
+                                                <option disabled value="null">{{ l("chooseCampaign") }}</option>
+                                                <option *ngFor="let cam of campaign" [value]="cam.id">{{ cam.title }}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12 col-12 mt-1 text-right" *ngIf="campaignId && messageStatus">
+                                        <button (click)="generateReport()" class="btn btn-light">{{ l("generateReport") }}</button>
+                                    </div>
+                                </div>
+                            </form>
+                            <div class="align-items-center">
+                                <!--<Primeng-Datatable-Start>-->
+                                <div
+                                    [ngClass]="darkModeService.currentSkin === 'dark' ? 'table-dark' : 'light'"
+                                    class="primeng-datatable-container"
+                                    [busyIf]="primengTableHelper.isLoading"
+                                >
+                                    <p-table
+                                        [ngClass]="darkModeService.currentSkin === 'dark' ? 'table-dark' : 'light'"
+                                        #dataTable
+                                        class="table-responsive"
+                                        [scrollbarV]="true"
+                                        [scrollbarH]="true"
+                                        (onLazyLoad)="getContacts($event)"
+                                        [value]="primengTableHelper.records"
+                                        [rows]="10"
+                                        [totalRecords]="primengTableHelper.totalRecordsCount"
+                                        [paginator]="true" 
+                                        [rowsPerPageOptions]="[10, 20, 30]"
+                                    [loading]="loadingTable"
+                                        [lazy]="true"
+                                        [scrollable]="true"
+                                        ScrollWidth="100%"
+                                        [responsive]="true"
+                                        [resizableColumns]="primengTableHelper.resizableColumns"
+                                    >
+                                        <ng-template pTemplate="header">
+                                            <tr>
+                                                <!-- <th [ngClass]="darkModeService.currentSkin === 'dark' ? 'dark-table' : ''">
+                                                    {{ l("Actions") }}
+                                                </th> -->
+                                                <!-- <th [ngClass]="darkModeService.currentSkin === 'dark' ? 'dark-table' : ''"
+                                                    pSortableColumn="displayName">
+                                                    {{ l("customer") }}
+                                                </th> -->
+                                                <th style="width: 150px" pSortableColumn="phoneNumber">
+                                                    {{ l("phoneNumber") }}
+                                                </th>
+                                                <th [ngClass]="darkModeService.currentSkin === 'dark' ? 'dark-table' : ''" pSortableColumn="template">
+                                                    {{ l("template") }}
+                                                </th>
+                                                <th [ngClass]="darkModeService.currentSkin === 'dark' ? 'dark-table' : ''" pSortableColumn="campaign">
+                                                    {{ l("campaign") }}
+                                                </th>
+                                                <th [ngClass]="darkModeService.currentSkin === 'dark' ? 'dark-table' : ''" pSortableColumn="sent">
+                                                    {{ l("sent") }}
+                                                </th>
+                                                <!-- <th [ngClass]="darkModeService.currentSkin === 'dark' ? 'dark-table' : ''" pSortableColumn="failed">
+                                                    {{ l("Failed") }}
+                                                </th> -->
+                                                <th [ngClass]="darkModeService.currentSkin === 'dark' ? 'dark-table' : ''" pSortableColumn="deliverd">
+                                                    {{ l("deliverd") }}
+                                                </th>
+                                                <th [ngClass]="darkModeService.currentSkin === 'dark' ? 'dark-table' : ''" pSortableColumn="read">
+                                                    {{ l("read") }}
+                                                </th>
+                                                <th [ngClass]="darkModeService.currentSkin === 'dark' ? 'dark-table' : ''" pSortableColumn="Failed">
+                                                    {{ l("Failed") }}
+                                                </th>
+                                                <!-- <th [ngClass]="darkModeService.currentSkin === 'dark' ? 'dark-table' : ''" pSortableColumn="hanging">
+                                                    {{ l("hanging") }}
+                                                </th> -->
+                                            </tr>
+                                        </ng-template>
+                                        <ng-template
+                                            [ngClass]="darkModeService.currentSkin === 'dark' ? 'table-dark' : 'light'"
+                                            pTemplate="body"
+                                            let-record="$implicit"
+                                            let-i="rowIndex"
+                                        >
+                                            <tr >
+                                                <!-- <td [ngClass]="darkModeService.currentSkin === 'dark' ? 'table-dark' : ''">
+                                                    <div class="btn-group dropdown"  *ngIf="!record.isDelivered" dropdown container="body">
+                                                        <button
+                                                       
+                                                            [ngClass]="theme != 'theme12' ? 'btn-primary' : 'btn-primary-info'"
+                                                            class="dropdown-toggle btn btn-sm"
+                                                            dropdownToggle
+                                                        >
+                                                            <i class="fa fa-cog"></i><span class="caret"></span>
+                                                        </button>
+                                                        <ul
+                                                            placement="bottom-start"
+                                                            class="dropdown-menu"
+                                                            [disabled]="true"
+                                                            [ngClass]="darkModeService.currentSkin === 'dark' ? 'drop-down-dark' : ''"
+                                                            *dropdownMenu
+                                                        >
+                                                            <li>
+                                                                <a class="dropdown-item" [disabled]="!record.isDelivered" (click)="handleDeleteContact(record)"> {{ l("Delete") }}</a>
+                                                            </li>
+
+                                                            <li>
+                                                                <a href="javascript:;" [disabled]="!record.isDelivered" class="dropdown-item" (click)="showDialog(record)">{{
+                                                                    l("Edit")
+                                                                }}</a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </td> -->
+
+                                                <!-- <td
+                                               
+                                                    [ngClass]="darkModeService.currentSkin === 'dark' ? 'table-dark' : ''">
+                                                    <span class="p-column-title"> {{ l("customer") }}</span>
+                                                   <span    ngbPopover="Sent Failed" placement="bottom" triggers="mouseenter:mouseleave" [disablePopover]="!record.isFailed"> {{ record.displayName }}</span>
+                                                </td> -->
+                                                <td style="width: 150px" [ngClass]="darkModeService.currentSkin === 'dark' ? 'table-dark' : ''">
+                                                    <span class="p-column-title"> {{ l("phoneNumber") }}</span>
+                                                    <span
+                                                        [ngbPopover]="'sentFailed' | localize"
+                                                        placement="right"
+                                                        triggers="mouseenter:mouseleave"
+                                                        [disablePopover]="!record.isFailed"
+                                                        >{{ record.phoneNumber }}</span
+                                                    >
+                                                </td>
+                                                <td [ngClass]="darkModeService.currentSkin === 'dark' ? 'table-dark' : ''">
+                                                    <span class="p-column-title"> {{ l("template") }}</span>
+                                                    <span
+                                                        [ngbPopover]="'sentFailed' | localize"
+                                                        placement="right"
+                                                        triggers="mouseenter:mouseleave"
+                                                        [disablePopover]="!record.isFailed"
+                                                        >{{ record.templateName }}</span
+                                                    >
+                                                </td>
+                                                <td [ngClass]="darkModeService.currentSkin === 'dark' ? 'table-dark' : ''">
+                                                    <span class="p-column-title"> {{ l("campaign") }}</span>
+                                                    <span
+                                                        [ngbPopover]="'sentFailed' | localize"
+                                                        placement="right"
+                                                        triggers="mouseenter:mouseleave"
+                                                        [disablePopover]="!record.isFailed"
+                                                    >
+                                                        {{ record.campaignName }}</span
+                                                    >
+                                                </td>
+
+                                                <td [ngClass]="darkModeService.currentSkin === 'dark' ? 'table-dark' : ''">
+                                                    <span class="p-column-title"> {{ l("sent") }}</span>
+                                                    <span *ngIf="record.isSent">
+                                                        <i class="fa fa-check-circle text-success" title="True"></i>
+                                                    </span>
+                                                    <span *ngIf="!record.isSent">
+                                                        <i class="fa fa-times-circle" title="True"></i>
+                                                    </span>
+                                                </td>
+<!-- 
+                                                <td [ngClass]="darkModeService.currentSkin === 'dark' ? 'table-dark' : ''">
+                                                    <span class="p-column-title">
+                                                        {{
+                                                            l(
+                                                                "
+                                                        Failed"
+                                                            )
+                                                        }}</span
+                                                    >
+                                                    <span *ngIf="record.isFailed">
+                                                        <i class="fa fa-check-circle text-success" title="True"></i>
+                                                    </span>
+                                                    <span *ngIf="!record.isFailed">
+                                                        <i class="fa fa-times-circle" title="True"></i>
+                                                    </span>
+                                                </td> -->
+
+                                                <td [ngClass]="darkModeService.currentSkin === 'dark' ? 'table-dark' : ''">
+                                                    <span class="p-column-title"> {{ l("deliverd") }}</span>
+                                                    <span *ngIf="record.isDelivered">
+                                                        <i class="fa fa-check-circle text-success" title="True"></i>
+                                                    </span>
+                                                    <span *ngIf="!record.isDelivered">
+                                                        <i class="fa fa-times-circle" title="True"></i>
+                                                    </span>
+                                                </td>
+
+                                                <td [ngClass]="darkModeService.currentSkin === 'dark' ? 'table-dark' : ''">
+                                                    <span class="p-column-title"> {{ l("read") }}</span>
+                                                    <span *ngIf="record.isRead">
+                                                        <i class="fa fa-check-circle text-success" title="True"></i>
+                                                    </span>
+                                                    <span *ngIf="!record.isRead">
+                                                        <i class="fa fa-times-circle" title="True"></i>
+                                                    </span>
+                                                </td>
+                                                <td [ngClass]="darkModeService.currentSkin === 'dark' ? 'table-dark' : ''">
+                                                    <span class="p-column-title"> {{ l("failed") }}</span>
+                                                    <span *ngIf="record.isFailed">
+                                                        <i class="fa fa-check-circle text-success" title="True"></i>
+                                                    </span>
+                                                    <span *ngIf="!record.isFailed">
+                                                        <i class="fa fa-times-circle" title="True"></i>
+                                                    </span>
+                                                </td>
+                                                <!-- <td [ngClass]="darkModeService.currentSkin === 'dark' ? 'table-dark' : ''">
+                                                    <span class="p-column-title"> {{ l("hanging") }}</span>
+                                                    <span *ngIf="record.isHanged">
+                                                        <i class="fa fa-check-circle text-success" title="True"></i>
+                                                    </span>
+                                                    <span *ngIf="!record.isHanged">
+                                                        <i class="fa fa-times-circle" title="True"></i>
+                                                    </span>
+                                                </td> -->
+                                            </tr>
+                                        </ng-template>
+                                    </p-table>
+                                    <div class="primeng-no-data" *ngIf="primengTableHelper.totalRecordsCount == 0">
+                                        {{ l("NoData") }}
+                                    </div>
+                                    <div class="primeng-paging-container">
+                                        <!-- <p-paginator
+                                            [ngClass]="darkModeService.currentSkin === 'dark' ? 'dark' : ''"
+                                            [rows]="20"
+                                            #paginator
+                                            (onPageChange)="getContacts($event)"
+                                            [totalRecords]="primengTableHelper.totalRecordsCount"
+                                            [rowsPerPageOptions]="[10, 20, 30]"
+                                        >
+                                        </p-paginator> -->
+                                        <span class="total-records-count">
+                                            {{ l("TotalRecordsCount", primengTableHelper.totalRecordsCount) }}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

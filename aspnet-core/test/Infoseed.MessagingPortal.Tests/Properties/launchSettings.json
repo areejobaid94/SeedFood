@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "Infoseed.MessagingPortal.Tests": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:58491;http://localhost:58494"
+    }
+  }
+}

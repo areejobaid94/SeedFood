@@ -1,0 +1,224 @@
+<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">
+                    <span>{{l("Details")}}</span>
+                </h4>
+                <button type="button" class="close" (click)="closee(item.order.stringTotal)" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+
+            <div class="modal-body">
+
+
+                <div class="center" style="padding-left: 64px ;font-size: 20px;">
+                    <div class="row">
+                        
+                        <div class="col-3 mb-3" style="font-size: 20px">                      
+                            <strong>{{l("Name")}} :</strong>
+                        </div>
+                        <div class="col-6 mb-3" style="font-size: 15px" *ngIf="item.order">                      
+                            {{ item.customerCustomerName }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-3 mb-3" style="font-size: 20px" *ngIf="item.order">                      
+                            <strong>{{l("Mobile")}} :</strong>
+                        </div>
+                        <div class="col-6 mb-3" style="font-size: 15px" *ngIf="item.order">                      
+                            {{ item.customerMobile}}
+                        </div>
+                    </div>
+                    <div class="row" *ngIf="item.branchName" >
+                        <div class="col-3 mb-3" style="font-size: 20px">                      
+                            <strong>{{l("Area")}} :</strong>
+                        </div>
+                        <div class="col-6 mb-3" style="font-size: 15px"*ngIf="item.order">                      
+                            {{ item.branchName }}
+                        </div>
+                    </div>
+                    <div class="row" *ngIf="item.areahName">
+                        <div class="col-3 mb-3" style="font-size: 20px">                      
+                            <strong>{{l("Branch")}} :</strong>
+                        </div>
+                        <div class="col-6 mb-3" style="font-size: 15px" *ngIf="item.order">                      
+                            {{ item.areahName }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-3 mb-3" style="font-size: 20px">                      
+                            <strong>{{l("Order #")}} :</strong>
+                        </div>
+                        <div class="col-6 mb-3" style="font-size: 15px" *ngIf="item.order">                      
+                            {{ item.orderNumber }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-3 mb-3" style="font-size: 20px">                      
+                            <strong>{{l("Time")}} :</strong>
+                        </div>
+                        <div class="col-6 mb-3" style="font-size: 15px" *ngIf="item.order">                      
+                            {{ item.deliveryChangeDeliveryServiceProvider}}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-3 mb-3" style="font-size: 20px">                      
+                            <strong>{{l("Status")}} :</strong>
+                        </div>
+                        <div class="col-6 mb-3" style="font-size: 15px" *ngIf="item.order">                      
+                            {{ item.orderStatusName }}
+                        </div>
+                    </div>
+                    <!-- <div class="row">
+                        <div class="col-3 mb-3" style="font-size: 20px">                      
+                            <strong>{{l("Type")}} :</strong>
+                        </div>
+                        <div class="col-6 mb-3" style="font-size: 15px" *ngIf="item.order">                      
+                            {{ item.orderTypeName }}
+                        </div>
+                    </div> -->
+                    <div class="row" *ngIf="item.branchAreaName">
+                        <div class="col-3 mb-3" style="font-size: 20px">                      
+                            <strong>{{l("Branch")}} :</strong>
+                        </div>
+                        <div class="col-6 mb-3" style="font-size: 15px" *ngIf="item.order">                      
+                            {{ item.branchAreaName }}
+                        </div>
+
+                    </div>
+                
+                </div>
+               
+
+            
+
+
+
+
+                <hr style="height:2px;border-width:0;color:rgb(47, 1, 253);background-color:rgb(0, 4, 255)">
+              
+                <br>
+
+                <div >
+                   
+
+
+                    <div class="row">
+                        <div class="col-4 mb-4" style="font-size: 20px">                      
+                            <strong>{{l("From")}} :</strong>
+                        </div>
+                        <div class="col-6 mb-3" style="font-size: 15px" *ngIf="deliveryDetail">  
+                            <a href="{{deliveryDetail.fromGoogleURL}}" target="_blank"> {{ deliveryDetail.fromAddress }}</a>                    
+                           
+                        </div>
+                    
+                    </div>
+
+                    <div class="row">
+                        <div class="col-4 mb-4" style="font-size: 20px  ;">                      
+                            <strong>{{l("From Long & Lati")}} :</strong>
+                        </div>
+                       
+
+                        <div class="col-6 mb-3" style="font-size: 15px " *ngIf="deliveryDetail">  
+                            {{ deliveryDetail.fromLongitudeLatitude }}                     
+                           
+                        </div>
+                       
+                    </div>
+
+                    <div class="row">
+                        <div class="col-4 mb-4" style="font-size: 20px ;">                      
+                            <strong>{{l("Location Desc")}} :</strong>
+                        </div>
+                       
+
+                        <div class="col-6 mb-3" style="font-size: 15px " *ngIf="item.order">  
+                            {{ item.order.fromLocationDescribation }}                     
+                           
+                        </div>
+                       
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-4 mb-4" style="font-size: 20px">                      
+                            <strong>{{l("To")}} :</strong>
+                        </div>
+                        <div class="col-6 mb-3" style="font-size: 15px" *ngIf="deliveryDetail">  
+                            <a href="{{deliveryDetail.toGoogleURL}}" target="_blank">{{ deliveryDetail.toAddress }}</a>                    
+                            
+                        </div>
+
+                    
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-4 mb-4" style="font-size: 20px ;">                      
+                            <strong>{{l("To Long & Lati")}} :</strong>
+                        </div>
+                       
+
+                        <div class="col-6 mb-3" style="font-size: 15px " *ngIf="deliveryDetail">  
+                            {{ deliveryDetail.toLongitudeLatitude }}                     
+                           
+                        </div>
+                       
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-4 mb-4" style="font-size: 20px">                      
+                            <strong>{{l("Order Desc")}} :</strong>
+                        </div>
+
+                        <div class="col-6 mb-3" style="font-size: 15px " *ngIf="item.order">  
+                             {{ item.order.orderDescribation }}                    
+                            
+                         </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <br>
+
+           
+                <hr style="height:2px;border-width:0;color:rgb(241, 22, 22);background-color:rgb(153, 48, 48)">
+
+                <br>
+                <br>
+                <br>
+                <br>
+
+                <div class="center" style="text-align: center;" *ngIf="item.order"> 
+
+                    <label style="font-size: 41px">Delivery fees</label>
+                   <p style="font-size: 41px"> {{item.order.stringTotal}} JD </p>
+                </div>
+
+
+            </div>
+            <div class="modal-footer" *ngIf="deliveryDetail && item.order">
+
+                <textarea   type="text" value="From :  {{deliveryDetail.fromGoogleURL}}&#13;&#10;&#13;&#10;Location Describatione :  {{ item.order.fromLocationDescribation }}&#13;&#10;&#13;&#10;To :  {{deliveryDetail.toGoogleURL}}&#13;&#10;&#13;&#10;Order Describation :  {{ item.order.orderDescribation }}&#13;&#10;&#13;&#10;Mobile :  {{ item.customerMobile}}&#13;&#10;&#13;&#10;Name: {{ item.customerCustomerName }}&#13;&#10;&#13;&#10;Delivery fees :{{item.order.stringTotal}} JD " #userinput  style="height: 1px;width: 1px;border: 0;position: absolute; margin-top: 500px;"> </textarea>
+                <button [disabled]="saving" type="button" class="btn btn-outline-info" (click)="copyInputMessage(userinput)" value="click to copy" >Copy Order</button>
+                <a [routerLink]="['/app/main/teamInbox/teamInbox']" [queryParams]="{CustomerID: item.customerID}" ><button class="btn btn-outline-dark" > Chat</button></a>
+                <button [disabled]="saving" type="button" class="btn btn-outline-success" (click)="done(item.order.stringTotal)">{{l("Reserved")}}</button>
+                <button [disabled]="saving" type="button" class="btn btn-outline-danger" (click)="delete(item.order.stringTotal)">{{l("Delete")}}</button>                
+                <button [disabled]="saving" type="button" class="btn btn-outline-secondary" (click)="closee(item.order.stringTotal)">{{l("Close")}}</button>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+
+

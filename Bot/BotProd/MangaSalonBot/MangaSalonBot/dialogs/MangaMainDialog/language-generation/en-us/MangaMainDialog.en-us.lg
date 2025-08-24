@@ -1,0 +1,30 @@
+[import](common.lg)
+
+# TextInput_Prompt_aThZrM()
+[Activity
+    Text = ${TextInput_Prompt_aThZrM_text()}
+]
+
+# TextInput_Prompt_aThZrM_text()
+- ${dialog.UserName}
+# SendActivity_D4k4wX()
+[Activity
+    Text = ${SendActivity_D4k4wX_text()}
+]
+
+# SendActivity_D4k4wX_text()
+- ${dialog.WelcomeMessage}
+
+# SendActivity_nmlAZY()
+[Activity
+    Text = ${SendActivity_nmlAZY_text()}
+]
+
+# SendActivity_nmlAZY_text()
+- ${dialog.AboutCaption}
+# SendActivity_zvSVKK_text()
+- ${dialog.AboutCaption}
+# SendActivity_zvSVKK()
+[Activity
+    Text = ${SendActivity_zvSVKK_text()}
+]

@@ -1,0 +1,34 @@
+[import](common.lg)
+
+# TextInput_Prompt_Ikb9Md()
+- ${CreateOrderAndDetailText(dialog.GetOrderAndDetailModel.content.result.detailText,dialog.op1,dialog.op2,dialog.op3)}
+# TextInput_Prompt_Ikb9Md_text()
+- ${CreateOrderAndDetailText(dialog.GetOrderAndDetailModel.content.result.detailText,dialog.op1,dialog.op2,dialog.op3)}
+
+#CreateOrderAndDetailText(text,Option1,Option2,Summary)
+[Activity
+  Text= ${text}
+  SuggestedActions = ${Option1} | ${Option2}
+  Summary =  ${Summary}  
+]
+# TextInput_Prompt_GLsIZ3_text()
+- ${dialog.ConfirmMeesage}
+# TextInput_Prompt_GLsIZ3()
+[Activity
+    Text = ${TextInput_Prompt_GLsIZ3_text()}
+    SuggestedActions = ${dialog.Cash} | ${dialog.Visa}
+]
+
+# TextInput_Prompt_D6kMsC()
+[Activity
+    Attachments = ${json(ButtonList(conversation.ChoosePaymentMethod,dialog.PaymentMethodList))}
+     InputHint=${dialog.InputHint}
+     Summary=${conversation.Summary}
+]
+# TextInput_Prompt_HUkB1p()
+[Activity
+    Text = ${TextInput_Prompt_HUkB1p_text()}
+]
+
+# TextInput_Prompt_HUkB1p_text()
+- ${conversation.link}

@@ -1,0 +1,16 @@
+{
+  "extends": "./tsconfig.json",
+  "files": [
+    "main.ts",
+    "polyfills.ts"
+  ],
+  "compilerOptions": {
+    "types": [
+      "googlemaps"
+    ]
+  },
+  "include": [
+    "src/**/*.d.ts",
+    "typings.d.ts"
+  ]
+}

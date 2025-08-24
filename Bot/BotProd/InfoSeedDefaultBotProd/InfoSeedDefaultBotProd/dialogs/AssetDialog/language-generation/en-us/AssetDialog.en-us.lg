@@ -1,0 +1,8 @@
+[import](common.lg)
+
+# TextInput_Prompt_eXKTyu()
+[Activity
+    Attachments = ${json(ButtonList2(conversation.select,dialog.ListFuel.content.result))}
+     InputHint=${dialog.InputHint}
+     Summary=${dialog.Summary}
+]

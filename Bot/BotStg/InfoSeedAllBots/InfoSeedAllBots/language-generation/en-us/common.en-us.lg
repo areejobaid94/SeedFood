@@ -1,0 +1,104 @@
+> To learn more about the LG file format, read the documentation at
+> https://aka.ms/lg-file-format
+
+#ButtonList(Text,List)
+- ``` 
+{
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "version": "1.0",
+    "type": "AdaptiveCard",
+    "body": [
+          {
+            "type": "TextBlock",
+            "text": "${Text}"
+        },
+        {
+            "type": "Input.ChoiceSet",
+            "choices": [
+                ${join(getChoiceList(List),',')}
+                               
+            ],
+            "placeholder": "",
+            "id": "InputAdultos"
+        }
+    ]
+}
+ ```
+# getChoiceList(adaptiveCardAccounts)
+- ${foreach(adaptiveCardAccounts, x, getChoice(x))}
+
+ #getChoice(listC)
+- ``` 
+ {
+     "title": "${listC}",
+     "value": "${listC} "
+ }
+ ```
+
+ #BookingTimeList(Text,List)
+- ``` 
+{
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "version": "1.0",
+    "type": "AdaptiveCard",
+    "body": [
+          {
+            "type": "TextBlock",
+            "text": "${Text}"
+        },
+        {
+            "type": "Input.ChoiceSet",
+            "choices": [
+                ${join(getChoiceBookingTimeList(List),',')}
+                               
+            ],
+            "placeholder": "",
+            "id": "InputAdultos"
+        }
+    ]
+}
+ ```
+# getChoiceBookingTimeList(adaptiveCardAccounts)
+- ${foreach(adaptiveCardAccounts, x, getBookingTimeChoice(x))}
+
+ #getBookingTimeChoice(listC)
+- ``` 
+ {
+     "title": "${listC.contactBookingTime}",
+     "value": "${listC.id} "
+ }
+ ```
+
+#BookingDateList(Text,List)
+- ``` 
+{
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "version": "1.0",
+    "type": "AdaptiveCard",
+    "body": [
+          {
+            "type": "TextBlock",
+            "text": "${Text}"
+        },
+        {
+            "type": "Input.ChoiceSet",
+            "choices": [
+                ${join(getChoiceBookingDateList(List),',')}
+                               
+            ],
+            "placeholder": "",
+            "id": "InputAdultos"
+        }
+    ]
+}
+ ```
+# getChoiceBookingDateList(adaptiveCardAccounts)
+- ${foreach(adaptiveCardAccounts, x, getBookingDateChoice(x))}
+
+ #getBookingDateChoice(listC)
+- ``` 
+ {
+     "title": "${listC.key}",
+     "value": "${listC.value}"
+ }
+ ```

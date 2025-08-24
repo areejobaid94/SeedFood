@@ -1,0 +1,37 @@
+[import](common.lg)
+
+# TextInput_Prompt_tvwRKi()
+[Activity
+    Text = ${TextInput_Prompt_tvwRKi_text()}
+    SuggestedActions = ${dialog.optionn1} | ${dialog.optionn2}
+]
+
+# TextInput_Prompt_tvwRKi_text()
+- ${dialog.qus}
+# SendActivity_Yi0Fte()
+[Activity
+    Text = ${SendActivity_Yi0Fte_text()}
+]
+
+# SendActivity_Yi0Fte_text()
+- ${dialog.confirm}
+# TextInput_Prompt_eJflgP()
+[Activity
+    Text = ${TextInput_Prompt_eJflgP_text()}
+    SuggestedActions = ${dialog.Option1} | ${dialog.Option2}
+]
+
+# TextInput_Prompt_eJflgP_text()
+- ${dialog.choose}
+# TextInput_Prompt_esrmzr()
+[Activity
+    Attachments = ${json(ButtonList(dialog.date,dialog.GetDay.content.result))}
+    InputHint=${dialog.InputHint}
+     Summary=${conversation.Summary}
+]
+# TextInput_Prompt_ZZo062()
+[Activity
+    Attachments = ${json(ButtonList(dialog.time,dialog.GetTime.content.result))}
+    InputHint=${dialog.InputHint}
+     Summary=${conversation.Summary}
+]

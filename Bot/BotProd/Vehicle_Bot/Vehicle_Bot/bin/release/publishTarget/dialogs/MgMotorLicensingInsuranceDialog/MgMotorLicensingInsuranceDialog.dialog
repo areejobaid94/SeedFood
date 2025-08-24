@@ -1,0 +1,219 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "nN1BMH",
+    "name": "MgMotorLicensingInsuranceDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "EXaq5r"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "A2O2bR"
+          },
+          "condition": "conversation.local",
+          "cases": [
+            {
+              "value": "ar",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "IL50KW"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.option1",
+                      "value": "فما فوق 2021"
+                    },
+                    {
+                      "property": "dialog.text",
+                      "value": "يرجى اختيار سنة الصنع السيارة"
+                    },
+                    {
+                      "property": "dialog.text1",
+                      "value": "يرجى ارسال صورة لرخصة السيارة من الأمام"
+                    },
+                    {
+                      "property": "dialog.text2",
+                      "value": "يرجى ارسال صورة لرخصة السيارة من الخلف"
+                    },
+                    {
+                      "property": "dialog.textEnd",
+                      "value": "شكرا لكم سيتم التواصل معكم في اقرب وقت ممكن "
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "en",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "gHvbBy"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.option1",
+                      "value": "Above 2021"
+                    },
+                    {
+                      "property": "dialog.text",
+                      "value": "Please select a vehicle year of manufacture"
+                    },
+                    {
+                      "property": "dialog.text1",
+                      "value": "Please send a copy of the car license from the front"
+                    },
+                    {
+                      "property": "dialog.text2",
+                      "value": "Please send a copy of the car license from the back"
+                    },
+                    {
+                      "value": "Thank you, we will contact you as soon as possible",
+                      "property": "dialog.textEnd"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "hLgpI9"
+          },
+          "property": "dialog.selectyears",
+          "value": "=dialog.option1"
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "IO7sgx"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "unrecognizedPrompt": "",
+          "invalidPrompt": "",
+          "prompt": "${TextInput_Prompt_IO7sgx()}",
+          "property": "dialog.selectyears",
+          "validations": [
+            "equals(this.value, 'فما فوق 2021') || equals(this.value, '#') || equals(this.value, 'Above 2021')"
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "p0dcrS"
+          },
+          "property": "conversation.InputDis",
+          "value": "=dialog.selectyears"
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "l0PYQe"
+          },
+          "property": "conversation.preText",
+          "value": "${dialog.text1}"
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "Z4Fef2"
+          },
+          "property": "conversation.isTow",
+          "value": false
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "tA1a6P"
+          },
+          "activityProcessed": true,
+          "dialog": "MgMotorAttachmentDialog"
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "dm1JlN"
+          },
+          "property": "conversation.preText",
+          "value": "${dialog.text2}"
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "sOOi4V"
+          },
+          "property": "conversation.isTow",
+          "value": true
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "xtHHo2"
+          },
+          "activityProcessed": true,
+          "dialog": "MgMotorAttachmentDialog"
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "j0zxhn"
+          },
+          "property": "dialog.updateOrder",
+          "value": {
+            "ContactName": "=conversation.DisplayName",
+            "ContactId": "=conversation.ContactId",
+            "TenantID": "=conversation.TenantId",
+            "PhoneNumber": "=conversation.phoneNumber",
+            "information": "=conversation.InputDis",
+            "AttachmetArray": "=conversation.AttachmetArray",
+            "AttachmetArrayTow": "=conversation.AttachmetArrayTow"
+          }
+        },
+        {
+          "$kind": "Microsoft.HttpRequest",
+          "$designer": {
+            "id": "A7qwCV"
+          },
+          "resultProperty": "dialog.OrderUpdateFinsh",
+          "method": "POST",
+          "url": "${conversation.URL}/api/BotAPI/UpdateSaleOffer",
+          "body": "= dialog.updateOrder",
+          "headers": {
+            "accept": "text/plain",
+            "Content-Type": "application/json-patch+json"
+          },
+          "responseType": "json"
+        },
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "T0IuTD"
+          },
+          "activity": "${SendActivity_T0IuTD()}"
+        }
+      ]
+    }
+  ],
+  "generator": "MgMotorLicensingInsuranceDialog.lg",
+  "recognizer": "MgMotorLicensingInsuranceDialog.lu.qna",
+  "id": "MgMotorLicensingInsuranceDialog"
+}

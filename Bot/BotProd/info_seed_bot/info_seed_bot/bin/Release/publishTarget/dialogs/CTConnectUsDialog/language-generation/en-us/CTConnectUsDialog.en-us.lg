@@ -1,0 +1,62 @@
+[import](common.lg)
+
+# TextInput_Prompt_IHnNCo()
+[Activity
+    Text = ${TextInput_Prompt_IHnNCo_text()}
+    Speak = ${TextInput_Prompt_IHnNCo_speak()}
+    SuggestedActions = ${dialog.Opation1} | ${dialog.Opation2} | ${dialog.Opation3}
+]
+
+# TextInput_Prompt_IHnNCo_text()
+- ${dialog.textCityCenter}
+# SendActivity_Aezn0A()
+[Activity
+    Text = ${SendActivity_Aezn0A_text()}
+    Speak = ${SendActivity_Aezn0A_speak()}
+]
+
+# SendActivity_Aezn0A_text()
+- ```عمان \- شارع الجادنز ( وصفي التل ) مجمع رقم 28 الطابق الاول
+
+https://www.google.com/maps/place/31%C2%B059'02.6%22N+35%C2%B053'18.3%22E/@31.9840675,35.8862334,17z/data=!3m1!4b1!4m5!3m4!1s0x0:0x3fd4436848d7639c!8m2!3d31.9840675!4d35.8884221?hl=en```
+# SendActivity_Jvk1QD()
+[Activity
+    Text = ${SendActivity_Jvk1QD_text()}
+    Speak = ${SendActivity_Jvk1QD_speak()}
+]
+
+# SendActivity_Jvk1QD_text()
+- ```من السبت الى الاربعاء 8 صباحا الى 6 مساء
+يوم الخميس من 8 صباحا الى 3 عصرا
+الجمعة العطلة الاسبوعية
+```
+# SendActivity_KtXHQD()
+[Activity
+    Text = ${SendActivity_KtXHQD_text()}
+    Speak = ${SendActivity_KtXHQD_speak()}
+]
+
+# SendActivity_KtXHQD_text()
+- ```ارقام هواتفنا :
+06\-5626110
+06\-5626110
+06\-5626114
+06\-5626116
+
+البريد الالكتروني
+Sales @citycenter.jo
+
+متجرنا الالكتروني
+www.citycenter.jo
+
+صفحتنا على الفيسبوك
+https://web.facebook.com/www.citycenter.jo/?_rdc=1&_rdr
+```
+# TextInput_Prompt_IHnNCo_speak()
+- ${conversation.BackText}
+# SendActivity_Aezn0A_speak()
+- ${conversation.BackText}
+# SendActivity_Jvk1QD_speak()
+- ${conversation.BackText}
+# SendActivity_KtXHQD_speak()
+- ${conversation.BackText}

@@ -1,0 +1,139 @@
+﻿@model Infoseed.MassagingPort.OrderingMenu.Pages.Model.OrderingMenuItemPagenationModel
+@{
+}
+<input id="hdSubCatCount" type="hidden" value="@Model.Count" />
+
+<section class="shadow   p-1 pt-3 " id="page1" >
+
+    @if (Model.SubCategoryName!= null)
+    {
+
+        <h4 class="float " id="@Model.SubCategoryId" style="float: none!important;">@Model.SubCategoryName</h4>
+        <br>
+        <hr class="mt-1">
+
+
+    }
+    <div class=" dirc p-0" >
+     
+
+        <div class="row m-0  ">
+@if (@Model.lstOrderingMenuItemModel != null)
+{
+   <input id="hdSubCatId" type="hidden" value="@Model.SubCategoryId" />
+
+
+
+    @if(Model.lstOrderingMenuItemModel.Count !=0 ){
+            
+    foreach (var item in Model.lstOrderingMenuItemModel)
+    {
+
+        <div class=" col-12 col-xl-6 col-lg-6 mb-2 p-1" id="myDIV">
+            <div class="product pb-0  m-0  d-flex @Html.Raw(item.HasOption && item.IsInService?"btn-product-detials": "")  " data-id="@item.Id" id="product">
+                <div class="product-header p-1 col-3 col-lg-4 col-xl-4  @Html.Raw(item.IsInService? "": "availablity")">
+                                    @if (@item.Discount != null && @item.Discount != "")
+                                    {
+                                        <span class="badge badge-success points">@item.Discount%</span>
+                                    }else{<span>
+
+                                    </span>}
+                                    @if (@item.ImageUri != null && @item.ImageUri != "")
+                    {
+                        <img class="img-fluid " src="@item.ImageUri" alt="">
+                    }
+                    else
+                    {
+                        <img class="img-fluid " src="img/404.png" alt="">
+                    }
+                    <hr class="m-0">
+                </div>
+                <div class="product-body col-9 col-lg-8 col-xl-8 p-1  ">
+                                 
+                               
+                                    <blockquote class="blockquote float respon pt-2  @Html.Raw(item.IsInService? "": "availablity") ">
+                        <h5> <strong>@item.ItemName</strong> </h5>
+
+                        @if(item.ItemDescription != ""){
+                        <footer class="blockquote-footer turncate">@item.ItemDescription  </footer>
+                        }
+                    </blockquote>
+                    <div class="product-footer ">
+                        <div class=" d-flex col-12 p-0" data-id="@item.Id">
+                            @if (item.IsInService)
+                            {
+                                <div class="col-10 text-center p-0 mt-1">
+                                    
+                                    <p asp-action="AddToCart(@item)" class="mb-0">
+                                                        @if (item.OldPrice != null && item.OldPrice != item.Price)
+                                        {
+                                                            <span class="regular-price">
+                                                                <i class="mdi mdi-tag-outline"></i>  @item.OldPrice
+                                                            </span>
+                                        }
+                                                        <span class="text-success offer-price  p-2"><strong id="stItemPrice"> @item.Price <span class="currencyCode"> @item.CurrencyCode</span></strong> </span>
+                                    </p>
+                                </div>
+
+                                                @if (Model.IsApplayLoyal && item.LoyaltycreditPoints != 0)
+                                                {
+
+                                                    <div class="p">
+                                                        <h5 class="badge points"> <i class="  text-warning mdi mdi-star-circle"></i>@item.LoyaltycreditPoints</h5>
+                                                        <div class="hint">
+
+                                                            @localizer.Get("creditPoint") @item.LoyaltycreditPoints @localizer.Get("point")
+
+                                                        </div>
+                                                    </div>
+
+                                                }
+
+
+
+                            }
+                            else
+                            {//<button class="btn btn-secondary btn-sm col-12" asp-action="AddToCart(@item)" disabled> <i class="mdi mdi-cart-outline"></i> Not Available</button>
+                                <div class="d-flex col-12 p-0">
+                                                    <div class="col-6 text-center p-0 mt-1 availablity  ">
+
+                                                        <p  class="mb-0">
+
+                                                            <span class="text-success offer-price  p-3"><strong id="stItemPrice"> @item.Price <span class="currencyCode"> @item.CurrencyCode</span></strong> </span>
+                                                        </p>
+                                                    </div>
+                                    <div class="float p-0 col-6 ">
+                                        <h5 class="text-danger">@localizer.Get("availablity")</h5>
+                                    </div>
+                                </div>
+                            }
+
+
+                        </div>
+                    </div>
+
+
+
+                </div>
+            </div>
+
+
+        </div>
+
+
+    }
+}
+    else{
+
+
+                    <h6 class=" float text-center"> No Items</h6>
+                }
+
+            }
+        </div>
+    </div>
+
+   
+</section>
+
+

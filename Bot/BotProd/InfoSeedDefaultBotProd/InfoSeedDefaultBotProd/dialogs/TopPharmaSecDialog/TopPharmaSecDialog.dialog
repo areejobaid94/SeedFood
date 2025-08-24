@@ -1,0 +1,652 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "I0cdmn",
+    "name": "TopPharmaSecDialog",
+    "comment": "secondary dialog"
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "jjMrLH"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "3wKcdy"
+          },
+          "condition": " conversation.local",
+          "cases": [
+            {
+              "value": "ar",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "g4cTRB"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.option1",
+                      "value": "الدورات المعتمدة"
+                    },
+                    {
+                      "property": "dialog.option2",
+                      "value": "نظام ادارة التدريب"
+                    },
+                    {
+                      "property": "dialog.option3",
+                      "value": "الدعم الفني"
+                    },
+                    {
+                      "property": "dialog.option4",
+                      "value": " الدورات المجانية"
+                    },
+                    {
+                      "property": "dialog.option5",
+                      "value": " الدورات الغير مجانية"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "en",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "zpRPPr"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.option1",
+                      "value": "Accredited Courses"
+                    },
+                    {
+                      "property": "dialog.option2",
+                      "value": "Training M.System"
+                    },
+                    {
+                      "property": "dialog.option3",
+                      "value": "Technical Support"
+                    },
+                    {
+                      "property": "dialog.option4",
+                      "value": " Free Courses"
+                    },
+                    {
+                      "property": "dialog.option5",
+                      "value": " Paid Courses"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "kzPOYV"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "prompt": "${TextInput_Prompt_kzPOYV()}",
+          "unrecognizedPrompt": "",
+          "defaultValueResponse": "",
+          "property": "dialog.UserInput",
+          "validations": [
+            "=contains(this.value, 'الدعم الفني') ||contains(this.value, 'نظام ادارة التدريب')  ||contains(this.value, 'Training M.System') ||contains(this.value, 'Accredited Courses')||contains(this.value, 'Technical Support') ||contains(this.value, 'الدورات المعتمدة') ||contains(this.value, '#')"
+          ]
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "etotS1"
+          },
+          "condition": "dialog.UserInput",
+          "cases": [
+            {
+              "value": "الدعم الفني",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "TRVXNQ"
+                  },
+                  "property": "conversation.contactNow",
+                  "value": false
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "MUme2L"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TopPharmaContactDialog"
+                }
+              ]
+            },
+            {
+              "value": "نظام ادارة التدريب",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "A0Trci"
+                  },
+                  "activity": "${SendActivity_A0Trci()}"
+                },
+                {
+                  "$kind": "Microsoft.TextInput",
+                  "$designer": {
+                    "id": "5gBAPN"
+                  },
+                  "disabled": false,
+                  "maxTurnCount": 100,
+                  "alwaysPrompt": false,
+                  "allowInterruptions": true,
+                  "property": "dialog.ContactInput1",
+                  "prompt": "${TextInput_Prompt_5gBAPN()}",
+                  "validations": [
+                    "equals(this.value, 'تواصل معنا') ||equals(this.value, 'دردشة مباشرة') ||equals(this.value, 'Live Chat') ||equals(this.value, 'Contact Us') ||equals(this.value, '#')"
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SwitchCondition",
+                  "$designer": {
+                    "id": "AhAoE5"
+                  },
+                  "condition": "dialog.ContactInput1",
+                  "cases": [
+                    {
+                      "value": "دردشة مباشرة",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "1FHKpj"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "LiveChatDialog"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "Live Chat",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "hqqEGN"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "LiveChatDialog"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "الدورات المعتمدة",
+              "actions": [
+                {
+                  "$kind": "Microsoft.TextInput",
+                  "$designer": {
+                    "id": "VfNSMc"
+                  },
+                  "disabled": false,
+                  "maxTurnCount": 100,
+                  "alwaysPrompt": false,
+                  "allowInterruptions": true,
+                  "prompt": "${TextInput_Prompt_VfNSMc()}",
+                  "unrecognizedPrompt": "",
+                  "property": "dialog.courseInput",
+                  "validations": [
+                    "=contains(this.value, 'الدعم الفني') ||contains(this.value, 'الدورات الغير مجانية')  ||contains(this.value, 'الدورات المجانية') ||contains(this.value, '#')"
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SwitchCondition",
+                  "$designer": {
+                    "id": "kiCEdo"
+                  },
+                  "condition": "dialog.courseInput",
+                  "cases": [
+                    {
+                      "value": "الدورات الغير مجانية",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SendActivity",
+                          "$designer": {
+                            "id": "cVpMQc"
+                          },
+                          "activity": "${SendActivity_cVpMQc()}"
+                        },
+                        {
+                          "$kind": "Microsoft.TextInput",
+                          "$designer": {
+                            "id": "PLDBSE"
+                          },
+                          "disabled": false,
+                          "maxTurnCount": 100,
+                          "alwaysPrompt": false,
+                          "allowInterruptions": true,
+                          "property": "dialog.ContactInput1",
+                          "prompt": "${TextInput_Prompt_PLDBSE()}",
+                          "validations": [
+                            "equals(this.value, 'تواصل معنا') ||equals(this.value, 'دردشة مباشرة') ||equals(this.value, 'Live Chat') ||equals(this.value, 'Contact Us') ||equals(this.value, '#') "
+                          ]
+                        },
+                        {
+                          "$kind": "Microsoft.SwitchCondition",
+                          "$designer": {
+                            "id": "YUx5J6"
+                          },
+                          "condition": "dialog.ContactInput1",
+                          "cases": [
+                            {
+                              "value": "دردشة مباشرة",
+                              "actions": [
+                                {
+                                  "$kind": "Microsoft.BeginDialog",
+                                  "$designer": {
+                                    "id": "SEXT4N"
+                                  },
+                                  "activityProcessed": true,
+                                  "dialog": "LiveChatDialog"
+                                }
+                              ]
+                            },
+                            {
+                              "value": "Live Chat",
+                              "actions": [
+                                {
+                                  "$kind": "Microsoft.BeginDialog",
+                                  "$designer": {
+                                    "id": "160RgS"
+                                  },
+                                  "activityProcessed": true,
+                                  "dialog": "LiveChatDialog"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SendActivity",
+                          "$designer": {
+                            "id": "kHz0RO"
+                          },
+                          "activity": "${SendActivity_kHz0RO()}"
+                        },
+                        {
+                          "$kind": "Microsoft.TextInput",
+                          "$designer": {
+                            "id": "g3jyy6"
+                          },
+                          "disabled": false,
+                          "maxTurnCount": 100,
+                          "alwaysPrompt": false,
+                          "allowInterruptions": true,
+                          "property": "dialog.ContactInput1",
+                          "prompt": "${TextInput_Prompt_g3jyy6()}",
+                          "validations": [
+                            "equals(this.value, 'تواصل معنا') ||equals(this.value, 'دردشة مباشرة') ||equals(this.value, 'Live Chat') ||equals(this.value, 'Contact Us') ||equals(this.value, '#') "
+                          ]
+                        },
+                        {
+                          "$kind": "Microsoft.SwitchCondition",
+                          "$designer": {
+                            "id": "RiLj84"
+                          },
+                          "condition": "dialog.ContactInput1",
+                          "cases": [
+                            {
+                              "value": "دردشة مباشرة",
+                              "actions": [
+                                {
+                                  "$kind": "Microsoft.BeginDialog",
+                                  "$designer": {
+                                    "id": "mhsqkx"
+                                  },
+                                  "activityProcessed": true,
+                                  "dialog": "LiveChatDialog"
+                                }
+                              ]
+                            },
+                            {
+                              "value": "Live Chat",
+                              "actions": [
+                                {
+                                  "$kind": "Microsoft.BeginDialog",
+                                  "$designer": {
+                                    "id": "ScCWxv"
+                                  },
+                                  "activityProcessed": true,
+                                  "dialog": "LiveChatDialog"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ],
+                      "value": "الدورات المجانية"
+                    },
+                    {
+                      "value": "الدعم الفني",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "774HPt"
+                          },
+                          "property": "conversation.contactNow",
+                          "value": false
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "7INdFO"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "TopPharmaContactDialog"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "Gp4HIk"
+          },
+          "condition": "dialog.UserInput",
+          "cases": [
+            {
+              "value": "Technical Support",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "Ncrwvl"
+                  },
+                  "property": "conversation.contactNow",
+                  "value": false
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "n92I2J"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TopPharmaContactDialog"
+                }
+              ]
+            },
+            {
+              "value": "Training M.System",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "RTMY3P"
+                  },
+                  "activity": "${SendActivity_RTMY3P()}"
+                },
+                {
+                  "$kind": "Microsoft.TextInput",
+                  "$designer": {
+                    "id": "X2jiee"
+                  },
+                  "disabled": false,
+                  "maxTurnCount": 100,
+                  "alwaysPrompt": false,
+                  "allowInterruptions": true,
+                  "property": "dialog.ContactInput1",
+                  "prompt": "${TextInput_Prompt_X2jiee()}",
+                  "validations": [
+                    "equals(this.value, 'تواصل معنا') ||equals(this.value, 'دردشة مباشرة') ||equals(this.value, 'Live Chat') ||equals(this.value, 'Contact Us') ||equals(this.value, '#')"
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SwitchCondition",
+                  "$designer": {
+                    "id": "lx7Ag9"
+                  },
+                  "condition": "dialog.ContactInput1",
+                  "cases": [
+                    {
+                      "value": "دردشة مباشرة",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "WmrH2h"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "LiveChatDialog"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "Live Chat",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "tdMMKL"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "LiveChatDialog"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "Accredited Courses",
+              "actions": [
+                {
+                  "$kind": "Microsoft.TextInput",
+                  "$designer": {
+                    "id": "dhYIfB"
+                  },
+                  "disabled": false,
+                  "maxTurnCount": 100,
+                  "alwaysPrompt": false,
+                  "allowInterruptions": true,
+                  "prompt": "${TextInput_Prompt_dhYIfB()}",
+                  "unrecognizedPrompt": "",
+                  "invalidPrompt": "",
+                  "property": "dialog.courseInput",
+                  "validations": [
+                    "=contains(this.value, 'Paid Courses') ||contains(this.value, 'Free Courses') ||contains(this.value, 'Technical Support')  ||contains(this.value, '#')"
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SwitchCondition",
+                  "$designer": {
+                    "id": "JKJ7X5"
+                  },
+                  "condition": "dialog.courseInput",
+                  "cases": [
+                    {
+                      "value": "Paid Courses",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SendActivity",
+                          "$designer": {
+                            "id": "WfvCp3"
+                          },
+                          "activity": "${SendActivity_WfvCp3()}"
+                        },
+                        {
+                          "$kind": "Microsoft.TextInput",
+                          "$designer": {
+                            "id": "2720GI"
+                          },
+                          "disabled": false,
+                          "maxTurnCount": 100,
+                          "alwaysPrompt": false,
+                          "allowInterruptions": true,
+                          "property": "dialog.ContactInput1",
+                          "prompt": "${TextInput_Prompt_2720GI()}",
+                          "validations": [
+                            "equals(this.value, 'تواصل معنا') ||equals(this.value, 'دردشة مباشرة') ||equals(this.value, 'Live Chat') ||equals(this.value, 'Contact Us') ||equals(this.value, '#') "
+                          ]
+                        },
+                        {
+                          "$kind": "Microsoft.SwitchCondition",
+                          "$designer": {
+                            "id": "uRuHug"
+                          },
+                          "condition": "dialog.ContactInput1",
+                          "cases": [
+                            {
+                              "value": "دردشة مباشرة",
+                              "actions": [
+                                {
+                                  "$kind": "Microsoft.BeginDialog",
+                                  "$designer": {
+                                    "id": "xuhKKs"
+                                  },
+                                  "activityProcessed": true,
+                                  "dialog": "LiveChatDialog"
+                                }
+                              ]
+                            },
+                            {
+                              "value": "Live Chat",
+                              "actions": [
+                                {
+                                  "$kind": "Microsoft.BeginDialog",
+                                  "$designer": {
+                                    "id": "dGZa3K"
+                                  },
+                                  "activityProcessed": true,
+                                  "dialog": "LiveChatDialog"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "value": "Free Courses",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SendActivity",
+                          "$designer": {
+                            "id": "EJkjLU"
+                          },
+                          "activity": "${SendActivity_EJkjLU()}"
+                        },
+                        {
+                          "$kind": "Microsoft.TextInput",
+                          "$designer": {
+                            "id": "0dKmv0"
+                          },
+                          "disabled": false,
+                          "maxTurnCount": 100,
+                          "alwaysPrompt": false,
+                          "allowInterruptions": true,
+                          "property": "dialog.ContactInput1",
+                          "prompt": "${TextInput_Prompt_0dKmv0()}",
+                          "validations": [
+                            "equals(this.value, 'تواصل معنا') ||equals(this.value, 'دردشة مباشرة') ||equals(this.value, 'Live Chat') ||equals(this.value, 'Contact Us') ||equals(this.value, '#') "
+                          ]
+                        },
+                        {
+                          "$kind": "Microsoft.SwitchCondition",
+                          "$designer": {
+                            "id": "jkI5W5"
+                          },
+                          "condition": "dialog.ContactInput1",
+                          "cases": [
+                            {
+                              "value": "دردشة مباشرة",
+                              "actions": [
+                                {
+                                  "$kind": "Microsoft.BeginDialog",
+                                  "$designer": {
+                                    "id": "sfiCzn"
+                                  },
+                                  "activityProcessed": true,
+                                  "dialog": "LiveChatDialog"
+                                }
+                              ]
+                            },
+                            {
+                              "value": "Live Chat",
+                              "actions": [
+                                {
+                                  "$kind": "Microsoft.BeginDialog",
+                                  "$designer": {
+                                    "id": "Q9iKc5"
+                                  },
+                                  "activityProcessed": true,
+                                  "dialog": "LiveChatDialog"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "value": "Technical Support",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "DtP1rr"
+                          },
+                          "property": "conversation.contactNow",
+                          "value": false
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "c2LPPk"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "TopPharmaContactDialog"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "generator": "TopPharmaSecDialog.lg",
+  "recognizer": "TopPharmaSecDialog.lu.qna",
+  "id": "TopPharmaSecDialog"
+}

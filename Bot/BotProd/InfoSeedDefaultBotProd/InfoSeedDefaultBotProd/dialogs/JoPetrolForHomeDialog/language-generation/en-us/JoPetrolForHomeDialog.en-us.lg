@@ -1,0 +1,9 @@
+[import](common.lg)
+
+# TextInput_Prompt_KRzE0C()
+[Activity
+    Attachments = ${json(ButtonAndImageList(dialog.HintPlaseCaption,dialog.OptionList,dialog.imageUrl))}
+    InputHint=منطقتك
+    Summary=${conversation.Summary}
+    Speak = ${dialog.imageUrl}
+]

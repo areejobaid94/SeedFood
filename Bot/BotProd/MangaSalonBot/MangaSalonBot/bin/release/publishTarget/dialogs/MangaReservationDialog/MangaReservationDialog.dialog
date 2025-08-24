@@ -1,0 +1,253 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "0PfFoS",
+    "name": "MangaReservationDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "1nVmpw"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "xweRmK"
+          },
+          "condition": "conversation.local",
+          "cases": [
+            {
+              "value": "ar",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "v58g3d"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.Option1",
+                      "value": "قسم التجميل"
+                    },
+                    {
+                      "property": "dialog.Option2",
+                      "value": "قسم الشعر"
+                    },
+                    {
+                      "property": "dialog.Option3",
+                      "value": "قسم الاظافر"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "en",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "q1P8yw"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.Option1",
+                      "value": "Make up"
+                    },
+                    {
+                      "property": "dialog.Option2",
+                      "value": "Hair section"
+                    },
+                    {
+                      "property": "dialog.Option3",
+                      "value": "Nails section"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "B8SV9R"
+          },
+          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3613)).text",
+          "property": "dialog.SectionCaption"
+        },
+        {
+          "$kind": "Microsoft.DeleteProperty",
+          "$designer": {
+            "id": "Fe9G7e"
+          },
+          "property": "dialog.UserSelect"
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "DQLmRp"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "unrecognizedPrompt": "",
+          "invalidPrompt": "",
+          "prompt": "${TextInput_Prompt_DQLmRp()}",
+          "property": "dialog.UserSelect",
+          "validations": [
+            "equals(this.value, 'قسم التجميل') || equals(this.value, 'قسم الشعر') || equals(this.value, 'قسم الاظافر') || equals(this.value, 'Nails section') || equals(this.value, 'Hair section') || equals(this.value, 'Make up') || equals(this.value, '#')"
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "MVeahd"
+          },
+          "property": "conversation.RequestValue3",
+          "value": "${dialog.UserSelect}"
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "UtZP7e"
+          },
+          "condition": "dialog.UserSelect",
+          "cases": [
+            {
+              "value": "قسم التجميل",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "2Ywegq"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "MangaMakeUpDialog"
+                }
+              ]
+            },
+            {
+              "value": "قسم الشعر",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "ylVjFo"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "MangaHairDialog"
+                }
+              ]
+            },
+            {
+              "value": "قسم الاظافر",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "l4TtFx"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "MangaNailsDialog"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "m0LBN8"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "MangaShardNailsDialog"
+                },
+                {
+                  "$kind": "Microsoft.EndDialog",
+                  "$designer": {
+                    "id": "qwPMZO"
+                  }
+                }
+              ]
+            },
+            {
+              "value": "Make up",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "hjKn9L"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "MangaMakeUpDialog"
+                }
+              ]
+            },
+            {
+              "value": "Hair section",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "1qJher"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "MangaHairDialog"
+                }
+              ]
+            },
+            {
+              "value": "Nails section",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "VXRK4n"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "MangaNailsDialog"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "IBnGoA"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "MangaShardNailsDialog"
+                },
+                {
+                  "$kind": "Microsoft.EndDialog",
+                  "$designer": {
+                    "id": "hogGPg"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "OCpxwE"
+          },
+          "activityProcessed": true,
+          "dialog": "MangaShardDialog"
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "QdAovJ"
+          }
+        }
+      ]
+    }
+  ],
+  "generator": "MangaReservationDialog.lg",
+  "recognizer": "MangaReservationDialog.lu.qna",
+  "id": "MangaReservationDialog"
+}

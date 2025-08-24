@@ -1,0 +1,526 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "nEAzAa",
+    "name": "Bustami_SahebBrandsDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "HlxtX0"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "803oIC"
+          },
+          "condition": "conversation.local",
+          "cases": [
+            {
+              "value": "ar",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "u7bCyH"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.Summary",
+                      "value": "يمكنك إرسال # في أي وقت للعودة إلى القائمة الرئيسية"
+                    },
+                    {
+                      "property": "dialog.choose",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId ==5)).text"
+                    },
+                    {
+                      "property": "dialog.InputHint",
+                      "value": "القائمة"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "bxgwId"
+                  },
+                  "property": "dialog.Lst",
+                  "value": [
+                    "مبيعات السيارات",
+                    "الصيانة وقطع الغيار",
+                    "خدمة العملاء",
+                    "مواقعنا وساعات العمل",
+                    "إنضم لعائلتنا"
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "uM21Kt"
+                  },
+                  "condition": "conversation.Brand==\"نيسان\"",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.SetProperties",
+                      "$designer": {
+                        "id": "nmOiUl"
+                      },
+                      "assignments": [
+                        {
+                          "property": "dialog.text",
+                          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId ==4)).text"
+                        },
+                        {
+                          "property": "dialog.text222",
+                          "value": "=replace(dialog.text, '{0}', conversation.DisplayName)"
+                        }
+                      ]
+                    }
+                  ],
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.IfCondition",
+                      "$designer": {
+                        "id": "IGiP1q"
+                      },
+                      "elseActions": [
+                        {
+                          "$kind": "Microsoft.SetProperties",
+                          "$designer": {
+                            "id": "ty3kvs"
+                          },
+                          "assignments": [
+                            {
+                              "property": "dialog.text",
+                              "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId ==23)).text"
+                            },
+                            {
+                              "property": "dialog.text222",
+                              "value": "=replace(dialog.text, '{0}', conversation.DisplayName)"
+                            }
+                          ]
+                        }
+                      ],
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperties",
+                          "$designer": {
+                            "id": "y0QEIC"
+                          },
+                          "assignments": [
+                            {
+                              "property": "dialog.text",
+                              "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId ==1300)).text"
+                            },
+                            {
+                              "property": "dialog.text222",
+                              "value": "=replace(dialog.text, '{0}', conversation.DisplayName)"
+                            }
+                          ]
+                        }
+                      ],
+                      "condition": "conversation.Brand==\"BYD\""
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "en",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "lDGKbI"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.Summary",
+                      "value": "You can send # earlier to the main menu"
+                    },
+                    {
+                      "property": "dialog.choose",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId ==5)).text"
+                    },
+                    {
+                      "property": "dialog.InputHint",
+                      "value": "Menu"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "VdgZwM"
+                  },
+                  "property": "dialog.Lst",
+                  "value": [
+                    "Cars",
+                    "Services",
+                    "Customer Service",
+                    "Locations",
+                    "Join Our Family"
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "xww8dZ"
+                  },
+                  "condition": "conversation.Brand==\"NISSAN\"",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.SetProperties",
+                      "$designer": {
+                        "id": "aVk4R5"
+                      },
+                      "assignments": [
+                        {
+                          "property": "dialog.text",
+                          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId ==4)).text"
+                        },
+                        {
+                          "property": "dialog.text222",
+                          "value": "=replace(dialog.text, '{0}', conversation.DisplayName)"
+                        }
+                      ]
+                    }
+                  ],
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.IfCondition",
+                      "$designer": {
+                        "id": "Z1nXWH"
+                      },
+                      "elseActions": [
+                        {
+                          "$kind": "Microsoft.SetProperties",
+                          "$designer": {
+                            "id": "nZwJQ9"
+                          },
+                          "assignments": [
+                            {
+                              "property": "dialog.text",
+                              "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId ==23)).text"
+                            },
+                            {
+                              "property": "dialog.text222",
+                              "value": "=replace(dialog.text, '{0}', conversation.DisplayName)"
+                            }
+                          ]
+                        }
+                      ],
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperties",
+                          "$designer": {
+                            "id": "OVdD3L"
+                          },
+                          "assignments": [
+                            {
+                              "property": "dialog.text",
+                              "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId ==1300)).text"
+                            },
+                            {
+                              "property": "dialog.text222",
+                              "value": "=replace(dialog.text, '{0}', conversation.DisplayName)"
+                            }
+                          ]
+                        }
+                      ],
+                      "condition": "conversation.Brand==\"BYD\""
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "default": []
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "hc7Emx"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "prompt": "${TextInput_Prompt_hc7Emx()}",
+          "property": "dialog.UserInput",
+          "validations": [
+            "=equals(this.value, 'مبيعات السيارات')|| equals(this.value, 'الصيانة وقطع الغيار')|| equals(this.value, '#') || equals(this.value, 'إنضم لعائلتنا') || equals(this.value, 'Join Our Family') || equals(this.value, 'خدمة العملاء')  || equals(this.value, 'مواقعنا وساعات العمل')|| equals(this.value, 'Cars')|| equals(this.value, 'Services')|| contains(this.value, 'Customer Service')|| equals(this.value, 'Locations')"
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "7jDEI0"
+          },
+          "property": "conversation.Department2",
+          "value": "=dialog.UserInput"
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "2X58pZ"
+          },
+          "property": "conversation.Brand2",
+          "value": "=dialog.UserInput"
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "g53SUO"
+          },
+          "condition": "dialog.UserInput",
+          "cases": [
+            {
+              "value": "مبيعات السيارات",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "7Xr3Tt"
+                  },
+                  "property": "conversation.DepartmentNameSelect2",
+                  "value": "1"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "xTUYFf"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "Bustami_SahebSalesDialog"
+                }
+              ]
+            },
+            {
+              "value": "الصيانة وقطع الغيار",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "zObwx1"
+                  },
+                  "property": "conversation.DepartmentNameSelect2",
+                  "value": "2"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "LpO3A4"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "Bustami_SahebMaintenanceDialog"
+                }
+              ]
+            },
+            {
+              "value": "خدمة العملاء",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "WEb1R0"
+                  },
+                  "property": "conversation.DepartmentNameSelect2",
+                  "value": "3"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "RywsEf"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "Bustami_SahebSelectDepartmentIDDialog"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "nhRtGc"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "Bustami_SahebServiceDialog"
+                }
+              ]
+            },
+            {
+              "value": "مواقعنا وساعات العمل",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "WSe7BI"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "Bustami_SahebLocationsDialog"
+                }
+              ]
+            },
+            {
+              "value": "إنضم لعائلتنا",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "0CYR3Q"
+                  },
+                  "property": "conversation.DepartmentNameSelect2",
+                  "value": "4"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "DlRGeX"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "Bustami_SahebSelectDepartmentIDDialog"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "6CYvL1"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "Bustami_SahebJoinUsDialog"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "w2RMgO"
+          },
+          "condition": "dialog.UserInput",
+          "cases": [
+            {
+              "value": "Cars",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "sZEguL"
+                  },
+                  "property": "conversation.DepartmentNameSelect2",
+                  "value": "1"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "yL1nlB"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "Bustami_SahebSalesDialog"
+                }
+              ]
+            },
+            {
+              "value": "Services",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "9GA1DZ"
+                  },
+                  "property": "conversation.DepartmentNameSelect2",
+                  "value": "2"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "MWqyAo"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "Bustami_SahebMaintenanceDialog"
+                }
+              ]
+            },
+            {
+              "value": "Customer Service",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "WK4lxu"
+                  },
+                  "property": "conversation.DepartmentNameSelect2",
+                  "value": "3"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "xlZ1sw"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "Bustami_SahebSelectDepartmentIDDialog"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "STQNxf"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "Bustami_SahebServiceDialog"
+                }
+              ]
+            },
+            {
+              "value": "Locations",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "XBxQOP"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "Bustami_SahebLocationsDialog"
+                }
+              ]
+            },
+            {
+              "value": "Join Our Family",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "QHDDg7"
+                  },
+                  "property": "conversation.DepartmentNameSelect2",
+                  "value": "4"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "SpO47n"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "Bustami_SahebJoinUsDialog"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "DTDX3V"
+          }
+        }
+      ]
+    }
+  ],
+  "generator": "Bustami_SahebBrandsDialog.lg",
+  "recognizer": "Bustami_SahebBrandsDialog.lu.qna",
+  "id": "Bustami_SahebBrandsDialog"
+}

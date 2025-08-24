@@ -1,0 +1,302 @@
+<div>
+    <div class="header-navbar-shadow"></div>
+    <div class="content-wrapper p-0">
+        <div class="content-body">
+            <!-- <div class="progress-spinner" *ngIf="primengTableHelper.isLoading">
+                <p-progressSpinner styleClass="w-4rem h-4rem" strokeWidth="6" animationDuration=".9s"></p-progressSpinner>
+            </div> -->
+            <div class="d-flex flex-column flex-column-fluid">
+                <!-- <div class="content-header row content-header row subheader subheader-transparent align-items-center d-flex flex-sm-nowrap flex-wrap justify-content-between">
+                    <div class="d-flex justify-content-center align-items-baseline">
+                        <label for="GroupName" class="mx-1">{{ l("groupName") }}</label>
+                        <div class="d-flex flex-column col-8">
+                            <input
+                                id="GroupName"
+                                name="GroupName"
+                                [maxlength]="20"
+                                type="text"
+                                class="col-8 form-control customInput"
+                                [(ngModel)]="groupName"
+                                placeholder="Group name"
+                                maxlength="50"
+                                [class.error]="submitted && groupName.length === 0"
+                            />
+                            <p class="text-danger" *ngIf="submitted && groupName.length === 0">{{ l("ThisFieldIsRequired") }}</p>
+                        </div>
+                    </div>
+                </div> -->
+
+                <div class="card-custom gutter-b card">
+                    <div class="card-body">
+                        <p-dialog
+                            header="Header"
+                            [closeOnEscape]="false"
+                            [closable]="false"
+                            [resizable]="false"
+                            [modal]="true"
+                            [maximizable]="true"
+                            appendTo="body"
+                            [(visible)]="visible"
+                            [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }"
+                            [style]="{ width: '75vw' }"
+                            [contentStyle]="{ height: '450px' }"
+                        >
+                            <ng-template pTemplate="header">
+                                <div class="inline-flex align-items-center justify-content-center gap-2">
+                                    <span class="font-bold white-space-nowrap"> {{ l("information") }}</span>
+                                </div>
+                            </ng-template>
+
+                            <ng-container *ngIf="groupAddResult?.state === 2 && groupAddResult?.failedCount > 0">
+                                <p *ngIf="groupAddResult?.successCount > 0">
+                                    <span style="color: green">{{ groupAddResult?.successCount }}</span> Contact Succefully Added To Group
+                                </p>
+                                <p-table
+                                    responsiveLayout="stack"
+                                    [breakpoint]="'960px'"
+                                    [value]="groupAddResult.failedAdd"
+                                    [scrollable]="true"
+                                    scrollHeight="flex"
+                                    [tableStyle]="{ 'min-width': '20rem' }"
+                                >
+                                    <ng-template pTemplate="caption">
+                                        <ng-container *ngIf="groupAddResult">
+                                            {{ l("numberOfInvalidNumber") }} <span [ngStyle]="{ color: 1 ? 'red' : 'green' }">{{ groupAddResult?.failedCount }}</span>
+                                        </ng-container>
+                                    </ng-template>
+
+                                    <ng-template pTemplate="header">
+                                        <tr>
+                                            <th>{{ l("ContactName") }}</th>
+                                            <th>{{ l("PhoneNumber") }}</th>
+                                            <th>{{ l("createGroupFromExcelReason") }}</th>
+                                        </tr>
+                                    </ng-template>
+                                    <ng-template pTemplate="body" let-contact>
+                                        <tr>
+                                            <td>{{ contact.displayName }}</td>
+                                            <td>{{ contact.phoneNumber }}</td>
+                                            <td *ngIf="contact.failedId === 1">{{ l("error") }}</td>
+                                            <td *ngIf="contact.failedId === 2">{{ l("The Number is Already in this Group") }}</td>
+                                            <td *ngIf="contact.failedId === 3">{{ l("Phone Number Formate is Invalid") }}</td>
+                                            <td *ngIf="contact.failedId === 4">{{ l("The Number is Already in another Group") }}</td>
+                                        </tr>
+                                    </ng-template>
+                                </p-table>
+                            </ng-container>
+
+                            <ng-template pTemplate="footer">
+                                <p-button icon="pi pi-check" (click)="handleCloseDialog()" label="Ok" pAutoFocus [autofocus]="true"></p-button>
+                            </ng-template>
+                        </p-dialog>
+
+                        <!-- needed 2 -->
+                        <div class="row justify-content-between">
+                            <div class="divider divider-default">
+                                <div class="divider-text">{{ l("extractMemberFromExcel") }}</div>
+                            </div>
+
+                            <div class="row p-0 p-xl-1 m-0">
+                                <div class="row">
+                                    <div class="col mb-1">
+                                        <div class="form-group">
+                                            <div class="container-upload-file" appDnd (fileDropped)="onFileDropped($event); fileDropRef.value = null" appUpload>
+                                                <input
+                                                    type="file"
+                                                    #fileDropRef
+                                                    id="fileDropRef"
+                                                    accept=".xlsx, .xls"
+                                                    (change)="fileBrowseHandler($event.target.files); fileDropRef.value = null"
+                                                />
+                                                <img src="../../../../../assets/images/ic-upload-file.svg" alt="" />
+                                                <h3>{{ l("draganddrop") }}</h3>
+                                                <h3>{{ l("browsForFileOR") }}</h3>
+                                                <label for="fileDropRef">{{ l("browsForFile") }}</label>
+                                                <div class="files-list">
+                                                    <div class="single-file" *ngIf="file">
+                                                        <img src="../../../../../assets/images/ic-file.svg" width="45px" alt="file" />
+                                                        <div class="info-file-upload">
+                                                            <h4 class="name">
+                                                                {{ file.name }}
+                                                            </h4>
+                                                            <p class="size">
+                                                                {{ formatBytes(file.size, 0.0) }}
+                                                            </p>
+                                                            <!-- <app-progress [progress]="file"></app-progress> -->
+                                                        </div>
+                                                        <!-- <img src="assets/img/dnd/ic-delete-file.svg" class="delete" width="20px" alt="file" (click)="deleteFile(i)"> -->
+                                                    </div>
+                                                </div>
+
+                                                <!-- needed -->
+                                                <!-- <div class="py-1 alert alert-dark" role="alert">
+                                                    <h4>
+                                                        Valid Formats:<span class="ml-1 badge badge-pill badge-success">966</span
+                                                        ><span class="ml-1 badge badge-pill badge-success">971</span><span class="ml-1 badge badge-pill badge-success">962</span>
+                                                    </h4>
+                                                </div>
+                                                <div class="py-1 alert alert-dark" role="alert">
+                                                    <h4>
+                                                        Invalid Formats:<span class="ml-1 badge badge-pill badge-danger">07</span
+                                                        ><span class="ml-1 badge badge-pill badge-danger">00966</span><span class="ml-1 badge badge-pill badge-danger">+962</span>
+                                                    </h4>
+                                                </div> -->
+                                            </div>
+                                        </div>
+
+                                        <ngb-alert [dismissible]="false" *ngIf="contactLength > 0" style="display: flex; background: none !important; justify-content: center">
+                                            <div class="alert-body alert-primary">
+                                                <span [data-feather]="'info'" [class]="'mr-50 align-middle mx-1'"></span>
+                                                <span>
+                                                    <strong> You have {{ totalSucceeded }} of Valid Numbers</strong>
+                                                </span>
+                                            </div>
+                                            <div class="alert-body alert-warning" style="margin-left: 10px;">
+                                                <span [data-feather]="'info'" [class]="'mr-50 align-middle mx-1'"></span>
+                                                <span>
+                                                    <strong> You have {{ totalFailed }} of Failed Numbers</strong>
+                                                </span>
+                                                <a *ngIf="totalFailed > 0" (click)="exportToExcel()" style="margin-left: 5px;color: firebrick;">download invalid numbers</a>
+                                            </div>
+                                        </ngb-alert>
+
+                                        <!-- <ngb-alert [dismissible]="false" *ngIf="isExceededLimit">
+                                            <div class="alert-body alert-danger">
+                                                <span [data-feather]="'info'" [class]="'mr-50 align-middle mx-1'"></span>
+                                                <span>
+                                                    <strong> You Exceeded the Limit of 50k contacts</strong>
+                                                </span>
+                                            </div>
+                                        </ngb-alert> -->
+                                    </div>
+                                    <div class="w-100"></div>
+                                </div>
+
+                                <div class="row mt-1 p-xl-0 p-1">
+                                    <div class="col-12">
+                                        <div class="d-flex justify-content-end flex-wrap gap-2">
+                                            <!-- Download Sample Button as a styled link -->
+                                            <a class="btn btn-primary-info d-flex align-items-center"
+                                                href="https://infoseedmediastorageprod.blob.core.windows.net/4408da24-aad7-4802-a1f1-46f5ad9e2074/GroupSampleF.xlsx"
+                                                download="proposed_file_name" style="color: #fff;">
+                                                {{ l("downloadSample") }}
+                                                <i class="fa fa-download ms-2"></i>
+                                            </a>
+                                
+                                            <!-- Save Button -->
+                                            <button class="btn btn-primary-info d-flex align-items-center" [disabled]="totalSucceeded <= 0"
+                                                [buttonBusy]="submitted" (click)="handleGroup()">
+                                                {{ l("Save") }}
+                                                <i class="fa fa-save ms-2"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <!-- <div class="progress-spinner" *ngIf="true">
+
+                      </div> -->
+                        <!-- <div *ngIf="customers.length != 0" class="row">
+                            <p-table
+                                #dataTable
+                                [value]="customers"
+                                dataKey="id"
+                                [loading]="primengTableHelper.isLoading"
+                                [(selection)]="selectedContact"
+                                responsiveLayout="stack"
+                                [paginator]="true"
+                                [rows]="10"
+                                [rowsPerPageOptions]="[10, 500, 1000]"
+                                [rowSelectable]="isRowSelectable"
+                                editMode="row"
+                                [resizableColumns]="primengTableHelper.resizableColumns"
+                            >
+                                <ng-template pTemplate="caption">
+                                    <ng-container *ngIf="selectedContact">
+                                        {{ l("numberOfSelectedMembers") }} <span [ngStyle]="{ color: 0 ? 'red' : 'green' }">{{ selectedContact?.length }}</span>
+                                    </ng-container>
+                                </ng-template>
+                                <ng-template pTemplate="header">
+                                    <tr>
+                                        <th>
+                                            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                                            <span class="p-column-title mx-1">{{ l("Select All Contacts") }}</span>
+                                        </th>
+                                        <th [ngClass]="darkModeService.currentSkin === 'dark' ? 'dark-table' : ''" pSortableColumn="contactName">
+                                            <span class="p-column-title">{{ l("customer") }}</span>
+                                        </th>
+                                        <th [ngClass]="darkModeService.currentSkin === 'dark' ? 'dark-table' : ''" pSortableColumn="phoneNumber">
+                                            {{ l("PhoneNumber") }}
+                                        </th>
+                                        <th style="width: 8rem"></th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-record let-editing="editing" let-ri="rowIndex">
+                                    <tr [disabled]="record.isFailed === true" [ngClass]="{ InvalidRow: record.isFailed }" [pEditableRow]="record">
+                                        <td [ngClass]="darkModeService.currentSkin === 'dark' ? 'table-dark' : ''">
+                                            <p-tableCheckbox [disabled]="isInvalidContact(record)" [value]="record"></p-tableCheckbox>
+
+                                            <span class="p-column-title"> {{ l("Select") }}</span>
+                                            <span *ngIf="record.isFailed" class="mx-1 badge badge-pill badge-light-danger mr-1"> {{ l("invalidFormate") }} </span>
+                                        </td>
+                                        <td [ngClass]="darkModeService.currentSkin === 'dark' ? 'table-dark' : ''">
+                                            <span class="p-column-title">{{ l("groupContactName") }}</span>
+                                            {{ record.displayName }}
+                                        </td>
+
+                                        <td pEditableColumn>
+                                            <p-cellEditor>
+                                                <ng-template pTemplate="input">
+                                                    <input pInputText type="text" [(ngModel)]="record.phoneNumber" />
+                                                </ng-template>
+                                                <ng-template pTemplate="output">
+                                                    {{ record.phoneNumber }}
+                                                </ng-template>
+                                            </p-cellEditor>
+                                        </td>
+
+                                        <td style="text-align: center">
+                                            <button
+                                                *ngIf="!editing"
+                                                pButton
+                                                pRipple
+                                                type="button"
+                                                pInitEditableRow
+                                                icon="pi pi-pencil"
+                                                (click)="onRowEditInit(record)"
+                                                class="p-button-rounded p-button-text"
+                                            ></button>
+                                            <button
+                                                *ngIf="editing"
+                                                pButton
+                                                pRipple
+                                                type="button"
+                                                pSaveEditableRow
+                                                icon="pi pi-check"
+                                                (click)="onRowEditSave(record, ri)"
+                                                class="p-button-rounded p-button-text p-button-success p-mr-2"
+                                            ></button>
+                                        </td>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+
+                            <div *ngIf="customers.length !== 0" class="primeng-paging-container">
+                                <span class="total-records-count">
+                                    {{ l("TotalRecordsCount", customers.length) }}
+                                </span>
+                            </div>
+
+                            <div class="primeng-no-data" *ngIf="customers.length == 0">
+                                {{ l("NoData") }}
+                            </div>
+                        </div> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

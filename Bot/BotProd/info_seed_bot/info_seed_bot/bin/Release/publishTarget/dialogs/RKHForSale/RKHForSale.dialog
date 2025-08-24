@@ -1,0 +1,1990 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "VGjU3d",
+    "name": "RKHForSale",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "RUGmke"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "SNaPMq"
+          },
+          "condition": "conversation.local",
+          "cases": [
+            {
+              "value": "ar",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "NcpO1q"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.Text",
+                      "value": "=conversation.RKHForSale_Text"
+                    },
+                    {
+                      "property": "dialog.option1",
+                      "value": "فلل"
+                    },
+                    {
+                      "property": "dialog.option2",
+                      "value": "شقق"
+                    },
+                    {
+                      "value": "روف",
+                      "property": "dialog.option3"
+                    },
+                    {
+                      "value": "هل أعجبتك  إحدى {0} ؟",
+                      "property": "conversation.RKHTextTow"
+                    },
+                    {
+                      "property": "dialog.NoAssettext",
+                      "value": "لا يوجد مشاريع"
+                    },
+                    {
+                      "property": "dialog.pleaseSelectAsset",
+                      "value": "الرجاء اختار المشروع"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "en",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "CMtTjx"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.Text",
+                      "value": "=conversation.RKHForSale_Text"
+                    },
+                    {
+                      "property": "dialog.option1",
+                      "value": "Villas"
+                    },
+                    {
+                      "property": "dialog.option2",
+                      "value": "Apartments"
+                    },
+                    {
+                      "property": "dialog.option3",
+                      "value": "Ruf"
+                    },
+                    {
+                      "property": "conversation.RKHTextTow",
+                      "value": "Did you like one of the {0}?"
+                    },
+                    {
+                      "property": "dialog.NoAssettext",
+                      "value": "There is no Asset"
+                    },
+                    {
+                      "property": "dialog.pleaseSelectAsset",
+                      "value": "Please select "
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "default": [
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "DHg2gX"
+              },
+              "assignments": [
+                {
+                  "property": "dialog.Text",
+                  "value": "=conversation.RKHForSale_Text"
+                },
+                {
+                  "property": "dialog.option1",
+                  "value": "فلل"
+                },
+                {
+                  "property": "dialog.option2",
+                  "value": "شقق"
+                },
+                {
+                  "property": "dialog.option3",
+                  "value": "روف"
+                },
+                {
+                  "property": "conversation.RKHTextTow",
+                  "value": "هل أعجبتك  إحدى {0}؟"
+                },
+                {
+                  "property": "dialog.NoAssettext",
+                  "value": "لا يوجد مشاريع"
+                },
+                {
+                  "property": "dialog.pleaseSelectAsset",
+                  "value": "الرجاء اختار المشروع"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.DeleteProperty",
+          "$designer": {
+            "id": "6W2nSY"
+          },
+          "property": "dialog.user"
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "T1LST8"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "unrecognizedPrompt": "",
+          "invalidPrompt": "",
+          "validations": [
+            "contains(this.value, 'فلل') || contains(this.value, 'شقق') || contains(this.value, 'روف') ||contains(this.value, '#') || contains(this.value, 'Villas') || contains(this.value, 'Apartments') || contains(this.value, 'Ruf')"
+          ],
+          "prompt": "${TextInput_Prompt_T1LST8()}",
+          "property": "dialog.user"
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "zLI1C4"
+          },
+          "property": "conversation.Department1",
+          "value": "=dialog.user"
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "DSCrFb"
+          },
+          "condition": "dialog.user",
+          "cases": [
+            {
+              "value": "فلل",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "oyw07b"
+                  },
+                  "property": "conversation.RealEstateResidentialForSaleType",
+                  "value": "1"
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "9sF1rl"
+                  },
+                  "property": "conversation.RKHText",
+                  "value": "=conversation.RKHForSale_Text2"
+                },
+                {
+                  "$kind": "Microsoft.HttpRequest",
+                  "$designer": {
+                    "id": "GgpkqR"
+                  },
+                  "resultProperty": "dialog.GetPDF",
+                  "method": "GET",
+                  "url": "${conversation.URL}/api/BotAPI/GetListPDF?TenantID=${conversation.TenantId}&phoneNumber=${conversation.phoneNumber}&RealEstateType=${conversation.RealEstateType}&RealEstateResidentialType=${conversation.RealEstateResidentialType}&RealEstateResidentialForSaleType=${conversation.RealEstateResidentialForSaleType}&VillaType=${conversation.VillaType}",
+                  "responseType": "json"
+                },
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "cqd4yf"
+                  },
+                  "condition": "dialog.GetPDF.content.result.count >0",
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.SendActivity",
+                      "$designer": {
+                        "id": "LBxlBQ"
+                      },
+                      "activity": "${SendActivity_LBxlBQ()}"
+                    },
+                    {
+                      "$kind": "Microsoft.EndDialog",
+                      "$designer": {
+                        "id": "j9izkE"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.TextInput",
+                  "$designer": {
+                    "id": "PceDvs"
+                  },
+                  "disabled": false,
+                  "maxTurnCount": 100,
+                  "alwaysPrompt": false,
+                  "allowInterruptions": true,
+                  "unrecognizedPrompt": "",
+                  "invalidPrompt": "",
+                  "prompt": "${TextInput_Prompt_PceDvs()}",
+                  "property": "dialog.selectAssest"
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "OWRz2i"
+                  },
+                  "property": "conversation.Department2",
+                  "value": "=dialog.selectAssest"
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "aZ8rP4"
+                  },
+                  "property": "dialog.ListSelect",
+                  "value": "=where(dialog.GetPDF.content.result, x, x.AssetNameAr == dialog.selectAssest || x.AssetNameEn == dialog.selectAssest)"
+                },
+                {
+                  "$kind": "Microsoft.Foreach",
+                  "$designer": {
+                    "id": "3b96vr"
+                  },
+                  "index": "dialog.foreach.index",
+                  "value": "dialog.foreach.value",
+                  "itemsProperty": "dialog.ListSelect",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.IfCondition",
+                      "$designer": {
+                        "id": "yVhUyN"
+                      },
+                      "condition": "conversation.local ==\"ar\"",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SendActivity",
+                          "$designer": {
+                            "id": "BFsz1w"
+                          },
+                          "activity": "${SendActivity_BFsz1w()}"
+                        }
+                      ],
+                      "elseActions": [
+                        {
+                          "$kind": "Microsoft.SendActivity",
+                          "$designer": {
+                            "id": "ZPJuwS"
+                          },
+                          "activity": "${SendActivity_ZPJuwS()}"
+                        }
+                      ]
+                    },
+                    {
+                      "$kind": "Microsoft.SendActivity",
+                      "$designer": {
+                        "id": "I7GqlM"
+                      },
+                      "activity": "${SendActivity_I7GqlM()}"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "20GLDZ"
+                  },
+                  "property": "conversation.PreText",
+                  "value": "=replace(conversation.RKHTextTow, '{0}', dialog.option1)"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "2FvY25"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "RKHSendPDF"
+                },
+                {
+                  "$kind": "Microsoft.EndDialog",
+                  "$designer": {
+                    "id": "0Q4WMv"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "xKeNsK"
+                  },
+                  "property": "dialog.selectPDF",
+                  "value": "=first(where(dialog.GetPDF.content.result, x, x.AssetNameAr == dialog.selectAssest || x.AssetNameEn == dialog.selectAssest))"
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "uJqYuY"
+                  },
+                  "property": "dialog.sendAsset",
+                  "value": {
+                    "TenantID": "=dialog.selectPDF.TenantID",
+                    "phoneNumber": "=dialog.selectPDF.phoneNumber",
+                    "AttachmentUrl": "=dialog.selectPDF.AttachmentUrl",
+                    "AttachmentName": "=dialog.selectPDF.AttachmentName",
+                    "AttachmentType": "=dialog.selectPDF.AttachmentType"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "1xVfxy"
+                  },
+                  "activity": "${SendActivity_1xVfxy()}"
+                },
+                {
+                  "$kind": "Microsoft.HttpRequest",
+                  "$designer": {
+                    "id": "6ZDVQu"
+                  },
+                  "method": "POST",
+                  "url": "${conversation.URL}/api/BotAPI/sendAssetAttachmentBot",
+                  "body": "= dialog.sendAsset",
+                  "headers": {
+                    " accept": "text/plain",
+                    "Content-Type": "application/json-patch+json"
+                  },
+                  "resultProperty": "dialog.SendUpdateFinsh",
+                  "responseType": "json"
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "a2NURG"
+                  },
+                  "property": "conversation.PreText",
+                  "value": "=replace(conversation.RKHTextTow, '{0}', dialog.option1)"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "7GUedi"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "RKHSendPDF"
+                },
+                {
+                  "$kind": "Microsoft.EndDialog",
+                  "$designer": {
+                    "id": "mYxMzB"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.Foreach",
+                  "$designer": {
+                    "id": "eFVShq"
+                  },
+                  "index": "dialog.foreach.index",
+                  "value": "dialog.foreach.value",
+                  "itemsProperty": "dialog.GetPDF.content.result",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "XxR5eS"
+                      },
+                      "property": "dialog.sendAsset",
+                      "value": {
+                        "TenantID": "=dialog.foreach.value.TenantID",
+                        "phoneNumber": "=dialog.foreach.value.phoneNumber",
+                        "AttachmentUrl": "=dialog.foreach.value.AttachmentUrl",
+                        "AttachmentName": "=dialog.foreach.value.AttachmentName",
+                        "AttachmentType": "=dialog.foreach.value.AttachmentType"
+                      }
+                    },
+                    {
+                      "$kind": "Microsoft.HttpRequest",
+                      "$designer": {
+                        "id": "AJI0sS"
+                      },
+                      "method": "POST",
+                      "url": "${conversation.URL}/api/BotAPI/sendAssetAttachmentBot",
+                      "body": "= dialog.sendAsset",
+                      "headers": {
+                        " accept": "text/plain",
+                        "Content-Type": "application/json-patch+json"
+                      },
+                      "resultProperty": "dialog.SendUpdateFinsh",
+                      "responseType": "json"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "Ryom3r"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "RKHSendPDF"
+                },
+                {
+                  "$kind": "Microsoft.EndDialog",
+                  "$designer": {
+                    "id": "eXBIkB"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "gpWgce"
+                  },
+                  "condition": "dialog.GetPDF.content.result!=null",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "QR28AW"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "RKHSendPDF"
+                    }
+                  ],
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.CancelAllDialogs",
+                      "$designer": {
+                        "id": "lLpRFK"
+                      },
+                      "activityProcessed": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "شقق",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "pUAoLs"
+                  },
+                  "property": "conversation.RealEstateResidentialForSaleType",
+                  "value": "2"
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "iXs0go"
+                  },
+                  "property": "conversation.RKHText",
+                  "value": "=conversation.RKHForSale_Text2"
+                },
+                {
+                  "$kind": "Microsoft.HttpRequest",
+                  "$designer": {
+                    "id": "nl9Fz8"
+                  },
+                  "resultProperty": "dialog.GetPDF",
+                  "method": "GET",
+                  "url": "${conversation.URL}/api/BotAPI/GetListPDF?TenantID=${conversation.TenantId}&phoneNumber=${conversation.phoneNumber}&RealEstateType=${conversation.RealEstateType}&RealEstateResidentialType=${conversation.RealEstateResidentialType}&RealEstateResidentialForSaleType=${conversation.RealEstateResidentialForSaleType}&VillaType=${conversation.VillaType}",
+                  "responseType": "json"
+                },
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "In2vZf"
+                  },
+                  "condition": "dialog.GetPDF.content.result.count >0",
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.SendActivity",
+                      "$designer": {
+                        "id": "JNtaQl"
+                      },
+                      "activity": "${SendActivity_JNtaQl()}"
+                    },
+                    {
+                      "$kind": "Microsoft.EndDialog",
+                      "$designer": {
+                        "id": "cSj1K3"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.TextInput",
+                  "$designer": {
+                    "id": "JnN2Rg"
+                  },
+                  "disabled": false,
+                  "maxTurnCount": 100,
+                  "alwaysPrompt": false,
+                  "allowInterruptions": true,
+                  "unrecognizedPrompt": "",
+                  "invalidPrompt": "",
+                  "prompt": "${TextInput_Prompt_JnN2Rg()}",
+                  "property": "dialog.selectAssest"
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "ox1Jvl"
+                  },
+                  "property": "conversation.Department2",
+                  "value": "=dialog.selectAssest"
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "Xx92PQ"
+                  },
+                  "property": "dialog.ListSelect",
+                  "value": "=where(dialog.GetPDF.content.result, x, x.AssetNameAr == dialog.selectAssest || x.AssetNameEn == dialog.selectAssest)"
+                },
+                {
+                  "$kind": "Microsoft.Foreach",
+                  "$designer": {
+                    "id": "YHUKqb"
+                  },
+                  "index": "dialog.foreach.index",
+                  "value": "dialog.foreach.value",
+                  "itemsProperty": "dialog.ListSelect",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.IfCondition",
+                      "$designer": {
+                        "id": "ir43j5"
+                      },
+                      "condition": "conversation.local ==\"ar\"",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SendActivity",
+                          "$designer": {
+                            "id": "WstkJB"
+                          },
+                          "activity": "${SendActivity_WstkJB()}"
+                        }
+                      ],
+                      "elseActions": [
+                        {
+                          "$kind": "Microsoft.SendActivity",
+                          "$designer": {
+                            "id": "foPkao"
+                          },
+                          "activity": "${SendActivity_foPkao()}"
+                        }
+                      ]
+                    },
+                    {
+                      "$kind": "Microsoft.SendActivity",
+                      "$designer": {
+                        "id": "bcNgmQ"
+                      },
+                      "activity": "${SendActivity_bcNgmQ()}"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "bM3lq1"
+                  },
+                  "property": "conversation.PreText",
+                  "value": "=replace(conversation.RKHTextTow, '{0}', dialog.option2)"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "OB99bP"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "RKHSendPDF"
+                },
+                {
+                  "$kind": "Microsoft.EndDialog",
+                  "$designer": {
+                    "id": "hua6jx"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "W7IoeR"
+                  },
+                  "property": "dialog.selectPDF",
+                  "value": "=first(where(dialog.GetPDF.content.result, x, x.AssetNameAr == dialog.selectAssest || x.AssetNameEn == dialog.selectAssest))"
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "5ApmIt"
+                  },
+                  "property": "dialog.sendAsset",
+                  "value": {
+                    "TenantID": "=dialog.selectPDF.TenantID",
+                    "phoneNumber": "=dialog.selectPDF.phoneNumber",
+                    "AttachmentUrl": "=dialog.selectPDF.AttachmentUrl",
+                    "AttachmentName": "=dialog.selectPDF.AttachmentName",
+                    "AttachmentType": "=dialog.selectPDF.AttachmentType"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.HttpRequest",
+                  "$designer": {
+                    "id": "2Jl2RQ"
+                  },
+                  "method": "POST",
+                  "url": "${conversation.URL}/api/BotAPI/sendAssetAttachmentBot",
+                  "body": "= dialog.sendAsset",
+                  "headers": {
+                    " accept": "text/plain",
+                    "Content-Type": "application/json-patch+json"
+                  },
+                  "resultProperty": "dialog.SendUpdateFinsh",
+                  "responseType": "json"
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "KL2nlc"
+                  },
+                  "property": "conversation.PreText",
+                  "value": "=replace(conversation.RKHTextTow, '{0}', dialog.option2)"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "vPcgir"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "RKHSendPDF"
+                },
+                {
+                  "$kind": "Microsoft.EndDialog",
+                  "$designer": {
+                    "id": "dTx0Jc"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.Foreach",
+                  "$designer": {
+                    "id": "V1RG0t"
+                  },
+                  "index": "dialog.foreach.index",
+                  "value": "dialog.foreach.value",
+                  "itemsProperty": "dialog.GetPDF.content.result",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "AxpJS0"
+                      },
+                      "property": "dialog.sendAsset",
+                      "value": {
+                        "TenantID": "=dialog.foreach.value.TenantID",
+                        "phoneNumber": "=dialog.foreach.value.phoneNumber",
+                        "AttachmentUrl": "=dialog.foreach.value.AttachmentUrl",
+                        "AttachmentName": "=dialog.foreach.value.AttachmentName",
+                        "AttachmentType": "=dialog.foreach.value.AttachmentType"
+                      }
+                    },
+                    {
+                      "$kind": "Microsoft.HttpRequest",
+                      "$designer": {
+                        "id": "a5WhyO"
+                      },
+                      "method": "POST",
+                      "url": "${conversation.URL}/api/BotAPI/sendAssetAttachmentBot",
+                      "body": "= dialog.sendAsset",
+                      "headers": {
+                        " accept": "text/plain",
+                        "Content-Type": "application/json-patch+json"
+                      },
+                      "resultProperty": "dialog.SendUpdateFinsh",
+                      "responseType": "json"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "XdnQEr"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "RKHSendPDF"
+                },
+                {
+                  "$kind": "Microsoft.EndDialog",
+                  "$designer": {
+                    "id": "MIf4aW"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.HttpRequest",
+                  "$designer": {
+                    "id": "Rbalrr"
+                  },
+                  "resultProperty": "dialog.GetPDF",
+                  "method": "GET",
+                  "url": "${conversation.URL}/api/BotAPI/GetPDF?TenantID=${conversation.TenantId}&phoneNumber=${conversation.phoneNumber}&RealEstateType=${conversation.RealEstateType}&RealEstateResidentialType=${conversation.RealEstateResidentialType}&RealEstateResidentialForSaleType=${conversation.RealEstateResidentialForSaleType}&VillaType=${conversation.VillaType}",
+                  "responseType": "json"
+                },
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "iIoI3Y"
+                  },
+                  "condition": "dialog.GetPDF.content.result!=null",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "7reuCS"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "RKHSendPDF"
+                    }
+                  ],
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.CancelAllDialogs",
+                      "$designer": {
+                        "id": "glRnLJ"
+                      },
+                      "activityProcessed": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "روف",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "gXzAPn"
+                  },
+                  "property": "conversation.RealEstateResidentialForSaleType",
+                  "value": "3"
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "gmKgUZ"
+                  },
+                  "property": "conversation.RKHText",
+                  "value": "=conversation.RKHForSale_Text2"
+                },
+                {
+                  "$kind": "Microsoft.HttpRequest",
+                  "$designer": {
+                    "id": "1Zb4Ht"
+                  },
+                  "resultProperty": "dialog.GetPDF",
+                  "method": "GET",
+                  "url": "${conversation.URL}/api/BotAPI/GetListPDF?TenantID=${conversation.TenantId}&phoneNumber=${conversation.phoneNumber}&RealEstateType=${conversation.RealEstateType}&RealEstateResidentialType=${conversation.RealEstateResidentialType}&RealEstateResidentialForSaleType=${conversation.RealEstateResidentialForSaleType}&VillaType=${conversation.VillaType}",
+                  "responseType": "json"
+                },
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "ASvlxW"
+                  },
+                  "condition": "dialog.GetPDF.content.result.count >0",
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.SendActivity",
+                      "$designer": {
+                        "id": "QT6GCE"
+                      },
+                      "activity": "${SendActivity_QT6GCE()}"
+                    },
+                    {
+                      "$kind": "Microsoft.EndDialog",
+                      "$designer": {
+                        "id": "EU2j73"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.TextInput",
+                  "$designer": {
+                    "id": "YrmKbp"
+                  },
+                  "disabled": false,
+                  "maxTurnCount": 100,
+                  "alwaysPrompt": false,
+                  "allowInterruptions": true,
+                  "unrecognizedPrompt": "",
+                  "invalidPrompt": "",
+                  "prompt": "${TextInput_Prompt_YrmKbp()}",
+                  "property": "dialog.selectAssest"
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "2Y9813"
+                  },
+                  "property": "conversation.Department2",
+                  "value": "=dialog.selectAssest"
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "p9Z9bI"
+                  },
+                  "property": "dialog.ListSelect",
+                  "value": "=where(dialog.GetPDF.content.result, x, x.AssetNameAr == dialog.selectAssest || x.AssetNameEn == dialog.selectAssest)"
+                },
+                {
+                  "$kind": "Microsoft.Foreach",
+                  "$designer": {
+                    "id": "28HyGx"
+                  },
+                  "index": "dialog.foreach.index",
+                  "value": "dialog.foreach.value",
+                  "itemsProperty": "dialog.ListSelect",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.IfCondition",
+                      "$designer": {
+                        "id": "PqaSjP"
+                      },
+                      "condition": "conversation.local ==\"ar\"",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SendActivity",
+                          "$designer": {
+                            "id": "OkrS8q"
+                          },
+                          "activity": "${SendActivity_OkrS8q()}"
+                        }
+                      ],
+                      "elseActions": [
+                        {
+                          "$kind": "Microsoft.SendActivity",
+                          "$designer": {
+                            "id": "PO6A45"
+                          },
+                          "activity": "${SendActivity_PO6A45()}"
+                        }
+                      ]
+                    },
+                    {
+                      "$kind": "Microsoft.SendActivity",
+                      "$designer": {
+                        "id": "KVjQBS"
+                      },
+                      "activity": "${SendActivity_KVjQBS()}"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "vAjO5a"
+                  },
+                  "property": "conversation.PreText",
+                  "value": "=replace(conversation.RKHTextTow, '{0}', dialog.option3)"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "dgHIWS"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "RKHSendPDF"
+                },
+                {
+                  "$kind": "Microsoft.EndDialog",
+                  "$designer": {
+                    "id": "wXczxH"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "gAKeMe"
+                  },
+                  "property": "dialog.selectPDF",
+                  "value": "=first(where(dialog.GetPDF.content.result, x, x.AssetNameAr == dialog.selectAssest || x.AssetNameEn == dialog.selectAssest))"
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "TQ19QP"
+                  },
+                  "property": "dialog.sendAsset",
+                  "value": {
+                    "TenantID": "=dialog.selectPDF.TenantID",
+                    "phoneNumber": "=dialog.selectPDF.phoneNumber",
+                    "AttachmentUrl": "=dialog.selectPDF.AttachmentUrl",
+                    "AttachmentName": "=dialog.selectPDF.AttachmentName",
+                    "AttachmentType": "=dialog.selectPDF.AttachmentType"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.HttpRequest",
+                  "$designer": {
+                    "id": "FkQ8gI"
+                  },
+                  "method": "POST",
+                  "url": "${conversation.URL}/api/BotAPI/sendAssetAttachmentBot",
+                  "body": "= dialog.sendAsset",
+                  "headers": {
+                    " accept": "text/plain",
+                    "Content-Type": "application/json-patch+json"
+                  },
+                  "resultProperty": "dialog.SendUpdateFinsh",
+                  "responseType": "json"
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "OUSdWs"
+                  },
+                  "property": "conversation.PreText",
+                  "value": "=replace(conversation.RKHTextTow, '{0}', dialog.option3)"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "VG49PO"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "RKHSendPDF"
+                },
+                {
+                  "$kind": "Microsoft.EndDialog",
+                  "$designer": {
+                    "id": "5oUuZr"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.Foreach",
+                  "$designer": {
+                    "id": "T86NqY"
+                  },
+                  "index": "dialog.foreach.index",
+                  "value": "dialog.foreach.value",
+                  "itemsProperty": "dialog.GetPDF.content.result",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "CLxgtJ"
+                      },
+                      "property": "dialog.sendAsset",
+                      "value": {
+                        "TenantID": "=dialog.foreach.value.TenantID",
+                        "phoneNumber": "=dialog.foreach.value.phoneNumber",
+                        "AttachmentUrl": "=dialog.foreach.value.AttachmentUrl",
+                        "AttachmentName": "=dialog.foreach.value.AttachmentName",
+                        "AttachmentType": "=dialog.foreach.value.AttachmentType"
+                      }
+                    },
+                    {
+                      "$kind": "Microsoft.HttpRequest",
+                      "$designer": {
+                        "id": "9H8V3s"
+                      },
+                      "method": "POST",
+                      "url": "${conversation.URL}/api/BotAPI/sendAssetAttachmentBot",
+                      "body": "= dialog.sendAsset",
+                      "headers": {
+                        " accept": "text/plain",
+                        "Content-Type": "application/json-patch+json"
+                      },
+                      "resultProperty": "dialog.SendUpdateFinsh",
+                      "responseType": "json"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "bhIDsD"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "RKHSendPDF"
+                },
+                {
+                  "$kind": "Microsoft.EndDialog",
+                  "$designer": {
+                    "id": "8dI0sL"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.HttpRequest",
+                  "$designer": {
+                    "id": "xlJsxk"
+                  },
+                  "resultProperty": "dialog.GetPDF",
+                  "method": "GET",
+                  "url": "${conversation.URL}/api/BotAPI/GetPDF?TenantID=${conversation.TenantId}&phoneNumber=${conversation.phoneNumber}&RealEstateType=${conversation.RealEstateType}&RealEstateResidentialType=${conversation.RealEstateResidentialType}&RealEstateResidentialForSaleType=${conversation.RealEstateResidentialForSaleType}&VillaType=${conversation.VillaType}",
+                  "responseType": "json"
+                },
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "min70h"
+                  },
+                  "condition": "dialog.GetPDF.content.result!=null",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "AAVS1H"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "RKHSendPDF"
+                    }
+                  ],
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.CancelAllDialogs",
+                      "$designer": {
+                        "id": "SZdsf9"
+                      },
+                      "activityProcessed": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "Villas",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "86nvzk"
+                  },
+                  "property": "conversation.RealEstateResidentialForSaleType",
+                  "value": "1"
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "Wh92Ap"
+                  },
+                  "property": "conversation.RKHText",
+                  "value": "=conversation.RKHForSale_Text2"
+                },
+                {
+                  "$kind": "Microsoft.HttpRequest",
+                  "$designer": {
+                    "id": "P0agiU"
+                  },
+                  "resultProperty": "dialog.GetPDF",
+                  "method": "GET",
+                  "url": "${conversation.URL}/api/BotAPI/GetListPDF?TenantID=${conversation.TenantId}&phoneNumber=${conversation.phoneNumber}&RealEstateType=${conversation.RealEstateType}&RealEstateResidentialType=${conversation.RealEstateResidentialType}&RealEstateResidentialForSaleType=${conversation.RealEstateResidentialForSaleType}&VillaType=${conversation.VillaType}",
+                  "responseType": "json"
+                },
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "22eM6u"
+                  },
+                  "condition": "dialog.GetPDF.content.result.count >0",
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.SendActivity",
+                      "$designer": {
+                        "id": "aav9RH"
+                      },
+                      "activity": "${SendActivity_aav9RH()}"
+                    },
+                    {
+                      "$kind": "Microsoft.EndDialog",
+                      "$designer": {
+                        "id": "PMsMyR"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.TextInput",
+                  "$designer": {
+                    "id": "AHsMfX"
+                  },
+                  "disabled": false,
+                  "maxTurnCount": 100,
+                  "alwaysPrompt": false,
+                  "allowInterruptions": true,
+                  "unrecognizedPrompt": "",
+                  "invalidPrompt": "",
+                  "prompt": "${TextInput_Prompt_AHsMfX()}",
+                  "property": "dialog.selectAssest"
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "QIWTbv"
+                  },
+                  "property": "conversation.Department2",
+                  "value": "=dialog.selectAssest"
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "9h0T4J"
+                  },
+                  "property": "dialog.ListSelect",
+                  "value": "=where(dialog.GetPDF.content.result, x, x.AssetNameAr == dialog.selectAssest || x.AssetNameEn == dialog.selectAssest)"
+                },
+                {
+                  "$kind": "Microsoft.Foreach",
+                  "$designer": {
+                    "id": "0YphZX"
+                  },
+                  "index": "dialog.foreach.index",
+                  "value": "dialog.foreach.value",
+                  "itemsProperty": "dialog.ListSelect",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.IfCondition",
+                      "$designer": {
+                        "id": "JeUH2O"
+                      },
+                      "condition": "conversation.local ==\"ar\"",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SendActivity",
+                          "$designer": {
+                            "id": "jJqJUI"
+                          },
+                          "activity": "${SendActivity_jJqJUI()}"
+                        }
+                      ],
+                      "elseActions": [
+                        {
+                          "$kind": "Microsoft.SendActivity",
+                          "$designer": {
+                            "id": "JI7uTF"
+                          },
+                          "activity": "${SendActivity_JI7uTF()}"
+                        }
+                      ]
+                    },
+                    {
+                      "$kind": "Microsoft.SendActivity",
+                      "$designer": {
+                        "id": "v2czt8"
+                      },
+                      "activity": "${SendActivity_v2czt8()}"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "lllRmS"
+                  },
+                  "property": "conversation.PreText",
+                  "value": "=replace(conversation.RKHTextTow, '{0}', dialog.option1)"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "njyUj8"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "RKHSendPDF"
+                },
+                {
+                  "$kind": "Microsoft.EndDialog",
+                  "$designer": {
+                    "id": "H53tfW"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "dRiRNV"
+                  },
+                  "property": "dialog.selectPDF",
+                  "value": "=first(where(dialog.GetPDF.content.result, x, x.AssetNameAr == dialog.selectAssest || x.AssetNameEn == dialog.selectAssest))"
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "098Bwv"
+                  },
+                  "property": "dialog.sendAsset",
+                  "value": {
+                    "TenantID": "=dialog.selectPDF.TenantID",
+                    "phoneNumber": "=dialog.selectPDF.phoneNumber",
+                    "AttachmentUrl": "=dialog.selectPDF.AttachmentUrl",
+                    "AttachmentName": "=dialog.selectPDF.AttachmentName",
+                    "AttachmentType": "=dialog.selectPDF.AttachmentType"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.HttpRequest",
+                  "$designer": {
+                    "id": "RAPkkZ"
+                  },
+                  "method": "POST",
+                  "url": "${conversation.URL}/api/BotAPI/sendAssetAttachmentBot",
+                  "body": "= dialog.sendAsset",
+                  "headers": {
+                    " accept": "text/plain",
+                    "Content-Type": "application/json-patch+json"
+                  },
+                  "resultProperty": "dialog.SendUpdateFinsh",
+                  "responseType": "json"
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "fiZVOi"
+                  },
+                  "property": "conversation.PreText",
+                  "value": "=replace(conversation.RKHTextTow, '{0}', dialog.option1)"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "A8iJrN"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "RKHSendPDF"
+                },
+                {
+                  "$kind": "Microsoft.EndDialog",
+                  "$designer": {
+                    "id": "rQpSZz"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.Foreach",
+                  "$designer": {
+                    "id": "Dlp9dF"
+                  },
+                  "index": "dialog.foreach.index",
+                  "value": "dialog.foreach.value",
+                  "itemsProperty": "dialog.GetPDF.content.result",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "Bz7oMw"
+                      },
+                      "property": "dialog.sendAsset",
+                      "value": {
+                        "TenantID": "=dialog.foreach.value.TenantID",
+                        "phoneNumber": "=dialog.foreach.value.phoneNumber",
+                        "AttachmentUrl": "=dialog.foreach.value.AttachmentUrl",
+                        "AttachmentName": "=dialog.foreach.value.AttachmentName",
+                        "AttachmentType": "=dialog.foreach.value.AttachmentType"
+                      }
+                    },
+                    {
+                      "$kind": "Microsoft.HttpRequest",
+                      "$designer": {
+                        "id": "jCDPPl"
+                      },
+                      "method": "POST",
+                      "url": "${conversation.URL}/api/BotAPI/sendAssetAttachmentBot",
+                      "body": "= dialog.sendAsset",
+                      "headers": {
+                        " accept": "text/plain",
+                        "Content-Type": "application/json-patch+json"
+                      },
+                      "resultProperty": "dialog.SendUpdateFinsh",
+                      "responseType": "json"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "N219EC"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "RKHSendPDF"
+                },
+                {
+                  "$kind": "Microsoft.EndDialog",
+                  "$designer": {
+                    "id": "x50b99"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.HttpRequest",
+                  "$designer": {
+                    "id": "2OrwyB"
+                  },
+                  "resultProperty": "dialog.GetPDF",
+                  "method": "GET",
+                  "url": "${conversation.URL}/api/BotAPI/GetPDF?TenantID=${conversation.TenantId}&phoneNumber=${conversation.phoneNumber}&RealEstateType=${conversation.RealEstateType}&RealEstateResidentialType=${conversation.RealEstateResidentialType}&RealEstateResidentialForSaleType=${conversation.RealEstateResidentialForSaleType}&VillaType=${conversation.VillaType}",
+                  "responseType": "json"
+                },
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "N3383a"
+                  },
+                  "condition": "dialog.GetPDF.content.result!=null",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "L5Usuz"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "RKHSendPDF"
+                    }
+                  ],
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.CancelAllDialogs",
+                      "$designer": {
+                        "id": "OMswJi"
+                      },
+                      "activityProcessed": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "Apartments",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "G4cr8D"
+                  },
+                  "property": "conversation.RealEstateResidentialForSaleType",
+                  "value": "2"
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "qLJ84z"
+                  },
+                  "property": "conversation.RKHText",
+                  "value": "=conversation.RKHForSale_Text2"
+                },
+                {
+                  "$kind": "Microsoft.HttpRequest",
+                  "$designer": {
+                    "id": "d99nkQ"
+                  },
+                  "resultProperty": "dialog.GetPDF",
+                  "method": "GET",
+                  "url": "${conversation.URL}/api/BotAPI/GetListPDF?TenantID=${conversation.TenantId}&phoneNumber=${conversation.phoneNumber}&RealEstateType=${conversation.RealEstateType}&RealEstateResidentialType=${conversation.RealEstateResidentialType}&RealEstateResidentialForSaleType=${conversation.RealEstateResidentialForSaleType}&VillaType=${conversation.VillaType}",
+                  "responseType": "json"
+                },
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "zCHMVg"
+                  },
+                  "condition": "dialog.GetPDF.content.result.count >0",
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.SendActivity",
+                      "$designer": {
+                        "id": "zgyvG3"
+                      },
+                      "activity": "${SendActivity_zgyvG3()}"
+                    },
+                    {
+                      "$kind": "Microsoft.EndDialog",
+                      "$designer": {
+                        "id": "eGblyR"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.TextInput",
+                  "$designer": {
+                    "id": "MBIYBk"
+                  },
+                  "disabled": false,
+                  "maxTurnCount": 100,
+                  "alwaysPrompt": false,
+                  "allowInterruptions": true,
+                  "unrecognizedPrompt": "",
+                  "invalidPrompt": "",
+                  "prompt": "${TextInput_Prompt_MBIYBk()}",
+                  "property": "dialog.selectAssest"
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "CJFHJv"
+                  },
+                  "property": "conversation.Department2",
+                  "value": "=dialog.selectAssest"
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "61F9Lu"
+                  },
+                  "property": "dialog.ListSelect",
+                  "value": "=where(dialog.GetPDF.content.result, x, x.AssetNameAr == dialog.selectAssest || x.AssetNameEn == dialog.selectAssest)"
+                },
+                {
+                  "$kind": "Microsoft.Foreach",
+                  "$designer": {
+                    "id": "hCIQ5L"
+                  },
+                  "index": "dialog.foreach.index",
+                  "value": "dialog.foreach.value",
+                  "itemsProperty": "dialog.ListSelect",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.IfCondition",
+                      "$designer": {
+                        "id": "eBlQwj"
+                      },
+                      "condition": "conversation.local ==\"ar\"",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SendActivity",
+                          "$designer": {
+                            "id": "g9WDwD"
+                          },
+                          "activity": "${SendActivity_g9WDwD()}"
+                        }
+                      ],
+                      "elseActions": [
+                        {
+                          "$kind": "Microsoft.SendActivity",
+                          "$designer": {
+                            "id": "LIyMkE"
+                          },
+                          "activity": "${SendActivity_LIyMkE()}"
+                        }
+                      ]
+                    },
+                    {
+                      "$kind": "Microsoft.SendActivity",
+                      "$designer": {
+                        "id": "SQqQ7E"
+                      },
+                      "activity": "${SendActivity_SQqQ7E()}"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "73hA1R"
+                  },
+                  "property": "conversation.PreText",
+                  "value": "=replace(conversation.RKHTextTow, '{0}', dialog.option2)"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "4v5r9r"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "RKHSendPDF"
+                },
+                {
+                  "$kind": "Microsoft.EndDialog",
+                  "$designer": {
+                    "id": "tBT3LW"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "6NtTY1"
+                  },
+                  "property": "dialog.selectPDF",
+                  "value": "=first(where(dialog.GetPDF.content.result, x, x.AssetNameAr == dialog.selectAssest || x.AssetNameEn == dialog.selectAssest))"
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "uVjowp"
+                  },
+                  "property": "dialog.sendAsset",
+                  "value": {
+                    "TenantID": "=dialog.selectPDF.TenantID",
+                    "phoneNumber": "=dialog.selectPDF.phoneNumber",
+                    "AttachmentUrl": "=dialog.selectPDF.AttachmentUrl",
+                    "AttachmentName": "=dialog.selectPDF.AttachmentName",
+                    "AttachmentType": "=dialog.selectPDF.AttachmentType"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.HttpRequest",
+                  "$designer": {
+                    "id": "bGRBmr"
+                  },
+                  "method": "POST",
+                  "url": "${conversation.URL}/api/BotAPI/sendAssetAttachmentBot",
+                  "body": "= dialog.sendAsset",
+                  "headers": {
+                    " accept": "text/plain",
+                    "Content-Type": "application/json-patch+json"
+                  },
+                  "resultProperty": "dialog.SendUpdateFinsh",
+                  "responseType": "json"
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "O3DqIb"
+                  },
+                  "property": "conversation.PreText",
+                  "value": "=replace(conversation.RKHTextTow, '{0}', dialog.option2)"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "5oBRtV"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "RKHSendPDF"
+                },
+                {
+                  "$kind": "Microsoft.EndDialog",
+                  "$designer": {
+                    "id": "RTed0r"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.Foreach",
+                  "$designer": {
+                    "id": "YNoIJq"
+                  },
+                  "index": "dialog.foreach.index",
+                  "value": "dialog.foreach.value",
+                  "itemsProperty": "dialog.GetPDF.content.result",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "BmSWAL"
+                      },
+                      "property": "dialog.sendAsset",
+                      "value": {
+                        "TenantID": "=dialog.foreach.value.TenantID",
+                        "phoneNumber": "=dialog.foreach.value.phoneNumber",
+                        "AttachmentUrl": "=dialog.foreach.value.AttachmentUrl",
+                        "AttachmentName": "=dialog.foreach.value.AttachmentName",
+                        "AttachmentType": "=dialog.foreach.value.AttachmentType"
+                      }
+                    },
+                    {
+                      "$kind": "Microsoft.HttpRequest",
+                      "$designer": {
+                        "id": "I3PlgQ"
+                      },
+                      "method": "POST",
+                      "url": "${conversation.URL}/api/BotAPI/sendAssetAttachmentBot",
+                      "body": "= dialog.sendAsset",
+                      "headers": {
+                        " accept": "text/plain",
+                        "Content-Type": "application/json-patch+json"
+                      },
+                      "resultProperty": "dialog.SendUpdateFinsh",
+                      "responseType": "json"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "okeQjf"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "RKHSendPDF"
+                },
+                {
+                  "$kind": "Microsoft.EndDialog",
+                  "$designer": {
+                    "id": "VXtk4l"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.HttpRequest",
+                  "$designer": {
+                    "id": "FXsDVI"
+                  },
+                  "resultProperty": "dialog.GetPDF",
+                  "method": "GET",
+                  "url": "${conversation.URL}/api/BotAPI/GetPDF?TenantID=${conversation.TenantId}&phoneNumber=${conversation.phoneNumber}&RealEstateType=${conversation.RealEstateType}&RealEstateResidentialType=${conversation.RealEstateResidentialType}&RealEstateResidentialForSaleType=${conversation.RealEstateResidentialForSaleType}&VillaType=${conversation.VillaType}",
+                  "responseType": "json"
+                },
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "u6cqnp"
+                  },
+                  "condition": "dialog.GetPDF.content.result!=null",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "uUHyPn"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "RKHSendPDF"
+                    }
+                  ],
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.CancelAllDialogs",
+                      "$designer": {
+                        "id": "qYF81q"
+                      },
+                      "activityProcessed": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "Ruf",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "okucHP"
+                  },
+                  "property": "conversation.RealEstateResidentialForSaleType",
+                  "value": "3"
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "B9ZStu"
+                  },
+                  "property": "conversation.RKHText",
+                  "value": "=conversation.RKHForSale_Text2"
+                },
+                {
+                  "$kind": "Microsoft.HttpRequest",
+                  "$designer": {
+                    "id": "tWAlBf"
+                  },
+                  "resultProperty": "dialog.GetPDF",
+                  "method": "GET",
+                  "url": "${conversation.URL}/api/BotAPI/GetListPDF?TenantID=${conversation.TenantId}&phoneNumber=${conversation.phoneNumber}&RealEstateType=${conversation.RealEstateType}&RealEstateResidentialType=${conversation.RealEstateResidentialType}&RealEstateResidentialForSaleType=${conversation.RealEstateResidentialForSaleType}&VillaType=${conversation.VillaType}",
+                  "responseType": "json"
+                },
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "lw8VVE"
+                  },
+                  "condition": "dialog.GetPDF.content.result.count >0",
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.SendActivity",
+                      "$designer": {
+                        "id": "GfyHIP"
+                      },
+                      "activity": "${SendActivity_GfyHIP()}"
+                    },
+                    {
+                      "$kind": "Microsoft.EndDialog",
+                      "$designer": {
+                        "id": "hTExLT"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.TextInput",
+                  "$designer": {
+                    "id": "vecnCV"
+                  },
+                  "disabled": false,
+                  "maxTurnCount": 100,
+                  "alwaysPrompt": false,
+                  "allowInterruptions": true,
+                  "unrecognizedPrompt": "",
+                  "invalidPrompt": "",
+                  "prompt": "${TextInput_Prompt_vecnCV()}",
+                  "property": "dialog.selectAssest"
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "YzbSbW"
+                  },
+                  "property": "conversation.Department2",
+                  "value": "=dialog.selectAssest"
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "dDduzV"
+                  },
+                  "property": "dialog.ListSelect",
+                  "value": "=where(dialog.GetPDF.content.result, x, x.AssetNameAr == dialog.selectAssest || x.AssetNameEn == dialog.selectAssest)"
+                },
+                {
+                  "$kind": "Microsoft.Foreach",
+                  "$designer": {
+                    "id": "B7v6em"
+                  },
+                  "index": "dialog.foreach.index",
+                  "value": "dialog.foreach.value",
+                  "itemsProperty": "dialog.ListSelect",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.IfCondition",
+                      "$designer": {
+                        "id": "SFguQI"
+                      },
+                      "condition": "conversation.local ==\"ar\"",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SendActivity",
+                          "$designer": {
+                            "id": "8CcZWT"
+                          },
+                          "activity": "${SendActivity_8CcZWT()}"
+                        }
+                      ],
+                      "elseActions": [
+                        {
+                          "$kind": "Microsoft.SendActivity",
+                          "$designer": {
+                            "id": "QCiKsa"
+                          },
+                          "activity": "${SendActivity_QCiKsa()}"
+                        }
+                      ]
+                    },
+                    {
+                      "$kind": "Microsoft.SendActivity",
+                      "$designer": {
+                        "id": "l5pnIM"
+                      },
+                      "activity": "${SendActivity_l5pnIM()}"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "WOIRhZ"
+                  },
+                  "property": "conversation.PreText",
+                  "value": "=replace(conversation.RKHTextTow, '{0}', dialog.option3)"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "oOwTSt"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "RKHSendPDF"
+                },
+                {
+                  "$kind": "Microsoft.EndDialog",
+                  "$designer": {
+                    "id": "W1kkPe"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "baC7FO"
+                  },
+                  "property": "dialog.selectPDF",
+                  "value": "=first(where(dialog.GetPDF.content.result, x, x.AssetNameAr == dialog.selectAssest || x.AssetNameEn == dialog.selectAssest))"
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "xx619G"
+                  },
+                  "property": "dialog.sendAsset",
+                  "value": {
+                    "TenantID": "=dialog.selectPDF.TenantID",
+                    "phoneNumber": "=dialog.selectPDF.phoneNumber",
+                    "AttachmentUrl": "=dialog.selectPDF.AttachmentUrl",
+                    "AttachmentName": "=dialog.selectPDF.AttachmentName",
+                    "AttachmentType": "=dialog.selectPDF.AttachmentType"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.HttpRequest",
+                  "$designer": {
+                    "id": "okKhyR"
+                  },
+                  "method": "POST",
+                  "url": "${conversation.URL}/api/BotAPI/sendAssetAttachmentBot",
+                  "body": "= dialog.sendAsset",
+                  "headers": {
+                    " accept": "text/plain",
+                    "Content-Type": "application/json-patch+json"
+                  },
+                  "resultProperty": "dialog.SendUpdateFinsh",
+                  "responseType": "json"
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "r9hAlZ"
+                  },
+                  "property": "conversation.PreText",
+                  "value": "=replace(conversation.RKHTextTow, '{0}', dialog.option3)"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "r4JsRC"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "RKHSendPDF"
+                },
+                {
+                  "$kind": "Microsoft.EndDialog",
+                  "$designer": {
+                    "id": "ZAKJeI"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.Foreach",
+                  "$designer": {
+                    "id": "wAXPkk"
+                  },
+                  "index": "dialog.foreach.index",
+                  "value": "dialog.foreach.value",
+                  "itemsProperty": "dialog.GetPDF.content.result",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "YUBVE7"
+                      },
+                      "property": "dialog.sendAsset",
+                      "value": {
+                        "TenantID": "=dialog.foreach.value.TenantID",
+                        "phoneNumber": "=dialog.foreach.value.phoneNumber",
+                        "AttachmentUrl": "=dialog.foreach.value.AttachmentUrl",
+                        "AttachmentName": "=dialog.foreach.value.AttachmentName",
+                        "AttachmentType": "=dialog.foreach.value.AttachmentType"
+                      }
+                    },
+                    {
+                      "$kind": "Microsoft.HttpRequest",
+                      "$designer": {
+                        "id": "wnYvRX"
+                      },
+                      "method": "POST",
+                      "url": "${conversation.URL}/api/BotAPI/sendAssetAttachmentBot",
+                      "body": "= dialog.sendAsset",
+                      "headers": {
+                        " accept": "text/plain",
+                        "Content-Type": "application/json-patch+json"
+                      },
+                      "resultProperty": "dialog.SendUpdateFinsh",
+                      "responseType": "json"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "x0AMnP"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "RKHSendPDF"
+                },
+                {
+                  "$kind": "Microsoft.EndDialog",
+                  "$designer": {
+                    "id": "2YNExF"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.HttpRequest",
+                  "$designer": {
+                    "id": "4qrEU2"
+                  },
+                  "resultProperty": "dialog.GetPDF",
+                  "method": "GET",
+                  "url": "${conversation.URL}/api/BotAPI/GetPDF?TenantID=${conversation.TenantId}&phoneNumber=${conversation.phoneNumber}&RealEstateType=${conversation.RealEstateType}&RealEstateResidentialType=${conversation.RealEstateResidentialType}&RealEstateResidentialForSaleType=${conversation.RealEstateResidentialForSaleType}&VillaType=${conversation.VillaType}",
+                  "responseType": "json"
+                },
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "JRJWe6"
+                  },
+                  "condition": "dialog.GetPDF.content.result!=null",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "cwtxr4"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "RKHSendPDF"
+                    }
+                  ],
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.CancelAllDialogs",
+                      "$designer": {
+                        "id": "i9oPNY"
+                      },
+                      "activityProcessed": true
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "4DN1pq"
+          }
+        },
+        {
+          "$kind": "Microsoft.HttpRequest",
+          "$designer": {
+            "id": "KIHv1N"
+          },
+          "resultProperty": "dialog.GetPDF",
+          "method": "GET",
+          "url": "${conversation.URL}/api/BotAPI/GetListPDF?TenantID=${conversation.TenantId}&phoneNumber=${conversation.phoneNumber}&RealEstateType=${conversation.RealEstateType}&RealEstateResidentialType=${conversation.RealEstateResidentialType}&RealEstateResidentialForSaleType=${conversation.RealEstateResidentialForSaleType}&VillaType=${conversation.VillaType}",
+          "responseType": "json"
+        }
+      ]
+    }
+  ],
+  "generator": "RKHForSale.lg",
+  "recognizer": "RKHForSale.lu.qna",
+  "id": "RKHForSale"
+}

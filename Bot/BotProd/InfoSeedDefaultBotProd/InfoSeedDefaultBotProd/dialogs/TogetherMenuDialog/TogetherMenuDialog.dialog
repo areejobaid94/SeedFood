@@ -1,0 +1,268 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "adQrnU",
+    "name": "TogetherMenuDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "qdSsIV"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "U5MuV7"
+          },
+          "assignments": [
+            {
+              "property": "conversation.IsThreeAsset",
+              "value": false
+            },
+            {
+              "property": "conversation.isoffer",
+              "value": false
+            },
+            {
+              "property": "conversation.type",
+              "value": "1"
+            },
+            {
+              "property": "conversation.StepBack",
+              "value": "1"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "sz7AyM"
+          },
+          "activityProcessed": true,
+          "dialog": "TogetherAssetLoopDialog"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "WBRwio"
+          },
+          "condition": "conversation.StepBack==\"1\"",
+          "actions": [
+            {
+              "$kind": "Microsoft.EndDialog",
+              "$designer": {
+                "id": "SpOdcq"
+              }
+            }
+          ],
+          "elseActions": []
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "hxUjyP"
+          },
+          "property": "conversation.isoffer",
+          "value": false
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "TzhBB9"
+          },
+          "activityProcessed": true,
+          "dialog": "TogetherAssetOfferDialog"
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "rNQdp9"
+          },
+          "property": "conversation.Request2",
+          "value": "${conversation.DepartmentName}"
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "0CUALj"
+          },
+          "condition": "conversation.DepartmentName",
+          "cases": [
+            {
+              "value": "مشروع مستقبلي",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "pmi1c2"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TogetherFutProjectDialog"
+                }
+              ]
+            },
+            {
+              "value": "عمرة وحج البدل",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "VaFF7V"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TogetherUmrahDialog"
+                }
+              ]
+            },
+            {
+              "value": "فطورهم فطورك",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "iQz5Cz"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TogetherBreakfastDialog"
+                }
+              ]
+            },
+            {
+              "value": "Future project",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "g9MBI2"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TogetherFutProjectDialog"
+                }
+              ]
+            },
+            {
+              "value": "Umrah and Hajj in exchange",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "7F7iJl"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TogetherUmrahDialog"
+                }
+              ]
+            },
+            {
+              "value": "Their breakfast is your breakfast",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "FutiMj"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TogetherBreakfastDialog"
+                }
+              ]
+            },
+            {
+              "value": "قبلتي",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "25V3Ip"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TogetherQublatiDialog"
+                }
+              ]
+            },
+            {
+              "value": "قطرة",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "3r2FgN"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TogetherDropDialog"
+                }
+              ]
+            },
+            {
+              "value": "بصر",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "eMkDRB"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TogetherSightDialog"
+                }
+              ]
+            },
+            {
+              "value": "Qublati",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "ukPIvm"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TogetherQublatiDialog"
+                }
+              ]
+            },
+            {
+              "value": "Drop",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "jwqSY7"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TogetherDropDialog"
+                }
+              ]
+            },
+            {
+              "value": "Sight",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "D8fvkC"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TogetherSightDialog"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "OPT0Bc"
+          }
+        }
+      ]
+    }
+  ],
+  "generator": "TogetherMenuDialog.lg",
+  "recognizer": "TogetherMenuDialog.lu.qna",
+  "id": "TogetherMenuDialog"
+}

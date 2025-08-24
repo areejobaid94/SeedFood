@@ -1,0 +1,177 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "sOliL2",
+    "name": "UstaziContactUs",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "avVB4d"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "ZTVpZM"
+          },
+          "condition": "conversation.local",
+          "cases": [
+            {
+              "value": "ar",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "MdMmDO"
+                  },
+                  "assignments": [
+                    {
+                      "value": "دردشة مباشرة",
+                      "property": "dialog.Option1"
+                    },
+                    {
+                      "property": "dialog.Option2",
+                      "value": "رقم الهاتف"
+                    },
+                    {
+                      "property": "dialog.text",
+                      "value": "للتواصل"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "en",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "20qvWS"
+                  },
+                  "assignments": [
+                    {
+                      "value": "Live Chat",
+                      "property": "dialog.Option1"
+                    },
+                    {
+                      "property": "dialog.Option2",
+                      "value": "Phone Number"
+                    },
+                    {
+                      "property": "dialog.text",
+                      "value": "Contact"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "default": []
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "Zf4RFH"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "unrecognizedPrompt": "",
+          "invalidPrompt": "",
+          "prompt": "${TextInput_Prompt_Zf4RFH()}",
+          "property": "dialog.UserInput",
+          "validations": [
+            "=contains(this.value, 'دردشة مباشرة') || contains(this.value, 'رقم الهاتف')  || contains(this.value, 'Live Chat') || contains(this.value, 'Phone Number') || contains(this.value, '#')"
+          ]
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "mCgk1p"
+          },
+          "condition": "dialog.UserInput",
+          "cases": [
+            {
+              "value": "دردشة مباشرة",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "0cTPhe"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "LiveChatDialog"
+                }
+              ]
+            },
+            {
+              "value": "رقم الهاتف",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "1o4yKZ"
+                  },
+                  "property": "dialog.phone",
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1128)).text"
+                },
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "acjqpg"
+                  },
+                  "activity": "${SendActivity_acjqpg()}"
+                }
+              ]
+            },
+            {
+              "value": "Phone Number",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "7Hoe3I"
+                  },
+                  "property": "dialog.phone",
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1128)).text"
+                },
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "NDwwMV"
+                  },
+                  "activity": "${SendActivity_NDwwMV()}"
+                }
+              ]
+            },
+            {
+              "value": "Live Chat",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "gg7tG7"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "LiveChatDialog"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "generator": "UstaziContactUs.lg",
+  "recognizer": "UstaziContactUs.lu.qna",
+  "id": "UstaziContactUs"
+}

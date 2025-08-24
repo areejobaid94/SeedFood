@@ -1,0 +1,473 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "orcYsr",
+    "name": "OpticListBranchDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "ufKKAu"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "4hu1fh"
+          },
+          "condition": "conversation.local",
+          "cases": [
+            {
+              "value": "ar",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "XzhOwh"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.ListOption",
+                      "value": [
+                        "البيادر",
+                        "الجاردنز",
+                        "جبل الحسين",
+                        "مرج الحمام",
+                        "سحاب",
+                        "سلط الدبابنه",
+                        "سلط الميدان",
+                        "الشميساني"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "en",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "o0g1NN"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.ListOption",
+                      "value": [
+                        "Al-Bayader",
+                        "Al-Jardanez",
+                        "Jabal Al-Hussein",
+                        "Marj Al-Hamam",
+                        "Sahab",
+                        "Salt Al-Dababneh",
+                        "Salt Al-Midan",
+                        "Shmeisani"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "Rwsndx"
+          },
+          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3675)).text",
+          "property": "dialog.text"
+        },
+        {
+          "$kind": "Microsoft.DeleteProperty",
+          "$designer": {
+            "id": "w6d7Ut"
+          },
+          "property": "dialog.UserSelect"
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "ySSnbF"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "invalidPrompt": "",
+          "prompt": "${TextInput_Prompt_ySSnbF()}",
+          "property": "dialog.UserSelect",
+          "validations": [
+            "equals(this.value, 'البيادر') || equals(this.value, 'الجاردنز') || equals(this.value, 'جبل الحسين') || equals(this.value, 'مرج الحمام') || equals(this.value, 'سحاب') || equals(this.value, 'سلط الدبابنه') || equals(this.value, 'سلط الميدان') || equals(this.value, 'الشميساني') || equals(this.value, 'Al-Bayader') || equals(this.value, 'Al-Jardanez') || equals(this.value, 'Jabal Al-Hussein') || equals(this.value, 'Marj Al-Hamam') || equals(this.value, 'Sahab') || equals(this.value, 'Salt Al-Dababneh') || equals(this.value, 'Salt Al-Midan') || equals(this.value, 'Shmeisani')   ||equals(this.value, '#')"
+          ]
+        },
+        {
+          "$kind": "Microsoft.DeleteProperty",
+          "$designer": {
+            "id": "Sy0Hd4"
+          },
+          "property": "dialog.BranchesCaption"
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "x6iHXG"
+          },
+          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3676)).text",
+          "property": "dialog.BranchesCaption"
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "7IyLwA"
+          },
+          "condition": "dialog.UserSelect",
+          "cases": [
+            {
+              "value": "Al-Bayader",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "l6XRhY"
+                  },
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3676)).text",
+                  "property": "dialog.BranchesCaption"
+                }
+              ]
+            },
+            {
+              "value": "Al-Jardanez",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "ohTwuj"
+                  },
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3677)).text",
+                  "property": "dialog.BranchesCaption"
+                }
+              ]
+            },
+            {
+              "value": "Jabal Al-Hussein",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "FmKuP0"
+                  },
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3678)).text",
+                  "property": "dialog.BranchesCaption"
+                }
+              ]
+            },
+            {
+              "value": "Marj Al-Hamam",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "RCSlJI"
+                  },
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3679)).text",
+                  "property": "dialog.BranchesCaption"
+                }
+              ]
+            },
+            {
+              "value": "Sahab",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "L2Zh24"
+                  },
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3680)).text",
+                  "property": "dialog.BranchesCaption"
+                }
+              ]
+            },
+            {
+              "value": "Salt Al-Dababneh",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "8tNTt0"
+                  },
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3681)).text",
+                  "property": "dialog.BranchesCaption"
+                }
+              ]
+            },
+            {
+              "value": "Salt Al-Midan",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "etCJ2P"
+                  },
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3682)).text",
+                  "property": "dialog.BranchesCaption"
+                }
+              ]
+            },
+            {
+              "value": "Shmeisani",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "PAB6H6"
+                  },
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3683)).text",
+                  "property": "dialog.BranchesCaption"
+                }
+              ]
+            }
+          ],
+          "default": []
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "UNWR60"
+          },
+          "condition": "dialog.UserSelect",
+          "cases": [
+            {
+              "value": "البيادر",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "K76vZg"
+                  },
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3676)).text",
+                  "property": "dialog.BranchesCaption"
+                }
+              ]
+            },
+            {
+              "value": "الجاردنز",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "7oeRgr"
+                  },
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3677)).text",
+                  "property": "dialog.BranchesCaption"
+                }
+              ]
+            },
+            {
+              "value": "جبل الحسين",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "MCPsev"
+                  },
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3678)).text",
+                  "property": "dialog.BranchesCaption"
+                }
+              ]
+            },
+            {
+              "value": "مرج الحمام",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "7P93CT"
+                  },
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3679)).text",
+                  "property": "dialog.BranchesCaption"
+                }
+              ]
+            },
+            {
+              "value": "سحاب",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "d5D85l"
+                  },
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3680)).text",
+                  "property": "dialog.BranchesCaption"
+                }
+              ]
+            },
+            {
+              "value": "سلط الدبابنه",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "iWk16u"
+                  },
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3681)).text",
+                  "property": "dialog.BranchesCaption"
+                }
+              ]
+            },
+            {
+              "value": "سلط الميدان",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "OiiZ9C"
+                  },
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3682)).text",
+                  "property": "dialog.BranchesCaption"
+                }
+              ]
+            },
+            {
+              "value": "الشميساني",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "h3zndV"
+                  },
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3683)).text",
+                  "property": "dialog.BranchesCaption"
+                }
+              ]
+            }
+          ],
+          "default": []
+        },
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "eSScyO"
+          },
+          "activity": "${SendActivity_eSScyO()}"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "amlua7"
+          },
+          "condition": "conversation.Department1==null || conversation.Department1==\"\" ",
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "z3JFmD"
+              },
+              "assignments": [
+                {
+                  "property": "conversation.Department1",
+                  "value": "\"\""
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "zEarvu"
+          },
+          "condition": "conversation.Department2==null || conversation.Department2==\"\"",
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "Fn3n3V"
+              },
+              "assignments": [
+                {
+                  "property": "conversation.Department2",
+                  "value": "\"\""
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "wBYSsr"
+          },
+          "property": "dialog.text",
+          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3684)).text"
+        },
+        {
+          "$kind": "Microsoft.HttpRequest",
+          "$designer": {
+            "id": "DeZMiv"
+          },
+          "resultProperty": "dialog.sendLiveChat",
+          "method": "GET",
+          "responseType": "json",
+          "url": "${conversation.URL}/api/BotAPI/UpdateLiveChat?TenantID=${conversation.TenantId}&&phoneNumber=${conversation.phoneNumber}&&Department1=${conversation.Department1}&&Department2=${conversation.Department2}"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "XbpvPa"
+          },
+          "condition": "dialog.sendLiveChat.content.result == \"\"",
+          "elseActions": [
+            {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "NwE1ew"
+              },
+              "activity": "${SendActivity_NwE1ew()}"
+            }
+          ],
+          "actions": [
+            {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "Kx2DbG"
+              },
+              "activity": "${SendActivity_Kx2DbG()}"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "2jB5eH"
+          },
+          "property": "conversation.IsLiveChat",
+          "value": true
+        },
+        {
+          "$kind": "Microsoft.CancelAllDialogs",
+          "$designer": {
+            "id": "q3cxFU"
+          },
+          "activityProcessed": true
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "yz12xo"
+          }
+        }
+      ]
+    }
+  ],
+  "generator": "OpticListBranchDialog.lg",
+  "recognizer": "OpticListBranchDialog.lu.qna",
+  "id": "OpticListBranchDialog"
+}

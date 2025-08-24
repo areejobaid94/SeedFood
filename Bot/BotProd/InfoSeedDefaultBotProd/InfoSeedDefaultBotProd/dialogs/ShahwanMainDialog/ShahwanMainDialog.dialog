@@ -1,0 +1,469 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "x0UCTv",
+    "name": "ShahwanMainDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "8OgBaJ"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "J8y7uJ"
+          },
+          "condition": "conversation.local",
+          "cases": [
+            {
+              "value": "ar",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "PPRQgx"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.Option1",
+                      "value": "نظام التقسيط والعروض"
+                    },
+                    {
+                      "property": "dialog.Option2",
+                      "value": "المعارض ومواقعنا"
+                    },
+                    {
+                      "property": "dialog.Option3",
+                      "value": "خدمات اخرى"
+                    },
+                    {
+                      "property": "dialog.Option4",
+                      "value": "التقسيط"
+                    },
+                    {
+                      "property": "dialog.Option5",
+                      "value": "العروض"
+                    },
+                    {
+                      "value": "الرجاء الاختيار",
+                      "property": "dialog.Option6"
+                    },
+                    {
+                      "value": "يمكنك إرسال # في أي وقت للعودة إلى القائمة الرئيسية",
+                      "property": "dialog.Summary"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "en",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "9zN3ID"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.Option1",
+                      "value": "Installment & Offers"
+                    },
+                    {
+                      "property": "dialog.Option2",
+                      "value": "Branches & locations"
+                    },
+                    {
+                      "property": "dialog.Option3",
+                      "value": "Other services"
+                    },
+                    {
+                      "property": "dialog.Option4",
+                      "value": "Installment"
+                    },
+                    {
+                      "property": "dialog.Option5",
+                      "value": "Offers"
+                    },
+                    {
+                      "property": "dialog.Option6",
+                      "value": "Please Choose"
+                    },
+                    {
+                      "property": "dialog.Summary",
+                      "value": "You can send # at any time to return to the main menu"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "default": [
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "ikyi5t"
+              },
+              "assignments": [
+                {
+                  "property": "dialog.Option1",
+                  "value": "نظام التقسيط والعروض"
+                },
+                {
+                  "property": "dialog.Option2",
+                  "value": "المعارض ومواقعنا"
+                },
+                {
+                  "property": "dialog.Option3",
+                  "value": "خدمات اخرى"
+                },
+                {
+                  "property": "dialog.Option4",
+                  "value": "التقسيط"
+                },
+                {
+                  "property": "dialog.Option5",
+                  "value": "العروض"
+                },
+                {
+                  "property": "dialog.Option6",
+                  "value": "الرجاء الاختيار"
+                },
+                {
+                  "property": "dialog.Summary",
+                  "value": "يمكنك إرسال # في أي وقت للعودة إلى القائمة الرئيسية"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "wzwou7"
+          },
+          "property": "dialog.text",
+          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1059)).text"
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "9wHESt"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "unrecognizedPrompt": "",
+          "invalidPrompt": "",
+          "prompt": "${TextInput_Prompt_9wHESt()}",
+          "property": "dialog.UserInput",
+          "validations": [
+            "contains(this.value, 'نظام التقسيط والعروض') || contains(this.value, 'المعارض ومواقعنا')  || contains(this.value, 'خدمات اخرى') || contains(this.value, '#') ||contains(this.value, 'Branches & locations')|| contains(this.value, 'Other services') || contains(this.value, 'Installment & Offers')"
+          ]
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "i4hqZo"
+          },
+          "condition": "dialog.UserInput",
+          "cases": [
+            {
+              "value": "نظام التقسيط والعروض",
+              "actions": [
+                {
+                  "$kind": "Microsoft.TextInput",
+                  "$designer": {
+                    "id": "EyEhcH"
+                  },
+                  "disabled": false,
+                  "maxTurnCount": 100,
+                  "alwaysPrompt": false,
+                  "allowInterruptions": true,
+                  "property": "dialog.UserSelect",
+                  "validations": [
+                    "contains(this.value, 'التقسيط') || contains(this.value, 'العروض') || contains(this.value, '#') || contains(this.value, 'Installment')|| contains(this.value, 'Offers')"
+                  ],
+                  "prompt": "${TextInput_Prompt_EyEhcH()}"
+                },
+                {
+                  "$kind": "Microsoft.SwitchCondition",
+                  "$designer": {
+                    "id": "i1opDn"
+                  },
+                  "condition": "dialog.UserSelect",
+                  "cases": [
+                    {
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "JmLtay"
+                          },
+                          "property": "dialog.offers",
+                          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1063)).text"
+                        },
+                        {
+                          "$kind": "Microsoft.SendActivity",
+                          "$designer": {
+                            "id": "9sIxIv"
+                          },
+                          "activity": "${SendActivity_9sIxIv()}"
+                        }
+                      ],
+                      "value": "العروض"
+                    },
+                    {
+                      "value": "التقسيط",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "Tl1Rfj"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "ShahwanInstallmentDialog"
+                        }
+                      ]
+                    }
+                  ],
+                  "default": [
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "BzdsN0"
+                      },
+                      "property": "dialog.offers",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1063)).text"
+                    },
+                    {
+                      "$kind": "Microsoft.SendActivity",
+                      "$designer": {
+                        "id": "feuU5M"
+                      },
+                      "activity": "${SendActivity_feuU5M()}"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.EndDialog",
+                  "$designer": {
+                    "id": "hp0lBi"
+                  }
+                }
+              ]
+            },
+            {
+              "value": "المعارض ومواقعنا",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "V3NyA6"
+                  },
+                  "property": "dialog.location",
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1065)).text"
+                },
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "g5wbd4"
+                  },
+                  "activity": "${SendActivity_g5wbd4()}"
+                },
+                {
+                  "$kind": "Microsoft.EndDialog",
+                  "$designer": {
+                    "id": "p9UGxf"
+                  }
+                }
+              ]
+            },
+            {
+              "value": "خدمات اخرى",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "w4k5LT"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "ShahwanServicesDialog"
+                },
+                {
+                  "$kind": "Microsoft.EndDialog",
+                  "$designer": {
+                    "id": "1CU43C"
+                  }
+                }
+              ]
+            },
+            {
+              "value": "Installment & Offers",
+              "actions": [
+                {
+                  "$kind": "Microsoft.TextInput",
+                  "$designer": {
+                    "id": "vux2lY"
+                  },
+                  "disabled": false,
+                  "maxTurnCount": 100,
+                  "alwaysPrompt": false,
+                  "allowInterruptions": true,
+                  "unrecognizedPrompt": "",
+                  "property": "dialog.UserSelect",
+                  "validations": [
+                    "contains(this.value, 'التقسيط') || contains(this.value, 'العروض') || contains(this.value, '#') || contains(this.value, 'Installment')|| contains(this.value, 'Offers')"
+                  ],
+                  "prompt": "${TextInput_Prompt_vux2lY()}"
+                },
+                {
+                  "$kind": "Microsoft.SwitchCondition",
+                  "$designer": {
+                    "id": "iRXpsk"
+                  },
+                  "condition": "dialog.UserSelect",
+                  "cases": [
+                    {
+                      "value": "Offers",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "jpt9gk"
+                          },
+                          "property": "dialog.offers",
+                          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1063)).text"
+                        },
+                        {
+                          "$kind": "Microsoft.SendActivity",
+                          "$designer": {
+                            "id": "jvMscG"
+                          },
+                          "activity": "${SendActivity_jvMscG()}"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "Installment",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "0v7VRd"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "ShahwanInstallmentDialog"
+                        }
+                      ]
+                    }
+                  ],
+                  "default": [
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "xfvDhS"
+                      },
+                      "property": "dialog.offers",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1063)).text"
+                    },
+                    {
+                      "$kind": "Microsoft.SendActivity",
+                      "$designer": {
+                        "id": "SgrFKW"
+                      },
+                      "activity": "${SendActivity_SgrFKW()}"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.EndDialog",
+                  "$designer": {
+                    "id": "h5kgU8"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "7PGiCp"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "ShahwanInstallmentDialog"
+                },
+                {
+                  "$kind": "Microsoft.EndDialog",
+                  "$designer": {
+                    "id": "NXHlhT"
+                  }
+                }
+              ]
+            },
+            {
+              "value": "Branches & locations",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "uNAHMy"
+                  },
+                  "property": "dialog.location",
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1065)).text"
+                },
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "0dNrUZ"
+                  },
+                  "activity": "${SendActivity_0dNrUZ()}"
+                },
+                {
+                  "$kind": "Microsoft.EndDialog",
+                  "$designer": {
+                    "id": "247zFP"
+                  }
+                }
+              ]
+            },
+            {
+              "value": "Other services",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "8qpJkh"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "ShahwanServicesDialog"
+                },
+                {
+                  "$kind": "Microsoft.EndDialog",
+                  "$designer": {
+                    "id": "ql8eAV"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "znAQNb"
+          }
+        }
+      ]
+    }
+  ],
+  "generator": "ShahwanMainDialog.lg",
+  "recognizer": "ShahwanMainDialog.lu.qna",
+  "id": "ShahwanMainDialog"
+}

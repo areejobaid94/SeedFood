@@ -1,0 +1,78 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "5pKa24",
+    "name": "HyundaiSparePartsDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "JLKtT6"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "wvuIab"
+          },
+          "property": "dialog.text",
+          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1203)).text"
+        },
+        {
+          "$kind": "Microsoft.AttachmentInput",
+          "$designer": {
+            "id": "jQ4BuH"
+          },
+          "disabled": false,
+          "maxTurnCount": 0,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "unrecognizedPrompt": "",
+          "invalidPrompt": "",
+          "prompt": "${AttachmentInput_Prompt_jQ4BuH()}",
+          "outputFormat": "all",
+          "property": "dialog.usersendnumber"
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "sazI7p"
+          },
+          "property": "dialog.text",
+          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1204)).text"
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "bgR0lV"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "unrecognizedPrompt": "",
+          "invalidPrompt": "",
+          "prompt": "${TextInput_Prompt_bgR0lV()}",
+          "property": "dialog.enterDis"
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "wtYlN8"
+          },
+          "activityProcessed": true,
+          "dialog": "HyundaiLiveChatDialog"
+        }
+      ]
+    }
+  ],
+  "generator": "HyundaiSparePartsDialog.lg",
+  "recognizer": "HyundaiSparePartsDialog.lu.qna",
+  "id": "HyundaiSparePartsDialog"
+}

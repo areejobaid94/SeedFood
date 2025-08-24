@@ -1,0 +1,136 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "3zWDzk",
+    "name": "FinishOrderDialog",
+    "description": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "rrRPKP"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "j9lAaZ"
+          },
+          "activityProcessed": true,
+          "dialog": "CheckPropertiesDialog"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "fAUJt9"
+          },
+          "condition": "conversation.TypeChoes ==\"PickUp\"",
+          "elseActions": [
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "ixnkum"
+              },
+              "value": {
+                "ContactId": "=conversation.ContactId",
+                "TenantID": "=conversation.TenantId",
+                "MenuId": "=conversation.menu",
+                "OrderTotal": "=conversation.TotalOrder",
+                "loyalityPoint": "=conversation.loyalityPoint",
+                "OrderId": "=conversation.OrderId",
+                "TypeChoes": "=conversation.TypeChoes",
+                "IsSpecialRequest": "=conversation.IsSpecialRequest",
+                "SpecialRequest": "=conversation.SpecialRequest",
+                "BotLocal": "=conversation.local",
+                "captionOrderInfoText": "=conversation.captionOrderInfoText",
+                "captionOrderNumberText": "=conversation.captionOrderNumberText",
+                "captionTotalOfAllOrderText": "=conversation.TotalOfAllText",
+                "captionEndOrderText": "=conversation.captionEndOrderText",
+                "aptionAreaNameText": "=conversation.aptionAreaNameText",
+                "captionBranchCostText": "=conversation.captionBranchCostText",
+                "captionFromLocationText": "=conversation.captionFromLocationText",
+                "BranchId": "=conversation.LocationId",
+                "BranchName": "=conversation.LocationAreaName",
+                "isOrderOfferCost": "=conversation.isOrderOfferCost",
+                "Address": "=conversation.LocationInfo.address",
+                "DeliveryCostAfter": "=conversation.LocationInfo.deliveryCostAfter",
+                "DeliveryCostBefor": "=conversation.LocationInfo.deliveryCostBefor",
+                "IsPreOrder": "=conversation.IsPreOrder",
+                "SelectDay": "=conversation.selectDay",
+                "SelectTime": "=conversation.selectTime",
+                "LocationFrom": "=conversation.LocationFrom",
+                "BuyType": "=conversation.BayType"
+              },
+              "property": "dialog.updateOrder"
+            }
+          ],
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "cqY8Ww"
+              },
+              "property": "dialog.updateOrder",
+              "value": {
+                "ContactId": "=conversation.ContactId",
+                "TenantID": "=conversation.TenantId",
+                "OrderTotal": "=conversation.TotalOrder",
+                "loyalityPoint": "=conversation.loyalityPoint",
+                "OrderId": "=conversation.OrderId",
+                "MenuId": "=conversation.menu",
+                "BranchId": "=conversation.BranchModel.id",
+                "BranchName": "=conversation.BranchModel.areaName",
+                "TypeChoes": "=conversation.TypeChoes",
+                "IsSpecialRequest": "=conversation.IsSpecialRequest",
+                "SpecialRequest": "=conversation.SpecialRequest",
+                "BotLocal": "=conversation.local",
+                "captionOrderInfoText": "=conversation.captionOrderInfoText",
+                "captionOrderNumberText": "=conversation.captionOrderNumberText",
+                "captionTotalOfAllOrderText": "=conversation.TotalOfAllText",
+                "captionEndOrderText": "=conversation.captionEndOrderText",
+                "aptionAreaNameText": "=conversation.aptionAreaNameText"
+              }
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.HttpRequest",
+          "$designer": {
+            "id": "YXqjlE"
+          },
+          "method": "POST",
+          "url": "${conversation.URL}/api/BotAPI/UpdateOrder",
+          "body": "= dialog.updateOrder",
+          "headers": {
+            "accept": "text/plain",
+            "Content-Type": "application/json-patch+json"
+          },
+          "resultProperty": "dialog.OrderUpdateFinsh",
+          "responseType": "json"
+        },
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "6dAnj1"
+          },
+          "activity": "${SendActivity_6dAnj1()}"
+        },
+        {
+          "$kind": "Microsoft.CancelAllDialogs",
+          "$designer": {
+            "id": "EY1MT0"
+          },
+          "activityProcessed": true
+        }
+      ]
+    }
+  ],
+  "generator": "FinishOrderDialog.lg",
+  "recognizer": "FinishOrderDialog.lu.qna",
+  "id": "FinishOrderDialog"
+}

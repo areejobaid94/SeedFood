@@ -1,0 +1,940 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "ZmgnBO",
+    "name": "DebajRequestDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "I8iqWL"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "BP8etd"
+          },
+          "condition": "=conversation.local",
+          "cases": [
+            {
+              "value": "ar",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "9XoqNQ"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.Loctext",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1048)).text"
+                    },
+                    {
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1049)).text",
+                      "property": "dialog.Conttext"
+                    },
+                    {
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1050)).text",
+                      "property": "dialog.Pricetext"
+                    },
+                    {
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1051)).text",
+                      "property": "dialog.Nametext"
+                    },
+                    {
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1052)).text",
+                      "property": "dialog.Phonetext"
+                    },
+                    {
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1053)).text",
+                      "property": "dialog.LLoctext"
+                    },
+                    {
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1054)).text",
+                      "property": "dialog.Optext"
+                    },
+                    {
+                      "property": "dialog.text1",
+                      "value": "اختر من التالي"
+                    },
+                    {
+                      "value": "خارج الاردن",
+                      "property": "dialog.outjor"
+                    },
+                    {
+                      "value": "داخل الاردن",
+                      "property": "dialog.injor"
+                    },
+                    {
+                      "property": "dialog.Thanks",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1055)).text"
+                    },
+                    {
+                      "property": "dialog.turky",
+                      "value": "تركيا"
+                    },
+                    {
+                      "property": "dialog.egypt",
+                      "value": "مصر "
+                    },
+                    {
+                      "property": "dialog.aue",
+                      "value": "الامارات"
+                    },
+                    {
+                      "property": "dialog.bank",
+                      "value": "العربي الاسلامي "
+                    },
+                    {
+                      "value": "اختر البنك",
+                      "property": "dialog.banktext"
+                    },
+                    {
+                      "property": "dialog.CompanyLoc",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1041)).text"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "rMFFgY"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.Price1",
+                      "value": "زيارة المكتب"
+                    },
+                    {
+                      "property": "dialog.Price2",
+                      "value": "طلب مندوب"
+                    },
+                    {
+                      "property": "dialog.Price3",
+                      "value": "ايداع بنكي"
+                    },
+                    {
+                      "property": "dialog.Price4",
+                      "value": "بيبال paypal"
+                    },
+                    {
+                      "property": "dialog.Price5",
+                      "value": "حوالة من مكتب صرافة"
+                    },
+                    {
+                      "property": "dialog.Price6",
+                      "value": "زين كاش"
+                    },
+                    {
+                      "property": "dialog.ListOption",
+                      "value": [
+                        "زيارة المكتب",
+                        "طلب مندوب",
+                        "ايداع بنكي",
+                        "بيبال paypal",
+                        "حوالة من مكتب صرافة",
+                        "زين كاش"
+                      ]
+                    },
+                    {
+                      "property": "dialog.Summary",
+                      "value": "يمكنك إرسال # في أي وقت للعودة إلى القائمة الرئيسية"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "en",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "BKnKsF"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.Loctext",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1048)).text"
+                    },
+                    {
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1049)).text",
+                      "property": "dialog.Conttext"
+                    },
+                    {
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1050)).text",
+                      "property": "dialog.Pricetext"
+                    },
+                    {
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1051)).text",
+                      "property": "dialog.Nametext"
+                    },
+                    {
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1052)).text",
+                      "property": "dialog.Phonetext"
+                    },
+                    {
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1053)).text",
+                      "property": "dialog.LLoctext"
+                    },
+                    {
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1054)).text",
+                      "property": "dialog.Optext"
+                    },
+                    {
+                      "property": "dialog.text1",
+                      "value": "Choose from below"
+                    },
+                    {
+                      "value": "Outside Jordan",
+                      "property": "dialog.outjor"
+                    },
+                    {
+                      "value": "Inside Jordan",
+                      "property": "dialog.injor"
+                    },
+                    {
+                      "property": "dialog.Thanks",
+                      "value": "Thank you, you will be contacted as soon as possible."
+                    },
+                    {
+                      "property": "dialog.turky",
+                      "value": "Turkey"
+                    },
+                    {
+                      "property": "dialog.egypt",
+                      "value": "Egypt "
+                    },
+                    {
+                      "property": "dialog.aue",
+                      "value": "UAE"
+                    },
+                    {
+                      "property": "dialog.bank",
+                      "value": "Arab Islamic "
+                    },
+                    {
+                      "value": "Choose the bank",
+                      "property": "dialog.banktext"
+                    },
+                    {
+                      "property": "dialog.CompanyLoc",
+                      "value": "Company website and address"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "WAGxCl"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.Price1",
+                      "value": "Office Visit"
+                    },
+                    {
+                      "property": "dialog.Price2",
+                      "value": "Request of a representative"
+                    },
+                    {
+                      "property": "dialog.Price3",
+                      "value": "Bank deposit"
+                    },
+                    {
+                      "property": "dialog.Price4",
+                      "value": "Paypal"
+                    },
+                    {
+                      "property": "dialog.Price5",
+                      "value": "Transfer from a exchange office"
+                    },
+                    {
+                      "property": "dialog.Price6",
+                      "value": "ZainCash"
+                    },
+                    {
+                      "property": "dialog.ListOption",
+                      "value": [
+                        "Office Visit",
+                        "Request of a representative",
+                        "Bank deposit",
+                        "Paypal",
+                        "Transfer from a exchange office",
+                        "ZainCash"
+                      ]
+                    },
+                    {
+                      "property": "dialog.Summary",
+                      "value": "You can send # at any time to return to the main menu"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "default": []
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "anUtxL"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "unrecognizedPrompt": "",
+          "invalidPrompt": "",
+          "prompt": "${TextInput_Prompt_anUtxL()}",
+          "property": "dialog.LocInput"
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "jegh3K"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "unrecognizedPrompt": "",
+          "invalidPrompt": "",
+          "prompt": "${TextInput_Prompt_jegh3K()}",
+          "property": "dialog.ContInput"
+        },
+        {
+          "$kind": "Microsoft.HttpRequest",
+          "$designer": {
+            "id": "YM9ibu"
+          },
+          "resultProperty": "dialog.Branch ",
+          "method": "GET",
+          "url": "${conversation.URL}/api/BotAPI/GetAreasWithPage?TenantID=${conversation.TenantId}&local=${conversation.local}&menu=0&pageNumber=0&pageSize=30&isDelivery=false",
+          "responseType": "json"
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "E7As3c"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "unrecognizedPrompt": "",
+          "prompt": "${TextInput_Prompt_E7As3c()}",
+          "validations": [
+            "contains(dialog.Branch.content.result, this.value) || contains(this.value, '#') || contains(conversation.ListOne, this.value) "
+          ],
+          "property": "dialog.PriceInput2"
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "ho8VsS"
+          },
+          "property": "dialog.PriceInput",
+          "value": "0"
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "noydPo"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "unrecognizedPrompt": "",
+          "prompt": "${TextInput_Prompt_noydPo()}",
+          "property": "dialog.NameInput"
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "uMNsoM"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "prompt": "${TextInput_Prompt_uMNsoM()}",
+          "property": "dialog.PhoneInput",
+          "validations": [
+            "isMatch(this.value,'^[٠-٩0-9]*$') ||contains(this.value, '#') "
+          ]
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "SDzRL8"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "unrecognizedPrompt": "",
+          "prompt": "${TextInput_Prompt_SDzRL8()}",
+          "property": "dialog.LLocInput"
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "jDJG1O"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "unrecognizedPrompt": "",
+          "prompt": "${TextInput_Prompt_jDJG1O()}",
+          "property": "dialog.Userpay",
+          "validations": [
+            "=contains(this.value, '#')|| contains(this.value, 'Bank deposit')||contains(this.value, 'Office Visit')|| contains(this.value, 'ايداع بنكي')|| contains(this.value, 'زيارة المكتب')|| contains(this.value, 'طلب مندوب')|| contains(this.value, 'بيبال paypal')|| contains(this.value, 'زين كاش')|| contains(this.value, 'حوالة من مكتب صرافة')|| contains(this.value, 'Request of a representative')||contains(this.value, 'Paypal')|| contains(this.value, 'Transfer from a exchange office')|| contains(this.value, 'ZainCash')"
+          ]
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "ua2tLe"
+          },
+          "cases": [
+            {
+              "value": "Bank deposit",
+              "actions": [
+                {
+                  "$kind": "Microsoft.TextInput",
+                  "$designer": {
+                    "id": "2Ice67"
+                  },
+                  "disabled": false,
+                  "maxTurnCount": 100,
+                  "alwaysPrompt": false,
+                  "allowInterruptions": true,
+                  "prompt": "${TextInput_Prompt_2Ice67()}",
+                  "property": "dialog.UserInput",
+                  "validations": [
+                    "equals(this.value, '#')|| equals(this.value, 'Inside Jordan') || equals(this.value, 'Outside Jordan')"
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SwitchCondition",
+                  "$designer": {
+                    "id": "0HYqlF"
+                  },
+                  "condition": "dialog.UserInput",
+                  "cases": [
+                    {
+                      "value": "Inside Jordan",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.TextInput",
+                          "$designer": {
+                            "id": "29EOzF"
+                          },
+                          "disabled": false,
+                          "maxTurnCount": 100,
+                          "alwaysPrompt": false,
+                          "allowInterruptions": true,
+                          "prompt": "${TextInput_Prompt_29EOzF()}",
+                          "property": "dialog.Userbank",
+                          "validations": [
+                            "equals(this.value, 'Arab Islamic') ||equals(this.value, '#')"
+                          ]
+                        },
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "5ZKiEP"
+                          },
+                          "property": "dialog.UserInputt",
+                          "value": "\"\""
+                        }
+                      ]
+                    },
+                    {
+                      "value": "Outside Jordan",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.TextInput",
+                          "$designer": {
+                            "id": "K53RT2"
+                          },
+                          "disabled": false,
+                          "maxTurnCount": 100,
+                          "alwaysPrompt": false,
+                          "allowInterruptions": true,
+                          "prompt": "${TextInput_Prompt_K53RT2()}",
+                          "property": "dialog.UserInputt",
+                          "validations": [
+                            "equals(this.value, 'UAE') ||equals(this.value, '#') ||equals(this.value, 'Egypt')||equals(this.value, 'Turkey')"
+                          ]
+                        },
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "NFYjEk"
+                          },
+                          "property": "dialog.Userbank",
+                          "value": "\"\""
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "Office Visit",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "y94Mh2"
+                  },
+                  "activity": "${SendActivity_y94Mh2()}"
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "wZvpK8"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.UserInput",
+                      "value": "\"\""
+                    },
+                    {
+                      "property": "dialog.Userbank",
+                      "value": "\"\""
+                    },
+                    {
+                      "property": "dialog.UserInputt",
+                      "value": "\"\""
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "ايداع بنكي",
+              "actions": [
+                {
+                  "$kind": "Microsoft.TextInput",
+                  "$designer": {
+                    "id": "JIFxFT"
+                  },
+                  "disabled": false,
+                  "maxTurnCount": 100,
+                  "alwaysPrompt": false,
+                  "allowInterruptions": true,
+                  "prompt": "${TextInput_Prompt_JIFxFT()}",
+                  "unrecognizedPrompt": "",
+                  "property": "dialog.UserInput",
+                  "validations": [
+                    "=contains(this.value, '#')|| contains(this.value, 'داخل الاردن') ||contains(this.value, 'خارج الاردن')"
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SwitchCondition",
+                  "$designer": {
+                    "id": "Z3JLIH"
+                  },
+                  "condition": "dialog.UserInput",
+                  "cases": [
+                    {
+                      "value": "داخل الاردن",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.TextInput",
+                          "$designer": {
+                            "id": "34s2KG"
+                          },
+                          "disabled": false,
+                          "maxTurnCount": 100,
+                          "alwaysPrompt": false,
+                          "allowInterruptions": true,
+                          "prompt": "${TextInput_Prompt_34s2KG()}",
+                          "property": "dialog.Userbank",
+                          "validations": [
+                            "equals(this.value, 'العربي الاسلامي') ||equals(this.value, '#')"
+                          ]
+                        },
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "KqvTl8"
+                          },
+                          "property": "dialog.UserInputt",
+                          "value": "\"\""
+                        }
+                      ]
+                    },
+                    {
+                      "value": "خارج الاردن",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.TextInput",
+                          "$designer": {
+                            "id": "npCW4H"
+                          },
+                          "disabled": false,
+                          "maxTurnCount": 100,
+                          "alwaysPrompt": false,
+                          "prompt": "${TextInput_Prompt_npCW4H()}",
+                          "property": "dialog.UserInputt",
+                          "validations": [
+                            "equals(this.value, 'الامارات') ||equals(this.value, '#') ||equals(this.value, 'مصر')||equals(this.value, 'تركيا')"
+                          ],
+                          "allowInterruptions": true
+                        },
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "SOXeCj"
+                          },
+                          "property": "dialog.Userbank",
+                          "value": "\"\""
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "زيارة المكتب",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "wXEugE"
+                  },
+                  "activity": "${SendActivity_wXEugE()}"
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "9DAsRr"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.UserInput",
+                      "value": "\"\""
+                    },
+                    {
+                      "property": "dialog.Userbank",
+                      "value": "\"\""
+                    },
+                    {
+                      "property": "dialog.UserInputt",
+                      "value": "\"\""
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "ZainCash",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "BwXO8f"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.UserInput",
+                      "value": "\"\""
+                    },
+                    {
+                      "property": "dialog.Userbank",
+                      "value": "\"\""
+                    },
+                    {
+                      "property": "dialog.UserInputt",
+                      "value": "\"\""
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "Transfer from a exchange office",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "JOOOqv"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.UserInput",
+                      "value": "\"\""
+                    },
+                    {
+                      "property": "dialog.Userbank",
+                      "value": "\"\""
+                    },
+                    {
+                      "property": "dialog.UserInputt",
+                      "value": "\"\""
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "Paypal",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "U7wGwQ"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.UserInput",
+                      "value": "\"\""
+                    },
+                    {
+                      "property": "dialog.Userbank",
+                      "value": "\"\""
+                    },
+                    {
+                      "property": "dialog.UserInputt",
+                      "value": "\"\""
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "Request of a representative",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "l5uw8L"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.UserInput",
+                      "value": "\"\""
+                    },
+                    {
+                      "property": "dialog.Userbank",
+                      "value": "\"\""
+                    },
+                    {
+                      "property": "dialog.UserInputt",
+                      "value": "\"\""
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "حوالة من مكتب صرافة",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "8IpzNq"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.UserInput",
+                      "value": "\"\""
+                    },
+                    {
+                      "property": "dialog.Userbank",
+                      "value": "\"\""
+                    },
+                    {
+                      "property": "dialog.UserInputt",
+                      "value": "\"\""
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "زين كاش",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "hRf4nG"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.UserInput",
+                      "value": "\"\""
+                    },
+                    {
+                      "property": "dialog.Userbank",
+                      "value": "\"\""
+                    },
+                    {
+                      "property": "dialog.UserInputt",
+                      "value": "\"\""
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "طلب مندوب",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "5ygqqP"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.UserInput",
+                      "value": "\"\""
+                    },
+                    {
+                      "property": "dialog.Userbank",
+                      "value": "\"\""
+                    },
+                    {
+                      "property": "dialog.UserInputt",
+                      "value": "\"\""
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "بيبال paypal",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "FZKqjd"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.UserInput",
+                      "value": "\"\""
+                    },
+                    {
+                      "property": "dialog.Userbank",
+                      "value": "\"\""
+                    },
+                    {
+                      "property": "dialog.UserInputt",
+                      "value": "\"\""
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "condition": "dialog.Userpay",
+          "default": [
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "lsBStY"
+              },
+              "assignments": [
+                {
+                  "property": "dialog.UserInput",
+                  "value": "\"\""
+                },
+                {
+                  "property": "dialog.Userbank",
+                  "value": "\"\""
+                },
+                {
+                  "property": "dialog.UserInputt",
+                  "value": "\"\""
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "YHIZ0P"
+          },
+          "property": "dialog.IsRequestForm",
+          "value": true
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "BILYtz"
+          },
+          "property": "dialog.RequestForm",
+          "value": {
+            "Location": "=dialog.LocInput",
+            "ContentPlate": "=dialog.ContInput",
+            "ContractName": "=dialog.NameInput",
+            "PhoneNumber": "=dialog.PhoneInput",
+            "PlaceResidence": "=dialog.LLocInput",
+            "PaymentType": "=dialog.Userpay",
+            "BankDeposit": "=dialog.UserInput",
+            "InsideJordan": "=dialog.Userbank",
+            "OutsideJordan": "=dialog.UserInputt"
+          }
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "l3KKiU"
+          },
+          "property": "dialog.updateSR",
+          "value": {
+            "ContactName": "=conversation.DisplayName",
+            "ContactId": "=conversation.ContactId",
+            "TenantID": "=conversation.TenantId",
+            "PhoneNumber": "=conversation.phoneNumber",
+            "Price": "=dialog.PriceInput",
+            "IsRequestForm": "=dialog.IsRequestForm",
+            "RequestForm": "=dialog.RequestForm",
+            "ContactInformation": "=dialog.PriceInput2"
+          }
+        },
+        {
+          "$kind": "Microsoft.HttpRequest",
+          "$designer": {
+            "id": "VZNZ8p"
+          },
+          "resultProperty": "dialog.OrderUpdateFinsh",
+          "method": "POST",
+          "url": "${conversation.URL}/api/BotAPI/UpdateSaleOffer",
+          "body": "= dialog.updateSR",
+          "headers": {
+            "accept": "text/plain",
+            "Content-Type": "application/json-patch+json"
+          },
+          "responseType": "json"
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "wrJQqo"
+          }
+        }
+      ]
+    }
+  ],
+  "generator": "DebajRequestDialog.lg",
+  "recognizer": "DebajRequestDialog.lu.qna",
+  "id": "DebajRequestDialog"
+}

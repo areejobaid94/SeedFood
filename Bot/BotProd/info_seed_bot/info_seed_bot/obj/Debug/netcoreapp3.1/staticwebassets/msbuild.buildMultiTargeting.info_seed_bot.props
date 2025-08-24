@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\info_seed_bot.props" />
+</Project>

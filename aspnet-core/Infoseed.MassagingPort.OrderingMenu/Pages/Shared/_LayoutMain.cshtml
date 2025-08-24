@@ -1,0 +1,115 @@
+﻿@{
+    
+
+    var requestCulture = Context.Features.Get<IRequestCultureFeature>();
+}
+<!DOCTYPE html>
+<html lang="ar">
+
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Askbootstrap">
+    <meta name="author" content="Askbootstrap">
+    <title>Order System</title>
+    <!-- Favicon Icon -->
+    <link rel="icon" type="image/png" href="/img/favicon.png">
+    <!-- Bootstrap core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Material Design Icons -->
+    <link href="vendor/icons/css/materialdesignicons.min.css" media="all" rel="stylesheet" type="text/css" />
+    <!-- Select2 CSS -->
+    <link href="vendor/select2/css/select2-bootstrap.css" />
+    <link href="vendor/select2/css/select2.min.css" rel="stylesheet" />
+
+    <!-- Owl Carousel -->
+    <link rel="stylesheet" href="vendor/owl-carousel/owl.carousel.css">
+    <link rel="stylesheet" href="vendor/owl-carousel/owl.theme.css">
+
+    <!-- Link Swiper's CSS -->
+    <link  href="vendor\swiper\swiper-bundle.min.css" rel="stylesheet" />
+
+    <!-- Custom styles for this template -->
+
+
+
+          <!-- English styles -->
+  @*  <!-- English styles -->
+    @if (requestCulture.RequestCulture.UICulture.Name == "ar")
+    {
+        <link href="css/osahanrtl.css" rel="stylesheet">
+        <link href="css/customrtl.css?v=1.0.0.0.0.1" rel="stylesheet">
+
+     
+    }
+    else
+    {
+        <link href="css/osahan.css" rel="stylesheet">
+        <link href="css/custom.css?v=1.0.0.0.0.1" rel="stylesheet">
+    }
+
+ 
+*@
+
+
+
+    @if (requestCulture.RequestCulture.UICulture.Name == "ar")
+    {
+        <link href="css/osahanrtl.css" rel="stylesheet">
+        <link href="css/customrtl.css?v=1.1.1.1.1.9" rel="stylesheet">
+
+     
+    }
+    else
+    {
+        <link href="css/osahan.css" rel="stylesheet">
+        <link href="css/custom.css?v=1.1.1.1.1.9" rel="stylesheet">
+    }
+
+   @* <link href="css/osahanrtl.css" rel="stylesheet">
+    <link href="css/customrtl.css?v=1.0.0.0.0.3" rel="stylesheet">*@
+</head>
+
+
+
+
+
+<body class=" container body p-0 " >
+
+
+
+
+    @RenderBody()
+
+  
+         <script src="~/lib/jquery/dist/jquery.js"></script>
+<script src="vendor/bootstrap/js/bootstrap.bundle.min.js?v=5.42.2"></script>
+<script src="~/vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script src="~/js/hc-offcanvas-nav.js"></script>
+    <script src="~/vendor/swiper/swiper-bundle.min.js"></script>
+  <!-- Do not edit these files! In order to set the email address and subject line for the contact form go to the bin/contact_me.php file. -->
+      <script src="js/jqBootstrapValidation.js"></script>
+      <script src="js/contact_me.js"></script>
+    
+    <!-- select2 Js -->
+    <script src="vendor/select2/js/select2.min.js"></script>
+    <!-- Owl Carousel -->
+    <script src="vendor/owl-carousel/owl.carousel.js"></script>
+
+         
+  
+    <!-- Custom -->
+    <script src="~/js/custom.js?v=1.1.1.1.1.9"></script>
+
+    <link rel="stylesheet" href="js/demo.css?v=1.1.1.1.1.9">
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
+@*
+ @await RenderSectionAsync("Scripts", required: false)
+
+    <vc:culture-switcher></vc:culture-switcher>
+*@
+
+   </body>
+</html>

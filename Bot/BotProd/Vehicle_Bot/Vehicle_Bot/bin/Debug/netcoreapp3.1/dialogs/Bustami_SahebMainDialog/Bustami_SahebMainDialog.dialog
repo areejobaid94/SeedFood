@@ -1,0 +1,456 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "hGxRSn",
+    "name": "Bustami_SahebMainDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "jly0hp"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.DeleteProperty",
+          "$designer": {
+            "id": "h7QqKV"
+          },
+          "property": "conversation.Brand"
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "h1xVDi"
+          },
+          "condition": "conversation.local",
+          "cases": [
+            {
+              "value": "ar",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "ye4o6i"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.Lst",
+                      "value": [
+                        "انفينيتي",
+                        "نيسان",
+                        "BYD",
+                        "السيارات المستعملة"
+                      ]
+                    },
+                    {
+                      "property": "dialog.Summary",
+                      "value": "يمكنك إرسال # في أي وقت للعودة إلى القائمة الرئيسية"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "WnPBM3"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.Option1",
+                      "value": "انفينيتي"
+                    },
+                    {
+                      "property": "dialog.Option2",
+                      "value": "نيسان"
+                    },
+                    {
+                      "property": "dialog.Option3",
+                      "value": "السيارات المستعملة"
+                    },
+                    {
+                      "property": "conversation.InputHint",
+                      "value": "القائمة"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "jwf05A"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.text",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId ==2)).text"
+                    },
+                    {
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId ==9)).text",
+                      "property": "conversation.Thanks"
+                    },
+                    {
+                      "property": "dialog.displaystext",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId ==1)).text"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "en",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "aitCVn"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.Lst",
+                      "value": [
+                        "INFINITI",
+                        "NISSAN",
+                        "BYD",
+                        "Pre-owned Cars"
+                      ]
+                    },
+                    {
+                      "property": "dialog.Summary",
+                      "value": "You can send # earlier to the main menu"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "hhvsyG"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.Option1",
+                      "value": "INFINITI"
+                    },
+                    {
+                      "property": "dialog.Option2",
+                      "value": "NISSAN"
+                    },
+                    {
+                      "property": "dialog.Option3",
+                      "value": "Pre-owned Cars"
+                    },
+                    {
+                      "property": "conversation.InputHint",
+                      "value": "Menu"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "Hf5Jx2"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.text",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId ==2)).text"
+                    },
+                    {
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId ==9)).text",
+                      "property": "conversation..Thanks"
+                    },
+                    {
+                      "property": "dialog.displaystext",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId ==1)).text"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "default": []
+        },
+        {
+          "$kind": "Microsoft.HttpRequest",
+          "$designer": {
+            "id": "hzcEwh"
+          },
+          "resultProperty": "dialog.rez",
+          "method": "GET",
+          "url": "${conversation.URL}/api/BotAPI/CheckIsFillDisplayName?id=${conversation.ContactId}",
+          "responseType": "json"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "tSqp17"
+          },
+          "condition": "dialog.rez.content.result !=null",
+          "elseActions": [
+            {
+              "$kind": "Microsoft.DeleteProperty",
+              "$designer": {
+                "id": "AkAW6K"
+              },
+              "property": "conversation.DisplayName"
+            },
+            {
+              "$kind": "Microsoft.TextInput",
+              "$designer": {
+                "id": "jmMWus"
+              },
+              "disabled": false,
+              "maxTurnCount": 0,
+              "alwaysPrompt": false,
+              "allowInterruptions": false,
+              "prompt": "${TextInput_Prompt_jmMWus()}",
+              "unrecognizedPrompt": "",
+              "invalidPrompt": "",
+              "property": "conversation.DisplayName"
+            },
+            {
+              "$kind": "Microsoft.HttpRequest",
+              "$designer": {
+                "id": "fPWHcw"
+              },
+              "resultProperty": "dialog.rez",
+              "url": "${conversation.URL}/api/BotAPI/updateContcatDisplayName?id=${conversation.ContactId}&contactDisplayName=${conversation.DisplayName}",
+              "method": "GET",
+              "responseType": "json"
+            }
+          ],
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "gGHEhU"
+              },
+              "property": "conversation.DisplayName",
+              "value": "${dialog.rez.content.result}"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "0BJEaN"
+          },
+          "assignments": [
+            {
+              "property": "dialog.text",
+              "value": "=replace(dialog.text, '{0}', conversation.DisplayName)"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "d3UePY"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "unrecognizedPrompt": "",
+          "invalidPrompt": "",
+          "prompt": "${TextInput_Prompt_d3UePY()}",
+          "property": "conversation.Brand",
+          "validations": [
+            " this.value== 'BYD'|| this.value=='انفينيتي'|| this.value== 'نيسان'|| this.value =='#'|| this.value == 'السيارات المستعملة'|| this.value =='Pre-owned Cars'|| this.value =='NISSAN'|| this.value =='INFINITI'"
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "la0bgk"
+          },
+          "property": "conversation.Department1",
+          "value": "=conversation.Brand"
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "IjdfQg"
+          },
+          "condition": "conversation.Brand",
+          "cases": [
+            {
+              "value": "انفينيتي",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "752ERe"
+                  },
+                  "property": "conversation.DepartmentNameSelect1",
+                  "value": "1"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "DveAbI"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "Bustami_SahebBrandsDialog"
+                }
+              ]
+            },
+            {
+              "value": "نيسان",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "o9mVH7"
+                  },
+                  "property": "conversation.DepartmentNameSelect1",
+                  "value": "2"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "8mMVja"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "Bustami_SahebBrandsDialog"
+                }
+              ]
+            },
+            {
+              "value": "السيارات المستعملة",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "0L7scA"
+                  },
+                  "property": "dialog.DiscLink",
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId ==3)).text"
+                },
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "4gfIbJ"
+                  },
+                  "activity": "${SendActivity_4gfIbJ()}"
+                }
+              ]
+            },
+            {
+              "value": "BYD",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "FzHK1S"
+                  },
+                  "property": "conversation.DepartmentNameSelect1",
+                  "value": "3"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "zhi8Ia"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "Bustami_SahebBrandsDialog"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "weaCIZ"
+          },
+          "condition": "conversation.Brand",
+          "cases": [
+            {
+              "value": "INFINITI",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "UQUUdc"
+                  },
+                  "property": "conversation.DepartmentNameSelect1",
+                  "value": "1"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "wqdUYj"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "Bustami_SahebBrandsDialog"
+                }
+              ]
+            },
+            {
+              "value": "NISSAN",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "Jv26NE"
+                  },
+                  "property": "conversation.DepartmentNameSelect1",
+                  "value": "2"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "GiI9bO"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "Bustami_SahebBrandsDialog"
+                }
+              ]
+            },
+            {
+              "value": "Pre-owned Cars",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "KHUEvF"
+                  },
+                  "property": "dialog.DiscLink",
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId ==3)).text"
+                },
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "HCg7if"
+                  },
+                  "activity": "${SendActivity_HCg7if()}"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.DeleteProperty",
+          "$designer": {
+            "id": "ZSiP17"
+          },
+          "property": "conversation.Brand"
+        },
+        {
+          "$kind": "Microsoft.CancelAllDialogs",
+          "$designer": {
+            "id": "gx3IIx"
+          },
+          "activityProcessed": true
+        }
+      ]
+    }
+  ],
+  "generator": "Bustami_SahebMainDialog.lg",
+  "recognizer": "Bustami_SahebMainDialog.lu.qna",
+  "id": "Bustami_SahebMainDialog"
+}

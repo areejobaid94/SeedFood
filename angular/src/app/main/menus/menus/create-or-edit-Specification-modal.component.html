@@ -1,0 +1,148 @@
+﻿<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+     aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg" style="max-width: -webkit-fill-available;">
+        <div class="modal-content">
+            <div class="row">
+                <div class="col-md-12 p-10">
+                    <form [formGroup]="menuForm">
+
+
+                        <div formArrayName="category" class="pt-3">
+                            <div *ngFor="let X of menuForm['controls'].category['controls']; let ix=index">
+                                <div formGroupName="{{ix}}" class="category-card">
+
+                                    <div class="category-card-header">
+                                        <div class="row">
+
+                                            <div class="col-md-3">
+                                                <label>Category Name Arabic</label>
+                                                <input class="form-control" type="text" formControlName="name" style="font-family: system-ui; direction: rtl;">
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label>Category Name English</label>
+                                                <input class="form-control" type="text" formControlName="nameEnglish" style="font-family: system-ui; direction: rtl;">
+                                            </div>
+                                            <div class="col-md-1">
+                                                <label>Priority</label>
+                                                <input min="0" class="form-control" type="number" style="font-family: system-ui; direction: rtl;"
+                                                    formControlName="priority">
+                                            </div>
+                                            <div class="col-md-1">
+                                                <label>Is Multiple Selection</label>
+                                                <input class="form-control" type="checkbox" style="font-family: system-ui; direction: rtl;"
+                                                    formControlName="isMultipleSelection">
+                                            </div>
+                                            <div class="col-md-1">
+                                                <label>Max Select Number</label>
+                                                <input class="form-control" type="number" style="font-family: system-ui; direction: rtl;"
+                                                formControlName="maxSelectNumber">
+                                            </div>
+                                            <!-- <div class="col-md-1">
+                                                <label>Is Required</label>
+                                                <input class="form-control" type="checkbox" style="font-family: system-ui; direction: rtl;"
+                                                    formControlName="isRequired">
+                                            </div> -->
+
+                                            <div class="col text-right">
+                                                <button class="btn btn-danger btn-sm "
+                                                        (click)="deleteCategoryItem(ix)">
+                                                    <i class="fa fa-trash p-0 font-12"></i>
+                                                </button>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="card-body" formArrayName="items">
+                                        <div *ngFor="let Y of X['controls'].items['controls']; let iy=index">
+
+                                            <div formGroupName="{{iy}}" class="border-bottom">
+                                                <div class="row" formArrayName="itemSpecificationDtos" class="pt-14" >
+
+                                                    <div *ngFor="let D of Y['controls'].itemSpecificationDtos['controls']; let idd=index">
+                                                        <div formGroupName="{{idd}}" class="itemSpecificationDtos-card">
+
+
+                                                        <div class="row">
+                                                            <div class="col-md-3">
+                                                                <label>Name Arabic</label>
+                                                                <input class="form-control" type="text" formControlName="SpecificationChoiceDescription" style="font-family: system-ui; direction: rtl;">
+
+                                                            </div>
+
+                                                            <div class="col-md-3">
+                                                                <label>Name English</label>
+                                                                <input class="form-control" type="text" formControlName="SpecificationChoiceDescriptionEnglish" style="font-family: system-ui; direction: rtl;">
+
+                                                            </div>
+                                                            <div class="col-md-2">
+                                                                <label>SKU #</label>
+                                                                <input class="form-control" type="text" style="font-family: system-ui; direction: rtl;"
+                                                                    formControlName="SKU">
+                                                            </div>
+                                                            <div class="col-md-2">
+                                                                <label>Price</label>
+                                                                <input class="form-control" type="number" style="font-family: system-ui; direction: rtl;"
+                                                                    formControlName="Price">
+                                                            </div>
+
+                                                            <!-- <div class="col text-right">
+                                                                <button class="btn btn-danger btn-sm "
+                                                                        (click)="deleteitemAddition(ix,iy,idd)">
+                                                                    <i class="fa fa-trash p-0 font-12"></i>
+                                                                </button>
+                                                            </div> -->
+
+                                                            <div class="col text-right">
+                                                                <button class="btn btn-danger btn-sm "
+                                                                        (click)="deleteItemCategoryItem(ix,iy,idd)">
+                                                                    <i class="fa fa-trash p-0 font-12"></i>
+                                                                </button>
+                                                            </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row">
+                                                        <div class="col-md-12 text-right">
+                                                            <input type="button" class="btn btn-secondary" (click)="addItemAddition(ix,iy)" style="font-family: system-ui; direction: rtl;"
+                                                                value="Add">
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <hr/>
+
+
+
+                                    </div>
+                                </div>
+                                <hr/>
+                            </div>
+                            <div class="modal-footer">
+                                <button  type="button" class="btn btn-primary"
+                                        (click)="close()">{{l("Cancel")}}</button>
+                                <input type="button" class="btn btn-primary"
+
+                                    (click)="addMenu()" value="Save">
+                                    <!-- [disabled]="!menuForm.valid" -->
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+
+                            <div class="col-md-12 text-right">
+                                <input type="button" class="btn btn-secondary" (click)="addCategorySpecification()"
+                                    value="Add Specification">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>

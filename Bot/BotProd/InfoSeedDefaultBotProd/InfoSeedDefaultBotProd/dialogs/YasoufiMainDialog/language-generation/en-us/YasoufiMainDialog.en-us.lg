@@ -1,0 +1,28 @@
+[import](common.lg)
+
+# SendActivity_DR2X9G()
+[Activity
+    Text = ${SendActivity_DR2X9G_text()}
+]
+
+# SendActivity_DR2X9G_text()
+- ${dialog.WelcomeMessage}
+# TextInput_Prompt_ZLfgRL()
+[Activity
+    Attachments = ${json(ButtonList(dialog.text,dialog.ListOption))}
+    InputHint=منطقتك
+     Summary=${conversation.Summary}
+]
+# TextInput_Prompt_0upObX()
+[Activity
+    Text = ${TextInput_Prompt_0upObX_text()}
+]
+
+# TextInput_Prompt_0upObX_text()
+- ${dialog.FirstInquiries}
+# TextInput_Prompt_xyiwTp_text()
+- ${dialog.FirstInquiries}
+# TextInput_Prompt_xyiwTp()
+[Activity
+    Text = ${TextInput_Prompt_xyiwTp_text()}
+]

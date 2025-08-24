@@ -1,0 +1,7 @@
+[import](common.lg)
+
+# TextInput_Prompt_Z0qMMF()
+[Activity
+  Text= ${dialog.text}
+  SuggestedActions = ${dialog.ar} | ${dialog.en}
+]

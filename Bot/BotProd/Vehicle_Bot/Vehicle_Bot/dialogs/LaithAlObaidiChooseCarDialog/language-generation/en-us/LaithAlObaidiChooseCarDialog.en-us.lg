@@ -1,0 +1,33 @@
+[import](common.lg)
+
+# TextInput_Prompt_b50hAX()
+[Activity
+    Text = ${TextInput_Prompt_b50hAX_text()}
+    SuggestedActions = ${dialog.ListFuel.content.result[0].value} | ${dialog.ListFuel.content.result[1].value} | ${dialog.ListFuel.content.result[2].value}
+]
+
+# TextInput_Prompt_b50hAX_text()
+- ${conversation.select}
+# TextInput_Prompt_NNwTgf()
+[Activity
+    Attachments = ${json(ButtonList2(conversation.select,dialog.ListFuel.content.result))}
+     InputHint=${dialog.InputHint}
+     Summary=${dialog.Summary}
+]
+
+
+
+
+
+
+# TextInput_Prompt_XLlFD3()
+[Activity
+    Attachments = ${json(ButtonList2(conversation.select,dialog.ListFuel.content.result))}
+     InputHint=${dialog.InputHint}
+     Summary=${dialog.Summary}
+]
+
+
+
+
+

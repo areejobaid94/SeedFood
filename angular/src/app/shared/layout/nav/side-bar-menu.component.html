@@ -1,0 +1,194 @@
+<!-- BEGIN: Aside Menu -->
+<div     [class]="'aside-menu-wrapper aside-menu-' + currentTheme.baseSettings.menu.asideSkin" id="kt_aside_menu_wrapper">
+  <div #asideMenu ktMenu [options]="menuOptions" [perfectScrollbar]="{wheelPropagation: false}"
+      [ngStyle]="{'max-height': '90vh', 'position': 'relative'}" id="kt_aside_menu" class="aside-menu scroll"
+      [attr.data-menu-vertical]="1" [attr.data-menu-scroll]="ui.getIsMenuScrollable() ? 1 : 0"
+      [attr.data-menu-dropdown]="ui.isSubmenuToggleDropdown() ? 1 : 0" (mouseenter)="mouseEnter($event)"
+      (mouseleave)="mouseLeave($event)" [class]="ui.getLeftAsideClass()">
+      <ul class="menu-nav">
+          <li  class="menu-item mb-5" aria-haspopup="true"
+              data-ktmenu-submenu-toggle="hover" *ngIf="currentTheme.baseSettings.menu.searchActive">
+              <menu-search-bar></menu-search-bar>
+          </li>
+          <ng-container [ngTemplateOutlet]="menuListTemplate"></ng-container>
+      </ul>
+  </div>
+</div>
+<!-- END: Aside Menu -->
+
+<!-- </div> -->
+
+<ng-template #menuListTemplate>
+  <ng-container *ngFor="let child of menu.items">
+      <ng-container *ngIf="showMenuItem(child)" [ngTemplateOutlet]="mMenuItem"
+          [ngTemplateOutletContext]="{ item: child, parentItem: null }"></ng-container>
+  </ng-container>
+</ng-template>
+
+<ng-template #mMenuItem let-item="item" let-parentItem="parentItem">
+  <li *ngIf="showMenuItem(item)" [attr.aria-haspopup]="true"
+  [attr.data-menu-toggle]="getItemAttrSubmenuToggle(item)"
+  [attr.data-ktmenu-submenu-mode]="item.mode"
+  [attr.data-ktmenu-dropdown-toggle-class]="item['dropdown-toggle-class']" [ngClass]="getItemCssClasses(item)"
+  data-placement="right">
+
+      <!-- if menu item hasn't submenu -->
+      <a *ngIf="!item.items.length && !item.external" [queryParams]="item.parameters" [routerLink]="item.route"
+          class="menu-link">
+          <ng-container [ngTemplateOutlet]="mMenuItemText"
+              [ngTemplateOutletContext]="{ item: item, parentItem: parentItem }"></ng-container>
+      </a>
+      <a *ngIf="!item.items.length && item.external" [attr.href]="item.route" target="_blank"
+          class="menu-link menu-toggle">
+          <ng-container [ngTemplateOutlet]="mMenuItemText"
+              [ngTemplateOutletContext]="{ item: item, parentItem: parentItem }"></ng-container>
+      </a>
+
+      <!-- if menu item has submenu child  -->
+      <a href="javascript:;" *ngIf="item.items.length" class="menu-link menu-toggle">
+          <ng-container [ngTemplateOutlet]="mMenuItemText"
+              [ngTemplateOutletContext]="{ item: item, parentItem: parentItem }"></ng-container>
+      </a>
+
+      <!-- if menu item has submenu child then recursively call new menu item component -->
+      <div *ngIf="item.items.length" class="menu-submenu" [style]="ui.getLeftAsideSubMenuStyles()">
+          <span class="menu-arrow"></span>
+          <ul class="menu-subnav">
+              <ng-container *ngFor="let child of item.items">
+                  <ng-container [ngTemplateOutlet]="mMenuItem"
+                      [ngTemplateOutletContext]="{ item: child, parentItem: item }"></ng-container>
+              </ng-container>
+          </ul>
+      </div>
+  </li>
+</ng-template>
+
+<ng-template #mMenuItemText let-item="item" let-parentItem="parentItem">
+  <span class="menu-item-here"></span>
+  <!-- if menu item has icon -->
+  <span class="menu-icon" *ngIf="item.icon">
+      <i class="menu-link-icon" [ngClass]="item.icon"></i>
+  </span>
+
+  <ng-container *ngIf="!item.badge; else mMenuLinkBadge">
+      <!-- menu item title text -->
+      <span class="menu-text">
+          {{item.name | localize}}
+      </span>
+
+      <!-- <span *ngIf="item.isNewItem">
+          <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-dot" viewBox="0 0 16 16" >
+              <path d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z" style="color:rgb(255, 0, 0);"/> 
+            </svg>
+      </span> -->
+      <!-- <div *ngIf="item.isNewItem">
+
+          <img src="/assets/common/images/RedDot.png" class="icon" style="height: 14px;">
+
+
+          
+      </div> -->
+
+
+      <div class="ml-6 small status" *ngIf="OrderCount>0 &&item.name==='orders'">
+          <div style="width: 29px;
+              height: 16px;
+              border-radius: 8px;
+              background: #f5020e;">
+              <p style="font-family: Roboto;
+                font-weight: normal;
+                font-size: 12px;
+                line-height: 16px;
+                text-align: center;
+                color: rgb(253, 245, 245);">{{OrderCount}}</p>
+          </div>
+      </div>
+      <div class="ml-6 small status" *ngIf="EvaluationCount>0 &&item.name==='Evaluation'">
+          <div style="width: 29px;
+              height: 16px;
+              border-radius: 8px;
+              background: #f5020e;">
+              <p style="font-family: Roboto;
+                font-weight: normal;
+                font-size: 12px;
+                line-height: 16px;
+                text-align: center;
+                color: rgb(253, 245, 245);">{{EvaluationCount}}</p>
+          </div>
+      </div>
+      <div class="ml-6 small status" *ngIf="MaintenancesCount>0 &&item.name==='Orders Maintenances'">
+          <div style="width: 29px;
+              height: 16px;
+              border-radius: 8px;
+              background: #f5020e;">
+              <p style="font-family: Roboto;
+                font-weight: normal;
+                font-size: 12px;
+                line-height: 16px;
+                text-align: center;
+                color: rgb(253, 245, 245);">{{MaintenancesCount}}</p>
+          </div>
+      </div>
+
+      <div class="ml-6 small status" *ngIf="LiveChatCount>0 &&item.name==='tickets'">
+          <div style="width: 29px;
+              height: 16px;
+              border-radius: 8px;
+              background: #f5020e;">
+              <p style="font-family: Roboto;
+                font-weight: normal;
+                font-size: 12px;
+                line-height: 16px;
+                text-align: center;
+                color: rgb(253, 245, 245);">{{LiveChatCount}}</p>
+          </div>
+      </div>
+      <div class="ml-6 small status" *ngIf="SellingRequestCount>0 &&item.name==='requestPage'">
+          <div style="width: 29px;
+              height: 16px;
+              border-radius: 8px;
+              background: #f5020e;">
+              <p style="font-family: Roboto;
+                font-weight: normal;
+                font-size: 12px;
+                line-height: 16px;
+                text-align: center;
+                color: rgb(253, 245, 245);">{{SellingRequestCount}}</p>
+          </div>
+      </div>
+
+      <div class="ml-6 small status" *ngIf="bookingCount>0 &&item.name==='calendar'">
+        <div style="width: 29px;
+            height: 16px;
+            border-radius: 8px;
+            background: #f5020e;">
+            <p style="font-family: Roboto;
+              font-weight: normal;
+              font-size: 12px;
+              line-height: 16px;
+              text-align: center;
+              color: rgb(253, 245, 245);">{{bookingCount}}</p>
+        </div>
+    </div>
+
+
+  </ng-container>
+
+  <ng-template #mMenuLinkBadge>
+      <!-- menu item with badge -->
+      <span class="menu-link-title">
+          <span class="menu-link-wrap">
+              <span class="menu-text">
+                  {{item.name | localize}}
+              </span>
+              <span class="menu-link-badge">
+                  <span class="label label-primary" [ngClass]="item.badge.type">{{item.badge.value}}</span>
+              </span>
+          </span>
+      </span>
+  </ng-template>
+
+  <!-- if menu item has submenu child then put arrow icon -->
+  <span *ngIf="item.items.length" class="menu-arrow"></span>
+</ng-template>
+<!-- END: Left Aside -->

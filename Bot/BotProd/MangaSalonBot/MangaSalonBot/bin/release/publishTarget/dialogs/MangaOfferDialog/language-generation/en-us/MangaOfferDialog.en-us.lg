@@ -1,0 +1,111 @@
+[import](common.lg)
+
+# TextInput_Prompt_Yd6xUw()
+[Activity
+    Attachments = ${json(ButtonListRK(dialog.pleaseSelectAsset,dialog.AssetName.content.result))}
+    InputHint=${dialog.hint}
+         Summary=${conversation.Summary}
+]
+
+# TextInput_Prompt_uNfQoE()
+[Activity
+    Attachments = ${json(ButtonListRKE(dialog.pleaseSelectAsset,dialog.AssetName.content.result))}
+    InputHint=${dialog.hint}
+  Summary=${conversation.Summary}
+]
+# SendActivity_H9JQ3l()
+[Activity
+    Text = ${SendActivity_H9JQ3l_text()}
+]
+
+# SendActivity_H9JQ3l_text()
+- ${dialog.text}
+# SendActivity_SKe9vg()
+[Activity
+    Text = ${SendActivity_SKe9vg_text()}
+]
+
+# SendActivity_SKe9vg_text()
+- ${dialog.arText}
+# SendActivity_eHVwW5()
+[Activity
+    Text = ${SendActivity_eHVwW5_text()}
+]
+
+# SendActivity_eHVwW5_text()
+- ${dialog.enText}
+# SendActivity_YFEzuf()
+[Activity
+    Text= ${dialog.foreach.value.AttachmentUrl}
+    InputHint=${dialog.foreach.value.AttachmentType}
+    Speak =  ${dialog.foreach.value.AttachmentName}
+     
+]
+
+# ButtonListRKE(Text, List)
+- ``` 
+{
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "version": "1.0",
+    "type": "AdaptiveCard",
+    "body": [
+          {
+            "type": "TextBlock",
+            "text": "${Text}"
+        },
+        {
+            "type": "Input.ChoiceSet",
+            "choices": [
+                ${join(getChoiceListRKE(List),',')}
+                               
+            ],
+            "placeholder": "",
+            "id": "InputAdultos"
+        }
+    ]
+}
+ ```
+# getChoiceListRKE(adaptiveCardAccounts)
+- ${foreach(adaptiveCardAccounts, x, getChoiceRKE(x.AssetNameEn))}
+
+ #getChoiceRKE(listC)
+- ``` 
+ {
+     "title": "${listC}",
+     "value": "${listC}"
+ }
+ ```
+
+# ButtonListRK(Text, List)
+- ``` 
+{
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "version": "1.0",
+    "type": "AdaptiveCard",
+    "body": [
+          {
+            "type": "TextBlock",
+            "text": "${Text}"
+        },
+        {
+            "type": "Input.ChoiceSet",
+            "choices": [
+                ${join(getChoiceListRK(List),',')}
+                               
+            ],
+            "placeholder": "",
+            "id": "InputAdultos"
+        }
+    ]
+}
+ ```
+# getChoiceListRK(adaptiveCardAccounts)
+- ${foreach(adaptiveCardAccounts, x, getChoiceRK(x.AssetNameAr))}
+
+ #getChoiceRK(listC)
+- ``` 
+ {
+     "title": "${listC}",
+     "value": "${listC}"
+ }
+ ```

@@ -1,0 +1,8 @@
+[import](common.lg)
+
+# SendActivity_67qSfl_text()
+- ${dialog.text}
+# SendActivity_67qSfl()
+[Activity
+    Text = ${SendActivity_67qSfl_text()}
+]

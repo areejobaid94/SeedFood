@@ -1,0 +1,37 @@
+[import](common.lg)
+
+# SendActivity_4RhSB8()
+[Activity
+    Text = ${SendActivity_4RhSB8_text()}
+]
+
+# SendActivity_4RhSB8_text()
+- ${dialog.text}
+# SendActivity_6a18Jf_text()
+- ${dialog.arText}
+# SendActivity_6a18Jf()
+[Activity
+    Text = ${SendActivity_6a18Jf_text()}
+]
+
+# SendActivity_rsYlVC_text()
+- ${dialog.enText}
+# SendActivity_rsYlVC()
+[Activity
+    Text = ${SendActivity_rsYlVC_text()}
+]
+
+# SendActivity_9QW9dF()
+[Activity
+    Text= ${dialog.foreach.value.AttachmentUrl}
+    InputHint=${dialog.foreach.value.AttachmentType}
+    Speak =  ${dialog.foreach.value.AttachmentName}
+     
+]
+# TextInput_Prompt_M5c2Ec_text()
+- ${dialog.text}
+# TextInput_Prompt_M5c2Ec()
+[Activity
+    Text = ${TextInput_Prompt_M5c2Ec_text()}
+    SuggestedActions = ${dialog.option1} | ${dialog.option2}
+]

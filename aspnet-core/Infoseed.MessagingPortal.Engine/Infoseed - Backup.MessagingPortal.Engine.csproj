@@ -1,0 +1,37 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="app.config" />
+    <Content Remove="wwwroot\Plugins\.gitkeep" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="wwwroot\Plugins\.gitkeep">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Abp.Castle.Log4Net" Version="5.13.0" />
+    <PackageReference Include="AspNetCore.HealthChecks.UI" Version="3.1.1" />
+    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.21.0" />
+    <PackageReference Include="Nancy" Version="2.0.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="6.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Framework.Integration\Framework.Integration.csproj" />
+    <ProjectReference Include="..\src\Infoseed.MessagingPortal.Application.Shared\Infoseed.MessagingPortal.Application.Shared.csproj" />
+    <ProjectReference Include="..\src\Infoseed.MessagingPortal.Application\Infoseed.MessagingPortal.Application.csproj" />
+    <ProjectReference Include="..\src\Infoseed.MessagingPortal.Web.Core\Infoseed.MessagingPortal.Web.Core.csproj" />
+  </ItemGroup>
+
+
+</Project>

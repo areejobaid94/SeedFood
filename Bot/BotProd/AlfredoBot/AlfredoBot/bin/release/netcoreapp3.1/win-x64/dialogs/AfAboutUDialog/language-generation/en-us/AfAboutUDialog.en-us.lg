@@ -1,0 +1,16 @@
+[import](common.lg)
+
+# TextInput_Prompt_Bccgji()
+[Activity
+    Attachments = ${json(ButtonList(conversation.InputHint,dialog.AboutUsList))}
+    InputHint=${conversation.InputHint}
+    Summary=${conversation.Summary}
+]
+
+# SendActivity_rWKI4O()
+[Activity
+    Text = ${SendActivity_rWKI4O_text()}
+]
+
+# SendActivity_rWKI4O_text()
+- ${dialog.AboutUsCaption}

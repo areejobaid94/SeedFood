@@ -1,0 +1,51 @@
+.card h4 {
+    color: #e1306c; /* Instagram pink */
+  }
+  
+  .btn-outline-danger {
+    border-color: #e1306c;
+    color: #e1306c;
+  }
+  .btn-outline-danger:hover {
+    background-color: #e1306c;
+    color: white;
+  }
+
+/* instagram-connection.component.css */
+.card {
+  background-color: #fff;
+  border-radius: 1rem;
+}
+
+h5 {
+  color: #333;
+}
+
+.btn-primary {
+  border-radius: 8px;
+  min-width: 140px;
+  font-weight: 500;
+}
+
+
+.container {
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.btn {
+  min-width: 120px;
+  height: 38px;
+  font-weight: 500;
+}
+
+.btn-outline-danger {
+  color: #dc3545;
+  border-color: #dc3545;
+}
+
+.btn-outline-danger:hover {
+  background-color: #dc3545;
+  color: white;
+}

@@ -1,0 +1,22 @@
+{
+  "profileName": "NewPublish",
+  "jobId": "d607dc9a-41fc-48c9-83b0-4e2c1fa5cf2d",
+  "projectId": "20629.462492904295",
+  "time": "2022-08-25T10:24:34.488Z",
+  "log": [
+    "Creating Azure resources...",
+    "Checking the Existence of the Resource Group ...",
+    "Creating Resource Group ...",
+    "> Creating App Registration ...",
+    "Start to add password for App, Id : d3e2f724-1a18-4cce-92cb-87e46622f992",
+    "> Create App Registration Success! ID: d3e2f724-1a18-4cce-92cb-87e46622f992",
+    "Deploying Web App Resource ...",
+    "Deploying Bot Resource ...",
+    "Deploying Luis Authoring Resource ...",
+    "Deploying Luis Resource ...",
+    "Deploying QnA Resource ...",
+    "{\"stack\":\"Error: The subscription is not registered to use namespace 'Microsoft.Search'. See https://aka.ms/rps-not-found for how to register subscriptions.\\n    at new RestError2 (D:\\\\comp\\\\extensions\\\\azurePublish\\\\dist\\\\extension.js:265049:26)\\n    at D:\\\\comp\\\\extensions\\\\azurePublish\\\\dist\\\\extension.js:265957:27\\n    at processTicksAndRejections (internal/process/task_queues.js:95:5)\\n    at async AzureResourceMananger.deployQnAReource (D:\\\\comp\\\\extensions\\\\azurePublish\\\\dist\\\\extension.js:270738:41)\\n    at async BotProjectProvision.create (D:\\\\comp\\\\extensions\\\\azurePublish\\\\dist\\\\extension.js:271592:36)\\n    at async AzurePublisher.asyncProvision (D:\\\\comp\\\\extensions\\\\azurePublish\\\\dist\\\\extension.js:271996:34)\",\"message\":\"The subscription is not registered to use namespace 'Microsoft.Search'. See https://aka.ms/rps-not-found for how to register subscriptions.\",\"code\":\"MissingSubscriptionRegistration\",\"statusCode\":409,\"request\":{\"body\":\"{\\\"location\\\":\\\"westus\\\",\\\"properties\\\":{\\\"replicaCount\\\":1,\\\"partitionCount\\\":1,\\\"hostingMode\\\":\\\"default\\\"},\\\"sku\\\":{\\\"name\\\":\\\"standard\\\"}}\"},\"response\":{\"body\":\"{\\\"error\\\":{\\\"code\\\":\\\"MissingSubscriptionRegistration\\\",\\\"message\\\":\\\"The subscription is not registered to use namespace 'Microsoft.Search'. See https://aka.ms/rps-not-found for how to register subscriptions.\\\",\\\"details\\\":[{\\\"code\\\":\\\"MissingSubscriptionRegistration\\\",\\\"target\\\":\\\"Microsoft.Search\\\",\\\"message\\\":\\\"The subscription is not registered to use namespace 'Microsoft.Search'. See https://aka.ms/rps-not-found for how to register subscriptions.\\\"}]}}\"},\"body\":{\"message\":\"The subscription is not registered to use namespace 'Microsoft.Search'. See https://aka.ms/rps-not-found for how to register subscriptions.\",\"code\":\"MissingSubscriptionRegistration\"}}",
+    "{\"name\":\"CREATE_QNA_ERROR\",\"message\":\"Error - The subscription is not registered to use namespace 'Microsoft.Search'. See https://aka.ms/rps-not-found for how to register subscriptions.\",\"stack\":\"Error\\n    at new CustomizeError (D:\\\\comp\\\\extensions\\\\azurePublish\\\\dist\\\\extension.js:269875:25)\\n    at createCustomizeError (D:\\\\comp\\\\extensions\\\\azurePublish\\\\dist\\\\extension.js:269880:10)\\n    at AzureResourceMananger.deployQnAReource (D:\\\\comp\\\\extensions\\\\azurePublish\\\\dist\\\\extension.js:270888:13)\\n    at processTicksAndRejections (internal/process/task_queues.js:95:5)\\n    at async BotProjectProvision.create (D:\\\\comp\\\\extensions\\\\azurePublish\\\\dist\\\\extension.js:271592:36)\\n    at async AzurePublisher.asyncProvision (D:\\\\comp\\\\extensions\\\\azurePublish\\\\dist\\\\extension.js:271996:34)\"}",
+    "Provisioning completed 5 items before encountering a problem. {\"name\":\"CREATE_QNA_ERROR\",\"message\":\"Error - The subscription is not registered to use namespace 'Microsoft.Search'. See https://aka.ms/rps-not-found for how to register subscriptions.\",\"stack\":\"Error\\n    at new CustomizeError (D:\\\\comp\\\\extensions\\\\azurePublish\\\\dist\\\\extension.js:269875:25)\\n    at createCustomizeError (D:\\\\comp\\\\extensions\\\\azurePublish\\\\dist\\\\extension.js:269880:10)\\n    at AzureResourceMananger.deployQnAReource (D:\\\\comp\\\\extensions\\\\azurePublish\\\\dist\\\\extension.js:270888:13)\\n    at processTicksAndRejections (internal/process/task_queues.js:95:5)\\n    at async BotProjectProvision.create (D:\\\\comp\\\\extensions\\\\azurePublish\\\\dist\\\\extension.js:271592:36)\\n    at async AzurePublisher.asyncProvision (D:\\\\comp\\\\extensions\\\\azurePublish\\\\dist\\\\extension.js:271996:34)\"}. See provision.NewPublish.log in your bot folder"
+  ]
+}

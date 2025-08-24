@@ -1,0 +1,148 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "KKZ2T5",
+    "name": "TogetherSightDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "mmAcaw"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "u6MI17"
+          },
+          "condition": "conversation.local",
+          "cases": [
+            {
+              "value": "ar",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "LGJbWQ"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.option1",
+                      "value": "بكج الإبصار"
+                    },
+                    {
+                      "property": "dialog.option2",
+                      "value": "بكج الرؤية"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "en",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "ifAkQh"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.option1",
+                      "value": "The package of sight"
+                    },
+                    {
+                      "property": "dialog.option2",
+                      "value": "Vision package"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "default": [
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "DiTH7q"
+              },
+              "assignments": [
+                {
+                  "property": "dialog.option1",
+                  "value": "بكج الإبصار"
+                },
+                {
+                  "property": "dialog.option2",
+                  "value": "بكج الرؤية"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "UM1wmc"
+          },
+          "property": "dialog.text",
+          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId ==3640)).text"
+        },
+        {
+          "$kind": "Microsoft.DeleteProperty",
+          "$designer": {
+            "id": "buC7sy"
+          },
+          "property": "dialog.UserSelect"
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "hYPgrZ"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "unrecognizedPrompt": "",
+          "invalidPrompt": "",
+          "prompt": "${TextInput_Prompt_hYPgrZ()}",
+          "property": "dialog.UserSelect",
+          "validations": [
+            "equals(this.value, 'بكج الرؤية') ||equals(this.value, 'بكج الإبصار') ||equals(this.value, 'Vision package') ||equals(this.value, 'The package of sight') ||equals(this.value, '#')"
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "ZawkTP"
+          },
+          "property": "conversation.Request3",
+          "value": "${dialog.UserSelect}"
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "L5Nrvh"
+          },
+          "activityProcessed": true,
+          "dialog": "TogetherFinalDialog"
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "IiqBpb"
+          }
+        }
+      ]
+    }
+  ],
+  "generator": "TogetherSightDialog.lg",
+  "recognizer": "TogetherSightDialog.lu.qna",
+  "id": "TogetherSightDialog"
+}

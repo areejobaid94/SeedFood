@@ -1,0 +1,81 @@
+[import](common.lg)
+
+
+#PreOrderText(text,Option1,Option2,Summary)
+[Activity
+  Text= ${text}
+  SuggestedActions = ${Option1} | ${Option2}
+  Summary =  ${Summary}  
+]
+
+#ButtonList(Text,List)
+- ``` 
+{
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "version": "1.0",
+    "type": "AdaptiveCard",
+    "body": [
+          {
+            "type": "TextBlock",
+            "text": "${Text}"
+        },
+        {
+            "type": "Input.ChoiceSet",
+            "choices": [
+                ${join(getChoiceList(List),',')}
+                               
+            ],
+            "placeholder": "",
+            "id": "InputAdultos"
+        }
+    ]
+}
+ ```
+# getChoiceList(adaptiveCardAccounts)
+- ${foreach(adaptiveCardAccounts, x, getChoice( x))}
+
+ #getChoice(listC)
+- ``` 
+ {
+     "title": "${listC}",
+     "value": "${listC}"
+ }
+ ```
+
+
+
+# TextInput_Prompt_xHGnUt()
+- ${PreOrderText(conversation.PreOrderText,conversation.AnotherTime,conversation.RightNow,conversation.Summary)}
+# TextInput_Prompt_RzNXv6()
+[Activity
+    Attachments = ${json(ButtonList(dialog.text,dialog.GetDay.content.result))}
+    InputHint=${dialog.InputHint}
+     Summary=${conversation.Summary}
+]
+# TextInput_Prompt_d3aqZe()
+[Activity
+    Attachments = ${json(ButtonList(dialog.text,dialog.GetTime.content.result))}
+    InputHint=${dialog.InputHint}
+     Summary=${conversation.Summary}
+]
+# TextInput_Prompt_2PWooF()
+[Activity
+    Attachments = ${json(ButtonList(dialog.text,dialog.GetTime.content.result))}
+    InputHint=${dialog.InputHint}
+     Summary=${conversation.Summary}
+]
+# TextInput_Prompt_RqUi36()
+[Activity
+    Text = ${conversation.PreOrderText}
+    SuggestedActions= ${dialog.Option2}
+     Summary=${conversation.Summary}
+]
+
+
+# TextInput_Prompt_18vCCD()
+[Activity
+    Text = ${conversation.PreOrderText}
+    SuggestedActions=${dialog.Option1} |  ${dialog.Option2}
+     Summary=${conversation.Summary}
+]
+

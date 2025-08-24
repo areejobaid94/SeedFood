@@ -1,0 +1,156 @@
+.group-page{
+.custome-search {
+    padding: 0px;
+    display: flex;
+    width: auto;
+    border-radius: 7px 0px 0px 7px !important;
+}
+
+.custome-btn {
+    border-radius: 0px 7px 7px 0px !important;
+}
+
+.GroupNameWidth {
+    width: 150px !important;
+}
+
+.GroupCreationWidth {
+    width: 140px !important;
+}
+
+.GroupCreatorWidth {
+    width: 120px !important;
+}
+
+.totalNumberWidth {
+    width: 140px !important;
+}
+
+.p-checkbox:not(.p-checkbox-disabled) .p-checkbox-box:hover {
+    border-color: #009789;
+}
+
+::ng-deep .p-checkbox:not(.p-checkbox-disabled) .p-checkbox-box:hover {
+    border-color: #009789;
+}
+
+.p-checkbox .p-checkbox-box.p-highlight {
+    border-color: #009789 !important;
+    background: #009789 !important;
+}
+
+::ng-deep .p-checkbox .p-checkbox-box.p-highlight {
+    border-color: #009789 !important;
+    background: #009789 !important;
+}
+
+::ng-deep .p-paginator .p-paginator-pages .p-paginator-page.p-highlight {
+    background: #00978924;
+    border-color: #00978900;
+    color: #009789;
+}
+
+.p-paginator .p-paginator-pages .p-paginator-page.p-highlight {
+    background: #00978924;
+    border-color: #00978900;
+    color: #009789;
+}
+
+.custom-search-input {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.custom-search-input input.form-control {
+  padding-left: 2rem; /* space for the icon */
+  border-radius: 0.5rem;
+  height: 38px;
+  font-size: 14px;
+}
+
+.custom-search-input .search-icon {
+  position: absolute;
+  left: 10px;
+  color: #6c757d; /* muted gray */
+  font-size: 1rem;
+  pointer-events: none;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+}
+
+.search-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.search-container input.form-control {
+  padding-left: 2rem;
+  height: 40px;
+  font-size: 14px;
+  border-radius: 0.375rem;
+}
+
+.search-container .search-icon {
+  position: absolute;
+  left: 10px;
+  color: #6c757d;
+  font-size: 1rem;
+  pointer-events: none;
+}
+
+button.btn {
+  height: 38px;
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+}
+
+/* Override primary button to your custom green */
+.btn-primary {
+  background-color: #009789 !important;
+  border-color: #009789 !important;
+  color: #fff !important;
+}
+
+.btn-primary:hover {
+  background-color: #009789 !important;
+  border-color: #009789 !important;
+  box-shadow: 0 0 0 0.2rem rgba(0, 151, 137, 0.5) !important;
+}
+
+/* Override outline-primary button to your custom green outline */
+.btn-outline-primary {
+  color: #009789 !important;
+  border-color: #009789 !important;
+  background-color: white !important; 
+}
+
+.btn-outline-primary:hover {
+  background-color: white !important; 
+  border-color: #009789 !important;
+  color: #009789 !important; 
+  box-shadow: 0 0 0 0.2rem rgba(0, 151, 137, 0.5) !important;
+}
+
+.btn-outline-primary i {
+  color: #009789 !important;
+}
+
+
+
+
+
+
+
+}
+

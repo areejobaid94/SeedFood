@@ -1,0 +1,32 @@
+﻿using Abp.Application.Services.Dto;
+using System;
+
+namespace Infoseed.MessagingPortal.Menus.Dtos
+{
+    public class GetAllMenusInput : PagedAndSortedResultRequestDto
+    {
+		public string Filter { get; set; }
+
+		public string MenuNameFilter { get; set; }
+
+		public string MenuDescriptionFilter { get; set; }
+
+		public DateTime? MaxEffectiveTimeFromFilter { get; set; }
+		public DateTime? MinEffectiveTimeFromFilter { get; set; }
+
+		public DateTime? MaxEffectiveTimeToFilter { get; set; }
+		public DateTime? MinEffectiveTimeToFilter { get; set; }
+
+		public decimal? MaxTaxFilter { get; set; }
+		public decimal? MinTaxFilter { get; set; }
+
+	
+
+
+		 //public string MenuItemStatusNameFilter { get; set; }
+
+		 		 //public string MenuCategoryNameFilter { get; set; }
+
+		public int PriorityFilter { get; set; }
+	}
+}

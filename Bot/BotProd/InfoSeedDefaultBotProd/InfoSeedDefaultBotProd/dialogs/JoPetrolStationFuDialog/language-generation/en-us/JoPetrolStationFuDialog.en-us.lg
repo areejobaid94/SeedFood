@@ -1,0 +1,10 @@
+[import](common.lg)
+
+# TextInput_Prompt_r3G7dm()
+[Activity
+
+    Attachments = ${json(ButtonList(dialog.HintPlaseCaption,dialog.OptionList))}
+    InputHint=منطقتك
+    Summary=${conversation.Summary}
+
+]

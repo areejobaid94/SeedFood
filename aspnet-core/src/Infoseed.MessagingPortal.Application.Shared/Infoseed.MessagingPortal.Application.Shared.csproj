@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="..\..\common.props"></Import>
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace>Infoseed.MessagingPortal</RootNamespace>
+    <Configurations>Debug;Release;Staging</Configurations>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="TenantInformation\Dtos\**" />
+    <EmbeddedResource Remove="TenantInformation\Dtos\**" />
+    <None Remove="TenantInformation\Dtos\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Abp.Web.Common" Version="5.13.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="5.0.5" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
+    <PackageReference Include="MongoDB.Bson" Version="3.1.0" />
+    <PackageReference Include="System.ComponentModel.Annotations" Version="4.7.0" />
+    <PackageReference Include="System.Text.Json" Version="6.0.2" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Infoseed.MessagingPortal.Core.Shared\Infoseed.MessagingPortal.Core.Shared.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="DeliveryLocationCost\Dtos\" />
+    <Folder Include="Generic\Dto\" />
+  </ItemGroup>
+</Project>

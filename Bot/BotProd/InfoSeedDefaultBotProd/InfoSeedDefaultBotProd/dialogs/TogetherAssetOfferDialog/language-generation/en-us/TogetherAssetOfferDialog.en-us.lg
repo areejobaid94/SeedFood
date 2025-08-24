@@ -1,0 +1,43 @@
+[import](common.lg)
+
+# SendActivity_DOXwpV_text()
+- ${dialog.arText}
+# SendActivity_DOXwpV()
+[Activity
+    Text = ${SendActivity_DOXwpV_text()}
+]
+
+# SendActivity_b2PIc9_text()
+- ${dialog.enText}
+# SendActivity_b2PIc9()
+[Activity
+    Text = ${SendActivity_b2PIc9_text()}
+]
+
+# SendActivity_NURjFH()
+[Activity
+    Text= ${dialog.foreach.value.AttachmentUrl}
+    InputHint=${dialog.foreach.value.AttachmentType}
+    Speak =  ${dialog.foreach.value.AttachmentName}
+     
+]
+# SendActivity_dcTAWj_text()
+- ${dialog.text}
+# SendActivity_dcTAWj()
+[Activity
+    Text = ${SendActivity_dcTAWj_text()}
+]
+
+# SendActivity_M6bbEN_text()
+- لا يوجد عروض
+# SendActivity_M6bbEN()
+[Activity
+    Text = ${SendActivity_M6bbEN_text()}
+]
+
+# SendActivity_Els9AV_text()
+- No Asset
+# SendActivity_Els9AV()
+[Activity
+    Text = ${SendActivity_Els9AV_text()}
+]

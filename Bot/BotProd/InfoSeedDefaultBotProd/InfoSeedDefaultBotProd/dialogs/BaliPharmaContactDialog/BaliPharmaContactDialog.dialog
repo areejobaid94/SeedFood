@@ -1,0 +1,261 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "nqjw0B",
+    "name": "BaliPharmaContactDialog",
+    "comment": "تواصل مع خبرائنا"
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "BOs43l"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "6tiOUC"
+          },
+          "condition": "conversation.local",
+          "cases": [
+            {
+              "value": "ar",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "aLqx9R"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.option1",
+                      "value": "خبراء البشرة"
+                    },
+                    {
+                      "property": "dialog.option2",
+                      "value": "خبراء التغذية"
+                    },
+                    {
+                      "property": "dialog.choose1",
+                      "value": "استفسار مباشرة"
+                    },
+                    {
+                      "property": "dialog.choose2",
+                      "value": "حجز موعد"
+                    },
+                    {
+                      "property": "dialog.choose3",
+                      "value": "مواعيد الخبيرات"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "en",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "BrRvto"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.option1",
+                      "value": "Skin experts"
+                    },
+                    {
+                      "property": "dialog.option2",
+                      "value": "Nutritionists"
+                    },
+                    {
+                      "property": "dialog.choose1",
+                      "value": "Direct enquiry"
+                    },
+                    {
+                      "property": "dialog.choose2",
+                      "value": "Make an appointment"
+                    },
+                    {
+                      "property": "dialog.choose3",
+                      "value": "Expert schedule"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "QjC9W0"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "prompt": "${TextInput_Prompt_QjC9W0()}",
+          "property": "dialog.UserInput",
+          "validations": [
+            "equals(this.value, '#')|| equals(this.value, 'خبراء البشرة') || equals(this.value, 'خبراء التغذية') || equals(this.value, 'Skin experts') || equals(this.value, 'Nutritionists')"
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "eaWxJF"
+          },
+          "property": "conversation.Department1",
+          "value": "=dialog.UserInput"
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "3DnWcp"
+          },
+          "condition": "dialog.UserInput",
+          "cases": [
+            {
+              "value": "خبراء البشرة",
+              "actions": [
+                {
+                  "$kind": "Microsoft.TextInput",
+                  "$designer": {
+                    "id": "Ff8yGl"
+                  },
+                  "disabled": false,
+                  "maxTurnCount": 100,
+                  "alwaysPrompt": false,
+                  "allowInterruptions": true,
+                  "prompt": "${TextInput_Prompt_Ff8yGl()}",
+                  "property": "dialog.UserInput2",
+                  "validations": [
+                    "equals(this.value, '#')|| equals(this.value, 'استفسار مباشرة') || equals(this.value, 'مواعيد الخبيرات') || equals(this.value, 'Expert schedule') || equals(this.value, 'Direct enquiry')"
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "3aWZPB"
+                  },
+                  "property": "conversation.Department2",
+                  "value": "=dialog.UserInput2"
+                }
+              ]
+            },
+            {
+              "value": "خبراء التغذية",
+              "actions": [
+                {
+                  "$kind": "Microsoft.TextInput",
+                  "$designer": {
+                    "id": "Ju0XjU"
+                  },
+                  "disabled": false,
+                  "maxTurnCount": 100,
+                  "alwaysPrompt": false,
+                  "allowInterruptions": true,
+                  "prompt": "${TextInput_Prompt_Ju0XjU()}",
+                  "property": "dialog.UserInput2",
+                  "validations": [
+                    "equals(this.value, '#')|| equals(this.value, 'استفسار مباشرة') || equals(this.value, 'حجز موعد')  || equals(this.value, 'Make an appointment') || equals(this.value, 'Direct enquiry')"
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "0v5vu3"
+                  },
+                  "property": "conversation.Department2",
+                  "value": "=dialog.UserInput2"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "scb5B3"
+          },
+          "condition": "dialog.UserInput",
+          "cases": [
+            {
+              "value": "Skin experts",
+              "actions": [
+                {
+                  "$kind": "Microsoft.TextInput",
+                  "$designer": {
+                    "id": "G73y5c"
+                  },
+                  "disabled": false,
+                  "maxTurnCount": 100,
+                  "alwaysPrompt": false,
+                  "allowInterruptions": true,
+                  "prompt": "${TextInput_Prompt_G73y5c()}",
+                  "property": "dialog.UserInput2",
+                  "validations": [
+                    "equals(this.value, '#')|| equals(this.value, 'استفسار مباشرة') || equals(this.value, 'جدول مواعيد الخبيرات') || equals(this.value, 'Expert schedule') || equals(this.value, 'Direct enquiry')"
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "yRYUO4"
+                  },
+                  "property": "conversation.Department2",
+                  "value": "=dialog.UserInput2"
+                }
+              ]
+            },
+            {
+              "value": "Nutritionists",
+              "actions": [
+                {
+                  "$kind": "Microsoft.TextInput",
+                  "$designer": {
+                    "id": "jfeC9J"
+                  },
+                  "disabled": false,
+                  "maxTurnCount": 100,
+                  "alwaysPrompt": false,
+                  "allowInterruptions": true,
+                  "prompt": "${TextInput_Prompt_jfeC9J()}",
+                  "property": "dialog.UserInput2",
+                  "validations": [
+                    "equals(this.value, '#')|| equals(this.value, 'استفسار مباشرة') || equals(this.value, 'حجز موعد مع الخبيرة')  || equals(this.value, 'Make an appointment') || equals(this.value, 'Direct enquiry')"
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "H7WKbs"
+                  },
+                  "property": "conversation.Department2",
+                  "value": "=dialog.UserInput2"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "2nAHQt"
+          },
+          "activityProcessed": true,
+          "dialog": "LiveChatDialog"
+        }
+      ]
+    }
+  ],
+  "generator": "BaliPharmaContactDialog.lg",
+  "recognizer": "BaliPharmaContactDialog.lu.qna",
+  "id": "BaliPharmaContactDialog"
+}

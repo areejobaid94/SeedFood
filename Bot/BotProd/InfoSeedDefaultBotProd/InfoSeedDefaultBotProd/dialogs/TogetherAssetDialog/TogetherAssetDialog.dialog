@@ -1,0 +1,306 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "s18fMd",
+    "name": "TogetherAssetDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "nIYrz2"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "lbHHoZ"
+          },
+          "condition": "conversation.userSelect == null",
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "BbDBZc"
+              },
+              "property": "conversation.userSelect",
+              "value": "0"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "hajm9w"
+          },
+          "condition": "dialog.IsNextPage ",
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "29F5jQ"
+              },
+              "assignments": [
+                {
+                  "property": "dialog.pageNumber",
+                  "value": "=dialog.pageNumber +1"
+                },
+                {
+                  "property": "dialog.IsNextPage",
+                  "value": false
+                }
+              ]
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "yNyCLv"
+              },
+              "assignments": [
+                {
+                  "property": "dialog.pageNumber",
+                  "value": "0"
+                },
+                {
+                  "property": "dialog.pageSize",
+                  "value": "9"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "P3htVw"
+          },
+          "condition": "conversation.local==\"ar\"",
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "nF1Pfw"
+              },
+              "assignments": [
+                {
+                  "property": "dialog.InputHint",
+                  "value": "القائمة"
+                },
+                {
+                  "property": "dialog.text",
+                  "value": "الرجاء الاختيار"
+                },
+                {
+                  "property": "dialog.Summary",
+                  "value": "يمكنك إرسال # في أي وقت للعودة إلى القائمة الرئيسية"
+                }
+              ]
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "IBFZqS"
+              },
+              "assignments": [
+                {
+                  "property": "dialog.InputHint",
+                  "value": "Menu"
+                },
+                {
+                  "property": "dialog.text",
+                  "value": "Please choose"
+                },
+                {
+                  "property": "dialog.Summary",
+                  "value": "You can send # at any time to return to the main menu"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.HttpRequest",
+          "$designer": {
+            "id": "EYuA8Y"
+          },
+          "resultProperty": "dialog.ListFuel",
+          "method": "GET",
+          "url": "${conversation.URL}/api/BotAPI/GetAssetLevel?tenantId=${conversation.TenantId}&local=${conversation.local}&stepId=${conversation.stepId}&levelId=${conversation.userSelect}",
+          "responseType": "json"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "1iF5KY"
+          },
+          "condition": "dialog.ListFuel.content.result.count >0",
+          "elseActions": [
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "jPg7FH"
+              },
+              "assignments": [
+                {
+                  "property": "conversation.isNullList",
+                  "value": true
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.EndDialog",
+              "$designer": {
+                "id": "br8zGb"
+              }
+            }
+          ],
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "cvGpj5"
+              },
+              "assignments": [
+                {
+                  "property": "conversation.isNullList",
+                  "value": false
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.DeleteProperty",
+          "$designer": {
+            "id": "N3gCia"
+          },
+          "property": "conversation.userSelectNow"
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "2G4bfX"
+          },
+          "property": "dialog.InputHint",
+          "value": "منطقتك"
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "zDEEwu"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": false,
+          "property": "conversation.userSelectNow",
+          "prompt": "${TextInput_Prompt_zDEEwu()}",
+          "validations": []
+        },
+        {
+          "$kind": "Microsoft.Foreach",
+          "$designer": {
+            "id": "dstYl5"
+          },
+          "index": "dialog.foreach.index",
+          "value": "dialog.foreach.value",
+          "itemsProperty": "dialog.ListFuel.content.result",
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "W1ILae"
+              },
+              "property": "dialog.foreach.value.value",
+              "value": "=dialog.foreach.value.value "
+            },
+            {
+              "$kind": "Microsoft.EditArray",
+              "$designer": {
+                "id": "stYExu"
+              },
+              "changeType": "push",
+              "value": "=dialog.foreach.value.value ",
+              "itemsProperty": "dialog.list"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "TMokVt"
+          },
+          "condition": "=contains(dialog.list,conversation.userSelectNow) || contains(conversation.userSelectNow, '#')",
+          "elseActions": [
+            {
+              "$kind": "Microsoft.RepeatDialog",
+              "$designer": {
+                "id": "Gof9Ev"
+              },
+              "activityProcessed": true
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "ZSjs6I"
+          },
+          "property": "conversation.DepartmentName",
+          "value": "=conversation.userSelectNow"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "McQ22O"
+          },
+          "condition": "conversation.userSelectNow==\"#\"",
+          "elseActions": [
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "rJoXoG"
+              },
+              "property": "conversation.userSelect",
+              "value": "=first(where(dialog.ListFuel.content.result, x, x.value== conversation.userSelectNow)).key"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "RDSHzh"
+          }
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "6GBmor"
+          },
+          "assignments": [
+            {
+              "property": "conversation.DepartmentName",
+              "value": "=conversation.userSelect"
+            },
+            {
+              "property": "conversation.userSelect",
+              "value": "=first(where(dialog.ListFuel.content.result, x, x.value== conversation.userSelect)).key"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "generator": "TogetherAssetDialog.lg",
+  "recognizer": "TogetherAssetDialog.lu.qna",
+  "id": "TogetherAssetDialog"
+}

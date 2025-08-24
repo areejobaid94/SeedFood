@@ -1,0 +1,8 @@
+{
+  "$kind": "Microsoft.LuisRecognizer",
+  "id": "LUIS_Bustami_SahebAssetLevelDialog",
+  "applicationId": "=settings.luis.Bustami_SahebAssetLevelDialog_en_us_lu.appId",
+  "version": "=settings.luis.Bustami_SahebAssetLevelDialog_en_us_lu.version",
+  "endpoint": "=settings.luis.endpoint",
+  "endpointKey": "=settings.luis.endpointKey"
+}

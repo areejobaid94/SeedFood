@@ -1,0 +1,756 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "dlP76W",
+    "name": "OrdersDialog",
+    "description": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "2Aqjla"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.DeleteProperty",
+          "$designer": {
+            "id": "yepqOr"
+          },
+          "property": "conversation.OrderType"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "FUnHP6"
+          },
+          "condition": "conversation.TenantId == \"24\" ||conversation.TenantId == \"34\" || conversation.TenantId == \"38\" || conversation.TenantId == \"47\"",
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "cTOzjG"
+              },
+              "property": "conversation.OrderType",
+              "value": "${conversation.Delivery}"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "wz3bt5"
+          },
+          "condition": "conversation.TenantId == \"34\"",
+          "actions": [
+            {
+              "$kind": "Microsoft.SwitchCondition",
+              "$designer": {
+                "id": "dOjDov"
+              },
+              "condition": "conversation.local",
+              "cases": [
+                {
+                  "value": "ar",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.SetProperties",
+                      "$designer": {
+                        "id": "JXZkm9"
+                      },
+                      "assignments": [
+                        {
+                          "property": "dialog.text",
+                          "value": "الرجاء الاختيار"
+                        },
+                        {
+                          "property": "dialog.op1",
+                          "value": "من تطبيق C-town"
+                        },
+                        {
+                          "property": "dialog.op2",
+                          "value": "من خلال واتس اب"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "value": "en",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.SetProperties",
+                      "$designer": {
+                        "id": "wBUfVf"
+                      },
+                      "assignments": [
+                        {
+                          "property": "dialog.text",
+                          "value": "Please choose"
+                        },
+                        {
+                          "property": "dialog.op1",
+                          "value": "From C-town app"
+                        },
+                        {
+                          "property": "dialog.op2",
+                          "value": "Through Whatsapp"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.TextInput",
+              "$designer": {
+                "id": "udtJE1"
+              },
+              "disabled": false,
+              "maxTurnCount": 100,
+              "alwaysPrompt": false,
+              "allowInterruptions": true,
+              "unrecognizedPrompt": "",
+              "invalidPrompt": "",
+              "prompt": "${TextInput_Prompt_udtJE1()}",
+              "property": "dialog.userselect",
+              "validations": [
+                "=contains(this.value, 'من تطبيق C-town') ||contains(this.value, 'من خلال واتس اب') ||contains(this.value, '#') || contains(this.value, 'From C-town app') ||contains(this.value, 'Through Whatsapp')"
+              ]
+            },
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "ZmHf1t"
+              },
+              "condition": "dialog.userselect == \"من تطبيق C-town\"  || dialog.userselect == \"From C-town app\"",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "aeckdK"
+                  },
+                  "activity": "${SendActivity_aeckdK()}"
+                },
+                {
+                  "$kind": "Microsoft.CancelAllDialogs",
+                  "$designer": {
+                    "id": "JjZBA5"
+                  },
+                  "activityProcessed": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "MZJrJy"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "prompt": "${TextInput_Prompt_MZJrJy()}",
+          "unrecognizedPrompt": "",
+          "invalidPrompt": "",
+          "property": "conversation.OrderType",
+          "validations": [
+            "contains(this.value, '#') || contains(this.value, 'استلام من الفرع') || contains(this.value, 'توصيل \"Delivery\"') || contains(this.value, 'Pick-up')|| contains(this.value, 'Delivery')"
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "6Eoxr0"
+          },
+          "property": "dialog.MenuType",
+          "value": "${conversation.TenantId}"
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "g3VUls"
+          },
+          "condition": "dialog.MenuType",
+          "cases": [
+            {
+              "value": "234567890",
+              "actions": [
+                {
+                  "$kind": "Microsoft.DeleteProperty",
+                  "$designer": {
+                    "id": "W4Mfwz"
+                  },
+                  "property": "dialog.selectRType"
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "qnnJhV"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.Option1",
+                      "value": "نفيسة"
+                    },
+                    {
+                      "property": "dialog.Option2",
+                      "value": "فروت"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.TextInput",
+                  "$designer": {
+                    "id": "UlcKN6"
+                  },
+                  "disabled": false,
+                  "maxTurnCount": 100,
+                  "alwaysPrompt": false,
+                  "allowInterruptions": false,
+                  "prompt": "${TextInput_Prompt_UlcKN6()}",
+                  "unrecognizedPrompt": "",
+                  "invalidPrompt": "",
+                  "defaultValueResponse": "",
+                  "property": "dialog.selectRType",
+                  "validations": [
+                    "contains(this.value, 'نفيسة') || contains(this.value, 'فروت') "
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SwitchCondition",
+                  "$designer": {
+                    "id": "1IiV2m"
+                  },
+                  "condition": "dialog.selectRType",
+                  "cases": [
+                    {
+                      "value": "نفيسة",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "oTr1lS"
+                          },
+                          "property": "conversation.BranchNameSelect",
+                          "value": "نفيسة"
+                        },
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "FyTQA1"
+                          },
+                          "property": "conversation.menu",
+                          "value": "1"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "فروت",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "JIaWVj"
+                          },
+                          "property": "conversation.BranchNameSelect",
+                          "value": "فروت"
+                        },
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "L9AViW"
+                          },
+                          "property": "conversation.menu",
+                          "value": "2"
+                        }
+                      ]
+                    }
+                  ],
+                  "default": [
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "MKGGtW"
+                      },
+                      "property": "conversation.BranchNameSelect",
+                      "value": "نفيسة"
+                    },
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "LZQxSB"
+                      },
+                      "property": "conversation.menu",
+                      "value": "1"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "4567890",
+              "actions": [
+                {
+                  "$kind": "Microsoft.DeleteProperty",
+                  "$designer": {
+                    "id": "6yCmkK"
+                  },
+                  "property": "dialog.selectRType"
+                },
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "buBLkF"
+                  },
+                  "condition": "conversation.local==\"ar\"",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.SetProperties",
+                      "$designer": {
+                        "id": "sRR8Sf"
+                      },
+                      "assignments": [
+                        {
+                          "property": "dialog.Option1",
+                          "value": "عمان"
+                        },
+                        {
+                          "value": "الزرقاء",
+                          "property": "dialog.Option2"
+                        },
+                        {
+                          "property": "dialog.Option3",
+                          "value": "العقبة"
+                        }
+                      ]
+                    }
+                  ],
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.SetProperties",
+                      "$designer": {
+                        "id": "CJJzzA"
+                      },
+                      "assignments": [
+                        {
+                          "property": "dialog.Option1",
+                          "value": "Amman"
+                        },
+                        {
+                          "property": "dialog.Option2",
+                          "value": "Zarqa"
+                        },
+                        {
+                          "property": "dialog.Option3",
+                          "value": "Aqaba"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.TextInput",
+                  "$designer": {
+                    "id": "zkKbXt"
+                  },
+                  "disabled": false,
+                  "maxTurnCount": 100,
+                  "alwaysPrompt": false,
+                  "allowInterruptions": true,
+                  "prompt": "${TextInput_Prompt_zkKbXt()}",
+                  "unrecognizedPrompt": "",
+                  "invalidPrompt": "",
+                  "defaultValueResponse": "",
+                  "property": "dialog.selectRType",
+                  "validations": [
+                    "contains(this.value, 'عمان') || contains(this.value, 'الزرقاء') || contains(this.value, 'العقبة') ||contains(this.value, 'Amman') || contains(this.value, 'Zarqa') || contains(this.value, 'Aqaba') "
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SwitchCondition",
+                  "$designer": {
+                    "id": "yaxWdt"
+                  },
+                  "condition": "dialog.selectRType",
+                  "cases": [
+                    {
+                      "value": "عمان",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "Bbk3pw"
+                          },
+                          "property": "conversation.BranchNameSelect",
+                          "value": "عالية"
+                        },
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "Yt9jOR"
+                          },
+                          "property": "conversation.menu",
+                          "value": "1"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "الزرقاء",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "MjcpIe"
+                          },
+                          "property": "conversation.BranchNameSelect",
+                          "value": "عالية"
+                        },
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "ANk6av"
+                          },
+                          "property": "conversation.menu",
+                          "value": "2"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "العقبة",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "euFOBW"
+                          },
+                          "property": "conversation.BranchNameSelect",
+                          "value": "عالية"
+                        },
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "8LLptt"
+                          },
+                          "property": "conversation.menu",
+                          "value": "3"
+                        }
+                      ]
+                    }
+                  ],
+                  "default": []
+                },
+                {
+                  "$kind": "Microsoft.SwitchCondition",
+                  "$designer": {
+                    "id": "OhFfTi"
+                  },
+                  "condition": "dialog.selectRType",
+                  "cases": [
+                    {
+                      "value": "Amman",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "mo1sxk"
+                          },
+                          "property": "conversation.BranchNameSelect",
+                          "value": "عالية"
+                        },
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "eX8Z9W"
+                          },
+                          "property": "conversation.menu",
+                          "value": "1"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "Zarqa",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "GkItMO"
+                          },
+                          "property": "conversation.BranchNameSelect",
+                          "value": "عالية"
+                        },
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "bFXJNS"
+                          },
+                          "property": "conversation.menu",
+                          "value": "2"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "Aqaba",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "UjcXkN"
+                          },
+                          "property": "conversation.BranchNameSelect",
+                          "value": "عالية"
+                        },
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "w7TOsU"
+                          },
+                          "property": "conversation.menu",
+                          "value": "3"
+                        }
+                      ]
+                    }
+                  ],
+                  "default": []
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "SxORwA"
+                  },
+                  "property": "conversation.isBrgar",
+                  "value": false
+                }
+              ]
+            }
+          ],
+          "default": [
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "oan3Ah"
+              },
+              "property": "conversation.OrderTypeId",
+              "value": "0"
+            },
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "nd3ur8"
+              },
+              "property": "conversation.menu",
+              "value": "0"
+            },
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "5egtMg"
+              },
+              "activityProcessed": true,
+              "dialog": "PickUpOrderDialog"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "dguXSK"
+          },
+          "assignments": [
+            {
+              "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 2)).text",
+              "property": "conversation.ClickLink_Text"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "o4E6gj"
+          },
+          "assignments": [
+            {
+              "value": "=replace(conversation.ClickLink_Text, '{0}', conversation.TenantId)",
+              "property": "dialog.PlaceOrder_Text1"
+            },
+            {
+              "value": "=replace(dialog.PlaceOrder_Text1, '{1}', conversation.ContactId)",
+              "property": "dialog.PlaceOrder_Text2"
+            },
+            {
+              "value": "=replace(dialog.PlaceOrder_Text2, '{2}', conversation.TenantPhoneNumber)",
+              "property": "dialog.PlaceOrder_Text3"
+            },
+            {
+              "value": "=replace(dialog.PlaceOrder_Text3, '{3}', conversation.menu)",
+              "property": "dialog.PlaceOrder_Text4"
+            },
+            {
+              "value": "=replace(dialog.PlaceOrder_Text4, '{4}', '1')",
+              "property": "conversation.ClickLink_Text"
+            },
+            {
+              "value": "=replace(conversation.ClickLink_Text, '{5}', conversation.local)",
+              "property": "conversation.ClickLink_Text"
+            },
+            {
+              "property": "conversation.ClickLink_Text",
+              "value": "=replace(conversation.ClickLink_Text, '{6}', conversation.OrderTypeId)"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "PcgtnE"
+          },
+          "property": "dialog.postlink ",
+          "value": {
+            "ContactID": "=conversation.ContactId",
+            "Value": "=conversation.ClickLink_Text"
+          }
+        },
+        {
+          "$kind": "Microsoft.HttpRequest",
+          "$designer": {
+            "id": "wlYgWh"
+          },
+          "resultProperty": "dialog.GetLink",
+          "method": "POST",
+          "url": "${conversation.URL}/api/BotAPI/AddMenuContcatKey",
+          "body": "=dialog.postlink",
+          "headers": {
+            "accept": "text/plain",
+            "Content-Type": "application/json-patch+json"
+          },
+          "responseType": "json"
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "Eb6iTP"
+          },
+          "property": "conversation.ClickLink_Text",
+          "value": "=dialog.GetLink.content.result"
+        },
+        {
+          "$kind": "Microsoft.DeleteProperty",
+          "$designer": {
+            "id": "VImwsN"
+          },
+          "property": "dialog.clickLink"
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "KOq895"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "prompt": "${TextInput_Prompt_KOq895()}",
+          "unrecognizedPrompt": "",
+          "property": "dialog.clickLink",
+          "validations": [
+            "contains(this.value, '#') || contains(this.value, 'testinfoseed')"
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "bVOeNR"
+          },
+          "activityProcessed": true,
+          "dialog": "AfterCreateOrderDialog"
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "EmvHcn"
+          },
+          "activityProcessed": true,
+          "dialog": "AddNoteDialog"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "J1MYkd"
+          },
+          "condition": "conversation.OrderType=='توصيل \"Delivery\"'  || conversation.OrderType=='Delivery'",
+          "actions": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "VrHdOl"
+              },
+              "activityProcessed": true,
+              "dialog": "DeliveryOrderDialog"
+            },
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "pBZIWW"
+              },
+              "condition": "conversation.OrderType=='توصيل \"Delivery\"'  || conversation.OrderType=='Delivery'",
+              "actions": [],
+              "elseActions": [
+                {
+                  "$kind": "Microsoft.DeleteProperties",
+                  "$designer": {
+                    "id": "btkFqa"
+                  },
+                  "properties": [
+                    "conversation.selectDay",
+                    "conversation.selectTime"
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "cqQFIM"
+                  },
+                  "property": "conversation.IsPreOrder",
+                  "value": false
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "0ydROq"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "PickUpOrderDialog"
+                }
+              ]
+            }
+          ],
+          "elseActions": []
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "n5iTiG"
+          },
+          "activityProcessed": true,
+          "dialog": "FinishOrderDialog"
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "mN7ekG"
+          }
+        }
+      ]
+    }
+  ],
+  "generator": "OrdersDialog.lg",
+  "recognizer": "OrdersDialog.lu.qna",
+  "id": "OrdersDialog"
+}

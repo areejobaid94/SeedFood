@@ -1,0 +1,16 @@
+[import](common.lg)
+
+# TextInput_Prompt_uzmOEI()
+[Activity
+    Text = ${TextInput_Prompt_uzmOEI_text()}
+    SuggestedActions = ${dialog.Option1} | ${dialog.Option2}
+]
+
+# TextInput_Prompt_uzmOEI_text()
+- ${conversation.WelcomeMessage}
+#CreateinquiriesText(text,Option1,Option2,Option3,Summary)
+[Activity
+  Text= ${text}
+  SuggestedActions = ${Option1} | ${Option2} | ${Option3}
+  Summary =  ${Summary}  
+]

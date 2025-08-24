@@ -1,0 +1,267 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "U0zssC",
+    "name": "BookingCancelAppointmentDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "XtYdrj"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "34o3G2"
+          },
+          "condition": "conversation.local==\"ar\"",
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "EyiC04"
+              },
+              "assignments": [
+                {
+                  "property": "dialog.result",
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1260)).text"
+                },
+                {
+                  "property": "dialog.cancel",
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1261)).text"
+                },
+                {
+                  "property": "dialog.text",
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1262)).text"
+                },
+                {
+                  "property": "conversation.localId",
+                  "value": "1"
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "SOebNx"
+              },
+              "assignments": [
+                {
+                  "property": "dialog.BookingInputHint",
+                  "value": "الحجوزات"
+                },
+                {
+                  "property": "dialog.Summary",
+                  "value": "اضغط # للعودة الى القائمة الرئيسية "
+                }
+              ]
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "qo1Tr4"
+              },
+              "assignments": [
+                {
+                  "property": "dialog.result",
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1260)).text"
+                },
+                {
+                  "property": "dialog.cancel",
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1261)).text"
+                },
+                {
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1262)).text",
+                  "property": "dialog.text"
+                },
+                {
+                  "property": "conversation.localId",
+                  "value": "2"
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "pJ36cS"
+              },
+              "assignments": [
+                {
+                  "property": "dialog.BookingInputHint",
+                  "value": "Bookings"
+                },
+                {
+                  "property": "dialog.Summary",
+                  "value": "Press # to return to the main menu"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.HttpRequest",
+          "$designer": {
+            "id": "y4u8CD"
+          },
+          "resultProperty": "dialog.bookingTimes",
+          "method": "GET",
+          "url": "${conversation.URL}/api/BotAPI/GetContactBooking?contactId=${conversation.ContactId}&tenantId=${conversation.TenantId}&languageId=${conversation.localId}",
+          "responseType": "json"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "aZ2PKZ"
+          },
+          "condition": "dialog.bookingTimes.content.result.count > 0",
+          "elseActions": [
+            {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "cHG9xx"
+              },
+              "activity": "${SendActivity_cHG9xx()}"
+            },
+            {
+              "$kind": "Microsoft.EndDialog",
+              "$designer": {
+                "id": "81v74X"
+              }
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "Jp7Yaf"
+          },
+          "property": "dialog.listcount",
+          "value": "${dialog.bookingTimes.content.result.count}"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "YeGFe5"
+          },
+          "condition": "dialog.listcount == \"1\"",
+          "elseActions": [
+            {
+              "$kind": "Microsoft.DeleteProperty",
+              "$designer": {
+                "id": "EDqqu2"
+              },
+              "property": "dialog.SelectedTime"
+            }
+          ],
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "cj1v3x"
+              },
+              "property": "dialog.SelectedTime",
+              "value": "=dialog.bookingTimes.content.result[0].contactBookingTime"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "xdph7g"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "unrecognizedPrompt": "",
+          "invalidPrompt": "",
+          "prompt": "${TextInput_Prompt_xdph7g()}",
+          "validations": [],
+          "property": "dialog.SelectedTime"
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "khNeTm"
+          },
+          "property": "dialog.book",
+          "value": "=first(where(dialog.bookingTimes.content.result, x, x.contactBookingTime== dialog.SelectedTime))"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "1lA88B"
+          },
+          "condition": "dialog.book ==null || dialog.book ==\"\" ",
+          "elseActions": [],
+          "actions": [
+            {
+              "$kind": "Microsoft.RepeatDialog",
+              "$designer": {
+                "id": "JR9oH9"
+              },
+              "activityProcessed": true
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.HttpRequest",
+          "$designer": {
+            "id": "2xJvcY"
+          },
+          "resultProperty": "dialog.updateResult",
+          "method": "POST",
+          "url": "${conversation.URL}/api/BotAPI/CancelBooking?bookingId=${dialog.book.id}",
+          "responseType": "json",
+          "headers": {
+            "accept": "text/plain",
+            "Content-Type": "application/json-patch+json"
+          }
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "oeriXJ"
+          },
+          "condition": "dialog.updateResult.content.result == \"The appointment has been Cancelled\" || dialog.updateResult.content.result == \"تم الغاء الموعد\"",
+          "actions": [
+            {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "OG29Fp"
+              },
+              "activity": "${SendActivity_OG29Fp()}"
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.RepeatDialog",
+              "$designer": {
+                "id": "JYG09l"
+              },
+              "activityProcessed": true
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "ASLCXZ"
+          }
+        }
+      ]
+    }
+  ],
+  "generator": "BookingCancelAppointmentDialog.lg",
+  "recognizer": "BookingCancelAppointmentDialog.lu.qna",
+  "id": "BookingCancelAppointmentDialog"
+}

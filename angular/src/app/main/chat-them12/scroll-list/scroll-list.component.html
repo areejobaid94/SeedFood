@@ -1,0 +1,18 @@
+<div class="d-flex w-75 "  >
+  <input class="form-control" [(ngModel)]="dataFrom" placeholder="Search by Name Or Phone" (ngModelChange)="loadDataifEmpty()" >
+  <button (click)="loadData()" class="btn btn-primary-info btn-next" >Search</button>
+</div>
+
+<div class="search-results" infiniteScroll [infiniteScrollDistance]="5" [infiniteScrollThrottle]="500"
+  (scrolled)="onScroll()" [scrollWindow]="false">
+  <div class="card-custome-contact" *ngFor="let item of items" (click)="triggerParentFunction(item)" >
+    <div class="card-body-custom d-flex align-items-center ">
+      <img src="../../../../assets/images/avatar4.png" width="45" height="45" class="float-left rounded-circle">
+     
+      <div class="message-costume d-flex flex-column justify-content-center">
+        <h6 class="card-subtitle-custom"> {{item.displayName}}</h6>
+        <h5 class="card-title-custom ">{{item.phoneNumber}}</h5>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="isLoading">Loading...</div>

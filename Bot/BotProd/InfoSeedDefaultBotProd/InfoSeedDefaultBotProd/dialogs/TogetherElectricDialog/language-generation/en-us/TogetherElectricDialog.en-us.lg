@@ -1,0 +1,17 @@
+[import](common.lg)
+
+# TextInput_Prompt_WmdsWY_text()
+- ${dialog.text}
+# TextInput_Prompt_WmdsWY()
+[Activity
+    Text = ${TextInput_Prompt_WmdsWY_text()}
+    SuggestedActions = ${dialog.Option1} | ${dialog.Option2}
+]
+
+# SendActivity_1fc9Pr()
+[Activity
+    Text = ${SendActivity_1fc9Pr_text()}
+]
+
+# SendActivity_1fc9Pr_text()
+- ${dialog.ManualCaption}

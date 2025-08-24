@@ -1,0 +1,229 @@
+#listResults .checkbox * {
+    cursor: pointer;
+  }
+  #listResults .checkbox {
+    padding-left: 20px;
+    width: 100px;
+    height: 20px;
+    margin-top: 1px;
+  }
+  
+  #listResults .checkbox label {
+    display: inline-block;
+    vertical-align: middle;
+    position: relative;
+    padding-left: 5px;
+  }
+  
+  #listResults .checkbox label::before {
+    content: "";
+    display: inline-block;
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    left: 0;
+    margin-left: -20px;
+    border: 1px solid #555;
+    border-radius: 3px;
+    background-color: #fff;
+    -webkit-transition: border 0.15s ease-in-out, color 0.15s ease-in-out;
+    -o-transition: border 0.15s ease-in-out, color 0.15s ease-in-out;
+    transition: border 0.15s ease-in-out, color 0.15s ease-in-out;
+  }
+  
+  #listResults .checkbox label::after {
+    display: inline-block;
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    left: 0;
+    top: 2px;
+    margin-left: -21px;
+    padding-left: 3px;
+    padding-top: 1px;
+    font-size: 11px;
+    color: #555555;
+  }
+  
+  #listResults .checkbox input[type="checkbox"]{
+    opacity: 0;
+    z-index: 1;
+    width: 100px;
+    height: 20px;
+  }
+  
+  
+  #listResults .checkbox input[type="checkbox"]:checked + label::after{
+    font-family: "FontAwesome";
+    content: "\2713";
+  }
+
+  
+  #listResults .checkbox.checkbox-inline {
+    margin-top: 0;
+  }
+  
+  #listResults .checkbox-red    input[type="checkbox"]:checked + label::after,
+  #listResults .checkbox-yellow input[type="checkbox"]:checked + label::after,
+  #listResults .checkbox-green  input[type="checkbox"]:checked + label::after,
+  #listResults .checkbox-blue   input[type="checkbox"]:checked + label::after,
+  #listResults .checkbox-black  input[type="checkbox"]:checked + label::after
+  {color: #fff;}
+  
+  #listResults .checkbox-pending input[type="checkbox"] + label::before
+  {
+    background: #ea5455!important;
+    color: white!important;
+    border-color: #EA5455;}
+    #listResults .checkbox-pending input[type="checkbox"]:checked + label::after{
+      color: white!important;
+    }
+  
+  #listResults .checkbox-Confirmed input[type="checkbox"] + label::before
+  {
+    background: #28c76f!important;
+    color: white!important;
+    border-color: #28C76F;}
+    #listResults .checkbox-Confirmed input[type="checkbox"]:checked + label::after{
+      color: white!important;
+    }
+
+  #listResults .checkbox-Booked input[type="checkbox"] + label::before
+  {
+    background: #007ad9!important;
+    color: white!important;
+    border-color: #007ad9;}
+    #listResults .checkbox-Booked input[type="checkbox"]:checked + label::after{
+      color: white!important;
+    }
+  
+  #listResults .checkbox-Deleted  input[type="checkbox"] + label::before
+  {
+    background: #82868B!important;
+    color: white!important;
+    border-color: #9ea7ad;}
+    #listResults .checkbox-Deleted input[type="checkbox"]:checked + label::after{
+      color: white!important;
+    }
+  
+  #listResults .checkbox-Canceled  input[type="checkbox"] + label::before
+  {
+    background: #FF9F43!important;
+    color: white!important;
+    border-color: #FF9F43;}
+    #listResults .checkbox-Canceled input[type="checkbox"]:checked + label::after{
+      color: white!important;
+    }
+  
+
+  #listResults .checkbox-all   input[type="checkbox"] + label::before
+  {    background: #7367F0!important;
+    color: white!important;  border-color: #7367f0;}
+  #listResults .checkbox-all  input[type="checkbox"]:checked + label::after{
+    color: white!important;
+  }
+  
+
+  
+  input[type="checkbox"].styled:checked + label:after {
+    font-family: 'FontAwesome';
+    content: "\2713";
+    color: white;
+  }
+
+  .small-card{
+    padding-left: 1rem!important;
+    padding-right: 1rem!important;
+    padding-top: 1rem!important;
+    padding-bottom: 0!important;
+  }
+
+  .bi-filter{
+    cursor: pointer;
+    font-size: 25px;
+  }
+  
+  .filter-btn {
+    position: fixed;
+    top: 100px;
+    z-index: 999;
+    bottom: 100px;
+    right: 0px;
+    height: 39px;
+    width: 39px;
+    border-radius: 50%!important;
+}
+
+.rightToLeft .filter-btn{
+left: 0;
+right: auto;
+}
+
+.rightToLeft .filter2-btn{
+  left: 0;
+  right: auto;
+  }
+
+.filter2-btn{
+  position: fixed;
+  top: 150px;
+  z-index: 999;
+  bottom: 100px;
+  right: 0px;
+  height: 39px;
+  width: 39px;
+  border-radius: 50%!important;
+}
+.rightToLeft .filter3-btn{
+  left: 0;
+  right: auto;
+  }
+.filter3-btn {
+  position: fixed;
+  top: 200px;
+  z-index: 999;
+  bottom: 100px;
+  right: 0px;
+  height: 39px;
+  width: 39px;
+  border-radius: 50%!important;
+}
+.full {
+  height: unset!important;
+}
+
+@media (min-width : 1870px){
+    .filter-btn{
+        right: 58px;
+    } 
+    .rightToLeft .filter-btn{
+      left: 58px;
+    }
+    .filter2-btn{
+      right: 58px;
+    }
+    .rightToLeft .filter2-btn{
+      left: 58px;
+    }
+    .filter3-btn{
+      right: 58px;
+    }
+    .rightToLeft .filter3-btn{
+      left: 58px;
+    }
+}
+.dropdown-menu{
+  height: 200px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+
+
+.dropdown-toggle::after{
+display: none;
+}
+ 
+#listBranches .checkbox * {
+  cursor: pointer;
+}

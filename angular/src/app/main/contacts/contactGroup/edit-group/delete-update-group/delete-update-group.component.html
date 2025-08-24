@@ -1,0 +1,136 @@
+<div class="col">
+    <div class="card flex justify-content-center">
+        <p-dialog [closeOnEscape]="false" [closable]="false" header="Move Member to other Group" [(visible)]="visible" [model]="true" [style]="{ width: '500px' }">
+            <div class="flex py-2 justify-content-center">
+                <h5>Select another group to transfer the member to</h5>
+                <p-dropdown
+                    appendTo="body"
+                    [style]="{ minWidth: '100%' }"
+                    [options]="groups"
+                    [(ngModel)]="selectedNewGroup"
+                    placeholder="Select a Group"
+                    optionLabel="groupName"
+                ></p-dropdown>
+                <div class="w-100 my-2 d-flex justify-content-center">
+                    <button type="button" class="w-50 btn btn-outline-primary-info" (click)="handleClose()">{{ l("Cancel") }}</button>
+                    <button type="button" [buttonBusy]="submitted" [disabled]="!selectedNewGroup" class="w-50 btn btn-primary-info" (click)="handleSelectGroup()">
+                        {{ l("Send") }}
+                    </button>
+                </div>
+            </div>
+        </p-dialog>
+    </div>
+    <div class="row mt-1 p-xl-0 p-1">
+        <div class="col-12">
+            <div class="d-flex justify-content-end flex-wrap gap-2">
+                <button class="btn btn-primary-info" [disabled]="selectedCustomers.length == 0" [buttonBusy]="submitted"
+                    (click)="handleChangeGroup()">
+                    {{ l("moveandupdate") }}
+                    <i class="fa-solid fa-share-from-square"></i>
+                </button>
+    
+                <button class="btn btn-primary-info" [disabled]="selectedCustomers.length == 0" [buttonBusy]="submitted"
+                    (click)="handleUpdate()">
+                    {{ l("deleteandupdate") }}
+                    <i class="fa fa-save"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="divider divider-default">
+        <div class="divider-text">{{ l("MemebersInsideGroup") }}</div>
+    </div>
+
+    <p-table
+        class="w-100"
+        [value]="customers"
+        [lazy]="true"
+        (onLazyLoad)="loadCustomers($event)"
+        dataKey="id"
+        [selection]="selectedCustomers"
+        (selectionChange)="onSelectionChange($event)"
+        [paginator]="true"
+        [rows]="10"
+        [totalRecords]="totalRecords"
+        [loading]="loading"
+        [rowsPerPageOptions]="[10, 500, 1000]"
+        responsiveLayout="stack"
+        [responsive]="true"
+        currentPageReportTemplate="{totalRecords}"
+        [selectionPageOnly]="true"
+        [ngClass]="darkModeService.currentSkin === 'dark' ? 'table-dark' : ''"
+    >
+        <ng-template pTemplate="caption" [ngClass]="darkModeService.currentSkin === 'dark' ? 'table-dark' : ''">
+            <ng-container>
+                {{ l("numberOfSelectedMembers") }} <span [ngStyle]="{ color: 0 ? 'red' : 'green' }">{{ selectedCustomers?.length || 0 }}</span>
+            </ng-container>
+        </ng-template>
+        <ng-template pTemplate="header" [ngClass]="darkModeService.currentSkin === 'dark' ? 'table-dark' : ''">
+            <tr>
+                <th>
+                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                </th>
+                <th>{{ l("groupContactName") }}</th>
+                <th>{{ l("PhoneNumber") }}</th>
+                <th class="behaviour-column">{{ l("Behaviour") }}</th>
+                <th>{{ l("Action") }}</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-customer>
+            <tr [ngClass]="darkModeService.currentSkin === 'dark' ? 'table-dark' : ''">
+                <td [ngClass]="darkModeService.currentSkin === 'dark' ? 'table-dark' : ''">
+                    <p-tableCheckbox [value]="customer"></p-tableCheckbox>
+                    <span class="p-column-title"> {{ l("Select") }}</span>
+                </td>
+
+                <td [ngClass]="darkModeService.currentSkin === 'dark' ? 'table-dark' : ''">
+                    <span class="p-column-title">
+                        {{ l("groupContactName") }}
+                    </span>
+                    {{ customer.displayName }}
+                    </td>
+                    <td [ngClass]="darkModeService.currentSkin === 'dark' ? 'table-dark' : ''">
+                        <span class="p-column-title">
+                            {{ l("PhoneNumber") }}
+                        </span>
+                        {{ customer.phoneNumber }}
+                    </td>
+                    <td [ngClass]="darkModeService.currentSkin === 'dark' ? 'table-dark' : ''" class="neutral customer-behaviour"
+                        *ngIf="customer.customeropt === 0">
+                        <span class="p-column-title"> {{ l("customerBehavior") }}</span>
+                        {{ l("netural") }}
+                    </td>
+                    <td [ngClass]="darkModeService.currentSkin === 'dark' ? 'table-dark' : ''" class="optOut customer-behaviour"
+                        *ngIf="customer.customeropt === 1">
+                        <span class="p-column-title"> {{ l("customerBehavior") }}</span>
+                        {{ l("optOut") }}
+                    </td>
+                    <td [ngClass]="darkModeService.currentSkin === 'dark' ? 'table-dark' : ''" class="optIn customer-behaviour"
+                        *ngIf="customer.customeropt === 2">
+                        <span class="p-column-title"> {{ l("customerBehavior") }}</span>
+                        {{ l("optIn") }}
+                    </td>
+                <td [ngClass]="darkModeService.currentSkin === 'dark' ? 'table-dark' : ''">
+                    <span class="p-column-title">
+                        {{ l("Action") }}
+                    </span>
+                    <i class="bi bi-arrow-left-right transfer-icon" (click)="handleChangeGroup(customer)"></i>
+                    <i class="bi bi-trash mx-1" style="color: #e4263b" (click)="handleUpdate(customer)"></i>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+
+    <div class="primeng-no-data" *ngIf="totalRecords == 0">
+        {{ l("NoData") }}
+    </div>
+
+    <div *ngIf="totalRecords>0" class="primeng-paging-container">
+        <span class="total-records-count">
+            {{ l("TotalRecordsCount", totalRecords) }}
+        </span>
+    </div>
+</div>

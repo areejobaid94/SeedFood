@@ -1,0 +1,277 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "SwzPBB",
+    "name": "MainDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "pbzffI"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "r2rXoX"
+          },
+          "activityProcessed": true,
+          "dialog": "StartDialog"
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "nAO6CT"
+          },
+          "condition": "conversation.TenantId",
+          "cases": [
+            {
+              "value": "34",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "yM2Wih"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "SelectLocalDialog"
+                }
+              ]
+            },
+            {
+              "value": "42",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "bRzZDG"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "SelectLocalDialog"
+                }
+              ]
+            }
+          ],
+          "default": []
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "RUnSC9"
+          },
+          "condition": "conversation.TenantId",
+          "cases": [
+            {
+              "value": "46",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "33SBir"
+                  },
+                  "property": "conversation.local",
+                  "value": "ar"
+                },
+                {
+                  "$kind": "Microsoft.DeleteProperty",
+                  "$designer": {
+                    "id": "w7wQPl"
+                  },
+                  "property": "conversation.OldLocal"
+                },
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "FjacH8"
+                  },
+                  "condition": "conversation.local==conversation.OldLocal",
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "cQL7La"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "CaptionDialog"
+                    },
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "IPkeCY"
+                      },
+                      "property": "conversation.OldLocal",
+                      "value": "=conversation.local"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "tWDh8j"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "BurgerMakersIraqMainDialog"
+                }
+              ]
+            },
+            {
+              "value": "34",
+              "actions": [
+                {
+                  "$kind": "Microsoft.DeleteProperty",
+                  "$designer": {
+                    "id": "dW5XFY"
+                  },
+                  "property": "conversation.OldLocal"
+                },
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "OfdsSZ"
+                  },
+                  "condition": "conversation.local==conversation.OldLocal",
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "wJiOHi"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "CaptionDialog"
+                    },
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "lraNpE"
+                      },
+                      "property": "conversation.OldLocal",
+                      "value": "=conversation.local"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "uhy8R0"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "C-townMainDialog"
+                }
+              ]
+            },
+            {
+              "value": "42",
+              "actions": [
+                {
+                  "$kind": "Microsoft.DeleteProperty",
+                  "$designer": {
+                    "id": "dhwjHq"
+                  },
+                  "property": "conversation.OldLocal"
+                },
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "Ako0f2"
+                  },
+                  "condition": "conversation.local==conversation.OldLocal",
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "Oqb9Gu"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "CaptionDialog"
+                    },
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "UH8h1T"
+                      },
+                      "property": "conversation.OldLocal",
+                      "value": "=conversation.local"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "ojFnYo"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "McdonaldMainDialog"
+                }
+              ]
+            }
+          ],
+          "default": [
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "JYds3F"
+              },
+              "property": "conversation.local",
+              "value": "ar"
+            },
+            {
+              "$kind": "Microsoft.DeleteProperty",
+              "$designer": {
+                "id": "jZFFeU"
+              },
+              "property": "conversation.OldLocal"
+            },
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "HCy9EB"
+              },
+              "condition": "conversation.local==conversation.OldLocal",
+              "elseActions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "D91T1t"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "CaptionDialog"
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "LuQf23"
+                  },
+                  "property": "conversation.OldLocal",
+                  "value": "=conversation.local"
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "UPl6N2"
+              },
+              "activityProcessed": true,
+              "dialog": "TemplateDialog"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "IkaLJG"
+          }
+        }
+      ]
+    }
+  ],
+  "generator": "MainDialog.lg",
+  "recognizer": "MainDialog.lu.qna",
+  "id": "MainDialog"
+}

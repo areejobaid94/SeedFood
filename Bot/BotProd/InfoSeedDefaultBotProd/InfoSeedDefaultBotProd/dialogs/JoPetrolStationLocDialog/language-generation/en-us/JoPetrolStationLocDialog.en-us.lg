@@ -1,0 +1,15 @@
+[import](common.lg)
+
+# TextInput_Prompt_tXnxwM()
+[Activity
+    Attachments = ${json(ButtonList(dialog.HintPlaseCaption,dialog.OptionList))}
+    InputHint=منطقتك
+     Summary=${conversation.Summary}
+]
+# SendActivity_GXogrs()
+[Activity
+    Text = ${SendActivity_GXogrs_text()}
+]
+
+# SendActivity_GXogrs_text()
+- ${dialog.FinalCaption}

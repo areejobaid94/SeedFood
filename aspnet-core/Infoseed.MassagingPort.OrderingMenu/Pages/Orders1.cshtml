@@ -1,0 +1,126 @@
+﻿@page
+@model Infoseed.MassagingPort.OrderingMenu.Pages.Orders1Model
+
+
+
+@{
+
+    Layout = "_LayoutMarket3";
+
+
+}
+@using Infoseed.MessagingPortal.Orders
+@Html.HiddenFor(Model=>Model.TenantID)
+@Html.HiddenFor(Model=>Model.ContactId)
+@Html.HiddenFor(Model=>Model.AreaId)
+@Html.HiddenFor(Model=>Model.Lang)
+
+
+
+    <header class="main-header">
+        <strong>
+        @localizer.Get("OrdersArchive")
+        </strong>
+     
+         <a href="@string.Format("/Index1"+@Model.UrlKey)"  class="btn btn-link btn-circle  btn-close" >
+            <i class="icon-keyboard_arrow_left1"></i>
+            </a>
+    </header>
+
+    <main>
+
+        <div class="container-fluid mb-3">
+       
+          <div class="row">
+            @if (Model.lstOrderingMenuOrdersHistoryModel != null)
+            {  
+                @foreach (var order in Model.lstOrderingMenuOrdersHistoryModel)
+                {
+                    <div class="col-md-4 mt-3">
+                      <div class="item-card cursor-pointer" data-toggle="modal" data-target="#modal-order-history">
+                        <div class="d-flex align-items-center justify-content-between">
+                        
+                            <div class="p-2">
+
+                                    <h4>@localizer.Get("Order")  <strong>#@order.OrderNumber</strong> (@order.OrderType)</h4>
+                                <small>
+                                   @order.OrderDate
+                                </small>
+                            </div>
+
+                            <div>
+                            @if (@order.OrderStatus == OrderStatusEunm.Done)
+                            {
+                                <div class="badge badge-success"> @order.OrderStatus</div>
+
+                            }
+
+                            else  if (@order.OrderStatus == OrderStatusEunm.Cancel || @order.OrderStatus == OrderStatusEunm.Deleted || @order.OrderStatus == OrderStatusEunm.Canceled)
+                                {
+
+                                 <div class="badge badge-danger"> @order.OrderStatus</div>
+
+                                }
+                            
+                                else 
+                                {
+                                   <div class="badge badge-light"> @order.OrderStatus </div>
+                                }
+                                
+                               
+                            
+
+                            </div>
+                        </div>
+                        <div class="filter-img d-flex justify-content-between align-items-center">
+                            <div class="item-price color-primary mx-2">
+                                <strong> @order.OrderTotalPrice </strong>
+                          
+                            </div>
+                                @if (@order.OrderTotalPoint > 0)
+                            {
+                                <div class="item-price">
+                                    <strong class="point-style mx-2">  @order.OrderTotalPoint  <i class="icon-gift"></i></strong>
+                                </div>
+                            }
+                        </div>
+                      </div>
+                    </div>
+                }
+            }
+                
+
+          </div>
+        </div>
+
+    </main>
+
+
+
+
+
+  
+
+
+
+
+
+
+
+<div class="modal fade login-modal-main " id="md-OrderItems">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content" >
+            <div class="modal-body">
+
+             
+         <div id="divOrderItems">
+
+         </div>
+            </div>
+        </div>
+
+
+
+
+    </div>
+</div>

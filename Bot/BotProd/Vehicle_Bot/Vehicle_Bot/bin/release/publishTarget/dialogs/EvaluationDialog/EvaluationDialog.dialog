@@ -1,0 +1,269 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "EAKwlV",
+    "name": "EvaluationDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "ZENSev"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "jHjtiY"
+          },
+          "condition": "conversation.local",
+          "cases": [
+            {
+              "value": "ar",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "CvABNO"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.InputHint",
+                      "value": "التقيم"
+                    },
+                    {
+                      "property": "dialog.text",
+                      "value": "الرجاء التقيم"
+                    },
+                    {
+                      "value": "شكرا لكم ... في اي وقت يمكنك الضغط # للعودة الى القائمة الرئيسية ",
+                      "property": "dialog.FeedBackTextThanks"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "MZL9iA"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.Summary",
+                      "value": "للعودة الى القائمة الرئيسية اضغط #"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "en",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "BLSj1I"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.InputHint",
+                      "value": "Evaluation"
+                    },
+                    {
+                      "property": "dialog.text",
+                      "value": "Please rate"
+                    },
+                    {
+                      "property": "dialog.FeedBackTextThanks",
+                      "value": "Thank you ... at any time you can press # to return to the main menu"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "Xkh6te"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.Summary",
+                      "value": "To return to the main menu press #"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "default": [
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "0T4YrC"
+              },
+              "assignments": [
+                {
+                  "property": "dialog.InputHint",
+                  "value": "التقيم"
+                },
+                {
+                  "property": "dialog.text",
+                  "value": "الرجاء التقيم"
+                },
+                {
+                  "property": "dialog.FeedBackTextThanks",
+                  "value": "شكرا لكم ... في اي وقت يمكنك الضغط # للعودة الى القائمة الرئيسية "
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "nuYLtL"
+              },
+              "assignments": [
+                {
+                  "property": "dialog.Summary",
+                  "value": "للعودة الى القائمة الرئيسية اضغط #"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "k3wNgT"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "unrecognizedPrompt": "",
+          "invalidPrompt": "",
+          "prompt": "${TextInput_Prompt_k3wNgT()}",
+          "property": "dialog.selectStar"
+        },
+        {
+          "$kind": "Microsoft.DeleteProperty",
+          "$designer": {
+            "id": "XmWIVf"
+          },
+          "property": "dialog.attachments"
+        },
+        {
+          "$kind": "Microsoft.AttachmentInput",
+          "$designer": {
+            "id": "9EQVtU"
+          },
+          "disabled": false,
+          "maxTurnCount": 1,
+          "alwaysPrompt": false,
+          "allowInterruptions": false,
+          "unrecognizedPrompt": "",
+          "invalidPrompt": "",
+          "prompt": "${AttachmentInput_Prompt_9EQVtU()}",
+          "property": "dialog.attachments"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "JcXcKv"
+          },
+          "condition": "turn.Activity.Text==\".\"",
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "nWPpAC"
+              },
+              "property": "dialog.EvaluationsText",
+              "value": "${dialog.attachments[0].contentUrl} "
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "gi0Hks"
+              },
+              "property": "dialog.EvaluationsText",
+              "value": "${turn.Activity.Text}"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.HttpRequest",
+          "$designer": {
+            "id": "TEoPv6"
+          },
+          "resultProperty": "dialog.createReat",
+          "url": "${conversation.URL}/api/BotAPI/CreateEvaluations?TenantId=${conversation.TenantId}&phoneNumber=${conversation.phoneNumber}&displayName=${conversation.DisplayName}&EvaluationsText=${dialog.EvaluationsText}&orderID=${conversation.orderIdBot}&EvaluationsReat=${dialog.selectStar}",
+          "method": "GET",
+          "responseType": "json"
+        },
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "F4gy22"
+          },
+          "activity": "${SendActivity_F4gy22()}"
+        },
+        {
+          "$kind": "Microsoft.CancelAllDialogs",
+          "$designer": {
+            "id": "QoCgym"
+          },
+          "activityProcessed": true
+        },
+        {
+          "$kind": "Microsoft.AttachmentInput",
+          "$designer": {
+            "id": "RVp4Qm"
+          },
+          "disabled": false,
+          "maxTurnCount": 1,
+          "alwaysPrompt": false,
+          "allowInterruptions": false,
+          "unrecognizedPrompt": "",
+          "invalidPrompt": "",
+          "prompt": "${AttachmentInput_Prompt_RVp4Qm()}",
+          "property": "dialog.attachments"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "KAVXqc"
+          },
+          "condition": "turn.Activity.Text==\".\"",
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "y3nboC"
+              },
+              "property": "dialog.EvaluationsText",
+              "value": "${dialog.attachments[0].contentUrl} "
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "54wYni"
+              },
+              "property": "dialog.EvaluationsText",
+              "value": "${turn.Activity.Text}"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "generator": "EvaluationDialog.lg",
+  "recognizer": "EvaluationDialog.lu.qna",
+  "id": "EvaluationDialog"
+}

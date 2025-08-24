@@ -1,0 +1,37 @@
+[import](common.lg)
+
+# SendActivity_QxloDI_text()
+- ${dialog.text}
+# SendActivity_QxloDI()
+[Activity
+    Text = ${SendActivity_QxloDI_text()}
+]
+
+# SendActivity_T3tdqf_text()
+- ${dialog.sendLiveChat.content.result}
+# SendActivity_T3tdqf()
+[Activity
+    Text = ${SendActivity_T3tdqf_text()}
+]
+
+# AttachmentInput_Prompt_RnqH42()
+[Activity
+    Text = ${AttachmentInput_Prompt_RnqH42_text()}
+]
+
+# AttachmentInput_Prompt_RnqH42_text()
+- ${dialog.PhotoCaption}
+# AttachmentInput_Prompt_qdehJq()
+[Activity
+    Text = ${AttachmentInput_Prompt_qdehJq_text()}
+]
+
+# AttachmentInput_Prompt_qdehJq_text()
+- ${dialog.PhotoCaption}
+# TextInput_Prompt_O2ti8n()
+[Activity
+    Text = ${TextInput_Prompt_O2ti8n_text()}
+]
+
+# TextInput_Prompt_O2ti8n_text()
+- هل لديك اي ملاحظة؟

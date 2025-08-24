@@ -1,0 +1,24 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "UsxG5e",
+    "name": "LinkDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "WkeYho"
+      },
+      "actions": []
+    }
+  ],
+  "generator": "LinkDialog.lg",
+  "recognizer": "LinkDialog.lu.qna",
+  "id": "LinkDialog"
+}

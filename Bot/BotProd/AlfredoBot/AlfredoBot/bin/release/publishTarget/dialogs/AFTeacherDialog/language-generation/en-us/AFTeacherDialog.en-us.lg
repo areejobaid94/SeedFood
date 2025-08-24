@@ -1,0 +1,10 @@
+[import](common.lg)
+
+# TextInput_Prompt_fcDO8Y()
+[Activity
+    Text = ${TextInput_Prompt_fcDO8Y_text()}
+    SuggestedActions = ${dialog.option1} | ${dialog.option2} | ${dialog.option3}
+]
+
+# TextInput_Prompt_fcDO8Y_text()
+- ${conversation.InputHint}

@@ -1,0 +1,146 @@
+﻿
+<div bsModal  class="modal fade" tabindex="-1" role="dialog"aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg" style="max-width: -webkit-fill-available;">
+        <div class="modal-content">
+            <div class="row">
+                <div class="col-md-12 p-10">
+                    <form [formGroup]="menuForm">
+                        <div formArrayName="category" class="pt-3">
+                            <div *ngFor="let X of menuForm['controls'].category['controls']; let ix=index">
+                                <div formGroupName="{{ix}}" class="category-card">
+                                    <div class="category-card-header">
+                                        <div class="row">
+
+                                            <div class="col-md-3">
+                                                <label>Category Name Arabic</label>
+                                                <input class="form-control" type="text" formControlName="name" style="font-family: system-ui; direction: rtl;">
+                                            </div>
+
+                                            <div class="col-md-3">
+                                                <label>Category Name English</label>
+                                                <input class="form-control" type="text" formControlName="nameEnglish" style="font-family: system-ui; direction: rtl;">
+                                            </div>
+
+                                            <div class="col-md-1">
+                                                <label>Priority</label>
+                                                <input class="form-control" min="0" type="number" style="font-family: system-ui; direction: rtl;"
+                                                formControlName="priority">
+                                            </div>
+
+                                            <div class="col-md-1">
+                                                <label>isNon</label>
+                                                <input class="form-control" type="checkbox" id="isNon{{ix}}" style="font-family: system-ui; direction: rtl;"
+                                                formControlName="isNon" (change)="fieldsChange($event,ix)">
+
+                                                <label>isCondiments</label>
+                                                <input class="form-control" type="checkbox" id="isCondiments{{ix}}" style="font-family: system-ui; direction: rtl;"
+                                                formControlName="isCondiments" (change)="fieldsChange($event,ix)">
+
+                                                <label>isDeserts</label>
+                                                <input class="form-control" type="checkbox" id="isDeserts{{ix}}" style="font-family: system-ui; direction: rtl;"
+                                                formControlName="isDeserts" (change)="fieldsChange($event,ix)">
+
+                                                <label>isCrispy</label>
+                                                <input class="form-control" type="checkbox" id="isCrispy{{ix}}" style="font-family: system-ui; direction: rtl;"
+                                                formControlName="isCrispy" (change)="fieldsChange($event,ix)">
+                                            </div>
+
+                                            <div class="col text-right">
+                                                <button class="btn btn-danger btn-sm "
+                                                        (click)="deleteCategoryItem(ix)">
+                                                    <i class="fa fa-trash p-0 font-12"></i>
+                                                </button>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="card-body" formArrayName="items">
+                                        <div *ngFor="let Y of X['controls'].items['controls']; let iy=index">
+                                            <div formGroupName="{{iy}}" class="border-bottom">
+                                                <div class="row" formArrayName="itemAdditionDtos" class="pt-14" >
+                                                    <div *ngFor="let D of Y['controls'].itemAdditionDtos['controls']; let idd=index">
+                                                        <div formGroupName="{{idd}}" class="itemAdditionDtos-card">
+                                                            <div class="row">
+                                                                <div class="col-md-3">
+                                                                    <label>Name Arabic</label>
+                                                                    <input class="form-control" type="text" formControlName="name" style="font-family: system-ui; direction: rtl;">
+                                                                </div>
+
+                                                            <div class="col-md-3">
+                                                                <label>Name English</label>
+                                                                <input class="form-control" type="text"
+                                                                formControlName="nameEnglish" style="font-family: system-ui; direction: rtl;">
+                                                            </div>
+                                                            <div class="col-md-2">
+                                                                <label>SKU #</label>
+                                                                <input class="form-control" type="text" style="font-family: system-ui; direction: rtl;"
+                                                                formControlName="sku">
+                                                            </div>
+                                                            <div class="col-md-2">
+                                                                <label>Price</label>
+                                                                <input class="form-control" type="number" style="font-family: system-ui; direction: rtl;"
+                                                                formControlName="price">
+                                                            </div>
+
+                                                            <div class="col-md-2" >
+                                                                <label>Image</label>
+                                                                <input type="file" id="uplode" class="form-control" (change)="onFileChange($event,ix,iy,idd)">
+                                                                <div class="product-img" *ngIf="getImage(ix,iy,idd)">
+                                                                    <img [src]="getImage(ix,iy,idd)" alt="AddOns">
+                                                                    <!-- <button class="btn btn-danger w-100 btn-sm"
+                                                                        (click)="openFileUploder(ix,iy,idd,D)">Replace
+                                                                    </button> -->
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="col text-right">
+                                                                <button class="btn btn-danger btn-sm "
+                                                                    (click)="deleteitemAddition(ix,iy,idd)">
+                                                                    <i class="fa fa-trash p-0 font-12"></i>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row">
+                                                        <div class="col-md-12 text-right">
+                                                            <input type="button" class="btn btn-secondary"
+                                                            (click)="addItemAddition(ix,iy)" style="font-family: system-ui; direction: rtl;"
+                                                            value="Add">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <hr/>
+                                        <!-- <div class="row">
+                                            <div class="col-md-12 text-right">
+                                                <input type="button" class="btn btn-secondary" (click)="addItem(ix)"
+                                                    value="Add Item">
+                                            </div>
+                                        </div> -->
+                                    </div>
+                                </div>
+                                <hr/>
+                            </div>
+
+                            <div class="modal-footer">
+                                <button  type="button" class="btn btn-primary"(click)="close()">{{l("Cancel")}}</button>
+                                <input type="button" class="btn btn-primary"(click)="addMenu()" value="Save">
+                                    <!-- [disabled]="!menuForm.valid" -->
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12 text-right">
+                                <input type="button" class="btn btn-secondary" (click)="addCategory()"value="Add On's">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

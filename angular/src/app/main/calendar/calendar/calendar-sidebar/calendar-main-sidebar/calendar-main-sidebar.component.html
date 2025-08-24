@@ -1,0 +1,273 @@
+<!-- Main Sidebar -->
+
+<div *ngIf="theme != 'theme12'">
+
+  <div class="dropdown form-group breadcrum-right">
+    <button
+        id="dropdownMenuButton1"
+        data-bs-toggle="dropdown"
+        aria-expanded="false"
+        autoClose=true
+        type="button"
+        rippleeffect=""
+        [ngClass]="theme != 'theme12' ? 'btn-primary' : 'btn-primary-info'"
+        class="dropdown-toggle filter-btn btn-icon btn btn-round btn-sm waves-effect waves-float waves-light"
+        aria-expanded="false"
+    >
+        <i class="bi bi-funnel"></i>
+    </button>
+    <div
+        class="dropdown-menu"
+        aria-labelledby="dropdownMenuButton1"
+        ngbdropdownmenu=""
+        x-placement="bottom-left"
+        autoClose="outside"
+     
+    >
+        <div id="listResults">
+          <div class="col text-center checkbox checkbox-circle
+            checkbox-all">
+            <input id="select-all" type="checkbox"
+              [checked]="checkAll"
+              (change)="toggleCheckboxAll($event)">
+            <label class="custom-control-label" for="select-all">
+              All</label>
+          </div>
+          <div *ngFor="let calendar of
+            calendarRef" class="col text-center checkbox
+            checkbox-circle {{ calendar.color
+            }}">
+            <input id="calendar-{{ calendar.id }}" type="checkbox"
+              [checked]="calendar.checked"
+              (change)="checkboxChange($event, calendar.id)">
+            <label class="custom-control-label custom-label-calender" for="calendar-{{
+              calendar.id }}">{{ calendar.filter }}</label>
+          </div>
+        </div>
+    </div>
+</div>
+
+  <div class="dropdown form-group breadcrum-right" *ngIf="isAdmin">
+          <button
+            autoClose=true
+              id="dropdownMenuButton2"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+              type="button"
+              rippleeffect=""
+              [ngClass]="theme != 'theme12' ? 'btn-primary' : 'btn-primary-info'"
+              class="dropdown-toggle filter2-btn  btn-icon btn btn-round btn-sm waves-effect waves-float waves-light"
+              aria-expanded="false"
+          >
+          <i class="bi bi-shop"></i>
+          </button>
+          <div
+              class="dropdown-menu full"
+              aria-labelledby="dropdownMenuButton2"
+              ngbdropdownmenu=""
+              autoClose="outside"
+              x-placement="bottom-left"
+           
+          >
+              <div id="listBranches">
+                <div>
+                  <input id="select-all-branches" type="checkbox"
+                    [checked]="checkAllBranches" (change)="toggleCheckboxAllBranches($event)"
+                   >
+                  <label class="" for="select-all-branches">
+                    All</label>
+                </div>
+                <div *ngFor="let branch of
+                  branches">
+                  <input id="calendar-{{ branch.id }}" type="checkbox"
+                  [checked]="branch.checked"   (change)="checkboxChangeBranch($event, branch.id)"
+                  style="position: relative;"
+                   >
+                  <label  for="calendar-{{
+                    branch.id }}">{{ branch.areaName }}</label>
+                </div>
+              </div>
+          </div>
+      </div>
+
+      <!--Doctors filter-->
+      <div class="dropdown form-group breadcrum-right" *ngIf="isAdmin">
+        <button
+          autoClose=true
+            id="dropdownMenuButton3"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+            type="button"
+            rippleeffect=""
+            [ngClass]="theme != 'theme12' ? 'btn-primary' : 'btn-primary-info'"
+            class="dropdown-toggle filter3-btn  btn-icon btn btn-round btn-sm waves-effect waves-float waves-light"
+            aria-expanded="false"
+        >
+        <i class="bi bi-person"></i>
+        </button>
+        <div
+            class="dropdown-menu full"
+            aria-labelledby="dropdownMenuButton3"
+            ngbdropdownmenu=""
+            autoClose="outside"
+            x-placement="bottom-left"
+         
+        >
+            <div id="listUsers">
+              <div >
+                <input id="select-all-branches" type="checkbox"
+                  [checked]="checkAllUsers" (change)="toggleCheckboxAllUsers($event)"
+                 >
+                <label class="" for="select-all-branches">
+                  All</label>
+              </div>
+              <div *ngFor="let user of
+                users" >
+                <input id="calendar-{{ user.id }}" type="checkbox"
+                [checked]="user.checked"   (change)="checkboxChangeUser($event, user.id)"
+                 >
+                <label class="custom-control-label" for="calendar-{{
+                  user.id }}">{{ user.name }}</label>
+              </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div *ngIf="theme === 'theme12'"  [ngClass]="isArabic ? 'rightToLeft': ''">
+
+          <!--status filter-->
+          <div class="dropdown form-group breadcrum-right">
+            <button
+              autoClose="outside"
+              container="body"
+                id="dropdownMenuButton1"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+                type="button"
+                rippleeffect=""
+                [ngClass]="theme != 'theme12' ? 'btn-primary' : 'btn-primary-info'"
+                class="dropdown-toggle filter-btn btn-icon btn btn-round btn-sm waves-effect waves-float waves-light"
+                aria-expanded="false"
+            >
+                <i class="bi bi-funnel"></i>
+            </button>
+            <div
+                class="dropdown-menu"
+                aria-labelledby="dropdownMenuButton1"
+                ngbdropdownmenu=""
+                autoClose="outside"
+                x-placement="bottom-left"
+             
+            >
+                <div id="listResults" [ngClass]="isArabic ? 'ltr' : ''">
+                  <div class="col checkbox checkbox-circle
+                    checkbox-all">
+                    <input id="select-all" type="checkbox"
+                      [checked]="checkAll"
+                      (change)="toggleCheckboxAll($event)">
+                    <label class="custom-control-label" for="select-all">
+                      {{ l("All") }}</label>
+                  </div>
+                  <div *ngFor="let calendar of
+                    calendarRef" class="col checkbox
+                    checkbox-circle {{ calendar.color
+                    }}">
+                    <input id="calendar-{{ calendar.id }}" type="checkbox"
+                      [checked]="calendar.checked"
+                      (change)="checkboxChange($event, calendar.id)">
+                    <label class="custom-control-label" for="calendar-{{
+                      calendar.id }}">{{ calendar.filter }}</label>
+                  </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!--branches filter-->
+        <div class="dropdown form-group breadcrum-right" *ngIf="isAdmin">
+          <button
+            autoClose=true
+              id="dropdownMenuButton2"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+              type="button"
+              rippleeffect=""
+              [ngClass]="theme != 'theme12' ? 'btn-primary' : 'btn-primary-info'"
+              class="dropdown-toggle filter2-btn  btn-icon btn btn-round btn-sm waves-effect waves-float waves-light"
+          >
+          <i class="bi bi-shop"></i>
+          </button>
+          <div
+              class="dropdown-menu full"
+              aria-labelledby="dropdownMenuButton2"
+              ngbdropdownmenu=""
+              autoClose="outside"
+              x-placement="bottom-left"
+           
+          >
+              <div id="listBranches" [ngClass]="isArabic ? 'ltr' : ''">
+                <div >
+                  <input id="select-all-branches" type="checkbox"
+                    [checked]="checkAllBranches" (change)="toggleCheckboxAllBranches($event)"
+                   >
+                  <label class="" for="select-all-branches">
+                    {{ l("All") }}</label>
+                </div>
+                <div *ngFor="let branch of
+                  branches" >
+                  <input id="calendar-{{ branch.id }}" type="checkbox"
+                  [checked]="branch.checked"   (change)="checkboxChangeBranch($event, branch.id)"
+                   >
+                  <label class="custom-control-label" for="calendar-{{
+                    branch.id }}">{{ branch.areaName }}</label>
+                </div>
+              </div>
+          </div>
+      </div>
+
+      <!--Doctors filter-->
+      <div class="dropdown form-group breadcrum-right" *ngIf="isAdmin">
+        <button
+          autoClose=true
+            id="dropdownMenuButton3"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+            type="button"
+            rippleeffect=""
+            [ngClass]="theme != 'theme12' ? 'btn-primary' : 'btn-primary-info'"
+            class="dropdown-toggle filter3-btn  btn-icon btn btn-round btn-sm waves-effect waves-float waves-light"
+            aria-expanded="false"
+        >
+        <i class="bi bi-person"></i>
+        </button>
+        <div
+            class="dropdown-menu full"
+            aria-labelledby="dropdownMenuButton3"
+            ngbdropdownmenu=""
+            autoClose="outside"
+            x-placement="bottom-left"
+         
+        >
+            <div id="listUsers" [ngClass]="isArabic ? 'ltr' : ''">
+              <div >
+                <input id="select-all-branches" type="checkbox"
+                  [checked]="checkAllUsers" (change)="toggleCheckboxAllUsers($event)"
+                 >
+                <label class="" for="select-all-branches">
+                  {{ l("All") }}</label>
+              </div>
+              <div *ngFor="let user of
+                users" >
+                <input id="calendar-{{ user.id }}" type="checkbox"
+                [checked]="user.checked"   (change)="checkboxChangeUser($event, user.id)"
+                 >
+                <label class="custom-control-label" for="calendar-{{
+                  user.id }}">{{ user.name }}</label>
+              </div>
+            </div>
+        </div>
+    </div>
+        </div>

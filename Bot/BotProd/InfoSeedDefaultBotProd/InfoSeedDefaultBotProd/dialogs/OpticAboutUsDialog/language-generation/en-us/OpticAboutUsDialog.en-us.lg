@@ -1,0 +1,44 @@
+[import](common.lg)
+
+# SendActivity_YV2fPF()
+[Activity
+    Text = ${SendActivity_YV2fPF_text()}
+]
+
+# SendActivity_YV2fPF_text()
+- ${dialog.CompaniesCaption}
+# SendActivity_Tt0N3a_text()
+- ${dialog.branchesCaption}
+# SendActivity_Tt0N3a()
+[Activity
+    Text = ${SendActivity_Tt0N3a_text()}
+]
+
+# SendActivity_yOWPBX_text()
+- ${dialog.branchesCaption}
+# SendActivity_yOWPBX()
+[Activity
+    Text = ${SendActivity_yOWPBX_text()}
+]
+
+# SendActivity_4LLOQG_text()
+- ${dialog.CompaniesCaption}
+# SendActivity_4LLOQG()
+[Activity
+    Text = ${SendActivity_4LLOQG_text()}
+]
+
+# TextInput_Prompt_9CwNh3()
+[Activity
+    Attachments = ${json(ButtonList(dialog.AboutUsCaption,dialog.ListOption))}
+    InputHint=${conversation.InputHint}
+     Summary=${conversation.Summary}
+]
+# TextInput_Prompt_R15G73()
+[Activity
+    Text = ${TextInput_Prompt_R15G73_text()}
+    SuggestedActions = ${dialog.option1} | ${dialog.option2} | ${dialog.option3}
+]
+
+# TextInput_Prompt_R15G73_text()
+- ${dialog.AboutUsCaption}

@@ -1,0 +1,17 @@
+[import](common.lg)
+
+# TextInput_Prompt_BXLuDn()
+[Activity
+    Text = ${TextInput_Prompt_BXLuDn_text()}
+    SuggestedActions = ${dialog.Option1}
+]
+
+# TextInput_Prompt_BXLuDn_text()
+- ${dialog.FirstCaption}
+# TextInput_Prompt_clzsHb()
+[Activity
+    Text = ${TextInput_Prompt_clzsHb_text()}
+]
+
+# TextInput_Prompt_clzsHb_text()
+- ${dialog.Caption}

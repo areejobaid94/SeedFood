@@ -1,0 +1,530 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "name": "Vehicle_Bot",
+    "description": "",
+    "id": "A79tBe"
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnConversationUpdateActivity",
+      "$designer": {
+        "id": "376720",
+        "comment": "This trigger runs when a conversation update activity is sent to the bot. This indicates a user or bot being added or removed from a conversation."
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "7WCY4o"
+          },
+          "assignments": [
+            {
+              "property": "conversation.local",
+              "value": "\"\""
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.CancelAllDialogs",
+          "$designer": {
+            "id": "YOecTy"
+          },
+          "activityProcessed": true
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnUnknownIntent",
+      "$designer": {
+        "id": "mb2n1u",
+        "comment": "This trigger fires when an incoming activity is not handled by any other trigger."
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "lpeUle"
+          },
+          "activityProcessed": true,
+          "dialog": "StartDialog"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "1flmxk"
+          },
+          "condition": "conversation.IsLiveChat==true",
+          "elseActions": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "Jz5Vod"
+              },
+              "activityProcessed": true,
+              "dialog": "MainDialog"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "2nJZYm"
+          }
+        },
+        {
+          "$kind": "Microsoft.HttpRequest",
+          "$designer": {
+            "id": "dtAEjx"
+          },
+          "resultProperty": "dialog.word",
+          "method": "POST",
+          "url": "${conversation.URL}/api/BotAPI/GetBotReservedWords?tenantID=${conversation.TenantId}&text=${turn.activity.text}",
+          "responseType": "json"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "3TDwKj"
+          },
+          "condition": "dialog.word.content.result!=\"\"",
+          "actions": [
+            {
+              "$kind": "Microsoft.SwitchCondition",
+              "$designer": {
+                "id": "3VFwDp"
+              },
+              "condition": "conversation.TenantId",
+              "cases": [
+                {
+                  "value": "45",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "2WsMLC"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "JeepLiveChatDialog"
+                    }
+                  ]
+                },
+                {
+                  "value": "52",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "7vnf3j"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "LiveChatDialog"
+                    }
+                  ]
+                },
+                {
+                  "value": "59",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "Wf9uwI"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "MgMotorLiveChat"
+                    }
+                  ]
+                },
+                {
+                  "value": "60",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "B4riQb"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "HyundaiLiveChatDialog"
+                    }
+                  ]
+                },
+                {
+                  "value": "67",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "0WRWOW"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "Bustami_SahebLiveDialog"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "lQIig8",
+        "name": "Welcome"
+      },
+      "intent": "Welcome",
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "hxeNp2"
+          },
+          "property": "conversation.IsLiveChat",
+          "value": false
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "FR4kUM"
+          },
+          "activityProcessed": true,
+          "dialog": "MainDialog"
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "Cgu8fi",
+        "name": "Stop"
+      },
+      "intent": "Stop",
+      "actions": [
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "QlZLA6"
+          },
+          "activityProcessed": true,
+          "dialog": "StartDialog"
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "fwSUEX"
+          },
+          "activityProcessed": true,
+          "dialog": "StopCustomerBehaviorDialog"
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "6fS0JW",
+        "name": "Start"
+      },
+      "intent": "Start",
+      "actions": [
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "xBLpSp"
+          },
+          "activityProcessed": true,
+          "dialog": "StartDialog"
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "5rhnc5"
+          },
+          "activityProcessed": true,
+          "dialog": "StartCustomerBehaviorDialog"
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "GrwW5V",
+        "name": "Exit"
+      },
+      "intent": "Exit",
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "3DvMqO"
+          },
+          "property": "conversation.IsLiveChat",
+          "value": false
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "bUp2KR"
+          },
+          "activityProcessed": true,
+          "dialog": "MainDialog"
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "ChOWb3",
+        "name": "Evaluation"
+      },
+      "intent": "Evaluation",
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "ce8mXh"
+          },
+          "property": "conversation.IsLiveChat",
+          "value": false
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "XOLHpJ"
+          },
+          "activityProcessed": true,
+          "dialog": "StartDialog"
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "D5BxtN"
+          },
+          "property": "conversation.EvaluationNameModel",
+          "value": "=split(turn.Activity.Locale, ',')"
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "0eDlPF"
+          },
+          "assignments": [
+            {
+              "property": "conversation.orderIdBot",
+              "value": "${conversation.EvaluationNameModel[0]}"
+            },
+            {
+              "property": "conversation.EvaluationText",
+              "value": "${conversation.EvaluationNameModel[2]}"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "h8MHBl"
+          },
+          "activityProcessed": true,
+          "dialog": "EvaluationDialog"
+        },
+        {
+          "$kind": "Microsoft.CancelAllDialogs",
+          "$designer": {
+            "id": "IHyPOM"
+          },
+          "activityProcessed": true
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "0VdPAc"
+          },
+          "assignments": [
+            {
+              "property": "conversation.orderIdBot",
+              "value": "${conversation.EvaluationNameModel[0]}"
+            },
+            {
+              "property": "conversation.TenantId",
+              "value": "${conversation.EvaluationNameModel[1]}"
+            },
+            {
+              "property": "conversation.EvaluationText",
+              "value": "${conversation.EvaluationNameModel[2]}"
+            },
+            {
+              "property": "conversation.DisplayName",
+              "value": "${turn.Activity.From.Name}"
+            },
+            {
+              "property": "conversation.phoneNumber",
+              "value": "${turn.Activity.From.Id}"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "ZAINk1"
+          },
+          "condition": "conversation.TenantId==\"27\"",
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "agBq6K"
+              },
+              "property": "conversation.URL",
+              "value": "https://infoseedbotapistg.azurewebsites.net"
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "grSnYn"
+              },
+              "property": "conversation.URL",
+              "value": "https://infoseedbotapiprod.azurewebsites.net"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "zdC6g3",
+        "name": "StartDialog"
+      },
+      "intent": "StartDialog",
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "dUHk2P"
+          },
+          "property": "dialog.IsBundleActive",
+          "value": true
+        },
+        {
+          "$kind": "Microsoft.HttpRequest",
+          "$designer": {
+            "id": "qbJVhw"
+          },
+          "resultProperty": "dialog.update",
+          "method": "GET",
+          "url": "${conversation.URL}/api/BotAPI/SetBundleActiveInfoseed?TenantId=${conversation.TenantId}&IsBundleActive=${dialog.IsBundleActive}&phonenumber=${conversation.phoneNumber}",
+          "responseType": "json"
+        },
+        {
+          "$kind": "Microsoft.CancelAllDialogs",
+          "$designer": {
+            "id": "jrqk92"
+          },
+          "activityProcessed": true
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "1HCuGk",
+        "name": "EndDialig"
+      },
+      "intent": "EndDialig",
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "KUUdOH"
+          },
+          "property": "dialog.IsBundleActive",
+          "value": false
+        },
+        {
+          "$kind": "Microsoft.HttpRequest",
+          "$designer": {
+            "id": "jqkuQt"
+          },
+          "resultProperty": "dialog.update",
+          "method": "GET",
+          "url": "${conversation.URL}/api/BotAPI/SetBundleActiveInfoseed?TenantId=${conversation.TenantId}&IsBundleActive=${dialog.IsBundleActive}",
+          "responseType": "json"
+        },
+        {
+          "$kind": "Microsoft.CancelAllDialogs",
+          "$designer": {
+            "id": "Bf9o3k"
+          },
+          "activityProcessed": true
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "kSxLZv",
+        "name": "clean"
+      },
+      "intent": "clean",
+      "actions": [
+        {
+          "$kind": "Microsoft.DeleteProperty",
+          "$designer": {
+            "id": "fZmqcu"
+          },
+          "property": "conversation.OldLocal"
+        },
+        {
+          "$kind": "Microsoft.CancelAllDialogs",
+          "$designer": {
+            "id": "Sht0J9"
+          },
+          "activityProcessed": true
+        }
+      ]
+    }
+  ],
+  "generator": "Vehicle_Bot.lg",
+  "id": "Vehicle_Bot",
+  "recognizer": {
+    "$kind": "Microsoft.RegexRecognizer",
+    "intents": [
+      {
+        "intent": "Exit",
+        "pattern": "Exit"
+      },
+      {
+        "intent": "Stop",
+        "pattern": "Stop"
+      },
+      {
+        "intent": "Start",
+        "pattern": "Start"
+      },
+      {
+        "intent": "Evaluation",
+        "pattern": "EvaluationQuestion"
+      },
+      {
+        "intent": "Welcome",
+        "pattern": "#"
+      },
+      {
+        "intent": "StartDialog",
+        "pattern": "HJSS"
+      },
+      {
+        "intent": "EndDialig",
+        "pattern": "HJSE"
+      },
+      {
+        "intent": "clean",
+        "pattern": "clean"
+      }
+    ]
+  }
+}

@@ -1,0 +1,323 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "AZUGsp",
+    "name": "Bustami_SahebBookingDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "lEMITh"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "32UOmw"
+          },
+          "condition": "conversation.local",
+          "cases": [
+            {
+              "value": "ar",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "QW46ew"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.choose",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId ==16)).text"
+                    },
+                    {
+                      "property": "dialog.qus",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId ==17)).text"
+                    },
+                    {
+                      "property": "dialog..date",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId ==18)).text"
+                    },
+                    {
+                      "property": "dialog.confirm",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId ==19)).text"
+                    },
+                    {
+                      "property": "dialog.InputHint",
+                      "value": "اختر"
+                    },
+                    {
+                      "property": "dialog.time",
+                      "value": "اختر الوقت"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "rXdYEO"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.optionn1",
+                      "value": "نعم"
+                    },
+                    {
+                      "property": "dialog.optionn2",
+                      "value": "لا"
+                    },
+                    {
+                      "property": "dialog.Option1",
+                      "value": "خدمة بودي ودهان"
+                    },
+                    {
+                      "property": "dialog.Option2",
+                      "value": "خدمة الصيانة"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "en",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "zp6kJ6"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.choose",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId ==16)).text"
+                    },
+                    {
+                      "property": "dialog.qus",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId ==17)).text"
+                    },
+                    {
+                      "property": "dialog..date",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId ==18)).text"
+                    },
+                    {
+                      "property": "dialog.confirm",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId ==19)).text"
+                    },
+                    {
+                      "property": "dialog.InputHint",
+                      "value": "choose"
+                    },
+                    {
+                      "property": "dialog.time",
+                      "value": "select Time"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "ZKYlOr"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.optionn1",
+                      "value": "Yes"
+                    },
+                    {
+                      "property": "dialog.optionn2",
+                      "value": "No"
+                    },
+                    {
+                      "property": "dialog.Option1",
+                      "value": "Paint service"
+                    },
+                    {
+                      "property": "dialog.Option2",
+                      "value": "Maintenance Service"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "default": []
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "eJflgP"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "prompt": "${TextInput_Prompt_eJflgP()}",
+          "property": "dialog.UserInputChoose",
+          "validations": [
+            "=equals(this.value, 'Maintenance Service')|| equals(this.value, 'Paint service')|| contains(this.value, '#') || equals(this.value, 'خدمة الصيانة')  || equals(this.value, 'خدمة بودي ودهان')"
+          ]
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "tvwRKi"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "prompt": "${TextInput_Prompt_tvwRKi()}",
+          "property": "dialog.UserInput",
+          "validations": [
+            "=contains(this.value, '#') || equals(this.value, 'No')  || equals(this.value, 'Yes')|| equals(this.value, 'لا')|| equals(this.value, 'نعم')"
+          ]
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "F7Fk1m"
+          },
+          "condition": "dialog.UserInput==\"No\" || dialog.UserInput ==\"لا\"",
+          "actions": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "gzxL99"
+              },
+              "activityProcessed": true,
+              "dialog": "BranchesDialog"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.HttpRequest",
+          "$designer": {
+            "id": "I3i8Xq"
+          },
+          "resultProperty": "dialog.GetDay",
+          "method": "GET",
+          "url": "${conversation.URL}/api/BotAPI/GetDay?local=${conversation.local}",
+          "responseType": "json"
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "esrmzr"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "invalidPrompt": "",
+          "prompt": "${TextInput_Prompt_esrmzr()}",
+          "property": "dialog.DateInput",
+          "validations": [
+            "=contains(dialog.GetDay.content.result, this.value) || contains(this.value, '#')"
+          ]
+        },
+        {
+          "$kind": "Microsoft.HttpRequest",
+          "$designer": {
+            "id": "YNIwV9"
+          },
+          "resultProperty": "dialog.GetTime",
+          "method": "GET",
+          "url": "${conversation.URL}/api/BotAPI/GetTime?TenantID=${conversation.TenantId}&selectDay=${dialog.selcetdate}&local=${conversation.local}",
+          "responseType": "json"
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "ZZo062"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "prompt": "${TextInput_Prompt_ZZo062()}",
+          "property": "dialog.TimeInput",
+          "validations": []
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "Wiccs6"
+          },
+          "condition": "conversation.SelectBranch== null || conversation.SelectBranch==\"\"",
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "hkWYoZ"
+              },
+              "property": "dialog.TimeDate",
+              "value": "${conversation.Brand},${dialog.UserInputChoose},(${dialog.DateInput},(${dialog.TimeInput}))"
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "kYKX0q"
+              },
+              "property": "dialog.TimeDate",
+              "value": "${conversation.Brand},${dialog.UserInputChoose},(${dialog.DateInput},(${dialog.TimeInput})) ,(${conversation.SelectBranch})"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "jnUd03"
+          },
+          "property": "dialog.updateOrder",
+          "value": {
+            "ContactName": "=conversation.DisplayName",
+            "ContactId": "=conversation.ContactId",
+            "TenantID": "=conversation.TenantId",
+            "PhoneNumber": "=conversation.phoneNumber",
+            "information": "=dialog.TimeDate",
+            "DepartmentId": "=conversation.BustamiID"
+          }
+        },
+        {
+          "$kind": "Microsoft.HttpRequest",
+          "$designer": {
+            "id": "Y8bxKb"
+          },
+          "resultProperty": "dialog.OrderUpdateFinsh",
+          "method": "POST",
+          "url": "${conversation.URL}/api/BotAPI/SendPrescription",
+          "body": "= dialog.updateOrder",
+          "headers": {
+            "accept": "text/plain"
+          },
+          "responseType": "json"
+        },
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "Yi0Fte"
+          },
+          "activity": "${SendActivity_Yi0Fte()}"
+        },
+        {
+          "$kind": "Microsoft.CancelAllDialogs",
+          "$designer": {
+            "id": "KDAIDE"
+          },
+          "activityProcessed": true
+        }
+      ]
+    }
+  ],
+  "generator": "Bustami_SahebBookingDialog.lg",
+  "recognizer": "Bustami_SahebBookingDialog.lu.qna",
+  "id": "Bustami_SahebBookingDialog"
+}

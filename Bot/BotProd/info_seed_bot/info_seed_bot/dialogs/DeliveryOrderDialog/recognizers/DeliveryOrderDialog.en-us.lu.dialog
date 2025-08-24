@@ -1,0 +1,8 @@
+{
+  "$kind": "Microsoft.LuisRecognizer",
+  "id": "LUIS_DeliveryOrderDialog",
+  "applicationId": "=settings.luis.DeliveryOrderDialog_en_us_lu.appId",
+  "version": "=settings.luis.DeliveryOrderDialog_en_us_lu.version",
+  "endpoint": "=settings.luis.endpoint",
+  "endpointKey": "=settings.luis.endpointKey"
+}

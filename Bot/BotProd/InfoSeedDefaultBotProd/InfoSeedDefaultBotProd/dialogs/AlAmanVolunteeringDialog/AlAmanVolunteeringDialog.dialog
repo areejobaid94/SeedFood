@@ -1,0 +1,283 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "hh2zj9",
+    "name": "AlAmanVolunteeringDialog",
+    "comment": "Voluntary contributions "
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "YDc3y9"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "J8NvEq"
+          },
+          "condition": "conversation.local",
+          "cases": [
+            {
+              "value": "ar",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "Ov4g47"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.Volunteering",
+                      "value": "سارع في التبرع"
+                    },
+                    {
+                      "property": "dialog.choose",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 6)).text"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "X75WLs"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.Option1",
+                      "value": "تبرع الان"
+                    },
+                    {
+                      "property": "dialog.Option2",
+                      "value": "دردشة مباشرة"
+                    },
+                    {
+                      "property": "dialog.Option3",
+                      "value": "برامج التبرع"
+                    },
+                    {
+                      "property": "dialog.Option",
+                      "value": "تبرع"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "en",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "FTezjX"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.Volunteering",
+                      "value": "سارع في التبرع"
+                    },
+                    {
+                      "property": "dialog.choose",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 6)).text"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "jgZDFe"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.Option1",
+                      "value": "Donate Now"
+                    },
+                    {
+                      "property": "dialog.Option2",
+                      "value": "Live Chat"
+                    },
+                    {
+                      "property": "dialog.Option3",
+                      "value": "Donation Programs"
+                    },
+                    {
+                      "property": "dialog.Option",
+                      "value": "Donate"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "default": []
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "kEXdRT"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "invalidPrompt": "",
+          "prompt": "${TextInput_Prompt_kEXdRT()}",
+          "property": "dialog.userInput",
+          "validations": [
+            "equals(this.value, '#')|| equals(this.value, 'دردشة مباشرة') || equals(this.value, 'Live Chat') || equals(this.value, 'تبرع الان')|| equals(this.value, 'برامج التبرع')|| equals(this.value, 'Donation Programs') || equals(this.value, 'Donate Now')"
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "9e8hV4"
+          },
+          "property": "conversation.Department2",
+          "value": "=dialog.userInput"
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "enHUrT"
+          },
+          "condition": "dialog.userInput",
+          "cases": [
+            {
+              "value": "تبرع الان",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "HZaM0m"
+                  },
+                  "assignments": [
+                    {
+                      "property": "conversation.ChoiceCasePic",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 31)).text"
+                    },
+                    {
+                      "property": "conversation.ChoiceCaseLink",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 32)).text"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "nEcpSl"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "AlAmanVolunteeringChoicesDialog"
+                }
+              ]
+            },
+            {
+              "value": "دردشة مباشرة",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "M0RD5l"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "LiveChatDialog"
+                }
+              ]
+            },
+            {
+              "value": "برامج التبرع",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "tonyWw"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "AlAmanProgramsDialog"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "yvXUJx"
+          },
+          "condition": "dialog.userInput",
+          "cases": [
+            {
+              "value": "Donate Now",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "48T2Jv"
+                  },
+                  "assignments": [
+                    {
+                      "property": "conversation.ChoiceCasePic",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 31)).text"
+                    },
+                    {
+                      "property": "conversation.ChoiceCaseLink",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 32)).text"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "caZ06U"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "AlAmanVolunteeringChoicesDialog"
+                }
+              ]
+            },
+            {
+              "value": "Live Chat",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "zg3svM"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "LiveChatDialog"
+                }
+              ]
+            },
+            {
+              "value": "Donation Programs",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "LgBeyw"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "AlAmanProgramsDialog"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "0o4sQZ"
+          }
+        }
+      ]
+    }
+  ],
+  "generator": "AlAmanVolunteeringDialog.lg",
+  "recognizer": "AlAmanVolunteeringDialog.lu.qna",
+  "id": "AlAmanVolunteeringDialog"
+}

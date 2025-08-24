@@ -1,0 +1,164 @@
+<div id="editDepartment" bsModal #editDepartment="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+    aria-labelledby="editDepartment" aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg" *ngIf="theme != 'theme12'">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">
+                    <span>Department </span>
+                </h4>
+                <button type="button" class="btn-close" aria-label="Close" (click)="close()">X</button>
+            </div>
+            <div class="modal-body pl-5">
+
+                <div class="row m-1">
+
+                    <div class="col-lg-6 col-sm-6 mb-1 media">
+                        <div class="avatar bg-light-primary-info rounded">
+                            <div class="avatar-content">
+                                <i class="bi bi-shop"></i>
+                            </div>
+                        </div>
+                        <h6 class="ml-1 mt-auto"
+                            [ngClass]="darkModeService.currentSkin === 'dark' ? 'dark-header ' : ''">
+                            Department: {{department.name}}
+                        </h6>
+                    </div>
+
+                    <div class="col-lg-6 col-sm-6 mb-1 media" *ngIf="department.isLiveChat">
+                        <div class="avatar bg-light-primary-info rounded">
+                            <div class="avatar-content">
+                                <i class="bi bi-chat-dots"></i>
+                            </div>
+                        </div>
+                        <h6 class="ml-1 mt-auto"
+                            [ngClass]="darkModeService.currentSkin === 'dark' ? 'dark-header ' : ''">
+                            Type: Live Chat
+                        </h6>
+                    </div>
+
+
+                    <div class="col-lg-4 col-sm-6 mb-1 media" *ngIf="department.isSellingRequest">
+                        <div class="avatar bg-light-primary-info rounded">
+                            <div class="avatar-content">
+                                <i class="bi bi-bag-check"></i>
+                            </div>
+                        </div>
+                        <h6 class="ml-1 mt-auto"
+                            [ngClass]="darkModeService.currentSkin === 'dark' ? 'dark-header ' : ''">
+                            Type: Request
+                        </h6>
+                    </div>
+                </div>
+
+                <div class="row m-1">
+
+                    <div class="col-lg-6 col-12">
+                        <div class="form-group">
+                            <label>{{ l("Select User") }} *</label>
+                            <ng-multiselect-dropdown required [class.error]="submitted && users.invalid"
+                                #users="ngModel" [ngClass]="darkModeService.currentSkin === 'dark' ? 'dark ' : ''"
+                                name="users" [placeholder]="" [settings]="dropdownSettings" [data]="agentsList"
+                                [(ngModel)]="selectedUserIds">
+                            </ng-multiselect-dropdown>
+                            <p class="text-danger" *ngIf="submitted && users.invalid">{{l("ThisFieldIsRequired") }}</p>
+
+                        </div>
+                    </div>
+                </div>
+
+
+
+            </div>
+            <div class="modal-footer">
+                <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">{{ l("Cancel")
+                    }}</button>
+                <button (click)="save()" type="button" class="btn btn-primary" [buttonBusy]="saving"
+                    [busyText]="l('SavingWithThreeDot')">
+                    <i class="fa fa-save"></i> <span>{{ l("Save") }}</span>
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="modal-dialog modal-lg" *ngIf="theme === 'theme12'">
+        <div [ngClass]="darkModeService.currentSkin === 'dark' ? 'modal-content-dark ' : 'modal-content'">
+
+            <div class="modal-header">
+                <h4 [ngClass]="darkModeService.currentSkin === 'dark' ? 'dark-header ' : ''" class="modal-title">
+                    <span>{{ l("department") }} </span>
+                </h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="close()"
+                    aria-label="Close"></button>
+            </div>
+            <div class="modal-body pl-5">
+
+                <div class="row m-1">
+
+                    <div class="col-lg-6 col-sm-6 mb-1 media">
+                        <div class="avatar bg-light-primary-info rounded">
+                            <div class="avatar-content">
+                                <i class="bi bi-shop"></i>
+                            </div>
+                        </div>
+                        <h6 class="ml-1 mt-auto"
+                            [ngClass]="darkModeService.currentSkin === 'dark' ? 'dark-header ' : ''">
+                            {{ l("department") }}: {{department.name}}
+                        </h6>
+                    </div>
+
+                    <div class="col-lg-6 col-sm-6 mb-1 media" *ngIf="department.isLiveChat">
+                        <div class="avatar bg-light-primary-info rounded">
+                            <div class="avatar-content">
+                                <i class="bi bi-chat-dots"></i>
+                            </div>
+                        </div>
+                        <h6 class="ml-1 mt-auto"
+                            [ngClass]="darkModeService.currentSkin === 'dark' ? 'dark-header ' : ''">
+                            {{ l("type") }}: {{ l("tickets") }}
+                        </h6>
+                    </div>
+
+
+                    <div class="col-lg-4 col-sm-6 mb-1 media" *ngIf="department.isSellingRequest">
+                        <div class="avatar bg-light-primary-info rounded">
+                            <div class="avatar-content">
+                                <i class="bi bi-bag-check"></i>
+                            </div>
+                        </div>
+                        <h6 class="ml-1 mt-auto"
+                            [ngClass]="darkModeService.currentSkin === 'dark' ? 'dark-header ' : ''">
+                            {{ l("type") }}: {{ l("request") }}
+                        </h6>
+                    </div>
+                </div>
+
+                <div class="row m-1">
+
+                    <div class="col-lg-6 col-12">
+                        <div class="form-group">
+                            <label>{{ l("SelectUser") }} *</label>
+                            <ng-multiselect-dropdown required [class.error]="submitted && users.invalid"
+                                #users="ngModel" [ngClass]="darkModeService.currentSkin === 'dark' ? 'dark ' : ''"
+                                name="users" [placeholder]="" [settings]="dropdownSettings" [data]="agentsList"
+                                [(ngModel)]="selectedUserIds">
+                            </ng-multiselect-dropdown>
+                            <p class="text-danger" *ngIf="submitted && users.invalid">{{l("ThisFieldIsRequired") }}</p>
+
+                        </div>
+                    </div>
+                </div>
+
+
+
+            </div>
+            <div class="modal-footer">
+                <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">{{ l("Cancel")
+                    }}</button>
+                <button (click)="save()" type="button" class="btn btn-primary-info" [buttonBusy]="saving"
+                    [busyText]="l('SavingWithThreeDot')">
+                    <i class="fa fa-save"></i> <span>{{ l("Save") }}</span>
+                </button>
+            </div>
+        </div>
+    </div>

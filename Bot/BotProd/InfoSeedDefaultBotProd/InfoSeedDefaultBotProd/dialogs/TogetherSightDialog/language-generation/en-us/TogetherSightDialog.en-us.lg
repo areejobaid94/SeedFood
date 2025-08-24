@@ -1,0 +1,10 @@
+[import](common.lg)
+
+# TextInput_Prompt_hYPgrZ()
+[Activity
+    Text = ${TextInput_Prompt_hYPgrZ_text()}
+    SuggestedActions = ${dialog.option1} | ${dialog.option2}
+]
+
+# TextInput_Prompt_hYPgrZ_text()
+- ${dialog.text}

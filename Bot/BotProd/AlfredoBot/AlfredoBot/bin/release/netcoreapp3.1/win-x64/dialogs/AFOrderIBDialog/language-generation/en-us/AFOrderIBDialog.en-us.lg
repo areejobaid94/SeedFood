@@ -1,0 +1,30 @@
+[import](common.lg)
+
+# SendActivity_s8UCrC_text()
+- ${dialog.OIBDiplomaCaption}
+# SendActivity_s8UCrC()
+[Activity
+    Text = ${SendActivity_s8UCrC_text()}
+]
+
+# TextInput_Prompt_LyAzaS_text()
+- ${conversation.InputHint}
+# TextInput_Prompt_LyAzaS()
+[Activity
+    Text = ${TextInput_Prompt_LyAzaS_text()}
+    SuggestedActions = ${dialog.option1} | ${dialog.option2} | ${dialog.option3}
+]
+
+# TextInput_Prompt_SLkMAt_text()
+- ${dialog.InquireCaption}
+# TextInput_Prompt_SLkMAt()
+[Activity
+    Text = ${TextInput_Prompt_SLkMAt_text()}
+]
+
+# TextInput_Prompt_H7iODA_text()
+- ${dialog.InquireCaption}
+# TextInput_Prompt_H7iODA()
+[Activity
+    Text = ${TextInput_Prompt_H7iODA_text()}
+]

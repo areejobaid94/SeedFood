@@ -1,0 +1,243 @@
+﻿<div [@routerTransition]>
+  
+  <div class=" d-flex flex-column flex-column-fluid">
+   <sub-header [title]="'InfoSeedServices' | localize" [description]="'InfoSeedServicesHeaderInfo' | localize">
+             <div role="actions">
+                 <button (click)="exportToExcel()" class="btn btn-outline-success"><i class="fa fa-file-excel"></i> {{l("ExportToExcel")}}</button>
+                
+                 <button *ngIf="isGranted('Pages.Administration.InfoSeedServices.Create')" (click)="createInfoSeedService()" 
+                                        class="btn btn-primary blue"><i class="fa fa-plus"></i> {{l("CreateNewInfoSeedService")}}</button>
+             </div>
+            </sub-header>
+    
+    <div [class]="containerClass">
+        <div class="card card-custom gutter-b">
+            <div class="card-body">
+                <form class="form" autocomplete="off">
+                    <div>
+                        <div class="row align-items-center">
+                            <div class="col-xl-12">
+                                <div class="form-group m-form__group align-items-center">
+                                    <div class="input-group">
+                                        <input [(ngModel)]="filterText" name="filterText" autoFocus class="form-control m-input" [placeholder]="l('SearchWithThreeDot')" type="text">
+                                        <span class="input-group-btn">
+                                            <button (click)="getInfoSeedServices()" class="btn btn-primary" type="submit"><i class="flaticon-search-1"></i></button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+						 <div class="row" [hidden]="!advancedFiltersAreShown">
+						 	<div class="col-md-12">
+						         <div class="kt-separator kt-separator--border-dashed"></div>
+						     </div>
+
+
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="ServiceIDFilter">{{l("ServiceID")}}</label>
+									<input type="text" class="form-control" id="ServiceIDFilter" name="serviceIDFilter" [(ngModel)]="serviceIDFilter">
+								</div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+									<label for="MinServiceFeesFilter">{{l("MinMax")}} {{l("ServiceFees")}}</label>
+									<div class="input-group">
+                                        <input type="number" class="form-control" id="MinServiceFeesFilter" [(ngModel)]="minServiceFeesFilter" placeholder="{{l('MinValue')}}" name="minServiceFeesFilter" />
+                                        <input type="number" class="form-control" [(ngModel)]="maxServiceFeesFilter" placeholder="{{l('MaxValue')}}" name="maxServiceFeesFilter" />
+									</div>
+                                </div>
+                            </div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="ServiceNameFilter">{{l("ServiceName")}}</label>
+									<input type="text" class="form-control" id="ServiceNameFilter" name="serviceNameFilter" [(ngModel)]="serviceNameFilter">
+								</div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+									<label  for="MinServiceCreationDateFilter">{{l("ServiceCreationDateRange")}}</label>
+									<div class="input-group">
+                                        <input class="form-control m-input" id="MinServiceCreationDateFilter" name="MinServiceCreationDateFilter" type="datetime" bsDatepicker  placeholder="{{l('MinValue')}}" [(ngModel)]="minServiceCreationDateFilter">
+			                            <span style="line-height: 40px;padding: 0 15px 0 15px;"> &mdash; </span>
+                                        <input class="form-control m-input" id="MaxServiceCreationDateFilter" name="MaxServiceCreationDateFilter" type="datetime" bsDatepicker  placeholder="{{l('MaxValue')}}" [(ngModel)]="maxServiceCreationDateFilter">
+									</div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+									<label  for="MinServiceStoppingDateFilter">{{l("ServiceStoppingDateRange")}}</label>
+									<div class="input-group">
+                                        <input class="form-control m-input" id="MinServiceStoppingDateFilter" name="MinServiceStoppingDateFilter" type="datetime" bsDatepicker  placeholder="{{l('MinValue')}}" [(ngModel)]="minServiceStoppingDateFilter">
+			                            <span style="line-height: 40px;padding: 0 15px 0 15px;"> &mdash; </span>
+                                        <input class="form-control m-input" id="MaxServiceStoppingDateFilter" name="MaxServiceStoppingDateFilter" type="datetime" bsDatepicker  placeholder="{{l('MaxValue')}}" [(ngModel)]="maxServiceStoppingDateFilter">
+									</div>
+                                </div>
+                            </div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="ServiceTypeServicetypeNameFilter">({{l("ServiceType")}}) {{l("ServicetypeName")}}</label>
+									<input type="text" class="form-control" id="ServiceTypeServicetypeNameFilter" name="serviceTypeServicetypeNameFilter" [(ngModel)]="serviceTypeServicetypeNameFilter">
+                                </div>
+                            </div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="ServiceStatusServiceStatusNameFilter">({{l("ServiceStatus")}}) {{l("ServiceStatusName")}}</label>
+									<input type="text" class="form-control" id="ServiceStatusServiceStatusNameFilter" name="serviceStatusServiceStatusNameFilter" [(ngModel)]="serviceStatusServiceStatusNameFilter">
+                                </div>
+                            </div>
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="ServiceFrquencyServiceFrequencyNameFilter">({{l("ServiceFrquency")}}) {{l("ServiceFrequencyName")}}</label>
+									<input type="text" class="form-control" id="ServiceFrquencyServiceFrequencyNameFilter" name="serviceFrquencyServiceFrequencyNameFilter" [(ngModel)]="serviceFrquencyServiceFrequencyNameFilter">
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-sm-12">
+                                <span class="clickable-item text-muted" *ngIf="!advancedFiltersAreShown" (click)="advancedFiltersAreShown=!advancedFiltersAreShown"><i class="fa fa-angle-down"></i> {{l("ShowAdvancedFilters")}}</span>
+                                <span class="clickable-item text-muted" *ngIf="advancedFiltersAreShown" (click)="advancedFiltersAreShown=!advancedFiltersAreShown"><i class="fa fa-angle-up"></i> {{l("HideAdvancedFilters")}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+                <div class="row align-items-center">
+                    <!--<Primeng-Datatable-Start>-->
+                    <div class="primeng-datatable-container col-12"
+                         [busyIf]="primengTableHelper.isLoading">
+                        <p-table #dataTable
+                                     (onLazyLoad)="getInfoSeedServices($event)"
+                                     [value]="primengTableHelper.records"
+                                     rows="{{primengTableHelper.defaultRecordsCountPerPage}}"
+                                     [paginator]="false"
+                                     [lazy]="true"
+                                     [scrollable]="true"
+                                     ScrollWidth="100%"
+                                     [responsive]="primengTableHelper.isResponsive"
+                                     [resizableColumns]="primengTableHelper.resizableColumns">
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th style="width: 130px" [hidden]="!isGrantedAny('Pages.Administration.InfoSeedServices.Edit', 'Pages.Administration.InfoSeedServices.Delete')">{{l('Actions')}}</th>
+                                    <th style="width: 150px" pSortableColumn="serviceName">
+                                        {{l('ServiceName')}}
+                                        <p-sortIcon field="infoSeedService.serviceName"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="serviceTypeFk.servicetypeName">
+                                        {{l('ServicetypeName')}}
+                                        <p-sortIcon field="serviceTypeServicetypeName"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="serviceStatusFk.serviceStatusName">
+                                        {{l('ServiceStatusName')}}
+                                        <p-sortIcon field="serviceStatusServiceStatusName"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="serviceFrquencyFk.serviceFrequencyName">
+                                        {{l('ServiceFrequencyName')}}
+                                        <p-sortIcon field="serviceFrquencyServiceFrequencyName"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="serviceID">
+                                        {{l('ServiceID')}}
+                                        <p-sortIcon field="infoSeedService.serviceID"></p-sortIcon>
+                                    </th>
+                                   
+                                    <th style="width: 150px" pSortableColumn="serviceCreationDate">
+                                        {{l('ServiceCreationDate')}}
+                                        <p-sortIcon field="infoSeedService.serviceCreationDate"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="serviceStoppingDate">
+                                        {{l('ServiceStoppingDate')}}
+                                        <p-sortIcon field="infoSeedService.serviceStoppingDate"></p-sortIcon>
+                                    </th>
+
+                                </tr>
+                            </ng-template>                           
+							<ng-template pTemplate="body" let-record="$implicit" let-i="rowIndex">
+                                <tr>
+                                    <td style="width: 130px"
+                                        [hidden]="!isGrantedAny('Pages.Administration.InfoSeedServices.Edit', 'Pages.Administration.InfoSeedServices.Delete')">
+                                       <div class="btn-group dropdown" dropdown container="body">
+                                            <button class="dropdown-toggle btn btn-sm btn-primary" dropdownToggle>
+                                                <i class="fa fa-cog"></i><span class="caret"></span> {{l("Actions")}}
+                                            </button>
+												<ul class="dropdown-menu"  *dropdownMenu>
+												<li>
+													<a href="javascript:;" class="dropdown-item"
+														(click)="viewInfoSeedServiceModal.show(record)">{{l('View')}}</a>
+												</li>
+												<li>
+                                                <a href="javascript:;" *ngIf="permission.isGranted('Pages.Administration.InfoSeedServices.Edit')" class="dropdown-item"
+														(click)="createOrEditInfoSeedServiceModal.show(record.infoSeedService.id)">{{l('Edit')}}</a>												
+                                                </li>
+												<li>
+											        <a class="dropdown-item" href="javascript:;" *ngIf="permission.isGranted('Pages.Administration.InfoSeedServices.Delete')"
+														(click)="deleteInfoSeedService(record.infoSeedService)">{{l('Delete')}}</a>
+												</li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                    <td style="width:150px">
+                                        <span class="p-column-title"> {{l('ServiceName')}}</span>
+                                        {{record.infoSeedService.serviceName}}
+                                    </td>
+                                    <td style="width:150px">
+												<span class="p-column-title"> {{l('ServicetypeName')}}</span>
+												{{record.serviceTypeServicetypeName}}
+											</td>
+                                    <td style="width:150px">
+												<span class="p-column-title"> {{l('ServiceStatusName')}}</span>
+												{{record.serviceStatusServiceStatusName}}
+											</td>
+                                    <td style="width:150px">
+												<span class="p-column-title"> {{l('ServiceFrequencyName')}}</span>
+												{{record.serviceFrquencyServiceFrequencyName}}
+											</td>
+                                    <td style="width:150px">
+											<span class="p-column-title"> {{l('ServiceID')}}</span>
+											{{record.infoSeedService.serviceID}}
+										</td>
+                                   
+                                    <td style="width:150px">
+										<span class="p-column-title"> {{l('ServiceCreationDate')}}</span>
+                                        <span *ngIf="record.infoSeedService.serviceCreationDate">
+											{{record.infoSeedService.serviceCreationDate |  momentFormat:'L' }}
+                                        </span>
+                                        <span *ngIf="!record.infoSeedService.serviceCreationDate">-</span>
+                                    </td>
+                                    <td style="width:150px">
+										<span class="p-column-title"> {{l('ServiceStoppingDate')}}</span>
+                                        <span *ngIf="record.infoSeedService.serviceStoppingDate">
+											{{record.infoSeedService.serviceStoppingDate |  momentFormat:'L' }}
+                                        </span>
+                                        <span *ngIf="!record.infoSeedService.serviceStoppingDate">-</span>
+                                    </td>
+
+                                </tr>
+                               
+                            </ng-template>
+                        </p-table>
+						<div class="primeng-no-data" *ngIf="primengTableHelper.totalRecordsCount == 0">
+                            {{l('NoData')}}
+                        </div>
+                        <div class="primeng-paging-container">
+                            <p-paginator [rows]="primengTableHelper.defaultRecordsCountPerPage"
+                                         #paginator
+                                         (onPageChange)="getInfoSeedServices($event)"
+                                         [totalRecords]="primengTableHelper.totalRecordsCount"
+                                         [rowsPerPageOptions]="primengTableHelper.predefinedRecordsCountPerPage">
+                            </p-paginator>
+                            <span class="total-records-count">
+                                {{l('TotalRecordsCount', primengTableHelper.totalRecordsCount)}}
+                            </span>
+                        </div>
+                    </div>
+                    <!--<Primeng-Datatable-End>-->
+                </div>
+            </div>
+        </div>
+    </div>
+    <createOrEditInfoSeedServiceModal #createOrEditInfoSeedServiceModal (modalSave)="getInfoSeedServices()"></createOrEditInfoSeedServiceModal>    
+    <viewInfoSeedServiceModal #viewInfoSeedServiceModal></viewInfoSeedServiceModal>
+    
+  </div>
+</div>

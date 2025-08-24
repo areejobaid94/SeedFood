@@ -1,0 +1,23 @@
+[import](common.lg)
+
+# TextInput_Prompt_xdph7g()
+[Activity
+    Attachments = ${json(BookingTimeList(dialog.text,dialog.bookingTimes.content.result))}
+    InputHint=${dialog.BookingInputHint}
+    Summary=${dialog.Summary}
+]
+
+# SendActivity_OG29Fp()
+[Activity
+    Text = ${SendActivity_OG29Fp_text()}
+]
+
+# SendActivity_OG29Fp_text()
+- ${dialog.cancel}
+# SendActivity_cHG9xx()
+[Activity
+    Text = ${SendActivity_cHG9xx_text()}
+]
+
+# SendActivity_cHG9xx_text()
+- ${dialog.result}

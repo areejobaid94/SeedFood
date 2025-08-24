@@ -1,0 +1,8 @@
+{
+  "$kind": "Microsoft.LuisRecognizer",
+  "id": "LUIS_AF-consAQA-O-Dialog",
+  "applicationId": "=settings.luis.AF_consAQA_O_Dialog_en_us_lu.appId",
+  "version": "=settings.luis.AF_consAQA_O_Dialog_en_us_lu.version",
+  "endpoint": "=settings.luis.endpoint",
+  "endpointKey": "=settings.luis.endpointKey"
+}

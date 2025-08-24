@@ -1,0 +1,67 @@
+[import](common.lg)
+
+# TextInput_Prompt_mUGqXG()
+[Activity
+    Text = ${TextInput_Prompt_mUGqXG_text()}
+]
+
+# TextInput_Prompt_mUGqXG_text()
+- ${dialog.text}
+# SendActivity_zl5j2b()
+[Activity
+    Text = ${SendActivity_zl5j2b_text()}
+]
+
+# SendActivity_zl5j2b_text()
+- نحن لا ندعم التوصيل الى هذه المنطقه
+
+
+# TextInput_Prompt_TZqLh6()
+[Activity
+    Attachments = ${json(ButtonList(dialog.TowLocationText,dialog.LocationTow.content.result))}
+    InputHint=منطقتك
+]
+# SendActivity_abtE5K_text()
+- نحن لا ندعم التوصيل الى هذه المنطقه
+
+# SendActivity_abtE5K()
+[Activity
+    Text = ${SendActivity_abtE5K_text()}
+]
+
+# SendActivity_mnpSQX_text()
+- نحن لا ندعم التوصيل الى هذه المنطقه
+
+# SendActivity_mnpSQX()
+[Activity
+    Text = ${SendActivity_mnpSQX_text()}
+]
+
+# TextInput_Prompt_xIeEe6()
+[Activity
+  Text= ${conversation.DeliveryCostText}
+  SuggestedActions = ${dialog.Confirm} | ${dialog.Cancel}
+  Summary =  ${conversation.Summary}  
+]
+
+# SendActivity_OBurN0()
+[Activity
+    Text = ${SendActivity_OBurN0_text()}
+]
+
+# SendActivity_OBurN0_text()
+- s
+# SendActivity_tDlFbv()
+[Activity
+    Text = ${SendActivity_tDlFbv_text()}
+]
+
+# SendActivity_tDlFbv_text()
+- d
+# SendActivity_gQ64F8()
+[Activity
+    Text = ${SendActivity_gQ64F8_text()}
+]
+
+# SendActivity_gQ64F8_text()
+- ${conversation.isOrderOffer}

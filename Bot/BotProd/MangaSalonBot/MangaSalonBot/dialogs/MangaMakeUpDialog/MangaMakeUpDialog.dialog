@@ -1,0 +1,123 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "bixZNd",
+    "name": "MangaMakeUpDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "U8DZM3"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "zi25k2"
+          },
+          "condition": "conversation.local",
+          "cases": [
+            {
+              "value": "ar",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "S30UCK"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.List",
+                      "value": [
+                        "مكياج ثقيل مع رموش",
+                        "مكياج خفيف بدون رموش",
+                        "مكياج خفيف مع رموش"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "en",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "773Kr1"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.List",
+                      "value": [
+                        "heavy make-up with lash extension",
+                        "light make-up without lash extension",
+                        "light make-up with lash extension"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "default": []
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "gFUFBZ"
+          },
+          "property": "dialog.text",
+          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3614)).text"
+        },
+        {
+          "$kind": "Microsoft.DeleteProperty",
+          "$designer": {
+            "id": "SP3y7z"
+          },
+          "property": "dialog.Select"
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "499eFB"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "unrecognizedPrompt": "",
+          "invalidPrompt": "",
+          "prompt": "${TextInput_Prompt_499eFB()}",
+          "property": "dialog.Select",
+          "validations": [
+            "equals(this.value, 'مكياج ثقيل مع رموش') || equals(this.value, 'مكياج خفيف بدون رموش') || equals(this.value, 'مكياج خفيف مع رموش') || equals(this.value, 'light make-up with lash extension') || equals(this.value, 'heavy make-up with lash extension') || equals(this.value, 'light make-up without lash extension') || equals(this.value, '#')"
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "JGkilo"
+          },
+          "property": "conversation.RequestValue4",
+          "value": "${dialog.Select}"
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "8xWZv5"
+          }
+        }
+      ]
+    }
+  ],
+  "generator": "MangaMakeUpDialog.lg",
+  "recognizer": "MangaMakeUpDialog.lu.qna",
+  "id": "MangaMakeUpDialog"
+}

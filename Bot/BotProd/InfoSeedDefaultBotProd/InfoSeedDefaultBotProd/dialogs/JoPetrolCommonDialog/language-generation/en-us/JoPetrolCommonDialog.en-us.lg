@@ -1,0 +1,17 @@
+[import](common.lg)
+
+# NumberInput_Prompt_BTHdsx_text()
+- ${dialog.LitersCaption}
+# NumberInput_Prompt_BTHdsx()
+[Activity
+    Text = ${NumberInput_Prompt_BTHdsx_text()}
+]
+
+# TextInput_Prompt_b9ztmF()
+[Activity
+    Text = ${TextInput_Prompt_b9ztmF_text()}
+    SuggestedActions = ${dialog.Option1} | ${dialog.Option2}
+]
+
+# TextInput_Prompt_b9ztmF_text()
+- ${dialog.BarbecueCaption}

@@ -1,0 +1,16 @@
+[import](common.lg)
+#CancelOrderText(TextCancel,Summary)
+[Activity
+  Text= ${TextCancel}
+   Summary =  ${Summary}  
+]
+# TextInput_Prompt_DZAk2O()
+- ${CancelOrderText(conversation.EnterBookingNumberText,conversation.Summary)}
+# SendActivity_aeMAIh()
+- ${conversation.DeleteBookingSlowText}
+# TextInput_Prompt_6wVE2P()
+[Activity
+    Text=${conversation.SelectErrorBookingNumberText}
+    SuggestedActions =  العودة الى القائمة | ادخال رقم مرة اخرى 
+    Summary=${conversation.Summary}
+]

@@ -1,0 +1,596 @@
+﻿<div [@routerTransition]>
+    <div class="" [ngClass]="darkModeService.currentSkin === 'dark' ? 'header-navbar-shadow-dark' : 'header-navbar-shadow'"></div>
+    <div *ngIf="theme != 'theme12'" class="content-wrapper container-xxl p-0">
+        <div class="content-body">
+            <div class="d-flex flex-column flex-column-fluid">
+                <div
+                    class="content-header row content-header row subheader subheader-transparent align-items-center d-flex flex-sm-nowrap flex-wrap justify-content-between"
+                    [ngClass]="theme != 'theme12' ? 'container' : ''"
+                >
+                    <div class="content-header-left col-md-9 col-12 mb-2">
+                        <div class="row breadcrumbs-top">
+                            <div class="col-12 d-flex">
+                                <h2 class="text content-header-title float-left mb-0">{{ l("manageMenu") }}</h2>
+                                <div class="breadcrumb-wrapper d-flex">
+                                    <ol class="breadcrumb">
+                                        <li class="breadcrumb-item cursor-pointer">
+                                            <a (click)="goToDashboard()">{{ l("home") }}</a>
+                                        </li>
+                                        <li class="breadcrumb-item cursor-pointer">
+                                            <a (click)="back()">{{ l("menus") }}</a>
+                                        </li>
+                                        <li class="breadcrumb-item">
+                                            <span>{{ l("manageMenu") }}</span>
+                                        </li>
+                                    </ol>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div [ngClass]="theme != 'theme12' ? 'container' : ''">
+                    <div class="card-custom gutter-b" [ngClass]="darkModeService.currentSkin === 'dark' ? 'dark-card' : 'card'">
+                        <div class="card-body p-1">
+                            <div class="row" class="message-loader" *ngIf="showMessageLoader">
+                                <div id="startup">
+                                    <svg class="spinner-container" width="65px" height="65px" viewBox="0 0 52 52">
+                                        <circle class="path" cx="26px" cy="26px" r="20px" fill="none" stroke-width="4px" />
+                                    </svg>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="form-group" name="" role="form">
+                                        <label for="file">Choose File</label>
+                                        <input type="file" #file accept=".xlsx" id="file" class="form-control" name="AttachmentId" (change)="handleFileInput($event)" />
+                                    </div>
+
+                                    <button (click)="uploadFileToActivity()" class="btn btn-primary blue"><i class="fa fa-plus"></i> {{ l("Upload File") }}</button>
+                                </div>
+                                <div class="col-6 text-right">
+                                    <div *ngIf="theme != 'theme12'">
+                                        <button (click)="exportToExcel()" class="btn btn-primary"><i class="fa fa-file-excel"></i> {{ l("ExportToExcel") }}</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row p-2">
+                                <div class="col text-center" *ngIf="selectsubcatgory">
+                                    <h2>Select Sub Category</h2>
+                                    <div style="padding: 7px; font-size: large; border: 2px solid #f42020; border-radius: 25px; color: #000; color: var(--font-color)">
+                                        {{ selectsubcatgory.name }}
+                                    </div>
+                                </div>
+
+                                <div class="col p-0 text-center" *ngIf="selectcatgory">
+                                    <h2>Select Category</h2>
+                                    <div style="padding: 7px; font-size: large; border: 2px solid #f42020; border-radius: 25px; color: #000; color: var(--font-color)">
+                                        {{ selectcatgory.name }}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row p-2 align-items-center">
+                                <!-- <h3>Category</h3>  -->
+
+                                <div
+                                    class="row p-1"
+                                    style="font-weight: bold; font-size: 15px; direction: rtl; align-items: center; border-radius: 0.85rem; margin: 7px; border: solid; width: 100%"
+                                >
+                                    <div style="direction: rtl">
+                                        <button (click)="createOrEditCategoryComponent.show(menuID)" class="btn btn-primary blue">
+                                            <i class="fa fa-plus"></i> {{ l("Add Category") }}
+                                        </button>
+                                    </div>
+                                    <div *ngFor="let record of catgory; let index = index" style="direction: rtl">
+                                        <div id="x-{{ index }}">
+                                            <button (click)="selectCategory(record, index)" class="btn btn-outline-danger" style="margin: 12px">
+                                                {{ record.name }}
+                                            </button>
+                                            <!-- <button  class="btn btn-outline-danger" style="margin: 12px;">
+                                {{record.name}}
+                                </button> -->
+                                            <div class="row justify-content-center">
+                                                <i class="fa fa-times-circle btn" (click)="deleteCategoryItem(record.id)"></i>
+                                                <i class="fa fa-edit btn" (click)="createOrEditCategoryComponent.editCategory(menuID, record)"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row p-2 align-items-center">
+                                <!-- <h3>Sub Category</h3>  -->
+                                <div
+                                    class="row p-1"
+                                    style="font-weight: bold; font-size: 15px; direction: rtl; align-items: center; border-radius: 0.85rem; margin: 7px; border: solid; width: 100%"
+                                >
+                                    <button (click)="createOrEditSubCategoryComponent.show(menuID, selectcatgory)" class="btn btn-primary p-3">
+                                        <i class="fa fa-plus"></i> {{ l("Add Sub Category") }}
+                                    </button>
+                                    <div *ngFor="let record of subcatgory; let index = index" style="direction: rtl">
+                                        <div id="y-{{ index }}">
+                                            <button (click)="selectSubCategory(record, index)" class="btn btn-outline-success" style="margin: 12px">
+                                                {{ record.name }}
+                                            </button>
+                                            <div class="row justify-content-center">
+                                                <i class="fa fa-times-circle btn" (click)="deleteSubCategoryItem(record.id)"></i>
+                                                <i class="fa fa-edit btn" (click)="createOrEditSubCategoryComponent.editSubCategory(menuID, record, selectcatgory)"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row p-2 align-items-center">
+                                <!-- <h3>Sub Category</h3>  -->
+
+                                <div
+                                    class="row p-1"
+                                    style="
+                                        padding: 15px;
+                                        font-weight: bold;
+                                        font-size: 15px;
+                                        direction: rtl;
+                                        align-items: center;
+                                        border-radius: 0.85rem;
+                                        margin: 7px;
+                                        border: solid;
+                                        width: 100%;
+                                    "
+                                >
+                                    <button (click)="createOrEditCategoryItemModalComponent.addNewItem(menuID, selectcatgory, selectsubcatgory)" class="btn btn-primary p-3">
+                                        <i class="fa fa-plus"></i> {{ l("Add Item") }}
+                                    </button>
+
+                                    <div *ngFor="let record of items; let index = index" style="direction: rtl; margin: 25px; width: 210; font-family: system-ui">
+                                        <div id="z-{{ index }}">
+                                            <div style="text-align: center">
+                                                <div class="row">
+                                                    <button
+                                                        style="text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;background: url({{record.imageUri}}); width: 140px ; margin: 12px ; height: 163px ; background-size: cover;display: inline-flex; align-items: flex-end; "
+                                                        type="button"
+                                                        class="btn btn-outline-success"
+                                                    >
+                                                        <label
+                                                            style="color: #6cff7e; font-size: 16px; width: 100%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis"
+                                                            >{{ record.itemName }}</label
+                                                        >
+                                                        <i class="fa fa-times-circle btn" title="Delete" (click)="deleteItem(record.id)"></i>
+                                                        <i class="fa fa-edit btn" (click)="createOrEditCategoryItemModalComponent.editNewItem(record.id)"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- <viewBookingModal #viewBookingModal></viewBookingModal> -->
+            </div>
+        </div>
+    </div>
+    <div *ngIf="theme === 'theme12'" class="content-wrapper container-xxl p-0">
+        <div class="content-body">
+            <div class="d-flex flex-column flex-column-fluid">
+                <div
+                    class="content-header row content-header row subheader subheader-transparent align-items-center d-flex flex-sm-nowrap flex-wrap justify-content-between"
+                    [ngClass]="theme != 'theme12' ? 'container' : ''"
+                >
+                    <div class="content-header-left col-md-9 col-12 mb-2">
+                        <div class="row breadcrumbs-top">
+                            <div class="col-12 d-flex">
+                                <h2 class="text content-header-title float-left mb-0">{{ l("manageMenu") }}</h2>
+                                <div class="breadcrumb-wrapper d-flex">
+                                    <ol class="breadcrumb">
+                                        <li class="breadcrumb-item cursor-pointer">
+                                            <a (click)="goToDashboard()">{{ l("home") }}</a>
+                                        </li>
+                                        <li class="breadcrumb-item cursor-pointer">
+                                            <a (click)="back()">{{ l("menus") }}</a>
+                                        </li>
+                                        <li class="breadcrumb-item">
+                                            <span>{{ l("manageMenu") }}</span>
+                                        </li>
+                                    </ol>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <div>
+                        <div>
+                            <div class="row mb-2">
+                                <div class="col-md-6 col-12">
+                                    <div class="form-group" name="" role="form">
+                                        <label for="file">Choose File</label>
+                                        <input type="file" accept=".xlsx" #file id="file" class="form-control" name="AttachmentId" (change)="handleFileInput($event)" />
+                                    </div>
+
+                                    <button (click)="uploadFileToActivity()" class="btn btn-outline-primary-info mt-1"><i class="fa fa-plus"></i> {{ l("uploadFile") }}</button>
+                                </div>
+                                <div class="col-md-6 col-12 text-right">
+                                    <button (click)="exportToExcel()" class="btn btn-outline-primary-info mr-1"><i class="fa fa-file-excel"></i>{{ l("ExportToExcel") }}</button>
+                                </div>
+                            </div>
+
+                            <!--View selected-->
+                            <div class="row p-2">
+                                <div class="col text-center" *ngIf="selectsubcatgory">
+                                    <h2>{{ l("selectSubCategory") }}</h2>
+                                    <div style="padding: 7px; font-size: large; border: 2px solid #f42020; border-radius: 25px; color: #000; color: var(--font-color)">
+                                        {{ selectsubcatgory.name }}
+                                    </div>
+                                </div>
+
+                                <div class="col p-0 text-center" *ngIf="selectcatgory">
+                                    <h2>{{ l("selectCategory") }}</h2>
+                                    <div style="padding: 7px; font-size: large; border: 2px solid #f42020; border-radius: 25px; color: #000; color: var(--font-color)">
+                                        {{ selectcatgory.name }}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--Categories-->
+                            <h2 class="filter-heading" [ngClass]="darkModeService.currentSkin === 'dark' ? 'dark-header ' : ''">
+                                {{ l("categories") }}
+                            </h2>
+                            <div class="">
+                                <div>
+                                    <button type="button" class="btn btn-primary-info" (click)="createOrEditCategoryComponent.show(menuID)">
+                                        <i class="fa fa-plus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="row mt-1">
+                                <div class="col-xxl-3 col-md-3 col-12" *ngFor="let record of catgory; let index = index">
+                                    <div
+                                        class="card-custom gutter-b mb-1 items-card"
+                                        [ngClass]="selectedCategory === index ? 'activeCategory' : ''"
+                                        [ngClass]="darkModeService.currentSkin === 'dark' ? 'dark-card' : 'card'"
+                                    >
+                                        <div (click)="selectCategory(record, index)" *ngIf="record.logoImag" class="bg-light-primary rounded-top text-center">
+                                            <img class="w-100 rounded" [src]="record.logoImag" alt="Category Pic" height="170" />
+                                        </div>
+                                        <div (click)="selectCategory(record, index)" *ngIf="!record.logoImag" class="bg-light-primary rounded-top text-center">
+                                            <img class="w-100 rounded" src="../../../../favicon.ico" alt="Category Pic" height="170" />
+                                        </div>
+
+                                        <div class="card-body p-1">
+                                            <div class="row">
+                                                <ul ngbNav #nav="ngbNav" class="nav-tabs">
+                                                    <li ngbNavItem>
+                                                        <a ngbNavLink>Arabic</a>
+                                                        <ng-template ngbNavContent>
+                                                            <div class="col-12">
+                                                                <div class="d-flex flex-wrap" (click)="selectCategory(record, index)">
+                                                                    <div class="user-info-title">
+                                                                        <span class="card-text user-info-title font-weight-bold mb-0">
+                                                                            <b> {{ l("categoryNameAr") }}:</b>
+                                                                        </span>
+                                                                    </div>
+                                                                    <p class="card-text mb-0 ml-1">{{ record.name }}</p>
+                                                                </div>
+                                                            </div>
+                                                        </ng-template>
+                                                    </li>
+
+                                                    <li ngbNavItem>
+                                                        <a ngbNavLink>English</a>
+                                                        <ng-template ngbNavContent>
+                                                            <div class="col-12">
+                                                                <div class="d-flex flex-wrap" (click)="selectCategory(record, index)">
+                                                                    <div class="user-info-title">
+                                                                        <span class="card-text user-info-title font-weight-bold mb-0">
+                                                                            <b> {{ l("categoryNameEn") }}:</b>
+                                                                        </span>
+                                                                    </div>
+                                                                    <p class="card-text mb-0 ml-1">{{ record.nameEnglish }}</p>
+                                                                </div>
+                                                            </div>
+                                                        </ng-template>
+                                                    </li>
+                                                </ul>
+                                                <div [ngbNavOutlet]="nav" class="mt-1"></div>
+                                                <div class="col-12 mt-2">
+                                                    <div class="d-flex flex-wrap">
+                                                        <div class="user-info-title">
+                                                            <span class="user-info-title font-weight-bold mb-0">
+                                                                <b> {{ l("priority") }}:</b>
+                                                            </span>
+                                                        </div>
+                                                        <p class="mb-0 ml-1">{{ record.priority }}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="item-options text-center">
+                                                <a
+                                                    (click)="createOrEditCategoryComponent.editCategory(menuID, record)"
+                                                    class="btn btn-light btn-wishlist waves-effect waves-float waves-light"
+                                                >
+                                                    <span>{{ l("Edit") }}</span></a
+                                                >
+                                                <a (click)="deleteCategoryItem(record.id)" class="btn btn-danger btn-cart waves-effect waves-float waves-light">
+                                                    <span class="add-to-cart">{{ l("Delete") }}</span></a
+                                                >
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--subCategory-->
+                        <h2 class="mt-2 mb-2 filter-heading" *ngIf="selectedCategory != null && catgory" [ngClass]="darkModeService.currentSkin === 'dark' ? 'dark-header ' : ''">
+                            {{ l("subCategories") }}
+                            <div *ngIf="startCatLoad" class="spinner-border text-danger" role="status">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                        </h2>
+                        <div class="row" *ngIf="selectedCategory != null && catgory">
+                            <div class="">
+                                <div class="">
+                                    <button type="button" class="btn btn-primary-info" (click)="createOrEditSubCategoryComponent.show(menuID, selectcatgory)">
+                                        <i class="fa fa-plus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="mt-1 col-xxl-3 col-md-3 col-12" *ngFor="let record of subcatgory; let index = index">
+                                <div
+                                    class="card-custom gutter-b mb-1 items-card"
+                                    [ngClass]="selectedSubCategory === index ? 'selectedSubCategory' : ''"
+                                    [ngClass]="darkModeService.currentSkin === 'dark' ? 'dark-card' : 'card'"
+                                >
+                                    <div (click)="selectSubCategory(record, index)" *ngIf="record.bgImag" class="bg-light-primary rounded-top text-center">
+                                        <img class="w-100 rounded" [src]="record.bgImag" alt="SubCategory Pic" height="170" />
+                                    </div>
+                                    <div (click)="selectSubCategory(record, index)" *ngIf="!record.bgImag" class="bg-light-primary rounded-top text-center">
+                                        <img class="w-100 rounded" src="../../../../favicon.ico" alt="SubCategory Pic" height="170" />
+                                    </div>
+
+                                    <div class="card-body p-1">
+                                        <div class="row">
+                                            <ul ngbNav #nav="ngbNav" class="nav-tabs">
+                                                <li ngbNavItem>
+                                                    <a ngbNavLink>Arabic</a>
+                                                    <ng-template ngbNavContent>
+                                                        <div class="col-12">
+                                                            <div class="d-flex flex-wrap" (click)="selectSubCategory(record, index)">
+                                                                <div class="user-info-title">
+                                                                    <span class="card-text user-info-title font-weight-bold mb-0">
+                                                                        <b> {{ l("subCategoryNameAr") }}:</b>
+                                                                    </span>
+                                                                </div>
+                                                                <p class="card-text mb-0 ml-1">{{ record.name }}</p>
+                                                            </div>
+                                                        </div>
+                                                    </ng-template>
+                                                </li>
+                                                <li ngbNavItem>
+                                                    <a ngbNavLink>English</a>
+                                                    <ng-template ngbNavContent>
+                                                        <div class="col-12">
+                                                            <div class="d-flex flex-wrap" (click)="selectSubCategory(record, index)">
+                                                                <div class="user-info-title">
+                                                                    <span class="card-text user-info-title font-weight-bold mb-0">
+                                                                        <b> {{ l("subCategoryNameEn") }}:</b>
+                                                                    </span>
+                                                                </div>
+                                                                <p class="card-text mb-0 ml-1">{{ record.nameEnglish }}</p>
+                                                            </div>
+                                                        </div>
+                                                    </ng-template>
+                                                </li>
+                                            </ul>
+                                            <div [ngbNavOutlet]="nav" class="mt-1"></div>
+                                            <div class="col-12 mt-2">
+                                                <div class="d-flex flex-wrap">
+                                                    <div class="user-info-title">
+                                                        <span class="user-info-title font-weight-bold mb-0">
+                                                            <b> {{ l("priority") }}:</b>
+                                                        </span>
+                                                    </div>
+                                                    <p class="mb-0 ml-1">{{ record.priority }}</p>
+                                                </div>
+                                            </div>
+                                            <div class="item-options text-center">
+                                                <a
+                                                    (click)="createOrEditSubCategoryComponent.editSubCategory(menuID, record, selectcatgory)"
+                                                    class="btn btn-light btn-wishlist waves-effect waves-float waves-light"
+                                                >
+                                                    <span>{{ l("Edit") }}</span></a
+                                                >
+                                                <a (click)="deleteSubCategoryItem(record.id)" class="btn btn-danger btn-cart waves-effect waves-float waves-light">
+                                                    <span class="add-to-cart">{{ l("Delete") }}</span></a
+                                                >
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--items-->
+                        <h2
+                            class="mt-2 mb-2 filter-heading"
+                            *ngIf="selectedSubCategory != null && subcatgory"
+                            [ngClass]="darkModeService.currentSkin === 'dark' ? 'dark-header ' : ''"
+                        >
+                            {{ l("Items") }}
+                            <div *ngIf="startSubCatLoad" class="spinner-border text-danger" role="status">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                        </h2>
+
+                        <div class="mt-1 row" id="ecommerce-products" *ngIf="selectedSubCategory != null && subcatgory">
+                            <div class="">
+                                <div class="">
+                                    <button
+                                        type="button"
+                                        class="btn btn-primary-info"
+                                        (click)="createOrEditCategoryItemModalComponent.addNewItem(menuID, selectcatgory, selectsubcatgory)"
+                                    >
+                                        <i class="fa fa-plus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col-xxl-3 col-md-3 col-12 mt-1" *ngFor="let record of items; let index = index">
+                                <span class="card-custom gutter-b items-card" [ngClass]="darkModeService.currentSkin === 'dark' ? 'dark-card' : 'card'">
+                                    <div
+                                        (click)="createOrEditCategoryItemModalComponent.editNewItem(record.id)"
+                                        *ngIf="record.imageUri"
+                                        class="bg-light-primary rounded-top text-center"
+                                    >
+                                        <img
+                                            class="w-100 rounded"
+                                            [src]="record.imageUri"
+                                            alt="Item Pic"
+                                            [ngClass]="
+                                                (record.inServiceIds === ',' && !record.isInService) || (record.inServiceIds != ',' && record.inServiceIds === '')
+                                                    ? 'notUvailable '
+                                                    : ''
+                                            "
+                                            height="170"
+                                        />
+                                        <img class="w-100 rounded" *ngIf="!record.imageUri" src="../../../../favicon.ico" alt="Item Pic" height="170" />
+                                        <span *ngIf="record.discount" class="available-span badge badge-glow badge-warning"> {{ record.discount }} % Off </span>
+                                        <span *ngIf="record.isLoyal && isTenantLoyal" class="loyality-span badge badge-glow badge-warning">
+                                            <i class="bi bi-gift"></i>
+                                            {{ record.loyaltyPoints }}
+                                        </span>
+                                    </div>
+
+                                    <div class="card-body p-1">
+                                        <div class="row">
+                                            <ul ngbNav #nav="ngbNav" class="nav-tabs">
+                                                <li ngbNavItem>
+                                                    <a ngbNavLink>Arabic</a>
+                                                    <ng-template ngbNavContent>
+                                                        <div class="col-12">
+                                                            <div class="d-flex flex-wrap">
+                                                                <div class="user-info-title">
+                                                                    <span class="card-text user-info-title font-weight-bold mb-0">
+                                                                        <b> {{ l("itemNameAr") }}:</b>
+                                                                    </span>
+                                                                </div>
+                                                                <p class="card-text ml-1 mb-0">{{ record.itemName }}</p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-12">
+                                                            <div class="d-flex flex-wrap">
+                                                                <div class="user-info-title">
+                                                                    <span class="card-text user-info-title font-weight-bold mb-0">
+                                                                        <b> {{ l("itemdescAr") }}: </b>
+                                                                    </span>
+                                                                </div>
+                                                                <p class="card-text ml-1 mb-0">{{ record.itemDescription }}</p>
+                                                            </div>
+                                                        </div>
+                                                    </ng-template>
+                                                </li>
+                                                <li ngbNavItem>
+                                                    <a ngbNavLink>English</a>
+                                                    <ng-template ngbNavContent>
+                                                        <div class="col-12">
+                                                            <div class="d-flex flex-wrap">
+                                                                <div class="user-info-title">
+                                                                    <span class="card-text user-info-title font-weight-bold mb-0">
+                                                                        <b> {{ l("itemNameEn") }}:</b>
+                                                                    </span>
+                                                                </div>
+                                                                <p class="card-text mb-0 ml-1">{{ record.itemNameEnglish }}</p>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-12">
+                                                            <div class="d-flex flex-wrap">
+                                                                <div class="user-info-title">
+                                                                    <span class="card-text user-info-title font-weight-bold mb-0">
+                                                                        <b> {{ l("itemdescEn") }}: </b></span
+                                                                    >
+                                                                </div>
+                                                                <p class="card-text mb-0 ml-1">{{ record.itemDescriptionEnglish }}</p>
+                                                            </div>
+                                                        </div>
+                                                    </ng-template>
+                                                </li>
+                                            </ul>
+                                            <div [ngbNavOutlet]="nav"></div>
+
+                                            <div class="col-6 mt-2">
+                                                <div class="d-flex flex-wrap">
+                                                    <div class="user-info-title">
+                                                        <span class="user-info-title font-weight-bold mb-0">
+                                                            <b> {{ l("priority") }} : </b></span
+                                                        >
+                                                    </div>
+                                                    <p class="mb-0 ml-1">{{ record.priority }}</p>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-6 mt-2 p-0">
+                                                <div class="d-flex flex-wrap">
+                                                    <div class="user-info-title">
+                                                        <span class="user-info-title font-weight-bold mb-0">
+                                                            <b> {{ l("Price") }}: </b>
+                                                        </span>
+                                                    </div>
+                                                    <p class="mb-0 ml-1">
+                                                        {{ record.price }} <small>{{ currency }}</small>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="d-flex flex-wrap">
+                                                    <div class="user-info-title">
+                                                        <span class="user-info-title font-weight-bold mb-0">
+                                                            <b> {{ l("isAvailable") }} : </b>
+                                                        </span>
+                                                    </div>
+                                                    <i
+                                                        *ngIf="(record.inServiceIds === ',' && record.isInService) || (record.inServiceIds != ',' && record.inServiceIds != '')"
+                                                        class="bi bi-check-lg text-success ml-1"
+                                                    ></i>
+                                                    <i
+                                                        *ngIf="(record.inServiceIds === ',' && !record.isInService) || (record.inServiceIds != ',' && record.inServiceIds === '')"
+                                                        class="bi bi-x-lg text-danger ml-1"
+                                                    ></i>
+                                                </div>
+                                            </div>
+
+                                            <div class="row mt-1">
+                                                <div class="col-12 text-center">
+                                                    <a
+                                                        (click)="createOrEditCategoryItemModalComponent.editNewItem(record.id)"
+                                                        class="btn btn-light btn-wishlist waves-effect waves-float waves-light"
+                                                        ><span>Edit</span></a
+                                                    >
+                                                    <a (click)="deleteItem(record.id)" class="btn btn-danger btn-cart waves-effect waves-float waves-light"
+                                                        ><span class="add-to-cart">{{ l("Delete") }}</span></a
+                                                    >
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <createOrEditctownModal #createOrEditctownModal (modalSave)="UpdateItems()"></createOrEditctownModal>
+    <!-- done -->
+    <createOrEditCategoryComponent #createOrEditCategoryComponent (modalSave)="getCatogeory()"> </createOrEditCategoryComponent>
+    <createOrEditSubCategoryComponent #createOrEditSubCategoryComponent (modalSave)="getSubCatogeory()"> </createOrEditSubCategoryComponent>
+    <createOrEditCategoryItemModalComponent #createOrEditCategoryItemModalComponent (modalSave)="getItemtSubCategory()" [isTenantLoyal]="isTenantLoyal"></createOrEditCategoryItemModalComponent>
+</div>

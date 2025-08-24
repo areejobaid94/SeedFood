@@ -1,0 +1,639 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "hUqesu",
+    "name": "TogetherMainDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "gftFwY"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "TLtCq3"
+          },
+          "property": "conversation.IsReqNewQublati",
+          "value": false
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "kvwE03"
+          },
+          "condition": "conversation.local",
+          "cases": [
+            {
+              "value": "ar",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "aEKD1S"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.ListOption",
+                      "value": [
+                        "تعرف علينا",
+                        "للتسجيل",
+                        "من هو رحيم",
+                        "القائمة الرئيسية",
+                        "للإستفسار والتواصل"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "tip83t"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.Option1",
+                      "value": "Link"
+                    },
+                    {
+                      "property": "dialog.Option2",
+                      "value": "للاستفسار"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "en",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "bbNzI7"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.ListOption",
+                      "value": [
+                        "get to know us",
+                        "to sign up",
+                        "Who is Rahim?",
+                        "main menu",
+                        "For inquiries"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "adYqkY"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.Option1",
+                      "value": "Link"
+                    },
+                    {
+                      "property": "dialog.Option2",
+                      "value": "For inquiries"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "default": [
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "yEAKHz"
+              },
+              "assignments": [
+                {
+                  "property": "dialog.ListOption",
+                  "value": [
+                    "تعرف علينا",
+                    "للتسجيل",
+                    "من هو رحيم",
+                    "القائمة الرئيسية",
+                    "للإستفسار والتواصل"
+                  ]
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "jqJ0lq"
+              },
+              "assignments": [
+                {
+                  "property": "dialog.Option1",
+                  "value": "Link"
+                },
+                {
+                  "property": "dialog.Option2",
+                  "value": "للاستفسار"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "qObUVs"
+          },
+          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3632)).text",
+          "property": "dialog.signCaption"
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "N6kC5S"
+          },
+          "property": "dialog.FirstCaption",
+          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3630)).text"
+        },
+        {
+          "$kind": "Microsoft.DeleteProperty",
+          "$designer": {
+            "id": "fnPpCm"
+          },
+          "property": "dialog.UserSelect"
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "mDh07D"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "property": "dialog.UserSelect",
+          "prompt": "${TextInput_Prompt_mDh07D()}",
+          "validations": [
+            "equals(this.value, 'تعرف علينا') || equals(this.value, '#') ||equals(this.value, 'للتسجيل')  ||equals(this.value, 'من هو رحيم') ||equals(this.value, 'القائمة الرئيسية') ||equals(this.value, 'للإستفسار والتواصل') ||equals(this.value, 'to sign up') ||equals(this.value, 'get to know us') ||equals(this.value, 'Who is Rahim?') ||equals(this.value, 'main menu') ||equals(this.value, 'For inquiries')"
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "N4vFAc"
+          },
+          "property": "conversation.Department1",
+          "value": "${dialog.UserSelect}"
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "5UVDtG"
+          },
+          "condition": "dialog.UserSelect",
+          "cases": [
+            {
+              "value": "تعرف علينا",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "IKcIFM"
+                  },
+                  "property": "dialog.knowCaptionAR",
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3631)).text"
+                },
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "4zOuxD"
+                  },
+                  "activity": "${SendActivity_4zOuxD()}"
+                }
+              ]
+            },
+            {
+              "value": "للتسجيل",
+              "actions": [
+                {
+                  "$kind": "Microsoft.DeleteProperty",
+                  "$designer": {
+                    "id": "CGDY7b"
+                  },
+                  "property": "dialog.Select"
+                },
+                {
+                  "$kind": "Microsoft.TextInput",
+                  "$designer": {
+                    "id": "LjSd6r"
+                  },
+                  "disabled": false,
+                  "maxTurnCount": 100,
+                  "alwaysPrompt": false,
+                  "allowInterruptions": true,
+                  "unrecognizedPrompt": "",
+                  "invalidPrompt": "",
+                  "prompt": "${TextInput_Prompt_LjSd6r()}",
+                  "property": "dialog.Select",
+                  "validations": [
+                    "equals(this.value, 'Link') || equals(this.value, 'للاستفسار') || equals(this.value, 'For inquiries') ||equals(this.value, '#')"
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "huposC"
+                  },
+                  "property": "conversation.Department2",
+                  "value": "${dialog.Select}"
+                },
+                {
+                  "$kind": "Microsoft.SwitchCondition",
+                  "$designer": {
+                    "id": "UOpOZz"
+                  },
+                  "condition": "dialog.Select",
+                  "cases": [
+                    {
+                      "value": "Link",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "zdMx3D"
+                          },
+                          "property": "dialog.LinkCaption",
+                          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3633)).text"
+                        },
+                        {
+                          "$kind": "Microsoft.SendActivity",
+                          "$designer": {
+                            "id": "iMWiOM"
+                          },
+                          "activity": "${SendActivity_iMWiOM()}"
+                        }
+                      ]
+                    }
+                  ],
+                  "default": [
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "tifeo7"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "LiveChatDialog"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "من هو رحيم",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "ejKDGM"
+                  },
+                  "property": "dialog.WhoRahimCaption",
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3634)).text"
+                },
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "am0I4X"
+                  },
+                  "activity": "${SendActivity_am0I4X()}"
+                }
+              ]
+            },
+            {
+              "value": "القائمة الرئيسية",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "jOvKaK"
+                  },
+                  "property": "conversation.Request1",
+                  "value": "${dialog.UserSelect}"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "ngDVbX"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TogetherMenuDialog"
+                },
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "APLaXY"
+                  },
+                  "condition": "conversation.StepBack==\"1\"",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.DeleteProperties",
+                      "$designer": {
+                        "id": "2D3BU8"
+                      },
+                      "properties": [
+                        "conversation.levelOneId",
+                        "conversation.LevelTowId"
+                      ]
+                    },
+                    {
+                      "$kind": "Microsoft.DeleteProperties",
+                      "$designer": {
+                        "id": "4NKlGH"
+                      },
+                      "properties": [
+                        "conversation.Request1",
+                        "conversation.Request2",
+                        "conversation.Request3",
+                        "conversation.Request4",
+                        "conversation.Request5",
+                        "conversation.Request6",
+                        "conversation.Request7",
+                        "conversation.Request8",
+                        "conversation.ManualCaption",
+                        "conversation.userSelectNow",
+                        "conversation.Request9"
+                      ]
+                    },
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "LX6OFj"
+                      },
+                      "property": "conversation.IsReqNewQublati",
+                      "value": false
+                    },
+                    {
+                      "$kind": "Microsoft.RepeatDialog",
+                      "$designer": {
+                        "id": "5ZuqIF"
+                      },
+                      "activityProcessed": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "للإستفسار والتواصل",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "MCXZH6"
+                  },
+                  "property": "conversation.Request1",
+                  "value": "${dialog.UserSelect}"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "CAgSVn"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TogetherInquiryDialog"
+                }
+              ]
+            },
+            {
+              "value": "get to know us",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "vXD2Ag"
+                  },
+                  "property": "dialog.knowCaptionEN",
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3631)).text"
+                },
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "8DA3rb"
+                  },
+                  "activity": "${SendActivity_8DA3rb()}"
+                }
+              ]
+            },
+            {
+              "value": "to sign up",
+              "actions": [
+                {
+                  "$kind": "Microsoft.DeleteProperty",
+                  "$designer": {
+                    "id": "B5VExy"
+                  },
+                  "property": "dialog.Select"
+                },
+                {
+                  "$kind": "Microsoft.TextInput",
+                  "$designer": {
+                    "id": "vCzNSq"
+                  },
+                  "disabled": false,
+                  "maxTurnCount": 100,
+                  "alwaysPrompt": false,
+                  "allowInterruptions": true,
+                  "unrecognizedPrompt": "",
+                  "invalidPrompt": "",
+                  "prompt": "${TextInput_Prompt_vCzNSq()}",
+                  "property": "dialog.Select",
+                  "validations": [
+                    "equals(this.value, 'Link') || equals(this.value, 'للاستفسار') || equals(this.value, 'For inquiries') ||equals(this.value, '#')"
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "2nCuiS"
+                  },
+                  "property": "conversation.Department2",
+                  "value": "${dialog.Select}"
+                },
+                {
+                  "$kind": "Microsoft.SwitchCondition",
+                  "$designer": {
+                    "id": "fS6ATO"
+                  },
+                  "condition": "dialog.Select",
+                  "cases": [
+                    {
+                      "value": "Link",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "nMRiFv"
+                          },
+                          "property": "dialog.LinkCaption",
+                          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3633)).text"
+                        },
+                        {
+                          "$kind": "Microsoft.SendActivity",
+                          "$designer": {
+                            "id": "GjkakI"
+                          },
+                          "activity": "${SendActivity_GjkakI()}"
+                        }
+                      ]
+                    }
+                  ],
+                  "default": [
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "8x5qVZ"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "LiveChatDialog"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "Who is Rahim?",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "2S8656"
+                  },
+                  "property": "dialog.WhoRahimCaption",
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3634)).text"
+                },
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "fEzp3L"
+                  },
+                  "activity": "${SendActivity_fEzp3L()}"
+                }
+              ]
+            },
+            {
+              "value": "main menu",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "39G77n"
+                  },
+                  "property": "conversation.Request1",
+                  "value": "${dialog.UserSelect}"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "mbCdNe"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TogetherMenuDialog"
+                },
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "eHIjP0"
+                  },
+                  "condition": "conversation.StepBack==\"1\"",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.DeleteProperties",
+                      "$designer": {
+                        "id": "FFV5T3"
+                      },
+                      "properties": [
+                        "conversation.levelOneId",
+                        "conversation.LevelTowId"
+                      ]
+                    },
+                    {
+                      "$kind": "Microsoft.DeleteProperties",
+                      "$designer": {
+                        "id": "ZQIK3E"
+                      },
+                      "properties": [
+                        "conversation.Request1",
+                        "conversation.Request2",
+                        "conversation.Request3",
+                        "conversation.Request4",
+                        "conversation.Request5",
+                        "conversation.Request6",
+                        "conversation.Request7",
+                        "conversation.Request8",
+                        "conversation.ManualCaption",
+                        "conversation.userSelectNow",
+                        "conversation.Request9"
+                      ]
+                    },
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "5c3V58"
+                      },
+                      "property": "conversation.IsReqNewQublati",
+                      "value": false
+                    },
+                    {
+                      "$kind": "Microsoft.RepeatDialog",
+                      "$designer": {
+                        "id": "zFR44y"
+                      },
+                      "activityProcessed": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "For inquiries",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "ZDtgkn"
+                  },
+                  "property": "conversation.Request1",
+                  "value": "${dialog.UserSelect}"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "quUTPv"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TogetherInquiryDialog"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "j8dCR4"
+          }
+        }
+      ]
+    }
+  ],
+  "generator": "TogetherMainDialog.lg",
+  "recognizer": "TogetherMainDialog.lu.qna",
+  "id": "TogetherMainDialog"
+}

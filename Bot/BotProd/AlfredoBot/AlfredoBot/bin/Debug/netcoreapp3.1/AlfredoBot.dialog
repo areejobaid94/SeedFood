@@ -1,0 +1,451 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "name": "AlfredoBot",
+    "description": "",
+    "id": "A79tBe"
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnConversationUpdateActivity",
+      "$designer": {
+        "id": "376720",
+        "comment": "This trigger runs when a conversation update activity is sent to the bot. This indicates a user or bot being added or removed from a conversation."
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.CancelAllDialogs",
+          "$designer": {
+            "id": "lyZIth"
+          },
+          "activityProcessed": true
+        },
+        {
+          "$kind": "Microsoft.Foreach",
+          "$designer": {
+            "id": "518944",
+            "name": "Loop: for each item",
+            "comment": "For each member added to the conversation."
+          },
+          "itemsProperty": "turn.Activity.membersAdded",
+          "actions": [
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "641773",
+                "name": "Branch: if/else",
+                "comment": "Checks that that member added ID does not match the bot ID. This prevents the greeting message from being sent when the bot is added to a conversation."
+              },
+              "condition": "=string(dialog.foreach.value.id) != string(turn.Activity.Recipient.id)",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "859266",
+                    "name": "Send a response"
+                  },
+                  "activity": "${SendActivity_Greeting()}"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnUnknownIntent",
+      "$designer": {
+        "id": "mb2n1u",
+        "comment": "This trigger fires when an incoming activity is not handled by any other trigger."
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "Tm6J3Q"
+          },
+          "condition": "conversation.IsLiveChat==true",
+          "elseActions": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "moTZW8"
+              },
+              "activityProcessed": true,
+              "dialog": "MainDialog"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.CancelAllDialogs",
+          "$designer": {
+            "id": "mKmxax"
+          },
+          "activityProcessed": true
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "clHfs3",
+        "name": "Start"
+      },
+      "intent": "Start",
+      "actions": [
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "fif56Q"
+          },
+          "activityProcessed": true,
+          "dialog": "StartDialog"
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "mZw2xo"
+          },
+          "activityProcessed": true,
+          "dialog": "StopCustomerBehaviorDialog"
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "dbbMkX",
+        "name": "Welcome"
+      },
+      "intent": "Welcome",
+      "actions": [
+        {
+          "$kind": "Microsoft.DeleteProperties",
+          "$designer": {
+            "id": "8tSeV9"
+          },
+          "properties": [
+            "conversation.CompanyOrStoreName",
+            "conversation.Department1",
+            "conversation.TradeName",
+            "conversation.Department2",
+            "conversation.isTow"
+          ]
+        },
+        {
+          "$kind": "Microsoft.DeleteProperties",
+          "$designer": {
+            "id": "zTmdid"
+          },
+          "properties": [
+            "conversation.UserSelectBook"
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "AZ44ZF"
+          },
+          "property": "conversation.IsLiveChat",
+          "value": "false"
+        },
+        {
+          "$kind": "Microsoft.DeleteProperties",
+          "$designer": {
+            "id": "nD34oV"
+          },
+          "properties": [
+            "conversation.levelOneId",
+            "conversation.LevelTowId",
+            "conversation.levelThreeId",
+            "conversation.LocationInfo"
+          ]
+        },
+        {
+          "$kind": "Microsoft.DeleteProperties",
+          "$designer": {
+            "id": "Uz2ivo"
+          },
+          "properties": [
+            "conversation.phoneNumber",
+            "conversation.InputNumber",
+            "conversation.InputDis",
+            "conversation.UserInfo",
+            "conversation.AttachmetArray",
+            "conversation.AttachmetArrayTow",
+            "conversation.UserInput"
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "JcIwcG"
+          },
+          "activityProcessed": true,
+          "dialog": "MainDialog"
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "kstuR5",
+        "name": "Stop"
+      },
+      "intent": "Stop",
+      "actions": [
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "WUFplw"
+          },
+          "activityProcessed": true,
+          "dialog": "StartDialog"
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "ULQlON"
+          },
+          "activityProcessed": true,
+          "dialog": "StopCustomerBehaviorDialog"
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "y3m5NC",
+        "name": "StartDialog"
+      },
+      "intent": "StartDialog",
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "CEJ0lE"
+          },
+          "value": "false",
+          "property": "conversation.IsLiveChat"
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "dNnfYD"
+          },
+          "property": "dialog.IsBundleActive",
+          "value": true
+        },
+        {
+          "$kind": "Microsoft.HttpRequest",
+          "$designer": {
+            "id": "3J5Iko"
+          },
+          "resultProperty": "dialog.update",
+          "method": "GET",
+          "url": "${conversation.URL}/api/BotAPI/SetBundleActiveInfoseed?TenantId=${conversation.TenantId}&IsBundleActive=${dialog.IsBundleActive}&phonenumber=${conversation.phoneNumber}",
+          "responseType": "json"
+        },
+        {
+          "$kind": "Microsoft.CancelAllDialogs",
+          "$designer": {
+            "id": "z05nJw"
+          },
+          "activityProcessed": true
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "0XqnCz",
+        "name": "EndDialig"
+      },
+      "intent": "EndDialig",
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "skUlxY"
+          },
+          "value": "false",
+          "property": "conversation.IsLiveChat"
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "lv2VOZ"
+          },
+          "property": "dialog.IsBundleActive",
+          "value": false
+        },
+        {
+          "$kind": "Microsoft.HttpRequest",
+          "$designer": {
+            "id": "Jt0qm1"
+          },
+          "resultProperty": "dialog.update",
+          "method": "GET",
+          "url": "${conversation.URL}/api/BotAPI/SetBundleActiveInfoseed?TenantId=${conversation.TenantId}&IsBundleActive=${dialog.IsBundleActive}",
+          "responseType": "json"
+        },
+        {
+          "$kind": "Microsoft.CancelAllDialogs",
+          "$designer": {
+            "id": "DtPxlP"
+          },
+          "activityProcessed": true
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "JF36Dm",
+        "name": "Confirm"
+      },
+      "intent": "Confirm",
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "4eJzoF"
+          },
+          "property": "conversation.IsLiveChat",
+          "value": false
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "FzhBZK"
+          },
+          "activityProcessed": true,
+          "dialog": "ConfirmBookingTriggerDialog"
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "XO527R",
+        "name": "Reject"
+      },
+      "intent": "Reject",
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "mnlrqD"
+          },
+          "property": "conversation.IsLiveChat",
+          "value": false
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "Qoa8lz"
+          },
+          "activityProcessed": true,
+          "dialog": "CancelBookingTriggerDialog"
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "JaZSZx",
+        "name": "ConfirmAr"
+      },
+      "intent": "ConfirmAr",
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "EoxUgR"
+          },
+          "property": "conversation.IsLiveChat",
+          "value": false
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "YeN1FL"
+          },
+          "activityProcessed": true,
+          "dialog": "ConfirmBookingTriggerDialog"
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "DZJHkF",
+        "name": "RejectAr"
+      },
+      "intent": "RejectAr",
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "R8hSGl"
+          },
+          "property": "conversation.IsLiveChat",
+          "value": false
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "KXrnUB"
+          },
+          "activityProcessed": true,
+          "dialog": "CancelBookingTriggerDialog"
+        }
+      ]
+    }
+  ],
+  "generator": "AlfredoBot.lg",
+  "id": "AlfredoBot",
+  "recognizer": {
+    "$kind": "Microsoft.RegexRecognizer",
+    "intents": [
+      {
+        "intent": "Start",
+        "pattern": "START"
+      },
+      {
+        "intent": "Welcome",
+        "pattern": "#"
+      },
+      {
+        "intent": "Stop",
+        "pattern": "STOP"
+      },
+      {
+        "intent": "StartDialog",
+        "pattern": "HJSS"
+      },
+      {
+        "intent": "EndDialig",
+        "pattern": "HJSE"
+      },
+      {
+        "intent": "Confirm",
+        "pattern": "Confirm"
+      },
+      {
+        "intent": "Reject",
+        "pattern": "Reject"
+      },
+      {
+        "intent": "ConfirmAr",
+        "pattern": "تأكيد"
+      },
+      {
+        "intent": "RejectAr",
+        "pattern": "رفض"
+      }
+    ]
+  }
+}

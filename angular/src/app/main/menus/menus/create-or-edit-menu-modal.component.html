@@ -1,0 +1,948 @@
+﻿<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+     aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg" style="max-width: -webkit-fill-available;">
+        <div class="modal-content">
+            <div class="row">
+                <div class="col-md-12 p-10">
+                    <form [formGroup]="menuForm">
+                        <div class="row">
+                            
+                            <div class="col-md-2" *ngIf="isAdmin">
+                                <input  placeholder="Menu Name Arabic" 
+                                required
+                                [class.error]="submitted && menuForm.controls.menuName.invalid"
+                                type="text" class="form-control" formControlName="menuName" style="font-family: system-ui; direction: rtl;">
+                                <p class="text-danger"
+                                *ngIf="submitted && menuForm.controls.menuName.invalid">This field is
+                                required</p>
+                            </div>
+                            <div class="col-md-2" *ngIf="!isAdmin">
+                                <input disabled  placeholder="Menu Name Arabic" type="text" class="form-control" formControlName="menuName" style="font-family: system-ui; direction: rtl;">
+                                
+                            </div>
+
+                            <div class="col-md-3" *ngIf="isAdmin">
+                                <input placeholder="Menu Description Arabic" type="text" class="form-control" formControlName="menuDescription" style="font-family: system-ui; direction: rtl;">
+                            </div>
+                            <div class="col-md-3" *ngIf="!isAdmin">
+                                <input  disabled placeholder="Menu Description Arabic" type="text" class="form-control" formControlName="menuDescription" style="font-family: system-ui; direction: rtl;">
+                            </div>
+
+
+                            <div class="col-md-2" *ngIf="isAdmin">
+                                <input 
+                                required
+                                [class.error]="submitted && menuForm.controls.menuNameEnglish.invalid"
+                                 placeholder="Menu Name English" type="text" class="form-control" formControlName="menuNameEnglish" style="font-family: system-ui; direction: rtl;">
+                                <p class="text-danger"
+                                *ngIf="submitted && menuForm.controls.menuNameEnglish.invalid">This
+                                field is
+                                required</p>
+                            </div>
+                            <div class="col-md-2" *ngIf="!isAdmin">
+                                <input  disabled placeholder="Menu Name English" type="text" class="form-control" formControlName="menuNameEnglish" style="font-family: system-ui; direction: rtl;">
+                            </div>
+
+                         
+                            <div class="col-md-3" *ngIf="isAdmin" >
+                                <input  placeholder="Menu Description English" type="text" class="form-control" formControlName="menuDescriptionEnglish" style="font-family: system-ui; direction: rtl;">
+                            </div>
+                            <div class="col-md-3" *ngIf="!isAdmin">
+                                <input  disabled placeholder="Menu Description English" type="text" class="form-control" formControlName="menuDescriptionEnglish" style="font-family: system-ui; direction: rtl;">
+                            </div>
+
+
+
+                            <div class="col-md-1" *ngIf="isAdmin">
+                                <input min="0"  placeholder="Priority" type="number" class="form-control" formControlName="priority" style="font-family: system-ui; direction: rtl;">
+                            </div>
+                            <div class="col-md-1" *ngIf="!isAdmin">
+                                <input disabled  placeholder="Priority" type="number" class="form-control" formControlName="priority" style="font-family: system-ui; direction: rtl;">
+                            </div>
+
+                            <div class="col-md-2"  *ngIf="isNf && isAdmin">
+                                <label  for="aantal">Shops Name</label>
+
+                                <select class="form-control"  formControlName="restaurantsType" style="font-family: system-ui; direction: rtl;" required>                               
+                                    <option *ngFor="let rTy of rType"
+                                    [value]="rTy.id" >{{rTy.name}}</option>
+                                  </select>
+
+                            </div>
+                            <div class="col-md-2"  *ngIf="isNf && !isAdmin">
+                                <label  for="aantal">Shops Name</label>
+                                <input disabled  placeholder="ShopsType" type="text" class="form-control" formControlName="restaurantsType" style="font-family: system-ui; direction: rtl;">
+                                
+
+                            </div>
+                        </div>
+
+
+                        <div *ngIf="isMall" >
+                            <div formArrayName="category" class="pt-3">                           
+                                <div *ngFor="let X of menuForm['controls'].category['controls']; let ix=index">
+                                    <div formGroupName="{{ix}}" class="category-card">
+    
+                                        <div class="category-card-header">
+                                            
+                                            <div class="row">
+    
+                                                <div class="col-md-3" *ngIf="isAdmin">
+                                                    <input placeholder="Category Name Arabic *"
+                                                    required
+                                                
+                                                     class="form-control" type="text" formControlName="name" style="font-family: system-ui; direction: rtl;">
+                                                  
+                                                    </div>
+                                                <div class="col-md-3" *ngIf="!isAdmin">
+                                                    <input disabled placeholder="Category Name Arabic" class="form-control" type="text" formControlName="name" style="font-family: system-ui; direction: rtl;">
+                                                </div>
+    
+                                                <div class="col-md-3" *ngIf="isAdmin">
+                                                    <input  placeholder="Category Name English"
+                                                    required
+                                                    class="form-control" type="text" formControlName="nameEnglish" style="font-family: system-ui; direction: rtl;">
+                                                  
+                                                </div>
+                                                <div class="col-md-3" *ngIf="!isAdmin">
+                                                    <input disabled placeholder="Category Name English" class="form-control" type="text" formControlName="nameEnglish" style="font-family: system-ui; direction: rtl;">
+                                                </div>
+    
+    
+                                                <div class="col text-right" *ngIf="isAdmin">
+                                                    <button class="btn btn-danger btn-sm "
+                                                            (click)="deleteCategoryItem(ix)">
+                                                        <i class="fa fa-trash p-0 font-12"></i>
+                                                    </button>
+                                                </div>
+    
+                                            </div>
+                                        </div>
+                                        <div class="category-card-header" formArrayName="subcategory">
+                                            <div *ngFor="let Y of X['controls'].subcategory['controls']; let iy=index">
+                                                <hr/>
+                                                <div formGroupName="{{iy}}" class="border-bottom">
+
+                                                    <div class="category-card-header">
+                                            
+                                                        <div class="row">
+                
+                                                            <div class="col-md-3" *ngIf="isAdmin">
+                                                                <input placeholder="Category Name Arabic" class="form-control" type="text" formControlName="namesub" style="font-family: system-ui; direction: rtl;">
+                                                            </div>
+                                                            <div class="col-md-3" *ngIf="!isAdmin">
+                                                                <input disabled placeholder="Category Name Arabic" class="form-control" type="text" formControlName="namesub" style="font-family: system-ui; direction: rtl;">
+                                                            </div>
+                
+                                                            <div class="col-md-3" *ngIf="isAdmin">
+                                                                <input  placeholder="Category Name English" class="form-control" type="text" formControlName="nameEnglishsub" style="font-family: system-ui; direction: rtl;">
+                                                            </div>
+                                                            <div class="col-md-3" *ngIf="!isAdmin">
+                                                                <input disabled placeholder="Category Name English" class="form-control" type="text" formControlName="nameEnglishsub" style="font-family: system-ui; direction: rtl;">
+                                                            </div>
+                
+                
+                                                            <div class="col text-right" *ngIf="isAdmin">
+                                                                <button class="btn btn-danger btn-sm "
+                                                                        (click)="deleteCategorySubItem(ix,iy)">
+                                                                    <i class="fa fa-trash p-0 font-12"></i>
+                                                                </button>
+                                                            </div>
+                
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="card-body" formArrayName="items">
+                                                        <div *ngFor="let Z of Y['controls'].items['controls']; let iz=index">
+                                                            <hr/>
+                                                            <div formGroupName="{{iz}}" class="border-bottom">
+                                                    
+                                                    
+                                                                <div class="row">
+    
+                                                                    <div class="col-md-2" *ngIf="isAdmin">
+                                                                        <input placeholder="Item Name Arabic" 
+                                                                        class="form-control" type="text" style="font-family: system-ui; direction: rtl;"
+                                                                               formControlName="itemName">
+                                                                           
+
+                
+                                                                    </div>
+                                                                    <div class="col-md-2" *ngIf="!isAdmin">
+                                                                        <input disabled placeholder="Item Name Arabic" class="form-control" type="text" style="font-family: system-ui; direction: rtl;"
+                                                                               formControlName="itemName">
+                
+                                                                    </div>
+                
+                
+                                                                    <div class="col-md-3" *ngIf="isAdmin">
+                                                                        <textarea placeholder="Description Arabic" class="form-control" type="text" style="font-family: system-ui; direction: rtl;"
+                                                                                  formControlName="itemDescription">
+                                                                        </textarea>
+                
+                                                                    </div>
+                                                                    <div class="col-md-3" *ngIf="!isAdmin">
+                                                                        <textarea  disabled placeholder="Description Arabic" class="form-control" type="text" style="font-family: system-ui; direction: rtl;"
+                                                                                  formControlName="itemDescription">
+                                                                        </textarea>
+                
+                                                                    </div>
+                
+                
+                                                                   
+                                                                    <div class="col-md-2" *ngIf="isAdmin">
+                                                                        <input placeholder="SKU #" class="form-control" type="text" style="font-family: system-ui; direction: rtl;"
+                                                                        formControlName="sku">
+                                                                    </div>
+                                                                    <div class="col-md-2" *ngIf="!isAdmin">
+                                                                        <input disabled placeholder="SKU #" class="form-control" type="text" style="font-family: system-ui; direction: rtl;"
+                                                                        formControlName="sku">
+                                                                    </div>
+                
+                
+                                                                    
+                                                                    <div class="col-md-1" *ngIf="isAdmin">
+                                                                        <input min="0"  placeholder="Priority" class="form-control" type="number" style="font-family: system-ui; direction: rtl;"
+                                                                               formControlName="priority">
+                                                                    </div>
+                                                                    <div class="col-md-1" *ngIf="!isAdmin">
+                                                                        <input min="0" disabled placeholder="Priority" class="form-control" type="number" style="font-family: system-ui; direction: rtl;"
+                                                                               formControlName="priority">
+                                                                    </div>
+                
+                
+                
+                                                                    <div class="col-md-1" *ngIf="isAdmin">
+                                                                        <input placeholder="Price"  
+                                                                        class="form-control" type="number" style="font-family: system-ui; direction: rtl;"
+                                                                               formControlName="price">
+                                                                              
+                
+                                                                    </div>
+                                                                    <div class="col-md-1" *ngIf="!isAdmin">
+                                                                        <input disabled placeholder="Price"  class="form-control" type="number" style="font-family: system-ui; direction: rtl;"
+                                                                               formControlName="price">
+                
+                                                                    </div>
+                
+                
+                                                                    <div class="col-md-1">
+                                                                        <input  type="checkbox" formControlName="isInService" style="margin-right: 12px;">
+                                                                        <label>  IsInService</label>
+                                                                       
+                                                                    </div>
+                
+                
+                                                                    <div class="col-md-2" *ngIf="isAdmin">
+                                                                        <label>Item Image</label>
+                                                                        <input
+                                                                         type="file" id="uplode"
+                                                          
+                                                                        type="file" id="uplode" class="form-control"
+                                                                               [ngStyle]="{visibility:getImage(ix,iy,iz).length>0?'hidden':'visible'}"
+                                                                               (change)="onFileChange($event,ix,iy,iz)"
+                                                                        >
+                                                                      
+                                                                        <div class="product-img" *ngIf="getImage(ix,iy,iz).length>0">
+                                                                            <img
+                                                                                [src]="getImage(ix,iy,iz)">
+                                                                            <button class="btn btn-danger w-100 btn-sm"
+                                                                                    (click)="openFileUploder(ix,iy,iz)">Replace
+                                                                            </button>
+                                                                        </div>
+                                                                    </div>
+                                                                    
+                                                                    <div class="col-md-2" *ngIf="!isAdmin">
+                                                                        <label>Item Image</label>
+                                                                        <input disabled type="file" id="uplode" class="form-control"
+                                                                               [ngStyle]="{visibility:getImage(ix,iy,iz).length>0?'hidden':'visible'}"
+                                                                               (change)="onFileChange($event,ix,iy,iz)"
+                                                                        >
+                                                                        <div class="product-img" *ngIf="getImage(ix,iy,iz).length>0">
+                                                                            <img
+                                                                                [src]="getImage(ix,iy,iz)">
+                                                                            <button disabled class="btn btn-danger w-100 btn-sm"
+                                                                                    (click)="openFileUploder(ix,iy,iz)">Replace
+                                                                            </button>
+                                                                        </div>
+                                                                    </div>
+                
+                
+                
+                                                                  
+                
+                
+                                                                   
+                                                                </div>
+                                                                <div class="row" style="margin-top: 20px;">
+                
+                                                                    
+                                                                    <div class="col-md-2" *ngIf="isAdmin">
+                                                                        <input  placeholder="Item Name English" 
+                                                                        class="form-control" type="text" style="font-family: system-ui; direction: rtl;"
+                                                                               formControlName="itemNameEnglish">
+                                                                             
+                
+                                                                    </div>
+                                                                    <div class="col-md-2" *ngIf="!isAdmin">
+                                                                        <input  disabled placeholder="Item Name English" class="form-control" type="text" style="font-family: system-ui; direction: rtl;"
+                                                                               formControlName="itemNameEnglish">
+                
+                                                                    </div>
+                
+                
+                                                                    <div class="col-md-3" *ngIf="isAdmin">
+                                                                        <textarea placeholder="Description English"  class="form-control" type="text" style="font-family: system-ui; direction: rtl;"
+                                                                                  formControlName="itemDescriptionEnglish">
+                                                                        </textarea>
+                
+                                                                    </div>
+                                                                    <div class="col-md-3" *ngIf="!isAdmin">
+                                                                        <textarea disabled placeholder="Description English"  class="form-control" type="text" style="font-family: system-ui; direction: rtl;"
+                                                                                  formControlName="itemDescriptionEnglish">
+                                                                        </textarea>
+                
+                                                                    </div>
+                
+                
+                                                                   
+                                                                    <div class="col text-right" *ngIf="isAdmin">
+                                                                        <button class="btn btn-danger btn-sm "
+                                                                                (click)="deleteItem(ix,iy,iz)">
+                                                                            <i class="fa fa-trash p-0 font-12"></i>
+                                                                        </button>
+                                                                    </div>
+                                                                   
+                                                                </div>
+                                                                         
+                                                                  <div class="row" *ngIf="isAdmin">
+                                                                <div class="col-md-10 text-right">
+                                                                    <input type="button" class="btn btn-secondary" (click)="addSpecification(ix,iy,iz)" style="font-family: system-ui; direction: rtl;"
+                                                                           value="Add Specification">
+                                                                </div>
+                                                                <div class="col-md-2 text-right">
+                                                                    <input type="button" class="btn btn-secondary" (click)="addItemAddition(ix,iy,iz)" style="font-family: system-ui; direction: rtl;"
+                                                                           value="Add On's">
+                                                                </div>
+                                                                </div> 
+                
+                                               
+                
+                
+                                                                <div class="row" formArrayName="SpecificationModels" class="pt-14" >
+                
+                                                                    <div *ngFor="let Ds of Z['controls'].SpecificationModels['controls']; let idds=index">
+                                                                        <div formGroupName="{{idds}}" class="SpecificationModels-card">
+                
+                
+                                                                           <div class="row" style="margin: 6px;">
+                                                                            <div class="col-md-5">
+                                                                                <div style="text-align: center; border-style: solid; font-size: x-large;">
+                                                                                    <label>{{Ds.value.specificationDescription}} - {{Ds.value.specificationDescriptionEnglish}}</label>
+                                                                                </div>
+                                                                               
+                                                                            </div>
+                                                                          
+                                                                        
+                                                            
+                
+                                                                            <div class="col-md-3"  *ngIf="isAdmin">
+                                                                                <div class="input-group">
+                                                                                    <div class="input-group-append">
+                                                                                        <button class="btn btn-primary blue" (click)="openSelectSpecificationModal(ix,iy,iz,idds)" type="button"><i class="fa fa-search"></i> {{l("Pick")}}</button>
+                                                                                    </div>
+                                                                                   
+                                                                                </div>
+                                                                            </div>
+                
+                                                                            <div class="col text-right" *ngIf="isAdmin">
+                                                                               
+                                                                                <button class="btn btn-danger btn-sm "
+                                                                                        (click)="deleteSpecification(ix,iy,iz,idds)">
+                                                                                    <i class="fa fa-trash p-0 font-12"></i>
+                                                                                </button>
+                                                                            </div>
+                
+                
+                                                                         
+                
+                
+                                                                        </div>
+                
+                                                                        </div>
+
+                                                                    </div>
+                                                                                                                                                                                
+                
+                                                                </div>
+                                                              
+                
+                                                                <div class="row" formArrayName="additionsCategorysListModels" class="pt-14" >
+                
+                                                                    <div *ngFor="let D of Z['controls'].additionsCategorysListModels['controls']; let idd=index">
+                                                                        <div formGroupName="{{idd}}" class="additionsCategorysListModels-card">
+                
+                
+                                                                           <div class="row" style="margin: 6px;">
+                                                                            <div class="col-md-5">
+                                                                                <div style="text-align: center; border-style: solid; font-size: x-large;">
+                                                                                    <label>{{D.value.name}} - {{D.value.nameEnglish}}</label>
+                                                                                </div>
+                                                                               
+                                                                            </div>
+                                                            
+                
+                                                                            <div class="col-md-3" *ngIf="isAdmin">
+                                                                                <div class="input-group">
+                                                                                    <div class="input-group-append">
+                                                                                        <button class="btn btn-primary blue" (click)="openSelectAdditionsCategoryModal(ix,iy,iz,idd)" type="button"><i class="fa fa-search"></i> {{l("Pick")}}</button>
+                                                                                    </div>
+
+                                                                                </div>
+                                                                            </div>
+                
+                                                                            <div class="col text-right" *ngIf="isAdmin">
+                                                                               
+                                                                                <button class="btn btn-danger btn-sm "
+                                                                                        (click)="deleteitemAddition(ix,iy,iz,idd)">
+                                                                                    <i class="fa fa-trash p-0 font-12"></i>
+                                                                                </button>
+                                                                            </div>
+                
+                
+                                                                         
+                
+                
+                                                                        </div>
+                    
+                    
+                                                                           
+                
+                                                                        
+                
+                                                                        </div>
+                                                                                                                          
+                                                                       
+                
+                                                                    </div>
+                                                                    
+                                                                                                                 
+                
+                                                                </div>
+
+
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+
+
+
+
+                                                    <hr/>
+                                                    <div class="row" *ngIf="isAdmin">
+                                                        <div class="col-md-12 text-right">
+                                                            <input type="button" class="btn btn-secondary" (click)="addItem(ix,iy)"
+                                                                   value="Add Item">
+                                                        </div>
+                                                    </div>
+
+
+                                                   
+    
+    
+    
+    
+                                                </div>
+                                            </div>
+    
+                                          
+                                            <hr/>
+
+                                            <div class="row" *ngIf="isAdmin">
+                                                <div class="col-md-12 text-right">
+                                                    <input type="button" class="btn btn-secondary" (click)="addSubCategory(ix)"
+                                                           value="Add Sub category">
+                                                </div>
+                                            </div>
+                                            
+                                        
+                                        </div>
+                                    </div>
+
+                                  
+
+                                    
+                                </div>
+
+                                <div class="row" *ngIf="isAdmin">
+                                    <div class="col-md-12 text-right">
+                                        <input type="button" class="btn btn-secondary" (click)="addCategory()"
+                                               value="Add  category">
+                                    </div>
+                                </div>
+                                
+                                <div class="modal-footer">
+                                    <button [disabled]="saving" type="button" class="btn btn-primary"
+                                            (click)="close()">{{l("Cancel")}}</button>
+                                    <input type="button" class="btn btn-primary"
+                                            
+                                           (click)="addMenu()" value="Save">
+                                           <!-- [disabled]="!menuForm.valid" -->
+                                </div>
+    
+                            </div>
+                        </div >
+                        
+                        <div *ngIf="!isMall">
+                            <div formArrayName="category" class="pt-3">                           
+                                <div *ngFor="let X of menuForm['controls'].category['controls']; let ix=index">
+                                    <div formGroupName="{{ix}}" class="category-card">
+    
+                                        <div class="category-card-header">
+                                            
+                                            <div class="row">
+    
+                                                <div class="col-md-3" *ngIf="isAdmin">
+                                                    <input placeholder="Category Name Arabic *" 
+                                                    required
+                                                            [class.error]="submitted &&  X.controls.name.invalid"
+                                                    class="form-control" type="text" formControlName="name" style="font-family: system-ui; direction: rtl;">
+                                                    <p class="text-danger"
+                                                    *ngIf="submitted && X.controls.name.invalid">This field is
+                                                    required</p>
+                                                </div>
+                                                <div class="col-md-3" *ngIf="!isAdmin">
+                                                    <input disabled placeholder="Category Name Arabic" class="form-control" type="text" formControlName="name" style="font-family: system-ui; direction: rtl;">
+                                                </div>
+    
+                                                <div class="col-md-3" *ngIf="isAdmin">
+                                                    <input  placeholder="Category Name English"
+                                                    required
+                                                    [class.error]="submitted &&  X.controls.nameEnglish.invalid"
+                                                    class="form-control" type="text" formControlName="nameEnglish" style="font-family: system-ui; direction: rtl;">
+                                                    <p class="text-danger"
+                                                    *ngIf="submitted && X.controls.nameEnglish.invalid">This
+                                                    field is
+                                                    required</p>
+                                                </div>
+                                                <div class="col-md-3" *ngIf="!isAdmin">
+                                                    <input disabled placeholder="Category Name English" class="form-control" type="text" formControlName="nameEnglish" style="font-family: system-ui; direction: rtl;">
+                                                </div>
+    
+    
+                                                <div class="col text-right" *ngIf="isAdmin">
+                                                    <button class="btn btn-danger btn-sm "
+                                                            (click)="deleteCategoryItem(ix)">
+                                                        <i class="fa fa-trash p-0 font-12"></i>
+                                                    </button>
+                                                </div>
+    
+                                            </div>
+                                        </div>
+                                        <div class="card-body" formArrayName="items">
+                                            <div *ngFor="let Y of X['controls'].items['controls']; let iy=index">
+                                                <hr/>
+                                                <div formGroupName="{{iy}}" class="border-bottom">
+                                                    
+                                                    <div class="row">
+    
+                                                        <div class="col-md-2" *ngIf="isAdmin">
+                                                            <input placeholder="Item Name Arabic"
+                                                            required
+                                                            [class.error]="submitted && Y.controls.itemName.invalid"
+                                                            class="form-control" type="text" style="font-family: system-ui; direction: rtl;"
+                                                                   formControlName="itemName">
+                                                                   <p class="text-danger"
+                                                                   *ngIf="submitted && Y.controls.itemName.invalid">
+                                                                   This field is
+                                                                   required</p>
+    
+                                                        </div>
+                                                        <div class="col-md-2" *ngIf="!isAdmin">
+                                                            <input disabled placeholder="Item Name Arabic" class="form-control" type="text" style="font-family: system-ui; direction: rtl;"
+                                                                   formControlName="itemName">
+    
+                                                        </div>
+    
+    
+                                                        <div class="col-md-3" *ngIf="isAdmin">
+                                                            <textarea placeholder="Description Arabic" class="form-control" type="text" style="font-family: system-ui; direction: rtl;"
+                                                                      formControlName="itemDescription">
+                                                            </textarea>
+    
+                                                        </div>
+                                                        <div class="col-md-3" *ngIf="!isAdmin">
+                                                            <textarea  disabled placeholder="Description Arabic" class="form-control" type="text" style="font-family: system-ui; direction: rtl;"
+                                                                      formControlName="itemDescription">
+                                                            </textarea>
+    
+                                                        </div>
+    
+    
+                                                       
+                                                        <div class="col-md-2" *ngIf="isAdmin">
+                                                            <input placeholder="SKU #" class="form-control" type="text" style="font-family: system-ui; direction: rtl;"
+                                                            formControlName="sku">
+                                                        </div>
+                                                        <div class="col-md-2" *ngIf="!isAdmin">
+                                                            <input disabled placeholder="SKU #" class="form-control" type="text" style="font-family: system-ui; direction: rtl;"
+                                                            formControlName="sku">
+                                                        </div>
+    
+    
+                                                        
+                                                        <div class="col-md-1" *ngIf="isAdmin">
+                                                            <input min="0"  placeholder="Priority" class="form-control" type="number" style="font-family: system-ui; direction: rtl;"
+                                                                   formControlName="priority">
+                                                        </div>
+                                                        <div class="col-md-1" *ngIf="!isAdmin">
+                                                            <input min="0" disabled placeholder="Priority" class="form-control" type="number" style="font-family: system-ui; direction: rtl;"
+                                                                   formControlName="priority">
+                                                        </div>
+    
+    
+    
+                                                       <div class="col-md-2">  <!--new -->
+
+
+                                                            <div class="row-md-2">  <!--Price -->
+                                                                <div class="col" *ngIf="isAdmin">
+                                                                    <label>Original  Price</label>
+                                                                    <input placeholder="old Price"  required
+                                                                    [class.error]="submitted && Y.controls.price.invalid" class="form-control" type="number" style="font-family: system-ui; direction: rtl;"
+                                                                           formControlName="price">
+                                                                           <p class="text-danger"
+                                                                           *ngIf="submitted && Y.controls.price.invalid">
+                                                                           This field is
+                                                                           required</p>
+            
+                                                                </div>
+                                                                <div class="col" *ngIf="!isAdmin">
+                                                                    <label>Original  Price</label>
+                                                                    <input disabled placeholder="old Price"  class="form-control" type="number" style="font-family: system-ui; direction: rtl;"
+                                                                           formControlName="price">
+            
+                                                                </div>
+                                                            </div>
+                                                            <div class="row-md-2"><!--old Price -->
+                                                                <div class="col" *ngIf="isAdmin">
+                                                                    <label>discount  Price</label>
+                                                                    <input disabled placeholder="Price"  class="form-control" type="number" style="font-family: system-ui; direction: rtl;"
+                                                                           formControlName="oldPrice">
+            
+                                                                </div>
+                                                                <div class="col" *ngIf="!isAdmin">
+                                                                    <label>discount  Price</label>
+                                                                    <input disabled placeholder="Price"  class="form-control" type="number" style="font-family: system-ui; direction: rtl;"
+                                                                           formControlName="oldPrice">
+            
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="row-md-1"><!--discount -->
+                                                                <div class="col" *ngIf="isAdmin">
+                                                                    <label>discount %</label>
+                                                                    <input placeholder="discount %"  class="form-control" type="number" style="font-family: system-ui; direction: rtl;"
+                                                                           formControlName="ingredients">
+            
+                                                                </div>
+                                                                <div class="col" *ngIf="!isAdmin">
+                                                                    <label>discount %</label>
+                                                                    <input disabled placeholder="discount %"  class="form-control" type="number" style="font-family: system-ui; direction: rtl;"
+                                                                           formControlName="ingredients"> 
+            
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+
+    
+
+    
+    
+                                                        <div class="col-md-2" *ngIf="isAdmin">
+                                                            <label>Item Image</label>
+                                                            <input type="file" id="uplode" required
+                                                            [class.error]="submitted && Y.controls.imageUri.invalid"
+                                                            class="form-control"
+                                                                   [ngStyle]="{visibility:getImage(ix,0,iy).length>0?'hidden':'visible'}"
+                                                                   (change)="onFileChange($event,ix,0,iy)"
+                                                            >
+                                                            <p class="text-danger"
+                                                                    *ngIf="submitted && Y.controls.imageUri.invalid">
+                                                                    This field is
+                                                                    required</p>
+                                                            <div class="product-img" *ngIf="getImage(ix,0,iy).length>0">
+                                                                <img
+                                                                    [src]="getImage(ix,0,iy)">
+                                                                <button class="btn btn-danger w-100 btn-sm"
+                                                                        (click)="openFileUploder(ix,0,iy)">Replace
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <div class="col-md-2" *ngIf="!isAdmin">
+                                                            <label>Item Image</label>
+                                                            <input disabled type="file" id="uplode" class="form-control"
+                                                                   [ngStyle]="{visibility:getImage(ix,0,iy).length>0?'hidden':'visible'}"
+                                                                   (change)="onFileChange($event,ix,0,iy)"
+                                                            >
+                                                            <div class="product-img" *ngIf="getImage(ix,0,iy).length>0">
+                                                                <img
+                                                                    [src]="getImage(ix,0,iy)">
+                                                                <button disabled class="btn btn-danger w-100 btn-sm"
+                                                                        (click)="openFileUploder(ix,0,iy)">Replace
+                                                                </button>
+                                                            </div>
+                                                        </div>
+    
+    
+    
+                                                      
+    
+    
+                                                       
+                                                    </div>
+                                                    <div class="row" style="margin-top: 20px;">
+    
+                                                        
+                                                        <div class="col-md-2" *ngIf="isAdmin">
+                                                            <input  placeholder="Item Name English" 
+                                                            required
+                                                            [class.error]="submitted && Y.controls.itemNameEnglish.invalid"
+                                                            class="form-control" type="text" style="font-family: system-ui; direction: rtl;"
+                                                                   formControlName="itemNameEnglish">
+                                                                   <p class="text-danger"
+                                                                   *ngIf="submitted && Y.controls.itemNameEnglish.invalid">
+                                                                   This field is
+                                                                   required</p>
+    
+                                                        </div>
+                                                        <div class="col-md-2" *ngIf="!isAdmin">
+                                                            <input  disabled placeholder="Item Name English" class="form-control" type="text" style="font-family: system-ui; direction: rtl;"
+                                                                   formControlName="itemNameEnglish">
+    
+                                                        </div>
+    
+    
+                                                        <div class="col-md-3" *ngIf="isAdmin">
+                                                            <textarea placeholder="Description English"  class="form-control" type="text" style="font-family: system-ui; direction: rtl;"
+                                                                      formControlName="itemDescriptionEnglish">
+                                                            </textarea>
+    
+                                                        </div>
+                                                        <div class="col-md-3" *ngIf="!isAdmin">
+                                                            <textarea disabled placeholder="Description English"  class="form-control" type="text" style="font-family: system-ui; direction: rtl;"
+                                                                      formControlName="itemDescriptionEnglish">
+                                                            </textarea>
+    
+                                                        </div>
+        
+                                                        <div class="col-md-1">
+                                                            <input  type="checkbox" formControlName="isInService" style="margin-right: 12px;">
+                                                            <label>  IsInService</label>
+                                                           
+                                                        </div>
+    
+                                                       
+                                                        <div class="col text-right" *ngIf="isAdmin">
+                                                            <button class="btn btn-danger btn-sm "
+                                                                    (click)="deleteItem(ix,0,iy)">
+                                                                <i class="fa fa-trash p-0 font-12"></i>
+                                                            </button>
+                                                        </div>
+                                                       
+                                                    </div>
+    
+                 
+    
+                                                
+                                                <div class="row" *ngIf="isAdmin">
+                                                    <div class="col-md-10 text-right">
+                                                        <input type="button" class="btn btn-secondary" (click)="addSpecification('0',ix,iy)" style="font-family: system-ui; direction: rtl;"
+                                                               value="Add Specification">
+                                                    </div>
+                                                    <div class="col-md-2 text-right">
+                                                        <input type="button" class="btn btn-secondary" (click)="addItemAddition('0',ix,iy)" style="font-family: system-ui; direction: rtl;"
+                                                               value="Add On's">
+                                                    </div>
+                                                </div> 
+    
+                                   
+    
+    
+                                                    <div class="row" formArrayName="SpecificationModels" class="pt-14" >
+    
+                                                        <div *ngFor="let Ds of Y['controls'].SpecificationModels['controls']; let idds=index">
+                                                            <div formGroupName="{{idds}}" class="SpecificationModels-card">
+    
+    
+                                                               <div class="row" style="margin: 6px;">
+                                                                <div class="col-md-5">
+                                                                    <div style="text-align: center; border-style: solid; font-size: x-large;">
+                                                                        <label>{{Ds.value.specificationDescription}} - {{Ds.value.specificationDescriptionEnglish}}</label>
+                                                                    </div>
+                                                                   
+                                                                </div>
+                                                              
+                                                            
+                                                
+    
+                                                                <div class="col-md-3"  *ngIf="isAdmin">
+                                                                    <div class="input-group">
+                                                                        <div class="input-group-append">
+                                                                            <button class="btn btn-primary blue" (click)="openSelectSpecificationModal(ix,0,iy,idds)" type="button"><i class="fa fa-search"></i> {{l("Pick")}}</button>
+                                                                        </div>
+                                                                       
+                                                                    </div>
+                                                                </div>
+    
+                                                                <div class="col text-right" *ngIf="isAdmin">
+                                                                   
+                                                                    <button class="btn btn-danger btn-sm "
+                                                                            (click)="deleteSpecification(ix,0,iy,idds)">
+                                                                        <i class="fa fa-trash p-0 font-12"></i>
+                                                                    </button>
+                                                                </div>
+    
+    
+                                                             
+    
+    
+                                                            </div>
+        
+        
+                                                               
+    
+                                                            
+    
+                                                            </div>
+                                                                                                              
+                                                           
+    
+                                                        </div>
+                                                        
+                                                                                                     
+    
+                                                    </div>
+                                                  
+    
+                                                    <div class="row" formArrayName="additionsCategorysListModels" class="pt-14" >
+    
+                                                        <div *ngFor="let D of Y['controls'].additionsCategorysListModels['controls']; let idd=index">
+                                                            <div formGroupName="{{idd}}" class="additionsCategorysListModels-card">
+    
+    
+                                                               <div class="row" style="margin: 6px;">
+                                                                <div class="col-md-5">
+                                                                    <div style="text-align: center; border-style: solid; font-size: x-large;">
+                                                                        <label>{{D.value.name}} - {{D.value.nameEnglish}}</label>
+                                                                    </div>
+                                                                   
+                                                                </div>
+                                                                <!-- <div class="col-md-3">
+                                                                    <label>Category Name </label>
+                                                                    <input class="form-control" type="text" [value]="D.value.name" style="font-family: system-ui; direction: rtl;">
+                                                                </div>
+                                                                <div class="col-md-3">
+                                                                    <label>Category Name English</label>
+                                                                    <input class="form-control" type="text"  [value]="D.value.nameEnglish" style="font-family: system-ui; direction: rtl;">
+                                                                </div> -->
+    
+    
+                                                                 <!-- <div class="col-md-2">
+                                                                    <label  for="aantal">Additions Categorys</label>
+                                                                    <select  id="additionsCategorysListModels{{idd}}" [(ngModel)]="D.value" name="additionsCategorysListModels{{idd}}" class="form-control"    formControlName="additionsCategorysListModels" style="font-family: system-ui; direction: rtl;"   required>
+                                                                    <option [value]="D.value.id" [selected]="true">{{D.value.name}} - {{D.value.nameEnglish}}</option>
+                                                                    <option *ngFor="let rTy of Y['controls'].additionsCategorysListModels['controls']"  
+                                                                        [value]="rTy.value.id"  >{{rTy.value.name}} - {{rTy.value.nameEnglish}}</option>
+                                                                      
+                                                                   </select>
+                                                                </div> -->
+                                                                
+                                                
+    
+                                                                <div class="col-md-3" *ngIf="isAdmin">
+                                                                    <div class="input-group">
+                                                                        <div class="input-group-append">
+                                                                            <button class="btn btn-primary blue" (click)="openSelectAdditionsCategoryModal(ix,0,iy,idd)" type="button"><i class="fa fa-search"></i> {{l("Pick")}}</button>
+                                                                        </div>
+                                                                         <!-- <div class="input-group-prepend">
+                                                                            <button class="btn btn-danger btn-icon" type="button" (click)="setdditionsCategoryNull()"><i class="fa fa-times"></i></button>
+                                                                        </div> -->
+                                                                    </div>
+                                                                </div>
+    
+                                                                <div class="col text-right" *ngIf="isAdmin">
+                                                                   
+                                                                    <button class="btn btn-danger btn-sm "
+                                                                            (click)="deleteitemAddition(ix,0,iy,idd)">
+                                                                        <i class="fa fa-trash p-0 font-12"></i>
+                                                                    </button>
+                                                                </div>
+    
+    
+                                                             
+    
+    
+                                                            </div>
+        
+        
+                                                               
+    
+                                                            
+    
+                                                            </div>
+                                                                                                              
+                                                           
+    
+                                                        </div>
+                                                        
+                                                                                                     
+    
+                                                    </div>
+                                                   
+    
+    
+    
+    
+                                                </div>
+                                            </div>
+    
+                                          
+                                            <hr/>
+                                        
+                                        </div>
+                                    </div>
+                                    <hr/>
+                                    <div class="row" *ngIf="isAdmin">
+                                        <div class="col-md-12 text-right">
+                                            <input type="button" class="btn btn-secondary" (click)="addItem('0',ix)"
+                                                   value="Add Item">
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                                <div class="modal-footer">
+                                    <button  [disabled]="saving" type="button" class="btn btn-primary"
+                                            (click)="close()">{{l("Cancel")}}</button>
+                                    <input   type="button" class="btn btn-primary"
+                                            
+                                           (click)="addMenu()" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')" value="Save">
+                                           <!-- [disabled]="!menuForm.valid" -->
+                                </div>
+    
+                            </div>
+
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+            <specificationLookupTableModal #specificationLookupTableModal (modalSave)="UpdateSpecificationId()"></specificationLookupTableModal>
+            <addOnsLookupTableModal #addOnsLookupTableModal (modalSave)="UpdateAdditionsCategoryId()"></addOnsLookupTableModal>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,2077 @@
+<div
+    id="chatPage"
+    #container
+    [ngClass]="{
+        'vertical-layout': theme != 'theme12',
+        ' vertical-menu-modern': theme != 'theme12',
+        ' navbar-floating': theme != 'theme12',
+        'footer-static': theme != 'theme12',
+        'menu-collapsed': darkModeService.hideSideNav,
+        'menu-expanded': darkModeService.hideSideNav === false
+    }"
+>
+    <p-dialog [closeOnEscape]="false" [closable]="false" [header]="GroupheaderText" [(visible)]="visible" [model]="true" [style]="{ width: '500px' }">
+        <div class="flex py-2 justify-content-center">
+            <h5>Select another Group</h5>
+            <p-dropdown
+                appendTo="body"
+                [style]="{ minWidth: '100%' }"
+                [options]="tempGroups"
+                [(ngModel)]="selectedNewGroup"
+                placeholder="Select a Group"
+                optionLabel="groupName"
+            ></p-dropdown>
+            <div class="w-100 my-2 d-flex justify-content-center">
+                <button type="button" class="w-50 btn btn-outline-primary-info" (click)="handleClose()">{{ l("Cancel") }}</button>
+                <button type="button" [buttonBusy]="submitted" [disabled]="!selectedNewGroup" class="w-50 btn btn-primary-info" (click)="handleSelectGroup()">
+                    {{ l("Send") }}
+                </button>
+            </div>
+        </div>
+    </p-dialog>
+
+    <div [ngClass]="theme != 'theme12' ? 'app-content m-0 p-1 content' : ''">
+        <div *ngIf="theme != 'theme12'" class="content-overlay"></div>
+        <div class="chat-application">
+            <div class="content-overlay"></div>
+            <div class="header-navbar-shadow"></div>
+            <div class="content-area-wrapper container-xxl p-0">
+                <div class="sidebar-left">
+                    <div class="sidebar">
+                        <!-- Chat Sidebar area -->
+                        <div class="sidebar-content" id="showChat">
+                            <!-- Sidebar header start -->
+
+                            <!-- <div class="chat-fixed-search h-auto">
+                                <div class="d-flex mt-1">
+                                    <select
+                                        class="form-control w-100"
+                                        name="messageFilterTeamInbox"
+                                        id="messageFilterTeamInbox"
+                                        [(ngModel)]="newCustomerFilter.searchId"
+                                        (ngModelChange)="handleChangeType(1)"
+                                    >
+                                        <option value="3" selected>{{ l("All") }}</option>
+                                        <option value="2">{{ l("MessagesFilter") }}</option>
+                                        <option value="1">{{ l("PhoneOrNumber") }}</option>
+                                    </select>
+                                    <div class="ml-1 w-100">
+                                        <div class="d-flex flex-column">
+                                            <input
+                                                type="text"
+                                                id="TenantNameOrTenancyCode"
+                                                name="filterText"
+                                                class="round form-control mb-1"
+                                                [formControl]="searchInput"
+                                                placeholder="{{ 'SearchWithThreeDot' | localize }}"
+                                            />
+
+                                            <select
+                                                class="round form-control w-75"
+                                                name="selectChatType"
+                                                id="selectChatType"
+                                                [(ngModel)]="newCustomerFilter.chatFilterID"
+                                                (ngModelChange)="handleChangeType(2)"
+                                            >
+                                                <option value="0" selected>{{ l("AllChat") }}</option>
+                                                <option value="1">{{ l("opened") }}</option>
+                                                <option value="2">{{ l("expired") }}</option>
+                                                <option value="3">{{ l("completed") }}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-baseline mx-1 mb-1">
+                                <h4 class="chat-list-title info-seed-color">{{ l("chat") }}</h4>
+                                <button [disabled]="template.length === 0" type="button" class="btn btn-primary-info send" (click)="openSendMessageModal()">
+                                    <span>{{ l("newMessage") }}</span>
+                                    <i class="bi bi-pencil-fill"></i>
+                                </button>
+                            </div> -->
+
+                            <!-- Sidebar header start -->
+                            <div class="chat-fixed-search" style="border-bottom: 1px solid #ebe9f1 !important">
+                                <div class="d-flex align-items-center w-100">
+                                    <div
+                                        ngbDropdown
+                                        placement="bottom-start"
+                                        #dropSetting="ngbDropdown"
+                                        class="filter-icon-container"
+                                        [ngStyle]="{
+                                            'background-color': darkModeService.currentSkin === 'dark' ? '#283046' : 'white',
+                                            'border-color': darkModeService.currentSkin === 'dark' ? '#454853' : '#EBE9F1'
+                                        }"
+                                    >
+                                        <button
+                                            id="dropdownConfig"
+                                            ngbDropdownToggle
+                                            class="btn custom-dropdown-toggle"
+                                            (click)="toggleSetting()"
+                                            [ngStyle]="{
+                                                'background-color': darkModeService.currentSkin === 'dark' ? '#283046' : 'white',
+                                                'border-color': darkModeService.currentSkin === 'dark' ? '#454853' : '#EBE9F1'
+                                            }"
+                                        >
+                                            <i
+                                                id="filter-toggle"
+                                                class="bi bi-filter filter-icon"
+                                                [ngStyle]="{
+                                                    color: darkModeService.currentSkin === 'dark' ? 'white' : 'black'
+                                                }"
+                                            ></i>
+                                        </button>
+
+                                        <div ngbDropdownMenu aria-labelledby="dropdownSettings" class="dropdownSettingsCustome">
+                                            <div class="setting-container">
+                                                <div class="cancel-icon w-100 text-end">
+                                                    <i
+                                                        class="bi bi-x mr-3"
+                                                        (click)="closeSetting($event)"
+                                                        [ngStyle]="{
+                                                            color: darkModeService.currentSkin === 'dark' ? 'white' : '#009789'
+                                                        }"
+                                                    ></i>
+                                                </div>
+                                                <div class="select-container">
+                                                    <span>Chat Status</span>
+
+                                                    <div class="update-select">
+                                                        <div>
+                                                            <input type="radio" id="all" name="chatFilterName" [(ngModel)]="selectedChatType" value="0" />
+                                                            <label for="all">{{ l("AllChat") }}</label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="radio" id="Non-Ticket" name="Non-Ticket" [(ngModel)]="selectedChatType" value="5" />
+                                                            <label for="Non-Ticket">{{ l("AllContacts") }}</label>
+                                                        </div>
+
+                                                        <div>
+                                                            <input type="radio" id="opened" name="chatFilterName" [(ngModel)]="selectedChatType" value="1" />
+                                                            <label for="opened">{{ l("opened") }}</label>
+                                                        </div>
+
+                                                        <div>
+                                                            <input type="radio" id="expired" name="chatFilterName" [(ngModel)]="selectedChatType" value="2" />
+                                                            <label for="expired">{{ l("expired") }}</label>
+                                                        </div>
+
+
+                                                        <div>
+                                                            <input type="radio" id="completed" name="chatFilterName" [(ngModel)]="selectedChatType" value="3" />
+                                                            <label for="completed">{{ l("completed") }}</label>
+                                                        </div>
+
+                                                        <div>
+                                                            <input type="radio" id="Non-Ticket" name="Non-Ticket" [(ngModel)]="selectedChatType" value="4" />
+                                                            <label for="Non-Ticket">{{ l("Non-Ticket") }}</label>
+                                                        </div>
+                                                        
+
+                                                    </div>
+                                                </div>
+                                                <button class="btn btn-primary-info apply-btn" (click)="onSubmitChatFilter()">Apply</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="input-group input-group-merge ml-1 w-100 search-input">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text round" style="border-radius: 2px 0px 0px 2px"><i data-feather="search" class="text-muted"></i></span>
+                                        </div>
+                                        <input
+                                        type="text"
+                                        class="form-control round"
+                                        id="TenantNameOrTenancyCode"
+                                        [formControl]="searchInput"
+                                        (keydown.enter)="onSearchEnter(null)"
+                                        placeholder="{{ 'SearchWithThreeDot' | localize }}"
+                                    />
+                                    </div>
+
+                                    
+                                    <button
+                                        ngbPopover="{{ 'newMessage' | localize }}"
+                                        triggers="mouseenter:mouseleave"
+                                        class="plus-icon-container ml-2"
+                                        [ngStyle]="{
+                                            'background-color': darkModeService.currentSkin === 'dark' ? '#283046' : 'white'
+                                        }"
+                                        (click)="openSendMessageModal()"
+                                    >
+                                        <i
+                                            class="bi bi-plus-square-fill plus-icon"
+                                            [ngStyle]="{
+                                                'background-color': darkModeService.currentSkin === 'dark' ? '#283046' : 'white',
+                                                color: darkModeService.currentSkin === 'dark' ? '#454853' : '#009789'
+                                            }"
+                                        ></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <!-- Sidebar header end -->
+                            <!-- <div class="filters-container">
+                                <div class="filter-search-container">
+                                    <div class="input-group input-group-merge ml-1 w-100">
+                                        <div class="input-group-prepend">
+                                          <span class="input-group-text round"><i data-feather="search" class="text-muted"></i></span>
+                                        </div>
+                                        <input
+                                          type="text"
+                                          class="form-control round"
+                                          id="chat-search"
+                                          placeholder="Search or start a new chat"
+                                          aria-label="Search..."
+                                          aria-describedby="chat-search"
+                                    
+                                        />
+                                      </div>
+                                </div>
+
+                            </div> -->
+
+                            <!-- Hasan  Version  -->
+                            <div
+                                *ngIf="!isLoading"
+                                style="width:100.5%"
+                                class="chat-user-list-wrapper list-group custom-scroll"
+                                id="DivcontactList"
+                                infinite-scroll
+                                [infiniteScrollDistance]="1"
+                                [infiniteScrollThrottle]="throttle"
+                                (scrolled)="onScrollDown()"
+                                [scrollWindow]="false"
+                            >
+                                <p *ngIf="!isLoading && UsersChannels?.length === 0" class="fw-light contact-not-found">{{ l("noResultFound") }}</p>
+                                <ul class="chat-users-list contact-list media-list">
+                                    <div
+                                        *ngFor="let user of UsersChannels; let index = index; trackBy: trackByFunction"
+                                        (click)="selectUserToChat(user); setIndex(index)"
+                                        [class.active]="selectedIndex === index"
+                                        tabindex="1"
+                                    >
+                                        <!-- <span class="contact-or-message" *ngIf="this.newCustomerFilter.searchId == 3 && this.contactIndex != -1 && this.contactIndex == index"
+                                            >Contacts</span
+                                        >
+                                        <span class="contact-or-message" *ngIf="this.newCustomerFilter.searchId == 3 && this.messageIndex != -1 && this.messageIndex == index"
+                                            >messages</span
+                                        > -->
+
+                                        <li >
+                                            <div class="d-flex align-items-start w-100 h-100">
+                                                <div class="avatarImage" [style.background-color]="user.color" id="unreadMessage" *ngIf="!(user.unreadMessagesCount > 0) ">
+                                                    <!-- <i *ngIf="user.channel === 'instagram'" class="bi bi-instagram ng-tns-c223-1" style="color: #ffffff;font-size: 34px;margin-right: 6px;/* padding-left: 0px; */margin-left: 10px;"></i>            -->
+                                                    <img
+                                                        class="center rounded-circle"
+                                                         *ngIf="user.channel === 'instagram'"
+                                                        [src]="user.instagramUserInfoModel.profile_pic"
+                                                        alt="customer"
+                                                        width="45"
+                                                        height="45"
+                                                    />
+
+
+                                                    <img
+                                                        class="center rounded-circle"
+                                                         *ngIf="user.channel === 'facebook'"
+                                                        [src]="user.facebookUserInfoModel.profile_pic"
+                                                        alt="customer"
+                                                        width="45"
+                                                        height="45"
+                                                    />
+
+                                                    <!-- <i *ngIf="user.channel ==='facebook'"   class="bi bi-facebook ng-tns-c223-1"  style="color: #ffffff;font-size: 34px;margin-right: 6px;/* padding-left: 0px; */margin-left: 10px;"></i> -->
+                                                    <img
+                                                        class="center rounded-circle"
+                                                        *ngIf="user.avatarUrl && user.channel !=='facebook' && user.channel !=='instagram'"
+                                                        src="../../../assets/images/{{ user.avatarUrl }}.png"
+                                                        alt="customer"
+                                                        width="45"
+                                                        height="45"
+                                                    />
+
+                                                    <span *ngIf="user.isConversationExpired" class="avatar-status-online avatar-status-xl custom-avatar-span-waiting">
+                                                        <i class="bi bi-arrow-repeat custom-avatar-icon-waiting"></i>
+                                                    </span>
+
+                                                    <span
+                                                        *ngIf="user.isLockedByAgent && !user.isConversationExpired && user.isOpen"
+                                                        class="avatar-status-online avatar-status-xl custom-avatar-span-chat-blue"
+                                                    >
+                                                        <i class="bi bi-chat-dots custom-avatar-icon-chat custom-avatar-icon-chat"></i>
+                                                    </span>
+
+                                                    <span
+                                                        *ngIf="!user.isOpen && !user.isLockedByAgent && !user.isConversationExpired && user.unreadMessagesCount > 0"
+                                                        class="avatar-status-online avatar-status-xl custom-avatar-span-chat"
+                                                    >
+                                                        <i class="bi bi-chat-dots custom-avatar-icon-chat custom-avatar-icon-chat"></i>
+                                                    </span>
+
+                                                    <span *ngIf="true" class="avatar-status-online avatar-status-xl custom-avatar-span-bot">
+                                                        <i class="bi bi-robot custom-avatar-icon custom-avatar-icon-bot"></i>
+                                                    </span>
+
+                                                    <span
+                                                        *ngIf="
+                                                            !user.isOpen &&
+                                                            !user.isConversationExpired &&
+                                                            !user.isLockedByAgent &&
+                                                            !(user.unreadMessagesCount > 0) &&
+                                                            !user.isBotCloseChat
+                                                        "
+                                                        class="avatar-status-online avatar-status-xl custom-avatar-span-read"
+                                                    >
+                                                        <i class="bi bi-check-all custom-avatar-icon custom-avatar-icon-read"></i>
+                                                    </span>
+                                                </div>
+
+                                                <div class="avatarImage" [style.background-color]="user.color" *ngIf="user.unreadMessagesCount > 0 && !user.isSupport">
+                                                    <!-- <i *ngIf="user.channel === 'instagram'" class="bi bi-instagram ng-tns-c223-1" style="color: #ffffff;font-size: 34px;margin-right: 6px;/* padding-left: 0px; */margin-left: 10px;"></i>            -->
+                                                    <img
+                                                        class="center rounded-circle"
+                                                        *ngIf="user.channel === 'instagram'"
+                                                        [src]="user.instagramUserInfoModel.profile_pic"
+                                                        alt="customer"
+                                                        width="45"
+                                                        height="45"
+                                                    />
+
+                                                    <img
+                                                        class="center rounded-circle"
+                                                        *ngIf="user.channel === 'facebook'"
+                                                        [src]="user.facebookUserInfoModel.profile_pic"
+                                                        alt="customer"
+                                                        width="45"
+                                                        height="45"
+                                                    />
+
+                                                    <!-- <i *ngIf="user.channel ==='facebook'"  class="bi bi-facebook ng-tns-c223-1"  style="color: #ffffff;font-size: 34px;margin-right: 6px;/* padding-left: 0px; */margin-left: 10px;"></i> -->
+                                                   
+                                                   
+                                                    <img
+                                                        class="center rounded-circle"
+                                                        *ngIf="user.avatarUrl && user.channel !=='facebook'&& user.channel !=='instagram'"
+                                                        src="../../../assets/images/{{ user.avatarUrl }}.png"
+                                                        alt="customer"
+                                                        width="45"
+                                                        height="45"
+                                                    />
+
+                                                    <span *ngIf="user.isConversationExpired" class="avatar-status-online avatar-status-xl custom-avatar-span-waiting">
+                                                        <i class="bi bi-arrow-repeat custom-avatar-icon-waiting"></i>
+                                                    </span>
+
+                                                    <span
+                                                        *ngIf="!user.isOpen && !user.isLockedByAgent && !user.isConversationExpired && user.unreadMessagesCount > 0"
+                                                        class="avatar-status-online avatar-status-xl custom-avatar-span-chat"
+                                                    >
+                                                        <i class="bi bi-chat-dots custom-avatar-icon-chat custom-avatar-icon-chat"></i>
+                                                    </span>
+                                                    <span
+                                                        *ngIf="user.isLockedByAgent && !user.isConversationExpired && user.isOpen"
+                                                        class="avatar-status-online avatar-status-xl custom-avatar-span-chat-blue"
+                                                    >
+                                                        <i class="bi bi-chat-dots custom-avatar-icon-chat custom-avatar-icon-chat"></i>
+                                                    </span>
+
+                                                    <span
+                                                        *ngIf="
+                                                            !user.isOpen &&
+                                                            !user.isConversationExpired &&
+                                                            !user.isLockedByAgent &&
+                                                            !(user.unreadMessagesCount > 0) &&
+                                                            user.isBotCloseChat
+                                                        "
+                                                        class="avatar-status-online avatar-status-xl custom-avatar-span-bot"
+                                                    >
+                                                        <i class="bi bi-robot custom-avatar-icon custom-avatar-icon-bot"></i>
+                                                    </span>
+
+                                                    <!-- <span
+                                                        *ngIf="
+                                                            !user.isOpen &&
+                                                            !user.isConversationExpired &&
+                                                            !user.isLockedByAgent &&
+                                                            !(user.unreadMessagesCount > 0) &&
+                                                            !user.isBotCloseChat
+                                                        "
+                                                        class="avatar-status-online avatar-status-xl custom-avatar-span-read"
+                                                    >
+                                                        <i class="bi bi-check-all custom-avatar-icon custom-avatar-icon-read"></i>
+                                                    </span> -->
+                                                </div>
+
+                                                <div
+                                                    class="unreadMessage2 avatarImage"
+                                                    [style.background-color]="user.color"
+                                                    id="userSupport"
+                                                    *ngIf="user.unreadMessagesCount > 0 && user.isSupport"
+                                                >
+                                                    <span *ngIf="user.isConversationExpired" class="avatar-status-online avatar-status-xl custom-avatar-span-waiting">
+                                                        <i class="bi bi-arrow-repeat custom-avatar-icon-waiting"></i>
+                                                    </span>
+                                                    <span
+                                                        *ngIf="user.isLockedByAgent && !user.isConversationExpired && user.isOpen"
+                                                        class="avatar-status-online avatar-status-xl custom-avatar-span-chat-blue"
+                                                    >
+                                                        <i class="bi bi-chat-dots custom-avatar-icon-chat custom-avatar-icon-chat"></i>
+                                                    </span>
+                                                    <span
+                                                        *ngIf="!user.isOpen && !user.isLockedByAgent && !user.isConversationExpired && user.unreadMessagesCount > 0"
+                                                        class="avatar-status-online avatar-status-xl custom-avatar-span-chat"
+                                                    >
+                                                        <span
+                                                            *ngIf="
+                                                                !user.isOpen &&
+                                                                !user.isConversationExpired &&
+                                                                !user.isLockedByAgent &&
+                                                                !(user.unreadMessagesCount > 0) &&
+                                                                user.isBotCloseChat
+                                                            "
+                                                            class="avatar-status-online avatar-status-xl custom-avatar-span-bot"
+                                                        >
+                                                            <i class="bi bi-check-all custom-avatar-icon custom-avatar-icon-bot"></i>
+                                                        </span>
+                                                        <!-- <i class="bi bi-chat-dots  custom-avatar-icon custom-avatar-span-chat"></i> -->
+                                                        <i class="bi bi-chat-dots custom-avatar-icon-chat custom-avatar-icon-chat"></i>
+                                                    </span>
+
+                                                    <span
+                                                        *ngIf="
+                                                            !user.isOpen &&
+                                                            !user.isConversationExpired &&
+                                                            !user.isLockedByAgent &&
+                                                            !(user.unreadMessagesCount > 0) &&
+                                                            user.isBotCloseChat
+                                                        "
+                                                        class="avatar-status-online avatar-status-xl custom-avatar-span-bot"
+                                                    >
+                                                        <i class="bi bi-check-all custom-avatar-icon custom-avatar-icon-bot"></i>
+                                                    </span>
+
+                                                    <!-- <span
+                                                        *ngIf="
+                                                            !user.isOpen &&
+                                                            !user.isConversationExpired &&
+                                                            !user.isLockedByAgent &&
+                                                            !(user.unreadMessagesCount > 0) &&
+                                                            !user.isBotCloseChat
+                                                        "
+                                                        class="avatar-status-online avatar-status-xl custom-avatar-span-read"
+                                                    >
+                                                        <i class="bi bi-check-all custom-avatar-icon custom-avatar-icon-read"></i>
+                                                    </span> -->
+                                                    <!-- <i class="bi bi-check-all custom-avatar-icon" ></i> -->
+                                                </div>
+
+                                                <span class="avatar-status-offline"></span>
+
+                                                <div class="chat-info flex-grow-1">
+                                                    <h5 [ngClass]="isLanguageArabic ? 'ltr' : ''" class="userName mb-0">
+                                                        {{ user.displayName }}
+                                                        <b *ngIf="user.nickName">({{ user.nickName }})</b>
+                                                        <!-- <span *ngIf="user.conversationsCount > 1" class="badge badge-pill bg-primary">
+                                                          {{ user.conversationsCount }}
+                                                        </span> -->
+                                                      </h5>
+                                                      
+                                                    <div class="small long-text lockedByAgentNameClass" *ngIf="user.isLockedByAgent && !user.isConversationExpired && !user.isOpen">
+                                                        {{ user.lockedByAgentName }}
+                                                    </div>
+                                                    <p *ngIf="user.searchId == 2" class="card-text text-truncate limited-text">
+                                                        {{ user.listCustomerChat[0]?.text }}
+                                                    </p>
+
+                                                    <p *ngIf="user.searchId == 1" class="card-text text-truncate limited-text">
+                                                        {{ user.customerChat.text }}
+                                                    </p>
+                                                </div>
+                                                     <div class="d-block" *ngIf="user.numberNote > 0">
+                                                     <span style="font-size: 20px;" >📝</span> <!-- Note icon emoji -->
+                                                    </div>
+                                                <div class="chat-meta text-nowrap">
+                                                    <small class="float-end mb-25 chat-time">{{ user.createDate }}</small>
+                                                    <span *ngIf="user.isComplaint && isAdmin" class="d-block">
+                                                        <i class="bi bi-pin-angle" style="transform: scaleX(-1)"></i>
+                                                    </span>
+
+                                                    <!-- <span class="avatar-status-online avatar-status-xl"></span> -->
+                                                    <!-- <div class="d-block" *ngIf="user.isLockedByAgent && !user.isConversationExpired && !user.isOpen">
+                                                        <i class="bi bi-arrow-left-right red"></i>
+                                                    </div> -->
+
+                                                    <!-- <img
+                                                        class="d-block"
+                                                        *ngIf="
+                                                            !user.isOpen &&
+                                                            !user.isConversationExpired &&
+                                                            !user.isLockedByAgent &&
+                                                            !(user.unreadMessagesCount > 0) &&
+                                                            !user.isBotCloseChat
+                                                        "
+                                                        src="/assets/common/images/close-status.svg"
+                                                        alt="CustomerImage"
+                                                    /> -->
+
+                                                    <div class="d-block" *ngIf="user.conversationsCount > 0">
+                                                        <span class="rounded-pill bg-danger counterChat">
+                                                            {{ user.conversationsCount }}
+                                                        </span>
+                                                    </div>
+
+                                                    <!-- <div class="d-block" *ngIf="user.isConversationExpired">
+                                                        <i class="bi bi-hourglass-bottom red"></i>
+                                                    </div>  -->
+
+                                                    <!-- <i *ngIf="user.isLockedByAgent && !user.isConversationExpired && user.isOpen" class="bi bi-chat-left-text-fill blue"></i>
+
+                                                    <img
+                                                        alt="CustomerImage"
+                                                        *ngIf="
+                                                            !user.isOpen &&
+                                                            !user.isConversationExpired &&
+                                                            !user.isLockedByAgent &&
+                                                            !(user.unreadMessagesCount > 0) &&
+                                                            user.isBotCloseChat
+                                                        "
+                                                        class="robot-icon d-block"
+                                                        src="/assets/common/images/Robot_icon2.png"
+                                                    /> -->
+                                                    <div class="ml-6 small status" *ngIf="user.unreadMessagesCount > 0"></div>
+                                                </div>
+                                                <!-- <hr class="d-block d-lg-none mt-1 mb-0 w-100" /> -->
+                                            </div>
+                                        </li>
+                                    </div>
+                                </ul>
+                            </div>
+                            <app-skelelton *ngIf="isLoading"></app-skelelton>
+                        </div>
+                        <!--/ Chat Sidebar area -->
+                    </div>
+                </div>
+
+                <div class="content-right">
+                    <!--  user profile area -->
+                    <div class="user-profile-sidebar" name="chat-active-sidebar" overlayClass="body-content-overlay" hideOnEsc="true" [ngClass]="{ show: profileOpend }">
+                        <div class="profile-sidebar-container">
+                            <div class="input-sidebar-container">
+                                <div class="sidebar-container-header">
+                                    <div class="avatar box-shadow-1 avatar-border avatar-xl">
+
+                                                    <img
+                                                        class="center rounded-circle"
+                                                         *ngIf="selectedUser.channel === 'instagram'"
+                                                        [src]="selectedUser.instagramUserInfoModel.profile_pic"
+                                                        alt="customer"
+                                                        width="70"
+                                                        height="70"
+                                                    />
+
+
+                                                    <img
+                                                        class="center rounded-circle"
+                                                         *ngIf="selectedUser.channel === 'facebook'"
+                                                        [src]="selectedUser.facebookUserInfoModel.profile_pic"
+                                                        alt="customer"
+                                                        width="70"
+                                                        height="70"
+                                                    />
+                                        <img
+                                            *ngIf="selectedUser.avatarUrl&& selectedUser.channel !== 'instagram' && selectedUser.channel !== 'facebook'"
+                                            src="../../../assets/images/{{ selectedUser.avatarUrl }}.png "
+                                            alt="user_avatar"
+                                            height="70"
+                                            width="70"
+                                        />
+                                        <span
+                                            [ngClass]="{
+                                                'avatar-status-busy': !isOnline,
+                                                'avatar-status-online': isOnline
+                                            }"
+                                        ></span>
+                                    </div>
+
+                                    <div class="input-sidebar-container">
+                                        <input
+                                            type="text"
+                                            id="modern-created-preview"
+                                            class="form-control"
+                                            class="form-control date-type-container"
+                                            style="background-color: transparent"
+                                            [value]="selectedUser.displayName"
+                                            disabled
+                                        />
+                                    </div>
+
+                                    <span class="sidebar-container-header-phoneNumber">
+                                        {{ selectedUser.phoneNumber }}
+                                    </span>
+
+
+
+                                </div>
+  <div class="sidebar-container" *ngIf="selectedUser.instagramUserInfoModel !==undefined && selectedUser.channel=='instagram'" class="instagram-user-info" style="color: white; background: #262626; padding: 15px; border-radius: 10px;">
+  <h3 style="margin-top: 0;" *ngIf="selectedUser.instagramUserInfoModel !==undefined && selectedUser.channel=='instagram'">Instagram User Info</h3>
+  <p *ngIf="selectedUser.instagramUserInfoModel !==undefined && selectedUser.channel=='instagram'"><strong>Name:</strong> {{ selectedUser.instagramUserInfoModel.name }}</p>
+  <p *ngIf="selectedUser.instagramUserInfoModel !==undefined && selectedUser.channel=='instagram'"><strong>Username:</strong> @{{ selectedUser.instagramUserInfoModel.username }}</p>
+  <p *ngIf="selectedUser.instagramUserInfoModel !==undefined && selectedUser.channel=='instagram'"><strong>Followers:</strong> {{ selectedUser.instagramUserInfoModel.follower_count | number }}</p>
+  <p *ngIf="selectedUser.instagramUserInfoModel !==undefined && selectedUser.channel=='instagram'"><strong>User Follows Business:</strong> 
+    <span *ngIf="selectedUser.instagramUserInfoModel !==undefined && selectedUser.channel=='instagram'"[ngClass]="selectedUser.instagramUserInfoModel.is_user_follow_business ? 'text-success' : 'text-danger'">
+      {{ selectedUser.instagramUserInfoModel.is_user_follow_business ? 'Yes' : 'No' }}
+    </span>
+  </p>
+  <p><strong>Business Follows User:</strong> 
+    <span *ngIf="selectedUser.instagramUserInfoModel !==undefined && selectedUser.channel=='instagram'" [ngClass]="selectedUser.instagramUserInfoModel.is_business_follow_user ? 'text-success' : 'text-danger'">
+      {{ selectedUser.instagramUserInfoModel.is_business_follow_user ? 'Yes' : 'No' }}
+    </span>
+  </p>
+                                    </div>
+                                <div class="sidebar-container">
+                                    <div class="input-sidebar-container my-2">
+                                        <label class="label-date-type-container" for="modern-created-preview">{{ l("customerBehavior") }}</label>
+                                        <input
+                                            type="text"
+                                            id="modern-created-preview"
+                                            class="form-control"
+                                            class="form-control date-type-container"
+                                            style="background-color: transparent"
+                                            [value]="getValueLocal(selectedUser.customerOPT)"
+                                            disabled
+                                        />
+                                    </div>
+
+                                    <div class="input-sidebar-container my-2">
+                                        <label class="label-date-type-container" for="modern-created-preview"> {{ l("created") }}</label>
+                                        <input
+                                            type="text"
+                                            id="modern-created-preview"
+                                            class="form-control"
+                                            class="form-control date-type-container"
+                                            style="background-color: transparent"
+                                            [value]="selectedUser.fullCretaedDate | date : 'short'"
+                                            disabled
+                                        />
+                                    </div>
+
+                                    <div class="input-sidebar-container my-2">
+                                        <label class="label-date-type-container" for="modern-created-preview"> {{ l("location") }}</label>
+                                        <input
+                                            type="text"
+                                            id="modern-created-preview"
+                                            class="form-control"
+                                            class="form-control date-type-container"
+                                            style="background-color: transparent"
+                                            [value]="selectedUser.description"
+                                            disabled
+                                        />
+                                    </div>
+
+                                    <!-- <div class="input-sidebar-container my-2">
+                                        <label class="label-date-type-container" for="modern-created-preview"> {{ l("groupName") }}</label>
+                                        <input
+                                            type="text"
+                                            id="modern-created-preview"
+                                            class="form-control"
+                                            class="form-control date-type-container"
+                                            style="background-color: transparent"
+                                            [value]="selectedUser.groupName"
+                                            disabled
+                                        />
+                                    </div> -->
+
+                                    <div class="input-sidebar-container my-2">
+                                        <label class="label-date-type-container" for="modern-created-preview"> {{ l("nickname") }}</label>
+                                        <input
+                                            type="text"
+                                            id="modern-created-preview"
+                                            class="form-control"
+                                            class="form-control date-type-container"
+                                            style="background-color: transparent"
+                                            [maxLength]="15"
+                                            [(ngModel)]="selectedUser.nickName"
+                                            placeholder="Nickname"
+                                        />
+                                    </div>
+                                    <div class="input-sidebar-container" style="position: relative;">
+
+                                       <label class="label-date-type-container" for="gender-input">
+                                             <i class="fas fa-mars" style="margin-right: 5px;"></i> {{ l("Gender") }}
+                                      </label>
+                                 <div class="input-icon-wrapper">
+                                   <!-- <i class="fas fa-mars gender-icon"></i> -->
+                                      <input
+                                      type="text"
+                                      id="gender-input"
+                                      class="form-control gender-input"
+                                      value="Male"
+                                      disabled
+                                      />
+                                </div>
+                          </div>
+                                    <!-- <div class="input-sidebar-container">
+                                        <label  class="label-date-type-container" for="modern-created-preview"> {{ l("Group") }}</label>
+                                        <input
+                                        type="text"
+                                        id="modern-created-preview"
+                                        class="form-control"
+                                        class="form-control date-type-container"
+                                        style="background-color: transparent"
+                                        [value]="selectedUser?.groupName"
+                                        disabled
+                                    />
+                                    </div> -->
+                                </div>
+
+                                <div class="sidebar-container-header">
+                                    <button type="button" class="btn btn-primary-info w-75 btn-sidebar-profile" (click)="updateNickName()" [buttonBusy]="isNicknameUpdated">
+                                        <span>{{ l("save") }}</span>
+                                    </button>
+                                    <button type="button" class="btn btn-outline-primary-info btn-sidebar-profile w-75 ml-0 mt-1" (click)="closeProfile()">
+                                        <span>{{ l("cancel") }}</span>
+                                    </button>
+                                </div>
+
+
+                                 <div>
+
+
+
+
+                                </div>
+                                <!-- <header class="user-profile-header">
+                                    <button *ngIf="theme === 'theme12'" (click)="closeProfile()" class="float-right btn btn-close"></button>
+                                    <button *ngIf="theme != 'theme12'" (click)="closeProfile()" class="float-right btn btn-close">X</button>
+                                    <div class="header-profile-sidebar">
+                                        <div class="avatar box-shadow-1 avatar-border avatar-xl">
+                                            <img src="../../../assets/images/{{ selectedUser.avatarUrl }}.png" alt="user_avatar" height="70" width="70" />
+                                            <span
+                                                [ngClass]="{
+                                                    'avatar-status-busy': !isOnline,
+                                                    'avatar-status-online': isOnline
+                                                }"
+                                            ></span>
+                                        </div>
+                                        <div class="chat-user-name">
+                                            <input
+                                            type="text"
+                                            id="modern-first-name-preview"
+                                            class="form-control"
+                                            class="form-control date-type-container"
+                                            style="background-color: transparent"
+                                            [value]="selectedUser.displayName"
+                                            disabled
+                                        />
+
+                                            <h6>
+                                                {{ selectedUser.displayName }}
+
+                                                <b *ngIf="selectedUser.nickName">({{ selectedUser.nickName }})</b>
+                                            </h6>
+                                        </div>
+                                    </div>
+                                </header>
+
+
+                                <div class="user-profile-sidebar-area">
+
+
+                                    
+                                    <div class="personal-info">
+                                        <h6 class="section-label mb-1 mt-3">
+                                            {{ l("PersonalInformations") }}
+                                        </h6>
+                                        <ul class="list-unstyled">
+                                            <li class="mt-1">
+                                                <div class="transaction-item">
+                                                    <div class="d-flex align-items-baseline">
+                                                        <div class="avatar bg-light-primary-info rounded">
+                                                            <div class="avatar-content">
+                                                                <i class="bi bi-calendar-minus-fill"></i>
+                                                            </div>
+                                                        </div>
+                                                        <div class="media-body ml-1">
+                                                            <h6 class="transaction-title">
+                                                                {{ l("created") }}: <small> {{ selectedUser.fullCretaedDate | date : "short" }}</small>
+                                                            </h6>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class="mt-1">
+                                                <div class="transaction-item">
+                                                    <div class="d-flex align-items-baseline">
+                                                        <div class="avatar bg-light-primary-info rounded">
+                                                            <div class="avatar-content">
+                                                                <i class="bi bi-telephone-fill"></i>
+                                                            </div>
+                                                        </div>
+                                                        <div class="media-body ml-1">
+                                                            <h6 class="transaction-title">
+                                                                {{ l("PhoneNumber") }}: <small> {{ selectedUser.phoneNumber }}</small>
+                                                                <input hidden #clipboardValue type="text" class="form-control" [value]="selectedUser.phoneNumber" />
+
+                                                                <i class="bi bi-files ml-1 cusrsor-pointer" (click)="copyCode(clipboardValue.value)" rippleEffect></i>
+                                                            </h6>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class="mt-1">
+                                                <div class="transaction-item">
+                                                    <div class="d-flex align-items-baseline">
+                                                        <div class="avatar bg-light-primary-info rounded">
+                                                            <div class="avatar-content">
+                                                                <i class="bi bi-person-check-fill"></i>
+                                                            </div>
+                                                        </div>
+                                                        <div class="media-body ml-1">
+                                                            <h6 class="transaction-title">
+                                                                {{ l("customerBehavior") }}: <small *ngIf="selectedUser.customerOPT === 0"> {{ l("netural") }}</small>
+                                                                <small *ngIf="selectedUser.customerOPT === 1"> {{ l("optOut") }}</small>
+                                                                <small *ngIf="selectedUser.customerOPT === 2"> {{ l("optIn") }}</small>
+                                                            </h6>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class="mt-1">
+                                                <div class="transaction-item">
+                                                    <div class="d-flex align-items-baseline">
+                                                        <div class="avatar bg-light-primary-info rounded">
+                                                            <div class="avatar-content">
+                                                                <i class="bi bi-geo-alt-fill"></i>
+                                                            </div>
+                                                        </div>
+                                                        <div class="media-body ml-1">
+                                                            <h6 class="transaction-title">
+                                                                {{ l("location") }}: <small> {{ selectedUser.description }}</small>
+                                                            </h6>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class="mt-1">
+                                                <div class="transaction-item">
+                                                    <div class="d-flex align-items-baseline">
+                                                        <div class="avatar bg-light-primary-info rounded">
+                                                            <div class="avatar-content">
+                                                                <i class="bi bi-person-rolodex"></i>
+                                                            </div>
+                                                        </div>
+                                                        <div class="media-body ml-1">
+                                                            <input type="text" class="form-control w-50" [(ngModel)]="selectedUser.nickName" [placeholder]="l('NickName')" />
+                                                            <div class="d-flex justify-content-center">
+                                                                <button type="button" class="btn btn-primary-info send" (click)="updateNickName()">
+                                                                    <i class="bi bi-pencil-fill"></i>
+                                                                    <span>{{ l("Update") }}</span>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div> -->
+                            </div>
+
+
+                        </div>
+                    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    <!--/ Admin user profile area -->
+                    <div class="content-wrapper container-xxxl p-0">
+                        <div class="content-header row"></div>
+                        <div class="content-body">
+                            <!-- Main chat area -->
+                            <section class="chat-app-window">
+                                <!-- To load Conversation -->
+                                <div
+                                    (click)="showChat()"
+                                    class="start-chat-area2"
+                                    [ngClass]="darkModeService.currentSkin === 'dark' ? 'bg-dark-image' : 'bg-white-image'"
+                                    *ngIf="!isUserSelectedChat"
+                                >
+                                    <div class="mb-1 start-chat-icon" [ngClass]="darkModeService.currentSkin === 'dark' ? 'start-chat-icon-dark' : 'start-chat-icon-light'">
+                                        <i class="bi bi-chat-left chat-icon-bootstrap"></i>
+                                        <!-- <i class="fas fa-comment"></i> -->
+                                        <!-- <i class="fas fa-message"></i> -->
+                                    </div>
+                                    <h4 class="sidebar-toggle start-chat-text">{{ l("startConversation") }}</h4>
+                                </div>
+                                <!--/ To load Conversation -->
+
+
+
+                                <!-- Active Chat -->
+                                <div class="active-chat2" *ngIf="isUserSelectedChat">
+                                    <!-- Chat Header -->
+                                    <div class="chat-navbar">
+                                        <header class="chat-header" [ngClass]="darkModeService.currentSkin === 'dark' ? 'bg-dark' : 'bg-white'">
+                                            <div class="d-flex align-items-center">
+                                                <button (click)="showChat()" class="btn sidebar-toggle d-block d-lg-none mr-1 p-0">
+                                                    <i class="font-medium-5 fas fa-bars"></i>
+                                                </button>
+
+                                                <ng-container *ngIf="isBackToTicketActive&& this.filters.selectedLiveChatID">
+                                                    <button class="btn btn-primary-info" (click)="returnBackToTicket()"><i class="bi bi-arrow-left-square mx-1"></i> BacK</button>
+                                                </ng-container>
+
+                                                <ng-container *ngIf="isBackToTicketActive&& ticketType=='Request'">
+                                                    <button class="btn btn-primary-info" (click)="returnBackToTicket()"><i class="bi bi-arrow-left-square mx-1"></i>BacK</button>
+                                                </ng-container>
+        
+                                                <ng-container *ngIf="isBackToTicketActive&& !this.filters.selectedLiveChatID && ticketType!='Request'">
+                                                    <button class="btn btn-primary-info" (click)="returnBackToNotifications()"><i class="bi bi-arrow-left-square mx-1"></i>BacK</button>
+                                                </ng-container>
+
+                                                <!-- (click)="openProfile()" -->
+                                                <button (click)="openProfile()" class="profile-button">
+                                                    <div class="avatar avatar-border m-0 me-1">
+                                                    <img
+                                                        class="center rounded-circle"
+                                                         *ngIf="selectedUser.channel === 'instagram'"
+                                                        [src]="selectedUser.instagramUserInfoModel.profile_pic"
+                                                        alt="customer"
+                                                        width="45"
+                                                        height="45"
+                                                    />
+                                                    <img
+                                                        class="center rounded-circle"
+                                                         *ngIf="selectedUser.channel === 'facebook'"
+                                                        [src]="selectedUser.facebookUserInfoModel.profile_pic"
+                                                        alt="customer"
+                                                        width="45"
+                                                        height="45"
+                                                    />
+
+                                                        <img
+                                                            *ngIf="selectedUser.avatarUrl && selectedUser.channel !== 'instagram' && selectedUser.channel !== 'facebook'"
+                                                            src="../../../assets/images/{{ selectedUser.avatarUrl }}.png"
+                                                            alt="avatar"
+                                                            height="45"
+                                                            width="45"
+                                                        />
+                                                        <span
+                                                            [ngClass]="{
+                                                                'avatar-status-busy': !isOnline,
+                                                                'avatar-status-online': isOnline
+                                                            }"
+                                                        ></span>
+                                                    </div>
+                                                </button>
+                                                <div class="flex-grow-1 profile-button">
+                                                    <div (click)="openProfile()" class="username">
+                                                        <span>{{ selectedUser.displayName }}</span>
+                                                        <b *ngIf="selectedUser.nickName">({{ selectedUser.nickName }})</b>
+                                                        <!-- <span *ngIf="selectedUser.isComplaint">/ <i class="fas fa-dot-circle red"></i> Has Complaints</span> -->
+                                                    </div>
+
+                                                    <div (click)="openProfile()" class="profile-button text-muted small">
+                                                        <em> {{ selectedUser.phoneNumber }}</em>
+                                                    </div>
+                                      
+                                                    <div> 
+                                                         <span class="d-flex d-lg-none">
+                                                        <span> {{ countdown | customCountDown }}</span>
+                                                        <!-- <countdown [config]="remainingTime"></countdown> -->
+                                                       </span>
+                                                    </div>
+
+
+                                                     <div (click)="openprofileNote()">
+                                                         <span *ngIf="selectedUser.numberNote > 0" style="font-size: 15px;" >📝</span> <!-- Note icon emoji -->
+                                                     </div>
+                                                    
+                                                
+
+                                                </div>
+                                            </div>
+                                            <div class="d-none d-lg-flex align-items-center">
+                                                <span class="time-remaining">
+                                                    <span> {{ countdown | customCountDown }}</span>
+                                                    <!-- <countdown [config]="remainingTime"></countdown> -->
+                                                </span>
+                                            </div>
+
+                                            <div class="d-flex align-items-center">
+                                                <button
+                                                    *ngIf="selectedUser.isConversationExpired && selectedUser.channel !== 'instagram'&& selectedUser.channel !== 'facebook'"
+                                                    [disabled]="selectedUser.isBlock || (!selectedUser.isConversationExpired && (template.length === 0 || !selectedUser))"
+                                                    type="button"
+                                                    class="btn activate-chat-btn"
+                                                    (click)="openModal(selectedUser)"
+                                                >
+                                                    <i class="bi bi-arrow-clockwise mr-1"></i>
+
+                                                    <span>{{ l("activateChat") }}</span>
+                                                </button>
+                                                <button
+                                                    *ngIf="!selectedUser.isConversationExpired && !selectedUser.isOpen && !showLoaderOnOpenClose"
+                                                    [disabled]="selectedUser.isOpen || selectedUser.isConversationExpired || selectedUser.isBlock"
+                                                    class="btn p-0 open-chat-btn"
+                                                    (click)="open()"
+                                                >
+                                                    <!-- <img src="/assets/common/images/unlock.svg" alt="Icon"
+                                                    class="icon w-30" /> -->
+                                                    {{ l("openChat") }}
+                                                </button>
+
+                                                <!-- fix here -->
+                                                <div
+                                                    *ngIf="isButtonNotBot() && selectedUser.lockedByAgentName != this.appSession.user.userName"
+                                                    style="
+                                                        display: flex;
+                                                        flex-direction: column;
+                                                        justify-content: center;
+                                                        align-items: center;
+                                                        margin-right: 20px;
+                                                        margin-top: 23px;
+                                                    "
+                                                >
+                                                    <!-- <i style="color: #009789; font-size: 20px; margin-right: 10px" class="bi bi-lock-fill"></i> -->
+                                                    <i style="color: #009789; font-size: 20px; margin-bottom: 7px" class="fa fa-lock" aria-hidden="true"></i>
+                                                    <p>Locked by: {{ selectedUser.lockedByAgentName }}</p>
+                                                </div>
+
+                                                <!-- return here!! -->
+
+                                                <button
+                                                    *ngIf="
+                                                        !selectedUser.isConversationExpired &&
+                                                        selectedUser.isOpen &&
+                                                        !showLoaderOnOpenClose &&
+                                                        selectedUser.lockedByAgentName == this.appSession.user.userName
+                                                    "
+                                                    class="btn p-0 close-chat-btn"
+                                                    (click)="close()"
+                                                    [disabled]="!selectedUser.isOpen || selectedUser.isConversationExpired || selectedUser.isBlock || !disabledAnotherAgent"
+                                                >
+                                                    <!-- <img src="/assets/common/images/close.svg" alt="Icon"
+                                                    class="icon w-30" /> -->
+                                                    {{ l("closeChat") }}
+                                                </button>
+                                                <div *ngIf="showLoaderOnOpenClose" role="status" class="spinner-border">
+                                                    <span class="sr-only">Loading...</span>
+                                                </div>
+
+                                                <div class="dropdown">
+                                                    <button
+                                                        class="btn-icon btn btn-transparent hide-arrow btn-sm dropdown-toggle"
+                                                        type="button"
+                                                        data-bs-toggle="dropdown"
+                                                        aria-haspopup="true"
+                                                        aria-expanded="false"
+                                                    >
+                                                        <i class="bi bi-three-dots-vertical custom-more-dot"></i>
+                                                        <!-- <svg
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                            width="16"
+                                                            height="16"
+                                                            viewBox="0 0 24 24"
+                                                            fill="none"
+                                                            stroke="#009789"
+                                                            stroke-width="2"
+                                                            stroke-linecap="round"
+                                                            stroke-linejoin="round"
+                                                            class="feather feather-more-vertical font-medium-2"
+                                                        >
+                                                            <circle cx="12" cy="12" r="1"></circle>
+                                                            <circle cx="12" cy="5" r="1"></circle>
+                                                            <circle cx="12" cy="19" r="1"></circle>
+                                                        </svg> -->
+                                                    </button>
+                                                    <!-- return Here -->
+                                                    <div
+                                                        class="dropdown-menu dropdown-menu-end d-flex flex-column align-items-baseline"
+                                                        aria-labelledby="chat-header-actions"
+                                                        style="min-width: 11rem !important; padding: 7px"
+                                                    >
+                                                        <button
+                                                            *ngIf="this.filters.selectedLiveChatID != null && this.filters.selectedLiveChatID != 0 && selectedUser.isLockedByAgent"
+                                                            class="btn"
+                                                            (click)="showAssignUserModal()"
+                                                        >
+                                                        <span *ngIf=" !isButtonNotBot() && selectedUser.lockedByAgentName == this.appSession.user.userName &&statusID !== 3">
+                                                            <i class="bi bi-person-plus"></i> {{ l("assignTicket") }}
+                                                          </span>
+
+                                                         
+                                                        </button>
+                                                        <button
+                                                            *ngIf="this.filters.selectedLiveChatID == null || this.filters.selectedLiveChatID == 0"
+                                                            class="btn"
+                                                            (click)="showAssignToModal()"
+                                                            [disabled]="selectedUser.isConversationExpired || !selectedUser.isOpen || selectedUser.isBlock || !disabledAnotherAgent"
+                                                        >
+                                                            <span><i class="bi bi-person-plus"></i> {{ l("assignToUser") }}</span>
+                                                        </button>
+
+                                                        <button [(ngModel)]="selectedUser.isBlock" *ngIf="isAdmin" class="btn" (click)="blockUser(selectedUser)">
+                                                            <span *ngIf="!selectedUser.isBlock"> <i class="bi bi-person-slash"></i> {{ l("block") }}</span>
+                                                            <span *ngIf="selectedUser.isBlock"> <i class="bi bi-person-slash"></i> {{ l("unblock") }}</span>
+                                                        </button>
+
+                                                        <!-- <button *ngIf="isAdmin" class="btn" (click)="handleChangeGroup()">
+                                                            <span hidden *ngIf="!selectedUser.groupId"> <i class="bi bi-person-add"></i> {{ l("Add to Group") }}</span>
+                                                            <span *ngIf="selectedUser.groupId"> <i class="bi bi-person-fill-up"></i> {{ l("Change Group") }}</span>
+                                                        </button> -->
+
+                                                        <button
+                                                            [(ngModel)]="selectedUser.isComplaint"
+                                                            [attr.disabled]="!selectedUser.isOpen || selectedUser.isConversationExpired || !disabledAnotherAgent ? true : null"
+                                                            *ngIf="isAdmin"
+                                                            class="btn"
+                                                            (click)="updateIsComplaintSwitch($event)"
+                                                        >
+                                                            <span *ngIf="selectedUser.isComplaint"> <i class="bi bi-pin"></i> {{ l("unpin") }}</span>
+                                                            <span *ngIf="!selectedUser.isComplaint"> <i class="bi bi-pin"></i> {{ l("pin") }}</span>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </header>
+
+                                        <!-- <div class="alert-header">
+
+                                        </div> -->
+                                    </div>
+                                    <!--/ Chat Header -->
+
+                                    <!-- hiiiii -->
+                                    <ngb-alert *ngIf="this.selectedUser.isBlock" [dismissible]="false" type="custom">
+                                        <div class="d-flex w-100 justify-content-between align-items-center">
+                                            <div class="d-flex">
+                                                <i class="bi bi-arrow-clockwise mr-1"></i>
+                                                <span>You Blocked This Contact</span>
+                                            </div>
+                                            <div>
+                                                <button class="btn p-0 block-user-btn" (click)="blockUser(selectedUser)">
+                                                    {{ l("UnblockUser") }}
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </ngb-alert>
+
+                                    <!-- working here!! -->
+                                    <!-- User Chat messages -->
+                                    <div
+                                        class="user-chats over-flow-auto"
+                                  
+                                        [ngClass]="darkModeService.currentSkin === 'dark' ? 'bg-dark-image' : 'bg-white-image'"
+                                        #scrollChat
+                                        (scroll)="onScroll()"
+                                    >
+                                        <div class="row justify-content-center" *ngIf="showMessageLoader">
+                                            <div class="spinner-border text-primary" role="status">
+                                                <span class="sr-only">Loading...</span>
+                                            </div>
+                                        </div>
+                                        <div class="chats" *ngFor="let message of UserMessage; trackBy: trackByFunctionMessages" [id]="'message-' + message.id">
+                                            <div class="chat message">
+                                                <div class="chat-avatar" *ngIf="message.sender === 2 && message.type !== 'notification' && message.type !== 'note'">
+                                                    <span class="avatar box-shadow-1 cursor-pointer">
+                                                        <img *ngIf="message.agentId != '1000000'" [src]="profilePicture" alt="avatar" height="36" width="36" />
+                                                        <img *ngIf="message.agentId === '1000000'" src="../../../assets/images/botImage.png" alt="avatar" height="36" width="36" />
+                                                    </span>
+                                                </div>
+                                                <div
+                                                    class="chat-body"
+                                                    *ngIf="message.sender === 2 && message.type !== 'notification' && message.type !== 'note'"
+                                                    style="display: flex; justify-content: flex-end"
+                                                >
+                                                        <ng-container *ngIf="messageButtons(message?.text, message?.type)">
+                                                            <div style="display: flex; flex-direction: column; margin-right: 10px; max-width: 400px !important">
+                                                                <!--Reply Messages-->
+                                                                <span class="arrow-right">
+                                                                    <svg viewBox="0 0 8 13" width="8" height="13">
+                                                                        <path
+                                                                            opacity=".13"
+                                                                            fill="#0000000"
+                                                                            d="M6.467 3.568 0 13v-11.193h5.188c1.77 0 2.338-1.156 1.279-2.568z"
+                                                                        ></path>
+                                                                        <path fill="currentColor" d="M6.467 2.568 0 11.193V0h5.188c1.77 0 2.338 1.156 1.279 2.568z"></path>
+                                                                    </svg>
+                                                                </span>
+                                                                <div
+                                                                    class="chat-content"
+                                                                    [ngClass]="{
+                                                                        'chat-rightt': true,
+                                                                        rtl: message.isArabic,
+                                                                        ltr: !message.isArabic
+                                                                    }"
+                                                                    style="margin-right: 0px; border-top-right-radius: 0px"
+                                                                >
+                                                                    <div class="reply-msg-conrainer">
+                                                                        <div class="reply-div-msg">
+                                                                            <div class="reply-2 mb-1" *ngIf="selectMessageToReply">
+                                                                                <div>
+                                                                                    <div class="border-left-msg">
+                                                                                        <div>
+                                                                                            <div class="selectedUser" [ngClass]="messageToReply.isArabic ? 'rtl' : 'ltr'">
+                                                                                                <span>{{ selectedUser.displayName }}</span>
+                                                                                            </div>
+                                                                                            <div [ngClass]="messageToReply.isArabic ? 'rtl' : 'ltr'">
+                                                                                                <span>
+                                                                                                    {{ messageToReply.text }}
+                                                                                                </span>
+                                                                                            </div>
+                                                                                            <div
+                                                                                                *ngIf="messageToReply.mediaUrl"
+                                                                                                [ngClass]="messageToReply.isArabic ? 'rtl' : 'ltr'"
+                                                                                            >
+                                                                                                <img
+                                                                                                    *ngIf="messageToReply.type === 'image'"
+                                                                                                    class="reply-img"
+                                                                                                    [src]="messageToReply.mediaUrl"
+                                                                                                />
+                                                                                                <video
+                                                                                                    class="media"
+                                                                                                    [src]="messageToReply.mediaUrl"
+                                                                                                    *ngIf="messageToReply.type === 'video'"
+                                                                                                    controls
+                                                                                                ></video>
+                                                                                                <audio
+                                                                                                    [src]="messageToReply.mediaUrl"
+                                                                                                    *ngIf="messageToReply.type === 'audio'"
+                                                                                                    controls
+                                                                                                ></audio>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <!-- our text here -->
+                                                                             
+                                                                            <img
+                                                                                class="media"
+                                                                                alt="media"
+                                                                                lightbox
+                                                                                [fullImage]="{ path: message.mediaUrl }"
+                                                                                [backgroundOpacity]="0.5"
+                                                                                [src]="message.mediaUrl"
+                                                                                *ngIf="message.type === 'text' && message.mediaUrl?.length > 0"
+                                                                                width="360px"
+                                                                                height="300px"
+                                                                                style="border-radius: 12px;margin-bottom: 12px;"
+                                                                            />
+                                                                            <span
+                                                                                class="message-text"
+                                                                                *ngIf="message.type === 'text'"
+                                                                                [innerHTML]="this.tempMessageText | linkify"
+                                                                            ></span>
+                                                                            <br />
+
+                                                                            <img
+                                                                                class="media"
+                                                                                alt="media"
+                                                                                lightbox
+                                                                                [fullImage]="{ path: message.mediaUrl }"
+                                                                                [backgroundOpacity]="0.5"
+                                                                                [src]="message.mediaUrl"
+                                                                                *ngIf="message.type === 'image'"
+                                                                                width="360px"
+                                                                                height="300px"
+                                                                                style="border-radius: 12px;margin-bottom: 12px;"
+                                                                            />
+
+                                                                            <video class="media" [src]="message.mediaUrl" *ngIf="message.type === 'video'" controls></video>
+                                                                            <audio [src]="message.mediaUrl" *ngIf="message.type === 'audio'" controls></audio>
+
+                                                                            <div class="action-menu" *ngIf="message.type === 'image'">
+                                                                                <i
+                                                                                    (click)="downloadFromURL(message.mediaUrl, message.fileName)"
+                                                                                    class="fa fa-save"
+                                                                                    width="360px"
+                                                                                    height="300px"
+                                                                                ></i>
+                                                                            </div>
+                                                                            <div
+                                                                                *ngIf="message.type === 'application' || message.type === 'file' || message.type === 'document'"
+                                                                                class="file"
+                                                                            >
+                                                                            <div class="field">
+                                                                                <i class="fa fa-download" (click)="downloadFromURL(message.mediaUrl, message.fileName)"></i>
+                                                                            </div>
+
+                                                                                <div>
+                                                                                    <p class="text">{{ message.fileName }}</p>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="text-right">
+                                                                                <span class="time">{{ message.createDate | date : "shortTime" }}</span>
+                                                                                <i *ngIf="message.status === 1" class="bi bi-check2-all margin-left"></i>
+                                                                                <i *ngIf="message.status === 2" class="bi bi-check2-all blue margin-left"></i>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <!-- buttons here -->
+                                                                <div [ngClass]="{ rtl: message.isArabic, ltr: !message.isArabic }" [ngClass]="[getClassBasedOnMessageCount()]">
+                                                                    <ng-container *ngFor="let button of tempButtonsList">
+                                                                        <ng-container *ngIf="tempButtonsList?.length > 0">
+                                                                            <p
+                                                                                [ngClass]="{ 'chat-rightt': true }"
+                                                                                class="chat-content"
+                                                                                style="border-radius: 40px; padding-block: 3px"
+                                                                            >
+                                                                                {{ button }}
+                                                                            </p>
+                                                                        </ng-container>
+                                                                    </ng-container>
+                                                                </div>
+                                                            </div>
+                                                        </ng-container>
+
+                                                    <!--Reply Messages-->
+                                                    <!--End Of Rwply Meassages-->
+                                                </div>
+                                            </div>
+                                            <div class="chat chat-left">
+                                                <div class="chat-avatar" *ngIf="message.sender === 1">
+                                                    <span class="avatar box-shadow-1 cursor-pointer">
+
+                                                    <img
+                                                         *ngIf="selectedUser.channel === 'instagram'"
+                                                        [src]="selectedUser.instagramUserInfoModel.profile_pic"
+                                                        alt="customer"
+                                                        width="36"
+                                                        height="36"
+                                                    />
+                                                     <img
+                                                         *ngIf="selectedUser.channel === 'facebook'"
+                                                        [src]="selectedUser.facebookUserInfoModel.profile_pic"
+                                                        alt="customer"
+                                                        width="36"
+                                                        height="36"
+                                                    />                                                   
+                                                        <img
+                                                            *ngIf="selectedUser.avatarUrl && selectedUser.channel !== 'instagram'&& selectedUser.channel !== 'facebook'"
+                                                            src="../../../assets//images/{{ selectedUser.avatarUrl }}.png"
+                                                            alt="avatar"
+                                                            height="36"
+                                                            width="36"
+                                                        />
+                                                    </span>
+                                                </div>
+                                                <span class="arrow" *ngIf="message.type !== 'notification' && message.source_type !== 'post' && message.sender === 1 && message.type !== 'note'">
+                                                    <svg viewBox="0 0 8 13" width="8" height="13" class="">
+                                                        <path opacity=".13" fill="#0000000" d="M1.533 3.568 8 12.193V1H2.812C1.042 1 .474 2.156 1.533 3.568z"></path>
+                                                        <path fill="currentColor" d="M1.533 2.568 8 11.193V0H2.812C1.042 0 .474 1.156 1.533 2.568z"></path>
+                                                    </svg>
+                                                </span>
+                                                <div class="chat-body" *ngIf="message.sender === 1">
+                                                    <!-- <div class="comment-actions" (click)="replyToMessage(message)">
+                                                    <div class="comment-action">
+                                                        <i class="bi bi-reply-fill"></i>
+                                                    </div>
+                                                </div> -->
+                                                    <div
+                                                        class="chat-leftt chat-content"
+                                                        [ngClass]="hasArabicCodepoints(message.text) ? 'rtl' : 'ltr'"
+                                                        style="border-top-left-radius: 0px"
+                                                    >
+                                                        <div *ngIf="message.source_type === 'post' || message.media_type === 'image' || message.media_type === 'video'">
+                                                            <div class="link-preview">
+                                                                <img *ngIf="message.media_type === 'image'" [src]="message.image_url" alt="Preview Image" />
+                                                                <img *ngIf="message.media_type === 'video'" [src]="message.thumbnail_url" alt="Preview Image" />
+
+                                                                <div>
+                                                                    <h3>{{ message.headline }}</h3>
+                                                                    <p>{{ message.body }}</p>
+                                                                    <!-- <a [href]="message.source_url" target="_blank">{{ message.source_url }}</a> -->
+                                                                </div>
+                                                            </div>
+                                                            <div class="body-text">
+                                                                <p>
+                                                                    As requested, here's the link to our latest product:
+                                                                    <a [href]="message.source_url" target="_blank">{{ message.source_url }}</a>
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                        <!-- customer text -->
+                                                        <span
+                                                            class="message-text"
+                                                            *ngIf="message.type !== 'notification' && message.source_type !== 'post'&& message.type !== 'note'"
+                                                            [innerHTML]="message.text | linkify"
+                                                        ></span>
+
+                                                        <br />
+
+                                                        <img
+                                                            class="media"
+                                                            lightbox
+                                                            [fullImage]="{ path: message.mediaUrl }"
+                                                            [backgroundOpacity]="0.5"
+                                                            [src]="message.mediaUrl"
+                                                            *ngIf="message.type === 'image'"
+                                                            width="360px"
+                                                            alt="Media"
+                                                            height="300px"
+                                                            style="border-radius: 12px;margin-bottom: 12px;"
+                                                        />
+
+                                                        <video class="media" [src]="message.mediaUrl" *ngIf="message.type === 'video'" controls></video>
+                                                        <audio [src]="message.mediaUrl" *ngIf="message.type === 'audio'" controls></audio>
+
+                                                        <div class="action-menu" *ngIf="message.type === 'image'">
+                                                            <i (click)="downloadFromURL(message.mediaUrl, message.fileName)" class="fa fa-save" width="360px" height="300px"></i>
+                                                        </div>
+                                                        <div *ngIf="message.type === 'application' || message.type === 'file' || message.type === 'document'" class="file">
+                                                            <div class="field">
+                                                                <i class="fa fa-download" (click)="downloadFromURL(message.mediaUrl, message.fileName)"></i>
+                                                            </div>
+
+                                                            <div>
+                                                                <p class="text">{{ message.fileName }}</p>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="text-right">
+                                                            <span class="time-replay">{{ message.createDate | date : "shortTime" }}</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="divider">
+                                                <div class="card new-notfication" *ngIf="message.type === 'notification'">
+                                                    <span class="natification d-flex justify-content-center cursor-pointer">     
+                                                        <span class="openByCard">
+                                                            <p *ngIf="message.type === 'notification'">
+                                                                {{ message.notificationsText.split(',')[0]  }}
+                                                            </p>
+                                                            <p *ngIf="message.type === 'notification'">
+                                                                {{ message.createDate | date : "dd-MMM-yyyy,hh:mm a" }}
+                                                            </p>
+                                                        </span>
+                                                    </span>
+                                                </div>
+                                                <div class="divider-text">{{ message.createDate | date : "short" }}</div>
+                                            </div>
+
+ <!-- Note -->
+<div class="note-wrapper" *ngIf="message.type === 'note'">
+
+  <div class="note-box">
+
+     <div class="note-header">
+      <span class="note-agent">From : {{ message.agentName }}</span>
+    </div>
+
+    <strong>{{ message.text }}</strong>
+    <div class="note-date">{{ message.createDate | date: 'dd-MMM-yyyy, hh:mm a' }}</div>
+  </div>
+</div>
+
+                                        </div>
+                                    </div>
+                                    <!-- User Chat messages -->
+
+
+                        <div  class="container-textarea">
+                                    <div class="note-button" >
+                                      <label class="note-switch " for="isNoteMode5">
+                                        <input
+                                          type="checkbox"
+                                          [(ngModel)]="isNoteMode"
+                                          name="isNoteMode5"
+                                          id="isNoteMode5"
+                                            title="Add Note"
+                                          (change)="onToggleNoteMode()"
+                                        />
+                                        <span class="slider"></span>
+                                      </label>
+                                      <div class="note-switch-label">Add Note</div>
+                                    </div>
+
+
+
+                                    <form style="width: 88%;padding-left: 5px;"
+                                        *ngIf="theme === 'theme12'"
+                                        class="chat-app-form"
+                                        [ngClass]="darkModeService.currentSkin === 'dark' ? 'bg-dark' : 'bg-white'"
+                                        [formGroup]="chatForm"
+                                        name="message"
+                                        role="form"
+                                        [hidden]="(!disabledAnotherAgent || countdown === 0 || selectedUser.isBlock || isNoteMode ) "
+                                    >
+
+
+
+                                        <!--Reply Section-->
+                                        <div *ngIf="selectMessageToReply " class="reply-conrainer">
+                                            <div class="reply-div">
+                                                <div class="reply-2">
+                                                    <i class="bi bi-x close" (click)="closeReply()"></i>
+                                                    <div class="p-2">
+                                                        <div class="border-left">
+                                                            <div>
+                                                                <div class="selectedUser" [ngClass]="messageToReply.isArabic ? 'rtl' : 'ltr'">
+                                                                    <span>{{ selectedUser.displayName }}</span>
+                                                                </div>
+                                                                <div [ngClass]="messageToReply.isArabic ? 'rtl' : 'ltr'">
+                                                                    <span>
+                                                                        {{ messageToReply.text }}
+                                                                    </span>
+                                                                </div>
+                                                                <div *ngIf="messageToReply.mediaUrl" [ngClass]="messageToReply.isArabic ? 'rtl' : 'ltr'">
+                                                                    <img *ngIf="messageToReply.type === 'image'" class="reply-img" [src]="messageToReply.mediaUrl" />
+                                                                    <video class="media" [src]="messageToReply.mediaUrl" *ngIf="messageToReply.type === 'video'" controls></video>
+                                                                    <audio [src]="messageToReply.mediaUrl" *ngIf="messageToReply.type === 'audio'" controls></audio>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div></div>
+                                        </div>
+
+                                        <div class="input-group input-group-merge form-send-message">
+
+
+
+
+                                            
+                                            <textarea
+                                            type="text"
+                                            class="message"
+                                            id="ChatMessage"
+                                            formControlName="text"
+                                            [(ngModel)]="newMessage"
+                                            #ChatMessage
+                                            [ngModelOptions]="{ standalone: true }"
+                                            [ngClass]="{
+                                                'form-control-dark': darkModeService.currentSkin === 'dark',
+                                                'form-control': darkModeService.currentSkin != 'dark',
+                                                'rtl': isArabic,
+                                                'ltr': !isArabic,
+                                                'disabled-textarea': disabledkeyboard
+                                            }"
+                                            (keypress)="chatBoxKeyup($event)"
+                                            (input)="detectLanguage($event)"
+                                            placeholder="{{ 'TypeAMessageHere' | localize }}"
+                                            [style]="{ display: files.length > 0 ? 'none' : 'block' }"
+                                            [attr.disabled]="disabledkeyboard ? true : null"
+                                            (focus)="onFocus()">
+                                        </textarea>
+                            
+                                        
+                                            <p class="recording-timer">
+                                                <img alt="User" id="animation" width="300px" src="/assets/common/images/waves.svg" *ngIf="_recordRTC?.recordingTimer" />
+                                                <!-- <img  alt="User" src="/assets/common/images/record.svg"
+                                                *ngIf="_recordRTC?.recordingTimer" /> -->
+                                                {{ _recordRTC?.recordingTimer }}
+                                            </p>
+
+                                            <ng-template [ngIf]="_recordRTC?.blobUrl">
+                                                <audio id="record" class="voice-message-preview" [src]="_recordRTC?.blobUrl" controls></audio>
+                                            </ng-template>
+
+                                            <div
+                                                calass="message form-control "
+                                                style="width: 100%; display: flex"
+                                                *ngIf="files.length > 0"
+                                                [ngClass]="{ 'file-upload-overlay-show': files.length > 0 }"
+                                            >
+                                                <span class="d-flex input-group input-group-merge form-send-message" *ngFor="let f of files; let i = index">
+                                                    <div class="mb-2">
+                                                        <span>{{ f.name }} ({{ f.type }})</span>
+                                                    </div>
+                                                    <div (click)="onRemove(i)">
+                                                        <i class="fa fa-trash"></i>
+                                                    </div>
+                                                </span>
+                                                <button type="button" class="btn btn-primary-info send" (click)="submitForm()">
+                                                    <i data-feather="send" class="d-lg-none"></i>
+                                                    <span class="d-none d-lg-block">{{ l("Send") }}</span>
+                                                </button>
+                                            </div>
+                                            <input #file type="file" id="upload-file" hidden (change)="onSelect($event)" />
+                                             <div
+                                             [ngClass]="{
+                                                 'input-group-text-dark': darkModeService.currentSkin === 'dark',
+                                                 'input-group-text': darkModeService.currentSkin !== 'dark',
+                                                 'disabled-div': disabledkeyboard
+                                             }"
+                                             (click)="!disabledkeyboard && showEmoji()"
+                                             placement="top"
+                                             [ngbTooltip]="'insertEmoji' | localize"
+                                             [style]="{ display: files.length > 0 || _recordRTC?.blobUrl || _recordRTC?.recordingTimer || recording ? 'none' : '' }"
+                                             [attr.disabled]="disabledkeyboard ? true : null"
+                                         >
+                                             <i class="cursor-pointer text-secondary fa fa-smile fa-lg" aria-hidden="true"></i>
+                                         </div>
+                                        
+                                            <!-- Quick Answers here-->
+                                            <button
+                                                placement="top"
+                                                [ngbTooltip]="'quickAnswers' | localize"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#quickAnswersModal"
+                                                class="cursor-pointer"
+                                                [ngClass]="darkModeService.currentSkin === 'dark' ? 'input-group-text-dark ' : 'input-group-text'"
+                                                [style]="{ display: files.length > 0 || _recordRTC?.blobUrl || _recordRTC?.recordingTimer || recording ? 'none' : 'block' }"
+                                                [disabled]="disabledkeyboard"
+                                                (click)="getAllTemplates()"
+                                                >
+                                                <span>QA</span>
+                                                
+                                            </button>
+
+
+
+
+                
+
+                                            <div
+                                            [ngClass]="{
+                                                'input-group-text-dark': darkModeService.currentSkin === 'dark',
+                                                'input-group-text': darkModeService.currentSkin !== 'dark',
+                                                'disabled-div': disabledkeyboard
+                                            }"
+                                            (click)="!disabledkeyboard && showFileUpload()"
+                                            placement="top"
+                                            [ngbTooltip]="'File' | localize"
+                                            [style]="{ display: files.length > 0 || _recordRTC?.blobUrl || _recordRTC?.recordingTimer ? 'none' : '' }"
+                                            [attr.disabled]="disabledkeyboard ? true : null"
+                                        >
+                                            <i class="cursor-pointer text-secondary fa fa-paperclip fa-lg" aria-hidden="true"></i>
+                                        </div>
+                                            <button
+                                                type="button"
+                                                class="btn btn-primary-info send d-flex align-items-center"
+                                                *ngIf="ChatMessage.value.length > 0 || _recordRTC?.blobUrl"
+                                                [disbaled]="files.length <= 0"
+                                                (click)="submitForm()"
+                                            >
+                                                <i class="bi bi-send mr-1"></i>
+                                                <span class="d-none d-lg-block">{{ l("Send") }}</span>
+                                            </button>
+                                        </div>
+
+                                        
+                                    </form>
+
+
+
+
+                                                                        <!--/ Note Chat form -->
+
+                                    <form style="width: 90%"
+                                        *ngIf="theme === 'theme12'"
+                                        class="chat-app-form"
+                                        [ngClass]="darkModeService.currentSkin === 'dark' ? 'bg-dark' : 'bg-white'"
+                                        [formGroup]="chatForm"
+                                        name="message"
+                                        role="form"
+                                        [hidden]="!isNoteMode "
+                                    >
+
+
+
+                                            <!-- Switch Node here-->
+<!-- <div class="note-switch-wrapper">
+  <label class="note-switch" for="isNoteMode2">
+    <input
+      type="checkbox"
+      [(ngModel)]="isNoteMode"
+           name="isNoteMode2"
+      id="isNoteMode2"
+      (change)="onToggleNoteMode()"
+    />
+    <span class="slider"></span>
+  </label>
+  <div class="note-switch-label">Switch Note</div>
+</div> -->
+                                        <!--Reply Section-->
+                                        <div *ngIf="selectMessageToReply " class="reply-conrainer">
+                                            <div class="reply-div">
+                                                <div class="reply-2">
+                                                    <i class="bi bi-x close" (click)="closeReply()"></i>
+                                                    <div class="p-2">
+                                                        <div class="border-left">
+                                                            <div>
+                                                                <div class="selectedUser" [ngClass]="messageToReply.isArabic ? 'rtl' : 'ltr'">
+                                                                    <span>{{ selectedUser.displayName }}</span>
+                                                                </div>
+                                                                <div [ngClass]="messageToReply.isArabic ? 'rtl' : 'ltr'">
+                                                                    <span>
+                                                                        {{ messageToReply.text }}
+                                                                    </span>
+                                                                </div>
+                                                                <div *ngIf="messageToReply.mediaUrl" [ngClass]="messageToReply.isArabic ? 'rtl' : 'ltr'">
+                                                                    <img *ngIf="messageToReply.type === 'image'" class="reply-img" [src]="messageToReply.mediaUrl" />
+                                                                    <video class="media" [src]="messageToReply.mediaUrl" *ngIf="messageToReply.type === 'video'" controls></video>
+                                                                    <audio [src]="messageToReply.mediaUrl" *ngIf="messageToReply.type === 'audio'" controls></audio>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div></div>
+                                        </div>
+
+                                        <div class="input-group input-group-merge form-send-message">
+
+
+
+
+                                            
+                                            <textarea
+                                            type="text"
+                                            class="message"
+                                            id="ChatMessage"
+                                            formControlName="text"
+                                            [(ngModel)]="newMessage"
+                                            #ChatMessage
+                                            [ngModelOptions]="{ standalone: true }"
+                                            [ngStyle]="isNoteMode ? { 'background-color': '#ffecb3' } : {}"
+                                            [ngClass]="{
+                                                'form-control-dark': darkModeService.currentSkin === 'dark',
+                                                'form-control': darkModeService.currentSkin != 'dark',
+                                                'rtl': isArabic,
+                                                'ltr': !isArabic,
+                                                'disabled-textarea': disabledkeyboard
+                                            }"
+                                            (keypress)="chatBoxKeyup($event)"
+                                            (input)="detectLanguage($event)"
+                                            placeholder="{{ 'This note is visible to you and other agents. It will not be shown to the customer.' | localize }}"
+                                            [style]="{ display: files.length > 0 ? 'none' : 'block' }"
+                                            [attr.disabled]="disabledkeyboard ? true : null"
+                                            (focus)="onFocus()">
+                                        </textarea>
+                            
+                                        
+                                            <p class="recording-timer">
+                                                <img alt="User" id="animation" width="300px" src="/assets/common/images/waves.svg" *ngIf="_recordRTC?.recordingTimer" />
+                                                <!-- <img  alt="User" src="/assets/common/images/record.svg"
+                                                *ngIf="_recordRTC?.recordingTimer" /> -->
+                                                {{ _recordRTC?.recordingTimer }}
+                                            </p>
+
+                                            <ng-template [ngIf]="_recordRTC?.blobUrl">
+                                                <audio id="record" class="voice-message-preview" [src]="_recordRTC?.blobUrl" controls></audio>
+                                            </ng-template>
+
+                                            <div
+                                                calass="message form-control "
+                                                style="width: 100%; display: flex"
+                                                *ngIf="files.length > 0"
+                                                [ngClass]="{ 'file-upload-overlay-show': files.length > 0 }"
+                                            >
+                                                <span class="d-flex input-group input-group-merge form-send-message" *ngFor="let f of files; let i = index">
+                                                    <div class="mb-2">
+                                                        <span>{{ f.name }} ({{ f.type }})</span>
+                                                    </div>
+                                                    <div (click)="onRemove(i)">
+                                                        <i class="fa fa-trash"></i>
+                                                    </div>
+                                                </span>
+                                                <button type="button" class="btn btn-primary-info send" (click)="submitForm()">
+                                                    <i data-feather="send" class="d-lg-none"></i>
+                                                    <span class="d-none d-lg-block">{{ l("Send") }}</span>
+                                                </button>
+                                            </div>
+                                            <input #file type="file" id="upload-file" hidden (change)="onSelect($event)" />
+                                           
+                                           
+                                            <div
+                                                [ngClass]="{
+                                                    'input-group-text-dark': darkModeService.currentSkin === 'dark',
+                                                    'input-group-text': darkModeService.currentSkin !== 'dark',
+                                                    'disabled-div': disabledkeyboard || isNoteMode
+                                                }"
+                                                (click)="!(disabledkeyboard || isNoteMode) && showEmoji()"
+                                                placement="top"
+                                                [ngbTooltip]="'insertEmoji' | localize"
+                                                [style]="{ display: files.length > 0 || _recordRTC?.blobUrl || _recordRTC?.recordingTimer || recording ? 'none' : '' }"
+                                                [attr.disabled]="disabledkeyboard || isNoteMode ? true : null"
+                                            >
+                                                <i class="cursor-pointer text-secondary fa fa-smile fa-lg" aria-hidden="true"></i>
+                                            </div>
+                                        
+                                            <!-- Quick Answers here-->
+                                            <button
+                                                placement="top"
+                                                [ngbTooltip]="'quickAnswers' | localize"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#quickAnswersModal"
+                                                class="cursor-pointer"
+                                                [ngClass]="darkModeService.currentSkin === 'dark' ? 'input-group-text-dark ' : 'input-group-text'"
+                                                [style]="{ display: files.length > 0 || _recordRTC?.blobUrl || _recordRTC?.recordingTimer || recording ? 'none' : 'block' }"
+                                                [disabled]="disabledkeyboard||isNoteMode"
+                                                (click)="getAllTemplates()"
+                                                >
+                                                <span>QA</span>
+                                                
+                                            </button>
+                                        <div
+                                            [ngClass]="{
+                                                'input-group-text-dark': darkModeService.currentSkin === 'dark',
+                                                'input-group-text': darkModeService.currentSkin !== 'dark',
+                                                'disabled-div': disabledkeyboard || isNoteMode
+                                            }"
+                                            (click)="!(disabledkeyboard || isNoteMode) && showFileUpload()"
+                                            placement="top"
+                                            [ngbTooltip]="'File' | localize"
+                                            [style]="{ display: files.length > 0 || _recordRTC?.blobUrl || _recordRTC?.recordingTimer ? 'none' : '' }"
+                                            [attr.disabled]="disabledkeyboard || isNoteMode ? true : null"
+                                        >
+                                            <i class="cursor-pointer text-secondary fa fa-paperclip fa-lg" aria-hidden="true"></i>
+                                        </div>
+
+
+                                            <button
+                                                type="button"
+                                                class="btn btn-primary-info send d-flex align-items-center"
+                                                *ngIf="ChatMessage.value.length > 0 || _recordRTC?.blobUrl"
+                                                [disbaled]="files.length <= 0"
+                                                (click)="submitForm()"
+                                            >
+                                                <i class="bi bi-send mr-1"></i>
+                                                <span class="d-none d-lg-block">{{ l("Send") }}</span>
+                                            </button>
+                                        </div>
+
+                                        
+                                    </form>
+
+
+
+                                                  <!--/ NotOpen Chat form -->
+                                    <div  style="width: 90%" 
+                                     [hidden]="!(!disabledAnotherAgent || countdown === 0 || selectedUser.isBlock || isNoteMode ) "
+                                    [ngClass]="darkModeService.currentSkin === 'dark' ? 'bg-dark' : 'bg-white'"
+                                    class="chat-app-form" *ngIf="(selectedUser.isBlock || !selectedUser.isOpen || selectedUser.isLockedByAgent )&& !isNoteMode ">
+                                        
+                                        
+     
+                                        <div class="input-group input-group-merge form-send-message"  >
+                                            <textarea
+                                                type="text"
+                                                class="message"
+                                                id="ChatMessage"
+                                                [ngModelOptions]="{ standalone: true }"
+                                                [ngClass]="{
+                                                    'form-control-dark': darkModeService.currentSkin === 'dark',
+                                                    'form-control': darkModeService.currentSkin != 'dark',
+                                                    rtl: isArabic,
+                                                    ltr: !isArabic
+                                                }"
+                                                placeholder="{{ 'TypeAMessageHere' | localize }}"
+                                                [style]="{ display: files.length > 0 ? 'none' : 'block' }"
+                                                disabled
+                                            >
+                                            </textarea>
+
+                                            <div
+                                                calass="message form-control "
+                                                style="width: 100%; display: flex"
+                                                *ngIf="files.length > 0"
+                                                [ngClass]="{ 'file-upload-overlay-show': files.length > 0 }"
+                                            ></div>
+                                            <input type="file" id="upload-file" hidden disabled />
+
+                                            <div
+                                                [ngClass]="darkModeService.currentSkin === 'dark' ? 'input-group-text-dark ' : 'input-group-text'"
+                                                style="background-color: #efefef"
+                                                placement="top"
+                                                [ngbTooltip]="'insertEmoji' | localize"
+                                                [style]="{ display: files.length > 0 || _recordRTC?.blobUrl || _recordRTC?.recordingTimer || recording ? 'none' : '' }"
+                                            >
+                                                <i class="cursor-pointer text-secondary fa fa-smile fa-lg" aria-hidden="true"></i>
+                                            </div>
+                                            <button
+                                                placement="top"
+                                                [ngbTooltip]="'quickAnswers' | localize"
+                                                data-bs-toggle="modal"
+                                                style="background-color: #efefef"
+                                                class="cursor-pointer"
+                                                [ngClass]="darkModeService.currentSkin === 'dark' ? 'input-group-text-dark ' : 'input-group-text'"
+                                                [style]="{ display: files.length > 0 || _recordRTC?.blobUrl || _recordRTC?.recordingTimer || recording ? 'none' : 'block' }"
+                                                disabled
+                                                (click)="getAllTemplates()"
+                                            >
+                                                <span>QA</span>
+                                            </button>
+
+                                            <div
+                                                [ngClass]="darkModeService.currentSkin === 'dark' ? 'input-group-text-dark ' : 'input-group-text'"
+                                                style="background-color: #efefef"
+                                                placement="top"
+                                                [ngbTooltip]="'File' | localize"
+                                                [style]="{ display: files.length > 0 || _recordRTC?.blobUrl || _recordRTC?.recordingTimer ? 'none' : '' }"
+                                            >
+                                                <i class="cursor-pointer text-secondary fa fa-paperclip fa-lg" aria-hidden="true"></i>
+                                            </div>
+                                            <button
+                                                [style]="{ display: files.length > 0 ? 'none' : '' }"
+                                                type="button"
+                                                class="btn btn-dark send d-flex align-items-center"
+                                                disabled
+                                            >
+                                                <i class="bi bi-send-slash mr-1"></i>
+                                                <span class="d-none d-lg-block">{{ l("Send") }}</span>
+                                            </button>
+                                        </div>
+                                    </div>
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+                      
+ 
+
+                                    <div #emojiMart [ngClass]="isLanguageArabic ? 'rtl' : ''">
+                                        <emoji-mart
+                                            title="Pick your emoji…"
+                                            (emojiClick)="addEmoji($event)"
+                                            emoji="point_up"
+                                            [hidden]="hideEmoji"
+                                            [darkMode]="darkModeService.currentSkin === 'dark'"
+                                            [style]="{ display: files.length > 0 ? 'none' : '' }"
+                                        >
+                                        </emoji-mart>
+                                    </div>
+                                   
+                                    <!--/ Submit Chat form -->
+                                </div>
+                                <!--/ Active Chat -->
+                            </section>
+                            <!--/ Main chat area -->
+                        </div>
+                    </div>
+                    <div class="body-content-overlay" [ngClass]="profileOpend ? 'show' : ''" (click)="closeProfile()"></div>
+                </div>
+
+ 
+
+<div class="user-profile-sidebar"
+     name="chat-active-sidebar2"
+     overlayClass="body-content-overlay2"
+     hideOnEsc="true"
+     [ngClass]="{ show: profileNote }">
+
+  <div class="profile-sidebar-container" style="position: relative;">
+
+    <!-- زر الإغلاق X في الأعلى دائمًا -->
+    <button type="button"
+            class="btn btn-outline-danger"
+            (click)="closeProfile()"
+            style="
+              position: absolute;
+              top: 10px;
+              right: 10px;
+              border-radius: 50%;
+              width: 36px;
+              height: 36px;
+              padding: 0;
+              font-size: 20px;
+              line-height: 1;
+              text-align: center;
+            ">
+      &times;
+    </button>
+
+    <!-- قائمة الملاحظات -->
+    <div class="note-list" style="padding-top: 60px;"> <!-- padding-top to avoid overlap with the X -->
+      <div class="note"
+           *ngFor="let note of ListNote; let index = index"
+           (click)="onSearchEnter(note); setIndex(index)"
+           style="
+             background: linear-gradient(135deg, #fff9c4, #ffe082);
+             border: 1px solid #ffca28;
+             border-radius: 8px;
+             padding: 10px;
+             margin: 8px;
+             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+           ">
+        <div class="note-title" style="font-weight: bold; color: #1565c0;">{{ note.agentName }}</div>
+        <div class="note-text" style="color: #333;">{{ note.text }}</div>
+        <div class="note-date" style="color: #777; font-size: 12px;">{{ note.createDate | date: 'dd-MMM-yyyy, hh:mm a' }}</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="body-content-overlay2" [ngClass]="profileOpend ? 'show' : ''" (click)="closeProfile()"></div>
+</div>
+
+
+
+
+
+
+
+            <!-- Quick answers modal-->
+            <div class="modal fade" id="quickAnswersModal" tabindex="-1" aria-labelledby="quickAnswersModal">
+                <div class="modal-dialog modal-dialog-scrollable">
+                    <div class="modal-content">
+                        <header class="user-profile-header">
+                            <div class="modal-header">
+                                <h2>{{ l("quickAnswers") }}</h2>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <!-- User Information -->
+                        </header>
+                        <div class="user-profile-sidebar-area" [perfectScrollbar]>
+                            <ul>
+                                <li
+                                    data-bs-dismiss="modal"
+                                    aria-label="Close"
+                                    *ngFor="let template of templates"
+                                    class="template-text p-1 cursor-pointer"
+                                    (click)="getTemplateMessage(template.templateMessage.id)"
+                                    [title]="titleMessage"
+                                >
+                                    {{ template.templateMessage.templateMessageName }}
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--enfd of quick answers modal-->
+            <assignToModal #assignToModal2 (modalSave)="assigned($event)" [agentsList]="agentsList"></assignToModal>
+            <appteaminboxtemplatemodal #appteaminboxtemplatemodal (getTemplateList)="handleTemplateList($event)" [perantTemplateList]="template"></appteaminboxtemplatemodal>
+            <!-- <app-assign-users-modal #assignusersmodal [users]="[]"></app-assign-users-modal> -->
+            <app-send-message-modal #sendMessageTeamInbox3 [template]="template" (getTemplateList)="handleTemplateList($event)"></app-send-message-modal>
+            <app-assign-ticket-modal #assignusersmodal [users]="[]"></app-assign-ticket-modal>
+            <app-assign-ticket-modal></app-assign-ticket-modal>
+
+            <!-- <app-facebook-preview></app-facebook-preview> -->
+        </div>
+    </div>
+</div>

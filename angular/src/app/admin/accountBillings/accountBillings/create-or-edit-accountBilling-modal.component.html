@@ -1,0 +1,114 @@
+﻿<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form *ngIf="active" #accountBillingForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <span *ngIf="accountBilling.id">{{l("EditAccountBilling")}}</span>
+                        <span *ngIf="!accountBilling.id">{{l("CreateNewAccountBilling")}}</span>
+                    </h4>
+                    <button type="button" class="close" (click)="close()" aria-label="Close" [disabled]="saving">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                 
+
+					<div class="form-group m-form__group">
+                        <label for="InfoSeedServiceServiceName">{{l("InfoSeedService")}}</label>
+                        <div class="input-group">
+                            <input class="form-control" id="InfoSeedServiceServiceName" name="infoSeedServiceServiceName" [(ngModel)]="infoSeedServiceServiceName" type="text" disabled>     
+                            <div class="input-group-append">
+                                <button class="btn btn-primary blue" (click)="openSelectInfoSeedServiceModal()" type="button"><i class="fa fa-search"></i> {{l("Pick")}}</button>
+                            </div> <div class="input-group-prepend">
+                                <button class="btn btn-danger btn-icon" type="button" (click)="setInfoSeedServiceIdNull()"><i class="fa fa-times"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <input class="form-control" name="accountBilling.infoSeedServiceId" [(ngModel)]="accountBilling.infoSeedServiceId" type="text"  hidden>
+		 
+					<div class="form-group m-form__group">
+                        <label for="ServiceTypeServicetypeName">{{l("ServiceType")}}</label>
+                        <div class="input-group">
+                            <input class="form-control" id="ServiceTypeServicetypeName" name="serviceTypeServicetypeName" [(ngModel)]="serviceTypeServicetypeName" type="text" disabled>     
+                            <div class="input-group-append">
+                                <button class="btn btn-primary blue" (click)="openSelectServiceTypeModal()" type="button"><i class="fa fa-search"></i> {{l("Pick")}}</button>
+                            </div> <div class="input-group-prepend">
+                                <button class="btn btn-danger btn-icon" type="button" (click)="setServiceTypeIdNull()"><i class="fa fa-times"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <input class="form-control" name="accountBilling.serviceTypeId" [(ngModel)]="accountBilling.serviceTypeId" type="text"  hidden>
+		 
+					<div class="form-group m-form__group">
+                        <label for="CurrencyCurrencyName">{{l("Currency")}}</label>
+                        <div class="input-group">
+                            <input class="form-control" id="CurrencyCurrencyName" name="currencyCurrencyName" [(ngModel)]="currencyCurrencyName" type="text" disabled>     
+                            <div class="input-group-append">
+                                <button class="btn btn-primary blue" (click)="openSelectCurrencyModal()" type="button"><i class="fa fa-search"></i> {{l("Pick")}}</button>
+                            </div> <div class="input-group-prepend">
+                                <button class="btn btn-danger btn-icon" type="button" (click)="setCurrencyIdNull()"><i class="fa fa-times"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <input class="form-control" name="accountBilling.currencyId" [(ngModel)]="accountBilling.currencyId" type="text"  hidden>
+		 
+					<div class="form-group m-form__group">
+                        <label for="BillingBillingID">{{l("Billing")}}</label>
+                        <div class="input-group">
+                            <input class="form-control" id="BillingBillingID" name="billingBillingID" [(ngModel)]="billingBillingID" type="text" disabled>     
+                            <div class="input-group-append">
+                                <button class="btn btn-primary blue" (click)="openSelectBillingModal()" type="button"><i class="fa fa-search"></i> {{l("Pick")}}</button>
+                            </div> <div class="input-group-prepend">
+                                <button class="btn btn-danger btn-icon" type="button" (click)="setBillingIdNull()"><i class="fa fa-times"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <input class="form-control" name="accountBilling.billingId" [(ngModel)]="accountBilling.billingId" type="text"  hidden>
+		 
+
+								<div class="form-group">
+									<label for="AccountBilling_BillID">{{l("BillID")}} *</label>
+									<input type="text" #AccountBilling_BillID="ngModel" id="AccountBilling_BillID" class="form-control" [(ngModel)]="accountBilling.billID" name="BillID"   minlength="0"  maxlength="256"  required/>
+								    <validation-messages [formCtrl]="AccountBilling_BillID"></validation-messages>
+								</div>
+					
+								<div class="form-group">
+									<label for="AccountBilling_BillDateFrom">{{l("BillDateFrom")}}</label>
+									 <input required class="form-control m-input" #AccountBilling_BillDateFrom type="datetime" bsDatepicker  datePickerMomentModifier  [(date)]="accountBilling.billDateFrom" id="AccountBilling_BillDateFrom" name="AccountBilling_BillDateFrom">
+									<validation-messages [formCtrl]="AccountBilling_BillDateFrom"></validation-messages>
+								</div>
+					
+								<div class="form-group">
+									<label for="AccountBilling_BillDateTo">{{l("BillDateTo")}}</label>
+									 <input required class="form-control m-input" #AccountBilling_BillDateTo type="datetime" bsDatepicker  datePickerMomentModifier  [(date)]="accountBilling.billDateTo" id="AccountBilling_BillDateTo" name="AccountBilling_BillDateTo">
+									<validation-messages [formCtrl]="AccountBilling_BillDateTo"></validation-messages>
+								</div>
+					
+								<div class="form-group">
+									<label for="AccountBilling_OpenAmount">{{l("OpenAmount")}}</label>
+									<input type="number" #AccountBilling_OpenAmount="ngModel" id="AccountBilling_OpenAmount" class="form-control" [(ngModel)]="accountBilling.openAmount" name="OpenAmount"   />
+									<validation-messages [formCtrl]="AccountBilling_OpenAmount"></validation-messages>
+								</div>
+					
+								<div class="form-group">
+									<label for="AccountBilling_BillAmount">{{l("BillAmount")}}</label>
+									<input type="number" #AccountBilling_BillAmount="ngModel" id="AccountBilling_BillAmount" class="form-control" [(ngModel)]="accountBilling.billAmount" name="BillAmount"   />
+									<validation-messages [formCtrl]="AccountBilling_BillAmount"></validation-messages>
+								</div>
+					
+
+                </div>
+                <div class="modal-footer">
+                    <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">{{l("Cancel")}}</button>
+                    <button type="submit" class="btn btn-primary blue" [disabled]="!accountBillingForm.form.valid" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save"></i> <span>{{l("Save")}}</span></button>
+                </div>
+            </form>
+        </div>
+    </div>
+<accountBillingInfoSeedServiceLookupTableModal #accountBillingInfoSeedServiceLookupTableModal (modalSave)="getNewInfoSeedServiceId()"></accountBillingInfoSeedServiceLookupTableModal>
+		 <accountBillingServiceTypeLookupTableModal #accountBillingServiceTypeLookupTableModal (modalSave)="getNewServiceTypeId()"></accountBillingServiceTypeLookupTableModal>
+		 <accountBillingCurrencyLookupTableModal #accountBillingCurrencyLookupTableModal (modalSave)="getNewCurrencyId()"></accountBillingCurrencyLookupTableModal>
+		 <accountBillingBillingLookupTableModal #accountBillingBillingLookupTableModal (modalSave)="getNewBillingId()"></accountBillingBillingLookupTableModal>
+		 
+</div>

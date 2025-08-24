@@ -1,0 +1,283 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "vGCJfE",
+    "name": "AFAboutUsDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "YCinFC"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "MU2PKD"
+          },
+          "condition": "conversation.local",
+          "cases": [
+            {
+              "value": "ar",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "WsvHxQ"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.AboutUsList",
+                      "value": [
+                        "مواقع السوشيال ميديا",
+                        "رؤيتنا",
+                        "مهمتنا",
+                        "الاسئلة الشائعة"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "jm7OXw"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.option1",
+                      "value": "مواقع السوشيال ميديا"
+                    },
+                    {
+                      "property": "dialog.option2",
+                      "value": "رؤيتنا"
+                    },
+                    {
+                      "property": "dialog.option3",
+                      "value": "مهمتنا"
+                    },
+                    {
+                      "property": "dialog.option4",
+                      "value": "الاسئلة الشائعة"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "en",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "TT09Zg"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.AboutUsList",
+                      "value": [
+                        "Social Media Account",
+                        "Vision",
+                        "Mission",
+                        "FAQs"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "QN30GD"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.option1",
+                      "value": "Social Media Account"
+                    },
+                    {
+                      "property": "dialog.option2",
+                      "value": "Vision"
+                    },
+                    {
+                      "property": "dialog.option3",
+                      "value": "Mission"
+                    },
+                    {
+                      "property": "dialog.option4",
+                      "value": "FAQs"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.DeleteProperty",
+          "$designer": {
+            "id": "Px7Q6p"
+          },
+          "property": "dialog.UserSelect"
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "2y0gXu"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "unrecognizedPrompt": "",
+          "invalidPrompt": "",
+          "prompt": "${TextInput_Prompt_2y0gXu()}",
+          "validations": [
+            "equals(this.value, 'Social Media Account') || equals(this.value, 'Vision') || equals(this.value, 'Mission') ||equals(this.value, 'FAQs') || equals(this.value, 'مواقع السوشيال ميديا') || equals(this.value, 'رؤيتنا') || equals(this.value, 'مهمتنا')|| equals(this.value, 'الاسئلة الشائعة') || equals(this.value, '#')"
+          ],
+          "property": "dialog.UserSelect"
+        },
+        {
+          "$kind": "Microsoft.DeleteProperty",
+          "$designer": {
+            "id": "wDB8Mt"
+          },
+          "property": "dialog.AboutUsCaption"
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "jPmByr"
+          },
+          "condition": "dialog.UserSelect",
+          "cases": [
+            {
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "ocpxS4"
+                  },
+                  "property": "dialog.AboutUsCaption",
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3019)).text"
+                }
+              ],
+              "value": "Social Media Account"
+            },
+            {
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "C2e3Iw"
+                  },
+                  "property": "dialog.AboutUsCaption",
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3020)).text"
+                }
+              ],
+              "value": "Vision"
+            },
+            {
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "m4ym54"
+                  },
+                  "property": "dialog.AboutUsCaption",
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3021)).text"
+                }
+              ],
+              "value": "Mission"
+            },
+            {
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "OnmnyW"
+                  },
+                  "property": "dialog.AboutUsCaption",
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3022)).text"
+                }
+              ],
+              "value": "FAQs"
+            },
+            {
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "d37QLB"
+                  },
+                  "property": "dialog.AboutUsCaption",
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3019)).text"
+                }
+              ],
+              "value": "مواقع السوشيال ميديا"
+            },
+            {
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "PWHFCF"
+                  },
+                  "property": "dialog.AboutUsCaption",
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3020)).text"
+                }
+              ],
+              "value": "رؤيتنا"
+            },
+            {
+              "value": "مهمتنا",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "KztfPr"
+                  },
+                  "property": "dialog.AboutUsCaption",
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3021)).text"
+                }
+              ]
+            },
+            {
+              "value": "الاسئلة الشائعة",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "KRHDSk"
+                  },
+                  "property": "dialog.AboutUsCaption",
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3022)).text"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "27DrO2"
+          },
+          "activity": "${SendActivity_27DrO2()}"
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "FjO497"
+          }
+        }
+      ]
+    }
+  ],
+  "generator": "AF-AboutUsDialog.lg",
+  "recognizer": "AF-AboutUsDialog.lu.qna",
+  "id": "AF-AboutUsDialog"
+}

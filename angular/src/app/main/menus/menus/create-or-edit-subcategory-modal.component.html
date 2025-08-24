@@ -1,0 +1,293 @@
+<div bsModal #createOrEditSubCategoryComponent="bs-modal" class="overflow-y modal fade" tabindex="-1" role="dialog"
+    aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div [hidden]="theme === 'theme12'" class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">
+                    {{ l("subCategories") }}
+                </h4>
+            </div>
+            <div class="row">
+                <div class="col-md-12 p-6">
+                    <form [formGroup]="subCategoryForm">
+                        <div>
+                            <div class="form-group">
+                                <label>Category Name Arabic</label>
+                                <input disabled placeholder="Menu Name Arabic" type="text" class="form-control"
+                                    formControlName="categoryName" style="font-family: system-ui; ">
+
+                            </div>
+
+                            <div class="form-group" *ngIf="isAdmin">
+                                <label>SubCategory Name Arabic *</label>
+                                <input required placeholder="SubCategory Name Arabic" type="text" class="form-control"
+                                    formControlName="name"
+                                    [class.error]="submitted && subCategoryForm.controls.name.invalid">
+                                <p class="text-danger" *ngIf="submitted && subCategoryForm.controls.name.invalid">This
+                                    field is required</p>
+
+                            </div>
+                            <div class="form-group" *ngIf="!isAdmin">
+                                <label>SubCategory Name Arabic *</label>
+                                <input disabled placeholder="SubCategory Name Arabic" type="text" class="form-control"
+                                    formControlName="name" style="font-family: system-ui;">
+
+                            </div>
+
+                            <div class="form-group" *ngIf="isAdmin">
+                                <label>SubCategory Name English *</label>
+                                <input required placeholder="SubCategory Name English" type="text" class="form-control"
+                                    formControlName="nameEnglish"
+                                    [class.error]="submitted && subCategoryForm.controls.nameEnglish.invalid">
+                                <p class="text-danger"
+                                    *ngIf="submitted && subCategoryForm.controls.nameEnglish.invalid">This field is
+                                    required</p>
+                            </div>
+                            <div class="form-group" *ngIf="!isAdmin">
+                                <label>SubCategory Name English *</label>
+                                <input disabled placeholder="SubCategory Name English" type="text" class="form-control"
+                                    formControlName="nameEnglish">
+                            </div>
+
+                            <div class="form-group" *ngIf="isAdmin">
+                                <label>Priority *</label>
+                                <input min="0" required placeholder="Priority" type="number" class="form-control"
+                                    formControlName="priority"
+                                    [class.error]="submitted && subCategoryForm.controls.priority.invalid">
+                                <p class="text-danger" *ngIf="submitted && subCategoryForm.controls.priority.invalid">
+                                    {{l("ThisFieldIsRequired") }} and must be above 0</p>
+                            </div>
+                            <div class="form-group" *ngIf="!isAdmin">
+                                <label>Priority *</label>
+                                <input disabled placeholder="Priority" type="number" class="form-control"
+                                    formControlName="priority" style="font-family: system-ui; ">
+                            </div>
+
+                            <div class="form-group">
+                                <label>Price * <small>({{currency}})</small></label>
+                                <input min="0" required placeholder="Price" type="number" class="form-control"
+                                    formControlName="price"
+                                    [class.error]="submitted && subCategoryForm.controls.price.invalid">
+                                <p class="text-danger" *ngIf="submitted && subCategoryForm.controls.price.invalid">This
+                                    field is required</p>
+                            </div>
+                            <!-- <div class="form-group">
+
+                                <input type="checkbox" formControlName="isNew">
+                                <label class="p-2">IsNew </label>
+
+
+                            </div> -->
+
+                            <div class="form-group" [hidden]="!isAdmin">
+                                <label>Logo Image</label>
+                                <input accept="image/*" #file type="file" class="form-control"
+                                    style="width: 100px" (change)="onFileChange1($event,modalBasic)">
+                                <div class="product-img row mt-1" *ngIf="subCategoryImage">
+                                    <img [src]="subCategoryImage"  alt="Sub Category Image"  style="width: 100px; height: 100px;">
+                                    <!-- <button class="btn btn-danger" style="width: 120px;"
+                                        (click)="openFileUploder1()">Replace
+                                    </button> -->
+                                </div>
+
+                            </div>
+                            <div class="form-group" *ngIf="!isAdmin">
+                                <label>Logo Image</label>
+                                <input disabled type="file" #file id="uplode1" class="form-control" style="width: 100px"
+                                    (change)="onFileChange1($event,modalBasic)">
+                                <div class="product-img">
+                                    <img [src]="subCategoryImage" alt="Sub Category Image" style="width: 100px; height: 100px;">
+                                    <!-- <button disabled class="btn btn-danger" style="width: 120px;"
+                                        (click)="openFileUploder1()">Replace
+                                    </button> -->
+                                </div>
+
+                            </div>
+
+
+                        </div>
+                        <div>
+                            <div class="pt-3">
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default"
+                                        (click)="close()">{{l("Cancel")}}</button>
+                                    <button type="button" class="btn btn-primary" [buttonBusy]="saving"
+                                        [busyText]="l('SavingWithThreeDot')"
+                                        (click)="addEditSubCategory()">Save</button>
+                                    <!-- -->
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div [hidden]="theme != 'theme12'" class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">
+                    <span>   {{ l("subCategories") }}</span>
+                </h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="close()"
+                    aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <form [formGroup]="subCategoryForm">
+                        <div class="col-12  mb-1 form-group" [hidden]="!isAdmin">
+                            <div class="mt-1 justify-content-center row mb-1" *ngIf="subCategoryImage">
+                                <img class="editCategoryImage" alt="Sub Category Image" [src]="subCategoryImage">
+                            </div>
+                            <div class="mt-1 justify-content-center row mb-1" *ngIf="loadImage">
+                                <div class="spinner-border text-warning m-auto" role="status">
+                                    <span class="sr-only">Loading...</span>
+                                </div>
+                            </div>
+                            <div class="row justify-content-center">
+                                <input #file accept="image/*" class="w-50" type="file" 
+                                class="form-control"
+                                    (change)="onFileChange1($event,modalBasic)">
+                            </div>
+
+                        </div>
+                        <div class=" col-12  mb-1 form-group" *ngIf="!isAdmin">
+                            <div class="mt-1 justify-content-center row mb-1" *ngIf="subCategoryImage">
+                                <img class="editCategoryImage" alt="Sub Category Image" [ src]="subCategoryImage">
+                            </div>
+                            <div class="mt-1 justify-content-center row mb-1" *ngIf="loadImage">
+                                <div class="spinner-border text-warning m-auto" role="status">
+                                    <span class="sr-only">Loading...</span>
+                                </div>
+                            </div>
+                            <div class="row justify-content-center">
+                                <input #file disabled class="w-50" type="file" id="uplode1"
+                                class="form-control"
+                                    (change)="onFileChange1($event,modalBasic)">
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12 col-xl-6 mb-1 form-group">
+                                <label>  {{ l("categoryNameAr") }} </label>
+                                <input disabled  type="text"
+                                class="form-control"
+                                    formControlName="categoryName">
+                            </div>
+
+                            <div class="col-12 col-xl-6 mb-1 form-group" *ngIf="isAdmin">
+                                <label>  {{ l("subCategoryNameAr") }} *</label>
+                                <input required  type="text"
+                                class="form-control"
+                                    formControlName="name"
+                                    [class.error]="submitted && subCategoryForm.controls.name.invalid">
+                                <p class="text-danger" *ngIf="submitted && subCategoryForm.controls.name.invalid">This
+                                    field is required</p>
+
+                            </div>
+                            <div class=" col-12 col-xl-6 mb-1 form-group" *ngIf="!isAdmin">
+                                <label>  {{ l("subCategoryNameAr") }} *</label>
+                                <input disabled  type="text"
+                                class="form-control"
+                                    formControlName="name">
+
+                            </div>
+
+                            <div class="col-12 col-xl-6 mb-1 form-group" *ngIf="isAdmin">
+                                <label> {{ l("subCategoryNameEn") }} *</label>
+                                <input required type="text"
+                                class="form-control"
+                                    formControlName="nameEnglish"
+                                    [class.error]="submitted && subCategoryForm.controls.nameEnglish.invalid">
+                                <p class="text-danger"
+                                    *ngIf="submitted && subCategoryForm.controls.nameEnglish.invalid">This field is
+                                    required</p>
+
+                            </div>
+                            <div class=" col-12 col-xl-6 mb-1  form-group" *ngIf="!isAdmin">
+                                <label> {{ l("subCategoryNameEn") }} *</label>
+                                <input disabled  type="text"
+                                class="form-control"
+                                    formControlName="nameEnglish">
+                            </div>
+
+                            <div class=" col-12 col-xl-6 mb-1 form-group" *ngIf="isAdmin">
+                                <label> {{ l("priority") }} *</label>
+                                <input required  type="number"
+                                class="form-control"
+                                    formControlName="priority"
+                                    [class.error]="submitted && subCategoryForm.controls.priority.invalid">
+                                <p class="text-danger" *ngIf="submitted && subCategoryForm.controls.priority.invalid">
+                                    {{l("ThisFieldIsRequired") }} and must be above 0</p>
+
+                            </div>
+                            <div class="col-12 col-xl-6 mb-1 form-group" *ngIf="!isAdmin">
+                                <label> {{ l("priority") }} *</label>
+                                <input disabled  type="number"
+                                class="form-control"
+                                    formControlName="priority">
+                            </div>
+
+                            <div class="col-12 col-xl-6 mb-1 form-group">
+                                <label> {{ l("Price") }} * <small>({{currency}})</small></label>
+                                <input required type="number"
+                                class="form-control"
+                                    formControlName="price"
+                                    [class.error]="submitted && subCategoryForm.controls.price.invalid">
+                                <p class="text-danger" *ngIf="submitted && subCategoryForm.controls.price.invalid">This
+                                    field is required</p>
+                            </div>
+                            <!-- <div class="col-12 col-xl-6 mb-1 form-group form-check form-switch">
+                                <input class="form-check-input " type="checkbox" formControlName="isNew">
+                                <label>IsNew </label>
+
+                            </div> -->
+                        </div>
+                    </form>
+                    <div>
+                        <div>
+
+                            <div class="modal-footer">
+                                <button class="btn btn-default" (click)="close()">{{ l("Cancel") }}</button>
+                                <button [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')" type="button"
+                                    class="btn btn-primary-info" (click)="addEditSubCategory()">{{ l("Save") }}</button>
+                                <!--  -->
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+            </div>
+
+
+        </div>
+
+        
+    </div>
+</div>
+
+<ng-template #modalBasic let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="myModalLabel1"> {{ l("imageCropper") }}</h4>
+    </div>
+    <div class="modal-body" tabindex="0" ngbAutofocus>
+        <image-cropper [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true" [aspectRatio]="1"
+           [cropperStaticWidth]="300" [cropperStaticHeight]="300" [onlyScaleDown]="true" [imageQuality]="80" 
+            (imageCropped)="imageCroppedFile($event)"></image-cropper>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" (click)="modal.dismiss('Cross click')"
+            rippleEffect> {{ l("Cancel") }}</button>
+        <button type="button" [ngClass]="theme != 'theme12' ? 'btn-primary' : 'btn-primary-info'" class="btn"
+            (click)="saveImage(file); modal.close('Accept click')" rippleEffect>
+            {{ l("accept") }}
+        </button>
+    </div>
+</ng-template>

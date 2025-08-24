@@ -1,0 +1,117 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "K22Gnv",
+    "name": "Bustami_SahebUploadImgDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "f0lW8W"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.DeleteProperty",
+          "$designer": {
+            "id": "vylb3r"
+          },
+          "property": "dialog.sendPic"
+        },
+        {
+          "$kind": "Microsoft.AttachmentInput",
+          "$designer": {
+            "id": "JXel9J"
+          },
+          "disabled": false,
+          "maxTurnCount": 0,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "prompt": "${AttachmentInput_Prompt_JXel9J()}",
+          "unrecognizedPrompt": "",
+          "invalidPrompt": "",
+          "outputFormat": "all",
+          "property": "dialog.sendPic"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "F0pwWS"
+          },
+          "condition": "turn.Activity.Text!=\".\"",
+          "actions": [
+            {
+              "$kind": "Microsoft.RepeatDialog",
+              "$designer": {
+                "id": "hLQSDa"
+              },
+              "activityProcessed": true
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.Foreach",
+          "$designer": {
+            "id": "sqUsVX"
+          },
+          "index": "dialog.foreach.index",
+          "value": "dialog.foreach.value",
+          "actions": [
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "zm20kl"
+              },
+              "condition": "dialog.foreach.value.name==\"\"",
+              "actions": [
+                {
+                  "$kind": "Microsoft.RepeatDialog",
+                  "$designer": {
+                    "id": "KJLzRY"
+                  },
+                  "activityProcessed": true
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "PCtgyt"
+              },
+              "property": "conversation.AttachmentURL",
+              "value": {
+                "contentUrl": "",
+                "contentType": "=dialog.foreach.value.contentType",
+                "contentName": "=dialog.foreach.value.name"
+              }
+            },
+            {
+              "$kind": "Microsoft.EditArray",
+              "$designer": {
+                "id": "G85Mlh"
+              },
+              "changeType": "push",
+              "itemsProperty": "conversation.AttachmetArray",
+              "value": "=conversation.AttachmentURL"
+            }
+          ],
+          "itemsProperty": "dialog.sendPic"
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "OsN4ji"
+          }
+        }
+      ]
+    }
+  ],
+  "generator": "Bustami_SahebUploadImgDialog.lg",
+  "recognizer": "Bustami_SahebUploadImgDialog.lu.qna",
+  "id": "Bustami_SahebUploadImgDialog"
+}

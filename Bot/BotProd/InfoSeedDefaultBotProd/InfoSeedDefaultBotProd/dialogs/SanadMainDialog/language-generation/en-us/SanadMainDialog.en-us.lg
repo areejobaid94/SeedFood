@@ -1,0 +1,10 @@
+[import](common.lg)
+
+# TextInput_Prompt_11sFGG_text()
+- ${dialog.text}
+# TextInput_Prompt_11sFGG()
+[Activity
+    Text = ${dialog.text}
+    SuggestedActions = ${dialog.Option1}
+]
+

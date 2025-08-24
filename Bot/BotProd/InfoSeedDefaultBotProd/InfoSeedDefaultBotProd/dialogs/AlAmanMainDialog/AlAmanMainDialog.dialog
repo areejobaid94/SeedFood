@@ -1,0 +1,236 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "QK1OyR",
+    "name": "AlAmanMainDialog",
+    "comment": "Al-Aman Fund "
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "IPRKDQ"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "KU0bWi"
+          },
+          "condition": "conversation.local",
+          "cases": [
+            {
+              "value": "ar",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "n1Q0Kx"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.Welcome",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1)).text"
+                    },
+                    {
+                      "property": "dialog.Option1",
+                      "value": "منح دراسية"
+                    },
+                    {
+                      "property": "dialog.Option2",
+                      "value": "تبرعات"
+                    },
+                    {
+                      "property": "dialog.Option3",
+                      "value": "عن صندوق الامان"
+                    },
+                    {
+                      "property": "conversation.Summary",
+                      "value": "يمكنك إرسال # في أي وقت للعودة إلى القائمة الرئيسية"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "en",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "cGKG7J"
+                  },
+                  "assignments": [
+                    {
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1)).text",
+                      "property": "dialog.Welcome"
+                    },
+                    {
+                      "property": "dialog.Option1",
+                      "value": "Scholarships"
+                    },
+                    {
+                      "property": "dialog.Option2",
+                      "value": "Donations"
+                    },
+                    {
+                      "property": "dialog.Option3",
+                      "value": "About Al-Aman Fund"
+                    },
+                    {
+                      "property": "conversation.Summary",
+                      "value": "Press *#* to return to the main menu"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "default": []
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "4BafuE"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "prompt": "${TextInput_Prompt_4BafuE()}",
+          "property": "dialog.UserInput",
+          "validations": [
+            "equals(this.value, '#')|| equals(this.value, 'منح دراسية') || equals(this.value, 'تبرعات') || equals(this.value, 'عن صندوق الامان')|| equals(this.value, 'Scholarships')|| equals(this.value, 'Donations') || equals(this.value, 'About Al-Aman Fund')"
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "Wn8fl4"
+          },
+          "property": "conversation.Department1",
+          "value": "=dialog.UserInput"
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "U2PXJF"
+          },
+          "condition": "dialog.UserInput",
+          "cases": [
+            {
+              "value": "منح دراسية",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "Ggk7SP"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "AlAmanScholarshipsDialog"
+                }
+              ]
+            },
+            {
+              "value": "تبرعات",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "54pyDj"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "AlAmanVolunteeringDialog"
+                }
+              ]
+            },
+            {
+              "value": "عن صندوق الامان",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "itW0TS"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "AlAmanAboutDialog"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "7BWaBF"
+          },
+          "condition": "dialog.UserInput",
+          "cases": [
+            {
+              "value": "Scholarships",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "RXSvuo"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "AlAmanScholarshipsDialog"
+                }
+              ]
+            },
+            {
+              "value": "Donations",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "PMxhjf"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "AlAmanVolunteeringDialog"
+                }
+              ]
+            },
+            {
+              "value": "About Al-Aman Fund",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "3y19xb"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "AlAmanAboutDialog"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "nKMZhr"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "invalidPrompt": "",
+          "prompt": "${TextInput_Prompt_nKMZhr()}",
+          "property": "dialog.userInput",
+          "validations": [
+            "=equals(this.value, '#')|| equals(this.value, 'انجازات الصندوق') || equals(this.value, 'برامج الصندوق') || equals(this.value, 'نبذة عن الصندوق')|| equals(this.value, 'Achievements')|| equals(this.value, 'Fund Programs') || equals(this.value, 'About the Fund')"
+          ]
+        }
+      ]
+    }
+  ],
+  "generator": "AlAmanMainDialog.lg",
+  "recognizer": "AlAmanMainDialog.lu.qna",
+  "id": "AlAmanMainDialog"
+}

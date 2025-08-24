@@ -1,0 +1,45 @@
+<div bsModal #transactionsModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="transactionsModal" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">
+                    <span> {{ l("transactions") }}</span>
+                </h4>
+                <button type="button" class="btn-close" aria-label="Close" (click)="close()"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <ul class="p-0" *ngIf="transactions.length > 0">
+                        <li *ngFor="let transaction of transactions">
+                            <div class="mt-1 row align-items-center">
+                                <div class="ContainerDeposit">
+                                    <div style="display: flex; flex-direction: row;">
+                                        <div class="avatar bg-light-info p-50 m-0">
+                                            <div class="avatar-content">
+                                                <i [class]="transaction.icon"></i>
+                                            </div>
+                                        </div>
+                                        <p class="ml-1 card-text font-small-3 mb-0" style="justify-self: center;align-self: center;">
+                                            <strong>{{ transaction.categoryType }}</strong>
+                                        </p>
+                                    </div>
+                                    <div class="text-right amountContainer">
+                                        <p [ngClass]="checkIfNgeative(transaction.total) ? 'text-danger' : 'text-success'">
+                                            {{ transaction.total }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                    <h5 class="text-danger text-center" *ngIf="transactions.length === 0">
+                        {{ l("NoData") }}
+                    </h5>
+                </div>
+                <div class="row" [routerLink]="['/app/admin/usage-details']">
+                    <p class="mb-0 text-muted text-decoration-underline">{{ l("usageDetails") }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

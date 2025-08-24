@@ -1,0 +1,29 @@
+<div appBsModal #exportModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exportModal"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <span>Export To Excel</span>
+                </h5>
+                <button type="button" class="close" (click)="close()" [attr.aria-label]="l('Close')">
+                    <i aria-hidden="true" class="ki ki-close"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="month">{{"Select Month" | localize}} *</label>
+                    <input type="month" [(ngModel)]="month" name="month" class="form-control">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light-primary font-weight-bold" (click)="close()">{{"Cancel" |
+                    localize}}</button>
+                <button type="submit" [busyText]="l('SavingWithThreeDot')" class="btn btn-primary font-weight-bold"
+                    (click)="export()"><i class="fa fa-save"></i> <span>{{"Export" | localize}}</span></button>
+            </div>
+        </div>
+
+    </div>
+</div>

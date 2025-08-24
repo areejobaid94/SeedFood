@@ -1,0 +1,42 @@
+.offline-notification {
+  position: fixed;
+  display: flex;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 10000000;
+  justify-content: center;
+  align-items: center;
+}
+
+.Inner-Container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 400px;  /* Set the width of the card */
+  height: 250px; /* Set the height of the card */
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.Reload-Button {
+ text-decoration: none;
+ color: white;
+ background-color: #009789;
+ padding: 10px;
+ border-radius: 16px;
+}
+
+.Img-Container{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}

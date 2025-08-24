@@ -1,0 +1,36 @@
+.custom{
+    flex-direction: column;
+    width: 175px;
+}
+
+label{
+    font-weight: 630;
+}
+
+.customInput{
+    width: 300px;
+}
+.customLabel{
+    font-weight: 500;
+}
+.customPlaceholder{
+    font-weight: 200;
+}
+
+.customDiv{
+    border-radius: 15px;
+    margin: 10px;
+    background-color: #F3F4F4;
+}
+h2 {
+    width: 100%; 
+    text-align: center; 
+    border-bottom: 1px solid #000; 
+    line-height: 0.1em;
+    margin: 10px 0 20px; 
+} 
+
+h2 span { 
+    background:#fff; 
+    padding:0 10px; 
+}

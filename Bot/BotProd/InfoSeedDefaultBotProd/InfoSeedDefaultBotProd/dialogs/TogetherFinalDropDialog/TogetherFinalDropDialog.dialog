@@ -1,0 +1,191 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "xSCzTq",
+    "name": "TogetherFinalDropDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "wQQrP5"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "umF8fl"
+          },
+          "condition": "conversation.local",
+          "cases": [
+            {
+              "value": "ar",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "z3UGqI"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.Option1",
+                      "value": "للإستفسار والتواصل"
+                    },
+                    {
+                      "property": "dialog.Option2",
+                      "value": "للتسجيل"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "en",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "Dpj4iZ"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.Option1",
+                      "value": "For inquiries"
+                    },
+                    {
+                      "property": "dialog.Option2",
+                      "value": "to sign up"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "default": [
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "7lzhcZ"
+              },
+              "assignments": [
+                {
+                  "property": "dialog.Option1",
+                  "value": "للإستفسار والتواصل"
+                },
+                {
+                  "property": "dialog.Option2",
+                  "value": "للتسجيل"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "5P07nF"
+          },
+          "property": "dialog.LinkCaption",
+          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId ==3633)).text"
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "65Txe3"
+          },
+          "property": "dialog.text",
+          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId ==3646)).text"
+        },
+        {
+          "$kind": "Microsoft.DeleteProperty",
+          "$designer": {
+            "id": "c6jsnJ"
+          },
+          "property": "dialog.UserSelcet"
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "My61EP"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "unrecognizedPrompt": "",
+          "invalidPrompt": "",
+          "prompt": "${TextInput_Prompt_My61EP()}",
+          "property": "dialog.UserSelcet",
+          "validations": [
+            "equals(this.value, 'للتسجيل') ||equals(this.value, 'للإستفسار والتواصل') ||equals(this.value, 'For inquiries') ||equals(this.value, 'to sign up') ||equals(this.value, '#')"
+          ]
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "LbfnU0"
+          },
+          "condition": "dialog.UserSelcet",
+          "cases": [
+            {
+              "value": "للتسجيل",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "ymB8Nm"
+                  },
+                  "activity": "${SendActivity_ymB8Nm()}"
+                }
+              ]
+            },
+            {
+              "value": "to sign up",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "Lv0Bfc"
+                  },
+                  "activity": "${SendActivity_Lv0Bfc()}"
+                }
+              ]
+            }
+          ],
+          "default": [
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "jBpWQ8"
+              },
+              "property": "conversation.Request4",
+              "value": "${dialog.UserSelcet}"
+            },
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "p2ACOy"
+              },
+              "activityProcessed": true,
+              "dialog": "TogetherInquiryReqDialog"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "evDS4Z"
+          }
+        }
+      ]
+    }
+  ],
+  "generator": "TogetherFinalDropDialog.lg",
+  "recognizer": "TogetherFinalDropDialog.lu.qna",
+  "id": "TogetherFinalDropDialog"
+}

@@ -1,0 +1,1074 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "Nv8wIb",
+    "name": "RKHRealEstate",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "F3uYSL"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "3XfJQs"
+          },
+          "condition": "conversation.local",
+          "cases": [
+            {
+              "value": "ar",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "b1zMXo"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.Text",
+                      "value": "=conversation.RKHRealEstate_Text"
+                    },
+                    {
+                      "property": "dialog.option1",
+                      "value": "عقارات سكنية"
+                    },
+                    {
+                      "property": "dialog.option2",
+                      "value": "عقارات تجارية"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "en",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "2XRCcv"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.Text",
+                      "value": "=conversation.RKHRealEstate_Text"
+                    },
+                    {
+                      "property": "dialog.option1",
+                      "value": "Residential RS"
+                    },
+                    {
+                      "property": "dialog.option2",
+                      "value": "Commercial RS"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "default": [
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "XRHYUF"
+              },
+              "assignments": [
+                {
+                  "property": "dialog.Text",
+                  "value": "=conversation.RKHRealEstate_Text"
+                },
+                {
+                  "property": "dialog.option1",
+                  "value": "عقارات سكنية"
+                },
+                {
+                  "property": "dialog.option2",
+                  "value": "عقارات تجارية"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.DeleteProperty",
+          "$designer": {
+            "id": "76012X"
+          },
+          "property": "dialog.SelectRealEstate"
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "U2NxBR"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "invalidPrompt": "",
+          "prompt": "${TextInput_Prompt_U2NxBR()}",
+          "property": "dialog.SelectRealEstate",
+          "validations": [
+            "contains(this.value, 'عقارات سكنية') || contains(this.value, 'عقارات تجارية')  ||contains(this.value, '#') || contains(this.value, 'Residential RS') || contains(this.value, 'Commercial RS')"
+          ]
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "TFPpfG"
+          },
+          "condition": "dialog.SelectRealEstate",
+          "cases": [
+            {
+              "value": "عقارات سكنية",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "5nys3j"
+                  },
+                  "property": "conversation.RealEstateType",
+                  "value": "1"
+                },
+                {
+                  "$kind": "Microsoft.SwitchCondition",
+                  "$designer": {
+                    "id": "ppL1JU"
+                  },
+                  "condition": "conversation.local",
+                  "cases": [
+                    {
+                      "value": "ar",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperties",
+                          "$designer": {
+                            "id": "yhouOT"
+                          },
+                          "assignments": [
+                            {
+                              "property": "dialog.Text",
+                              "value": "=conversation.RKHRealEstate_Text2"
+                            },
+                            {
+                              "property": "dialog.option1",
+                              "value": "للبيع"
+                            },
+                            {
+                              "property": "dialog.option2",
+                              "value": "للإيجار"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "value": "en",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperties",
+                          "$designer": {
+                            "id": "xxr5Yw"
+                          },
+                          "assignments": [
+                            {
+                              "property": "dialog.Text",
+                              "value": "=conversation.RKHRealEstate_Text2"
+                            },
+                            {
+                              "property": "dialog.option1",
+                              "value": "For Sale"
+                            },
+                            {
+                              "property": "dialog.option2",
+                              "value": "For Rent"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ],
+                  "default": [
+                    {
+                      "$kind": "Microsoft.SetProperties",
+                      "$designer": {
+                        "id": "E2Nyau"
+                      },
+                      "assignments": [
+                        {
+                          "property": "dialog.Text",
+                          "value": "=conversation.RKHRealEstate_Text2"
+                        },
+                        {
+                          "property": "dialog.option1",
+                          "value": "للبيع"
+                        },
+                        {
+                          "property": "dialog.option2",
+                          "value": "للإيجار"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.DeleteProperty",
+                  "$designer": {
+                    "id": "hPh2cR"
+                  },
+                  "property": "dialog.selectR1"
+                },
+                {
+                  "$kind": "Microsoft.TextInput",
+                  "$designer": {
+                    "id": "qFJGdR"
+                  },
+                  "disabled": false,
+                  "maxTurnCount": 3,
+                  "alwaysPrompt": false,
+                  "allowInterruptions": false,
+                  "unrecognizedPrompt": "",
+                  "invalidPrompt": "",
+                  "prompt": "${TextInput_Prompt_qFJGdR()}",
+                  "property": "dialog.selectR1"
+                },
+                {
+                  "$kind": "Microsoft.SwitchCondition",
+                  "$designer": {
+                    "id": "KDoRbx"
+                  },
+                  "condition": "dialog.selectR1",
+                  "cases": [
+                    {
+                      "value": "للبيع",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "VCXAGZ"
+                          },
+                          "property": "conversation.RealEstateResidentialType",
+                          "value": "1"
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "yM3Yhb"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "RKHForSale"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "للإيجار",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "m99kEr"
+                          },
+                          "property": "conversation.RealEstateResidentialType",
+                          "value": "2"
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "hFItyJ"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "RKHForSale"
+                        },
+                        {
+                          "$kind": "Microsoft.EndDialog",
+                          "$designer": {
+                            "id": "9ibyRw"
+                          }
+                        },
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "aiL3RQ"
+                          },
+                          "property": "conversation.RKHTextTow",
+                          "value": "تواصل مع رائد خلف لمعرفة الشقق الفندقية و العقارات السكنية الأخرى المتوفرة للإيجار:"
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "67tjK9"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "RKHSendPDF"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "For Sale",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "KstpB4"
+                          },
+                          "property": "conversation.RealEstateResidentialType",
+                          "value": "1"
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "dMO908"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "RKHForSale"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "For Rent",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "c7kzYk"
+                          },
+                          "property": "conversation.RealEstateResidentialType",
+                          "value": "2"
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "pVI3VL"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "RKHForSale"
+                        },
+                        {
+                          "$kind": "Microsoft.EndDialog",
+                          "$designer": {
+                            "id": "9s4Tmc"
+                          }
+                        },
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "F8d8Ak"
+                          },
+                          "property": "conversation.RKHTextTow",
+                          "value": " Contact Raed Khalaf to find out about hotel apartments and other residential properties available for rent:"
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "OZErLK"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "RKHSendPDF"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "عقارات تجارية",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "tJPbb4"
+                  },
+                  "property": "conversation.RealEstateType",
+                  "value": "2"
+                },
+                {
+                  "$kind": "Microsoft.SwitchCondition",
+                  "$designer": {
+                    "id": "3XiSRB"
+                  },
+                  "condition": "conversation.local",
+                  "cases": [
+                    {
+                      "value": "ar",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperties",
+                          "$designer": {
+                            "id": "IDJn9x"
+                          },
+                          "assignments": [
+                            {
+                              "property": "dialog.Text",
+                              "value": "=conversation.RKHRealEstate_Text3"
+                            },
+                            {
+                              "property": "dialog.option1",
+                              "value": "للبيع"
+                            },
+                            {
+                              "property": "dialog.option2",
+                              "value": "للإيجار"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "value": "en",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperties",
+                          "$designer": {
+                            "id": "uOc5Gm"
+                          },
+                          "assignments": [
+                            {
+                              "property": "dialog.Text",
+                              "value": "=conversation.RKHRealEstate_Text3"
+                            },
+                            {
+                              "property": "dialog.option1",
+                              "value": "For Sale"
+                            },
+                            {
+                              "property": "dialog.option2",
+                              "value": "For Rent"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ],
+                  "default": [
+                    {
+                      "$kind": "Microsoft.SetProperties",
+                      "$designer": {
+                        "id": "8n3dWn"
+                      },
+                      "assignments": [
+                        {
+                          "property": "dialog.Text",
+                          "value": "=conversation.RKHRealEstate_Text3"
+                        },
+                        {
+                          "property": "dialog.option1",
+                          "value": "للبيع"
+                        },
+                        {
+                          "property": "dialog.option2",
+                          "value": "للإيجار"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.DeleteProperty",
+                  "$designer": {
+                    "id": "t6ehba"
+                  },
+                  "property": "dialog.selectR1"
+                },
+                {
+                  "$kind": "Microsoft.TextInput",
+                  "$designer": {
+                    "id": "Ydk43w"
+                  },
+                  "disabled": false,
+                  "maxTurnCount": 3,
+                  "alwaysPrompt": false,
+                  "allowInterruptions": false,
+                  "unrecognizedPrompt": "",
+                  "invalidPrompt": "",
+                  "prompt": "${TextInput_Prompt_Ydk43w()}",
+                  "property": "dialog.selectR1"
+                },
+                {
+                  "$kind": "Microsoft.SwitchCondition",
+                  "$designer": {
+                    "id": "anEcRi"
+                  },
+                  "condition": "dialog.selectR1",
+                  "cases": [
+                    {
+                      "value": "للبيع",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "Jax70r"
+                          },
+                          "property": "conversation.RealEstateResidentialType",
+                          "value": "1"
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "u8rqnc"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "RKHForSaleTow"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "للإيجار",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "Zqk2YF"
+                          },
+                          "property": "conversation.RealEstateResidentialType",
+                          "value": "2"
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "QuicZs"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "RKHForSaleTow"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "For Sale",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "jWf23Z"
+                          },
+                          "property": "conversation.RealEstateResidentialType",
+                          "value": "1"
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "TGPwKc"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "RKHForSaleTow"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "For Rent",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "b5eSBF"
+                          },
+                          "property": "conversation.RealEstateResidentialType",
+                          "value": "2"
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "WxUVk4"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "RKHForSaleTow"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "Residential RS",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "f9hKWh"
+                  },
+                  "property": "conversation.RealEstateType",
+                  "value": "1"
+                },
+                {
+                  "$kind": "Microsoft.SwitchCondition",
+                  "$designer": {
+                    "id": "Z1yOK0"
+                  },
+                  "condition": "conversation.local",
+                  "cases": [
+                    {
+                      "value": "ar",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperties",
+                          "$designer": {
+                            "id": "g9t2l3"
+                          },
+                          "assignments": [
+                            {
+                              "property": "dialog.Text",
+                              "value": "=conversation.RKHRealEstate_Text2"
+                            },
+                            {
+                              "property": "dialog.option1",
+                              "value": "للبيع"
+                            },
+                            {
+                              "property": "dialog.option2",
+                              "value": "للإيجار"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "value": "en",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperties",
+                          "$designer": {
+                            "id": "nM0Mvi"
+                          },
+                          "assignments": [
+                            {
+                              "property": "dialog.Text",
+                              "value": "=conversation.RKHRealEstate_Text2"
+                            },
+                            {
+                              "property": "dialog.option1",
+                              "value": "For Sale"
+                            },
+                            {
+                              "property": "dialog.option2",
+                              "value": "For Rent"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ],
+                  "default": [
+                    {
+                      "$kind": "Microsoft.SetProperties",
+                      "$designer": {
+                        "id": "qhaLV9"
+                      },
+                      "assignments": [
+                        {
+                          "property": "dialog.Text",
+                          "value": "=conversation.RKHRealEstate_Text2"
+                        },
+                        {
+                          "property": "dialog.option1",
+                          "value": "للبيع"
+                        },
+                        {
+                          "property": "dialog.option2",
+                          "value": "للإيجار"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.DeleteProperty",
+                  "$designer": {
+                    "id": "McNxak"
+                  },
+                  "property": "dialog.selectR1"
+                },
+                {
+                  "$kind": "Microsoft.TextInput",
+                  "$designer": {
+                    "id": "7OOe9m"
+                  },
+                  "disabled": false,
+                  "maxTurnCount": 3,
+                  "alwaysPrompt": false,
+                  "allowInterruptions": false,
+                  "unrecognizedPrompt": "",
+                  "invalidPrompt": "",
+                  "prompt": "${TextInput_Prompt_7OOe9m()}",
+                  "property": "dialog.selectR1"
+                },
+                {
+                  "$kind": "Microsoft.SwitchCondition",
+                  "$designer": {
+                    "id": "KifNzd"
+                  },
+                  "condition": "dialog.selectR1",
+                  "cases": [
+                    {
+                      "value": "للبيع",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "1Uh7uw"
+                          },
+                          "property": "conversation.RealEstateResidentialType",
+                          "value": "1"
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "3kQLcw"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "RKHForSale"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "للإيجار",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "udnyHQ"
+                          },
+                          "property": "conversation.RealEstateResidentialType",
+                          "value": "2"
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "yBVwWS"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "RKHForSale"
+                        },
+                        {
+                          "$kind": "Microsoft.EndDialog",
+                          "$designer": {
+                            "id": "wuvnrq"
+                          }
+                        },
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "nRTAhW"
+                          },
+                          "property": "conversation.RKHTextTow",
+                          "value": "تواصل مع رائد خلف لمعرفة الشقق الفندقية و العقارات السكنية الأخرى المتوفرة للإيجار:"
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "Bvfgpi"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "RKHSendPDF"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "For Sale",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "rpFdYi"
+                          },
+                          "property": "conversation.RealEstateResidentialType",
+                          "value": "1"
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "mp8gf7"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "RKHForSale"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "For Rent",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "U9mIqD"
+                          },
+                          "property": "conversation.RealEstateResidentialType",
+                          "value": "2"
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "iJaF2p"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "RKHForSale"
+                        },
+                        {
+                          "$kind": "Microsoft.EndDialog",
+                          "$designer": {
+                            "id": "H2jXNM"
+                          }
+                        },
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "ZDXibm"
+                          },
+                          "property": "conversation.RKHTextTow",
+                          "value": " Contact Raed Khalaf to find out about hotel apartments and other residential properties available for rent:"
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "c280Qg"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "RKHSendPDF"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "Commercial RS",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "yFr06M"
+                  },
+                  "property": "conversation.RealEstateType",
+                  "value": "2"
+                },
+                {
+                  "$kind": "Microsoft.SwitchCondition",
+                  "$designer": {
+                    "id": "Efhzhf"
+                  },
+                  "condition": "conversation.local",
+                  "cases": [
+                    {
+                      "value": "ar",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperties",
+                          "$designer": {
+                            "id": "L72Zhk"
+                          },
+                          "assignments": [
+                            {
+                              "property": "dialog.Text",
+                              "value": "=conversation.RKHRealEstate_Text3"
+                            },
+                            {
+                              "property": "dialog.option1",
+                              "value": "للبيع"
+                            },
+                            {
+                              "property": "dialog.option2",
+                              "value": "للإيجار"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "value": "en",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperties",
+                          "$designer": {
+                            "id": "o3w0gt"
+                          },
+                          "assignments": [
+                            {
+                              "property": "dialog.Text",
+                              "value": "=conversation.RKHRealEstate_Text3"
+                            },
+                            {
+                              "property": "dialog.option1",
+                              "value": "For Sale"
+                            },
+                            {
+                              "property": "dialog.option2",
+                              "value": "For Rent"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ],
+                  "default": [
+                    {
+                      "$kind": "Microsoft.SetProperties",
+                      "$designer": {
+                        "id": "OFxf1S"
+                      },
+                      "assignments": [
+                        {
+                          "property": "dialog.Text",
+                          "value": "=conversation.RKHRealEstate_Text3"
+                        },
+                        {
+                          "property": "dialog.option1",
+                          "value": "للبيع"
+                        },
+                        {
+                          "property": "dialog.option2",
+                          "value": "للإيجار"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.DeleteProperty",
+                  "$designer": {
+                    "id": "Y6QC8i"
+                  },
+                  "property": "dialog.selectR1"
+                },
+                {
+                  "$kind": "Microsoft.TextInput",
+                  "$designer": {
+                    "id": "KEru1d"
+                  },
+                  "disabled": false,
+                  "maxTurnCount": 3,
+                  "alwaysPrompt": false,
+                  "allowInterruptions": false,
+                  "unrecognizedPrompt": "",
+                  "invalidPrompt": "",
+                  "prompt": "${TextInput_Prompt_KEru1d()}",
+                  "property": "dialog.selectR1"
+                },
+                {
+                  "$kind": "Microsoft.SwitchCondition",
+                  "$designer": {
+                    "id": "lLIDzm"
+                  },
+                  "condition": "dialog.selectR1",
+                  "cases": [
+                    {
+                      "value": "للبيع",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "dJ1iin"
+                          },
+                          "property": "conversation.RealEstateResidentialType",
+                          "value": "1"
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "6Gi7ML"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "RKHForSaleTow"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "للإيجار",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "AfSu9g"
+                          },
+                          "property": "conversation.RealEstateResidentialType",
+                          "value": "2"
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "9w3dSL"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "RKHForSaleTow"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "For Sale",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "QtN5P9"
+                          },
+                          "property": "conversation.RealEstateResidentialType",
+                          "value": "1"
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "hYPEoG"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "RKHForSaleTow"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "For Rent",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "crBrOU"
+                          },
+                          "property": "conversation.RealEstateResidentialType",
+                          "value": "2"
+                        },
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "LpY0l0"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "RKHForSaleTow"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "default": [
+            {
+              "$kind": "Microsoft.CancelAllDialogs",
+              "$designer": {
+                "id": "UuVpgC"
+              },
+              "activityProcessed": true
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.CancelAllDialogs",
+          "$designer": {
+            "id": "DiAVDr"
+          },
+          "activityProcessed": true
+        }
+      ]
+    }
+  ],
+  "generator": "RKHRealEstate.lg",
+  "recognizer": "RKHRealEstate.lu.qna",
+  "id": "RKHRealEstate"
+}

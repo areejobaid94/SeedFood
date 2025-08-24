@@ -1,0 +1,107 @@
+<div class="row row-no-padding row-col-separator-xl h-100" [perfectScrollbar]>
+    <div class="col">
+        <div class="card card-custom bgi-no-repeat card-stretch new-subscription-statistics h-100">
+            <div class="card-body">
+                <a href="#"
+                   class="card-title text-left font-weight-bolder text-dark font-size-h6 mb-4 text-hover-state-dark d-block">
+                    {{'ReceivedMessagesCount' | localize}}
+                </a>
+                <div class="text-left text-success font-weight-bolder font-size-h2 mr-2">
+                    <span *ngIf="!getMeassagesInfoOutput">...</span>
+                    <!-- <span *ngIf="getMeassagesInfoOutput" counto [step]="30"
+                          [countTo]="getMeassagesInfoOutput.receivedMessagesCount" [countFrom]="0"
+                          [duration]="5"
+                          (countoChange)="ReceivedMessagesCount = $event">{{ReceivedMessagesCount | number:'1.0-0'}}</span> -->
+                </div>
+                <div class="progress progress-xs mt-7 bg-success-o-60">
+                    <div class="progress-bar bg-success" role="progressbar" style="width: 100%;" aria-valuenow="100"
+                         aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+                <!-- <div class="text-left text-dark-75 mt-1 status-title">
+                    {{selectedDateRange[0] | momentFormat: 'L'}} -
+                    {{selectedDateRange[1] | momentFormat: 'L'}}
+                </div> -->
+            </div>
+        </div>
+    </div>
+    
+    <div class="col">
+        <div class="card card-custom bgi-no-repeat card-stretch new-subscription-statistics h-100">
+            <div class="card-body">
+                <a href="#"
+                   class="card-title text-left font-weight-bolder text-dark font-size-h6 mb-4 text-hover-state-dark d-block">
+                    {{'SendMessagesCount' | localize}}
+                </a>
+                <div class="text-left text-primary font-weight-bolder font-size-h2 mr-2">
+                    <span *ngIf="!getMeassagesInfoOutput">...</span>
+                    <span *ngIf="getMeassagesInfoOutput" counto [step]="30"
+                          [countTo]="getMeassagesInfoOutput.sendMessagesCount" [countFrom]="0"
+                          [duration]="5"
+                          (countoChange)="SendMessagesCount = $event">{{SendMessagesCount  | number:'1.0-0'}}</span>
+                </div>
+                <div class="progress progress-xs mt-7 bg-primary-o-60">
+                    <div class="progress-bar bg-primary" role="progressbar" style="width: 100%;" aria-valuenow="100"
+                         aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+                <!-- <div class="text-left text-dark-75 mt-1 status-title">
+                    {{selectedDateRange[0] | momentFormat: 'L'}} -
+                    {{selectedDateRange[1] | momentFormat: 'L'}}
+                </div> -->
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="card card-custom bgi-no-repeat card-stretch new-subscription-statistics h-100">
+            <div class="card-body">
+                <a href="#"
+                   class="card-title text-left font-weight-bolder text-dark font-size-h6 mb-4 text-hover-state-dark d-block">
+                    {{'TotalOfConvsersations' | localize}}
+                </a>
+                <div class="text-left text-warning font-weight-bolder font-size-h2 mr-2">
+                    <span *ngIf="!getMeassagesInfoOutput">...</span>
+                    <!-- <span *ngIf="getMeassagesInfoOutput" counto [step]="30"
+                          [countTo]="getMeassagesInfoOutput.totalOfConversation" [countFrom]="0"
+                          [duration]="5"
+                          (countoChange)="TotalOfConvsersation = $event">{{TotalOfConvsersation  | number:'1.0-0'}}</span> -->
+                </div>
+                <div class="progress progress-xs mt-7 bg-warning-o-60">
+                    <div class="progress-bar bg-warning" role="progressbar" style="width: 100%;" aria-valuenow="100"
+                         aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+                <!-- <div class="text-left text-dark-75 mt-1 status-title">
+                    {{selectedDateRange[0] | momentFormat: 'L'}} -
+                    {{selectedDateRange[1] | momentFormat: 'L'}}
+                </div> -->
+            </div>
+        </div>
+    </div>
+
+    <div class="card-header align-items-center border-0">
+        <div class="card-toolbar">
+            <div class="btn-group btn-group-devided" data-toggle="buttons">
+                <label class="btn m-btn--pill btn-secondary"
+                       [ngClass]="{'active': selectedIncomeStatisticsDateInterval ==  appIncomeStatisticsDateInterval.Daily}"
+                       (click)="incomeStatisticsDateIntervalChange(appIncomeStatisticsDateInterval.Daily)">
+                    <input type="radio" name="IncomeStatisticsDatePeriod" class="toggle"
+                           [value]="appIncomeStatisticsDateInterval.Daily">
+                    {{"Daily" | localize}}
+                </label>
+                <label class="btn m-btn--pill btn-secondary"
+                       [ngClass]="{'active': selectedIncomeStatisticsDateInterval ==  appIncomeStatisticsDateInterval.Weekly}"
+                       (click)="incomeStatisticsDateIntervalChange(appIncomeStatisticsDateInterval.Weekly)">
+                    <input type="radio" name="IncomeStatisticsDatePeriod" class="toggle"
+                           [value]="appIncomeStatisticsDateInterval.Weekly">
+                    {{"Weekly" | localize}}
+                </label>
+                <label class="btn m-btn--pill btn-secondary"
+                       [ngClass]="{'active': selectedIncomeStatisticsDateInterval ==  appIncomeStatisticsDateInterval.Monthly}"
+                       (click)="incomeStatisticsDateIntervalChange(appIncomeStatisticsDateInterval.Monthly)">
+                    <input type="radio" name="IncomeStatisticsDatePeriod" class="toggle"
+                           [value]="appIncomeStatisticsDateInterval.Monthly">
+                    {{"Monthly" | localize}}
+                </label>               
+            </div>
+        </div>
+    </div>
+
+</div>

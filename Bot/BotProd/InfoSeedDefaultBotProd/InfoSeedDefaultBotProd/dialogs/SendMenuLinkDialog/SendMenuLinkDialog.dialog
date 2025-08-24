@@ -1,0 +1,129 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "WAxknF",
+    "name": "SendMenuLinkDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "z6PDRQ"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "yjmtgY"
+          },
+          "assignments": [
+            {
+              "property": "dialog.link",
+              "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 2)).text"
+            },
+            {
+              "property": "dialog.link",
+              "value": "=replace(dialog.link, '{0}', conversation.TenantId)"
+            },
+            {
+              "property": "dialog.link",
+              "value": "=replace(dialog.link, '{1}', conversation.ContactId)"
+            },
+            {
+              "property": "dialog.link",
+              "value": "=replace(dialog.link, '{2}', conversation.TenantPhoneNumber)"
+            },
+            {
+              "property": "dialog.link",
+              "value": "=replace(dialog.link, '{3}', conversation.menu)"
+            },
+            {
+              "property": "dialog.link",
+              "value": "=replace(dialog.link, '{4}', '1')"
+            },
+            {
+              "property": "dialog.link",
+              "value": "=replace(dialog.link, '{5}', conversation.local)"
+            },
+            {
+              "property": "dialog.link",
+              "value": "=replace(dialog.link, '{6}', conversation.OrderTypeId)"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "3rNcc5"
+          },
+          "property": "dialog.postlink",
+          "value": {
+            "ContactID": "=conversation.ContactId",
+            "Value": "=dialog.link"
+          }
+        },
+        {
+          "$kind": "Microsoft.HttpRequest",
+          "$designer": {
+            "id": "aSvUe2"
+          },
+          "resultProperty": "dialog.GetLink",
+          "method": "POST",
+          "url": "${conversation.URL}/api/BotAPI/AddMenuContcatKey",
+          "body": "=dialog.postlink",
+          "headers": {
+            "accept": "text/plain",
+            "Content-Type": "application/json-patch+json"
+          },
+          "responseType": "json"
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "aRRX9P"
+          },
+          "property": "dialog.link",
+          "value": "=dialog.GetLink.content.result"
+        },
+        {
+          "$kind": "Microsoft.DeleteProperty",
+          "$designer": {
+            "id": "T9bTFd"
+          },
+          "property": "dialog.SelectLink"
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "okPxTc"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "unrecognizedPrompt": "",
+          "invalidPrompt": "",
+          "property": "dialog.SelectLink",
+          "validations": [
+            "contains(this.value, '#') || contains(this.value, 'testinfoseed')"
+          ],
+          "prompt": "${TextInput_Prompt_okPxTc()}"
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "RaVrGN"
+          }
+        }
+      ]
+    }
+  ],
+  "generator": "SendMenuLinkDialog.lg",
+  "recognizer": "SendMenuLinkDialog.lu.qna",
+  "id": "SendMenuLinkDialog"
+}

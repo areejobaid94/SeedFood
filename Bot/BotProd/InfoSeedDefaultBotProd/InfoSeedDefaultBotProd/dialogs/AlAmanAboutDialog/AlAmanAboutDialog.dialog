@@ -1,0 +1,447 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "NiyyoB",
+    "name": "AlAmanAboutDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "ersoQD"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "cVd230"
+          },
+          "condition": "conversation.local",
+          "cases": [
+            {
+              "value": "ar",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "tS6al4"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.aboutus",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 7)).text"
+                    },
+                    {
+                      "property": "dialog.phonee",
+                      "value": "=conversation.TenantPhoneNumber"
+                    },
+                    {
+                      "property": "dialog.ourloc",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 8)).text"
+                    },
+                    {
+                      "property": "dialog.pdf",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 9)).text"
+                    },
+                    {
+                      "property": "dialog.starttext",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId ==10)).text"
+                    },
+                    {
+                      "property": "dialog.choose",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 6)).text"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "VkoJVI"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.Option1",
+                      "value": "نبذة عن الصندوق"
+                    },
+                    {
+                      "property": "dialog.Option2",
+                      "value": "برامج الصندوق"
+                    },
+                    {
+                      "property": "dialog.Option3",
+                      "value": "انجازات الصندوق"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "en",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "dJtCEQ"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.aboutus",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 7)).text"
+                    },
+                    {
+                      "property": "dialog.phonee",
+                      "value": "=conversation.TenantPhoneNumber"
+                    },
+                    {
+                      "property": "dialog.ourloc",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 8)).text"
+                    },
+                    {
+                      "property": "dialog.pdf",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 9)).text"
+                    },
+                    {
+                      "property": "dialog.starttext",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId ==10)).text"
+                    },
+                    {
+                      "property": "dialog.choose",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 6)).text"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "eoCntN"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.Option1",
+                      "value": "About the Fund"
+                    },
+                    {
+                      "property": "dialog.Option2",
+                      "value": "Fund Programs"
+                    },
+                    {
+                      "property": "dialog.Option3",
+                      "value": "Achievements"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "default": []
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "tnIOou"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "invalidPrompt": "",
+          "prompt": "${TextInput_Prompt_tnIOou()}",
+          "property": "dialog.userInput",
+          "validations": [
+            "=equals(this.value, '#')|| equals(this.value, 'انجازات الصندوق') || equals(this.value, 'برامج الصندوق') || equals(this.value, 'نبذة عن الصندوق')|| equals(this.value, 'Achievements')|| equals(this.value, 'Fund Programs') || equals(this.value, 'About the Fund')"
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "mf0cux"
+          },
+          "property": "conversation.Department2",
+          "value": "=dialog.userInput"
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "uqbNdI"
+          },
+          "condition": "dialog.userInput",
+          "cases": [
+            {
+              "value": "نبذة عن الصندوق",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "lLssph"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.option1",
+                      "value": "مواقعنا وساعات العمل"
+                    },
+                    {
+                      "property": "dialog.option2",
+                      "value": "تواصل معنا"
+                    },
+                    {
+                      "property": "dialog.option3",
+                      "value": "دردشة مباشرة"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.TextInput",
+                  "$designer": {
+                    "id": "fHG5w8"
+                  },
+                  "disabled": false,
+                  "maxTurnCount": 100,
+                  "alwaysPrompt": false,
+                  "allowInterruptions": true,
+                  "prompt": "${TextInput_Prompt_fHG5w8()}",
+                  "property": "dialog.contactInput",
+                  "validations": [
+                    "=equals(this.value, '#')|| equals(this.value, 'دردشة مباشرة') || equals(this.value, 'Live Chat') || equals(this.value, 'Contact Us')|| equals(this.value, 'تواصل معنا')|| equals(this.value, 'Our Locations') || equals(this.value, 'مواقعنا وساعات العمل')"
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SwitchCondition",
+                  "$designer": {
+                    "id": "RedzFG"
+                  },
+                  "condition": "dialog.contactInput",
+                  "cases": [
+                    {
+                      "value": "دردشة مباشرة",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "6thBbt"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "LiveChatDialog"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "تواصل معنا",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SendActivity",
+                          "$designer": {
+                            "id": "DQOb5z"
+                          },
+                          "activity": "${SendActivity_DQOb5z()}"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "مواقعنا وساعات العمل",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SendActivity",
+                          "$designer": {
+                            "id": "TVOHmn"
+                          },
+                          "activity": "${SendActivity_TVOHmn()}"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "برامج الصندوق",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "vi0UIZ"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "AlAmanProgramsDialog"
+                }
+              ]
+            },
+            {
+              "value": "انجازات الصندوق",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "d3GFBX"
+                  },
+                  "activity": "${SendActivity_d3GFBX()}"
+                },
+                {
+                  "$kind": "Microsoft.TextInput",
+                  "$designer": {
+                    "id": "kMc84A"
+                  },
+                  "disabled": false,
+                  "maxTurnCount": 3,
+                  "alwaysPrompt": false,
+                  "allowInterruptions": true,
+                  "invalidPrompt": "",
+                  "prompt": "${TextInput_Prompt_kMc84A()}",
+                  "property": "dialog.startInput"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "NCbbFp"
+          },
+          "condition": "dialog.userInput",
+          "cases": [
+            {
+              "value": "About the Fund",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "vF5P1D"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.option1",
+                      "value": "Our Locations"
+                    },
+                    {
+                      "property": "dialog.option2",
+                      "value": "Contact Us"
+                    },
+                    {
+                      "property": "dialog.option3",
+                      "value": "Live Chat"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.TextInput",
+                  "$designer": {
+                    "id": "K9nG1r"
+                  },
+                  "disabled": false,
+                  "maxTurnCount": 100,
+                  "alwaysPrompt": false,
+                  "allowInterruptions": true,
+                  "prompt": "${TextInput_Prompt_K9nG1r()}",
+                  "property": "dialog.contactInput",
+                  "validations": [
+                    "=equals(this.value, '#')|| equals(this.value, 'دردشة مباشرة') || equals(this.value, 'Live Chat') || equals(this.value, 'Contact Us')|| equals(this.value, 'تواصل معنا')|| equals(this.value, 'Our Locations') || equals(this.value, 'مواقعنا وساعات العمل')"
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SwitchCondition",
+                  "$designer": {
+                    "id": "Zirbrj"
+                  },
+                  "condition": "dialog.contactInput",
+                  "cases": [
+                    {
+                      "value": "Live Chat",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "bFqTgm"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "LiveChatDialog"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "Contact Us",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SendActivity",
+                          "$designer": {
+                            "id": "RArPfA"
+                          },
+                          "activity": "${SendActivity_RArPfA()}"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "Our Locations",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SendActivity",
+                          "$designer": {
+                            "id": "sd9IMI"
+                          },
+                          "activity": "${SendActivity_sd9IMI()}"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "Fund Programs",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "xbQXG0"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "AlAmanProgramsDialog"
+                }
+              ]
+            },
+            {
+              "value": "Achievements",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "7fcXi0"
+                  },
+                  "activity": "${SendActivity_7fcXi0()}"
+                },
+                {
+                  "$kind": "Microsoft.TextInput",
+                  "$designer": {
+                    "id": "5rqbIK"
+                  },
+                  "disabled": false,
+                  "maxTurnCount": 3,
+                  "alwaysPrompt": false,
+                  "allowInterruptions": true,
+                  "unrecognizedPrompt": "",
+                  "invalidPrompt": "",
+                  "prompt": "${TextInput_Prompt_5rqbIK()}",
+                  "property": "dialog.startInput"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.CancelAllDialogs",
+          "$designer": {
+            "id": "w40Vay"
+          },
+          "activityProcessed": true
+        }
+      ]
+    }
+  ],
+  "generator": "AlAmanAboutDialog.lg",
+  "recognizer": "AlAmanAboutDialog.lu.qna",
+  "id": "AlAmanAboutDialog"
+}

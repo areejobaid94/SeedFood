@@ -1,0 +1,172 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "IS69y0",
+    "name": "MainDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "zK3ajV"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "Ecpmwx"
+          },
+          "activityProcessed": true,
+          "dialog": "StartDialog"
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "GFmx29"
+          },
+          "condition": "conversation.TenantId",
+          "cases": [
+            {
+              "actions": [
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "RDzcyt"
+                  },
+                  "condition": "conversation.local==conversation.OldLocal",
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "WdIlYT"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "SelectLocalDialog"
+                    }
+                  ]
+                }
+              ],
+              "value": "75"
+            },
+            {
+              "value": "27",
+              "actions": [
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "RoIAno"
+                  },
+                  "condition": "conversation.local==conversation.OldLocal",
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "RbAE5i"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "SelectLocalDialog"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "default": [
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "xajOn8"
+              },
+              "property": "conversation.local",
+              "value": "ar"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "R40Zu3"
+          },
+          "condition": "conversation.local==conversation.OldLocal",
+          "elseActions": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "YMCsb5"
+              },
+              "activityProcessed": true,
+              "dialog": "CaptionDialog"
+            },
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "klSldR"
+              },
+              "property": "conversation.OldLocal",
+              "value": "=conversation.local"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "Q7x9cI"
+          },
+          "condition": "conversation.TenantId",
+          "cases": [
+            {
+              "value": "75",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "ZF9nGr"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "BookingMainDialog"
+                }
+              ]
+            },
+            {
+              "value": "27",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "9WbuJS"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "BookingMainDialog"
+                }
+              ]
+            }
+          ],
+          "default": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "N33xN8"
+              },
+              "activityProcessed": true,
+              "dialog": "BookingMainDialog"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "JRSim0"
+          }
+        }
+      ]
+    }
+  ],
+  "generator": "MainDialog.lg",
+  "recognizer": "MainDialog.lu.qna",
+  "id": "MainDialog"
+}

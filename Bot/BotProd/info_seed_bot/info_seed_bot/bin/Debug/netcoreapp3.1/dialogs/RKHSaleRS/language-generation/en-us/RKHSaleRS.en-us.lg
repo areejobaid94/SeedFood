@@ -1,0 +1,35 @@
+[import](common.lg)
+
+# SendActivity_xpED6O()
+[Activity
+    Text = ${SendActivity_xpED6O_text()}
+]
+
+# SendActivity_xpED6O_text()
+- ${dialog.Text}
+# TextInput_Prompt_rGaMN9()
+[Activity
+    Text = ${TextInput_Prompt_rGaMN9_text()}
+]
+
+# TextInput_Prompt_rGaMN9_text()
+- ${dialog.Text2}
+# TextInput_Prompt_h24eb0()
+[Activity
+    Text = ${TextInput_Prompt_h24eb0_text()}
+]
+
+# TextInput_Prompt_h24eb0_text()
+- ${dialog.Text3}
+# TextInput_Prompt_xsiwaf()
+[Activity
+    Text = ${TextInput_Prompt_xsiwaf_text()}
+]
+
+# TextInput_Prompt_xsiwaf_text()
+- ${dialog.Text4}
+# SendActivity_SbVePB()
+[Activity
+  Text= ${dialog.Text5} 
+  Summary =  ${conversation.Summary}  
+]

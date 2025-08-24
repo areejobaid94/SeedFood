@@ -1,0 +1,35 @@
+[import](common.lg)
+
+# TextInput_Prompt_JUCqbz()
+[Activity
+    Attachments = ${json(ButtonList(conversation.MessageSelect,dialog.SalesList))}
+    InputHint=${conversation.MessageSelect}
+    Summary=${conversation.Summary}
+]
+# SendActivity_UikjSV()
+[Activity
+    Text = ${SendActivity_UikjSV_text()}
+]
+
+# SendActivity_UikjSV_text()
+- ${dialog.DriveCaption}
+# SendActivity_4h3W1Y_text()
+- ${dialog.DriveCaption}
+# SendActivity_4h3W1Y()
+[Activity
+    Text = ${SendActivity_4h3W1Y_text()}
+]
+
+# SendActivity_ISrToB_text()
+- ${dialog.RoomCaption}
+# SendActivity_ISrToB()
+[Activity
+    Text = ${SendActivity_ISrToB_text()}
+]
+
+# SendActivity_Qmvv3C_text()
+- ${dialog.RoomCaption}
+# SendActivity_Qmvv3C()
+[Activity
+    Text = ${SendActivity_Qmvv3C_text()}
+]

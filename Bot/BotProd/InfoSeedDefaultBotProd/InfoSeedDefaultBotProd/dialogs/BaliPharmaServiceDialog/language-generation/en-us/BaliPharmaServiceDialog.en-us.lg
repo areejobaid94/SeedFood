@@ -1,0 +1,58 @@
+[import](common.lg)
+
+# TextInput_Prompt_cHGSMt()
+[Activity
+    Text = ${TextInput_Prompt_cHGSMt_text()}
+    SuggestedActions = ${dialog.option1} | ${dialog.option2}
+]
+
+# TextInput_Prompt_cHGSMt_text()
+- ${conversation.choose}
+# SendActivity_T7cssB()
+[Activity
+    Text = ${SendActivity_T7cssB_text()}
+]
+
+# SendActivity_T7cssB_text()
+- ${conversation.Thanks}
+# TextInput_Prompt_B9TaVQ()
+[Activity
+    Text = ${TextInput_Prompt_B9TaVQ_text()}
+]
+
+# TextInput_Prompt_B9TaVQ_text()
+- ${dialog.choose2}
+# TextInput_Prompt_oysFFl_text()
+- ${dialog.choose2}
+# TextInput_Prompt_oysFFl()
+[Activity
+    Text = ${TextInput_Prompt_oysFFl_text()}
+]
+
+# SendActivity_7sJ49E_text()
+- ${dialog.text}
+# SendActivity_7sJ49E()
+[Activity
+    Text = ${SendActivity_7sJ49E_text()}
+]
+
+# SendActivity_Hq291S_text()
+- ${dialog.text}
+# SendActivity_Hq291S()
+[Activity
+    Text = ${SendActivity_Hq291S_text()}
+]
+
+# SendActivity_GyJhl2_text()
+- ${dialog.text}
+# SendActivity_GyJhl2()
+[Activity
+    Text = ${SendActivity_GyJhl2_text()}
+]
+
+# SendActivity_eksbxz_text()
+- ${dialog.text}
+# SendActivity_eksbxz()
+[Activity
+    Text = ${SendActivity_eksbxz_text()}
+]

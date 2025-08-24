@@ -1,0 +1,337 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "kHxQuv",
+    "name": "BranchesDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "AOmaAJ"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "Lfd5N6"
+          },
+          "condition": "conversation.IsNextPage ",
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "rgg8Rn"
+              },
+              "assignments": [
+                {
+                  "property": "conversation.pageNumber",
+                  "value": "=int(conversation.pageNumber)+ 1"
+                },
+                {
+                  "property": "conversation.IsNextPage",
+                  "value": false
+                }
+              ]
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "iP8daG"
+              },
+              "assignments": [
+                {
+                  "property": "conversation.pageNumber",
+                  "value": "0"
+                },
+                {
+                  "property": "conversation.pageSize",
+                  "value": "8"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "UQBA7n"
+          },
+          "condition": "conversation.local==\"ar\"",
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "xPLVVz"
+              },
+              "assignments": [
+                {
+                  "property": "dialog.InputHint",
+                  "value": "الفروع"
+                },
+                {
+                  "property": "dialog.Summary",
+                  "value": "اضغط # للعودة الى القائمة الرئيسية "
+                },
+                {
+                  "property": "dialog.text",
+                  "value": "الرجاء الاختيار"
+                }
+              ]
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "Umzfdj"
+              },
+              "assignments": [
+                {
+                  "property": "dialog.InputHint",
+                  "value": "Branches"
+                },
+                {
+                  "property": "dialog.Summary",
+                  "value": "Press # to return to the main menu"
+                },
+                {
+                  "property": "dialog.text",
+                  "value": "Please choose"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.HttpRequest",
+          "$designer": {
+            "id": "OTXNRu"
+          },
+          "resultProperty": "dialog.Branch ",
+          "method": "GET",
+          "url": "${conversation.URL}/api/BotAPI/GetAreasWithPage?TenantID=${conversation.TenantId}&local=${conversation.local}&menu=0&pageNumber=${conversation.pageNumber}&pageSize=8&isDelivery=false"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "ROovTp"
+          },
+          "condition": "dialog.Branch.content.result.count > 0",
+          "elseActions": [
+            {
+              "$kind": "Microsoft.CancelAllDialogs",
+              "$designer": {
+                "id": "Cu6Aah"
+              },
+              "activityProcessed": true
+            }
+          ],
+          "actions": []
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "sZpRvX"
+          },
+          "condition": "dialog.Branch.content.result.count == 1",
+          "elseActions": [
+            {
+              "$kind": "Microsoft.DeleteProperty",
+              "$designer": {
+                "id": "G8j3Iq"
+              },
+              "property": "conversation.SelectBranch"
+            }
+          ],
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "4MKnnB"
+              },
+              "property": "conversation.SelectBranch",
+              "value": "=dialog.Branch.content.result[0]"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "tTB4uF"
+          },
+          "property": "dialog.text",
+          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 12)).text"
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "EGlUyR"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "unrecognizedPrompt": "",
+          "invalidPrompt": "",
+          "prompt": "${TextInput_Prompt_EGlUyR()}",
+          "property": "conversation.SelectBranch",
+          "validations": [
+            "=contains(dialog.Branch.content.result, this.value) || contains(this.value, '#')"
+          ]
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "thsGkS"
+          },
+          "condition": "conversation.SelectBranch",
+          "cases": [
+            {
+              "value": "Others",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "d1PLhe"
+                  },
+                  "property": "conversation.IsNextPage",
+                  "value": true
+                },
+                {
+                  "$kind": "Microsoft.RepeatDialog",
+                  "$designer": {
+                    "id": "aP1q8K"
+                  },
+                  "activityProcessed": true
+                }
+              ]
+            },
+            {
+              "value": "اخرى",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "gqus51"
+                  },
+                  "property": "conversation.IsNextPage",
+                  "value": true
+                },
+                {
+                  "$kind": "Microsoft.RepeatDialog",
+                  "$designer": {
+                    "id": "0nai4i"
+                  },
+                  "activityProcessed": true
+                }
+              ]
+            },
+            {
+              "value": "Back",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "WRbp2q"
+                  },
+                  "assignments": [
+                    {
+                      "property": "conversation.pageNumber",
+                      "value": "=int(conversation.pageNumber)-2"
+                    },
+                    {
+                      "property": "conversation.IsNextPage",
+                      "value": true
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.RepeatDialog",
+                  "$designer": {
+                    "id": "E1vetI"
+                  },
+                  "activityProcessed": true
+                }
+              ]
+            },
+            {
+              "value": "العودة",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "HIpVaA"
+                  },
+                  "assignments": [
+                    {
+                      "property": "conversation.pageNumber",
+                      "value": "=int(conversation.pageNumber)-2"
+                    },
+                    {
+                      "property": "conversation.IsNextPage",
+                      "value": true
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.RepeatDialog",
+                  "$designer": {
+                    "id": "apB30W"
+                  },
+                  "activityProcessed": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.HttpRequest",
+          "$designer": {
+            "id": "gEpB9n"
+          },
+          "resultProperty": "dialog.areaId",
+          "method": "GET",
+          "url": "${conversation.URL}/api/BotAPI/GetAreasID?TenantID=${conversation.TenantId}&AreaName=${conversation.SelectBranch}&menu=0&local=${conversation.local}",
+          "responseType": "json"
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "GkF20M"
+          },
+          "property": "conversation.UserIds",
+          "value": "${dialog.areaId.content.result.userIds}"
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "i1PGDy"
+          },
+          "assignments": [
+            {
+              "value": "=dialog.areaId.content.result.id",
+              "property": "conversation.AreaId"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "tr8hgO"
+          }
+        }
+      ]
+    }
+  ],
+  "generator": "BranchesDialog.lg",
+  "recognizer": "BranchesDialog.lu.qna",
+  "id": "BranchesDialog"
+}

@@ -1,0 +1,47 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "doe9kh",
+    "name": "ClearDialog",
+    "description": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "Uogadn"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.DeleteProperties",
+          "$designer": {
+            "id": "aqjWdB"
+          },
+          "properties": [
+            "conversation.OrderModel",
+            "conversation.OrderDetailListModel",
+            "conversation.ExtraOrderDetailListModel",
+            "conversation.ItemDtoListModel",
+            "conversation.AllCaption",
+            "conversation.LocationFrom",
+            "conversation.isChangeLocation",
+            "conversation.selectareaDelivery"
+          ]
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "YnZV3l"
+          }
+        }
+      ]
+    }
+  ],
+  "generator": "ClearDialog.lg",
+  "recognizer": "ClearDialog.lu.qna",
+  "id": "ClearDialog"
+}

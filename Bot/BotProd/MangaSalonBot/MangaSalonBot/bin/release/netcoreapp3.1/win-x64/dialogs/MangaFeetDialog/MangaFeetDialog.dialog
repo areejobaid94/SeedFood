@@ -1,0 +1,203 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "T78N9v",
+    "name": "MangaFeetDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "e96h8j"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "p8rffY"
+          },
+          "condition": "conversation.local",
+          "cases": [
+            {
+              "value": "ar",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "ENvMYi"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.List",
+                      "value": [
+                        "لون عادي",
+                        "برد أظافر",
+                        "حف قدم",
+                        "منكير",
+                        "بدكير",
+                        "منكير مع لون",
+                        "بدكير مع لون",
+                        "بدكير ومنيكر مع فرنش",
+                        "بدكير ومنكير مع منكير مايا (حلال)",
+                        "بدكير ومنكير مع برافيين",
+                        "بدكير ومنكير مع لون",
+                        "بدكير ومنيكر",
+                        "تركيب اظافر مع لون جل وديزاين",
+                        "تركيب اظافر مع لون جل",
+                        "تركيب اظافر مع لون عادي",
+                        "جل اكستنشن مع ديزاين",
+                        "جل اكستنشن",
+                        "جل كلر مع تنظيف واكستنشن لبعض الاظافر",
+                        "جل كلر مع تنظيف وهاردنر وديزاين",
+                        "جل كلر مع تنظيف وديزاين",
+                        "جل كلر مع تنظيف وهاردنر",
+                        "جل كلر مع تنظيف",
+                        "جل كلر بدون تنظيف"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "en",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "oiBga0"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.List",
+                      "value": [
+                        "Colour",
+                        "File your nails",
+                        "Full pedicure",
+                        "Manicure",
+                        "Pedicure",
+                        "Manicure with normal color",
+                        "Pedicure with normal color",
+                        "French pedicure and manicure",
+                        "Pedicure and Manicure with Maya nail polish (Halal)",
+                        "Manicure and Pedicure with paraffin wax (treatment)",
+                        "Manicure and Pedicure with color",
+                        "Manicure and Pedicure",
+                        "Fake nails with gel color and design",
+                        "Fake nails with gel color",
+                        "Fake nails with normal color",
+                        "Gel extension with design",
+                        "Gel extension",
+                        "Gel color with cuticle cleaning and extension of nails",
+                        "Gel color with cuticle cleaning , nail hardener, and design",
+                        "Gel color with cuticle cleaning  and design",
+                        "Gel color with cuticle cleaning and nail hardener",
+                        "Gel color with cuticle cleaning",
+                        "Gel color without cuticle cleaning"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "KkHlvY"
+          },
+          "property": "dialog.HintPlaseCaption",
+          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3623)).text"
+        },
+        {
+          "$kind": "Microsoft.DeleteProperty",
+          "$designer": {
+            "id": "ZD4Gmy"
+          },
+          "property": "dialog.Select"
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "SRU8KT"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "unrecognizedPrompt": "",
+          "validations": [],
+          "prompt": "${TextInput_Prompt_SRU8KT()}",
+          "property": "dialog.Select"
+        },
+        {
+          "$kind": "Microsoft.Foreach",
+          "$designer": {
+            "id": "TgRzqW"
+          },
+          "index": "dialog.foreach.index",
+          "value": "dialog.foreach.value",
+          "itemsProperty": "dialog.FirsList",
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "83n1SR"
+              },
+              "property": "dialog.foreach.value",
+              "value": "=dialog.foreach.value"
+            },
+            {
+              "$kind": "Microsoft.EditArray",
+              "$designer": {
+                "id": "RmD09L"
+              },
+              "changeType": "push",
+              "itemsProperty": "dialog.list",
+              "value": "=dialog.foreach.value"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "l9xofA"
+          },
+          "condition": "=contains(dialog.list,dialog.Select) || contains(dialog.Select, '#')",
+          "elseActions": [
+            {
+              "$kind": "Microsoft.RepeatDialog",
+              "$designer": {
+                "id": "6xmZ5x"
+              },
+              "activityProcessed": true
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "w424PD"
+          },
+          "property": "conversation.RequestValue5",
+          "value": "${dialog.Select}"
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "ECSwaE"
+          }
+        }
+      ]
+    }
+  ],
+  "generator": "MangaFeetDialog.lg",
+  "recognizer": "MangaFeetDialog.lu.qna",
+  "id": "MangaFeetDialog"
+}

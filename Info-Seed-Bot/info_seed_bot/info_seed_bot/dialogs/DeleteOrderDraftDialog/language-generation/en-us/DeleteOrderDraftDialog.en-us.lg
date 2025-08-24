@@ -1,0 +1,4 @@
+[import](common.lg)
+
+# SendActivity_XADSV4()
+- ${conversation.DeleteDraftText}

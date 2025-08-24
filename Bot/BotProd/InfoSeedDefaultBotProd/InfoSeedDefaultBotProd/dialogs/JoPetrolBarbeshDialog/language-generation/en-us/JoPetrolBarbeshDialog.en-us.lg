@@ -1,0 +1,10 @@
+[import](common.lg)
+
+# TextInput_Prompt_2FAfjo()
+[Activity
+    Text = ${TextInput_Prompt_2FAfjo_text()}
+    SuggestedActions = ${dialog.Option1} | ${dialog.Option2}
+]
+
+# TextInput_Prompt_2FAfjo_text()
+- ${dialog.ReservoirLocation}

@@ -1,0 +1,23 @@
+[import](common.lg)
+
+# TextInput_Prompt_hPayDY()
+[Activity
+    Text = ${TextInput_Prompt_hPayDY_text()}
+]
+
+# TextInput_Prompt_hPayDY_text()
+- ${dialog.nameCaption}
+# TextInput_Prompt_cMYNAJ()
+[Activity
+    Text = ${TextInput_Prompt_cMYNAJ_text()}
+]
+
+# TextInput_Prompt_cMYNAJ_text()
+- ${dialog.PhoneCaption}
+# TextInput_Prompt_cuCf8h()
+[Activity
+    Text = ${TextInput_Prompt_cuCf8h_text()}
+]
+
+# TextInput_Prompt_cuCf8h_text()
+- ${dialog.AddressCaption}

@@ -1,0 +1,434 @@
+<div>
+    <div class="header-navbar-shadow"
+        ></div>
+    <div class="content-wrapper container-xxl p-0">
+        <div class="content-body">
+            <div class="d-flex flex-column flex-column-fluid">
+                <sub-header *ngIf="theme != 'theme12'" [title]="'orders' | localize"
+                    [description]="'ordersHeaderInfo' | localize">
+                    <div role="actions">
+                        <button (click)="exportToExcel()"
+                            class="btn btn-primary btn-round btn-sm waves-effect waves-float waves-light"><i
+                                class="fa fa-file-excel"></i> {{ l("ExportToExcel") }}</button>
+                    </div>
+                </sub-header>
+                <sub-header *ngIf="theme === 'theme12'" [title]="'orders' | localize"
+                    [description]="'ordersHeaderInfo' | localize"> </sub-header>
+
+                <div [ngClass]="theme != 'theme12' ? 'container' : ''">
+                    <div class="card card-custom gutter-b"
+                      >
+                        <div class="card-body">
+                            <form *ngIf="theme != 'theme12'" class="form" autocomplete="off">
+                                <div>
+                                    <div class="row p-2" [hidden]="!advancedFiltersAreShown">
+                                        <div class="col-md-6 col-6 d-flex input-group">
+
+                                            <select class="form-control " name="nameFilter" id="nameFilter"
+                                                [(ngModel)]="nameFilter">
+                                                <option value="-1">{{ l("All") }}</option>
+                                                <option value="1">Pending</option>
+                                                <option value="2">Done</option>
+                                                <option value="3">Delete</option>
+                                                <option value="6">Canceled</option>
+                                                <option value="7">Pre Order</option>
+                                            </select>
+                                            <button (click)="getOrders($event)" class="btn btn-primary" type="submit"><i
+                                                    class="flaticon-search-1"></i></button>
+                                        </div>
+                                        <div class="col-md-6 col-6 d-flex p-0 input-group">
+                                            <input [(ngModel)]="nameFilter2" name="nameFilter2" autoFocus
+                                                class="form-control m-input" [placeholder]="l('SearchWithThreeDot')"
+                                                type="text" />
+
+                                            <button (click)="getOrders($event)" class="btn btn-primary" type="submit">
+                                                <i class="flaticon-search-1"></i>
+                                            </button>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="row mb-2">
+                                        <div class="col-sm-12 p-2">
+                                            <span class="clickable-item text-muted" *ngIf="!advancedFiltersAreShown"
+                                                (click)="advancedFiltersAreShown = !advancedFiltersAreShown"><i
+                                                    class="fa fa-angle-down"></i> {{ l("ShowAdvancedFilters") }}</span>
+                                            <span class="clickable-item text-muted" *ngIf="advancedFiltersAreShown"
+                                                (click)="advancedFiltersAreShown = !advancedFiltersAreShown"><i
+                                                    class="fa fa-angle-up"></i> {{ l("HideAdvancedFilters") }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+
+                            <form *ngIf="theme === 'theme12'" autocomplete="off">
+                                <div class="row mb-2 p-1">
+                                    <div class="mt-1 d-flex col-12 col-xl-4">
+                                        <select
+                                            [ngClass]="darkModeService.currentSkin === 'dark' ? 'form-control-dark ' : 'form-control'"
+                                            name="nameFilter" id="nameFilter"
+                                            [(ngModel)]="nameFilter">
+                                            <option value="-1">{{ l("All") }}</option>
+                                            <option value="1">Pending</option>
+                                            <option value="2">Done</option>
+                                            <option value="3">Delete</option>
+                                            <option value="6">Canceled</option>
+                                            <option value="7">Pre Order</option>
+                                        </select>
+                                        <button (click)="getOrders($event)" class="btn btn-primary-info"
+                                            type="submit"><i class="flaticon-search-1"></i></button>
+                                    </div>
+                                    <div class="mt-1 d-flex col-12 col-xl-4">
+                                        <input
+                                         
+                                            [(ngModel)]="nameFilter2" name="nameFilter2" autoFocus
+                                            class="form-control   m-input" [placeholder]="'searchByPhone' | localize" type="text" />
+
+
+                                        <button (click)="getOrders($event)" class="btn btn-primary-info" type="submit">
+                                            <i class="flaticon-search-1"></i>
+                                        </button>
+                                    </div>
+                                    <div class="col-xl-4 col-12 mt-1 text-right" [ngClass]="isArabic? 'pl-1' : ''"> 
+                                        <button (click)="exportToExcel()" class="btn btn-outline-primary-info mr-1"><i
+                                                class="fa fa-file-excel"></i> {{ l("ExportToExcel") }}</button>
+                                    </div>
+                                </div>
+                            </form>
+                            <div class="align-items-center">
+                                <!--<Primeng-Datatable-Start>-->
+                                <div class="primeng-datatable-container"
+                                    [ngClass]="darkModeService.currentSkin === 'dark' ? 'table-dark' : 'light'"
+                                    [busyIf]="primengTableHelper.isLoading">
+                                    <p-table [ngClass]="darkModeService.currentSkin === 'dark' ? 'table-dark' : 'light'"
+                                        #dataTable
+                                       
+                                        (onLazyLoad)="getOrders($event)" [value]="primengTableHelper.records"
+                                        rows="40" 
+                                        [paginator]="false"
+                                        responsiveLayout="stack"
+                                        [breakpoint]="'960px'"
+                                        [lazy]="true" 
+                                        >
+                                        <ng-template pTemplate="header"
+                                            [ngClass]="darkModeService.currentSkin === 'dark' ? 'table-dark' : 'light'">
+                                            <tr>
+                                                <th pResizableColumn
+                                                style="min-width: 100px;"
+                                                [ngClass]="darkModeService.currentSkin === 'dark' ? 'dark-table' : ''"
+                                                    >{{ l("Actions") }}</th>
+
+                                                <th style="min-width: 100px;" pResizableColumn [ngClass]="darkModeService.currentSkin === 'dark' ? 'dark-table' : ''"
+                                                     pSortableColumn="AgentId">
+                                                     <p-sortIcon field="order.AgentId"></p-sortIcon>
+                                                    {{ l("agent") }}
+                                                </th>
+                                                <th style="min-width: 160px;" pResizableColumn [ngClass]="darkModeService.currentSkin === 'dark' ? 'dark-table' : ''"
+                                                     pSortableColumn="customerMobile">
+                                                    {{ l("phoneNumber") }}
+                                                    <p-sortIcon field="order.customerMobile"></p-sortIcon>
+                                                </th>
+                                                <th style="min-width: 150px;" pResizableColumn [ngClass]="darkModeService.currentSkin === 'dark' ? 'dark-table' : ''"
+                                                    pSortableColumn="contactId">
+                                                    {{ l("customer") }}
+                                                    <p-sortIcon field="order.contactId"></p-sortIcon>
+                                                </th>
+
+                                                <th style="min-width: 150px;" pResizableColumn [ngClass]="darkModeService.currentSkin === 'dark' ? 'dark-table' : ''"
+                                               pSortableColumn="creationTime">
+                                                {{ l("Date") }}
+                                                <p-sortIcon field="order.creatTime"></p-sortIcon>
+                                            </th>
+                                            
+                                                <th  style="min-width: 150px;" pSortableColumn="creationTime">{{ l("Time") }} <p-sortIcon field="order.creationTime"></p-sortIcon></th>
+
+
+                                                <th style="min-width: 150px;" pResizableColumn  [ngClass]="darkModeService.currentSkin === 'dark' ? 'dark-table' : ''"
+                                                     pSortableColumn="orderStatus">
+                                                    {{ l("Status") }}
+                                                    <p-sortIcon field="order.orderStatus"></p-sortIcon>
+                                                </th>
+                                                <th style="min-width: 150px;" pResizableColumn [ngClass]="darkModeService.currentSkin === 'dark' ? 'dark-table' : ''"
+                                                    pSortableColumn="Total">
+                                                    {{ l("Total") }}
+                                                    <p-sortIcon field="order.total"></p-sortIcon>
+                                                </th>
+                                                <th style="min-width: 150px;" pResizableColumn [ngClass]="darkModeService.currentSkin === 'dark' ? 'dark-table' : ''"
+                                                     pSortableColumn="Total">
+                                                    {{ l("totalPoints") }}
+                                                    <p-sortIcon field="order.total"></p-sortIcon>
+                                                </th>
+                                                <th style="min-width: 150px;" pResizableColumn [ngClass]="darkModeService.currentSkin === 'dark' ? 'dark-table' : ''"
+                                                     pSortableColumn="actionTime">
+                                                    {{ l("actionTime") }}
+                                                    <p-sortIcon field="order.creationTime"></p-sortIcon>
+                                                </th>
+
+                                                <!-- <th style="width: 100px" pSortableColumn="orderNumber">
+                                                    {{ l("Order #") }}
+                                                    <p-sortIcon field="order.orderNumber"></p-sortIcon>
+                                                </th> -->
+                                                <th style="min-width: 150px;" pResizableColumn [ngClass]="darkModeService.currentSkin === 'dark' ? 'dark-table' : ''"
+                                                   pSortableColumn="OrderType">
+                                                    {{ l("type") }}
+                                                    <p-sortIcon field="order.OrderType"></p-sortIcon>
+                                                </th>
+                                                <!-- <th style="width: 100px" pSortableColumn="contactId">
+                                                    {{ l("Customer") }}
+                                                    <p-sortIcon field="order.contactId"></p-sortIcon>
+                                                </th> -->
+
+                                               
+
+
+
+                                                <!-- <th style="width: 150px" pSortableColumn="areahName">
+                                        {{l('BranchName')}}
+                                        <p-sortIcon field="areahName"></p-sortIcon>
+                                    </th> -->
+                                                <!-- <th style="width: 150px" pSortableColumn="areaName">
+                                        {{l('AreaName')}}
+                                        <p-sortIcon field="areaName"></p-sortIcon>
+                                    </th> -->
+
+                                                <th style="min-width: 150px;" pResizableColumn [ngClass]="darkModeService.currentSkin === 'dark' ? 'dark-table' : ''"
+                                                    pSortableColumn="BranchAreaName">
+                                                    {{ l("branch") }}
+                                                    <p-sortIcon field="order.OrderType"></p-sortIcon>
+                                                </th>
+
+                                                <!-- <th style="width: 150px" pSortableColumn="address">
+                                        {{l('Address')}}
+                                        <p-sortIcon field="address"></p-sortIcon>
+                                    </th> -->
+                                            </tr>
+                                        </ng-template>
+                                        <ng-template pTemplate="body" let-record="$implicit" let-i="rowIndex">
+                                            <tr>
+                                                <td [ngClass]="darkModeService.currentSkin === 'dark' ? 'table-dark' : ''"
+                                                   >
+                                                    <div class="btn-group dropdown" dropdown container="body"
+                                                        *ngIf="!record.order.isLockByAgent || record.order.agentId == appSession.user.id || isAdmin">
+                                                        <button
+                                                            [ngClass]="theme != 'theme12' ? 'btn-primary' : 'btn-primary-info'"
+                                                            class="dropdown-toggle btn btn-sm" style="cursor: pointer"
+                                                            dropdownToggle>
+                                                            <i class="fa fa-cog"></i><span class="caret"></span>
+                                                        </button>
+                                                        <ul [ngClass]="darkModeService.currentSkin === 'dark' ? 'drop-down-dark' : ''"
+                                                            class="dropdown-menu" *dropdownMenu>
+                                                            <li>
+                                                                <a href="javascript:;" class="dropdown-item"
+                                                                    *ngIf="!record.order.isLockByAgent"
+                                                                    (click)="lockOrder(record.order, record.order.stringTotal)">{{
+                                                                    l("lock") }}</a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="javascript:;" class="dropdown-item"
+                                                                    *ngIf="record.order.isLockByAgent"
+                                                                    (click)="UnlockOrderS(record.order, record.order.stringTotal)">{{
+                                                                    l("unlcok") }}</a>
+                                                            </li>
+
+                                                            <li>
+                                                                <a href="javascript:;" class="dropdown-item"
+                                                                    (click)="viewOrderModal.show(record, false)">{{
+                                                                    l("view") }}</a>
+                                                            </li>
+
+                                                        </ul>
+                                                    </div>
+                                                </td>
+
+                                                <td   [ngClass]="{'table-dark': darkModeService.currentSkin === 'dark' , 'ltr': isArabic }"
+                                                    style=" overflow: hidden; white-space: nowrap; text-overflow: ellipsis"
+                                                    (click)="viewOrderModal.show(record, false)">
+                                                    <span class="p-column-title"> {{ l("Agent") }}</span>
+                                                    {{ record.order.lockByAgentName }}
+                                                </td>
+
+                                                <td [ngClass]="darkModeService.currentSkin === 'dark' ? 'table-dark' : ''"
+                                                    (click)="viewOrderModal.show(record, false)">
+                                                    <span class="p-column-title"> {{ l("phoneNumber") }}</span>
+                                                    {{ record.customerMobile }}
+                                                </td>
+                                                <td   [ngClass]="{'table-dark': darkModeService.currentSkin === 'dark' , 'ltr': isArabic }"
+                                                    style=" overflow: hidden; white-space: nowrap; text-overflow: ellipsis"
+                                                    (click)="viewOrderModal.show(record, false)">
+                                                    <span class="p-column-title"> {{ l("Customer") }}</span>
+                                                    {{ record.customerCustomerName }}
+                                                </td>
+                                                <td [ngClass]="darkModeService.currentSkin === 'dark' ? 'table-dark' : ''"
+                                                (click)="viewOrderModal.show(record, false)">
+                                                <span class="p-column-title"> {{ l("Date") }}</span>
+                                                {{ record.creatDate }}
+                                            </td>
+
+                                                <td [ngClass]="darkModeService.currentSkin === 'dark' ? 'table-dark' : ''"
+                                                   (click)="viewOrderModal.show(record, false)">
+                                                    <span class="p-column-title"> {{ l("Time") }}</span>
+                                                    {{ record.creatTime }}
+                                                </td>
+                                                <td [ngClass]="darkModeService.currentSkin === 'dark' ? 'table-dark' : ''"
+                                                    *ngIf="theme != 'theme12'" style="width: '100px'"
+                                                    (click)="viewOrderModal.show(record, false)">
+                                                    <span class="p-column-title"> {{ l("Status") }}</span>
+
+                                                    <span *ngIf="record.orderStatusName == 'Done'"
+                                                        class="badge badge-success">
+                                                        {{ l("done") }}
+                                                    </span>
+                                                    <span *ngIf="record.orderStatusName == 'Deleted'"
+                                                        class="badge badge-secondary">
+                                                        {{ l("deleted") }}
+                                                    </span>
+                                                    <span *ngIf="record.orderStatusName == 'Pending'"
+                                                        class="badge badge-danger">
+                                                        {{ l("pending") }}
+                                                    </span>
+                                                    <span *ngIf="record.orderStatusName == 'Canceled'"
+                                                        class="badge badge-warning">
+                                                        {{ l("canceled") }}
+                                                    </span>
+                                                    <span *ngIf="record.orderStatusName == 'Pre_Order'"
+                                                        class="badge badge-secondary">
+                                                        {{ l("preOrder") }}
+                                                    </span>
+                                                </td>
+                                                <td [ngClass]="darkModeService.currentSkin === 'dark' ? 'table-dark' : ''"
+                                                    *ngIf="theme === 'theme12'" 
+                                                    (click)="viewOrderModal.show(record, false)">
+                                                    <span class="p-column-title"> {{ l("Status") }}</span>
+                                                    <span *ngIf="record.orderStatusName == 'Done'"
+                                                        class="badge badge-pill badge-light-success mr-1">
+                                                        {{ l("done") }}
+                                                    </span>
+                                                    <span *ngIf="record.orderStatusName == 'Deleted'"
+                                                        class="badge badge-pill badge-light-warning mr-1">
+                                                        {{ l("deleted") }}
+                                                    </span>
+                                                    <span *ngIf="record.orderStatusName == 'Pending'"
+                                                        class="badge badge-pill badge-light-danger mr-1">
+                                                        {{ l("pending") }}
+                                                    </span>
+                                                    <span *ngIf="record.orderStatusName == 'Canceled'"
+                                                        class="badge badge-pill badge-light-secondary mr-1">
+                                                        {{ l("canceled") }}
+                                                    </span>
+                                                    <span *ngIf="record.orderStatusName == 'Pre_Order'"
+                                                        class="badge badge-pill badge-light-primary mr-1">
+                                                        {{ l("preOrder") }}
+                                                    </span>
+                                                </td>
+                                                <td [ngClass]="darkModeService.currentSkin === 'dark' ? 'table-dark' : ''"
+                                                     (click)="viewOrderModal.show(record, false)">
+                                                    <span class="p-column-title"> {{ l("Total") }}</span>
+                                                    {{ record.order.stringTotal }}<small> {{ currency }}</small>
+                                                </td>
+                                                <td [ngClass]="darkModeService.currentSkin === 'dark' ? 'table-dark' : ''"
+                                                   (click)="viewOrderModal.show(record, false)">
+                                                    <span class="p-column-title"> {{ l("Total Points") }}</span>
+                                                    {{ record.order.totalPoints }}
+                                                </td>
+                                                <td *ngIf="record.orderStatusName === 'Pending'" [ngClass]="darkModeService.currentSkin === 'dark' ? 'table-dark' : ''"
+                                                 (click)="viewOrderModal.show(record, false)">
+                                                    <span class="p-column-title"> {{ l("Action Time") }}</span>
+                                                   
+                                                </td>
+                                                <td *ngIf="record.orderStatusName != 'Pending'" [ngClass]="darkModeService.currentSkin === 'dark' ? 'table-dark' : ''"
+                                                     (click)="viewOrderModal.show(record, false)">
+                                                    <span class="p-column-title"> {{ l("Action Time") }}</span>
+                                                    {{ record.actionTime | date: "shortTime" }}
+                                                </td>
+                                                <!-- <td style="width: 100px" (click)="viewOrderModal.show(record, false)">
+                                                    <span class="p-column-title"> {{ l("Order #") }}</span>
+                                                    {{ record.order.orderNumber }}
+                                                </td> -->
+
+
+                                                <td [ngClass]="darkModeService.currentSkin === 'dark' ? 'table-dark' : ''"
+                                               
+                                                    *ngIf="theme === 'theme12'"
+                                                    (click)="viewOrderModal.show(record, false)">
+                                                    <span class="p-column-title"> {{ l("type") }}</span>
+                                                    <span *ngIf="record.orderTypeName === 'Delivery' ">{{ l("delivery") }}</span>  
+                                                    <span *ngIf="record.orderTypeName === 'Takeaway' ">{{ l("takeAway") }}</span> 
+                                                    <span *ngIf="record.orderTypeName === 'Pre_Order' ">{{ l("preOrder") }}</span>  
+
+
+                                                    <!-- <div placement="left"
+                                                        ngbTooltip="{{record.orderTypeName}}">
+                                                          <img width="40" src="../../../assets/images/delivery-truck (1).png" alt="Delivery">
+                                                        </div> -->
+
+                                                </td>
+                                                <td [ngClass]="darkModeService.currentSkin === 'dark' ? 'table-dark' : ''"
+                                                  
+                                                    *ngIf="theme != 'theme12'"
+                                                    (click)="viewOrderModal.show(record, false)">
+                                                    <span class="p-column-title"> {{ l("type") }}</span>
+                                                    <span *ngIf="record.orderTypeName === 'Delivery' ">{{ l("delivery") }}</span>  
+                                                    <span *ngIf="record.orderTypeName === 'Takeaway' ">{{ l("takeAway") }}</span> 
+                                                    <span *ngIf="record.orderTypeName === 'Pre_Order' ">{{ l("preOrder") }}</span>  
+                                                </td>
+                    
+                                            
+
+                                                <td [ngClass]="darkModeService.currentSkin === 'dark' ? 'table-dark' : ''"
+                                                  *ngIf="!(record.orderTypeName == 'Takeaway')"
+                                                    (click)="viewOrderModal.show(record, false)">
+                                                    <span class="p-column-title"> {{ l("branch") }}</span>
+
+                                                    {{ record.areaCoordinatetow }}
+                                                </td>
+
+
+                                                <td  [ngClass]="{'table-dark': darkModeService.currentSkin === 'dark' , 'ltr': isArabic }"
+                                                    style=" overflow: hidden; white-space: nowrap; text-overflow: ellipsis"
+                                                    *ngIf="record.orderTypeName == 'Takeaway'"
+                                                    (click)="viewOrderModal.show(record, false)">
+                                                    <span class="p-column-title"> {{ l("branch") }}</span>
+                                                    {{ record.areahNametowTak }}
+                                                </td>
+
+                                                <!-- <td *ngIf="record.order.orderRemarks=='CancelByCustomer' && record.orderTypeName=='Takeaway'  && !(record.orderStatusName=='Done')"  style="background-color: red;  font-family: system-ui;cursor: pointer"(click)="viewOrderModal.show(record,false)">
+                                        <span class="p-column-title"> {{l('Type')}}</span>
+                                        {{record.orderTypeName}} / {{record.areahName}}
+                                    </td>
+                                    <td style=" background-color: #ffffff;font-family: system-ui;cursor: pointer" *ngIf="!(record.order.orderRemarks=='CancelByCustomer') && record.orderTypeName=='Takeaway' && !(record.orderStatusName=='Done')" (click)="viewOrderModal.show(record,false)">
+                                        <span class="p-column-title"> {{l('Type')}}</span>
+                                        {{record.orderTypeName}} / {{record.areahName}}
+                                    </td>
+                                    <td style="background-color: #eae4e4; font-family: system-ui;cursor: pointer" *ngIf="!(record.order.orderRemarks=='CancelByCustomer') && record.orderTypeName=='Takeaway' && (record.orderStatusName=='Done')" (click)="viewOrderModal.show(record,false)">
+                                        <span class="p-column-title"> {{l('Type')}}</span>
+                                        {{record.orderTypeName}} / {{record.areahName}}
+                                    </td> -->
+                                            </tr>
+                                        </ng-template>
+                                    </p-table>
+                                    <div class="primeng-no-data" *ngIf="primengTableHelper.totalRecordsCount == 0">
+                                        {{ l("NoData") }}
+                                    </div>
+                                    <div class="primeng-paging-container">
+                                        <p-paginator [ngClass]="darkModeService.currentSkin === 'dark' ? 'dark' : ''"
+                                            [rows]="40" #paginator
+                                            (onPageChange)="getOrders($event)"
+                                            [totalRecords]="primengTableHelper.totalRecordsCount"
+                                            [rowsPerPageOptions]="[40,20,10]">
+                                        </p-paginator>
+                                        <span class="total-records-count">
+                                            {{ l("TotalRecordsCount", primengTableHelper.totalRecordsCount) }}
+                                        </span>
+                                    </div>
+                                </div>
+                                <!--<Primeng-Datatable-End>-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- <createOrEditOrderModal #createOrEditOrderModal (modalSave)="getOrders()"></createOrEditOrderModal>     -->
+                <viewOrderModal #viewOrderModal></viewOrderModal>
+            </div>
+        </div>
+    </div>
+</div>

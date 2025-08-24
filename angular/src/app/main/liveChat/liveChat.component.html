@@ -1,0 +1,637 @@
+<div [@routerTransition]>
+    <div class="header-navbar-shadow"></div>
+    <div class="content-wrapper container-xxl p-0">
+        <div class="content-body">
+            <div class="d-flex flex-column flex-column-fluid">
+                <sub-header *ngIf="theme != 'theme12'" [title]="'tickets' | localize" [description]="'ticketsHeaderInfo' | localize">
+                    <div role="actions">
+                        <button (click)="exportToExcel()" class="btn btn-primary btn-round btn-sm waves-effect waves-float waves-light">
+                            <i class="fa fa-file-excel"></i>   {{ l("ExportToExcel") }}
+                        </button>
+
+
+                        <!-- <button (click)="BackUpConversationForAll()" class="btn btn-outline-success" *ngIf="isAdmin"><i class="fa fa-file-excel"></i> {{l("BackUpConversation")}}</button> -->
+                        <!-- <button *ngIf="isGranted('Pages.Contacts.Create')" (click)="createContact()"
+                                   class="btn btn-primary blue"><i class="fa fa-plus"></i> {{l("CreateNewContact")}}</button> -->
+                    </div>
+                </sub-header>
+                <sub-header *ngIf="theme === 'theme12'" [title]="'tickets' | localize" [description]="'ticketsHeaderInfo' | localize"> </sub-header>
+
+                <div [ngClass]="theme != 'theme12' ? 'container' : ''">
+                    <div class="d-flex flex-column flex-md-row justify-content-between">
+                        <div>
+                            <p>
+                                {{ l("ticketPageVideoMsg") }}
+                                <a (click)="viewVideo.show(videoLink)"
+                                    ><u> {{ l("learnHowTicketsWork") }} <i class="bi bi-play-circle"></i></u
+                                ></a>
+                            </p>
+                        </div>
+                        <div style="display: flex; flex-direction: row; margin-bottom: 10px">
+                            <div style="display: flex; flex-direction: row; margin-bottom: 6px; justify-content: flex-start; align-items: center">
+                                <button (click)="handleTableSettings()" class="btn btn-primary-info" type="submit" [tooltip]="l('customizedfilter')" tooltipPlacement="top">
+                                    <i class="bi bi-funnel"></i>
+                                </button>
+                                <!-- <p class="ml-1" style="margin-bottom: 0px !important;">
+                                    {{ l("customizedfilter") }}
+                                </p> -->
+                            </div>
+                            <div *ngIf="isGranted('Manage_Ticket_Setting')"  style="display: flex; flex-direction: row; margin-bottom: 6px; justify-content: flex-start; align-items: center">
+                                <button
+                                    class="btn btn-primary-info"
+                                    style="margin-left: 5px"
+                                    [routerLink]="['/app/admin/tenantSettings']"
+                                    [queryParams]="{ Page: 'TS' }"
+                                    [tooltip]="l('manageTicketSettings')"
+                                    tooltipPlacement="right"
+                                    [tooltipContainer]="'body'"
+                                    [tooltipClass]="'custom-tooltip-class'"
+                                >
+
+
+                                    <i class="bi bi-gear"></i>
+                                </button>
+                                <!-- <p class="ml-1">
+                                    {{ l("manageTicketSettings") }}
+                                </p> -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card card-custom gutter-b">
+                        <div class="card-body pl-1 pr-1">
+                            <div class="row pt-0 d-flex align-items-center">
+                                <div class="col-lg-2 col-4 text-center">
+                                    <h1 ngbPopover="Statistics from start date" placement="top" triggers="mouseenter:mouseleave">{{ totalCount }}</h1>
+                                    <h6>{{ l("totalTickets") }}</h6>
+                                </div>
+
+                                <div class="col-lg-2 col-4 d-flex flex-column flex-lg-row align-items-center">
+                                    <i class="bi bi-clock-history" style="font-size: 30px"></i>
+                                    <span style="font-size: 10px"
+                                        ><b style="margin: 0px 3px">{{ totalResolutionHours }}H</b>Resolution Time</span
+                                    >
+                                </div>
+
+                                <div class="col-lg-2 col-4">
+                                    <h3 class="d-contents">{{ totalClosed }}</h3>
+                                    <span>{{ l("closed") }}</span>
+                                    <ngb-progressbar type="success" [value]="totalClosed" [max]="totalCount"></ngb-progressbar>
+                                </div>
+                                <div class="col-lg-2 col-4">
+                                    <h3 class="d-contents">{{ totalPending }}</h3>
+                                    <span>{{ l("pending") }}</span>
+                                    <ngb-progressbar [type]="totalPending <= 0 ? 'info' : 'danger'" [value]="totalPending" [max]="totalCount"></ngb-progressbar>
+                                </div>
+                                <div class="col-lg-2 col-4">
+                                    <h3 class="d-contents">{{ totalOpen }}</h3>
+                                    <span>{{ l("opened") }}</span>
+                                    <ngb-progressbar type="info" [value]="totalOpen" [max]="totalCount"></ngb-progressbar>
+                                </div>
+                            <!-- 
+                                <div class="col-lg-2 col-4">
+                                    <h3 class="d-contents">{{ totalExpired }}</h3>
+                                    <span>{{ l("expired") }}</span>
+                                    <ngb-progressbar [type]="totalExpired <= 0 ? 'info' : 'danger'" [value]="totalExpired" [max]="totalCount"></ngb-progressbar>
+                                </div> -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card card-custom gutter-b">
+                        <div class="card-body" [ngClass]="theme != 'theme12' ? 'p-0' : ''">
+                            <div class="row mb-2">
+                                <div class="col-12">
+                                    <form autocomplete="off" style="display: flex; flex-direction: column; width: 100%; align-items: center">
+                                        <div class="filter-group" style="margin-bottom: 10px; padding-right: 72px;">
+                                            <button
+                                            *ngIf="hasSpecificFilter()"
+                                            (click)="getTicketAndRequest($event)"
+                                            class="btn btn-primary-info ml-1"
+                                            type="submit"
+                                            style="padding: 11.5px"
+                                          >
+                                            <i class="flaticon-search-1"></i>
+                                          </button> 
+
+                                            <button *ngIf="theme === 'theme12' && isGranted('Pages_Ticket_Export_to_Excel')" (click)="exportToExcelcheck()" class="btn btn-outline-primary-info mr-1" style="padding-left: 10px;" >
+                                                <i class="fa fa-file-excel" style="padding-left: 10px;"></i> {{ l("ExportToExcel") }}
+                                              </button>   
+
+
+                                        </div>
+                                            <div id="filters-container" class="filters-container" >
+                                                <div
+                                                    *ngFor="let filter of filters2; let i = index"
+                                                    class="filter-group"
+                                                >
+                                             <select
+                                                [ngClass]="darkModeService.currentSkin === 'dark' ? 'form-control-dark ' : 'form-control'"
+                                                (ngModelChange)="handleSearchBy($event,i)"
+                                                [(ngModel)]="filter.searchBy"
+                                                [name]="'searchBy' + i"
+                                                [id]="'searchBy' + i"
+                                                class="ml-xl-1 ml-md-1"
+                                                style="width: 180px"
+                                                >
+                                                <!-- [(ngModel)]="searchBy" -->
+                                                <!-- (ngModelChange)="handleSearchBy($event)" -->
+                                                <option value="searchBy" disabled>{{ l("searchBy") }}</option>
+                                                <option [disabled]="ticketId" value="searchByTicketId">{{ l("searchByTicketId") }}</option>
+                                                <option [disabled]="ticketType" value="searchByTicketType">{{ l("searchByTicketType") }}</option>
+                                                <option [disabled]="agent" value="searchByAgent">{{ l("searchByAgent") }}</option>
+                                                <option [disabled]="searchName" value="searchByName">{{ l("searchByName") }}</option>
+                                                <option [disabled]="departemntName" value="departemntName">search By Department</option>
+                                                <option [disabled]="searchByPhone" value="searchByPhone">{{ l("searchByPhone") }}</option>
+                                                <option [disabled]="dateRange" value="searchByDate">{{ l("searchByDate") }}</option>
+                                                <option [disabled]="status" value="searchByStatus">{{ l("searchByStatus") }}</option>
+                                                <option [disabled]="summary" value="summary">Search By summary</option>
+                                                <option [disabled]="dateRangeC" value="contactCreateDate">Search By Contact Create</option>
+
+                                                <option [disabled]="byteam" value="byteam">Search By Team</option>
+
+                                            </select>
+                                            <!-- <app-number-input
+                                              *ngIf="filter.searchBy === 'searchByTicketId'"
+                                                class="mr-md-1"
+                                                InnerClass="form-control ml-md-1 m-input"
+                                                style="width: 180px"
+                                                [pHolder]="'searchByTicketId' | localize"
+                                                (valueChange)="handleTicketIdSearch($event)"
+                                                [value]="ticketId"
+                                            ></app-number-input>
+                                             -->
+                                               <input 
+                                               *ngIf="filter.searchBy === 'searchByTicketId'" 
+                                               class="form-control ml-md-1 m-input mr-md-1" 
+                                               style="width: 180px" 
+                                               [placeholder]="'searchByTicketId' | localize" 
+                                               (input)="handleTicketIdSearch($event.target.value)" 
+                                               [value]="ticketId"
+                                               type="number"
+                                             />
+                                        
+                                            <select
+                                                (ngModelChange)="handleSearchChange($event)"
+                                                *ngIf="filter.searchBy === 'searchByTicketType'"
+                                                [ngClass]="darkModeService.currentSkin === 'dark' ? 'form-control-dark ' : 'form-control'"
+                                                autoFocus
+                                                [(ngModel)]="ticketType"
+                                                (ngModelChange)="getTicketAndRequest($event)"
+                                                name="ticketType"
+                                                class="ml-xl-1 ml-md-1"
+                                                id="ticketType"
+                                                style="width: 180px"
+                                                [value]="ticketType"
+                                            >
+                                                <option value="" disabled>{{ l("ticketType") }}</option>
+                                                <option value="">{{ l("All") }}</option>
+                                                <option value="Request">{{ l("request") }}</option>
+                                                <option value="Ticket">{{ l("ticket") }}</option>
+                                            </select>
+    
+                                            <select
+                                                (ngModelChange)="handleSearchChange($event)"
+                                                *ngIf="filter.searchBy == 'searchByAgent'"
+                                                [ngClass]="darkModeService.currentSkin === 'dark' ? 'form-control-dark ' : 'form-control'"
+                                                autoFocus
+                                                [(ngModel)]="agent"
+                                                (ngModelChange)="getTicketAndRequest($event)"
+                                                name="nameFilter"
+                                                class="ml-xl-1 ml-md-1"
+                                                id="nameFilter"
+                                                placeholder="Select User"
+                                                style="width: 180px"
+                                            >
+                                                <!-- <option value="" disabled>{{ l("selectAgent") }}</option> -->
+                                                <option value="">{{ l("All") }}</option>
+                                                <option *ngFor="let user of users" [value]="user.id">{{ user.name }}</option>
+                                            </select>
+    
+                                            <input
+                                                *ngIf="filter.searchBy == 'searchByName'"
+                                                (change)="handleSearchName($event)"
+                                                [value]="searchName"
+                                                name="searchByName"
+                                                autoFocus
+                                                class="form-control ml-md-1 m-input"
+                                                [placeholder]="'searchByName' | localize"
+                                                type="text"
+                                                style="width: 180px"
+                                                ng
+                                            />
+                                            <input
+                                            *ngIf="filter.searchBy == 'departemntName'"
+                                            (change)="handleSearchDepartemnt($event)"
+                                            [value]="departemntName"
+                                            name="departemntName"
+                                            autoFocus
+                                            class="form-control ml-md-1 m-input"
+                                            [placeholder]="'departemntName' | localize"
+                                            type="text"
+                                            style="width: 180px"
+                                            ng
+                                        /> 
+                                        <input
+                                            *ngIf="filter.searchBy == 'summary'"
+                                            (change)="handleSearchsummary($event)"
+                                            [value]="summary"
+                                            name="summary"
+                                            autoFocus
+                                            class="form-control ml-md-1 m-input"
+                                            [placeholder]="'summary' | localize"
+                                            type="text"
+                                            style="width: 180px"
+                                            ng
+                                        />
+
+                                            <select
+                                                (ngModelChange)="handleSearchChange($event)"
+                                                *ngIf="filter.searchBy == 'byteam'"
+                                                [ngClass]="darkModeService.currentSkin === 'dark' ? 'form-control-dark ' : 'form-control'"
+                                                autoFocus
+                                                [(ngModel)]="byteam"
+                                                (ngModelChange)="getTicketAndRequest($event)"
+                                                name="byteamFilter"
+                                                class="ml-xl-1 ml-md-1"
+                                                id="byteamFilter"
+                                                placeholder="byteam"
+                                                style="width: 180px"
+                                            >
+                                                <!-- <option value="" disabled>{{ l("selectAgent") }}</option> -->
+                                                <option value="">{{ l("All") }}</option>
+                                                <option *ngFor="let team of selectMultiTeams" [value]="team.id">{{ team.teamsName }}</option>
+                                            </select>
+          
+
+                                               <input 
+                                               *ngIf="filter.searchBy == 'searchByPhone'" 
+                                               class="form-control ml-md-1 m-input mr-md-1" 
+                                               style="width: 180px" 
+                                               [placeholder]="'searchByPhone' | localize" 
+                                               (input)="handleNumberSearch($event.target.value)" 
+                                               [value]="searchByPhone" 
+                                               type="number"
+                                             />
+                                                <!-- {{searchByPhone}} -->
+                                            <input
+                                                (ngModelChange)="handleSearchChange($event)"
+                                                *ngIf="filter.searchBy == 'searchByDate'"
+                                                [ngClass]="darkModeService.currentSkin === 'dark' ? 'date-picker-dark ' : ''"
+                                                [placeholder]="'selectDateRange' | localize"
+                                                class="range-input"
+                                                name="range-input"
+                                                id="range-input"
+                                                placement="right"
+                                                class="form-control ml-md-1 m-input"
+                                                (ngModelChange)="onDateRangeUpdate($event)"
+                                                [(ngModel)]="dateRange"
+                                                [bsValue]="dateRange"
+                                                [bsConfig]="dateRangePickerOptions"
+                                                bsDaterangepicker
+                                                style="width: 180px"
+                                            />
+                                                <input
+                                                (ngModelChange)="handleSearchChange($event)"
+                                                *ngIf="filter.searchBy == 'contactCreateDate'"
+                                                [ngClass]="darkModeService.currentSkin === 'dark' ? 'date-picker-dark ' : ''"
+                                                [placeholder]="'contactCreateDate' | localize"
+                                                class="range-input"
+                                                name="range-inputC"
+                                                id="range-inputC"
+                                                placement="right"
+                                                class="form-control ml-md-1 m-input"
+                                                (ngModelChange)="onDateRangeCUpdate($event)"
+                                                [(ngModel)]="dateRangeC"
+                                                [bsValue]="dateRangeC"
+                                                [bsConfig]="dateRangeCPickerOptions"
+                                                bsDaterangepicker
+                                                style="width: 180px"
+                                            />
+                                            <select
+                                                (ngModelChange)="handleSearchChange($event)"
+                                                *ngIf="filter.searchBy == 'searchByStatus'"
+                                                [ngClass]="darkModeService.currentSkin === 'dark' ? 'form-control-dark ' : 'form-control'"
+                                                autoFocus
+                                                [(ngModel)]="status"
+                                                (ngModelChange)="getTicketAndRequest($event)"
+                                                name="statusFilter"
+                                                class="ml-xl-1 ml-md-1"
+                                                id="statusFilter"
+                                                style="width: 180px"
+                                            >
+                                                <option value="" disabled>{{ l("selectStatus") }}</option>
+                                                <option value="">{{ l("All") }}</option>
+                                                <option value="opened">{{ l("opened") }}</option>
+                                                <option value="closed">{{ l("closed") }}</option>
+                                                <option value="pending">{{ l("pending") }}</option>
+                                                <!-- <option value="expired">{{ l("expired") }}</option> -->
+                                                <option value="Confirm">{{ l("Confirm") }}</option>
+                                                <option value="Reject">{{ l("Reject") }}</option>
+                                            </select>
+    
+                      
+                                            <div class="icon-container">
+                                                <!-- Add Icon -->
+                                                <svg 
+                                                    [style.pointer-events]="addFiliterDisabled ? 'none' : 'auto'" 
+                                                    [class.disabled]="addFiliterDisabled"
+                                                    (click)="!addFiliterDisabled && addFilter(i)" 
+                                                    *ngIf="this.filters2.length <= 10" 
+                                                    xmlns="http://www.w3.org/2000/svg" 
+                                                    width="25" 
+                                                    height="25" 
+                                                    viewBox="0 0 24 24" 
+                                                    fill="none" 
+                                                    stroke="currentColor" 
+                                                    stroke-width="2" 
+                                                    stroke-linecap="round" 
+                                                    stroke-linejoin="round" 
+                                                    class="icon">
+                                                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                                                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                                                </svg>
+                                                <span class="tooltip">Add more filter</span>
+                                            </div>
+                                            
+                                            
+                                            <div class="icon-container"  *ngIf="this.filters2.length==1 " >
+                                                <!-- Remove Icon -->
+                                                <svg (click)="removeFilter(i, $event)"
+                                                
+                                                    xmlns="http://www.w3.org/2000/svg" 
+                                                [class.disabled]="addFiliterDisabled"
+                                                width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon">
+                                                    <polyline points="3 6 5 6 21 6"></polyline>
+                                                    <path d="M19 6L17.5 20.5C17.5 21.328 16.828 22 16 22H8C7.172 22 6.5 21.328 6.5 20.5L5 6"></path>
+                                                    <path d="M9 6V4C9 3.447 9.447 3 10 3H14C14.553 3 15 3.447 15 4V6"></path>
+                                                    <line x1="10" y1="11" x2="10" y2="17"></line>
+                                                    <line x1="14" y1="11" x2="14" y2="17"></line>
+                                                </svg>
+                                                <span class="tooltip">Removed filter</span>
+                                            </div>
+                                            
+                                            <div class="icon-container"  *ngIf="this.filters2.length!=1" >
+                                                <!-- Remove Icon -->
+                                                <svg (click)="removeFilter(i, $event)"
+                                                    xmlns="http://www.w3.org/2000/svg" 
+                                                    width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon">
+                                                    <polyline points="3 6 5 6 21 6"></polyline>
+                                                    <path d="M19 6L17.5 20.5C17.5 21.328 16.828 22 16 22H8C7.172 22 6.5 21.328 6.5 20.5L5 6"></path>
+                                                    <path d="M9 6V4C9 3.447 9.447 3 10 3H14C14.553 3 15 3.447 15 4V6"></path>
+                                                    <line x1="10" y1="11" x2="10" y2="17"></line>
+                                                    <line x1="14" y1="11" x2="14" y2="17"></line>
+                                                </svg>
+                                                <span class="tooltip">Removed filter</span>
+                                            </div>
+                                                                                    
+                                        <!-- 
+                                            <div style="padding-left: 50%;">
+    
+                                                <button (click)="restticket($event)"  _ngcontent-fvk-c524="" class="btn btn-primary-info ng-star-inserted">
+                                                    <i _ngcontent-fvk-c524="" class="bi bi-arrow-left-square mx-1"></i>{{ l("Bake To All Tickets") }}
+                                                </button>
+                                            </div> -->
+                                      
+                                           </div>
+
+                                            </div>
+                                        </form>
+                                </div>
+                            </div>
+                            <div class="align-items-center">
+                                <!--<Primeng-Datatable-Start>-->
+                                <div [ngClass]="darkModeService.currentSkin === 'dark' ? 'table-dark' : 'light'" class="primeng-datatable-container">
+                                    <p-table
+                                        #dataTable
+                                        [ngClass]="darkModeService.currentSkin === 'dark' ? 'table-dark table-responsive' : 'light table-responsive'"
+                                        [scrollbarV]="true"
+                                        [scrollbarH]="true"
+                                        [loading]="primengTableHelper.isLoading"
+                                        [lazy]="true"
+                                        (onLazyLoad)="getTicketAndRequest($event)"
+                                        [value]="primengTableHelper.records"
+                                        [totalRecords]="primengTableHelper.totalRecordsCount"
+                                        [rows]="rows"
+                                        [first]="first"
+                                        [scrollable]="true"
+                                        [totalRecords]="totalCount"
+                                        [paginator]="true"
+                                        ScrollWidth="100%"
+                                        [responsive]="true"
+                                        responsiveLayout="stack"
+                                        [breakpoint]="'960px'"
+                                        [resizableColumns]="primengTableHelper.resizableColumns"
+                                        [rowsPerPageOptions]="[20, 30, 40]"
+                                    >
+                                        <!-- headers here -->
+                                        <ng-template pTemplate="header">
+                                            <tr>
+                                                <th [ngClass]="darkModeService.currentSkin === 'dark' ? 'dark-table' : ''"></th>
+                                                <ng-container *ngFor="let header of headersList">
+                                                    <th *ngIf="header.isActive">
+                                                        <app-moveable-header
+                                                            class="headerContainer"
+                                                            [InnerClass]="darkModeService.currentSkin === 'dark' ? 'dark-table innerHeader' : 'innerHeader'"
+                                                            [isActive]="header.isActive"
+                                                            [body]="header.name | localize"
+                                                        ></app-moveable-header>
+                                                    </th>
+                                                </ng-container>
+                                            </tr>
+                                        </ng-template>
+                                        <ng-template pTemplate="body" let-record="$implicit" let-rowData let-i="rowIndex">
+                                            <tr #rowRef [id]="'' + record.idLiveChat" [ngClass]="{ 'animated-background': shouldAnimate(record.idLiveChat) }">
+                                                <td [ngClass]="darkModeService.currentSkin === 'dark' ? 'table-dark' : ''">
+                                                    <div class="btn-group dropdown" dropdown container="body" placement="bottom-start">
+                                                        <button
+                                                            [ngClass]="theme != 'theme12' ? 'btn-primary' : 'btn-primary-info'"
+                                                            class="dropdown-toggle btn btn-sm"
+                                                            dropdownToggle
+                                                        >
+                                                            <i class="fa fa-cog"></i><span class="caret"></span>
+                                                        </button>
+                                                        <!-- <div *ngIf="record.categoryType=='Request'">
+                                                            <ul placement="bottom-start" class="dropdown-menu"
+                                                                [ngClass]="darkModeService.currentSkin === 'dark' ? 'drop-down-dark' : ''"
+                                                                *dropdownMenu>
+                                                                <li>
+                                                                    <a href="javascript:;" class="dropdown-item"
+                                                                        (click)="viewRequestModalComponent.viewDetails(record)">{{
+                                                                        l("view")
+                                                                        }}</a>
+                                                                </li>
+                                                            </ul>
+                                                        </div> -->
+                                                        <ul
+                                                            placement="bottom-start"
+                                                            class="dropdown-menu"
+                                                            [ngClass]="darkModeService.currentSkin === 'dark' ? 'drop-down-dark' : ''"
+                                                            *dropdownMenu
+                                                        >
+                                                            <!-- <li *ngIf="theme !=
+                                                                'theme12'">
+                                                                <a
+                                                                    id="clickedLiveChat"
+                                                                    class="
+                                                                    dropdown-item"
+                                                                    [routerLink]="['/app/main/teamInbox/teamInbox12']"
+                                                                    [queryParams]="{CustomerID:
+                                                                    record.userId
+                                                                    ,
+                                                                    LiveChatId:record.idLiveChat}">
+                                                                    {{l('chat')}}</a>
+                                                            </li> -->
+                                                            <!-- <li *ngIf="theme ===
+                                                                'theme12'">
+                                                                <a
+                                                                    id="clickedLiveChat"
+                                                                    class="
+                                                                    dropdown-item"
+                                                                    [routerLink]="['/app/main/teamInbox/teamInbox12']"
+                                                                    [queryParams]="{CustomerID:
+                                                                    record.userId
+                                                                    ,
+                                                                    LiveChatId:record.idLiveChat}">
+                                                                    {{l('chat')}}</a>
+                                                            </li> -->
+                                                            <!-- <li *ngIf="theme ==='theme12' && record.liveChatStatus==1">
+                                                                <a id="clickedLiveChat" class="dropdown-item" > {{l('Open')}}</a>
+                                                            </li> -->
+                                                            <li
+                                                               *ngIf="
+                                                                   isGranted('Pages_Ticket_openAndClose')&&
+                                                                    (record.categoryType !== 'Request' &&
+                                                                    record.assignedToUserId != 0 &&
+                                                                   (isGranted('Pages_Ticket_Close_All_Ticet')|| appSession.userId === record.agentId )&&
+                                                                        record.liveChatStatus == 2) ||
+                                                                    (record.liveChatStatus == 2 && ( isGranted('Pages_Ticket_Close_All_Ticet')|| record.agentId === appSession.userId) && record.assignedToUserId === 0)
+                                                                "
+                                                            >
+                                                                <a class="dropdown-item" (click)="viewTicketModal.show(record.idLiveChat, record.userId)"> {{ l("closeChat") }}</a>
+                                                            </li>
+                                              
+                                                            <li
+                                                                *ngIf="
+                                                                    isGranted('Pages_Ticket_openAndClose')&&
+                                                                    record.categoryType !== 'Request' &&
+                                                                   
+                                                                    ((record.liveChatStatus == 1 && appSession.userId === record.assignedToUserId) ||
+                                                                    (record.liveChatStatus == 1 && record.agentId === 0 && record.assignedToUserId === 0) || record.liveChatStatus == 6)
+                                                                "
+                                                            >
+                                                                <a id="openLiveChat" class="dropdown-item" (click)="openChat(record.userId, record.idLiveChat,record.liveChatStatus)">
+                                                                    {{ l("Open") }}</a
+                                                                >
+                                                            </li>
+
+                                                            <li
+                                                                *ngIf="
+                                                                    isGranted('Pages_Ticket_reopen')&&
+                                                                    record.categoryType !== 'Request' &&
+                                                                  
+                                                                    ((record.liveChatStatus == 3 && appSession.userId === record.assignedToUserId) ||
+                                                                        (record.liveChatStatus == 3 && record.assignedToUserId === 0))
+                                                                "
+                                                            >
+                                                                <a class="dropdown-item" (click)="openChat(record.userId, record.idLiveChat,record.liveChatStatus)"> {{ l("reOpen") }}</a>
+                                                            </li>
+
+                                                            <li
+                                                                *ngIf="
+                                                                   isGranted('Pages_LiveChat_Chat')&&
+                                                                    record.categoryType !== 'Request' &&
+                                                                    (record.liveChatStatus == 3 ||
+                                                                     
+                                                                        record.liveChatStatus == 1 ||
+                                                                        record.liveChatStatus == 2 || record.liveChatStatus == 6)
+                                                                "
+                                                            >
+                                                                <a class="dropdown-item" (click)="ChatBtn(record.userId, record.idLiveChat,record.liveChatStatus)"> {{ l("Chat") }}</a>
+                                                            </li>
+
+                                                            <li *ngIf="record.categoryType === 'Request'">
+                                                                <a href="javascript:;" class="dropdown-item" (click)="viewRequestModalComponent.viewDetails(record)">{{
+                                                                    l("view")
+                                                                }}</a>
+                                                            </li>
+                                                            
+                                                            <li
+                                                            *ngIf="isGranted('Pages_Ticket_AssignToUser')&&(record.liveChatStatus == 6 || record.liveChatStatus == 1 )"
+                                                        >
+                                                            <a class="dropdown-item" (click)="assignToBtn(record)"> {{ l("assignToUsers") }}</a>
+
+
+                                                            <li
+                                                            *ngIf="isGranted('Pages_Ticket_AssignToUser')&&(record.liveChatStatus == 6 || record.liveChatStatus == 1 )"
+                                                        >
+                                                            <a class="dropdown-item" (click)="assignToTeamsBtn(record)"> {{ l("assignToTeams") }}</a>
+
+                                                        </li>
+                                                            <!-- <li *ngIf="(!record.isConversationExpired && record.agentId === 0 && record.assignedToUserId === 0) || (!record.isConversationExpired && appSession.userId === record.assignedToUserId  ) ||
+                                                            (!record.isConversationExpired &&  record.assignedToUserId === 0)
+                                                         
+                                                            ">
+                                                                <a    id="clickedLiveChat" (click)="showAssignToModal(record.idLiveChat,record.userId)" class="dropdown-item"> {{ l("assignToUser") }}</a>
+                                                            </li> -->
+                                                        </ul>
+                                                    </div>
+                                                </td>
+                                                <ng-container *ngFor="let val of headersList">
+                                                    <td *ngIf="val.isActive" [ngClass]="val.name === 'summary' ? 'summaryWidth' : ''">
+                                                        <app-moveable-row
+                                                            *ngIf="val.isActive"
+                                                            [name]="val.name"
+                                                            [record]="record"
+                                                            style="display: flex; align-items: center; width: 100%"
+                                                        ></app-moveable-row>
+                                                    </td>
+                                                </ng-container>
+                                            </tr>
+                                        </ng-template>
+                                    </p-table>
+                                    <!-- <div class="primeng-no-data" *ngIf="primengTableHelper.totalRecordsCount == 0">
+                                        {{ l("NoData") }}
+                                    </div>
+                                     -->
+                                    <div class="primeng-paging-container">
+                                        <!-- <p-paginator [ngClass]="darkModeService.currentSkin === 'dark' ? 'dark' : ''"
+                                            [rows]="20" #paginator (onPageChange)="getTicketAndRequest($event)"
+                                            [totalRecords]="primengTableHelper.totalRecordsCount"
+                                            [rowsPerPageOptions]="[10, 20, 30]">
+                                        </p-paginator> -->
+                                        <span *ngIf="totalCount !== 0" class="total-records-count">
+                                            {{ l("TotalRecordsCount", totalCount) }}
+                                        </span>
+                                    </div>
+                                </div>
+                                <!--<Primeng-Datatable-End>-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+<!-- ticket-limit-popup.component.html
+<div *ngIf="showPopup" class="popup-message">
+  <div class="popup-content">
+    <span class="close-btn" (click)="closePopup()">&times;</span>
+    <p>You have reached the maximum number of open tickets.</p>
+  </div>
+</div> -->
+
+                <app-Export-To-Excel-Model  #exportToExcelModel (modalResult)="handleModalResult($event)"></app-Export-To-Excel-Model>
+                <appticketlimitpopup #appticketlimitpopup ></appticketlimitpopup>
+
+                <appteaminboxtemplatemodal #appteaminboxtemplatemodal (getTemplateList)="handleTemplateList($event)"  (updateStatus)="handleUpdateStatus()"  [perantTemplateList]="template"></appteaminboxtemplatemodal>
+                <!-- <TemplateModalComponent #appteaminboxtemplatemodal2 (getTemplateList)="handleTemplateList($event)" [perantTemplateList]="template"></TemplateModalComponent> -->
+                <app-view-request-modal #viewRequestModalComponent (openViewTicketModalEvent)="openViewTicketModal($event)" ></app-view-request-modal>
+                <viewTicketModal #viewTicketModal  (openModalEvent)="openModal()"></viewTicketModal>
+                <viewVideo #viewVideo></viewVideo>
+                <assignToModal #assignToModal (modalSave)="assigned($event)" [agentsList]="users"></assignToModal>
+                <app-list-settings-modal #viewlistsettingsmodal [settingList]="headersList" (modalSave)="onModalSave($event)"></app-list-settings-modal>
+                <app-assign-users-modal #assignusersmodal [users]="users" (submitEvent)="getTicketAndRequest($event)"></app-assign-users-modal>
+            </div>
+        </div>
+    </div>
+</div>

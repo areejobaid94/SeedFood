@@ -1,0 +1,201 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "gLUaRH",
+    "name": "AFsyllabusDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "uOerIR"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "jYG2Lz"
+          },
+          "condition": "conversation.local",
+          "cases": [
+            {
+              "value": "ar",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "VkNwVr"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.option1",
+                      "value": "النظام البريطاني"
+                    },
+                    {
+                      "value": "النظام الأمريكي",
+                      "property": "dialog.option2"
+                    },
+                    {
+                      "property": "dialog.option3",
+                      "value": "IB دبلوم"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "en",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "UFxGsY"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.option1",
+                      "value": "British System"
+                    },
+                    {
+                      "value": "American system",
+                      "property": "dialog.option2"
+                    },
+                    {
+                      "property": "dialog.option3",
+                      "value": "IB Diploma"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.DeleteProperty",
+          "$designer": {
+            "id": "PWcXWu"
+          },
+          "property": "dialog.UserSelect"
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "KTndAk"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "unrecognizedPrompt": "",
+          "invalidPrompt": "",
+          "prompt": "${TextInput_Prompt_KTndAk()}",
+          "validations": [
+            "equals(this.value, 'British System') || equals(this.value, 'American system') || equals(this.value, 'IB Diploma') ||equals(this.value, 'النظام البريطاني') || equals(this.value, 'النظام الأمريكي') || equals(this.value, 'IB دبلوم') || equals(this.value, '#')"
+          ],
+          "property": "dialog.UserSelect"
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "17GowE"
+          },
+          "condition": "dialog.UserSelect",
+          "cases": [
+            {
+              "value": "British System",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "NJLoeO"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "AFBritishDialog"
+                }
+              ]
+            },
+            {
+              "value": "American system",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "lFtdC0"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "AFAmericanDialog"
+                }
+              ]
+            },
+            {
+              "value": "IB Diploma",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "rhhXsw"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "AFIBDiplomaDialog"
+                }
+              ]
+            },
+            {
+              "value": "النظام البريطاني",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "qeYxWT"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "AFBritishDialog"
+                }
+              ]
+            },
+            {
+              "value": "النظام الأمريكي",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "VsPQOX"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "AFAmericanDialog"
+                }
+              ]
+            },
+            {
+              "value": "IB دبلوم",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "y5ZrfF"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "AFIBDiplomaDialog"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "PmBtGP"
+          }
+        }
+      ]
+    }
+  ],
+  "generator": "AFsyllabusDialog.lg",
+  "recognizer": "AFsyllabusDialog.lu.qna",
+  "id": "AFsyllabusDialog"
+}

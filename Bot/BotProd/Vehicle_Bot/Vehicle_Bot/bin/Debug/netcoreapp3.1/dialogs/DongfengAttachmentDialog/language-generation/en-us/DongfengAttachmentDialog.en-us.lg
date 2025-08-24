@@ -1,0 +1,16 @@
+[import](common.lg)
+
+# TextInput_Prompt_ItSwO7_text()
+- ${dialog.HintCaption}
+# TextInput_Prompt_ItSwO7()
+[Activity
+    Text = ${TextInput_Prompt_ItSwO7_text()}
+    SuggestedActions = ${dialog.Option1}
+]
+
+# TextInput_Prompt_nuGQ1Z_text()
+- ${dialog.inquiryCaption}
+# TextInput_Prompt_nuGQ1Z()
+[Activity
+    Text = ${TextInput_Prompt_nuGQ1Z_text()}
+]

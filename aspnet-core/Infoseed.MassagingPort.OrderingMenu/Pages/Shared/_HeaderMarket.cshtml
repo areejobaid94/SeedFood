@@ -1,0 +1,306 @@
+﻿@using Microsoft.AspNetCore.Http.Features
+@using Microsoft.AspNetCore.Localization
+@using Microsoft.AspNetCore.Mvc.Localization
+@using Microsoft.Extensions.Options
+
+@using Microsoft.EntityFrameworkCore.Storage
+@model Infoseed.MassagingPort.OrderingMenu.Pages.Model.OrderingMenuTenantModel
+
+@inject IViewLocalizer Localizer
+@inject IOptions<RequestLocalizationOptions> LocOptions
+
+
+@Html.AntiForgeryToken()
+
+
+
+@if (Model != null)
+{
+
+
+
+
+    <button class="btn-secondary myBtn" id="myBtn" title="Go to top" style="display: block; margin: 11px -18px!important; padding: 10px!important;">
+        <span class=" mdi mdi-arrow-collapse-up"></span>
+    </button>
+
+    <div class=" container p-0 footer-fix-nav ">
+        <div class="mx-0">
+            <div class="cart-btn active ">
+                <div class="mx-0">
+
+                    @if (Model.IsApplyLoyalty)
+                    {
+                        <button data-toggle="offcanvas" class=" btn-point  bg-white p-0 font" type="button">
+
+
+                            @Html.Partial("~/Pages/Shared/_ContactLoyalty.cshtml", Model.orderingMenuContactLoyaltyModel)
+                        </button>
+                        <button data-toggle="offcanvas" class="btn btn-secondary btn-lg btn-block  acart-open p-3 font" type="button">
+
+                            <span class=" col-4 float p-0 "><i class="mdi mdi-cart-outline  "></i> @localizer.Get("viewCart") </span>
+                            <span class=" col-4 float-" id="carticon"><strong class="stTotalPrice float- ">0 </strong> <strong class="currencyCode float- pl-1"></strong>  <span class="mdi mdi-chevron"></span></span>
+                            <span class=" col-4 float- text-warning p-0" id="carticon"><strong class="stTotalLoyaltyPoints">0 </strong> <i class="  mdi mdi-star-circle  pl-1"></i>  <span class="mdi mdi-chevron"></span></span>
+                        </button>
+
+                    }
+                    else
+                    {
+                        <button data-toggle="offcanvas" class="btn btn-secondary btn-lg btn-block  acart-open p-3 font" type="button">
+
+                            <span class=" col-6 float p-0 "><i class="mdi mdi-cart-outline  "></i> @localizer.Get("viewCart") </span>
+                            <span class=" col-6 float-" id="carticon"><strong class="stTotalPrice float- ">0 </strong> <strong class="currencyCode float- pl-1"></strong>  <span class="mdi mdi-chevron"></span></span>
+                        </button>
+                    }
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <nav id="main-nav" class="dirc">
+        <ul>
+
+            <li>
+                @Html.HiddenFor(x=>x.CurrencyCode)
+                <div class="list-group">
+                    <a href="/?@Model.UrlKey" class="list-group-item list-group-item-action float"><i aria-hidden="true" class="mdi mdi-basket"></i> @localizer.Get("home")</a>
+
+                    <a  href="/Orders1?@Model.UrlKey" class="list-group-item list-group-item-action float"><i aria-hidden="true" class="mdi mdi-basket"></i>  @localizer.Get("myOrders")</a>
+                   @* <a asp-area="" asp-page="/index" asp-route-TenantID="@Model.TenantID" asp-route-ContactId="@Model.ContactId" asp-route-Menu="@Model.AreaId" asp-route-LanguageBot="@Model.LanguageBot" asp-route-lang="@Model.Lang" class="list-group-item list-group-item-action float"><i aria-hidden="true" class="mdi mdi-home"></i>  @localizer.Get("home")</a>
+                    <a asp-area="" asp-page="/Orders" asp-route-TenantID="@Model.TenantID" asp-route-ContactId="@Model.ContactId" asp-route-Menu="@Model.AreaId" asp-route-lang="@Model.Lang" asp-route-IsLoyalty="@Model.IsApplyLoyalty.ToString()" class="list-group-item list-group-item-action float"><i aria-hidden="true" class="mdi mdi-basket"></i>  @localizer.Get("myOrders")</a>
+*@
+                    @* <a class="list-group-item list-group-item-action float"  ><i  aria-hidden="true" class="mdi mdi-paypal" ></i> Payment </a>
+                <a href="#" class="list-group-item list-group-item-action float" ><i aria-hidden="true"  class="mdi mdi-file-find" ></i> TenantInfo  </a>
+                *@
+                </div>
+
+            </li>
+            @*<li >
+        <input id="h" type="color" value="#333333" list="colors">
+
+        </li>*@
+
+        </ul>
+
+    </nav>
+
+
+
+
+
+
+
+    <nav class="navbar  sticky-top navbar-light navbar-expand-lg bg-dark bg-faded osahan-menu">
+        <div class="container-fluid">
+
+            <a>
+                <span class="navbar-brand  pl-1 pr-1 ml-0 mr-0">
+                    <img src="@Model.LogoImag" alt="logo" class="logo ">
+                </span>
+
+
+
+
+                @{
+                    var requestCulture = Context.Features.Get<IRequestCultureFeature>();
+                    var cultureItems = LocOptions.Value.SupportedUICultures
+                    .Select(c => new SelectListItem { Value = c.Name, Text = c.DisplayName })
+                    .ToList();
+                    var returnUrl = string.IsNullOrEmpty(Context.Request.Path) ? "~/" : $"~{Context.Request.Path.Value}";
+                    returnUrl = returnUrl + Context.Request.QueryString;
+                }
+                @*
+            <div title="@Localizer["Request culture provider:"] @requestCulture?.Provider?.GetType().Name">
+            <form id="selectLanguage"
+            asp-page-handler="SetLanguage" asp-route-returnUrl="@returnUrl"
+            method="post" class="form-horizontal" role="form">
+
+
+            <label asp-for="@requestCulture.RequestCulture.UICulture.Name">@Localizer["Language:"]</label> <select name="culture"
+            onchange="this.form.submit();"
+            asp-for="@requestCulture.RequestCulture.UICulture.Name" asp-items="cultureItems">
+            </select>
+
+
+
+            </form>
+            </div>
+            *@
+
+                @if (requestCulture.RequestCulture.UICulture.Name.Equals("ar"))
+                {
+                    <span class=" btn btn-secondary  border-none btn-change-lang" id="culture-switcher-en" data-lang="en-US" asp-items="cultureItems" data-rout="@returnUrl">
+                        <i class="mdi mdi-circle"></i>
+                        English
+                    </span>
+                }
+                else
+                {
+                    <span class=" btn btn-secondary  border-none btn-change-lang" id="culture-switcher" data-lang="ar" asp-items="cultureItems" data-rout="@returnUrl">
+                        <i class="mdi mdi-circle"></i>
+                        عربي
+                    </span>
+                }
+
+                @*    <div title="@Localizer["Request culture provider:"] @requestCulture?.GetType().Name">
+            <select name="culture" id="culture" onchange="SetLanguage()" asp-for="@requestCulture.Name" asp-items="cultureItems" data-rout="@returnUrl">
+            </select>
+
+            </div>*@
+
+
+
+
+
+
+                @*@if(requestCulture.Name.Equals("ar"))
+            {
+            <span class=" btn btn-secondary  border-none btn-change-lang" id="culture-switcher-en"  data-lang="en" asp-items="cultureItems" data-rout="@returnUrl">
+            <i class="mdi mdi-circle"></i>
+            English
+            </span>
+            }
+            else
+            {
+            <span class=" btn btn-secondary  border-none btn-change-lang" id="culture-switcher"  data-lang="ar" asp-items="cultureItems" data-rout="@returnUrl">
+            <i class="mdi mdi-circle"></i>
+            عربي
+            </span>
+            }
+
+
+
+            </a>
+            *@
+
+            </a>
+
+
+
+            <div class="navbar-collapse" id="navbarNavDropdown">
+                <div class="navbar-nav mr-auto mt-2   top-categories-search-main">
+                    <div class="top-categories-search p-1">
+                        <div class="input-group">
+
+                            <input class="form-control" id="anythingSearch" type="text" placeholder="@localizer.Get("search")">
+                            <span class="input-group-btn">
+                                <button class="btn btn-secondary mdi mdi-file-find" type="button"></button>
+                            </span>
+
+                        </div>
+                    </div>
+
+                </div>
+                <div class="my-2 my-lg-0">
+                    <ul class="list-inline main-nav-right">
+
+                        <li class="list-inline-item cart-btn ">
+                            <a href="#" data-toggle="offcanvas" class=" btn btn-link border-none acart-open"><i class="mdi mdi-cart"></i>@localizer.Get("cart") <small class="cart-value spCartCount">0</small></a>
+                                
+                        </li>
+                        <li class="list-inline-item ">
+                            <button type="button" class="bg-white" id="btnnav">
+                                <span class="navbar-toggler-icon ">
+                                </span>
+                            </button>
+                        </li>
+
+
+                    </ul>
+
+
+                </div>
+            </div>
+
+
+        </div>
+    </nav>
+    <div class="">
+
+        <section class="carousel-slider-main text-center border-top border-bottom bg-white  ">
+            <div class="owl-carousel owl-carousel-slider">
+                <div class="item">
+                    <a><img class="img-fluid slide" src="@Model.BgImag" alt="First slide"></a>
+                </div>
+            </div>
+        </section>
+
+        @*@if (Model.IsApplyLoyalty)
+    {
+    <section class="  text-center border-top border-bottom bg-white sticky-top  ">
+
+    @Html.Partial("~/Pages/Shared/_ContactLoyalty.cshtml",Model.orderingMenuContactLoyaltyModel)
+
+    </section>
+    }*@
+
+    </div>
+
+
+    @*//the result when ordering*@
+    <div class="modal fade login-modal-main" id="bd-example-modal">
+        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+            <div class="modal-content" id="sucsess">
+                <div class="modal-body">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="text-center">
+                                <div class="col-lg-10 col-md-10 mx-auto order-done">
+                                    <i class="mdi mdi-check-circle-outline text-secondary"></i>
+                                    <h4 class="text-success">@localizer.Get("success")  </h4>
+                                    <h5>@localizer.Get("backwhatsapp")</h5>
+                                </div>
+                                <div class="text-center">
+                                    <a href='@string.Format("https://wa.me/{0}",@Model.PhoneNumber)'><button type="submit" class="btn btn-secondary mb-2 btn-lg"> @localizer.Get("whatsapp")</button></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-content" id="faild">
+                <div class="modal-body">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="text-center">
+                                <div class="col-lg-10 col-md-10 mx-auto order-done">
+                                    <i class="mdi mdi-check-circle-outline text-danger"></i>
+
+                                    <h4 class="text-danger">@localizer.Get("faild") </h4>
+                                    <h5>  @localizer.Get("tryagain")</h5>
+
+                                </div>
+                                <div class="text-center">
+                                    <button type="button" class=" btn btn-secondary mb-2 btn-lg" data-dismiss="modal" aria-label="Close">
+                                        @localizer.Get("tryagain")
+                                    </button>
+
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div id="loading">
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+}
+else
+{
+
+    <img class="img-fluid slide" src="~/img/404.png" />
+
+}

@@ -1,0 +1,508 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "s0KmYc",
+    "name": "CheetahMainDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "KWpO5X"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "EkH2mk"
+          },
+          "condition": "conversation.local",
+          "cases": [
+            {
+              "value": "ar",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "kB4q5y"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.Option1",
+                      "value": "آلية الدفع والاقساط"
+                    },
+                    {
+                      "property": "dialog.Option2",
+                      "value": "الاسئلة المتكررة"
+                    },
+                    {
+                      "property": "dialog.Option3",
+                      "value": "تسوقي"
+                    },
+                    {
+                      "property": "dialog.Option4",
+                      "value": "تواصلي مباشرة"
+                    },
+                    {
+                      "property": "dialog.Option5",
+                      "value": " دردشة مباشرة"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "en",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "EHBrEp"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.Option1",
+                      "value": "Payment mechanism"
+                    },
+                    {
+                      "property": "dialog.Option2",
+                      "value": "Asked Questions"
+                    },
+                    {
+                      "property": "dialog.Option3",
+                      "value": "shop"
+                    },
+                    {
+                      "property": "dialog.Option4",
+                      "value": "Contact Directly"
+                    },
+                    {
+                      "property": "dialog.Option5",
+                      "value": "Live Chat"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "default": [
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "zjEYS2"
+              },
+              "assignments": [
+                {
+                  "property": "dialog.Option1",
+                  "value": "آلية الدفع والاقساط"
+                },
+                {
+                  "property": "dialog.Option2",
+                  "value": "الاسئلة المتكررة"
+                },
+                {
+                  "property": "dialog.Option3",
+                  "value": "تسوقي"
+                },
+                {
+                  "property": "dialog.Option4",
+                  "value": " تواصلي مباشرة"
+                },
+                {
+                  "property": "dialog.Option5",
+                  "value": "دردشة مباشرة"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "ir7nOm"
+          },
+          "property": "dialog.text",
+          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1030)).text"
+        },
+        {
+          "$kind": "Microsoft.DeleteProperty",
+          "$designer": {
+            "id": "GAbfNV"
+          },
+          "property": "dialog.UserInput"
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "VA02IL"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "unrecognizedPrompt": "",
+          "prompt": "${TextInput_Prompt_VA02IL()}",
+          "property": "dialog.UserInput",
+          "validations": [
+            "equals(this.value, 'آلية الدفع والاقساط') || equals(this.value, 'الاسئلة المتكررة')  || equals(this.value, 'تسوقي') || equals(this.value, '#') || equals(this.value, 'Payment mechanism')|| equals(this.value, 'Asked Questions') || equals(this.value, 'shop')"
+          ]
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "YtRBYZ"
+          },
+          "condition": "dialog.UserInput",
+          "cases": [
+            {
+              "value": "آلية الدفع والاقساط",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "laW3vi"
+                  },
+                  "property": "dialog.text",
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1031)).text"
+                },
+                {
+                  "$kind": "Microsoft.TextInput",
+                  "$designer": {
+                    "id": "BFNJTQ"
+                  },
+                  "disabled": false,
+                  "maxTurnCount": 3,
+                  "alwaysPrompt": false,
+                  "allowInterruptions": false,
+                  "invalidPrompt": "",
+                  "prompt": "${TextInput_Prompt_BFNJTQ()}",
+                  "property": "dialog.UserSelect"
+                },
+                {
+                  "$kind": "Microsoft.SwitchCondition",
+                  "$designer": {
+                    "id": "jmxzS7"
+                  },
+                  "condition": "dialog.UserSelect",
+                  "cases": [
+                    {
+                      "value": "تواصلي مباشرة",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SendActivity",
+                          "$designer": {
+                            "id": "U12XRY"
+                          },
+                          "activity": "${SendActivity_U12XRY()}"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "دردشة مباشرة",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "XJ2MfL"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "LiveChatDialog"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.CancelAllDialogs",
+                  "$designer": {
+                    "id": "QSPemX"
+                  },
+                  "activityProcessed": true
+                }
+              ]
+            },
+            {
+              "value": "الاسئلة المتكررة",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "HSuER3"
+                  },
+                  "property": "dialog.text",
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1032)).text"
+                },
+                {
+                  "$kind": "Microsoft.TextInput",
+                  "$designer": {
+                    "id": "lAhI24"
+                  },
+                  "disabled": false,
+                  "maxTurnCount": 3,
+                  "alwaysPrompt": false,
+                  "allowInterruptions": false,
+                  "unrecognizedPrompt": "",
+                  "invalidPrompt": "",
+                  "defaultValueResponse": "",
+                  "prompt": "${TextInput_Prompt_lAhI24()}",
+                  "property": "dialog.UserSelect"
+                },
+                {
+                  "$kind": "Microsoft.SwitchCondition",
+                  "$designer": {
+                    "id": "YJGoJ1"
+                  },
+                  "condition": "dialog.UserSelect",
+                  "cases": [
+                    {
+                      "value": "تواصلي مباشرة",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SendActivity",
+                          "$designer": {
+                            "id": "MEsvO6"
+                          },
+                          "activity": "${SendActivity_MEsvO6()}"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "دردشة مباشرة",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "QP9pyp"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "LiveChatDialog"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.CancelAllDialogs",
+                  "$designer": {
+                    "id": "r8ARRg"
+                  },
+                  "activityProcessed": true
+                }
+              ]
+            },
+            {
+              "value": "تسوقي",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "NGFU9j"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "CheetahShoppingDialog"
+                },
+                {
+                  "$kind": "Microsoft.CancelAllDialogs",
+                  "$designer": {
+                    "id": "g1fgdB"
+                  },
+                  "activityProcessed": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "YoxRrR"
+          },
+          "condition": "dialog.UserInput",
+          "cases": [
+            {
+              "value": "Payment mechanism",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "pcNNOj"
+                  },
+                  "property": "dialog.text",
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1031)).text"
+                },
+                {
+                  "$kind": "Microsoft.TextInput",
+                  "$designer": {
+                    "id": "IkmQVM"
+                  },
+                  "disabled": false,
+                  "maxTurnCount": 3,
+                  "alwaysPrompt": false,
+                  "allowInterruptions": false,
+                  "unrecognizedPrompt": "",
+                  "invalidPrompt": "",
+                  "defaultValueResponse": "",
+                  "prompt": "${TextInput_Prompt_IkmQVM()}",
+                  "property": "dialog.UserSelect"
+                },
+                {
+                  "$kind": "Microsoft.SwitchCondition",
+                  "$designer": {
+                    "id": "u2p9Ji"
+                  },
+                  "condition": "dialog.UserSelect",
+                  "cases": [
+                    {
+                      "value": "Contact Directly",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SendActivity",
+                          "$designer": {
+                            "id": "kV6st8"
+                          },
+                          "activity": "${SendActivity_kV6st8()}"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "Live Chat",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "WVlQcU"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "LiveChatDialog"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.CancelAllDialogs",
+                  "$designer": {
+                    "id": "hwxLw5"
+                  },
+                  "activityProcessed": true
+                }
+              ]
+            },
+            {
+              "value": "Asked Questions",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "U7VfA4"
+                  },
+                  "property": "dialog.text",
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1032)).text"
+                },
+                {
+                  "$kind": "Microsoft.TextInput",
+                  "$designer": {
+                    "id": "pUPPhy"
+                  },
+                  "disabled": false,
+                  "maxTurnCount": 3,
+                  "alwaysPrompt": false,
+                  "allowInterruptions": false,
+                  "unrecognizedPrompt": "",
+                  "invalidPrompt": "",
+                  "defaultValueResponse": "",
+                  "prompt": "${TextInput_Prompt_pUPPhy()}",
+                  "property": "dialog.UserSelect"
+                },
+                {
+                  "$kind": "Microsoft.SwitchCondition",
+                  "$designer": {
+                    "id": "QvFuof"
+                  },
+                  "condition": "dialog.UserSelect",
+                  "cases": [
+                    {
+                      "value": "Contact Directly",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SendActivity",
+                          "$designer": {
+                            "id": "wSXoyO"
+                          },
+                          "activity": "${SendActivity_wSXoyO()}"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "Live Chat",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.BeginDialog",
+                          "$designer": {
+                            "id": "xjttNB"
+                          },
+                          "activityProcessed": true,
+                          "dialog": "LiveChatDialog"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.CancelAllDialogs",
+                  "$designer": {
+                    "id": "WhzJoj"
+                  },
+                  "activityProcessed": true
+                }
+              ]
+            },
+            {
+              "value": "shop",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "XIZ8Cu"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "CheetahShoppingDialog"
+                },
+                {
+                  "$kind": "Microsoft.CancelAllDialogs",
+                  "$designer": {
+                    "id": "f2ADlR"
+                  },
+                  "activityProcessed": true
+                }
+              ]
+            }
+          ],
+          "default": [
+            {
+              "$kind": "Microsoft.RepeatDialog",
+              "$designer": {
+                "id": "cz3LKH"
+              },
+              "activityProcessed": true
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "xwD5ND"
+          }
+        }
+      ]
+    }
+  ],
+  "generator": "CheetahMainDialog.lg",
+  "recognizer": "CheetahMainDialog.lu.qna",
+  "id": "CheetahMainDialog"
+}

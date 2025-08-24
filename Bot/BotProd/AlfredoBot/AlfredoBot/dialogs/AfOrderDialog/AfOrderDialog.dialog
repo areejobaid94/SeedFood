@@ -1,0 +1,426 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "IHygz4",
+    "name": "AfOrderDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "Po7OIp"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "VtHeJl"
+          },
+          "assignments": [
+            {
+              "property": "conversation.IsThreeAsset",
+              "value": true
+            },
+            {
+              "property": "conversation.isoffer",
+              "value": false
+            },
+            {
+              "property": "conversation.type",
+              "value": "1"
+            },
+            {
+              "property": "conversation.StepBack",
+              "value": "1"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "YpMflS"
+          },
+          "activityProcessed": true,
+          "dialog": "AssetLoopDialog"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "rgOwna"
+          },
+          "condition": "conversation.DepartmentName ==\"#\"",
+          "actions": [
+            {
+              "$kind": "Microsoft.EndDialog",
+              "$designer": {
+                "id": "MLaRrt"
+              }
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "yWXaPw"
+          },
+          "assignments": [
+            {
+              "property": "conversation.isoffer",
+              "value": false
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "VWtwdb"
+          },
+          "activityProcessed": true,
+          "dialog": "AssetOffersDialog"
+        },
+        {
+          "$kind": "Microsoft.DeleteProperty",
+          "$designer": {
+            "id": "AAs8Zz"
+          },
+          "property": "conversation.back"
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "QnMS6a"
+          },
+          "condition": "conversation.local",
+          "cases": [
+            {
+              "value": "ar",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "lsw8tx"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.option1",
+                      "value": "للاستفسار"
+                    },
+                    {
+                      "property": "dialog.option2",
+                      "value": "العودة إلى السابق"
+                    },
+                    {
+                      "property": "dialog.option3",
+                      "value": "#"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "en",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "k5gYzS"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.option1",
+                      "value": "To inquire"
+                    },
+                    {
+                      "property": "dialog.option2",
+                      "value": "Back to previous"
+                    },
+                    {
+                      "property": "dialog.option3",
+                      "value": "#"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.DeleteProperty",
+          "$designer": {
+            "id": "0GGuJv"
+          },
+          "property": "dialog.userSelect"
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "HlRq0s"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "unrecognizedPrompt": "",
+          "invalidPrompt": "",
+          "prompt": "${TextInput_Prompt_HlRq0s()}",
+          "property": "dialog.userSelect",
+          "validations": [
+            "equals(this.value, 'To inquire') || equals(this.value, 'Back to previous')  ||equals(this.value, 'Back to main') || equals(this.value, 'للاستفسار') || equals(this.value, 'العودة إلى السابق')  ||equals(this.value, 'العودة إلى الرئيسية') || equals(this.value, '#')"
+          ]
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "It4dSx"
+          },
+          "condition": "dialog.userSelect",
+          "cases": [
+            {
+              "value": "To inquire",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "umkeYb"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.InquireCaption",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3024)).text"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.TextInput",
+                  "$designer": {
+                    "id": "5iMQmU"
+                  },
+                  "disabled": false,
+                  "maxTurnCount": 100,
+                  "alwaysPrompt": false,
+                  "allowInterruptions": true,
+                  "unrecognizedPrompt": "",
+                  "invalidPrompt": "",
+                  "prompt": "${TextInput_Prompt_5iMQmU()}",
+                  "property": "dialog.Select"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "WWQe25"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "LiveChatDialog"
+                }
+              ]
+            },
+            {
+              "value": "Back to previous",
+              "actions": [
+                {
+                  "$kind": "Microsoft.RepeatDialog",
+                  "$designer": {
+                    "id": "MwTw93"
+                  },
+                  "activityProcessed": true
+                }
+              ]
+            },
+            {
+              "value": "#",
+              "actions": []
+            },
+            {
+              "value": "للاستفسار",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "HlE3Jq"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.InquireCaption",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3024)).text"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.TextInput",
+                  "$designer": {
+                    "id": "cWyUL2"
+                  },
+                  "disabled": false,
+                  "maxTurnCount": 100,
+                  "alwaysPrompt": false,
+                  "allowInterruptions": true,
+                  "unrecognizedPrompt": "",
+                  "invalidPrompt": "",
+                  "prompt": "${TextInput_Prompt_cWyUL2()}",
+                  "property": "dialog.Select"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "Z9eu3g"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "LiveChatDialog"
+                }
+              ]
+            },
+            {
+              "value": "العودة إلى السابق",
+              "actions": [
+                {
+                  "$kind": "Microsoft.RepeatDialog",
+                  "$designer": {
+                    "id": "fcszJQ"
+                  },
+                  "activityProcessed": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "qLEkND"
+          }
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "Z6x4O5"
+          },
+          "property": "conversation.back",
+          "value": true
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "leaZD7"
+          }
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "rAeMN0"
+          },
+          "condition": "conversation.Department2",
+          "cases": [
+            {
+              "value": "British System",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "xujMPZ"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "AFOrderBritishDialog"
+                }
+              ]
+            },
+            {
+              "value": "British System /النظام البريطاني",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "7QvfeN"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "AFOrderBritishDialog"
+                }
+              ]
+            },
+            {
+              "value": "American System",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "YIOyjq"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "AFOrderAmericanDialog"
+                }
+              ]
+            },
+            {
+              "value": "American system / النظام الأمريكي",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "Xa049A"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "AFOrderAmericanDialog"
+                }
+              ]
+            },
+            {
+              "value": "IB Diploma",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "Yu4Ifs"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "AFOrderIBDialog"
+                }
+              ]
+            },
+            {
+              "value": "IB دبلوم",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "yLCUNp"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "AFOrderIBDialog"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "QNQ1SW"
+          },
+          "condition": "conversation.back== True",
+          "actions": [
+            {
+              "$kind": "Microsoft.RepeatDialog",
+              "$designer": {
+                "id": "4xYJMv"
+              },
+              "activityProcessed": true
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "I5FZHz"
+          }
+        }
+      ]
+    }
+  ],
+  "generator": "AfOrderDialog.lg",
+  "recognizer": "AfOrderDialog.lu.qna",
+  "id": "AfOrderDialog"
+}

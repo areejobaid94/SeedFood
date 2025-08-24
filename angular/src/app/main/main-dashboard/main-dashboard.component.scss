@@ -1,0 +1,40 @@
+.date-selector-btn {
+    border: solid 1px gray;
+    border-radius: 3px;
+    padding: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin: 10px;
+}
+
+.date-selector-btn:hover {
+    border: solid 1px #009789;
+    background-color: #009789;
+    color: white;
+    cursor: pointer;
+}
+.scroallable-dates {
+    overflow: auto;
+    white-space: nowrap;
+
+    &::-webkit-scrollbar {
+        height: 10px; 
+        opacity: 0; 
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: transparent; 
+    }
+
+    scrollbar-width: thin;
+    scrollbar-color: transparent transparent; 
+
+    /* For IE and Edge */
+    -ms-overflow-style: none;
+}
+
+.selectedDate {
+    border: solid 1px #009789;
+    background-color: #009789;
+    color: white;
+}

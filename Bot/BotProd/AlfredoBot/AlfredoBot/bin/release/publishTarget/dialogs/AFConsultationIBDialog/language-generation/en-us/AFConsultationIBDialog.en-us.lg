@@ -1,0 +1,10 @@
+[import](common.lg)
+
+# TextInput_Prompt_x84x6A()
+[Activity
+    Text = ${TextInput_Prompt_x84x6A_text()}
+    SuggestedActions = ${dialog.Option1} | ${dialog.Option2}
+]
+
+# TextInput_Prompt_x84x6A_text()
+- ${conversation.ChooseLevel}

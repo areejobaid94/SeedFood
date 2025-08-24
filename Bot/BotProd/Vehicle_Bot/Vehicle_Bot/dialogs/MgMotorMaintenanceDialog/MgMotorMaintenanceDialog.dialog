@@ -1,0 +1,390 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "R2d4J7",
+    "name": "MgMotorMaintenanceDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "22OXK4"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "R63x2C"
+          },
+          "condition": "conversation.local",
+          "cases": [
+            {
+              "value": "ar",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "faXJkK"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.SalesLst",
+                      "value": [
+                        "احجز موعد للصيانة",
+                        "موقع الصيانة",
+                        "تجديد ترخيص وتأمين",
+                        "شكاوي صيانة"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "Lnppsk"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.location",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId ==1176)).text"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "geqKvT"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.InputHint",
+                      "value": "القائمة"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "en",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "3dMu10"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.SalesLst",
+                      "value": [
+                        "Book an appointment",
+                        "Services Location",
+                        "License & Insurance",
+                        "Service Complaints"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "mWLoXS"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.location",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId ==1176)).text"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "5sfVSP"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.InputHint",
+                      "value": "Menu"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.DeleteProperty",
+          "$designer": {
+            "id": "Rhub4P"
+          },
+          "property": "conversation.book"
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "GCD66p"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "unrecognizedPrompt": "",
+          "prompt": "${TextInput_Prompt_GCD66p()}",
+          "property": "conversation.book",
+          "validations": [
+            "equals(this.value, 'احجز موعد للصيانة') || equals(this.value, '#') || equals(this.value, 'موقع الصيانة')|| equals(this.value, 'تجديد ترخيص وتأمين')|| equals(this.value, 'شكاوي صيانة') || equals(this.value, 'Book an appointment') || equals(this.value, 'Services Location') || equals(this.value, 'License & Insurance') || equals(this.value, 'Service Complaints')"
+          ]
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "heYW00"
+          },
+          "condition": "conversation.book",
+          "cases": [
+            {
+              "value": "احجز موعد للصيانة",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "Ft22sq"
+                  },
+                  "property": "conversation.Department2",
+                  "value": "${conversation.book}"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "fBV70v"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "MgMotorBookingDialog"
+                }
+              ]
+            },
+            {
+              "value": "موقع الصيانة",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "coEo4F"
+                  },
+                  "activity": "${SendActivity_coEo4F()}"
+                }
+              ]
+            },
+            {
+              "value": "تجديد ترخيص وتأمين",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "XuvbMX"
+                  },
+                  "property": "conversation.Department2",
+                  "value": "${conversation.book}"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "xsXCN2"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "MgMototrRenewalDialog"
+                },
+                {
+                  "$kind": "Microsoft.EndDialog",
+                  "$designer": {
+                    "id": "tMqNz5"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "0CbDth"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "MgMotorLicensingInsuranceDialog"
+                }
+              ]
+            },
+            {
+              "value": "Book an appointment",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "4FZxxK"
+                  },
+                  "property": "conversation.Department2",
+                  "value": "${conversation.book}"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "V1NUNO"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "MgMotorBookingDialog"
+                }
+              ]
+            },
+            {
+              "value": "Services Location",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "gdUhEM"
+                  },
+                  "activity": "${SendActivity_gdUhEM()}"
+                }
+              ]
+            },
+            {
+              "value": "License & Insurance",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "HwzCN9"
+                  },
+                  "property": "conversation.Department2",
+                  "value": "${conversation.book}"
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "pbuGPU"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "MgMototrRenewalDialog"
+                },
+                {
+                  "$kind": "Microsoft.EndDialog",
+                  "$designer": {
+                    "id": "W0SepF"
+                  }
+                },
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "2o7h8w"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "MgMotorLicensingInsuranceDialog"
+                }
+              ]
+            },
+            {
+              "value": "شكاوي صيانة",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "Q0KUog"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.text",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId ==1174)).text"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.TextInput",
+                  "$designer": {
+                    "id": "DBl3SP"
+                  },
+                  "disabled": false,
+                  "maxTurnCount": 100,
+                  "alwaysPrompt": false,
+                  "allowInterruptions": true,
+                  "unrecognizedPrompt": "",
+                  "invalidPrompt": "",
+                  "prompt": "${TextInput_Prompt_DBl3SP()}",
+                  "property": "dialog.UserInputt"
+                },
+                {
+                  "$kind": "Microsoft.HttpRequest",
+                  "$designer": {
+                    "id": "uczqlM"
+                  },
+                  "resultProperty": "dialog.ApiFeedBack",
+                  "url": "${conversation.URL}/api/BotAPI/UpdateComplaintMG?contactId=${conversation.ContactId}&subject=${dialog.Complaint}&content=${dialog.UserInputt}",
+                  "method": "GET",
+                  "responseType": "json"
+                },
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "zAu5pd"
+                  },
+                  "activity": "${SendActivity_zAu5pd()}"
+                }
+              ]
+            },
+            {
+              "value": "Service Complaints",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "A8gFuj"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.text",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId ==1174)).text"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.TextInput",
+                  "$designer": {
+                    "id": "m4IClt"
+                  },
+                  "disabled": false,
+                  "maxTurnCount": 100,
+                  "alwaysPrompt": false,
+                  "allowInterruptions": true,
+                  "unrecognizedPrompt": "",
+                  "invalidPrompt": "",
+                  "prompt": "${TextInput_Prompt_m4IClt()}",
+                  "property": "dialog.UserInputt"
+                },
+                {
+                  "$kind": "Microsoft.HttpRequest",
+                  "$designer": {
+                    "id": "lCW3TA"
+                  },
+                  "resultProperty": "dialog.ApiFeedBack",
+                  "url": "${conversation.URL}/api/BotAPI/UpdateComplaintMG?contactId=${conversation.ContactId}&subject=${dialog.Complaint}&content=${dialog.UserInputt}",
+                  "method": "GET",
+                  "responseType": "json"
+                },
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "cRyzfv"
+                  },
+                  "activity": "${SendActivity_cRyzfv()}"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "generator": "MgMotorMaintenanceDialog.lg",
+  "recognizer": "MgMotorMaintenanceDialog.lu.qna",
+  "id": "MgMotorMaintenanceDialog"
+}

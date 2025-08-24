@@ -1,0 +1,107 @@
+<div [@routerTransition]>
+  <div class="header-navbar-shadow"></div>
+  <div class="content-wrapper container-xxl p-0">
+    <div class="content-body">
+      <div class="d-flex flex-column flex-column-fluid">
+        <sub-header *ngIf="theme != 'theme12'" [title]="'Group' | localize"
+          [description]="groupName">
+          <div role="actions">
+          </div>
+        </sub-header>
+
+        <!-- theme 12 sub header-->
+        <sub-header *ngIf="theme === 'theme12'" [title]="'contacts' | localize"
+          [description]="groupName"> </sub-header>
+
+        <div [ngClass]="theme != 'theme12' ? 'container' : ''">
+          <div class="card card-custom gutter-b">
+            <div class="card-body">
+
+              <!-- <div class="d-flex justify-content-center align-items-baseline" >
+                <label for="GroupName" class="mx-1" >{{l("groupName") }}</label>
+                <div class="d-flex flex-column col-8"    >
+                  <input id="GroupName" name="GroupName" type="text" class="col-8 form-control customInput"
+                  [(ngModel)]="groupName"
+                    placeholder="Group name" maxlength="20" [class.error]="submitted && groupName.length ===0" />
+                    <p class="text-danger" *ngIf="submitted && groupName.length ===0">{{l("ThisFieldIsRequired") }}</p>
+                </div>
+              </div> -->
+              
+            
+             <div class="align-items-center my-1">         
+                <div class="custom-tabview" >
+                  <div hidden style="padding-left: 50%;">
+                    <ul class="tab-nav">
+                      <li [class.active]="tabIndex === 0" (click)="setTab(0)">
+                          <i class="bi bi-gear-fill mx-1"></i>
+                          <span>{{ l("editGroup") }}</span>
+                      </li>
+                      <li [class.active]="tabIndex === 1" (click)="setTab(1)" [class.disabled]="totalRecords >= 50000">
+                          <i class="bi bi-person-plus-fill mx-1"></i>
+                          <span>{{ l("addInternalGroupTap") }}</span>
+                      </li>
+                      <li [class.active]="tabIndex === 2" (click)="setTab(2)" [class.disabled]="totalRecords >= 50000">
+                          <i class="bi bi-file-earmark-excel-fill mx-1"></i>
+                          <span>{{ l("addexternalGroupTap") }}</span>
+                      </li>
+                  </ul>
+                  </div>
+                <p-tabView  (onChange)="switchHeaders($event);" [(activeIndex)]="tabIndex" styleClass="tabview-custom">
+                  <p-tabPanel >
+                      <ng-template pTemplate="header" >
+                        <i class="bi bi-gear-fill mx-1"></i>
+                          <span>{{l("editGroup") }}</span>
+                      </ng-template>
+                      <!-- <ng-template pTemplate="content">
+                        <app-delete-update-group #deleteCompoent  id="deleteCompoent" [groupID]="groupID"  [groupName]="groupName"  (valueChange)="handleValueChange($event)" (totalRecordsToPerant)="handleTotalChange($event)"></app-delete-update-group>
+                      </ng-template>
+                   -->
+                  </p-tabPanel>
+                  <p-tabPanel header="Header II" [disabled]="totalRecords >= 50000">
+                      <ng-template pTemplate="header">
+                        <i class="bi bi-person-plus-fill mx-1"></i>
+                          <span>{{l("addInternalGroupTap") }}</span>
+                      </ng-template>
+                      <!-- <ng-template pTemplate="content">
+                        <app-internal-update-group  [groupID]="groupID" [groupName]="groupName" [totalRecords]="totalRecords" ></app-internal-update-group>
+                      </ng-template> -->
+                  </p-tabPanel>
+                  <p-tabPanel header="Header III" [disabled]="totalRecords >= 50000">
+                      <ng-template pTemplate="header">
+                        <i class="bi bi-file-earmark-excel-fill mx-1"></i>
+                          <span>{{l("addexternalGroupTap") }}</span>
+                      </ng-template>
+                      <!-- <ng-template pTemplate="content">
+                        <app-extenal-update-group #externalUpdateGroup [groupID]="groupID" [groupName]="groupName" [totalRecords]="totalRecords" ></app-extenal-update-group>
+                      </ng-template> -->
+                  </p-tabPanel>
+              </p-tabView>            
+                  <div class="tab-content">
+                      <div *ngIf="tabIndex === 0">
+                          <app-delete-update-group #deleteComponent [groupID]="groupID" [groupName]="groupName" (valueChange)="handleValueChange($event)" (totalRecordsToParent)="handleTotalChange($event)" (isGroupUnsubscribedChange)="handleIsGroupUnsubscribedChange($event)">></app-delete-update-group>
+                      </div>
+                      <div *ngIf="tabIndex === 1">
+                          <app-internal-update-group [groupID]="groupID" [groupName]="groupName" [totalRecords]="totalRecords" [isGroupUnsubscribed]="isGroupUnsubscribed"></app-internal-update-group>
+                      </div>
+                      <div *ngIf="tabIndex === 2">
+                          <app-extenal-update-group #externalUpdateGroup [groupID]="groupID" [groupName]="groupName" [isGroupUnsubscribed]="isGroupUnsubscribed"></app-extenal-update-group>
+                      </div>
+                  </div>
+                </div>
+              </div>
+              
+
+              <!-- <app-delete-update-group #deleteCompoent  id="deleteCompoent" [groupID]="groupID"  [groupName]="groupName"  (valueChange)="handleValueChange($event)" (totalRecordsToPerant)="handleTotalChange($event)"></app-delete-update-group>
+              <app-internal-update-group  [groupID]="groupID" [groupName]="groupName" [totalRecords]="totalRecords" ></app-internal-update-group>
+              <app-extenal-update-group #externalUpdateGroup [groupID]="groupID" [groupName]="groupName" [totalRecords]="totalRecords" ></app-extenal-update-group>
+            </div>  -->
+            </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+
+      </div>
+    </div>

@@ -1,0 +1,222 @@
+<div id="ViewRequestDetails" bsModal [class.hidden]="isSecondModalOpen" #viewRequestModalComponent="bs-modal"
+  class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createOrEditModal" aria-hidden="true"
+  [config]="{ backdrop: 'static' }">
+
+
+  <div *ngIf="theme === 'theme12'" class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 [ngClass]="darkModeService.currentSkin === 'dark' ? 'dark-header ' : ''" class="modal-title">
+          <span>{{ l("Details") }}</span>
+        </h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="close()"
+          aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-12 col-lg-6 mb-1 d-flex">
+            <div class="transaction-item">
+              <div class="media">
+                <div class="avatar bg-light-primary-info rounded">
+                  <div class="avatar-content">
+                    <i class="fa fa-user font-medium-3"></i>
+                  </div>
+                </div>
+                <div class="media-body ml-1">
+                  <h6 class="transaction-title">{{ l("Name") }} : <small> {{ createdBy }} </small>
+                  </h6>
+
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-12 col-lg-6 mb-1 d-flex">
+            <div class="transaction-item">
+              <div class="media">
+                <div class="avatar bg-light-primary-info rounded">
+                  <div class="avatar-content">
+                    <i class="fa fa-phone font-medium-3"></i>
+                  </div>
+                </div>
+                <div class="media-body ml-1">
+                  <h6 class="transaction-title">{{ l("phoneNumber") }} : <small> {{ phoneNumber }} </small>
+                  </h6>
+
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <!-- <div class="col-12 col-lg-6 mb-1 d-flex" *ngIf="isRequestForm &&  data.length != 0 ">
+            <div class="transaction-item">
+              <div class="media">
+                <div class="avatar bg-light-primary-info rounded">
+                  <div class="avatar-content">
+                    <i class="bi bi-clipboard-data-fill"></i>
+                  </div>
+                </div>
+                <div class="media-body ml-1">
+                  <h6 class="transaction-title">{{ l("information") }} :
+                    <small>
+                      <ul>
+                        <li *ngFor="let data of data" [innerHTML]="data | linkify">
+                        </li>
+                      </ul>
+                    </small>
+                  </h6>
+
+                </div>
+              </div>
+            </div>
+          </div> -->
+
+          <div class="col-12 col-lg-6 mb-1 d-flex" *ngIf="isRequestForm">
+            <div class="transaction-item">
+              <div class="media">
+                <div class="avatar bg-light-primary-info rounded">
+                  <div class="avatar-content">
+                    <i class="fa fa-user-check font-medium-3"></i>
+                  </div>
+                </div>
+                <div class="media-body ml-1">
+                  <h6 class="transaction-title">{{ l("GatheredData") }} : <small> {{
+                      sellingRequestDto.requestDescription }}</small></h6>
+
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-12 col-lg-6 mb-1 d-flex" *ngIf="isRequestForm">
+            <div class="transaction-item">
+              <div class="media">
+                <div class="avatar bg-light-primary-info rounded">
+                  <div class="avatar-content">
+                    <i class="fa fa-dollar-sign font-medium-3"></i>
+                  </div>
+                </div>
+                <div class="media-body ml-1">
+                  <h6 class="transaction-title">{{ l("Contract Name Person") }} : <small> {{
+                      sellingRequestDto.displayName }} </small>
+                  </h6>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-12 col-lg-6 mb-1 d-flex" *ngIf="isRequestForm">
+            <div class="transaction-item">
+              <div class="media">
+                <div class="avatar bg-light-primary-info rounded">
+                  <div class="avatar-content">
+                    <i class="fa fa-phone font-medium-3"></i>
+                  </div>
+                </div>
+                <div class="media-body ml-1">
+                  <h6 class="transaction-title">{{ l("contactInfo") }} : <small> {{
+                      sellingRequestDto.phoneNumber }} </small>
+                  </h6>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- 
+
+          <div class="col-12 col-lg-6 mb-1 d-flex" *ngIf="isRequestForm">
+            <div class="transaction-item">
+              <div class="media">
+                <div class="avatar bg-light-primary-info rounded">
+                  <div class="avatar-content">
+                    <i class="fa fa-dollar-sign font-medium-3"></i>
+                  </div>
+                </div>
+                <div class="media-body ml-1">
+                  <h6 class="transaction-title">{{ l("Payment Method") }} : <small> {{
+                      sellingRequestDto.requestForm.paymentType }} </small>
+                  </h6>
+                </div>
+              </div>
+            </div>
+          </div> -->
+
+
+          <div class="col-12 col-md-6 mb-1 d-flex" *ngIf="data.length != 0">
+            <div class="transaction-item">
+              <div class="media">
+                <div class="avatar bg-light-primary-info rounded">
+                  <div class="avatar-content">
+                    <i class="bi bi-clipboard-data-fill"></i>
+                  </div>
+                </div>
+                <div class="media-body ml-1" >
+                  <h6 class="transaction-title">{{ l("GatheredData") }} : <small>
+                      <ul>
+                          <ng-container *ngFor="let dataLocal of data">
+                              <li *ngIf="dataLocal.length != 0" class="mt-1">
+                                  <span style='color: red;'>Customer Response: <div  style='color: #82868b;' [innerHTML]="dataLocal | linkify"></div>
+
+                                  </span>
+                              </li>
+                          </ng-container>
+                      </ul>
+                  </small>
+                  </h6>
+              </div>
+              
+              </div>
+            </div>
+          </div>
+
+
+
+          <div class="col-12 col-lg-6 mb-1 d-flex" *ngIf="!isRequestForm && lstSellingRequestDetailsDto != null">
+            <div class="transaction-item">
+              <div class="media">
+                <div class="avatar bg-light-primary-info rounded">
+                  <div class="avatar-content">
+                    <i class="fa fa-image font-medium-3"></i>
+                  </div>
+                </div>
+                <div class="media-body ml-1">
+                  <h6 class="transaction-title">{{ l("Images") }} : <small
+                      *ngFor="let person of lstSellingRequestDetailsDto; index as i">
+                      <a target="_blank" href="{{ person.documentURL }}"> Image</a>
+                    </small></h6>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <div class="d-flex flex-column  flex-md-row ">
+          <div class="col-12">
+            <a *ngIf="theme === 'theme12'" [routerLink]="['/app/main/teamInbox/teamInbox12']"
+              [queryParams]="{ CustomerID: userId }">
+              <button (click)="SaveInLocalStorge()" class="btn btn-outline-dark mr-1">{{ l("Chat")
+                }}</button>
+                
+              </a>
+            <a *ngIf="theme != 'theme12'" [routerLink]="['/app/main/teamInbox/teamInbox12']"
+              [queryParams]="{ CustomerID: userId }"><button class="btn btn-outline-dark mr-1">{{
+                l("Chat")}}</button></a>
+            <button [disabled]="(sellingRequestStatus === 4)||(sellingRequestStatus === 5)" type="button" class=" mr-1 btn btn-outline-success"
+            (click)="openViewTicketModal(sellingRequestDto.idLiveChat,sellingRequestDto.userId , 'request' ,sellingRequestDto ,'confirm' ,sellingRequestDto.displayName)">
+
+              {{ l("ConfirmButtonModel") }}</button>
+
+            <button [disabled]="(sellingRequestStatus === 4)||(sellingRequestStatus === 5)" type="button" class=" mr-1 btn btn-outline-danger" (click)="openViewTicketModal(sellingRequestDto.idLiveChat,sellingRequestDto.userId , 'request' ,sellingRequestDto ,'reject' ,sellingRequestDto.displayName)" >
+
+              {{ l("RejectButtonModel") }} </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- <viewTicketModal #viewTicketModalRequest></viewTicketModal> -->

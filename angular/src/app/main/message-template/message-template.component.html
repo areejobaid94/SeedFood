@@ -1,0 +1,216 @@
+<div>
+    <div class="header-navbar-shadow"></div>
+    <div class="content-wrapper container-xxl p-0">
+        <div class="content-body">
+            <div class="d-flex flex-column flex-column-fluid">
+                <sub-header *ngIf="theme != 'theme12'" [title]="'template' | localize" [description]="'templateHeaderInfo' | localize">
+                    <div role="actions">
+                        <button (click)="Sync($event)" class="btn btn-secondary blue">
+                            <i class="fa flaticon-refresh"></i>
+                            {{ l("Sync Template") }}
+                        </button>
+                        <button (click)="addTemplate()" class="btn btn-primary blue" >
+                            <i class="fa fa-plus"></i>
+                            {{ l("addTemplate") }}
+                        </button>
+                    </div>
+                </sub-header>
+                <sub-header *ngIf="theme === 'theme12'" [title]="'template' | localize" [description]="'templateHeaderInfo' | localize">
+                    
+
+
+                </sub-header>
+
+                <div [ngClass]="theme != 'theme12' ? 'container' : ''">
+                    <div class="card-custom gutter-b card">
+                        <div class="card-body"  [ngClass]="theme != 'theme12' ? 'p-0' : ''">
+                            <div *ngIf="theme === 'theme12'" class="row mb-2">
+                                <div class="col-md-6 col-12 text-right"></div>
+                                <div class="col-md-6 col-12 " [ngClass]="isArabic? 'text-left' : 'text-right'">
+                                    <button (click)="Sync($event)" class="btn btn-primary-info mr-1">
+                                        <i class="fa flaticon-refresh"></i>
+                                    </button>
+                                    <button (click)="addTemplate()" class="btn btn-outline-primary-info mr-1">
+                                        <i class="fa fa-plus"></i> {{ l("addTemplate") }}
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="align-items-center">
+                                <div
+                                    [ngClass]="darkModeService.currentSkin === 'dark' ? 'table-dark' : 'light'"
+                                    class="primeng-datatable-container"
+                                    [busyIf]="primengTableHelper.isLoading"
+                                >
+                                    <p-table
+                                        [ngClass]="darkModeService.currentSkin === 'dark' ? 'table-dark' : 'light'"
+                                        #dataTable
+                                        [value]="primengTableHelper.records"
+                                        rows="{{ primengTableHelper.defaultRecordsCountPerPage }}"
+                                        [paginator]="false"
+                                        [lazy]="true"
+                                        responsiveLayout="stack"
+                                        [breakpoint]="'960px'"
+                                    
+                                        [resizableColumns]="primengTableHelper.resizableColumns"
+                                        (onLazyLoad)="getWhatsAppTemplates($event)"
+                                    >
+                                        <ng-template [ngClass]="darkModeService.currentSkin === 'dark' ? 'table-dark' : 'light'" pTemplate="header">
+                                            <tr>
+                                                <th [ngClass]="darkModeService.currentSkin === 'dark' ? 'dark-table' : ''" style="width:100px">{{ l("Actions") }}</th>
+                                                <th [ngClass]="darkModeService.currentSkin === 'dark' ? 'dark-table' : ''" pSortableColumn="templateName">{{ l("name") }}</th>
+                                                <th [ngClass]="darkModeService.currentSkin === 'dark' ? 'dark-table' : ''" pSortableColumn="category">{{ l("category") }}</th>
+                                                <th [ngClass]="darkModeService.currentSkin === 'dark' ? 'dark-table' : ''" pSortableColumn="language">{{ l("Language") }}</th>
+                                                <th [ngClass]="darkModeService.currentSkin === 'dark' ? 'dark-table' : ''" pSortableColumn="status">{{ l("Status") }}</th>
+                                            </tr>
+                                        </ng-template>
+
+                                        <ng-template
+                                            pTemplate="body"
+                                            let-record="$implicit"
+                                            let-i="rowIndex"
+                                        >
+                                            <tr *ngIf="(record.language == 'ar' || record.language == 'en')"                                            >
+                                                <td  [ngClass]="darkModeService.currentSkin === 'dark' ? 'table-dark' : ''"  style="width:100px">
+                                                    <div class="btn-group dropdown" dropdown container="body">
+                                                        <button [ngClass]="theme != 'theme12' ? 'btn-primary' : 'btn-primary-info'" class="dropdown-toggle btn btn-sm " style="cursor: pointer" dropdownToggle>
+                                                            <i class="fa fa-cog"></i>
+                                                            <span class="caret"></span>
+                                                        </button>
+                                                        <ul [ngClass]="darkModeService.currentSkin === 'dark' ? 'drop-down-dark' : ''" class="dropdown-menu" *dropdownMenu>
+                                                            <li>
+                                                                <a  href="javascript:;" class="dropdown-item" (click)="ViewMessageTemplate.viewTemplate(record,false)">{{ l("view") }}</a>
+                                                                <a *ngIf="(record.status=='APPROVED')"  href="javascript:;" class="dropdown-item" (click)="ViewMessageTemplate.viewTemplate(record,true)">{{ l("createCampaign") }}</a>
+                                                                <a *ngIf="(record.status=='APPROVED' || record.status=='REJECTED')  && !checkTemplateName(record.name)" href="javascript:;" class="dropdown-item" (click)="Edit(record)">{{ l("Edit") }}</a>
+                                                                <a href="javascript:;" class="dropdown-item" (click)="DeleteTemplate(record.name, $event)">{{ l("Delete") }}</a>
+                                                                <a href="javascript:;" *ngIf="(record.status=='APPROVED')" (click)="send(record)" class="dropdown-item" >{{ l("SendTest") }}</a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </td>
+
+                                                <td  [ngClass]="darkModeService.currentSkin === 'dark' ? 'table-dark' : ''"  (click)="ViewMessageTemplate.viewTemplate(record,false)"> 
+                                                    <span class="p-column-title">{{l('name')}}</span>
+                                                    {{ record.name }}
+                                                </td>
+                                                <td  [ngClass]="darkModeService.currentSkin === 'dark' ? 'table-dark' : ''"  (click)="ViewMessageTemplate.viewTemplate(record,false)">
+                                                    <span class="p-column-title">{{l('category')}}</span>
+                                                    {{ record.category }}
+                                                </td>
+
+                                                <td  [ngClass]="darkModeService.currentSkin === 'dark' ? 'table-dark' : ''"  (click)="ViewMessageTemplate.viewTemplate(record,false)">
+                                                    <span class="p-column-title">{{l('languages')}}</span>
+                                                    {{ record.language }}
+                                                </td>
+                                                <td  [ngClass]="darkModeService.currentSkin === 'dark' ? 'table-dark' : ''"  (click)="ViewMessageTemplate.viewTemplate(record,false)" *ngIf="theme != 'theme12'" >
+                                                    <span class="p-column-title">Status</span>
+                                                    <span *ngIf="record.status == 'PENDING'" class="badge badge-secondary w-100 d-flex" >
+                                                        {{ record.status }}
+                                                    </span>
+                                                    <span *ngIf="record.status == 'REJECTED'" class="badge badge-secondary w-100 d-flex" >
+                                                        {{ record.status }}
+
+                                                        <a href="javascript:;" class="text-danger" style="float: right;  border-bottom: 1px solid;cursor: pointer ;
+                                                        " (click)="viewResons.show()">
+                                                     {{ l("reason") }}?
+                                                        </a>
+                                                    </span>
+                                                    <span *ngIf="record.status == 'APPROVED'" class="badge badge-success  w-100 d-flex">
+                                                        {{ record.status }}
+                                                    </span>
+                                                    <span *ngIf="record.status == 'PAUSED'" class="badge badge-danger  w-100 d-flex">
+                                                        <i class="bi bi-exclamation-triangle-fill"></i>
+                                                        {{ record.status }}
+                                                    </span>
+                                                    <span *ngIf="record.status == 'IN_APPEAL'" class="badge badge-warning  w-100 d-flex">
+                                                        <i class="bi bi-exclamation-triangle-fill"></i>
+                                                        {{ record.status }}
+                                                    </span>
+                                                    <span *ngIf="record.status == 'PENDING_DELETION'" class="badge badge-secondary  w-100 d-flex">
+                                                        <i class="bi bi-exclamation-triangle-fill"></i>
+                                                        {{ record.status }}
+                                                    </span>
+                                                    <span *ngIf="record.status == 'DISABLED'" class="badge badge-dark  w-100 d-flex">
+                                                        <i class="bi bi-exclamation-triangle-fill"></i>
+                                                        {{ record.status }}
+                                                    </span>
+                                                    <span *ngIf="record.status == 'LIMIT_EXCEEDED'" class="badge badge-info  w-100 d-flex">
+                                                        <i class="bi bi-exclamation-triangle-fill"></i>
+                                                        {{ record.status }}
+                                                    </span>
+                                                    <span *ngIf="record.status == 'DELETED'" class="badge badge-seconday  w-100 d-flex">
+                                                        <i class="bi bi-exclamation-triangle-fill"></i>
+                                                        {{ record.status }}
+                                                    </span>
+                                                </td>
+                                                <td  [ngClass]="darkModeService.currentSkin === 'dark' ? 'table-dark' : ''"   *ngIf="theme === 'theme12'" >
+                                                    <span class="p-column-title"> {{l('Status')}}</span>
+          
+                                                    <span   *ngIf="record.status == 'PENDING'" class="w-100 badge badge-pill badge-light-danger mr-1">{{l('pending')}}</span>
+                                                    <span  *ngIf="record.status=='REJECTED'" class="w-100 badge badge-pill badge-light-secondary mr-1" style="text-align:unset"> {{l('rejected')}}
+                                                        <a href="javascript:;" class="text-danger" style="float: right;  border-bottom: 1px solid;cursor: pointer ;
+                                                        " (click)="viewResons.show()">
+                                                     {{ l("reason") }}?
+                                                        </a>
+                                                    </span>
+                                                    <span  *ngIf="record.status=='APPROVED'" class="w-100 badge badge-pill badge-light-success mr-1">{{l('approved')}}</span>
+                                                    <span *ngIf="record.status == 'PAUSED'" class="badge badge-pill badge-light-danger  w-100 mr-1">
+                                                        <i class="bi bi-exclamation-triangle-fill"></i>
+                                                        {{l('paused')}}
+                                                    </span>
+                                                    <span *ngIf="record.status == 'IN_APPEAL'" class="badge badge-pill badge-light-warning w-100 mr-1">
+                                                        <i class="bi bi-exclamation-triangle-fill"></i>
+                                                        {{l('inAppeal')}}
+                                                    </span>
+                                                    <span *ngIf="record.status == 'PENDING_DELETION'" class="badge badge-pill badge-light-secondary w-100 mr-1">
+                                                        <i class="bi bi-exclamation-triangle-fill"></i>
+                                                        {{l('pendingDeletion')}}
+                                                    </span>
+                                                    <span *ngIf="record.status == 'DISABLED'" class="badge badge-pill badge-light-dark w-100 mr-1">
+                                                        <i class="bi bi-exclamation-triangle-fill"></i>
+                                                        {{l('Disabled')}}
+                                                    </span>
+                                                    <span *ngIf="record.status == 'LIMIT_EXCEEDED'" class="badge badge-pill badge-light-info w-100 mr-1">
+                                                        <i class="bi bi-exclamation-triangle-fill"></i>
+                                                        {{l('limitExceeded1')}}
+                                                    </span>
+                                                    <span *ngIf="record.status == 'DELETED'" class="badge badge-pill badge-light-secondary w-100 mr-1">
+                                                        <i class="bi bi-exclamation-triangle-fill"></i>
+                                                        {{l('deleted')}}
+                                                    </span>
+                                                </td>
+                                                
+                                            </tr>
+                                        </ng-template>
+                                    </p-table>
+
+                                    <div class="primeng-no-data" *ngIf="primengTableHelper.totalRecordsCount == 0">
+                                        {{ l("NoData") }}
+                                    </div>
+                                    <div class="primeng-paging-container">
+                                        <p-paginator [ngClass]="darkModeService.currentSkin === 'dark' ? 'dark' : ''"
+                                            (onPageChange)="getWhatsAppTemplates($event)"
+                                            [rows]="primengTableHelper.defaultRecordsCountPerPage"
+                                            #paginator
+                                            [totalRecords]="primengTableHelper.totalRecordsCount"
+                                            [rowsPerPageOptions]="primengTableHelper.predefinedRecordsCountPerPage"
+                                        >
+                                        </p-paginator>
+                                        <span class="total-records-count" *ngIf="primengTableHelper.totalRecordsCount">
+                                            {{ l("TotalRecordsCount", primengTableHelper.totalRecordsCount) }}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <AddMessageTemplate #AddMessageTemplate (modalSave)="ngOnInit()"></AddMessageTemplate>
+                        <FirstTemplate #FirstTemplate (modalSave)="ngOnInit()"></FirstTemplate>
+                        <ViewMessageTemplate #ViewMessageTemplate (modalSave)="ngOnInit()"></ViewMessageTemplate>
+                        <viewResons #viewResons (modalSave)="ngOnInit()"></viewResons>
+                        <send-message-modal-from-Template [sendMessage]="send.bind(this)" #sendTestMessageModal [template]="templates"></send-message-modal-from-Template>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

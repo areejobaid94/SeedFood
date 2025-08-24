@@ -1,0 +1,49 @@
+﻿<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form *ngIf="active" #serviceFrquencyForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <span *ngIf="serviceFrquency.id">{{l("EditServiceFrquency")}}</span>
+                        <span *ngIf="!serviceFrquency.id">{{l("CreateNewServiceFrquency")}}</span>
+                    </h4>
+                    <button type="button" class="close" (click)="close()" aria-label="Close" [disabled]="saving">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                 
+
+
+								<div class="form-group">
+									<label for="ServiceFrquency_ServiceFrequencyName">{{l("ServiceFrequencyName")}} *</label>
+									<input type="text" #ServiceFrquency_ServiceFrequencyName="ngModel" id="ServiceFrquency_ServiceFrequencyName" class="form-control" [(ngModel)]="serviceFrquency.serviceFrequencyName" name="ServiceFrequencyName"   minlength="3"  maxlength="1024"  required/>
+								    <validation-messages [formCtrl]="ServiceFrquency_ServiceFrequencyName"></validation-messages>
+								</div>
+					
+								<br/><div class="m-checkbox-list">
+									<label for="ServiceFrquency_IsEnabled" class="kt-checkbox">
+										<input id="ServiceFrquency_IsEnabled" #ServiceFrquency_IsEnabled="ngModel" type="checkbox" name="IsEnabled" [(ngModel)]="serviceFrquency.isEnabled"> 
+										{{l("IsEnabled")}}
+										<span></span>
+									</label>
+									<validation-messages [formCtrl]="ServiceFrquency_IsEnabled"></validation-messages>
+								</div>
+					
+								<div class="form-group">
+									<label for="ServiceFrquency_CreationDate">{{l("CreationDate")}}</label>
+									 <input required class="form-control m-input" #ServiceFrquency_CreationDate type="datetime" bsDatepicker  datePickerMomentModifier  [(date)]="serviceFrquency.creationDate" id="ServiceFrquency_CreationDate" name="ServiceFrquency_CreationDate">
+									<validation-messages [formCtrl]="ServiceFrquency_CreationDate"></validation-messages>
+								</div>
+					
+
+                </div>
+                <div class="modal-footer">
+                    <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">{{l("Cancel")}}</button>
+                    <button type="submit" class="btn btn-primary blue" [disabled]="!serviceFrquencyForm.form.valid" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save"></i> <span>{{l("Save")}}</span></button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>

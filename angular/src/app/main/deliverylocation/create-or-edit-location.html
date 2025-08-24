@@ -1,0 +1,192 @@
+<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createOrEditModal" aria-hidden="true" style="height: 100%">
+    <div *ngIf="theme != 'theme12'" class="modal-dialog modal-lg">
+        <div class="modal-content" style="height: 100%">
+            <form *ngIf="active" #orderForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off" style="height: 600px">
+                <div class="modal-header">
+                    <h6 class="modal-title">
+                        <img lazyLoad="/assets/common/images/assign-list.svg" alt="Icon"  class="icon" />
+                        Create/Edit Location
+                    </h6>
+                </div>
+                <div class="modal-body" style="height: 400px">
+                    <div>
+                        <label>From City:</label>
+                        <select (change)="onChangeFromCity($event)" name="fromcityId" [(ngModel)]="fromlocation.fromCityId" class="form-control">
+                            <option *ngFor="let fromcity of fromcities" [value]="fromcity.id" style="font-family: system-ui; font-size: 20px">{{fromcity.locationName}}</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label>From Area:</label>
+                        <select (change)="onChangeFromArea($event)" name="fromareaId" [(ngModel)]="fromlocation.fromAreaId" class="form-control">
+                            <option value="0"></option>
+                            <option *ngFor="let fromarea of fromareas" [value]="fromarea.id" style="font-family: system-ui; font-size: 20px">{{fromarea.locationName}}</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label>From District:</label>
+                        <select class="form-control" name="fromid" [(ngModel)]="fromlocation.fromDistrictId">
+                            <option value="0"></option>
+                            <option *ngFor="let fromdistrict of fromdistricts" [value]="fromdistrict.id" style="font-family: system-ui; font-size: 20px">
+                                {{fromdistrict.locationName}}
+                            </option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label>To City:</label>
+                        <select (change)="onChangeToCity($event)" name="tocityId" [(ngModel)]="tolocation.toCityId" class="form-control">
+                            <option *ngFor="let tocity of tocities" [value]="tocity.id" style="font-family: system-ui; font-size: 20px">{{tocity.locationName}}</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label>To Area:</label>
+
+                        <select (change)="onChangeToArea($event)" name="toareaId" [(ngModel)]="tolocation.toAreaId" class="form-control">
+                            <option value="0"></option>
+                            <option *ngFor="let toarea of toareas" [value]="toarea.id" style="font-family: system-ui; font-size: 20px">{{toarea.locationName}}</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label>To District:</label>
+                        <select class="form-control" name="toid" [(ngModel)]="tolocation.toDistrictId">
+                            <option value="0"></option>
+                            <option *ngFor="let todistrict of todistricts" [value]="todistrict.id" style="font-family: system-ui; font-size: 20px">
+                                {{todistrict.locationName}}
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Delivery Cost*</label>
+                        <input type="number" class="form-control" name="deliveryCost" [(ngModel)]="fromlocation.deliveryCost" required />
+                    </div>
+
+                    <!-- <div>
+                        <label>Select Branch:  *</label>
+                        <select (change)="onChangebranch($event)"  name="Branch"  [(ngModel)]="location.branchAreaId" class="form-control"  required>
+                            <option *ngFor="let branch of branchs" [value]="branch.area.id" style="font-family: system-ui;font-size: 20px;">{{branch.area.areaName}}  {{branch.area.areaCoordinate}} </option>
+                        </select>
+                    </div> -->
+
+                    <!-- <div class="form-group">
+                        <label >{{l("Select Branch")}} </label>
+                        <select (change)="onChangebranch($event)" name="selectedbranch" id="Branch" 
+                             class="form-control" [(ngModel)]="bran.AreaDto.id">
+                                <option *ngFor="let bran of branchs" [value]="bran.AreaDto.id">
+                                    {{bran.AreaDto.AreaDto}} (  {{bran.AreaDto.areaCoordinate}}  )
+                                </option>
+                      </select>
+                    </div> -->
+                </div>
+                <div class="modal-footer" style="height: 139px">
+                    <button type="button" class="btn btn-default" (click)="close()">Cancel</button>
+                    <button type="submit" class="btn btn-primary blue" [disabled]="!orderForm.form.valid" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')">
+                        <i class="fa fa-save"></i> <span>{{l("Save")}}</span>
+                    </button>
+                    <!-- <button (click)="save()" type="submit" class="btn btn-primary blue" ><i class="fa fa-save"></i> <span>Save</span></button> -->
+                </div>
+            </form>
+        </div>
+    </div>
+    <div *ngIf="theme === 'theme12'" class="modal-dialog modal-lg">
+        <div class="modal-content h-100">
+            <form *ngIf="active" #orderForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
+                <div class="modal-header">
+                    <h6 class="modal-title">
+                        <img lazyLoad="/assets/common/images/assign-list.svg" alt="Icon" class="icon" />
+                        Create/Edit Location
+                    </h6>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="close()" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label>From City:</label>
+                                <select (change)="onChangeFromCity($event)" name="fromcityId" [(ngModel)]="fromlocation.fromCityId" class="form-control">
+                                    <option *ngFor="let fromcity of fromcities" [value]="fromcity.id">{{fromcity.locationName}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-12 mt-1">
+                            <div class="form-group">
+                                <label>From Area:</label>
+                                <select (change)="onChangeFromArea($event)" name="fromareaId" [(ngModel)]="fromlocation.fromAreaId" class="form-control">
+                                    <option value="0"></option>
+                                    <option *ngFor="let fromarea of fromareas" [value]="fromarea.id">{{fromarea.locationName}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-12 mt-1">
+                            <div class="form-group">
+                                <label>From District:</label>
+                                <select class="form-control" name="fromid" [(ngModel)]="fromlocation.fromDistrictId">
+                                    <option value="0"></option>
+                                    <option *ngFor="let fromdistrict of fromdistricts" [value]="fromdistrict.id">{{fromdistrict.locationName}}</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-12 mt-1">
+                            <div class="form-group">
+                                <label>To City:</label>
+                                <select (change)="onChangeToCity($event)" name="tocityId" [(ngModel)]="tolocation.toCityId" class="form-control">
+                                    <option *ngFor="let tocity of tocities" [value]="tocity.id">{{tocity.locationName}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-12 mt-1">
+                            <div class="form-group">
+                                <label>To Area:</label>
+
+                                <select (change)="onChangeToArea($event)" name="toareaId" [(ngModel)]="tolocation.toAreaId" class="form-control">
+                                    <option value="0"></option>
+                                    <option *ngFor="let toarea of toareas" [value]="toarea.id">{{toarea.locationName}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-12 mt-1">
+                            <div class="form-group">
+                                <label>To District:</label>
+                                <select class="form-control" name="toid" [(ngModel)]="tolocation.toDistrictId">
+                                    <option value="0"></option>
+                                    <option *ngFor="let todistrict of todistricts" [value]="todistrict.id">{{todistrict.locationName}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-12 mt-1">
+                            <div class="form-group">
+                                <label>Delivery Cost*</label>
+                                <input type="number" class="form-control" name="deliveryCost" [(ngModel)]="fromlocation.deliveryCost" required />
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- <div>
+                        <label>Select Branch:  *</label>
+                        <select (change)="onChangebranch($event)"  name="Branch"  [(ngModel)]="location.branchAreaId" class="form-control"  required>
+                            <option *ngFor="let branch of branchs" [value]="branch.area.id" style="font-family: system-ui;font-size: 20px;">{{branch.area.areaName}}  {{branch.area.areaCoordinate}} </option>
+                        </select>
+                    </div> -->
+
+                    <!-- <div class="form-group">
+                        <label >{{l("Select Branch")}} </label>
+                        <select (change)="onChangebranch($event)" name="selectedbranch" id="Branch" 
+                             class="form-control" [(ngModel)]="bran.AreaDto.id">
+                                <option *ngFor="let bran of branchs" [value]="bran.AreaDto.id">
+                                    {{bran.AreaDto.AreaDto}} (  {{bran.AreaDto.areaCoordinate}}  )
+                                </option>
+                      </select>
+                    </div> -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" (click)="close()">Cancel</button>
+                    <button type="submit" class="btn btn-primary blue" [disabled]="!orderForm.form.valid" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')">
+                        <i class="fa fa-save"></i> <span>{{l("Save")}}</span>
+                    </button>
+                    <!-- <button (click)="save()" type="submit" class="btn btn-primary blue" ><i class="fa fa-save"></i> <span>Save</span></button> -->
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

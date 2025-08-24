@@ -1,0 +1,12 @@
+﻿> Language Generation definition file. 
+> See https://aka.ms/language-generation to learn more
+
+
+
+# Test
+- Hello ${conversation.itemTitle} 
+
+
+# Test2
+- Hello
+

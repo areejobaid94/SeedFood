@@ -1,0 +1,47 @@
+{
+  "iisSettings": {
+    "windowsAuthentication": false,
+    "anonymousAuthentication": true,
+    "iisExpress": {
+      "applicationUrl": "https://localhost:44301/",
+      "sslPort": 44301
+    }
+  },
+  "profiles": {
+    "IIS Express": {
+      "commandName": "IISExpress",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "GATEWAY_MERCHANT_ID": "TEST9800078400",
+        "GATEWAY_API_PASSWORD": "af8f3bbe4d3ddf5d98cea28d1a5d310f",
+        "GATEWAY_CURRENCY": "JOD",
+        "GATEWAY_VERSION": "45",
+        "GATEWAY_BASE_URL": "https://mepspay.gateway.mastercard.com",
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    },
+    "Mobile": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://0.0.0.0:44301"
+    },
+    "Infoseed.MessagingPortal.Web.Host": {
+      "commandName": "IISExpress",
+      "launchBrowser": true,
+      "launchUrl": "https://localhost:44301",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:44301"
+    },
+    "Docker": {
+      "commandName": "Docker",
+      "launchBrowser": true,
+      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}",
+      "publishAllPorts": true
+    }
+  }
+}

@@ -1,0 +1,16 @@
+[import](common.lg)
+
+# AttachmentInput_Prompt_nFSikL()
+[Activity
+    Text = ${AttachmentInput_Prompt_nFSikL_text()}
+     Summary=${conversation.Summary}
+]
+
+# AttachmentInput_Prompt_nFSikL_text()
+- ${dialog.Text}
+# TextInput_Prompt_W4OeDD()
+[Activity
+  Text= ${dialog.Text2}
+  SuggestedActions = ${dialog.option1}| ${dialog.option2} 
+  Summary =  ${conversation.Summary}  
+]

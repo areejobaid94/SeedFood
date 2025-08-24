@@ -1,0 +1,17 @@
+[import](common.lg)
+
+
+# SendActivity_Do3Qlq_text()
+- ${dialog.text}
+# SendActivity_Do3Qlq()
+[Activity
+    Text = ${SendActivity_Do3Qlq_text()}
+]
+
+# SendActivity_53hOUm()
+[Activity
+    Text = ${SendActivity_53hOUm_text()}
+]
+
+# SendActivity_53hOUm_text()
+- ${dialog.update.content.result}

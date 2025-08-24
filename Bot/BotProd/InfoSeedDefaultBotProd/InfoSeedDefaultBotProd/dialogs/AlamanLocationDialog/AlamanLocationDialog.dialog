@@ -1,0 +1,190 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "Ya9mSh",
+    "name": "AlamanLocationDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "jBoQBD"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "48iHAO"
+          },
+          "condition": "conversation.local",
+          "cases": [
+            {
+              "value": "ar",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "93f5gU"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.Thanks",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 21)).text"
+                    },
+                    {
+                      "property": "dialog.sendLoc",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 22)).text"
+                    },
+                    {
+                      "property": "dialog.again",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 33)).text"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "en",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "i0czdH"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.Thanks",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 21)).text"
+                    },
+                    {
+                      "property": "dialog.sendLoc",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 22)).text"
+                    },
+                    {
+                      "property": "dialog.again",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 33)).text"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "default": []
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "cD2Ytm"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "unrecognizedPrompt": "",
+          "invalidPrompt": "",
+          "prompt": "${TextInput_Prompt_cD2Ytm()}",
+          "property": "dialog.SendLocation"
+        },
+        {
+          "$kind": "Microsoft.HttpRequest",
+          "$designer": {
+            "id": "46hBng"
+          },
+          "resultProperty": "dialog.GetLocationModel",
+          "method": "GET",
+          "url": "${conversation.URL}/api/BotAPI/GetNearbyLocationsPinned?tenantID=${conversation.TenantId}&query=${dialog.SendLocation}",
+          "headers": {
+            "accept": "text/plain",
+            "Content-Type": "application/json-patch+json"
+          },
+          "responseType": "json"
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "pFrk6m"
+          },
+          "assignments": [
+            {
+              "property": "conversation.LocationInfo",
+              "value": "=dialog.GetLocationModel"
+            },
+            {
+              "property": "conversation.LocationUrl",
+              "value": "=conversation.LocationInfo.content.result.url"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "WtJoaK"
+          },
+          "condition": "conversation.LocationInfo.content.result.id ==0 || conversation.LocationInfo.content.result.id ==null",
+          "actions": [
+            {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "KDU4CF"
+              },
+              "activity": "${SendActivity_KDU4CF()}"
+            },
+            {
+              "$kind": "Microsoft.RepeatDialog",
+              "$designer": {
+                "id": "qwhPoR"
+              },
+              "activityProcessed": true
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "BaHbJl"
+          },
+          "condition": "conversation.local==\"ar\"",
+          "actions": [
+            {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "NrxQRp"
+              },
+              "activity": "${SendActivity_NrxQRp()}"
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "KJlC3W"
+              },
+              "activity": "${SendActivity_KJlC3W()}"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "PtGxxh"
+          },
+          "activity": "${SendActivity_PtGxxh()}"
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "DUzZX3"
+          }
+        }
+      ]
+    }
+  ],
+  "generator": "AlamanLocationDialog.lg",
+  "recognizer": "AlamanLocationDialog.lu.qna",
+  "id": "AlamanLocationDialog"
+}

@@ -1,0 +1,308 @@
+﻿@model List<Infoseed.MassagingPort.OrderingMenu.Pages.Model.OrderingCartItemModel>
+@{
+}
+
+
+
+<div class="modal-header">
+
+
+    <h5 class="modal-title"> @localizer.Get("Basket") <span>( </span> <span class="spCartCount">0 </span> <span class=""> @localizer.Get("item"))</span> </h5>
+@*    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <i class="icon-close"></i>
+    </button>*@
+    <button type="button" class="btn-close close" data-bs-dismiss="modal" aria-label="Close">
+        <i class="icon-close"></i>
+    </button>
+</div>
+<div class="modal-body">
+    <div class="container-fluid">
+        <div class="item-detials-options">
+            
+            <ul class="item-detials-options-list">
+                @if (@Model != null)
+                {
+                    foreach (var item in Model)
+                    {
+                        <li class="div-selected-item">
+                            <div class="row d-flex align-items-center justify-content-between">
+                                <div class="col-4" style="margin-right: -10px!important;">
+                                    <label class="mx-w-100" >
+                                        @item.Name
+@*                                        @if (@item.lstOrderingCartItemSpecificationModel != null)
+                                        {
+                                            @foreach (var spec in item.lstOrderingCartItemSpecificationModel)
+                                            {
+                                                @foreach (var spech in spec.lstOrderingCartItemSpecificationChoicesModel)
+                                                {
+                                                    <small class="item-extra-note">@spech.Name ,</small>
+                                                }
+                                            }
+                                        }
+                                        @if (item.lstOrderingCartItemAdditionalModel != null)
+                                        {
+                                            foreach (var addit in item.lstOrderingCartItemAdditionalModel)
+                                            {
+                                                <small class="item-extra-note"> @addit.Qty    @addit.Name </small>
+                                            }
+                                        }
+                                        @if (@item.ItemNote != null && @item.ItemNote != "")
+                                        {
+                                            <hr />
+                                            <small class="item-extra-note"> <b>@localizer.Get("MyNotes")</b>  </small>
+                                            <small class="item-extra-note">@item.ItemNote</small>
+                                        }*@
+
+                                    </label>
+                                    <button id="btnremove_@item.CartItemId" data-cartid="@item.CartItemId" class="btn btn-outline-danger  w-100 p-1 mt-2  remove-cart" style="display: none;"> @localizer.Get("delete")</button>
+                                </div>
+@*                                <div class="col-4 input-number input-number-small  div-quantity-item-cart" data-cartid="@item.CartItemId" style="padding-left: 5px;padding-right: 5px;">
+                                    <input class="col-3 p-0 m-0 hdItemQty choices-selected-cart cart_@item.Id" type="number" min="0" max="999" value="@item.Qty">
+                                </div>
+                                *@
+                                <div class="col-4 input-number div-item-quantity  div-quantity-item-cart final-plus-minus" data-cartid="@item.CartItemId">
+                                    <button class="col-4 col-xl-3 col-md-3 btn minus btn-minus btnaddtional btn-outline-secondary" type="button"><strong>&minus;</strong></button>
+                                    @if (item.TenantId == 27 || item.TenantId == 224)
+                                    {
+                                        <input id="txtItemQty" inputmode="decimal" class="hdItemQty form-control choices-selected choices-selected-cart LastCard cart_@item.Id mn-w-55 test" type="text" min="1" max="999" value="@item.Qty" oninput="enforceMinMaxLast(this)">
+                                        <button class="col-4 col-xl-3 col-md-3 btn plusLast btn-plus btnaddtional btn-outline-secondary" type="button"><strong>&plus;</strong></button>
+                                    }
+                                    else
+                                    {
+                                        <input id="txtItemQty" inputmode="decimal" class="hdItemQty form-control choices-selected choices-selected-cart cart_@item.Id mn-w-55" type="text" min="1" max="999" value="@item.Qty" disabled>
+                                        <button class="col-4 col-xl-3 col-md-3 btn plus btn-plus btnaddtional btn-outline-secondary" type="button"><strong>&plus;</strong></button>
+                                    }
+                                </div>
+
+                                @if (@item.TotalLoyaltyPoints != 0)
+                                {
+                                    <div class="col-4 text-end pointss_@item.CartItemId" id="pointss">
+                                        <span class="item-price">
+                                            <small  class="d-block color-orange">
+                                                <strong class="fz-15 mx-1 TotalLoyaltyPoints" id="T_@item.CartItemId"> @Math.Round(@item.TotalLoyaltyPoints,00)</strong>
+                                                <i class="icon-gift fz-15"></i>
+                                            </small>
+                                        </span>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="col-4 text-end">
+                                        <span class="item-price d-block">
+                                                <strong id="p_@item.CartItemId"> @item.Price </strong>
+                                                <strong class="currencyCode"></strong>
+                                        </span>
+                                        @*<span class="point-style d-block" style="text-align: start;"> 150 <i class="icon-gift"></i></span>*@
+                                        @if (@item.IsLoyal.ToString() == "True")
+                                        {
+                                            <span class="item-price pointss_@item.CartItemId">
+                                                <small class="d-block color-orange">
+                                                    <strong class="fz-15 mx-1 CridetPoint" id="T_@item.CartItemId"> @Math.Round(@item.CridetPoint,00)</strong>
+                                                    <i class="icon-gift fz-15"></i>
+                                                </small>
+                                            </span>
+                                        }
+                                    </div>
+                                }
+                            </div>
+                      
+                            <div class="row d-flex align-items-center justify-content-between">
+                                    @*class="mx-w-100"*@
+                                <span class="col-12 same-row" >
+
+                                    @if (item.lstOrderingCartItemAdditionalModel.Count > 0 && item.lstOrderingCartItemAdditionalModel != null)
+                                        {
+                                        <span class="col-6" style="padding-left: 12px; direction: ltr;">
+                                                @foreach (var addit in item.lstOrderingCartItemAdditionalModel)
+                                                {
+                                                        
+                                                            <small class="item-extra-note"> @addit.Qty    @addit.Name </small>
+                                                        
+                                                }
+                                            </span>
+                                        }
+                                    @if (@item.lstOrderingCartItemSpecificationModel != null)
+                                    {
+                                        <span class="col-6" >
+                                            @foreach (var spec in item.lstOrderingCartItemSpecificationModel)
+                                            {
+                                                @foreach (var spech in spec.lstOrderingCartItemSpecificationChoicesModel)
+                                                {
+
+                                                    <small class="item-extra-note">@spech.Name ,</small>
+
+
+                                                }
+                                            }
+                                        </span>
+                                    }
+                                </span>
+                                @if (@item.ItemNote != null && @item.ItemNote != "")
+                                {
+                                        <span class="col-12">
+                                            <small class="item-final-note"> <b>@localizer.Get("MyNotes")</b>  </small>
+                                            <small class="item-final-note-text">@item.ItemNote</small>
+                                        </span>
+                                }
+
+
+
+                            </div>
+
+                        </li>
+                    }
+                }
+                @*  <li>
+                <div class="d-flex align-items-center justify-content-between">
+                <label>خبز</label>
+                <div class="input-number input-number-small">
+                <input type="number" min="0" max="5" value="2">
+                </div>
+                <span class="item-price"> 0.40 دينار</span>
+                </div>
+                </li>*@
+            </ul>
+        </div>
+
+        <div class="item-detials-options">
+            <h6><span>  @localizer.Get("Add a Note")</span> </h6>
+
+            <div class="form-group">
+                <textarea id="txtOrderNotes" class="form-control" rows="1"></textarea>
+            </div>
+        </div>
+
+        @*
+        <div class="item-detials-options">
+        <h6><span>  طريقة الدفع</span> </h6>
+        <div class="form-group card mt-3">
+        <div class="d-flex align-items-center justify-content-between">
+        <div class="custom-control custom-radio">
+        <input type="radio" id="pay-cash" name="PaymentGroup" class="custom-control-input">
+        <label class="custom-control-label" for="pay-cash">نقدي (الدفع عند الاستلام)</label>
+        </div>
+        </div>
+        </div>
+        <div class="form-group card">
+        <div class="d-flex align-items-center justify-content-between">
+        <div class="custom-control custom-radio">
+        <input type="radio" id="pay-visa" name="PaymentGroup" class="custom-control-input">
+        <label class="custom-control-label" for="pay-visa">XXXX-3271</label>
+        </div>
+        <span class="item-price"> <img src="~/desgin/img/demo//Visa.svg" alt="Visa"> <button role="button" class="btn btn-link p-0 mx-2"><i class="icon-trash color-red"></i></button></span>
+        </div>
+        </div>
+        <div class="form-group card">
+        <button role="button" class="btn btn-link p-0 m-0" data-toggle="modal" data-target="#modal-add-payment"><i class="icon-plus"></i> اضافة بطاقة جديدة </button>
+        </div>
+        </div>*@
+
+        @*      <div class="item-detials-options">
+        <h6><span>      التوصيل الى</span> </h6>
+        <div class="form-group card mt-3">
+        <div class="d-flex align-items-center">
+        <i class="icon-location1 color-primary mx-2"></i>
+        <p class="text-muted p-0 m-0">Al-Hamah Street, Amman</p>
+        </div>
+        </div>
+        </div>*@
+
+        <div class="item-detials-options InvoiceDetails-Size" >
+                    <h6><span>  @localizer.Get("InvoiceDetails")</span> </h6>
+                    <ul class="item-detials-options-list">
+                        <li>
+                            <div class="d-flex align-items-center justify-content-between">
+                                <label>@localizer.Get("TotalPrice") </label>
+                                <span class="item-price" style="font-size: 17px;">
+                                    <strong class="stTotalPrice"></strong> 
+                                    <strong class="currencyCode" style="font-size: 12px;"></strong> 
+                                </span>
+                            </div>
+                        </li>
+                        @if (@Model != null)
+                        {
+                            @foreach (var item in Model)
+                            {
+@*                                @if (@item.TotalLoyaltyPoints > 0 || item.TotalCreditPoints > 0)
+                                {*@
+                                @if (@item.IsLoyal.ToString() == "True")
+                                {
+                                    <li>
+                                        <div class="d-flex align-items-center justify-content-between">
+                                            <label>@localizer.Get("MyPoints")</label>
+                                             <span class="item-price CreditPoints-orange" style="font-size: 17px;">
+                                                 <strong class="InvoiceTotalPoints"></strong> 
+                                                 <i class="icon-gift fz-18"></i>
+                                             </span>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="d-flex align-items-center justify-content-between">
+                                            <label>@localizer.Get("TotalCreditPoints")</label>
+                                            <span class="item-price CreditPoints-orange" style="font-size: 17px;"> 
+                                                <strong class="stTotalCreditPointsForBasket"></strong> 
+                                                <i class="icon-gift fz-18"></i> 
+                                            </span>
+                                        </div>
+                                    </li>
+
+                                    <li>
+                                        @*<div class="d-flex align-items-center justify-content-between">
+                                            <label>@localizer.Get("TotalPoint") </label>
+                                            <span class="item-price color-orange ">
+                                                <small  class="d-block color-orange">
+                                                    <strong class="stTotalLoyaltyPoints fz-18 mx-1"></strong>
+                                                    <i class="icon-gift fz-18"></i>
+                                                </small>
+                                            </span>
+                                        </div>*@
+                                        <div class="d-flex align-items-center justify-content-between">
+                                            <label>@localizer.Get("TotalLoyaltyPoints")</label>
+                                            <span class="item-price CreditPoints-orange" style="font-size: 17px;"> 
+                                                <strong class="stTotalLoyaltyPointsForBasket"></strong> 
+                                                <i class="icon-gift fz-18"></i> 
+                                            </span>
+                                        </div>
+                                        
+                                        <div id="errormsg2" class=" erorrmsg  pl-2 pr-2">
+                                            <span class="text-danger float">@localizer.Get("NoPoint")</span>
+                                            <span class="text-danger"> @localizer.Get("yourpoint") <strong class="MyPoints">0</strong></span>
+                                        </div>
+                                    </li>
+                                    break;
+                                }
+                            }
+                        }
+                    </ul>
+                </div>
+
+        <button id="btnSubmitOrder" class="fixed-bar profile-container p-2 border-0 margin_bu_AddToCart" data-toggle="modal" data-target="#modal-alert">
+             <div class="d-flex align-items-center justify-content-between cart-bar w-100">
+                 <div  class="orderNowButton">    @localizer.Get("OrderNow")</div>
+                 <span class="item-price padd-item"> <strong class="stTotalPrice"></strong> <strong class="currencyCode"></strong> </span>
+                 @if (@Model != null)
+                 {
+                     @foreach (var item in Model)
+                     {
+                         @if (@item.TotalLoyaltyPoints > 0)
+                         {
+                             <div class="profile-point">
+                                 <div class="d-flex align-items-center">
+                                     <i class="icon-gift fz-18"></i>
+                                    @*stTotalLoyaltyPoints*@
+                                    <strong class="fz-18 mx-1 stTotalLoyaltyPointsForBasket">  </strong>
+                                 </div>
+                                 <small class="d-block fz-12">
+                                 </small>
+                             </div>
+                             break;
+                         }
+                     }
+
+                 }
+         
+             </div>
+         </button>
+
+    </div>
+</div>

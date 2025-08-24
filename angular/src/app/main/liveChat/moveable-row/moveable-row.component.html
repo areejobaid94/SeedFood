@@ -1,0 +1,270 @@
+<!-- ID -->
+<span *ngIf="name == 'ID'" [ngClass]="darkModeService.currentSkin === 'dark' ? 'table-dark' : ''">
+    {{ record.idLiveChat }}
+</span>
+
+<!-- type -->
+<span *ngIf="name == 'type'" [ngClass]="{ 'table-dark': darkModeService.currentSkin === 'dark' }">
+    <span *ngIf="record.categoryType == 'Request'" class="text-danger">{{ l("request") }}</span>
+    <span *ngIf="record.categoryType != 'Request'" class="text-danger">{{ l("ticket") }}</span>
+</span>
+
+<!-- agent -->
+<span *ngIf="name == 'agent'" [ngClass]="{ 'table-dark': darkModeService.currentSkin === 'dark' }">
+    <span class="d-flex">
+        <!-- <div *ngIf="record.lockedByAgentName;else noUser" target="_blank"
+            class="float-left">
+            <div class="rounded-circle adminName"
+                style="font-weight: 500">
+                {{ record.lockedByAgentName.slice(0, 2) | uppercase }}
+            </div>
+        </div> -->
+        <span *ngIf="record.lockedByAgentName" style="font-weight: bold"> {{ record.lockedByAgentName }}</span>
+    </span>
+</span>
+
+<!-- department -->
+<span *ngIf="name == 'department'" [ngClass]="darkModeService.currentSkin === 'dark' ? 'table-dark' : ''">
+    <p style="max-width: 300px">
+        {{ record.department }}
+    </p>
+</span>
+
+<!-- customer -->
+<span *ngIf="name == 'customer'" [ngClass]="{ 'table-dark': darkModeService.currentSkin === 'dark' }">
+    <span [ngbPopover]="record.displayName" placement="left" triggers="mouseenter:mouseleave">{{ record.displayName }}</span>
+    <span [ngbPopover]="record.phoneNumber" placement="left" triggers="mouseenter:mouseleave" style="display: block">{{ record.phoneNumber }}</span>
+</span>
+
+<!-- Time -->
+<span *ngIf="name == 'Time'" [ngClass]="darkModeService.currentSkin === 'dark' ? 'table-dark' : ''">
+    <span style="color: #ad9c9c; font-size: 13px; white-space: nowrap; display: block">
+        {{ record.requestedLiveChatTime | date : "longDate" }}
+    </span>
+    <span style="color: #ad9c9c; font-size: 13px; white-space: nowrap; display: block"> {{ l("time") }}: {{ record.requestedLiveChatTime | date : "shortTime" }}</span>
+    <span *ngIf="record.openTimeTicket" style="color: #ad9c9c; font-size: 13px; white-space: nowrap; display: block">
+        {{ l("openTime") }}:
+        {{ record.openTimeTicket | momentFormat : "LT" }}
+    </span>
+
+    <span *ngIf="record.actionTime" style="color: #ad9c9c; font-size: 13px; white-space: nowrap; display: block">
+        {{ l("actionTime") }}:
+        {{ record.actionTime | momentFormat : "LT" }}
+    </span>
+
+    <span *ngIf="record.closeTimeTicket" style="color: #ad9c9c; font-size: 13px; white-space: nowrap; display: block">
+        {{ l("closeTime") }}:
+        {{ record.closeTimeTicket | momentFormat : "LT" }}
+    </span>
+</span>
+
+<!-- resolution -->
+<span *ngIf="name == 'resolution'" [ngClass]="darkModeService.currentSkin === 'dark' ? 'table-dark' : ''">
+    <span *ngIf="(record.closeTimeTicket && record.openTimeTicket && record.durationTime > 0) || record.actionTime">
+        {{ convertMinutesToTimeDuration(record.durationTime) }}
+    </span>
+</span>
+
+<!-- <span 
+    [ngClass]="darkModeService.currentSkin
+    === 'dark' ?
+    'table-dark' : ''"
+    style="width:120px">
+    <span
+        class="p-column-title">
+        {{l('closeTime')}}</span>
+    {{record.closeTime |
+    momentFormat:'LT'}}
+</span> -->
+<!-- <span  style="width: 200px"
+    [ngClass]="darkModeService.currentSkin === 'dark' ? 'table-dark' : ''"
+    style="text-align: center;display:flex; flex-direction: column;justify-content: center; align-items: center; " *ngIf="theme != 'theme12'">
+    <span class="p-column-title"> {{ l("Status") }}</span>
+
+    <span
+        *ngIf="record.liveChatStatus == 1 && !record.isConversationExpired"
+        class="badge badge-danger w-100">
+        {{ l("pending") }}
+    </span>
+    <span
+        *ngIf="record.isConversationExpired && record.liveChatStatus ===1"
+        class="w-100 badge badge-pill badge-light-danger mr-1"> {{
+        l("expired") }} </span>
+    <span
+        *ngIf="record.liveChatStatus == 2 && !record.isConversationExpired"
+        class="badge badge-info w-100">
+        {{ l("opened") }}
+        <span class="blob" *ngIf="record.conversationsCount > 0">{{
+            record.conversationsCount }}</span></span>
+    <span class="text-danger text-center expired"
+        *ngIf="!record.isOpen && record.liveChatStatus == 2 && !record.isConversationExpired">
+        {{ l("conversationExpired") }}</span>
+
+    <span class="text-danger text-center expired"
+        *ngIf="record.isOpen && record.liveChatStatus == 2 && !record.isConversationExpired">
+        {{ l("conversationOpened") }}</span>
+    <span
+        *ngIf="record.liveChatStatus == 3 && !record.isConversationExpired"
+        class="badge badge-success w-100">
+        {{ l("closed") }}
+        <span class="blob" *ngIf="record.conversationsCount > 0">{{
+            record.conversationsCount }}</span>
+    </span>
+    <span class="text-danger text-center expired"
+        *ngIf="!record.isOpen && record.liveChatStatus == 3 && !record.isConversationExpired">
+        {{ l("conversationExpired") }}</span>
+
+    <span class="text-danger text-center expired"
+        *ngIf="record.isOpen && record.liveChatStatus == 3 && !record.isConversationExpired">
+        {{ l("conversationOpened") }}</span>
+
+    <span class="text-danger text-center expired">
+        {{ l("conversationOpened") }}</span>
+
+    <span class="text-danger text-center expired"
+        *ngIf="record.liveChatStatus == 5">
+        {{ l("conversationOpened") }}</span>
+
+
+</span> -->
+
+<!-- Status -->
+<span *ngIf="name == 'Status'" [ngClass]="darkModeService.currentSkin === 'dark' ? 'table-dark' : ''" style="text-align: center; display: flex; flex-direction: column">
+    
+    
+    <!-- <span style="font-size: 20px;" *ngIf="record.numberNote>0">📝</span> Note icon emoji -->
+
+    <span *ngIf="record.liveChatStatus == 4" class="badge badge-pill badge-light-info" style="min-width: 150px">
+        {{ l("requestConfirmed") }}
+         <span style="font-size: 20px;" *ngIf="record.numberNote>0"> 📝</span> 
+    </span>
+
+    <span *ngIf="record.liveChatStatus == 5" class="badge badge-pill badge-light-danger" style="min-width: 150px">
+        {{ l("requestRejected") }}
+                 <span style="font-size: 20px;" *ngIf="record.numberNote>0"> 📝</span> 
+    </span>
+
+    <span *ngIf="(record.liveChatStatus == 1 || record.liveChatStatus == 6) " class="badge badge-pill badge-light-danger" style="min-width: 150px">
+        {{ l("pending") }}
+                 <span style="font-size: 20px;" *ngIf="record.numberNote>0"> 📝</span> 
+
+    </span>
+    <!-- 
+    <span *ngIf="record.liveChatStatus == 6 && !record.isConversationExpired" class=" badge badge-pill badge-light-success" style="min-width: 150px;">
+        {{ l("assigned") }}
+    </span> -->
+
+    <!-- <span *ngIf="record.isConversationExpired && record.liveChatStatus === 1" class="badge badge-pill badge-light-danger" style="min-width: 150px">
+        {{ l("expired") }}
+    </span>
+
+    <span *ngIf="record.isConversationExpired && record.liveChatStatus === 6 && !(record.ticketSummary.length > 0)" class="badge badge-pill badge-light-danger" style="min-width: 150px">
+        {{ l("expired") }}
+    </span> -->
+
+    <span *ngIf="record.liveChatStatus == 2" class="badge badge-pill badge-light-info" style="min-width: 150px"
+        >{{ l("opened") }}
+                 <span style="font-size: 20px;" *ngIf="record.numberNote>0"> 📝</span> 
+
+        <span class="blob" *ngIf="record.conversationsCount > 0">{{ record.conversationsCount }} </span>
+    </span>
+
+    <span *ngIf="record.liveChatStatus == 3" class="badge badge-pill badge-light-success" style="min-width: 150px">
+        {{ l("closed") }}
+                 <span style="font-size: 20px;" *ngIf="record.numberNote>0"> 📝</span> 
+
+    </span>
+
+    <!-- <span *ngIf=" record.liveChatStatus == 6 && record.ticketSummary.length > 0" class="badge badge-pill badge-light-success" style="min-width: 150px">
+        {{ l("closed") }}
+    </span> -->
+
+    <span class="text-center expired" style="color: rgb(31 197 53)" *ngIf="record.liveChatStatus != 1 && record.assignedToUserName.length > 0"
+        >{{ record.assignedToUserName }} Assigned This Ticket
+    </span>
+
+    <!-- Opend -->
+    <!-- <span class="text-danger text-center expired" *ngIf="!record.isOpen && record.liveChatStatus == 2 "> {{ l("conversationExpired") }}</span> -->
+
+    <span class="text-danger text-center expired" *ngIf="record.isOpen && record.liveChatStatus == 2 "> {{ l("conversationOpened") }}</span>
+
+    <!-- Closed -->
+
+    <!-- <span class="text-danger text-center expired" *ngIf="!record.isOpen && record.liveChatStatus == 3 "> {{ l("conversationExpired") }}</span> -->
+
+    <span class="text-danger text-center expired" *ngIf="record.isOpen && record.liveChatStatus == 3 "> {{ l("conversationOpened") }}</span>
+
+    <!-- <span class="text-danger text-center expired" *ngIf="!record.isOpen && record.liveChatStatus == 6  && record.ticketSummary.length > 0">
+        {{ l("conversationExpired") }}</span
+    > -->
+
+    <span class="text-danger text-center expired" *ngIf="record.isOpen && record.liveChatStatus == 6  && record.ticketSummary.length > 0">
+        {{ l("conversationOpened") }}</span
+    >
+</span>
+
+<!-- <span 
+    class="assignToUser"
+    [ngClass]="{'table-dark': darkModeService.currentSkin === 'dark' , 'ltr': isArabic }"
+    style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis"
+>
+    <span class="p-column-title"> {{ l("assignToUser") }}</span>
+
+    <span>{{ record.assignedToUserName }}</span>
+</span> -->
+<!-- <span 
+    [ngClass]="darkModeService.currentSkin
+    === 'dark' ?
+    'table-dark' : ''"
+    style="width:150px">
+    <span
+        class="p-column-title">
+        {{l('phone Number')}}</span>
+    {{record.phoneNumber}}
+</span> -->
+
+<!-- TimeToOpen -->
+<span *ngIf="name == 'TimeToOpen'" [ngClass]="darkModeService.currentSkin === 'dark' ? 'table-dark' : ''">
+    <span *ngIf="record.timeToOpen > 0">
+        {{ convertMinutesToTimeDuration(record.timeToOpen) }}
+    </span>
+</span>
+
+<!-- summary -->
+<span *ngIf="name == 'summary'" [ngClass]="darkModeService.currentSkin === 'dark' ? 'table-dark' : ''" style="width: 100%">
+    <div *ngIf="record.ticketSummary">
+        <app-summary-view [Summary]="'summary' | localize" [SummaryBody]="record.ticketSummary" style="width: 100%"></app-summary-view>
+        <!-- <ngb-panel>
+            <ng-template ngbPanelTitle>
+                <span
+                    [ngClass]="hasArabicCodepoints(record.ticketSummary) ? 'rtl' : 'ltr'"
+                    class="lead collapse-title"
+                    style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis; cursor: pointer; font-weight: bold"
+                >
+                    {{ l("summary") }}
+                </span>
+            </ng-template>
+
+            <ng-template ngbPanelContent>
+                {{ record.ticketSummary }}
+            </ng-template>
+        </ngb-panel> -->
+    </div>
+</span>
+
+<!-- Contact Creation Date -->
+<span *ngIf="name == 'Contact Creation Date'" [ngClass]="darkModeService.currentSkin === 'dark' ? 'table-dark' : ''">
+    <span style="color: #ad9c9c; font-size: 13px; white-space: nowrap; display: block">
+        {{ record.contactCreationDate | date : "longDate" }}
+    </span>
+    <span *ngIf="record.contactCreationDate" style="color: #ad9c9c; font-size: 13px; white-space: nowrap; display: block"> {{ l("time") }}: {{ record.contactCreationDate | date : "shortDate" }}</span>
+   
+</span>
+
+
+<!-- byteam -->
+<span *ngIf="name == 'byteam'" [ngClass]="darkModeService.currentSkin === 'dark' ? 'table-dark' : ''">
+    <p style="max-width: 300px">
+        {{ record.byteam }}
+    </p>
+</span>

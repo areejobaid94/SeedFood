@@ -1,0 +1,370 @@
+﻿@page
+
+@using Microsoft.AspNetCore.Localization
+@model Index1Model
+
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+
+@Html.HiddenFor(Model=>Model.Lang)
+@Html.HiddenFor(Model=>Model.TenantID)
+@Html.HiddenFor(Model=>Model.ContactId)
+@Html.HiddenFor(Model=>Model.AreaId)
+@Html.HiddenFor(Model=>Model.CurrencyCode)
+@Html.HiddenFor(Model=>Model.IsLoyalty)
+@Html.HiddenFor(Model=>Model.Key)
+
+
+
+
+@{
+    Layout = "_LayoutMarket2";
+    var isdefualt = false;
+    var isdefualtForAllCat = false;
+}
+
+
+@Html.AntiForgeryToken()
+
+<section class="body-section" id="sec" data-model="@Newtonsoft.Json.JsonConvert.SerializeObject(Model.OrderingMenuTenantModel)">
+
+    <div class="container">
+
+        @if (Model.listOrderingMenuMenuModel != null)
+        {
+
+
+            <div class="slider-container paddingBottom">
+                <ul class="slider owl-carousel paddingTopBottom">
+                    @foreach (var menu in @Model.listOrderingMenuMenuModel)
+                    {
+                        @if (menu.lstOrderingMenuCategoryLoyaltyModel != null)
+                        {
+                            @foreach (var item in menu.lstOrderingMenuCategoryLoyaltyModel)
+                            {   @*<li>
+                                    <div class="d-flex align-items-center flex-column main-cat-item   div-category-item-Loyalty" id="s_@item.CategoryId" data-id="@item.CategoryId" data-subcategory="@Newtonsoft.Json.JsonConvert.SerializeObject(item.lstOrderingMenuSubCategoryModel)">
+                                        <label class="category-item-Loyalty active Rewardslabel" id="cat_@item.CategoryId" data-id="@item.CategoryId">
+                                            <img src="~/img/favpng_circle-icon-favorite-icon-five-point-icon.png" class="Rewardsimage" />
+                                            @item.CategoryName
+                                        </label>
+                                    </div>
+                                </li>*@
+
+                                <li>
+                                    <div class="d-flex align-items-center flex-column main-cat-item   div-category-item hideAllSubCat" style="padding: 5px;" id="s_@item.CategoryId" data-id="@item.CategoryId" data-subcategory="@Newtonsoft.Json.JsonConvert.SerializeObject(item.lstOrderingMenuSubCategoryModel)">
+                                        <label class="category-item active Rewardslabel autoWidth" id="cat_@item.CategoryId" data-id="@item.CategoryId">
+                                            <i class="icon-star-full RewardStar" style="color: #ffa900; "></i>
+                                            @item.CategoryName
+                                        </label>
+                                    </div>
+                                </li>
+                                break;
+                            }
+                        }
+                    }
+                    @foreach (var menu in @Model.listOrderingMenuMenuModel)
+                    {
+                        @foreach (var item in menu.lstOrderingMenuCategoryModel)
+                        {
+                            @if (item.CategoryId == 0 )
+                            {  @* Because the category is Loyalty *@  }
+                            else
+                            {   <li>
+                                    <div class="d-flex align-items-center flex-column main-cat-item   div-category-item Allsubcategory" style="padding: 5px;" id="s_@item.CategoryId" data-id="@item.CategoryId" data-subcategory="@Newtonsoft.Json.JsonConvert.SerializeObject(item.lstOrderingMenuSubCategoryModel)">
+                                        <label class="category-item active autoWidth" id="cat_@item.CategoryId" data-id="@item.CategoryId" data-subcategory="@Newtonsoft.Json.JsonConvert.SerializeObject(item.lstOrderingMenuSubCategoryModel)">@item.CategoryName </label>
+                                    </div>
+                                </li>
+                            }
+                        }
+                    }
+                </ul>
+                @*<br/>*@
+                <div class="row View-All-Rating-Div" style="">
+                    
+                                <button class="btn btn-link categories-btn marginBottom" data-toggle="modal" data-target="#modal-view-allcatgories" >
+                                    <i class="icon-grid_view"></i>
+                                    @localizer.Get("View all ratings") 
+                                </button>
+                     
+                    @if (Model.TenantID == 34)
+                    {
+                        <div class="dropdown">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="mdi mdi-filter"></i>&nbsp;
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" style="cursor: pointer;" onclick="filtering(5)">...</a></li>
+                                <li><a class="dropdown-item" style="cursor: pointer;" onclick="filtering(1)">@localizer.Get("minprice")</a></li>
+                                <li><a class="dropdown-item" style="cursor: pointer;" onclick="filtering(2)">@localizer.Get("maxprice")</a></li>
+                                <li><a class="dropdown-item" style="cursor: pointer;" onclick="filtering(3)">@localizer.Get("minDiscount")</a></li>
+                                <li><a class="dropdown-item" style="cursor: pointer;" onclick="filtering(4)">@localizer.Get("maxDiscount")</a></li>
+                            </ul>
+                        </div>
+                        <br />
+@*                        <select class="form-select" aria-label="Default select example" id="validationCustom04" required="">
+                            <option class="dropdown-item" selected="" disabled="" value="" onclick="filtering(5)">Choose...</option>
+                            <option class="dropdown-item" onclick="filtering(1)">@localizer.Get("minprice")</option>
+                            <option class="dropdown-item" onclick="filtering(2)">@localizer.Get("maxprice")</option>
+                            <option class="dropdown-item" onclick="filtering(3)">@localizer.Get("minDiscount")</option>
+                            <option class="dropdown-item" onclick="filtering(4)">@localizer.Get("maxDiscount")</option>
+                        </select>*@
+                    }
+                </div>
+
+            </div>
+
+        }
+
+        <div class="categories-sec">
+            @if (Model.listOrderingMenuMenuModel != null)
+            {
+
+                <div class="" id="divSubcategorys">
+                    @*my-2 py-3*@
+                    @foreach (var menu in @Model.listOrderingMenuMenuModel)
+                    {
+                        @foreach (var objItemCate in @menu.lstOrderingMenuCategoryModel)
+                        {
+                            @if (@isdefualt == false)
+                            {
+                                @Html.Partial("~/Pages/Shared/_SubCategorys2.cshtml", @objItemCate.lstOrderingMenuSubCategoryModel)
+                                isdefualt = true;
+                            }
+                            break;
+                        }
+                    }
+                </div>
+            }
+            <div class="filterBox">
+                <div class="filterBox-connect">
+                    <div class="row" id="divSubItem">
+                        
+                        @*  <div class="col-md-4 mb-3 jsFilter" data-type="cat01">
+                            <!--Type Of catgory-->
+                            <div class="item-card">
+                            <div class="d-flex align-items-start">
+                            <div class="item-thumb">
+                            <img src="~/desgin/img/demo//img-01.png" alt="">
+                            </div>
+                            <div class="p-2">
+                            <h4> مثال على تفاصيل المنتج مع الخيارات</h4>
+                            <small class="trim-text-100">
+                            لوريم ايبسوم دولار سيت أميت ,كونسيكتيتور أدايبا يسكينج
+                            أليايت,سيت دو أيوسمود تيمبور
+                            أنكايديديونتيوت لابوري ات دولار ماجنا أليكيوا
+                            </small>
+                            </div>
+                            </div>
+                            <div class="filter-img d-flex justify-content-between align-items-center">
+                            <div class="item-price">
+                            <strong> 5 دينار </strong>
+                            <span class="point-style mx-2"> 10 <i class="icon-gift"></i></span>
+                            </div>
+                            <button class="btn btn-primary" type="button" data-toggle="modal"
+                            data-target="#modal-item-detials">
+                            @localizer.Get("Add")
+                            </button>
+
+                            </div>
+                            </div>
+                            </div>
+
+                            <div class="col-md-4 mb-3 jsFilter" data-type="cat02">
+
+                            <div class="item-card">
+                            <div class="d-flex align-items-start">
+                            <div class="item-thumb">
+                            <img src="~/desgin/img/demo//img-02.png" alt="">
+                            <div class="offer"> 20% OFF </div>
+                            </div>
+                            <div class="p-2">
+                            <h4> مثال على تفاصيل المنتج مع الخيارات</h4>
+                            <small class="trim-text-100">
+                            لوريم ايبسوم دولار سيت أميت ,كونسيكتيتور أدايبا يسكينج
+                            أليايت,سيت دو أيوسمود تيمبور
+                            أنكايديديونتيوت لابوري ات دولار ماجنا أليكيوا
+                            </small>
+                            </div>
+                            </div>
+                            <div class="filter-img d-flex justify-content-between align-items-center">
+                            <div class="item-price">
+                            <strong> 5 دينار  <del> 15 دينار</del></strong>
+
+                            </div>
+                            <button class="btn btn-primary" type="button" data-toggle="modal"
+                            data-target="#modal-item-detials">
+                        @localizer.Get("Add")
+                            </button>
+
+                            </div>
+                            </div>
+
+                            </div>
+
+                            <div class="col-md-4 mb-3 jsFilter" data-type="cat03">
+
+                            <div class="item-card not-available">
+                            <div class="d-flex align-items-start">
+                            <div class="item-thumb">
+                            <img src="~/desgin/img/demo//no-image.png" alt="">
+
+                            </div>
+                            <div class="p-2">
+                            <h4> مثال على تفاصيل المنتج ت</h4>
+                            <small class="trim-text-100">
+                            لوريم ايبسوم دولار سيت أميت ,كونسيكتيتور أدايبا يسكينج
+                            أليايت,سيت دو أيوسمود تيمبور
+                            أنكايديديونتيوت لابوري ات دولار ماجنا أليكيوا
+                            </small>
+                            </div>
+                            </div>
+                            <div class="filter-img d-flex justify-content-between align-items-center">
+                            <div class="item-price">
+                            <strong> غير متوفر حاليا </strong>
+
+                            </div>
+
+
+                            </div>
+                            </div>
+
+
+
+                            </div>
+
+                            <div class="col-md-4 mb-3 jsFilter" data-type="cat01">
+                            <div class="item-card">
+                            <div class="d-flex align-items-start">
+                            <div class="item-thumb">
+                            <img src="~/desgin/img/demo//img-02.png" alt="">
+
+                            </div>
+                            <div class="p-2">
+                            <h4> مثال على تفاصيل المنتج مع الخيارات</h4>
+                            <small class="trim-text-100">
+
+                            </small>
+                            </div>
+                            </div>
+                            <div class="filter-img d-flex justify-content-between align-items-center">
+                            <div class="item-price">
+                            <strong> 5 دينار  </strong>
+
+                            </div>
+                            <button class="btn btn-primary" type="button" data-toggle="modal"
+                            data-target="#modal-item-detials">
+                        @localizer.Get("Add")
+                            </button>
+
+                            </div>
+                            </div>
+
+                            </div>*@
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+
+        
+            @if (Model.IsLoyalty)
+            {
+            <button class="fixed-bar profile-container px-0 border-0 acart-open OrderButton" type="button">
+                @*padding: 0px 33px 0px 25px;*@
+                    <div class="d-flex align-items-center cart-bar " >
+                         <div class="item-price">
+                            <strong class="total stTotalPrice">  </strong>
+                        <strong class="currencyCode" style="font-size: 11px;"></strong>
+                        </div>
+                    @*<i class="icon-shopping-cart mx-2"></i>*@
+                    <span class="raduis-full spCartCount mx-2" > 2 </span>
+                    <span class="spCartTextBasket" id="spCartTextBasket" > @localizer.Get("view-Basket") </span>
+                    </div>
+                    <div class="profile-point ">
+                        <div class="d-flex align-items-center">
+                            <i class="icon-gift fz-18"></i>
+                            @*<strong class="fz-18 mx-1 stTotalLoyaltyPoints">  </strong>*@
+                        <strong class="fz-18 mx-1 stTotalLoyaltyPoints" id="TotalLoyaltyPoints">  </strong>
+                        <strong class="fz-18 mx-1 stTotalLoyaltyPointsForBasket" id="TotalLoyaltyPointsForBasket">  </strong>
+
+                        </div>
+                        <small class="d-block fz-12">
+                        </small>
+                    </div>
+                </button>
+            }
+            else
+            {
+                    <button class="fixed-bar profile-container px-0 border-0 acart-open OrderButton" type="button" style="justify-content: center !important;">
+                <div class="d-flex align-items-center cart-bar" style="padding-right:0px!important">
+                         <div class="item-price">
+                            <strong class="total stTotalPrice">  </strong>
+                        <strong class="currencyCode" style="font-size: 13px;"></strong>
+                    </div>
+                    <i class="icon-shopping-cart mx-2" style="font-size: 18px;"></i>
+                    <span class="raduis-full mx-2 spCartCount"> 2 </span>
+                    <span class="mx-2 spCartTextBasket" id="spCartTextBasket" style=""> @localizer.Get("view-Basket") </span>
+                    </div>
+                </button>
+            }
+
+
+
+    </div>
+</section>
+
+
+<div class="modal fade fullPage-modal" id="md-productDetails" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable" role="document">
+        <div class="modal-content Mar-top" id="divProductDetails">
+        </div>
+    </div>
+</div><!--//////////End Modal Item Detials-->
+<!--start Modal allcatgories-->
+<div class="modal fade fullPage-modal" id="modal-view-allcatgories" tabindex="-1" role="dialog" 
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">@localizer.Get("View all ratings")</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i class="icon-close"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+      
+                @if (Model.listOrderingMenuMenuModel != null)
+                {
+                    <div class="container-fluid">
+                        <div class=" my-3 row catgory-list" id="divAllSubcategorys">
+                            @foreach (var menu in @Model.listOrderingMenuMenuModel)
+                            {
+                               @foreach (var objItemCate in @menu.lstOrderingMenuCategoryModel)
+                               {
+                                    @if (@isdefualtForAllCat == false)
+                                    {
+                                        @Html.PartialAsync("~/Pages/Shared/_SubAllCategorys2.cshtml", @Newtonsoft.Json.JsonConvert.SerializeObject(@objItemCate.lstOrderingMenuSubCategoryModel))
+                                       isdefualtForAllCat = true;
+                                   }
+                                    break;
+                               }break;
+                            }
+                        </div>
+                    </div>
+                 }
+            </div>
+
+        </div>
+    </div>
+</div><!--///////////End Modal allcatgories-->
+
+
+
+
+@*<footer id="footer" class="footer">
+    <div class="copyright">
+        © All Rights Reserved 2022 for Info Seed   |  <a href="https://www.info-seed.com/privcy-policy.html">Terms &amp; Privacy Policy</a>
+    </div>
+</footer>*@

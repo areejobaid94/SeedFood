@@ -1,0 +1,105 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "P3IzYy",
+    "name": "SelectLocalDialog",
+    "description": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "etmL1z"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "KdTPA0"
+          },
+          "assignments": [
+            {
+              "property": "dialog.text",
+              "value": "الرجاء اختيار اللغة - Please choose the language"
+            },
+            {
+              "property": "dialog.ar",
+              "value": "العربية"
+            },
+            {
+              "property": "dialog.en",
+              "value": "English"
+            },
+            {
+              "property": "dialog.Summary",
+              "value": "Press *#* to return to the main menu"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.DeleteProperty",
+          "$designer": {
+            "id": "QB5Rdo"
+          },
+          "property": "conversation.SelectLocal"
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "wrTqhG"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": false,
+          "prompt": "${TextInput_Prompt_wrTqhG()}",
+          "unrecognizedPrompt": "",
+          "property": "conversation.SelectLocal",
+          "validations": [
+            "contains(this.value, 'العربية') || contains(this.value, 'English') "
+          ]
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "P8Q25o"
+          },
+          "condition": "conversation.SelectLocal ==\"العربية\"",
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "yIbIZ9"
+              },
+              "property": "conversation.local",
+              "value": "ar"
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "HyPsXe"
+              },
+              "property": "conversation.local",
+              "value": "en"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "bcNpFl"
+          }
+        }
+      ]
+    }
+  ],
+  "generator": "SelectLocalDialog.lg",
+  "recognizer": "SelectLocalDialog.lu.qna",
+  "id": "SelectLocalDialog"
+}

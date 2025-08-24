@@ -1,0 +1,150 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "ac5SGi",
+    "name": "YasoufiStoreDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "W65Eof"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "CIvE6R"
+          },
+          "condition": "conversation.local",
+          "cases": [
+            {
+              "value": "ar",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "tw5fzW"
+                  },
+                  "value": "للإستفسار",
+                  "property": "dialog.Buton"
+                }
+              ]
+            },
+            {
+              "value": "en",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "1nWL9y"
+                  },
+                  "value": "For inquiries",
+                  "property": "dialog.Buton"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "caJ27m"
+          },
+          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 8)).text",
+          "property": "dialog.MapCaption"
+        },
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "DTie7f"
+          },
+          "activity": "${SendActivity_DTie7f()}"
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "TVuDs6"
+          },
+          "property": "dialog.ButtonCaption",
+          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3602)).text"
+        },
+        {
+          "$kind": "Microsoft.DeleteProperty",
+          "$designer": {
+            "id": "APogWH"
+          },
+          "property": "dialog.userSelect"
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "eXGECW"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "unrecognizedPrompt": "",
+          "invalidPrompt": "",
+          "prompt": "${TextInput_Prompt_eXGECW()}",
+          "property": "dialog.userSelect",
+          "validations": [
+            "equals(this.value, 'For inquiries') || equals(this.value, 'للإستفسار')   ||equals(this.value, '#')"
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "NxKrTu"
+          },
+          "property": "dialog.InquiriesCaptions",
+          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 10)).text"
+        },
+        {
+          "$kind": "Microsoft.DeleteProperty",
+          "$designer": {
+            "id": "xhQqc4"
+          },
+          "property": "dialog.Select"
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "8IGBMd"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "prompt": "${TextInput_Prompt_8IGBMd()}",
+          "unrecognizedPrompt": "",
+          "invalidPrompt": "",
+          "property": "dialog.Select"
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "3uiPxU"
+          },
+          "activityProcessed": true,
+          "dialog": "LiveChatDialog"
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "fM9AmI"
+          }
+        }
+      ]
+    }
+  ],
+  "generator": "YasoufiStoreDialog.lg",
+  "recognizer": "YasoufiStoreDialog.lu.qna",
+  "id": "YasoufiStoreDialog"
+}

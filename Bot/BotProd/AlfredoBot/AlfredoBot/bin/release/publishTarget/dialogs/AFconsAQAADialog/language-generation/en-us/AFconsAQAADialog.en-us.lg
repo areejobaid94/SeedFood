@@ -1,0 +1,20 @@
+[import](common.lg)
+
+# TextInput_Prompt_p24VSF()
+[Activity
+    Attachments = ${json(ButtonList(conversation.ChooseSubject,dialog.AQAALevelList))}
+    InputHint=${dialog.InputHint}
+    Summary=${conversation.Summary}
+]
+# TextInput_Prompt_oeuUBn()
+[Activity
+    Attachments = ${json(ButtonList(conversation.KnowledgeLV,conversation.KnowledgeList))}
+    InputHint=${dialog.InputHint}
+    Summary=${conversation.Summary}
+]
+# SendActivity_BHnh9A_text()
+- ${dialog.KnowledgeRatio}
+# SendActivity_BHnh9A()
+[Activity
+    Text = ${SendActivity_BHnh9A_text()}
+]

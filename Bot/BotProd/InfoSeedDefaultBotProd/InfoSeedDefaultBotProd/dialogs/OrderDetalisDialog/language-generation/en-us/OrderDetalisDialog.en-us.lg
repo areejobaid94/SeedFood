@@ -1,0 +1,13 @@
+[import](common.lg)
+
+# TextInput_Prompt_A1i91c()
+- ${CreateOrderAndDetailText(dialog.GetOrderAndDetailModel.content.result.detailText,dialog.op1,dialog.op2,dialog.op3)}
+
+#CreateOrderAndDetailText(text,Option1,Option2,Summary)
+[Activity
+  Text= ${text}
+  SuggestedActions = ${Option1} | ${Option2}
+  Summary =  ${Summary}  
+]
+# TextInput_Prompt_ibIkzs()
+- ${CreateOrderAndDetailText(dialog.GetOrderAndDetailModel.content.result.detailText,dialog.op1,dialog.op2,dialog.op3)}

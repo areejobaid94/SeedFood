@@ -1,0 +1,243 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "rSPtJc",
+    "name": "C-townMainDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "dcZM4P"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "UQnYPY"
+          },
+          "assignments": [
+            {
+              "property": "conversation.Welcome_Text",
+              "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId ==1)).text"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "VXuo2N"
+          },
+          "condition": "conversation.local",
+          "cases": [
+            {
+              "value": "ar",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "xK8zL5"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.Orders",
+                      "value": "بدي أطلب"
+                    },
+                    {
+                      "property": "dialog.CancelOrder",
+                      "value": "قررت الغي طلبي"
+                    },
+                    {
+                      "property": "dialog.Complaints",
+                      "value": "عروض C-town"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "en",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "yOy6lg"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.Orders",
+                      "value": "Orders"
+                    },
+                    {
+                      "property": "dialog.CancelOrder",
+                      "value": "Cancel Order"
+                    },
+                    {
+                      "property": "dialog.Complaints",
+                      "value": "C-town Offer"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "default": [
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "PebvGQ"
+              },
+              "assignments": [
+                {
+                  "property": "dialog.Orders",
+                  "value": "بدي أطلب"
+                },
+                {
+                  "property": "dialog.CancelOrder",
+                  "value": "قررت الغي طلبي"
+                },
+                {
+                  "property": "dialog.Complaints",
+                  "value": "عروض C-town"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "LONdrB"
+          },
+          "property": "conversation.Welcome_Text",
+          "value": "=replace(conversation.Welcome_Text, '{0}', conversation.DisplayName)"
+        },
+        {
+          "$kind": "Microsoft.DeleteProperty",
+          "$designer": {
+            "id": "yhEaoJ"
+          },
+          "property": "conversation.SelectMain"
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "rU6p6v"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": false,
+          "unrecognizedPrompt": "",
+          "invalidPrompt": "",
+          "prompt": "${TextInput_Prompt_rU6p6v()}",
+          "property": "conversation.SelectMain",
+          "validations": [
+            "contains(this.value, 'بدي أطلب') || contains(this.value, 'قررت الغي طلبي') || contains(this.value, 'عروض C-town')||contains(this.value, 'Orders') ||contains(this.value, 'Cancel Order') ||contains(this.value, 'C-town Offer') || contains(this.value, '#')"
+          ]
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "OCALOU"
+          },
+          "condition": "conversation.SelectMain",
+          "cases": [
+            {
+              "value": "بدي أطلب",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "zxAses"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "OrderC-TownDialog"
+                }
+              ]
+            },
+            {
+              "value": "قررت الغي طلبي",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "vaq4yG"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "CancelOrderDialog"
+                }
+              ]
+            },
+            {
+              "value": "عروض C-town",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "srzfEQ"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "OrderC-TownDialog"
+                }
+              ]
+            },
+            {
+              "value": "Orders",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "WG1pnM"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "OrderC-TownDialog"
+                }
+              ]
+            },
+            {
+              "value": "Cancel Order",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "FckLXw"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "CancelOrderDialog"
+                }
+              ]
+            },
+            {
+              "value": "C-town Offer",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "zX2VEm"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "OrderC-TownDialog"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "7CzJeu"
+          }
+        }
+      ]
+    }
+  ],
+  "generator": "C-townMainDialog.lg",
+  "recognizer": "C-townMainDialog.lu.qna",
+  "id": "C-townMainDialog"
+}

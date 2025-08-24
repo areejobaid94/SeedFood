@@ -1,0 +1,209 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "NRuXbu",
+    "name": "TogetherManualDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "g4Boze"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "hj5NV4"
+          },
+          "condition": "conversation.local",
+          "cases": [
+            {
+              "value": "ar",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "9e51cx"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.Option1",
+                      "value": "سيراميك"
+                    },
+                    {
+                      "property": "dialog.Option2",
+                      "value": "اسمنتي"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "en",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "8W0cyb"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.Option1",
+                      "value": "Ceramic"
+                    },
+                    {
+                      "property": "dialog.Option2",
+                      "value": "Cement"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "default": [
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "XNerwm"
+              },
+              "assignments": [
+                {
+                  "property": "dialog.Option1",
+                  "value": "سيراميك"
+                },
+                {
+                  "property": "dialog.Option2",
+                  "value": "اسمنتي"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "pmKvmJ"
+          },
+          "property": "dialog.text",
+          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId ==3652)).text"
+        },
+        {
+          "$kind": "Microsoft.DeleteProperty",
+          "$designer": {
+            "id": "xRUGI6"
+          },
+          "property": "dialog.UserSelect"
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "Dg7Ii6"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "unrecognizedPrompt": "",
+          "invalidPrompt": "",
+          "prompt": "${TextInput_Prompt_Dg7Ii6()}",
+          "validations": [
+            "equals(this.value, 'Cement') ||equals(this.value, 'Ceramic') ||equals(this.value, 'اسمنتي') ||equals(this.value, 'سيراميك') ||equals(this.value, '#')"
+          ],
+          "property": "dialog.UserSelect"
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "n6baHY"
+          },
+          "property": "conversation.Request5",
+          "value": "${dialog.UserSelect}"
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "2UCMew"
+          },
+          "condition": "dialog.UserSelect",
+          "cases": [
+            {
+              "value": "سيراميك",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "g0kk9U"
+                  },
+                  "property": "conversation.ManualCaption",
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId ==3653)).text"
+                }
+              ]
+            },
+            {
+              "value": "اسمنتي",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "TPgEcd"
+                  },
+                  "property": "conversation.ManualCaption",
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId ==3654)).text"
+                }
+              ]
+            },
+            {
+              "value": "Ceramic",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "w8JqSn"
+                  },
+                  "property": "conversation.ManualCaption",
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId ==3653)).text"
+                }
+              ]
+            },
+            {
+              "value": "Cement",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "1FcdXx"
+                  },
+                  "property": "conversation.ManualCaption",
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId ==3654)).text"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "C2L5Z1"
+          },
+          "activityProcessed": true,
+          "dialog": "TogetherManualSurfaceDialog"
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "AXP7zV"
+          }
+        }
+      ]
+    }
+  ],
+  "generator": "TogetherManualDialog.lg",
+  "recognizer": "TogetherManualDialog.lu.qna",
+  "id": "TogetherManualDialog"
+}

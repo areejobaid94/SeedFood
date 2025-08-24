@@ -1,0 +1,231 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "bHgh4k",
+    "name": "AFConsultationsDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "6sSIt7"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "Jhu1ac"
+          },
+          "assignments": [
+            {
+              "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3044)).text",
+              "property": "dialog.NeedHelpCaption"
+            },
+            {
+              "property": "conversation.ChooseLevel",
+              "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3045)).text"
+            },
+            {
+              "property": "conversation.ChooseSubject",
+              "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3046)).text"
+            },
+            {
+              "property": "conversation.KnowledgeLV",
+              "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3047)).text"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "7moBc2"
+          },
+          "activity": "${SendActivity_7moBc2()}"
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "YNg7A8"
+          },
+          "condition": "conversation.local",
+          "cases": [
+            {
+              "value": "ar",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "xAJvjc"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.option1",
+                      "value": "النظام الأمريكي"
+                    },
+                    {
+                      "property": "dialog.option2",
+                      "value": "النظام البريطاني"
+                    },
+                    {
+                      "property": "dialog.option3",
+                      "value": "IB دبلوم"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "en",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "6np8XY"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.option1",
+                      "value": "American system"
+                    },
+                    {
+                      "property": "dialog.option2",
+                      "value": "British System"
+                    },
+                    {
+                      "property": "dialog.option3",
+                      "value": "IB Diploma"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.DeleteProperty",
+          "$designer": {
+            "id": "CaH9Af"
+          },
+          "property": "dialog.UserSelect"
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "r3F5oW"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "unrecognizedPrompt": "",
+          "property": "dialog.UserSelect",
+          "validations": [
+            "equals(this.value, 'British System') || equals(this.value, 'American system') || equals(this.value, 'IB Diploma') ||equals(this.value, 'النظام البريطاني') || equals(this.value, 'النظام الأمريكي') || equals(this.value, 'IB دبلوم') || equals(this.value, '#')"
+          ],
+          "prompt": "${TextInput_Prompt_r3F5oW()}"
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "jGWbSM"
+          },
+          "condition": "dialog.UserSelect",
+          "cases": [
+            {
+              "value": "American system",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "iQMryO"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "AFConsultationAMDialog"
+                }
+              ]
+            },
+            {
+              "value": "British System",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "7yVwMT"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "AFConsultationBRDialog"
+                }
+              ]
+            },
+            {
+              "value": "IB Diploma",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "OKsmBX"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "AFConsultationIBDialog"
+                }
+              ]
+            },
+            {
+              "value": "النظام الأمريكي",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "CRPezc"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "AFConsultationAMDialog"
+                }
+              ]
+            },
+            {
+              "value": "النظام البريطاني",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "arhnRQ"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "AFConsultationBRDialog"
+                }
+              ]
+            },
+            {
+              "value": "IB دبلوم",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "zFxXez"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "AFConsultationIBDialog"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "ZkFpks"
+          }
+        }
+      ]
+    }
+  ],
+  "generator": "AFConsultationsDialog.lg",
+  "recognizer": "AFConsultationsDialog.lu.qna",
+  "id": "AF-ConsultationsDialog"
+}

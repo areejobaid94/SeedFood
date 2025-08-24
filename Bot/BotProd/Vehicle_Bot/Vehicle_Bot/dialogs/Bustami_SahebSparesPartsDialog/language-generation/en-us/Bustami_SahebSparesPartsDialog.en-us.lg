@@ -1,0 +1,31 @@
+[import](common.lg)
+
+# SendActivity_mSl1Ha_text()
+- ${conversation.Thanks}
+# SendActivity_mSl1Ha()
+[Activity
+    Text = ${SendActivity_mSl1Ha_text()}
+]
+
+# TextInput_Prompt_4k4xLs()
+[Activity
+    Text = ${TextInput_Prompt_4k4xLs_text()}
+]
+
+# TextInput_Prompt_4k4xLs_text()
+- ${dialog.Dis}
+# TextInput_Prompt_kHdhPZ_text()
+- ${dialog.Dis}
+# TextInput_Prompt_kHdhPZ()
+[Activity
+    Text = ${TextInput_Prompt_kHdhPZ_text()}
+]
+
+# TextInput_Prompt_CzWqis()
+[Activity
+    Text = ${TextInput_Prompt_CzWqis_text()}
+    SuggestedActions = ${dialog.option2} | ${dialog.option1}
+]
+
+# TextInput_Prompt_CzWqis_text()
+- ${dialog.choose}

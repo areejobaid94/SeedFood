@@ -1,0 +1,239 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "ImptR4",
+    "name": "TogetherDropDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "CYLnhq"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "4w3cTA"
+          },
+          "condition": "conversation.local",
+          "cases": [
+            {
+              "value": "ar",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "ubxAB2"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.option1",
+                      "value": "الآبار الجوفية"
+                    },
+                    {
+                      "property": "dialog.option2",
+                      "value": "الآبار الإرتوازية"
+                    },
+                    {
+                      "property": "dialog.option3",
+                      "value": "الآبار السطحية"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "en",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "O2CfL7"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.option1",
+                      "value": "Ground wells"
+                    },
+                    {
+                      "property": "dialog.option2",
+                      "value": "Artesian wells"
+                    },
+                    {
+                      "property": "dialog.option3",
+                      "value": "Surface wells"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "default": [
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "F4vVuc"
+              },
+              "assignments": [
+                {
+                  "property": "dialog.option1",
+                  "value": "الآبار الجوفية"
+                },
+                {
+                  "property": "dialog.option2",
+                  "value": "الآبار الإرتوازية"
+                },
+                {
+                  "property": "dialog.option3",
+                  "value": "الآبار السطحية"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "ThkYhE"
+          },
+          "property": "dialog.text",
+          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId ==3645)).text"
+        },
+        {
+          "$kind": "Microsoft.DeleteProperty",
+          "$designer": {
+            "id": "vWpbqg"
+          },
+          "property": "dialog.UserSelect"
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "pKGJBc"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "unrecognizedPrompt": "",
+          "invalidPrompt": "",
+          "prompt": "${TextInput_Prompt_pKGJBc()}",
+          "property": "dialog.UserSelect",
+          "validations": [
+            "equals(this.value, 'Ground wells') ||equals(this.value, 'Artesian wells') ||equals(this.value, 'Surface wells') ||equals(this.value, 'الآبار السطحية') ||equals(this.value, 'الآبار الإرتوازية') ||equals(this.value, 'الآبار الجوفية')  ||equals(this.value, '#')"
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "iSBo1v"
+          },
+          "property": "conversation.Request3",
+          "value": "${dialog.UserSelect}"
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "GLGs4S"
+          },
+          "condition": "dialog.UserSelect",
+          "cases": [
+            {
+              "value": "الآبار الجوفية",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "GaYi0b"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TogetherFinalDropDialog"
+                }
+              ]
+            },
+            {
+              "value": "الآبار الإرتوازية",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "DqQWOJ"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TogetherArtesianDilaog"
+                }
+              ]
+            },
+            {
+              "value": "الآبار السطحية",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "EdHv2n"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TogetherSurfaceDialog"
+                }
+              ]
+            },
+            {
+              "value": "Ground wells",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "iKJJKA"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TogetherFinalDropDialog"
+                }
+              ]
+            },
+            {
+              "value": "Artesian wells",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "9cKwhl"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TogetherArtesianDilaog"
+                }
+              ]
+            },
+            {
+              "value": "Surface wells",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "NwKlW7"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "TogetherSurfaceDialog"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "CpmRoS"
+          }
+        }
+      ]
+    }
+  ],
+  "generator": "TogetherDropDialog.lg",
+  "recognizer": "TogetherDropDialog.lu.qna",
+  "id": "TogetherDropDialog"
+}

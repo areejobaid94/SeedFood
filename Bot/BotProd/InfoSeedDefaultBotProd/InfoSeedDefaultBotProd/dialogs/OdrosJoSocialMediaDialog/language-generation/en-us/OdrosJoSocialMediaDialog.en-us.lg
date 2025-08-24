@@ -1,0 +1,17 @@
+[import](common.lg)
+
+# TextInput_Prompt_7fitN7_text()
+- ${dialog.fristChoseCaption}
+# TextInput_Prompt_7fitN7()
+[Activity
+    Text = ${TextInput_Prompt_7fitN7_text()}
+    SuggestedActions = ${dialog.option1} | ${dialog.option2}
+]
+
+# SendActivity_mO7qnR()
+[Activity
+    Text = ${SendActivity_mO7qnR_text()}
+]
+
+# SendActivity_mO7qnR_text()
+- ${dialog.SocialMedia}

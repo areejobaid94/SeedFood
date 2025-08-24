@@ -1,0 +1,15 @@
+[import](common.lg)
+
+# TextInput_Prompt_Wp3Iq6_text()
+- ${dialog.link}
+# TextInput_Prompt_Wp3Iq6()
+[Activity
+    Text = ${TextInput_Prompt_Wp3Iq6_text()}
+]
+
+# TextInput_Prompt_JRe78i_text()
+- ${dialog.link}
+# TextInput_Prompt_JRe78i()
+[Activity
+    Text = ${TextInput_Prompt_JRe78i_text()}
+]

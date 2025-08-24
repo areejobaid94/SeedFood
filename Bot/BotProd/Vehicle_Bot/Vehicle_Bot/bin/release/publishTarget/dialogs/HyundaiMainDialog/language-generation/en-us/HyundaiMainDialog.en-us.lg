@@ -1,0 +1,17 @@
+[import](common.lg)
+
+# TextInput_Prompt_OPrhbR_text()
+- ${dialog.Name}
+# TextInput_Prompt_OPrhbR()
+[Activity
+    Text = ${TextInput_Prompt_OPrhbR_text()}
+]
+
+
+# TextInput_Prompt_7reqVG_text()
+- ${conversation.welcome}
+# TextInput_Prompt_7reqVG()
+[Activity
+    Text = ${TextInput_Prompt_7reqVG_text()}
+    SuggestedActions = ${dialog.Option1} | ${dialog.Option2} | ${dialog.Option3}
+]

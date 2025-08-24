@@ -1,0 +1,10 @@
+[import](common.lg)
+
+#CreateOrderAndDetailText(text,Option1,Option2,Summary)
+[Activity
+  Text= ${text}
+  SuggestedActions = ${Option1} | ${Option2}
+  Summary =  ${Summary}  
+]
+# TextInput_Prompt_LXD8bX()
+- ${CreateOrderAndDetailText(dialog.GetOrderAndDetailModel.content.result.detailText,conversation.Confirm,conversation.Cancel,conversation.DoYouWhant)}

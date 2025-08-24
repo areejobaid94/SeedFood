@@ -1,0 +1,226 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "lG0sNl",
+    "name": "NewPhCureMainDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "liR192"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "FjHyhZ"
+          },
+          "condition": "conversation.local",
+          "cases": [
+            {
+              "value": "ar",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "50Ndr4"
+                  },
+                  "assignments": [
+                    {
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1241)).text",
+                      "property": "dialog.text"
+                    },
+                    {
+                      "property": "dialog.textN",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1242)).text"
+                    },
+                    {
+                      "property": "dialog.thanks",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1243)).text"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "7lqvfy"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.Option1",
+                      "value": "دردشة مباشرة"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "en",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "gFCE2x"
+                  },
+                  "assignments": [
+                    {
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1241)).text",
+                      "property": "dialog.text"
+                    },
+                    {
+                      "property": "dialog.textN",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1242)).text"
+                    },
+                    {
+                      "property": "dialog.thanks",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1243)).text"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "OEsEZN"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.Option1",
+                      "value": "Live Chat"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.HttpRequest",
+          "$designer": {
+            "id": "JwNyYN"
+          },
+          "resultProperty": "dialog.rez",
+          "method": "GET",
+          "url": " ${conversation.URL}/api/BotAPI/CheckIsFillDisplayName?id=${conversation.ContactId}"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "We8Dme"
+          },
+          "condition": "dialog.rez.content.result !=null",
+          "elseActions": [
+            {
+              "$kind": "Microsoft.DeleteProperty",
+              "$designer": {
+                "id": "F2e7ud"
+              },
+              "property": "conversation.DisplayName"
+            },
+            {
+              "$kind": "Microsoft.TextInput",
+              "$designer": {
+                "id": "90e2M0"
+              },
+              "disabled": false,
+              "maxTurnCount": "100",
+              "alwaysPrompt": false,
+              "allowInterruptions": true,
+              "unrecognizedPrompt": "",
+              "property": "conversation.DisplayName",
+              "prompt": "${TextInput_Prompt_90e2M0()}"
+            },
+            {
+              "$kind": "Microsoft.HttpRequest",
+              "$designer": {
+                "id": "7DxpC5"
+              },
+              "resultProperty": "dialog.rez",
+              "method": "GET",
+              "url": " ${conversation.URL}/api/BotAPI/updateContcatDisplayName?id=${conversation.ContactId}&contactDisplayName=${conversation.DisplayName}"
+            }
+          ],
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "XAvHrS"
+              },
+              "property": "conversation.DisplayName",
+              "value": "=dialog.rez.content.result"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "dzwarH"
+          },
+          "property": "dialog.text",
+          "value": "=replace(dialog.text, '{0}', conversation.DisplayName)"
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "ZFPvi1"
+          },
+          "property": "dialog.test",
+          "value": "${dialog.text}"
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "gw7mLS"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "property": "dialog.UserInput",
+          "validations": [
+            "=contains(this.value, 'دردشة مباشرة') || contains(this.value, 'Live Chat') || contains(this.value, '#')"
+          ],
+          "prompt": "${TextInput_Prompt_gw7mLS()}"
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "THY35z"
+          },
+          "property": "conversation.IsLiveChat ",
+          "value": "true"
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "y87uo8"
+          },
+          "activityProcessed": true,
+          "dialog": "LiveChatDialog"
+        },
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "DnQLTG"
+          },
+          "activity": "${SendActivity_DnQLTG()}"
+        },
+        {
+          "$kind": "Microsoft.CancelAllDialogs",
+          "$designer": {
+            "id": "7OMmN4"
+          },
+          "activityProcessed": true
+        }
+      ]
+    }
+  ],
+  "generator": "NewPhCureMainDialog.lg",
+  "recognizer": "NewPhCureMainDialog.lu.qna",
+  "id": "NewPhCureMainDialog"
+}

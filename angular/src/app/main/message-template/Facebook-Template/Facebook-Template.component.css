@@ -1,0 +1,418 @@
+
+.container{
+  height: 133vh;
+}
+/* General Styles */
+.setup-container {
+  
+  display: flex;
+  flex-wrap: wrap;
+  /* gap: 20px; */
+   background-color: #f8f8f8;
+  /* padding: 3%; */
+  width: 100%;
+  justify-content: space-between;
+}
+
+.progress-bar {
+  display: flex;
+  align-items: center;
+  font-size: 0.9em;
+  color: #ffffff;
+}
+
+.step {
+  padding: 5px;
+}
+
+.step.active {
+  color: #0056b3;
+  font-weight: bold;
+}
+
+.separator {
+  color: #ccc;
+  margin: 0 5px;
+}
+
+/* Panel Styles */
+.setup-panel, .preview-panel {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive Layout */
+.setup-panel {
+  width: 65%; /* Increased to 65% width */
+}
+
+.preview-panel {
+  width: 33%; /* Decreased to 30% width */
+}
+
+.setup-panel h2 {
+  font-size: 1.5em;
+  font-weight: bold;
+}
+
+.description {
+  font-size: 0.9em;
+  color: #666;
+}
+
+.description a {
+  color: #0056b3;
+  text-decoration: none;
+}
+
+/* Category Buttons */
+.categories {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+
+.category-button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 15px;
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9em;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.category-button.active {
+  background-color: #009789;
+  color: white;
+}
+
+.icon {
+  width: 20px;
+  height: 20px;
+  background-size: cover;
+}
+
+/* Custom icons */
+.icon.marketing { background-image: url('/path/to/marketing-icon.svg'); }
+.icon.utility { background-image: url('/path/to/utility-icon.svg'); }
+.icon.authentication { background-image: url('/path/to/authentication-icon.svg'); }
+
+/* Message Types */
+.message-types label {
+  display: block;
+  padding: 10px;
+  background: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+.message-types label input {
+  margin-right: 8px;
+}
+
+input[type="radio"] {
+  accent-color: #009789; 
+}
+
+/* Preview Styles */
+.preview-panel h3 {
+  font-size: 1.2em;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.message-preview {
+  padding: 15px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  position: relative;
+}
+
+.preview-image {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+.message-content {
+  padding: 10px 0;
+  color: #333;
+}
+
+.timestamp {
+  display: block;
+  font-size: 0.8em;
+  color: #888;
+}
+
+.shop-now {
+  background-color: #0056b3;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9em;
+}
+
+@media (max-width: 1441px) {
+  .action-buttons {
+    width: 73%; /* Adjust width for tablets */
+    left: 24%; /* Adjust left for tablets */
+  }
+}
+/* Responsive Adjustments */
+@media (max-width: 1024px) {
+  .setup-panel, .preview-panel {
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .category-button {
+    flex: 1 1 100%;
+    padding: 10px;
+    font-size: 0.85em;
+    padding-left: 40px;
+  }
+  
+  .preview-image {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .setup-container {
+    padding: 2%;
+    gap: 10px;
+  }
+  
+  h2, h3 {
+    font-size: 1.2em;
+  }
+  
+  .category-button {
+    padding: 8px;
+    font-size: 0.8em;
+  }
+  
+  .shop-now {
+    padding: 8px 15px;
+    font-size: 0.8em;
+  }
+}
+.action-buttons {
+  display: flex;
+  justify-content: space-between;
+  width: 72%; 
+  margin: 20px auto;
+  position: fixed;
+  left: 21%;
+  bottom: 10px; 
+  background-color: #f8f8f8; 
+  padding: 15px; 
+  border-radius: 8px; 
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); 
+
+}
+
+
+/* @media (min-width: 2559px) and (max-width: 3000px) {
+  .action-buttons {
+    width: 56%;
+    left: 27%;
+    bottom: 50px;
+    padding: 26px;
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.35);
+  }
+} */
+
+
+@media (min-width: 1920px) and (max-width: 2559px) {
+  .action-buttons {
+    width: 75%;
+    left: 20%;
+    bottom: 10px;
+    padding: 14px;
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.35);
+  }
+}
+ 
+
+
+@media(min-width: 1600px) and (max-width: 1920px) {
+  .action-buttons {
+    width: 74%;
+    left: 20%;
+    bottom: 10px;
+    padding: 12px;
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.35);
+  }
+}
+
+@media (min-width: 1440px) and (max-width: 1600px) {
+  .action-buttons {
+    width: 78%;
+    left: 20%;
+    bottom: 20px;
+    padding: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+  }
+}
+
+@media (min-width: 1366px) and (max-width: 1440px){
+  .action-buttons {
+    width: 76%;
+    left: 21%;
+    bottom: 20px;
+    padding: 10px;
+    box-shadow: 0 0 18px rgba(0, 0, 0, 0.25);
+  }
+}
+
+@media (min-width: 1280px) and (max-width: 1366px){
+  .action-buttons {
+    width: 74%;
+    left: 23%;
+    bottom: 10px;
+    padding: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+  }
+}
+@media (min-width: 1025px) and (max-width: 1280px){
+  .action-buttons {
+    width: 73%;
+    left: 24%; 
+    bottom: 10px;
+    padding: 10px;
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.15);
+  }
+}
+
+@media (max-width: 1025px) {
+  .action-buttons {
+    width: 73%;
+    left: 24%; 
+    bottom: 25px; 
+    padding: 10px; 
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.15); 
+  }
+}
+
+@media (max-width: 1024px) {
+  .action-buttons {
+    width: 78%; 
+    left: 18%;
+  }
+}
+
+@media (max-width: 768px) {
+  .action-buttons {
+    width:  80%; 
+    left: 14%;
+  }
+}
+
+@media (max-width: 480px) {
+  .action-buttons {
+    width: 100%;
+    left: 0;
+    bottom: 10px; 
+  }
+}
+.discard-button{
+  padding: 10px 20px;
+  font-size: 1em;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  background-color: white; /* Red color for Discard */
+  color: black;
+  border: 1px solid black  ;
+}
+.next-button{
+  padding: 10px 20px;
+  font-size: 1em;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  background-color: #009789; /* Red color for Discard */
+  color: white;
+  border: 1px solid #009789;
+}
+
+/* .circle {
+  width: 20px; 
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid #ccc;
+  margin: 5px;
+  transition: background-color 0.3s;
+} */
+.circle {
+  width: 20px; /* Adjust the size as needed */
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid #009789; /* Border color */
+  margin: 5px; /* Spacing between circles */
+  background: linear-gradient(to left, #009789 50%, transparent 50%); /* Fill one half with color */
+  transition: background-color 0.3s;
+}
+.circle-active{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: flex-end;
+  background-color: #e1edf7;
+}
+.circle.filled {
+  background-color: #009789; /* Change to your filled color */
+  border-color: #009789; /* Change border color for filled state */
+}
+
+.TemplateConstructionstages{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: flex-end;
+  background-color: #f0f0f0;
+  padding: 1%;
+  align-items: center;
+}
+
+.TemplateConstructionstages p {
+  margin: 0px 10px 5px 0px;
+}
+.circle-empty{
+  width: 20px; /* Adjust the size as needed */
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid #626b73; 
+  margin: 5px;
+}
+.circle-empty p{
+  color: #626b73;
+}
+
+
+.message-types label:hover {
+  background-color:  #e5f4f3;; 
+  cursor: pointer; 
+  transition: background-color 0.3s ease;
+}
+
+.message-types label:has(input:checked) {
+  background-color:  #e5f4f3; 
+}

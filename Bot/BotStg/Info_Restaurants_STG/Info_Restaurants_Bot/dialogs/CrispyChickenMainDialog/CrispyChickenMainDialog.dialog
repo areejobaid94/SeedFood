@@ -1,0 +1,164 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "CMX5QT",
+    "name": "CrispyChickenMainDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "aDyp7A"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "JV92kP"
+          },
+          "condition": "conversation.local",
+          "cases": [
+            {
+              "value": "ar",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "huhzoK"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.Option1",
+                      "value": "للطلبات 🚗"
+                    },
+                    {
+                      "property": "dialog.Option2",
+                      "value": "لالغاء الطلب ❌"
+                    },
+                    {
+                      "property": "dialog.Option3",
+                      "value": "للإستفسارات ❓"
+                    },
+                    {
+                      "property": "conversation.menu",
+                      "value": "0"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "en",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "juUthH"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.Option1",
+                      "value": "Orders 🚗"
+                    },
+                    {
+                      "property": "dialog.Option2",
+                      "value": "Cancel Order ❌"
+                    },
+                    {
+                      "property": "dialog.Option3",
+                      "value": "Complaints❓"
+                    },
+                    {
+                      "property": "conversation.menu",
+                      "value": "0"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "YAmcR6"
+          },
+          "assignments": [
+            {
+              "property": "dialog.text",
+              "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1)).text"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "6GvMac"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "unrecognizedPrompt": "",
+          "invalidPrompt": "",
+          "prompt": "${TextInput_Prompt_6GvMac()}",
+          "property": "dialog.UserInput",
+          "validations": [
+            "equals(this.value, 'للطلبات 🚗') ||equals(this.value, 'لالغاء الطلب ❌') ||equals(this.value, 'للإستفسارات ❓') || equals(this.value, '#') || equals(this.value, 'Orders 🚗')  || equals(this.value, 'Cancel Order ❌')  || equals(this.value, 'Complaints❓')"
+          ]
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "nW791L"
+          },
+          "cases": [
+            {
+              "value": "للطلبات 🚗"
+            },
+            {
+              "value": "لالغاء الطلب ❌",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "BDIjxl"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "CancelOrderDialog"
+                }
+              ]
+            },
+            {
+              "value": "للإستفسارات ❓"
+            },
+            {
+              "value": "Orders 🚗"
+            },
+            {
+              "value": "Cancel Order ❌"
+            },
+            {
+              "value": "Complaints❓"
+            }
+          ],
+          "condition": "dialog.UserInput"
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "Yx9H2H"
+          }
+        }
+      ]
+    }
+  ],
+  "generator": "CrispyChickenMainDialog.lg",
+  "recognizer": "CrispyChickenMainDialog.lu.qna",
+  "id": "CrispyChickenMainDialog"
+}

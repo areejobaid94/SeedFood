@@ -1,0 +1,3100 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "Sq4aky",
+    "name": "Ustazi_KG-Sixth1ChildDialog",
+    "comment": "number of student : 1"
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "jm0vZj"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "VTjbkF"
+          },
+          "condition": "conversation.local",
+          "cases": [
+            {
+              "value": "ar",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "1YDcSU"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.Option1",
+                      "value": "تاسيس كامل ( عربي انجليزي رياضيات)"
+                    },
+                    {
+                      "property": "dialog.Option2",
+                      "value": "مادة معينة او اكثر"
+                    },
+                    {
+                      "property": "dialog.ListOption",
+                      "value": [
+                        "تاسيس كامل ( عربي انجليزي رياضيات)",
+                        "مادة معينة او اكثر"
+                      ]
+                    },
+                    {
+                      "property": "dialog.LOption",
+                      "value": [
+                        "مادة معينة او اكثر"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "en",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "Cu3Bh7"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.Option1",
+                      "value": "Full foundation (Arabic English mathematics)"
+                    },
+                    {
+                      "property": "dialog.Option2",
+                      "value": "One or more specific substances"
+                    },
+                    {
+                      "property": "dialog.ListOption",
+                      "value": [
+                        "Full foundation (Arabic English mathematics)",
+                        "One or more specific substances"
+                      ]
+                    },
+                    {
+                      "property": "dialog.LOption",
+                      "value": [
+                        "One or more specific substances"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "default": [
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "F9zssL"
+              },
+              "assignments": [
+                {
+                  "property": "dialog.Option1",
+                  "value": "تاسيس كامل ( عربي انجليزي رياضيات)"
+                },
+                {
+                  "property": "dialog.Option2",
+                  "value": "مادة معينة او اكثر"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "l5GSMV"
+          },
+          "assignments": [
+            {
+              "property": "dialog.text",
+              "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1110)).text"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "SvlHYg"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "unrecognizedPrompt": "",
+          "invalidPrompt": "",
+          "prompt": "${TextInput_Prompt_SvlHYg()}",
+          "property": "dialog.UserInput",
+          "validations": [
+            "=contains(this.value, 'تاسيس كامل ( عربي انجليزي رياضيات)') || contains(this.value, 'مادة معينة او اكثر')  || contains(this.value, 'Full foundation (Arabic English mathematics)') || contains(this.value, '#') || contains(this.value, 'One or more specific substances')"
+          ]
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "gIhEoj"
+          },
+          "condition": "dialog.UserInput",
+          "cases": [
+            {
+              "value": "تاسيس كامل ( عربي انجليزي رياضيات)",
+              "actions": [
+                {
+                  "$kind": "Microsoft.DeleteProperties",
+                  "$designer": {
+                    "id": "41kKYO"
+                  },
+                  "properties": [
+                    "dialog.UserInput",
+                    "dialog.Option1",
+                    "dialog.Option2",
+                    "dialog.text",
+                    "dialog.InputHint",
+                    "dialog.Summary"
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "iHHaFo"
+                  },
+                  "assignments": [
+                    {
+                      "value": "ثلاث حصص بالاسبوع * ساعة و نصف",
+                      "property": "dialog.Option1"
+                    },
+                    {
+                      "property": "dialog.Option2",
+                      "value": "حصتين بالاسبوع  * ساعة و نصف"
+                    },
+                    {
+                      "property": "dialog.Option3",
+                      "value": "خيارات اخرى"
+                    },
+                    {
+                      "property": "dialog.text",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1110)).text"
+                    },
+                    {
+                      "property": "dialog.ListOption",
+                      "value": [
+                        "ثلاث حصص بالاسبوع * ساعة و نصف",
+                        "حصتين بالاسبوع  * ساعة و نصف",
+                        "خيارات اخرى"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.DeleteProperties",
+                  "$designer": {
+                    "id": "ySpWhB"
+                  },
+                  "properties": [
+                    "dialog.UserInput"
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.TextInput",
+                  "$designer": {
+                    "id": "lPcACt"
+                  },
+                  "disabled": false,
+                  "maxTurnCount": 100,
+                  "alwaysPrompt": false,
+                  "allowInterruptions": true,
+                  "prompt": "${TextInput_Prompt_lPcACt()}",
+                  "property": "dialog.UserInput",
+                  "validations": [
+                    "=contains(this.value, 'ثلاث حصص بالاسبوع * ساعة و نصف') ||contains(this.value, 'حصتين بالاسبوع  * ساعة و نصف') ||contains(this.value, 'خيارات اخرى') ||contains(this.value, '#') "
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SwitchCondition",
+                  "$designer": {
+                    "id": "h0EQZi"
+                  },
+                  "cases": [
+                    {
+                      "value": "ثلاث حصص بالاسبوع * ساعة و نصف",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "sq0Nla"
+                          },
+                          "property": "dialog.price",
+                          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1080)).text"
+                        },
+                        {
+                          "$kind": "Microsoft.SendActivity",
+                          "$designer": {
+                            "id": "6UDbZn"
+                          },
+                          "activity": "${SendActivity_6UDbZn()}"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "حصتين بالاسبوع  * ساعة و نصف",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "qUViCb"
+                          },
+                          "property": "dialog.price",
+                          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1090)).text"
+                        },
+                        {
+                          "$kind": "Microsoft.SendActivity",
+                          "$designer": {
+                            "id": "DlLaUy"
+                          },
+                          "activity": "${SendActivity_DlLaUy()}"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "خيارات اخرى",
+                      "actions": []
+                    }
+                  ],
+                  "condition": "dialog.UserInput"
+                }
+              ]
+            },
+            {
+              "value": "مادة معينة او اكثر",
+              "actions": [
+                {
+                  "$kind": "Microsoft.DeleteProperties",
+                  "$designer": {
+                    "id": "Ry1kl9"
+                  },
+                  "properties": [
+                    "dialog.UserInput",
+                    "dialog.Option1",
+                    "dialog.Option2",
+                    "dialog.text",
+                    "dialog.InputHint",
+                    "dialog.Summary",
+                    "dialog.Option3",
+                    "dialog.Option4"
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "6PRlt2"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.text",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1115)).text"
+                    },
+                    {
+                      "property": "dialog.InputHint",
+                      "value": "اختر العدد"
+                    },
+                    {
+                      "property": "dialog.Option1",
+                      "value": "مادة"
+                    },
+                    {
+                      "property": "dialog.Option2",
+                      "value": "مادتين"
+                    },
+                    {
+                      "property": "dialog.Option3",
+                      "value": "ثلاث مواد"
+                    },
+                    {
+                      "property": "dialog.Option4",
+                      "value": "اربع مواد"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.TextInput",
+                  "$designer": {
+                    "id": "v4BS5e"
+                  },
+                  "disabled": false,
+                  "maxTurnCount": 100,
+                  "alwaysPrompt": false,
+                  "allowInterruptions": true,
+                  "unrecognizedPrompt": "",
+                  "invalidPrompt": "",
+                  "prompt": "${TextInput_Prompt_v4BS5e()}",
+                  "property": "dialog.UserInput",
+                  "validations": [
+                    "= contains(this.value, 'مادة') ||contains(this.value, 'مادتين') ||contains(this.value, 'ثلاث مواد') ||contains(this.value, 'اربع مواد') ||contains(this.value, '#') "
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SwitchCondition",
+                  "$designer": {
+                    "id": "7kReBq"
+                  },
+                  "condition": "dialog.UserInput",
+                  "cases": [
+                    {
+                      "value": "مادة",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.DeleteProperties",
+                          "$designer": {
+                            "id": "qRfzTC"
+                          },
+                          "properties": [
+                            "dialog.UserInput",
+                            "dialog.Option1",
+                            "dialog.Option2",
+                            "dialog.text",
+                            "dialog.InputHint",
+                            "dialog.Summary",
+                            "dialog.Option3",
+                            "dialog.Option4"
+                          ]
+                        },
+                        {
+                          "$kind": "Microsoft.SetProperties",
+                          "$designer": {
+                            "id": "OGe1nZ"
+                          },
+                          "assignments": [
+                            {
+                              "value": "حصتين بالاسبوع  * ساعة و نصف",
+                              "property": "dialog.Option1"
+                            },
+                            {
+                              "property": "dialog.Option2",
+                              "value": "حصة بالاسبوع  * ساعتين"
+                            },
+                            {
+                              "property": "dialog.Option3",
+                              "value": "خيارات اخرى"
+                            },
+                            {
+                              "property": "dialog.text",
+                              "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1110)).text"
+                            },
+                            {
+                              "property": "dialog.ListOption",
+                              "value": [
+                                "حصتين بالاسبوع  * ساعة و نصف",
+                                "حصة بالاسبوع  * ساعتين",
+                                "خيارات اخرى"
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "$kind": "Microsoft.DeleteProperties",
+                          "$designer": {
+                            "id": "hJcAFi"
+                          },
+                          "properties": [
+                            "dialog.UserInput"
+                          ]
+                        },
+                        {
+                          "$kind": "Microsoft.TextInput",
+                          "$designer": {
+                            "id": "enZktb"
+                          },
+                          "disabled": false,
+                          "maxTurnCount": 100,
+                          "alwaysPrompt": false,
+                          "allowInterruptions": true,
+                          "unrecognizedPrompt": "",
+                          "prompt": "${TextInput_Prompt_enZktb()}",
+                          "property": "dialog.UserInput",
+                          "validations": [
+                            "= contains(this.value, 'حصة بالاسبوع  * ساعتين') ||contains(this.value, 'حصتين بالاسبوع  * ساعة و نصف') ||contains(this.value, 'خيارات اخرى') ||contains(this.value, '#') "
+                          ]
+                        },
+                        {
+                          "$kind": "Microsoft.SwitchCondition",
+                          "$designer": {
+                            "id": "wGxn1G"
+                          },
+                          "cases": [
+                            {
+                              "value": "حصتين بالاسبوع  * ساعة و نصف",
+                              "actions": [
+                                {
+                                  "$kind": "Microsoft.IfCondition",
+                                  "$designer": {
+                                    "id": "rYWtOi"
+                                  },
+                                  "condition": "conversation.Curr=='national'",
+                                  "actions": [
+                                    {
+                                      "$kind": "Microsoft.SetProperty",
+                                      "$designer": {
+                                        "id": "sfKkyC"
+                                      },
+                                      "property": "dialog.price",
+                                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1091)).text"
+                                    },
+                                    {
+                                      "$kind": "Microsoft.SendActivity",
+                                      "$designer": {
+                                        "id": "PoFxYn"
+                                      },
+                                      "activity": "${SendActivity_PoFxYn()}"
+                                    }
+                                  ],
+                                  "elseActions": [
+                                    {
+                                      "$kind": "Microsoft.SetProperty",
+                                      "$designer": {
+                                        "id": "Nj9ZmL"
+                                      },
+                                      "property": "dialog.price",
+                                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1110)).text"
+                                    }
+                                  ]
+                                }
+                              ]
+                            },
+                            {
+                              "value": "حصة بالاسبوع  * ساعتين",
+                              "actions": [
+                                {
+                                  "$kind": "Microsoft.IfCondition",
+                                  "$designer": {
+                                    "id": "XoZIh4"
+                                  },
+                                  "condition": "conversation.Curr=='national'",
+                                  "actions": [
+                                    {
+                                      "$kind": "Microsoft.SetProperty",
+                                      "$designer": {
+                                        "id": "Mvy9pJ"
+                                      },
+                                      "property": "dialog.price",
+                                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1092)).text"
+                                    },
+                                    {
+                                      "$kind": "Microsoft.SendActivity",
+                                      "$designer": {
+                                        "id": "Z5aZ6N"
+                                      },
+                                      "activity": "${SendActivity_Z5aZ6N()}"
+                                    }
+                                  ],
+                                  "elseActions": [
+                                    {
+                                      "$kind": "Microsoft.SetProperty",
+                                      "$designer": {
+                                        "id": "EWVT53"
+                                      },
+                                      "property": "dialog.price",
+                                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1110)).text"
+                                    }
+                                  ]
+                                }
+                              ]
+                            },
+                            {
+                              "value": "خيارات اخرى",
+                              "actions": []
+                            }
+                          ],
+                          "condition": "dialog.UserInput"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "مادتين",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.IfCondition",
+                          "$designer": {
+                            "id": "dHEeA0"
+                          },
+                          "condition": "conversation.Curr=='national'",
+                          "elseActions": [
+                            {
+                              "$kind": "Microsoft.DeleteProperties",
+                              "$designer": {
+                                "id": "FRlfVG"
+                              },
+                              "properties": [
+                                "dialog.UserInput",
+                                "dialog.Option1",
+                                "dialog.Option2",
+                                "dialog.text",
+                                "dialog.InputHint",
+                                "dialog.Summary",
+                                "dialog.Option3",
+                                "dialog.Option4"
+                              ]
+                            },
+                            {
+                              "$kind": "Microsoft.SetProperties",
+                              "$designer": {
+                                "id": "up8PdM"
+                              },
+                              "assignments": [
+                                {
+                                  "value": "حصتين بالاسبوع  * ساعة و نصف",
+                                  "property": "dialog.Option1"
+                                },
+                                {
+                                  "property": "dialog.Option2",
+                                  "value": "حصة بالاسبوع  * ساعتين"
+                                },
+                                {
+                                  "property": "dialog.Option3",
+                                  "value": "خيارات اخرى"
+                                },
+                                {
+                                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1110)).text",
+                                  "property": "dialog.text"
+                                },
+                                {
+                                  "property": "dialog.ListOption",
+                                  "value": [
+                                    "حصتين بالاسبوع  * ساعة و نصف",
+                                    "حصة بالاسبوع  * ساعتين",
+                                    "خيارات اخرى"
+                                  ]
+                                }
+                              ]
+                            },
+                            {
+                              "$kind": "Microsoft.DeleteProperties",
+                              "$designer": {
+                                "id": "F7jBaM"
+                              },
+                              "properties": [
+                                "dialog.UserInput"
+                              ]
+                            },
+                            {
+                              "$kind": "Microsoft.TextInput",
+                              "$designer": {
+                                "id": "cVGpNp"
+                              },
+                              "disabled": false,
+                              "maxTurnCount": 100,
+                              "alwaysPrompt": false,
+                              "allowInterruptions": true,
+                              "unrecognizedPrompt": "",
+                              "invalidPrompt": "",
+                              "prompt": "${TextInput_Prompt_cVGpNp()}",
+                              "property": "dialog.UserInput",
+                              "validations": [
+                                "= contains(this.value, 'حصة بالاسبوع  * ساعتين') ||contains(this.value, 'حصتين بالاسبوع  * ساعة و نصف') ||contains(this.value, 'خيارات اخرى') ||contains(this.value, '#') "
+                              ]
+                            },
+                            {
+                              "$kind": "Microsoft.SwitchCondition",
+                              "$designer": {
+                                "id": "pd5OU0"
+                              },
+                              "cases": [
+                                {
+                                  "value": "ثلاث حصص بالاسبوع * ساعة و نصف",
+                                  "actions": [
+                                    {
+                                      "$kind": "Microsoft.IfCondition",
+                                      "$designer": {
+                                        "id": "ZTnYUG"
+                                      },
+                                      "condition": "conversation.Curr=='national'",
+                                      "actions": [
+                                        {
+                                          "$kind": "Microsoft.SetProperty",
+                                          "$designer": {
+                                            "id": "b2HPkC"
+                                          },
+                                          "property": "dialog.price",
+                                          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1081)).text"
+                                        },
+                                        {
+                                          "$kind": "Microsoft.SendActivity",
+                                          "$designer": {
+                                            "id": "EwXWx8"
+                                          },
+                                          "activity": "${SendActivity_EwXWx8()}"
+                                        }
+                                      ],
+                                      "elseActions": [
+                                        {
+                                          "$kind": "Microsoft.SetProperty",
+                                          "$designer": {
+                                            "id": "9oJjKN"
+                                          },
+                                          "property": "dialog.price",
+                                          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1110)).text"
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                },
+                                {
+                                  "value": "حصة بالاسبوع  * ساعتين",
+                                  "actions": [
+                                    {
+                                      "$kind": "Microsoft.IfCondition",
+                                      "$designer": {
+                                        "id": "1UlwL4"
+                                      },
+                                      "condition": "conversation.Curr=='national'",
+                                      "actions": [
+                                        {
+                                          "$kind": "Microsoft.SetProperty",
+                                          "$designer": {
+                                            "id": "ySbxoK"
+                                          },
+                                          "property": "dialog.price",
+                                          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1093)).text"
+                                        },
+                                        {
+                                          "$kind": "Microsoft.SendActivity",
+                                          "$designer": {
+                                            "id": "eukY2B"
+                                          },
+                                          "activity": "${SendActivity_eukY2B()}"
+                                        }
+                                      ],
+                                      "elseActions": [
+                                        {
+                                          "$kind": "Microsoft.SetProperty",
+                                          "$designer": {
+                                            "id": "PcMxBl"
+                                          },
+                                          "property": "dialog.price",
+                                          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1110)).text"
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                },
+                                {
+                                  "value": "خيارات اخرى",
+                                  "actions": []
+                                }
+                              ],
+                              "condition": "dialog.UserInput"
+                            }
+                          ],
+                          "actions": [
+                            {
+                              "$kind": "Microsoft.DeleteProperties",
+                              "$designer": {
+                                "id": "vyHPvA"
+                              },
+                              "properties": [
+                                "dialog.UserInput",
+                                "dialog.Option1",
+                                "dialog.Option2",
+                                "dialog.text",
+                                "dialog.InputHint",
+                                "dialog.Summary",
+                                "dialog.Option3",
+                                "dialog.Option4"
+                              ]
+                            },
+                            {
+                              "$kind": "Microsoft.SetProperties",
+                              "$designer": {
+                                "id": "pQV20O"
+                              },
+                              "assignments": [
+                                {
+                                  "value": "حصتين بالاسبوع  * ساعة و نصف",
+                                  "property": "dialog.Option1"
+                                },
+                                {
+                                  "property": "dialog.Option2",
+                                  "value": "حصتين بالاسبوع * ساعتين"
+                                },
+                                {
+                                  "property": "dialog.Option3",
+                                  "value": "خيارات اخرى"
+                                },
+                                {
+                                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1110)).text",
+                                  "property": "dialog.text"
+                                },
+                                {
+                                  "property": "dialog.ListOption",
+                                  "value": [
+                                    "حصتين بالاسبوع  * ساعة و نصف",
+                                    "حصتين بالاسبوع * ساعتين",
+                                    "خيارات اخرى"
+                                  ]
+                                }
+                              ]
+                            },
+                            {
+                              "$kind": "Microsoft.DeleteProperties",
+                              "$designer": {
+                                "id": "cfecAn"
+                              },
+                              "properties": [
+                                "dialog.UserInput"
+                              ]
+                            },
+                            {
+                              "$kind": "Microsoft.TextInput",
+                              "$designer": {
+                                "id": "oVgAJp"
+                              },
+                              "disabled": false,
+                              "maxTurnCount": 100,
+                              "alwaysPrompt": false,
+                              "allowInterruptions": true,
+                              "unrecognizedPrompt": "",
+                              "prompt": "${TextInput_Prompt_oVgAJp()}",
+                              "property": "dialog.UserInput",
+                              "validations": [
+                                "=contains(this.value, 'حصتين بالاسبوع * ساعتين') ||contains(this.value, 'حصتين بالاسبوع  * ساعة و نصف') ||contains(this.value, 'خيارات اخرى') ||contains(this.value, '#')"
+                              ]
+                            },
+                            {
+                              "$kind": "Microsoft.SwitchCondition",
+                              "$designer": {
+                                "id": "UqgI1C"
+                              },
+                              "cases": [
+                                {
+                                  "value": "حصتين بالاسبوع * ساعة و نصف",
+                                  "actions": [
+                                    {
+                                      "$kind": "Microsoft.IfCondition",
+                                      "$designer": {
+                                        "id": "UdpUBq"
+                                      },
+                                      "condition": "conversation.Curr=='national'",
+                                      "actions": [
+                                        {
+                                          "$kind": "Microsoft.SetProperty",
+                                          "$designer": {
+                                            "id": "QXJ59l"
+                                          },
+                                          "property": "dialog.price",
+                                          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1081)).text"
+                                        },
+                                        {
+                                          "$kind": "Microsoft.SendActivity",
+                                          "$designer": {
+                                            "id": "sGIthB"
+                                          },
+                                          "activity": "${SendActivity_sGIthB()}"
+                                        }
+                                      ],
+                                      "elseActions": [
+                                        {
+                                          "$kind": "Microsoft.SetProperty",
+                                          "$designer": {
+                                            "id": "l8i18N"
+                                          },
+                                          "property": "dialog.price",
+                                          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1110)).text"
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                },
+                                {
+                                  "value": "حصتين بالاسبوع * ساعتين",
+                                  "actions": [
+                                    {
+                                      "$kind": "Microsoft.IfCondition",
+                                      "$designer": {
+                                        "id": "sTniFO"
+                                      },
+                                      "condition": "conversation.Curr=='national'",
+                                      "actions": [
+                                        {
+                                          "$kind": "Microsoft.SetProperty",
+                                          "$designer": {
+                                            "id": "XP0rc8"
+                                          },
+                                          "property": "dialog.price",
+                                          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1093)).text"
+                                        },
+                                        {
+                                          "$kind": "Microsoft.SendActivity",
+                                          "$designer": {
+                                            "id": "pQe28g"
+                                          },
+                                          "activity": "${SendActivity_pQe28g()}"
+                                        }
+                                      ],
+                                      "elseActions": [
+                                        {
+                                          "$kind": "Microsoft.SetProperty",
+                                          "$designer": {
+                                            "id": "fUI1dc"
+                                          },
+                                          "property": "dialog.price",
+                                          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1110)).text"
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                },
+                                {
+                                  "value": "خيارات اخرى",
+                                  "actions": []
+                                }
+                              ],
+                              "condition": "dialog.UserInput"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "value": "ثلاث مواد",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.IfCondition",
+                          "$designer": {
+                            "id": "J6WgLf"
+                          },
+                          "condition": "conversation.Curr=='national'",
+                          "elseActions": [
+                            {
+                              "$kind": "Microsoft.DeleteProperties",
+                              "$designer": {
+                                "id": "5sEnFi"
+                              },
+                              "properties": [
+                                "dialog.UserInput",
+                                "dialog.Option1",
+                                "dialog.Option2",
+                                "dialog.text",
+                                "dialog.InputHint",
+                                "dialog.Summary",
+                                "dialog.Option3",
+                                "dialog.Option4"
+                              ]
+                            },
+                            {
+                              "$kind": "Microsoft.SetProperties",
+                              "$designer": {
+                                "id": "gbeplE"
+                              },
+                              "assignments": [
+                                {
+                                  "value": "ثلاث حصص بالاسبوع * ساعة و نصف",
+                                  "property": "dialog.Option1"
+                                },
+                                {
+                                  "property": "dialog.Option2",
+                                  "value": "حصتين بالاسبوع  * ساعة و نصف"
+                                },
+                                {
+                                  "property": "dialog.Option3",
+                                  "value": "خيارات اخرى"
+                                },
+                                {
+                                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1110)).text",
+                                  "property": "dialog.text"
+                                },
+                                {
+                                  "property": "dialog.ListOption",
+                                  "value": [
+                                    "ثلاث حصص بالاسبوع * ساعة و نصف",
+                                    "حصتين بالاسبوع  * ساعة و نصف",
+                                    "خيارات اخرى"
+                                  ]
+                                }
+                              ]
+                            },
+                            {
+                              "$kind": "Microsoft.DeleteProperties",
+                              "$designer": {
+                                "id": "nRo9Q3"
+                              },
+                              "properties": [
+                                "dialog.UserInput"
+                              ]
+                            },
+                            {
+                              "$kind": "Microsoft.TextInput",
+                              "$designer": {
+                                "id": "vEnCGp"
+                              },
+                              "disabled": false,
+                              "maxTurnCount": 100,
+                              "alwaysPrompt": false,
+                              "allowInterruptions": true,
+                              "unrecognizedPrompt": "",
+                              "invalidPrompt": "",
+                              "prompt": "${TextInput_Prompt_vEnCGp()}",
+                              "property": "dialog.UserInput",
+                              "validations": [
+                                "=contains(this.value, 'حصتين بالاسبوع  * ساعة و نصف') ||contains(this.value, 'ثلاث حصص بالاسبوع * ساعة و نصف') ||contains(this.value, 'خيارات اخرى') ||contains(this.value, '#') "
+                              ]
+                            },
+                            {
+                              "$kind": "Microsoft.SwitchCondition",
+                              "$designer": {
+                                "id": "vG3dEv"
+                              },
+                              "cases": [
+                                {
+                                  "value": "ثلاث حصص بالاسبوع * ساعة و نصف",
+                                  "actions": [
+                                    {
+                                      "$kind": "Microsoft.IfCondition",
+                                      "$designer": {
+                                        "id": "CBUhmk"
+                                      },
+                                      "condition": "conversation.Curr=='national'",
+                                      "actions": [
+                                        {
+                                          "$kind": "Microsoft.SetProperty",
+                                          "$designer": {
+                                            "id": "e0PGBM"
+                                          },
+                                          "property": "dialog.price",
+                                          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1082)).text"
+                                        },
+                                        {
+                                          "$kind": "Microsoft.SendActivity",
+                                          "$designer": {
+                                            "id": "5HF9ll"
+                                          },
+                                          "activity": "${SendActivity_5HF9ll()}"
+                                        }
+                                      ],
+                                      "elseActions": [
+                                        {
+                                          "$kind": "Microsoft.SetProperty",
+                                          "$designer": {
+                                            "id": "3NIo2C"
+                                          },
+                                          "property": "dialog.price",
+                                          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1110)).text"
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                },
+                                {
+                                  "value": "حصتين بالاسبوع  * ساعة و نصف",
+                                  "actions": [
+                                    {
+                                      "$kind": "Microsoft.IfCondition",
+                                      "$designer": {
+                                        "id": "D03SSI"
+                                      },
+                                      "condition": "conversation.Curr=='national'",
+                                      "actions": [
+                                        {
+                                          "$kind": "Microsoft.SetProperty",
+                                          "$designer": {
+                                            "id": "bZCWgF"
+                                          },
+                                          "property": "dialog.price",
+                                          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1094)).text"
+                                        },
+                                        {
+                                          "$kind": "Microsoft.SendActivity",
+                                          "$designer": {
+                                            "id": "Q3du5K"
+                                          },
+                                          "activity": "${SendActivity_Q3du5K()}"
+                                        }
+                                      ],
+                                      "elseActions": [
+                                        {
+                                          "$kind": "Microsoft.SetProperty",
+                                          "$designer": {
+                                            "id": "pYtnxx"
+                                          },
+                                          "property": "dialog.price",
+                                          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1110)).text"
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                },
+                                {
+                                  "value": "خيارات اخرى",
+                                  "actions": []
+                                }
+                              ],
+                              "condition": "dialog.UserInput"
+                            }
+                          ],
+                          "actions": [
+                            {
+                              "$kind": "Microsoft.DeleteProperties",
+                              "$designer": {
+                                "id": "ew16lq"
+                              },
+                              "properties": [
+                                "dialog.UserInput",
+                                "dialog.Option1",
+                                "dialog.Option2",
+                                "dialog.text",
+                                "dialog.InputHint",
+                                "dialog.Summary",
+                                "dialog.Option3",
+                                "dialog.Option4"
+                              ]
+                            },
+                            {
+                              "$kind": "Microsoft.SetProperties",
+                              "$designer": {
+                                "id": "nStDNM"
+                              },
+                              "assignments": [
+                                {
+                                  "value": "ثلاث حصص بالاسبوع * ساعة و نصف",
+                                  "property": "dialog.Option1"
+                                },
+                                {
+                                  "property": "dialog.Option2",
+                                  "value": "حصتين بالاسبوع * ساعتين"
+                                },
+                                {
+                                  "property": "dialog.Option3",
+                                  "value": "خيارات اخرى"
+                                },
+                                {
+                                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1110)).text",
+                                  "property": "dialog.text"
+                                },
+                                {
+                                  "property": "dialog.ListOption",
+                                  "value": [
+                                    "ثلاث حصص بالاسبوع * ساعة و نصف",
+                                    "حصتين بالاسبوع * ساعتين",
+                                    "خيارات اخرى"
+                                  ]
+                                }
+                              ]
+                            },
+                            {
+                              "$kind": "Microsoft.DeleteProperties",
+                              "$designer": {
+                                "id": "aTjQnZ"
+                              },
+                              "properties": [
+                                "dialog.UserInput"
+                              ]
+                            },
+                            {
+                              "$kind": "Microsoft.TextInput",
+                              "$designer": {
+                                "id": "sGEhFC"
+                              },
+                              "disabled": false,
+                              "maxTurnCount": 100,
+                              "alwaysPrompt": false,
+                              "allowInterruptions": true,
+                              "unrecognizedPrompt": "",
+                              "invalidPrompt": "",
+                              "prompt": "${TextInput_Prompt_sGEhFC()}",
+                              "property": "dialog.UserInput",
+                              "validations": [
+                                "=contains(this.value, '') ||contains(this.value, 'ثلاث حصص بالاسبوع * ساعة و نصف') ||contains(this.value, 'خيارات اخرى') ||contains(this.value, '#') "
+                              ]
+                            },
+                            {
+                              "$kind": "Microsoft.SwitchCondition",
+                              "$designer": {
+                                "id": "rJ96uJ"
+                              },
+                              "cases": [
+                                {
+                                  "value": "ثلاث حصص بالاسبوع * ساعة و نصف",
+                                  "actions": [
+                                    {
+                                      "$kind": "Microsoft.IfCondition",
+                                      "$designer": {
+                                        "id": "I0LOf4"
+                                      },
+                                      "condition": "conversation.Curr=='national'",
+                                      "actions": [
+                                        {
+                                          "$kind": "Microsoft.SetProperty",
+                                          "$designer": {
+                                            "id": "C1Lfb6"
+                                          },
+                                          "property": "dialog.price",
+                                          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1082)).text"
+                                        },
+                                        {
+                                          "$kind": "Microsoft.SendActivity",
+                                          "$designer": {
+                                            "id": "UHHuIa"
+                                          },
+                                          "activity": "${SendActivity_UHHuIa()}"
+                                        }
+                                      ],
+                                      "elseActions": [
+                                        {
+                                          "$kind": "Microsoft.SetProperty",
+                                          "$designer": {
+                                            "id": "Ui5Isw"
+                                          },
+                                          "property": "dialog.price",
+                                          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1110)).text"
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                },
+                                {
+                                  "value": "حصتين بالاسبوع * ساعتين",
+                                  "actions": [
+                                    {
+                                      "$kind": "Microsoft.IfCondition",
+                                      "$designer": {
+                                        "id": "WPAkrt"
+                                      },
+                                      "condition": "conversation.Curr=='national'",
+                                      "actions": [
+                                        {
+                                          "$kind": "Microsoft.SetProperty",
+                                          "$designer": {
+                                            "id": "wwky33"
+                                          },
+                                          "property": "dialog.price",
+                                          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1094)).text"
+                                        },
+                                        {
+                                          "$kind": "Microsoft.SendActivity",
+                                          "$designer": {
+                                            "id": "QWt6Xe"
+                                          },
+                                          "activity": "${SendActivity_QWt6Xe()}"
+                                        }
+                                      ],
+                                      "elseActions": [
+                                        {
+                                          "$kind": "Microsoft.SetProperty",
+                                          "$designer": {
+                                            "id": "rY6aKD"
+                                          },
+                                          "property": "dialog.price",
+                                          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1110)).text"
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                },
+                                {
+                                  "value": "خيارات اخرى",
+                                  "actions": []
+                                }
+                              ],
+                              "condition": "dialog.UserInput"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "value": "اربع مواد",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.DeleteProperties",
+                          "$designer": {
+                            "id": "gBoQqZ"
+                          },
+                          "properties": [
+                            "dialog.UserInput",
+                            "dialog.Option1",
+                            "dialog.Option2",
+                            "dialog.text",
+                            "dialog.InputHint",
+                            "dialog.Summary",
+                            "dialog.Option3",
+                            "dialog.Option4"
+                          ]
+                        },
+                        {
+                          "$kind": "Microsoft.IfCondition",
+                          "$designer": {
+                            "id": "xhx1aX"
+                          },
+                          "actions": [
+                            {
+                              "$kind": "Microsoft.SetProperties",
+                              "$designer": {
+                                "id": "fBiOWW"
+                              },
+                              "assignments": [
+                                {
+                                  "value": "اربع حصص بالاسبوع * ساعة و نصف",
+                                  "property": "dialog.Option1"
+                                },
+                                {
+                                  "property": "dialog.Option2",
+                                  "value": "ثلاث حصص بالاسبوع * ساعتين"
+                                },
+                                {
+                                  "property": "dialog.Option3",
+                                  "value": "خيارات اخرى"
+                                },
+                                {
+                                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1110)).text",
+                                  "property": "dialog.text"
+                                },
+                                {
+                                  "property": "dialog.ListOption",
+                                  "value": [
+                                    "اربع حصص بالاسبوع * ساعة و نصف",
+                                    "ثلاث حصص بالاسبوع * ساعتين",
+                                    "خيارات اخرى"
+                                  ]
+                                }
+                              ]
+                            },
+                            {
+                              "$kind": "Microsoft.DeleteProperties",
+                              "$designer": {
+                                "id": "XrWWkb"
+                              },
+                              "properties": [
+                                "dialog.UserInput"
+                              ]
+                            },
+                            {
+                              "$kind": "Microsoft.TextInput",
+                              "$designer": {
+                                "id": "vnOjt3"
+                              },
+                              "disabled": false,
+                              "maxTurnCount": 100,
+                              "alwaysPrompt": false,
+                              "allowInterruptions": true,
+                              "unrecognizedPrompt": "",
+                              "prompt": "${TextInput_Prompt_vnOjt3()}",
+                              "property": "dialog.UserInput",
+                              "validations": [
+                                "=contains(this.value, 'اربع حصص بالاسبوع * ساعة و نصف') || contains(this.value, '#') ||contains(this.value, 'ثلاث حصص بالاسبوع * ساعتين')  ||contains(this.value, 'خيارات اخرى') "
+                              ]
+                            },
+                            {
+                              "$kind": "Microsoft.SwitchCondition",
+                              "$designer": {
+                                "id": "0Qh7RR"
+                              },
+                              "cases": [
+                                {
+                                  "value": "اربع حصص بالاسبوع * ساعة و نصف",
+                                  "actions": [
+                                    {
+                                      "$kind": "Microsoft.IfCondition",
+                                      "$designer": {
+                                        "id": "zGYoPf"
+                                      },
+                                      "condition": "conversation.Curr=='national'",
+                                      "actions": [
+                                        {
+                                          "$kind": "Microsoft.SetProperty",
+                                          "$designer": {
+                                            "id": "xOmUGq"
+                                          },
+                                          "property": "dialog.price",
+                                          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1101)).text"
+                                        },
+                                        {
+                                          "$kind": "Microsoft.SendActivity",
+                                          "$designer": {
+                                            "id": "ziWCPC"
+                                          },
+                                          "activity": "${SendActivity_ziWCPC()}"
+                                        }
+                                      ],
+                                      "elseActions": [
+                                        {
+                                          "$kind": "Microsoft.SetProperty",
+                                          "$designer": {
+                                            "id": "SAeD1d"
+                                          },
+                                          "property": "dialog.price",
+                                          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1110)).text"
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                },
+                                {
+                                  "value": "ثلاث حصص بالاسبوع * ساعتين",
+                                  "actions": [
+                                    {
+                                      "$kind": "Microsoft.IfCondition",
+                                      "$designer": {
+                                        "id": "dlPEJi"
+                                      },
+                                      "condition": "conversation.Curr=='national'",
+                                      "actions": [
+                                        {
+                                          "$kind": "Microsoft.SetProperty",
+                                          "$designer": {
+                                            "id": "7etiq7"
+                                          },
+                                          "property": "dialog.price",
+                                          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1102)).text"
+                                        },
+                                        {
+                                          "$kind": "Microsoft.SendActivity",
+                                          "$designer": {
+                                            "id": "DRiFPD"
+                                          },
+                                          "activity": "${SendActivity_DRiFPD()}"
+                                        }
+                                      ],
+                                      "elseActions": [
+                                        {
+                                          "$kind": "Microsoft.SetProperty",
+                                          "$designer": {
+                                            "id": "IcjSdn"
+                                          },
+                                          "property": "dialog.price",
+                                          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1110)).text"
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                },
+                                {
+                                  "value": "خيارات اخرى",
+                                  "actions": []
+                                }
+                              ],
+                              "condition": "dialog.UserInput"
+                            }
+                          ],
+                          "elseActions": [
+                            {
+                              "$kind": "Microsoft.SetProperties",
+                              "$designer": {
+                                "id": "923kiE"
+                              },
+                              "assignments": [
+                                {
+                                  "value": "ثلاث حصص بالاسبوع * ساعة و نصف",
+                                  "property": "dialog.Option1"
+                                },
+                                {
+                                  "property": "dialog.Option2",
+                                  "value": "حصتين بالاسبوع  * ساعة و نصف"
+                                },
+                                {
+                                  "property": "dialog.Option3",
+                                  "value": "خيارات اخرى"
+                                },
+                                {
+                                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1110)).text",
+                                  "property": "dialog.text"
+                                },
+                                {
+                                  "property": "dialog.ListOption",
+                                  "value": [
+                                    "ثلاث حصص بالاسبوع * ساعة و نصف",
+                                    "حصتين بالاسبوع  * ساعة و نصف",
+                                    "خيارات اخرى"
+                                  ]
+                                }
+                              ]
+                            },
+                            {
+                              "$kind": "Microsoft.DeleteProperties",
+                              "$designer": {
+                                "id": "hW2LOL"
+                              },
+                              "properties": [
+                                "dialog.UserInput"
+                              ]
+                            },
+                            {
+                              "$kind": "Microsoft.TextInput",
+                              "$designer": {
+                                "id": "kpMcmc"
+                              },
+                              "disabled": false,
+                              "maxTurnCount": 100,
+                              "alwaysPrompt": false,
+                              "allowInterruptions": true,
+                              "unrecognizedPrompt": "",
+                              "invalidPrompt": "",
+                              "prompt": "${TextInput_Prompt_kpMcmc()}",
+                              "property": "dialog.UserInput",
+                              "validations": [
+                                "=contains(this.value, 'حصتين بالاسبوع  * ساعة و نصف') ||contains(this.value, 'ثلاث حصص بالاسبوع * ساعة و نصف') ||contains(this.value, 'خيارات اخرى') ||contains(this.value, '#') "
+                              ]
+                            },
+                            {
+                              "$kind": "Microsoft.SwitchCondition",
+                              "$designer": {
+                                "id": "t7ijUe"
+                              },
+                              "cases": [
+                                {
+                                  "value": "ثلاث حصص بالاسبوع * ساعة و نصف",
+                                  "actions": [
+                                    {
+                                      "$kind": "Microsoft.IfCondition",
+                                      "$designer": {
+                                        "id": "NSLOI6"
+                                      },
+                                      "condition": "conversation.Curr=='national'",
+                                      "actions": [
+                                        {
+                                          "$kind": "Microsoft.SetProperty",
+                                          "$designer": {
+                                            "id": "ww4skb"
+                                          },
+                                          "property": "dialog.price",
+                                          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1082)).text"
+                                        }
+                                      ],
+                                      "elseActions": [
+                                        {
+                                          "$kind": "Microsoft.SetProperty",
+                                          "$designer": {
+                                            "id": "lg6SYy"
+                                          },
+                                          "property": "dialog.price",
+                                          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1110)).text"
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                },
+                                {
+                                  "value": "حصتين بالاسبوع  * ساعة و نصف",
+                                  "actions": [
+                                    {
+                                      "$kind": "Microsoft.IfCondition",
+                                      "$designer": {
+                                        "id": "OiHSOG"
+                                      },
+                                      "condition": "conversation.Curr=='national'",
+                                      "actions": [
+                                        {
+                                          "$kind": "Microsoft.SetProperty",
+                                          "$designer": {
+                                            "id": "8wicBp"
+                                          },
+                                          "property": "dialog.price",
+                                          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1094)).text"
+                                        }
+                                      ],
+                                      "elseActions": [
+                                        {
+                                          "$kind": "Microsoft.SetProperty",
+                                          "$designer": {
+                                            "id": "R0poHc"
+                                          },
+                                          "property": "dialog.price",
+                                          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1110)).text"
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                },
+                                {
+                                  "value": "خيارات اخرى",
+                                  "actions": []
+                                }
+                              ],
+                              "condition": "dialog.UserInput"
+                            }
+                          ],
+                          "condition": "conversation.Curr=='national'"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "Full foundation (Arabic English mathematics)",
+              "actions": [
+                {
+                  "$kind": "Microsoft.DeleteProperties",
+                  "$designer": {
+                    "id": "n6JT82"
+                  },
+                  "properties": [
+                    "dialog.UserInput",
+                    "dialog.Option1",
+                    "dialog.Option2",
+                    "dialog.text",
+                    "dialog.InputHint",
+                    "dialog.Summary"
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "2x4gqS"
+                  },
+                  "assignments": [
+                    {
+                      "value": "Three classes a week* hour and a half",
+                      "property": "dialog.Option1"
+                    },
+                    {
+                      "property": "dialog.Option2",
+                      "value": "Two servings a week* an hour and a half"
+                    },
+                    {
+                      "property": "dialog.Option3",
+                      "value": "Other Options"
+                    },
+                    {
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1110)).text",
+                      "property": "dialog.text"
+                    },
+                    {
+                      "property": "dialog.ListOption",
+                      "value": [
+                        "Three classes a week* hour and a half",
+                        "Two servings a week* an hour and a half",
+                        "Other Options"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.DeleteProperties",
+                  "$designer": {
+                    "id": "8yOTVO"
+                  },
+                  "properties": [
+                    "dialog.UserInput"
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.TextInput",
+                  "$designer": {
+                    "id": "Wjmq7U"
+                  },
+                  "disabled": false,
+                  "maxTurnCount": 100,
+                  "alwaysPrompt": false,
+                  "allowInterruptions": true,
+                  "unrecognizedPrompt": "",
+                  "invalidPrompt": "",
+                  "prompt": "${TextInput_Prompt_Wjmq7U()}",
+                  "property": "dialog.UserInput",
+                  "validations": [
+                    "=contains(this.value, 'Three classes a week* hour and a half') || contains(this.value, '#') ||contains(this.value, 'Two servings a week* an hour and a half')  ||contains(this.value, 'Other Options')"
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SwitchCondition",
+                  "$designer": {
+                    "id": "TUfBuD"
+                  },
+                  "cases": [
+                    {
+                      "value": "Three classes a week* hour and a half",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "VrnRA4"
+                          },
+                          "property": "dialog.price",
+                          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1080)).text"
+                        },
+                        {
+                          "$kind": "Microsoft.SendActivity",
+                          "$designer": {
+                            "id": "jbxpfs"
+                          },
+                          "activity": "${SendActivity_jbxpfs()}"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "Two servings a week* an hour and a half",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "vvs8vo"
+                          },
+                          "property": "dialog.price",
+                          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1090)).text"
+                        },
+                        {
+                          "$kind": "Microsoft.SendActivity",
+                          "$designer": {
+                            "id": "HhQFyz"
+                          },
+                          "activity": "${SendActivity_HhQFyz()}"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "Other Options",
+                      "actions": []
+                    }
+                  ],
+                  "condition": "dialog.UserInput"
+                }
+              ]
+            },
+            {
+              "value": "One or more specific substances",
+              "actions": [
+                {
+                  "$kind": "Microsoft.DeleteProperties",
+                  "$designer": {
+                    "id": "GIWWrl"
+                  },
+                  "properties": [
+                    "dialog.UserInput",
+                    "dialog.Option1",
+                    "dialog.Option2",
+                    "dialog.text",
+                    "dialog.InputHint",
+                    "dialog.Summary"
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "yJMFEP"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.text",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1115)).text"
+                    },
+                    {
+                      "property": "dialog.InputHint",
+                      "value": "Count"
+                    },
+                    {
+                      "property": "dialog.Summary",
+                      "value": "xxxxxx"
+                    },
+                    {
+                      "property": "dialog.option1",
+                      "value": "one subject"
+                    },
+                    {
+                      "property": "dialog.option2",
+                      "value": "two subjects"
+                    },
+                    {
+                      "property": "dialog.option3",
+                      "value": "three subjects"
+                    },
+                    {
+                      "property": "dialog.option4",
+                      "value": "four subjects"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.TextInput",
+                  "$designer": {
+                    "id": "HUuCLf"
+                  },
+                  "disabled": false,
+                  "maxTurnCount": 100,
+                  "alwaysPrompt": false,
+                  "allowInterruptions": true,
+                  "unrecognizedPrompt": "",
+                  "invalidPrompt": "",
+                  "prompt": "${TextInput_Prompt_HUuCLf()}",
+                  "property": "dialog.UserInput",
+                  "validations": [
+                    "=contains(this.value, 'subject') || contains(this.value, '#') ||contains(this.value, 'two subjects')  ||contains(this.value, 'three subjects') ||contains(this.value, 'four subjects')"
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SwitchCondition",
+                  "$designer": {
+                    "id": "ewmTm6"
+                  },
+                  "condition": "dialog.UserInput",
+                  "cases": [
+                    {
+                      "value": "one subject",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.DeleteProperties",
+                          "$designer": {
+                            "id": "qvIZ3H"
+                          },
+                          "properties": [
+                            "dialog.UserInput",
+                            "dialog.Option1",
+                            "dialog.Option2",
+                            "dialog.text",
+                            "dialog.InputHint",
+                            "dialog.Summary",
+                            "dialog.Option3",
+                            "dialog.Option4"
+                          ]
+                        },
+                        {
+                          "$kind": "Microsoft.SetProperties",
+                          "$designer": {
+                            "id": "ndQrRQ"
+                          },
+                          "assignments": [
+                            {
+                              "value": "two classes a week* hour and a half",
+                              "property": "dialog.Option1"
+                            },
+                            {
+                              "property": "dialog.Option2",
+                              "value": "class per week * two hours"
+                            },
+                            {
+                              "property": "dialog.Option3",
+                              "value": "Other Options"
+                            },
+                            {
+                              "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1110)).text",
+                              "property": "dialog.text"
+                            },
+                            {
+                              "property": "dialog.ListOption",
+                              "value": [
+                                "two classes a week* hour and a half",
+                                "class per week * two hours",
+                                "Other Options"
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "$kind": "Microsoft.DeleteProperties",
+                          "$designer": {
+                            "id": "rJvBOK"
+                          },
+                          "properties": [
+                            "dialog.UserInput"
+                          ]
+                        },
+                        {
+                          "$kind": "Microsoft.TextInput",
+                          "$designer": {
+                            "id": "3qvmxW"
+                          },
+                          "disabled": false,
+                          "maxTurnCount": 100,
+                          "alwaysPrompt": false,
+                          "allowInterruptions": true,
+                          "unrecognizedPrompt": "",
+                          "prompt": "${TextInput_Prompt_3qvmxW()}",
+                          "property": "dialog.UserInput",
+                          "validations": [
+                            "=contains(this.value, 'two classes a week* hour and a half') || contains(this.value, '#') ||contains(this.value, 'class per week * two hours') ||contains(this.value, 'Other Options')"
+                          ]
+                        },
+                        {
+                          "$kind": "Microsoft.SwitchCondition",
+                          "$designer": {
+                            "id": "mZQ2bx"
+                          },
+                          "cases": [
+                            {
+                              "value": "two classes a week* hour and a half",
+                              "actions": [
+                                {
+                                  "$kind": "Microsoft.IfCondition",
+                                  "$designer": {
+                                    "id": "GEfH2j"
+                                  },
+                                  "condition": "conversation.Curr=='national'",
+                                  "actions": [
+                                    {
+                                      "$kind": "Microsoft.SetProperty",
+                                      "$designer": {
+                                        "id": "5GxMsf"
+                                      },
+                                      "property": "dialog.price",
+                                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1091)).text"
+                                    },
+                                    {
+                                      "$kind": "Microsoft.SendActivity",
+                                      "$designer": {
+                                        "id": "PLJNAt"
+                                      },
+                                      "activity": "${SendActivity_PLJNAt()}"
+                                    }
+                                  ],
+                                  "elseActions": [
+                                    {
+                                      "$kind": "Microsoft.SetProperty",
+                                      "$designer": {
+                                        "id": "XufwMm"
+                                      },
+                                      "property": "dialog.price",
+                                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1110)).text"
+                                    }
+                                  ]
+                                }
+                              ]
+                            },
+                            {
+                              "value": "class per week * two hours",
+                              "actions": [
+                                {
+                                  "$kind": "Microsoft.IfCondition",
+                                  "$designer": {
+                                    "id": "wFwMrS"
+                                  },
+                                  "condition": "conversation.Curr=='national'",
+                                  "actions": [
+                                    {
+                                      "$kind": "Microsoft.SetProperty",
+                                      "$designer": {
+                                        "id": "q95Tfz"
+                                      },
+                                      "property": "dialog.price",
+                                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1092)).text"
+                                    },
+                                    {
+                                      "$kind": "Microsoft.SendActivity",
+                                      "$designer": {
+                                        "id": "9KR3Mg"
+                                      },
+                                      "activity": "${SendActivity_9KR3Mg()}"
+                                    }
+                                  ],
+                                  "elseActions": [
+                                    {
+                                      "$kind": "Microsoft.SetProperty",
+                                      "$designer": {
+                                        "id": "8oUeBA"
+                                      },
+                                      "property": "dialog.price",
+                                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1110)).text"
+                                    }
+                                  ]
+                                }
+                              ]
+                            },
+                            {
+                              "value": "Other Options",
+                              "actions": []
+                            }
+                          ],
+                          "condition": "dialog.UserInput"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "two subjects",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.DeleteProperties",
+                          "$designer": {
+                            "id": "ecfLLD"
+                          },
+                          "properties": [
+                            "dialog.UserInput",
+                            "dialog.Option1",
+                            "dialog.Option2",
+                            "dialog.text",
+                            "dialog.InputHint",
+                            "dialog.Summary",
+                            "dialog.Option3",
+                            "dialog.Option4"
+                          ]
+                        },
+                        {
+                          "$kind": "Microsoft.SetProperties",
+                          "$designer": {
+                            "id": "IBQ1HE"
+                          },
+                          "assignments": [
+                            {
+                              "value": "two classes a week* hour and a half",
+                              "property": "dialog.Option1"
+                            },
+                            {
+                              "property": "dialog.Option2",
+                              "value": "two classes a week * two hours"
+                            },
+                            {
+                              "property": "dialog.Option3",
+                              "value": "Other Options"
+                            },
+                            {
+                              "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1110)).text",
+                              "property": "dialog.text"
+                            },
+                            {
+                              "property": "dialog.ListOption",
+                              "value": [
+                                "two classes a week* hour and a half",
+                                "two classes a week * two hours",
+                                "Other Options"
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "$kind": "Microsoft.DeleteProperties",
+                          "$designer": {
+                            "id": "GMUmIO"
+                          },
+                          "properties": [
+                            "dialog.UserInput"
+                          ]
+                        },
+                        {
+                          "$kind": "Microsoft.TextInput",
+                          "$designer": {
+                            "id": "8ZSU9Z"
+                          },
+                          "disabled": false,
+                          "maxTurnCount": 100,
+                          "alwaysPrompt": false,
+                          "allowInterruptions": true,
+                          "unrecognizedPrompt": "",
+                          "prompt": "${TextInput_Prompt_8ZSU9Z()}",
+                          "property": "dialog.UserInput",
+                          "validations": [
+                            "=contains(this.value, 'two classes a week* hour and a half') || contains(this.value, '#') ||contains(this.value, 'two classes a week * two hours') ||contains(this.value, 'Other Options')"
+                          ]
+                        },
+                        {
+                          "$kind": "Microsoft.SwitchCondition",
+                          "$designer": {
+                            "id": "3Wd8h5"
+                          },
+                          "cases": [
+                            {
+                              "value": "two classes a week* hour and a half",
+                              "actions": [
+                                {
+                                  "$kind": "Microsoft.IfCondition",
+                                  "$designer": {
+                                    "id": "5TsjhT"
+                                  },
+                                  "condition": "conversation.Curr=='national'",
+                                  "actions": [
+                                    {
+                                      "$kind": "Microsoft.SetProperty",
+                                      "$designer": {
+                                        "id": "F4CXki"
+                                      },
+                                      "property": "dialog.price",
+                                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1081)).text"
+                                    },
+                                    {
+                                      "$kind": "Microsoft.SendActivity",
+                                      "$designer": {
+                                        "id": "tNuXqW"
+                                      },
+                                      "activity": "${SendActivity_tNuXqW()}"
+                                    }
+                                  ],
+                                  "elseActions": [
+                                    {
+                                      "$kind": "Microsoft.SetProperty",
+                                      "$designer": {
+                                        "id": "NIThuH"
+                                      },
+                                      "property": "dialog.price",
+                                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1110)).text"
+                                    }
+                                  ]
+                                }
+                              ]
+                            },
+                            {
+                              "value": "two classes a week * two hours",
+                              "actions": [
+                                {
+                                  "$kind": "Microsoft.IfCondition",
+                                  "$designer": {
+                                    "id": "OFHgUx"
+                                  },
+                                  "condition": "conversation.Curr=='national'",
+                                  "actions": [
+                                    {
+                                      "$kind": "Microsoft.SetProperty",
+                                      "$designer": {
+                                        "id": "3RiROG"
+                                      },
+                                      "property": "dialog.price",
+                                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1093)).text"
+                                    },
+                                    {
+                                      "$kind": "Microsoft.SendActivity",
+                                      "$designer": {
+                                        "id": "Djn3cK"
+                                      },
+                                      "activity": "${SendActivity_Djn3cK()}"
+                                    }
+                                  ],
+                                  "elseActions": [
+                                    {
+                                      "$kind": "Microsoft.SetProperty",
+                                      "$designer": {
+                                        "id": "sShNdi"
+                                      },
+                                      "property": "dialog.price",
+                                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1110)).text"
+                                    }
+                                  ]
+                                }
+                              ]
+                            },
+                            {
+                              "value": "Other Options",
+                              "actions": []
+                            }
+                          ],
+                          "condition": "dialog.UserInput"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "three subjects",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.IfCondition",
+                          "$designer": {
+                            "id": "O5KHyP"
+                          },
+                          "actions": [
+                            {
+                              "$kind": "Microsoft.DeleteProperties",
+                              "$designer": {
+                                "id": "Vy3T7w"
+                              },
+                              "properties": [
+                                "dialog.UserInput",
+                                "dialog.Option1",
+                                "dialog.Option2",
+                                "dialog.text",
+                                "dialog.InputHint",
+                                "dialog.Summary",
+                                "dialog.Option3",
+                                "dialog.Option4"
+                              ]
+                            },
+                            {
+                              "$kind": "Microsoft.SetProperties",
+                              "$designer": {
+                                "id": "Vwqauv"
+                              },
+                              "assignments": [
+                                {
+                                  "value": "Three classes a week*hour and a half",
+                                  "property": "dialog.Option1"
+                                },
+                                {
+                                  "property": "dialog.Option2",
+                                  "value": "two classes a week * two hours"
+                                },
+                                {
+                                  "property": "dialog.Option3",
+                                  "value": "Other Options"
+                                },
+                                {
+                                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1110)).text",
+                                  "property": "dialog.text"
+                                },
+                                {
+                                  "property": "dialog.ListOption",
+                                  "value": [
+                                    "Three classes a week*hour and a half",
+                                    "two classes a week * two hours",
+                                    "Other Options"
+                                  ]
+                                }
+                              ]
+                            },
+                            {
+                              "$kind": "Microsoft.DeleteProperties",
+                              "$designer": {
+                                "id": "u1oIhB"
+                              },
+                              "properties": [
+                                "dialog.UserInput"
+                              ]
+                            },
+                            {
+                              "$kind": "Microsoft.TextInput",
+                              "$designer": {
+                                "id": "tzzV9H"
+                              },
+                              "disabled": false,
+                              "maxTurnCount": 100,
+                              "alwaysPrompt": false,
+                              "allowInterruptions": true,
+                              "unrecognizedPrompt": "",
+                              "invalidPrompt": "",
+                              "prompt": "${TextInput_Prompt_tzzV9H()}",
+                              "property": "dialog.UserInput",
+                              "validations": [
+                                "=contains(this.value, 'Three classes a week*hour and a half') || contains(this.value, '#') ||contains(this.value, 'two classes a week * two hours') ||contains(this.value, 'Other Options')"
+                              ]
+                            },
+                            {
+                              "$kind": "Microsoft.SwitchCondition",
+                              "$designer": {
+                                "id": "uTD6DB"
+                              },
+                              "cases": [
+                                {
+                                  "value": "Three classes a week*hour and a half",
+                                  "actions": [
+                                    {
+                                      "$kind": "Microsoft.IfCondition",
+                                      "$designer": {
+                                        "id": "jClhKj"
+                                      },
+                                      "condition": "conversation.Curr=='national'",
+                                      "actions": [
+                                        {
+                                          "$kind": "Microsoft.SetProperty",
+                                          "$designer": {
+                                            "id": "SE2izN"
+                                          },
+                                          "property": "dialog.price",
+                                          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1082)).text"
+                                        },
+                                        {
+                                          "$kind": "Microsoft.SendActivity",
+                                          "$designer": {
+                                            "id": "5UFrvU"
+                                          },
+                                          "activity": "${SendActivity_5UFrvU()}"
+                                        }
+                                      ],
+                                      "elseActions": [
+                                        {
+                                          "$kind": "Microsoft.SetProperty",
+                                          "$designer": {
+                                            "id": "x678id"
+                                          },
+                                          "property": "dialog.price",
+                                          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1110)).text"
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                },
+                                {
+                                  "value": "two classes a week * two hours",
+                                  "actions": [
+                                    {
+                                      "$kind": "Microsoft.IfCondition",
+                                      "$designer": {
+                                        "id": "ez1RFy"
+                                      },
+                                      "condition": "conversation.Curr=='national'",
+                                      "actions": [
+                                        {
+                                          "$kind": "Microsoft.SetProperty",
+                                          "$designer": {
+                                            "id": "MUlY5g"
+                                          },
+                                          "property": "dialog.price",
+                                          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1094)).text"
+                                        },
+                                        {
+                                          "$kind": "Microsoft.SendActivity",
+                                          "$designer": {
+                                            "id": "60C4da"
+                                          },
+                                          "activity": "${SendActivity_60C4da()}"
+                                        }
+                                      ],
+                                      "elseActions": [
+                                        {
+                                          "$kind": "Microsoft.SetProperty",
+                                          "$designer": {
+                                            "id": "HletSo"
+                                          },
+                                          "property": "dialog.price",
+                                          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1110)).text"
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                },
+                                {
+                                  "value": "Other Option",
+                                  "actions": []
+                                }
+                              ],
+                              "condition": "dialog.UserInput"
+                            }
+                          ],
+                          "condition": "=conversation.Curr=='national'",
+                          "elseActions": [
+                            {
+                              "$kind": "Microsoft.DeleteProperties",
+                              "$designer": {
+                                "id": "cd7Kgi"
+                              },
+                              "properties": [
+                                "dialog.UserInput",
+                                "dialog.Option1",
+                                "dialog.Option2",
+                                "dialog.text",
+                                "dialog.InputHint",
+                                "dialog.Summary",
+                                "dialog.Option3",
+                                "dialog.Option4"
+                              ]
+                            },
+                            {
+                              "$kind": "Microsoft.SetProperties",
+                              "$designer": {
+                                "id": "MIlPEP"
+                              },
+                              "assignments": [
+                                {
+                                  "value": "Three classes a week* hour and a half",
+                                  "property": "dialog.Option1"
+                                },
+                                {
+                                  "property": "dialog.Option2",
+                                  "value": "two class per week * hour and a half"
+                                },
+                                {
+                                  "property": "dialog.Option3",
+                                  "value": "Other Option"
+                                },
+                                {
+                                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1110)).text",
+                                  "property": "dialog.text"
+                                },
+                                {
+                                  "property": "dialog.ListOption",
+                                  "value": [
+                                    "Three classes a week* hour and a half",
+                                    "two class per week * hour and a half",
+                                    "Other Option"
+                                  ]
+                                }
+                              ]
+                            },
+                            {
+                              "$kind": "Microsoft.DeleteProperties",
+                              "$designer": {
+                                "id": "dX76Bi"
+                              },
+                              "properties": [
+                                "dialog.UserInput"
+                              ]
+                            },
+                            {
+                              "$kind": "Microsoft.TextInput",
+                              "$designer": {
+                                "id": "YyGrno"
+                              },
+                              "disabled": false,
+                              "maxTurnCount": 100,
+                              "alwaysPrompt": false,
+                              "allowInterruptions": true,
+                              "unrecognizedPrompt": "",
+                              "invalidPrompt": "",
+                              "prompt": "${TextInput_Prompt_YyGrno()}",
+                              "property": "dialog.UserInput",
+                              "validations": [
+                                "=contains(this.value, 'Three classes a week* hour and a half') || contains(this.value, '#') ||contains(this.value, 'two class per week * hour and a half') ||contains(this.value, 'Other Options') "
+                              ]
+                            },
+                            {
+                              "$kind": "Microsoft.SwitchCondition",
+                              "$designer": {
+                                "id": "XidXsi"
+                              },
+                              "cases": [
+                                {
+                                  "value": "Three classes a week* hour and a half",
+                                  "actions": [
+                                    {
+                                      "$kind": "Microsoft.IfCondition",
+                                      "$designer": {
+                                        "id": "zCn6ZR"
+                                      },
+                                      "condition": "conversation.Curr=='national'",
+                                      "actions": [
+                                        {
+                                          "$kind": "Microsoft.SetProperty",
+                                          "$designer": {
+                                            "id": "WBO0Je"
+                                          },
+                                          "property": "dialog.price",
+                                          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1082)).text"
+                                        },
+                                        {
+                                          "$kind": "Microsoft.SendActivity",
+                                          "$designer": {
+                                            "id": "Xhj0lo"
+                                          },
+                                          "activity": "${SendActivity_Xhj0lo()}"
+                                        }
+                                      ],
+                                      "elseActions": [
+                                        {
+                                          "$kind": "Microsoft.SetProperty",
+                                          "$designer": {
+                                            "id": "VnV2XJ"
+                                          },
+                                          "property": "dialog.price",
+                                          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1110)).text"
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                },
+                                {
+                                  "value": " two class per week * hour and a half",
+                                  "actions": [
+                                    {
+                                      "$kind": "Microsoft.IfCondition",
+                                      "$designer": {
+                                        "id": "tvKiqd"
+                                      },
+                                      "condition": "conversation.Curr=='national'",
+                                      "actions": [
+                                        {
+                                          "$kind": "Microsoft.SetProperty",
+                                          "$designer": {
+                                            "id": "gMeXY8"
+                                          },
+                                          "property": "dialog.price",
+                                          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1094)).text"
+                                        },
+                                        {
+                                          "$kind": "Microsoft.SendActivity",
+                                          "$designer": {
+                                            "id": "r1FZRh"
+                                          },
+                                          "activity": "${SendActivity_r1FZRh()}"
+                                        }
+                                      ],
+                                      "elseActions": [
+                                        {
+                                          "$kind": "Microsoft.SetProperty",
+                                          "$designer": {
+                                            "id": "0h6l0G"
+                                          },
+                                          "property": "dialog.price",
+                                          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1110)).text"
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                },
+                                {
+                                  "value": "Other Option",
+                                  "actions": []
+                                }
+                              ],
+                              "condition": "dialog.UserInput"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "value": "four subjects",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.DeleteProperties",
+                          "$designer": {
+                            "id": "bFSxCW"
+                          },
+                          "properties": [
+                            "dialog.UserInput",
+                            "dialog.Option1",
+                            "dialog.Option2",
+                            "dialog.text",
+                            "dialog.InputHint",
+                            "dialog.Summary",
+                            "dialog.Option3",
+                            "dialog.Option4"
+                          ]
+                        },
+                        {
+                          "$kind": "Microsoft.IfCondition",
+                          "$designer": {
+                            "id": "v6Dovh"
+                          },
+                          "condition": "conversation.Curr=='national'",
+                          "actions": [
+                            {
+                              "$kind": "Microsoft.SetProperties",
+                              "$designer": {
+                                "id": "IMfTGg"
+                              },
+                              "assignments": [
+                                {
+                                  "value": "Four classes a week* hour and a half",
+                                  "property": "dialog.Option1"
+                                },
+                                {
+                                  "property": "dialog.Option2",
+                                  "value": "Three classes a week* two hours "
+                                },
+                                {
+                                  "property": "dialog.Option3",
+                                  "value": "Other Option"
+                                },
+                                {
+                                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1110)).text",
+                                  "property": "dialog.text"
+                                },
+                                {
+                                  "property": "dialog.ListOption",
+                                  "value": [
+                                    "Four classes a week* hour and a half",
+                                    "Three classes a week* two hours ",
+                                    "Other Option"
+                                  ]
+                                }
+                              ]
+                            },
+                            {
+                              "$kind": "Microsoft.DeleteProperties",
+                              "$designer": {
+                                "id": "SuPkEH"
+                              },
+                              "properties": [
+                                "dialog.UserInput"
+                              ]
+                            },
+                            {
+                              "$kind": "Microsoft.TextInput",
+                              "$designer": {
+                                "id": "3BzuKN"
+                              },
+                              "disabled": false,
+                              "maxTurnCount": 100,
+                              "alwaysPrompt": false,
+                              "allowInterruptions": true,
+                              "invalidPrompt": "",
+                              "prompt": "${TextInput_Prompt_3BzuKN()}",
+                              "property": "dialog.UserInput",
+                              "validations": [
+                                "=contains(this.value, 'Four classes a week* hour and a half') || contains(this.value, '#') ||contains(this.value, 'Three classes a week* two hours ') ||contains(this.value, 'Other Options') "
+                              ]
+                            },
+                            {
+                              "$kind": "Microsoft.SwitchCondition",
+                              "$designer": {
+                                "id": "avuquN"
+                              },
+                              "cases": [
+                                {
+                                  "value": "Four classes a week* hour and a half",
+                                  "actions": [
+                                    {
+                                      "$kind": "Microsoft.IfCondition",
+                                      "$designer": {
+                                        "id": "pJH8Cb"
+                                      },
+                                      "condition": "conversation.Curr=='national'",
+                                      "actions": [
+                                        {
+                                          "$kind": "Microsoft.SetProperty",
+                                          "$designer": {
+                                            "id": "yUSlQH"
+                                          },
+                                          "property": "dialog.price",
+                                          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1101)).text"
+                                        },
+                                        {
+                                          "$kind": "Microsoft.SendActivity",
+                                          "$designer": {
+                                            "id": "FNQDWc"
+                                          },
+                                          "activity": "${SendActivity_FNQDWc()}"
+                                        }
+                                      ],
+                                      "elseActions": [
+                                        {
+                                          "$kind": "Microsoft.SetProperty",
+                                          "$designer": {
+                                            "id": "bEsYq6"
+                                          },
+                                          "property": "dialog.price",
+                                          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1110)).text"
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                },
+                                {
+                                  "value": "Three classes a week* two hours ",
+                                  "actions": [
+                                    {
+                                      "$kind": "Microsoft.IfCondition",
+                                      "$designer": {
+                                        "id": "SYihw5"
+                                      },
+                                      "condition": "conversation.Curr=='national'",
+                                      "actions": [
+                                        {
+                                          "$kind": "Microsoft.SetProperty",
+                                          "$designer": {
+                                            "id": "9KcofQ"
+                                          },
+                                          "property": "dialog.price",
+                                          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1102)).text"
+                                        },
+                                        {
+                                          "$kind": "Microsoft.SendActivity",
+                                          "$designer": {
+                                            "id": "H5IfXz"
+                                          },
+                                          "activity": "${SendActivity_H5IfXz()}"
+                                        }
+                                      ],
+                                      "elseActions": [
+                                        {
+                                          "$kind": "Microsoft.SetProperty",
+                                          "$designer": {
+                                            "id": "azyqh3"
+                                          },
+                                          "property": "dialog.price",
+                                          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1110)).text"
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                },
+                                {
+                                  "value": "Other Option",
+                                  "actions": []
+                                }
+                              ],
+                              "condition": "dialog.UserInput"
+                            }
+                          ],
+                          "elseActions": [
+                            {
+                              "$kind": "Microsoft.SetProperties",
+                              "$designer": {
+                                "id": "N1xnzt"
+                              },
+                              "assignments": [
+                                {
+                                  "value": "Three classes a week* hour and a half",
+                                  "property": "dialog.Option1"
+                                },
+                                {
+                                  "property": "dialog.Option2",
+                                  "value": "two class per week * hour and a half"
+                                },
+                                {
+                                  "property": "dialog.Option3",
+                                  "value": "Other Option"
+                                },
+                                {
+                                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1110)).text",
+                                  "property": "dialog.text"
+                                },
+                                {
+                                  "property": "dialog.ListOption",
+                                  "value": [
+                                    "Three classes a week* hour and a half",
+                                    "two class per week * hour and a half",
+                                    "Other Option"
+                                  ]
+                                }
+                              ]
+                            },
+                            {
+                              "$kind": "Microsoft.DeleteProperties",
+                              "$designer": {
+                                "id": "hWt3CS"
+                              },
+                              "properties": [
+                                "dialog.UserInput"
+                              ]
+                            },
+                            {
+                              "$kind": "Microsoft.TextInput",
+                              "$designer": {
+                                "id": "9AOSPB"
+                              },
+                              "disabled": false,
+                              "maxTurnCount": 100,
+                              "alwaysPrompt": false,
+                              "allowInterruptions": true,
+                              "unrecognizedPrompt": "",
+                              "invalidPrompt": "",
+                              "prompt": "${TextInput_Prompt_9AOSPB()}",
+                              "property": "dialog.UserInput",
+                              "validations": [
+                                "=contains(this.value, 'Three classes a week* hour and a half') || contains(this.value, '#') ||contains(this.value, 'two class per week * hour and a half') ||contains(this.value, 'Other Options') "
+                              ]
+                            },
+                            {
+                              "$kind": "Microsoft.SwitchCondition",
+                              "$designer": {
+                                "id": "HiDBrM"
+                              },
+                              "cases": [
+                                {
+                                  "value": "Three classes a week* hour and a half",
+                                  "actions": [
+                                    {
+                                      "$kind": "Microsoft.IfCondition",
+                                      "$designer": {
+                                        "id": "aSXzLt"
+                                      },
+                                      "condition": "conversation.Curr=='national'",
+                                      "actions": [
+                                        {
+                                          "$kind": "Microsoft.SetProperty",
+                                          "$designer": {
+                                            "id": "ODhSVO"
+                                          },
+                                          "property": "dialog.price",
+                                          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1082)).text"
+                                        },
+                                        {
+                                          "$kind": "Microsoft.SendActivity",
+                                          "$designer": {
+                                            "id": "Fg3D6q"
+                                          },
+                                          "activity": "${SendActivity_Fg3D6q()}"
+                                        }
+                                      ],
+                                      "elseActions": [
+                                        {
+                                          "$kind": "Microsoft.SetProperty",
+                                          "$designer": {
+                                            "id": "pkilMS"
+                                          },
+                                          "property": "dialog.price",
+                                          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1110)).text"
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                },
+                                {
+                                  "value": " two class per week * hour and a half",
+                                  "actions": [
+                                    {
+                                      "$kind": "Microsoft.IfCondition",
+                                      "$designer": {
+                                        "id": "jMnYzB"
+                                      },
+                                      "condition": "conversation.Curr=='national'",
+                                      "actions": [
+                                        {
+                                          "$kind": "Microsoft.SetProperty",
+                                          "$designer": {
+                                            "id": "DHFQYC"
+                                          },
+                                          "property": "dialog.price",
+                                          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1094)).text"
+                                        },
+                                        {
+                                          "$kind": "Microsoft.SendActivity",
+                                          "$designer": {
+                                            "id": "7fUBTG"
+                                          },
+                                          "activity": "${SendActivity_7fUBTG()}"
+                                        }
+                                      ],
+                                      "elseActions": [
+                                        {
+                                          "$kind": "Microsoft.SetProperty",
+                                          "$designer": {
+                                            "id": "MqXWg1"
+                                          },
+                                          "property": "dialog.price",
+                                          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1110)).text"
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                },
+                                {
+                                  "value": "Other Option",
+                                  "actions": []
+                                }
+                              ],
+                              "condition": "dialog.UserInput"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "wQ6r7t"
+          }
+        },
+        {
+          "$kind": "Microsoft.DeleteProperties",
+          "$designer": {
+            "id": "W8XUAq"
+          },
+          "properties": [
+            "dialog.UserInput",
+            "dialog.Option1",
+            "dialog.Option2",
+            "dialog.text",
+            "dialog.InputHint",
+            "dialog.Summary",
+            "dialog.Option3",
+            "dialog.Option4"
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "OALBJG"
+          },
+          "assignments": [
+            {
+              "value": "حصتين بالاسبوع  * ساعة و نصف",
+              "property": "dialog.Option1"
+            },
+            {
+              "property": "dialog.Option2",
+              "value": "حصة بالاسبوع  * ساعتين"
+            },
+            {
+              "property": "dialog.Option3",
+              "value": "خيارات اخرى"
+            },
+            {
+              "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1110)).text",
+              "property": "dialog.text"
+            },
+            {
+              "property": "dialog.ListOption",
+              "value": [
+                "حصتين بالاسبوع  * ساعة و نصف",
+                "حصة بالاسبوع  * ساعتين",
+                "خيارات اخرى"
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.DeleteProperties",
+          "$designer": {
+            "id": "OLxo4B"
+          },
+          "properties": [
+            "dialog.UserInput"
+          ]
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "QtEflV"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "unrecognizedPrompt": "",
+          "invalidPrompt": "",
+          "prompt": "${TextInput_Prompt_QtEflV()}",
+          "property": "dialog.UserInput",
+          "validations": [
+            "= contains(this.value, 'حصة بالاسبوع  * ساعتين') ||contains(this.value, 'حصتين بالاسبوع  * ساعة و نصف') ||contains(this.value, 'خيارات اخرى') ||contains(this.value, '#') "
+          ]
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "6oI7kL"
+          },
+          "cases": [
+            {
+              "value": "ثلاث حصص بالاسبوع * ساعة و نصف",
+              "actions": [
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "govYFn"
+                  },
+                  "condition": "conversation.Curr=='national'",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "uZrYJt"
+                      },
+                      "property": "dialog.price",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1081)).text"
+                    },
+                    {
+                      "$kind": "Microsoft.SendActivity",
+                      "$designer": {
+                        "id": "sIjONs"
+                      },
+                      "activity": "${SendActivity_sIjONs()}"
+                    }
+                  ],
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "RRRjRP"
+                      },
+                      "property": "dialog.price",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1110)).text"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "حصة بالاسبوع  * ساعتين",
+              "actions": [
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "0Grwb5"
+                  },
+                  "condition": "conversation.Curr=='national'",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "wrrE1h"
+                      },
+                      "property": "dialog.price",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1093)).text"
+                    },
+                    {
+                      "$kind": "Microsoft.SendActivity",
+                      "$designer": {
+                        "id": "HwiUXP"
+                      },
+                      "activity": "${SendActivity_HwiUXP()}"
+                    }
+                  ],
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "9l6TeK"
+                      },
+                      "property": "dialog.price",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1110)).text"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "خيارات اخرى",
+              "actions": []
+            }
+          ],
+          "condition": "dialog.UserInput"
+        },
+        {
+          "$kind": "Microsoft.DeleteProperties",
+          "$designer": {
+            "id": "N1jyPp"
+          },
+          "properties": [
+            "dialog.UserInput",
+            "dialog.Option1",
+            "dialog.Option2",
+            "dialog.text",
+            "dialog.InputHint",
+            "dialog.Summary",
+            "dialog.Option3",
+            "dialog.Option4"
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "KsVHhl"
+          },
+          "assignments": [
+            {
+              "value": "حصتين بالاسبوع  * ساعة و نصف",
+              "property": "dialog.Option1"
+            },
+            {
+              "property": "dialog.Option2",
+              "value": "حصة بالاسبوع  * ساعتين"
+            },
+            {
+              "property": "dialog.Option3",
+              "value": "خيارات اخرى"
+            },
+            {
+              "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1110)).text",
+              "property": "dialog.text"
+            },
+            {
+              "property": "dialog.ListOption",
+              "value": [
+                "حصتين بالاسبوع  * ساعة و نصف",
+                "حصة بالاسبوع  * ساعتين",
+                "خيارات اخرى"
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.DeleteProperties",
+          "$designer": {
+            "id": "8x9xye"
+          },
+          "properties": [
+            "dialog.UserInput"
+          ]
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "Bkvub0"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "unrecognizedPrompt": "",
+          "invalidPrompt": "",
+          "prompt": "${TextInput_Prompt_Bkvub0()}",
+          "property": "dialog.UserInput",
+          "validations": [
+            "= contains(this.value, 'حصة بالاسبوع  * ساعتين') ||contains(this.value, 'حصتين بالاسبوع  * ساعة و نصف') ||contains(this.value, 'خيارات اخرى') ||contains(this.value, '#') "
+          ]
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "hrKTz5"
+          },
+          "cases": [
+            {
+              "value": "ثلاث حصص بالاسبوع * ساعة و نصف",
+              "actions": [
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "tsiE2K"
+                  },
+                  "condition": "conversation.Curr=='national'",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "4JgW9G"
+                      },
+                      "property": "dialog.price",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1081)).text"
+                    },
+                    {
+                      "$kind": "Microsoft.SendActivity",
+                      "$designer": {
+                        "id": "rIMM1r"
+                      },
+                      "activity": "${SendActivity_rIMM1r()}"
+                    }
+                  ],
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "OYfWVi"
+                      },
+                      "property": "dialog.price",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1110)).text"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "حصة بالاسبوع  * ساعتين",
+              "actions": [
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "KMp6oH"
+                  },
+                  "condition": "conversation.Curr=='national'",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "amjiab"
+                      },
+                      "property": "dialog.price",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1093)).text"
+                    },
+                    {
+                      "$kind": "Microsoft.SendActivity",
+                      "$designer": {
+                        "id": "GFZ8rP"
+                      },
+                      "activity": "${SendActivity_GFZ8rP()}"
+                    }
+                  ],
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "K7WPfl"
+                      },
+                      "property": "dialog.price",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1110)).text"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "خيارات اخرى",
+              "actions": []
+            }
+          ],
+          "condition": "dialog.UserInput"
+        }
+      ]
+    }
+  ],
+  "generator": "Ustazi_KG-Sixth1ChildDialog.lg",
+  "recognizer": "Ustazi_KG-Sixth1ChildDialog.lu.qna",
+  "id": "Ustazi_KG-Sixth1ChildDialog"
+}

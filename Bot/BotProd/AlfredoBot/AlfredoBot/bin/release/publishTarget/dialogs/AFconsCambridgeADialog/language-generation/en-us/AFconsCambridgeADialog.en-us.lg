@@ -1,0 +1,20 @@
+[import](common.lg)
+
+# TextInput_Prompt_8NHOUX()
+[Activity
+    Attachments = ${json(ButtonList(conversation.ChooseSubject,dialog.CambridgeAList))}
+    InputHint=منطقتك
+    Summary=${conversation.Summary}
+]
+# TextInput_Prompt_ZtTwLq()
+[Activity
+    Attachments = ${json(ButtonList(conversation.KnowledgeLV,conversation.KnowledgeList))}
+    InputHint=${conversation.InputHint}
+    Summary=${conversation.Summary}
+]
+# SendActivity_wHrtS5_text()
+- ${dialog.KnowledgeRatio}
+# SendActivity_wHrtS5()
+[Activity
+    Text = ${SendActivity_wHrtS5_text()}
+]

@@ -1,0 +1,164 @@
+[import](common.lg)
+
+# SendActivity_16SPWO()
+[Activity
+    Text = ${SendActivity_16SPWO_text()}
+
+]
+
+# SendActivity_16SPWO_text()
+- ${dialog.text}
+# SendActivity_RLbmAD_text()
+- ${dialog.text}
+# SendActivity_RLbmAD()
+[Activity
+    Text = ${SendActivity_RLbmAD_text()}
+]
+
+
+
+# SendActivity_rxCpXF_text()
+- ${dialog.arText}
+# SendActivity_rxCpXF()
+[Activity
+    Text = ${SendActivity_rxCpXF_text()}
+]
+
+# SendActivity_W2WX64_text()
+- ${dialog.enText}
+# SendActivity_W2WX64()
+[Activity
+    Text = ${SendActivity_W2WX64_text()}
+]
+
+# SendActivity_Yv9jzV_text()
+- ${dialog.arText}
+# SendActivity_Yv9jzV()
+[Activity
+    Text = ${SendActivity_Yv9jzV_text()}
+]
+
+# SendActivity_tR20ah_text()
+- ${dialog.enText}
+# SendActivity_tR20ah()
+[Activity
+    Text = ${SendActivity_tR20ah_text()}
+]
+# ButtonListRKE(Text, List)
+- ``` 
+{
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "version": "1.0",
+    "type": "AdaptiveCard",
+    "body": [
+          {
+            "type": "TextBlock",
+            "text": "${Text}"
+        },
+        {
+            "type": "Input.ChoiceSet",
+            "choices": [
+                ${join(getChoiceListRKE(List),',')}
+                               
+            ],
+            "placeholder": "",
+            "id": "InputAdultos"
+        }
+    ]
+}
+ ```
+# getChoiceListRKE(adaptiveCardAccounts)
+- ${foreach(adaptiveCardAccounts, x, getChoiceRKE(x.AssetNameEn))}
+
+ #getChoiceRKE(listC)
+- ``` 
+ {
+     "title": "${listC}",
+     "value": "${listC}"
+ }
+ ```
+
+# ButtonListRK(Text, List)
+- ``` 
+{
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "version": "1.0",
+    "type": "AdaptiveCard",
+    "body": [
+          {
+            "type": "TextBlock",
+            "text": "${Text}"
+        },
+        {
+            "type": "Input.ChoiceSet",
+            "choices": [
+                ${join(getChoiceListRK(List),',')}
+                               
+            ],
+            "placeholder": "",
+            "id": "InputAdultos"
+        }
+    ]
+}
+ ```
+# getChoiceListRK(adaptiveCardAccounts)
+- ${foreach(adaptiveCardAccounts, x, getChoiceRK(x.AssetNameAr))}
+
+ #getChoiceRK(listC)
+- ``` 
+ {
+     "title": "${listC}",
+     "value": "${listC}"
+ }
+ ```
+
+
+
+# TextInput_Prompt_eV9OnK()
+[Activity
+    Attachments = ${json(ButtonListRK(dialog.pleaseSelectAsset,dialog.AssetName.content.result))}
+    InputHint=منطقتك
+]
+
+# TextInput_Prompt_5SFFxU()
+[Activity
+    Attachments = ${json(ButtonListRKE(dialog.pleaseSelectAsset,dialog.AssetName.content.result))}
+    InputHint=منطقتك
+]
+# SendActivity_S1OBAO_text()
+- ${dialog.arText}
+# SendActivity_S1OBAO()
+[Activity
+    Text = ${SendActivity_S1OBAO_text()}
+]
+
+# SendActivity_KimG41_text()
+- ${dialog.enText}
+# SendActivity_KimG41()
+[Activity
+    Text = ${SendActivity_KimG41_text()}
+]
+
+
+# SendActivity_0NkNNf()
+[Activity
+    Text= ${dialog.foreach.value.AttachmentUrl}
+    InputHint=${dialog.foreach.value.AttachmentType}
+    Speak =  ${dialog.foreach.value.AttachmentName}
+     
+]
+
+# SendActivity_zpL9Cw_text()
+- ${dialog.text}
+# SendActivity_zpL9Cw()
+[Activity
+    Text = ${SendActivity_zpL9Cw_text()}
+]
+
+# SendActivity_B7FZPH()
+[Activity
+    Text= ${dialog.foreach.value.AttachmentUrl}
+    InputHint=${dialog.foreach.value.AttachmentType}
+    Speak =  ${dialog.foreach.value.AttachmentName}
+     
+]

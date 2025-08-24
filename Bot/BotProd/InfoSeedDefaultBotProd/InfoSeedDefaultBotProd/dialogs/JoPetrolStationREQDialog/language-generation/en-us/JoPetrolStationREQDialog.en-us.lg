@@ -1,0 +1,9 @@
+[import](common.lg)
+
+# SendActivity_Q8nWa8_text()
+- ${dialog.ReqCaption}
+# SendActivity_Q8nWa8()
+[Activity
+    Text = ${SendActivity_Q8nWa8_text()}
+]
+

@@ -1,0 +1,210 @@
+<div class="card card-custom h-20">
+    <div class="row row-no-padding row-col-separator-xl h-100" [perfectScrollbar] *ngIf="!loading"
+    [busyIf]="primengTableHelper.isLoading">
+
+
+    <div class="col">
+        <div class="card card-custom bgi-no-repeat card-stretch new-subscription-statistics h-20">
+            <div class="card-body">
+                <a href="#"
+                   class="card-title text-left font-weight-bolder text-dark font-size-h6 mb-4 text-hover-state-dark d-block">
+                    {{'ReceivedMessagesCount' | localize}}
+                </a>
+                <div class="text-left text-success font-weight-bolder font-size-h2 mr-2">
+                    <span *ngIf="!getMeassagesInfoHostOutput">...</span>
+                    <span *ngIf="getMeassagesInfoHostOutput" counto [step]="30"
+                          [countTo]="getMeassagesInfoHostOutput.receivedMessagesCount" [countFrom]="0"
+                          [duration]="5"
+                          (countoChange)="countoReceivedMessagesCount = $event">{{countoReceivedMessagesCount | number:'1.0-0'}}</span>
+                </div>
+                <div class="progress progress-xs mt-7 bg-success-o-60">
+                    <div class="progress-bar bg-success" role="progressbar" style="width: 100%;" aria-valuenow="100"
+                         aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col">
+        <div class="card card-custom bgi-no-repeat card-stretch new-subscription-statistics h-20">
+            <div class="card-body">
+                <a href="#"
+                   class="card-title text-left font-weight-bolder text-dark font-size-h6 mb-4 text-hover-state-dark d-block">
+                    {{'SendMessagesCount' | localize}}
+                </a>
+                <div class="text-left text-primary font-weight-bolder font-size-h2 mr-2">
+                    <span *ngIf="!getMeassagesInfoHostOutput">...</span>
+                    <span *ngIf="getMeassagesInfoHostOutput" counto [step]="30"
+                          [countTo]="getMeassagesInfoHostOutput.sendMessagesCount" [countFrom]="0"
+                          [duration]="5"
+                          (countoChange)="countSendMessagesCount = $event">{{countSendMessagesCount  | number:'1.0-0'}}</span>
+                </div>
+                <div class="progress progress-xs mt-7 bg-primary-o-60">
+                    <div class="progress-bar bg-primary" role="progressbar" style="width: 100%;" aria-valuenow="100"
+                         aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="card card-custom bgi-no-repeat card-stretch new-subscription-statistics h-20">
+            <div class="card-body">
+                <a href="#"
+                   class="card-title text-left font-weight-bolder text-dark font-size-h6 mb-4 text-hover-state-dark d-block">
+                    {{'TotalOfConvsersations' | localize}}
+                </a>
+                <div class="text-left text-warning font-weight-bolder font-size-h2 mr-2">
+                    <span *ngIf="!getMeassagesInfoHostOutput">...</span>
+                    <span *ngIf="getMeassagesInfoHostOutput" counto [step]="30"
+                          [countTo]="getMeassagesInfoHostOutput.totalOfConvsersations" [countFrom]="0"
+                          [duration]="5"
+                          (countoChange)="TotalOfConvsersations = $event">{{TotalOfConvsersations  | number:'1.0-0'}}</span>
+                </div>
+                <div class="progress progress-xs mt-7 bg-warning-o-60">
+                    <div class="progress-bar bg-warning" role="progressbar" style="width: 100%;" aria-valuenow="100"
+                         aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="card card-custom bgi-no-repeat card-stretch new-subscription-statistics h-20">
+            <div class="card-body">
+                <a href="#"
+                   class="card-title text-left font-weight-bolder text-dark font-size-h6 mb-4 text-hover-state-dark d-block">
+                    {{'TotalNumberOfCustomers' | localize}}
+                </a>
+                <div class="text-left text-danger font-weight-bolder font-size-h2 mr-2">
+                    <span *ngIf="!getMeassagesInfoHostOutput">...</span>
+                    <span *ngIf="getMeassagesInfoHostOutput" counto [step]="30"
+                          [countTo]="getMeassagesInfoHostOutput.totalNumberOfCustomers" [countFrom]="0"
+                          [duration]="5"
+                          (countoChange)="TotalNumberOfCustomers = $event">{{TotalNumberOfCustomers | number:'1.0-0'}}</span>
+                </div>
+                <div class="progress progress-xs mt-7 bg-danger-o-60">
+                    <div class="progress-bar bg-danger" role="progressbar" style="width: 100%;" aria-valuenow="100"
+                         aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card-toolbar">
+        <div class="card-header align-items-center border-0">
+            <div class="card-toolbar">
+                <div class="btn-group btn-group-devided" data-toggle="buttons">
+                    <label class="btn m-btn--pill btn-secondary"
+                           [ngClass]="{'active': selectedIncomeStatisticsDateInterval ==  appIncomeStatisticsDateInterval.Daily}"
+                           (click)="incomeStatisticsDateIntervalChange(appIncomeStatisticsDateInterval.Daily)">
+                        <input type="radio" name="IncomeStatisticsDatePeriod" class="toggle"
+                               [value]="appIncomeStatisticsDateInterval.Daily">
+                        {{"Daily" | localize}}
+                    </label>
+                    <label class="btn m-btn--pill btn-secondary"
+                           [ngClass]="{'active': selectedIncomeStatisticsDateInterval ==  appIncomeStatisticsDateInterval.Weekly}"
+                           (click)="incomeStatisticsDateIntervalChange(appIncomeStatisticsDateInterval.Weekly)">
+                        <input type="radio" name="IncomeStatisticsDatePeriod" class="toggle"
+                               [value]="appIncomeStatisticsDateInterval.Weekly">
+                        {{"Weekly" | localize}}
+                    </label>
+                    <label class="btn m-btn--pill btn-secondary"
+                           [ngClass]="{'active': selectedIncomeStatisticsDateInterval ==  appIncomeStatisticsDateInterval.Monthly}"
+                           (click)="incomeStatisticsDateIntervalChange(appIncomeStatisticsDateInterval.Monthly)">
+                        <input type="radio" name="IncomeStatisticsDatePeriod" class="toggle"
+                               [value]="appIncomeStatisticsDateInterval.Monthly">
+                        {{"Monthly" | localize}}
+                    </label>               
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+    <div class="card-header align-items-center border-0">
+        <h3 class="card-title align-items-start flex-column">
+                <span class="font-weight-bolder text-dark">
+                    Member Activity
+                </span>
+        </h3>
+
+    </div>
+    <div class="card-body" [perfectScrollbar]>
+        <div class="table-scrollable table-scrollable-borderless">
+            <table class="table table-hover table-light" id="myTable">
+                <thead>
+                <tr class="uppercase">
+                    <th > # </th>
+                    <th>{{'TenantNamedashboard' | localize}}</th>
+                    
+                    <th>{{'ReceivedMessagesCount' | localize}}</th>
+                    <th>{{'SendMessagesCount' | localize}}</th>
+                    <th>{{'TotalOfConvsersations' | localize}}</th>
+                    <!-- <th>{{'TotalNumberOfCustomers' | localize}}</th> -->
+
+                    <th>{{'CreationTime' | localize}}</th>
+
+                    <th>{{'ExpiryDate' | localize}}</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                    <tr *ngFor="let m of recentTenantsData.recentTenants; let index = index" (click)="selectUser(m)">
+
+
+                        <td class="pl-0">
+                            <div class="symbol symbol-50 symbol-light mt-2 mr-2">
+                                <div class="symbol-label">
+                                    <img alt="photo"
+                                         src="/assets/metronic/assets/media/svg/avatars/00{{1}}.svg" class="h-75 align-self-end">
+                                </div>
+                            </div>
+                        </td>
+
+                        <td class="pl-0">
+                            {{m.name}}
+                        </td>
+                       
+                         <td >
+                            {{m.receivedMessagesCount}}
+                        </td> 
+
+                        <td >
+                            {{m.sendMessagesCount}}
+                        </td>
+                        <td >
+                            {{m.totalOfConversation}}
+                        </td>
+                        <!-- <td >
+                            {{m.totalNumberOfCustomers}}
+                        </td> -->
+
+                        <td >
+                            {{ m.creationTime | momentFormat:'L LT'}}
+                        </td>
+                   
+
+                        <td >
+                            {{ m.expiryDate | momentFormat:'L LT'}}
+                        </td>
+            
+                    </tr>
+
+                </tbody>
+             
+            </table>
+        </div>
+    </div>
+</div>
+
+
+
+<script type="text/javascript">
+
+    $('#myTable tbody tr').click(function() {
+        $(this).addClass('active').siblings().removeClass('active');
+    });
+ </script>
+

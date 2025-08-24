@@ -1,0 +1,223 @@
+<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog"
+    aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{ backdrop: 'static' }">
+    <div class="modal-dialog modal-lg" *ngIf="theme != 'theme12'">
+        <div class="modal-content">
+            <div class="modal-header h-100">
+                <h4 class="modal-title">
+                    <span *ngIf="area.id">{{ l("EditBranch") }}</span>
+                    <span *ngIf="!area.id">{{ l("Create New Branch") }}</span>
+                </h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="close()"
+                    aria-label="Close">
+                    X
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="Area_areaName">{{ l("Branch Name") }} *</label>
+                    <input type="text" [class.error]="submitted && branchName.invalid" #branchName="ngModel"
+                        id="Area_areaName" class="form-control" [(ngModel)]="area.areaName" name="areaName"
+                        maxlength="17" required />
+                    <p class="text-danger" *ngIf="submitted && branchName.invalid">{{l("ThisFieldIsRequired") }}</p>
+                </div>
+
+                <div class="form-group">
+                    <label for="Area_areaNameEnglish">{{ l("Branch Name English") }} *</label>
+                    <input type="text" [class.error]="submitted && branchNameEng.invalid" #branchNameEng="ngModel"
+                        id="Area_areaNameEnglish" class="form-control" [(ngModel)]="area.areaNameEnglish"
+                        name="areaNameEnglish" maxlength="17" required />
+                    <p class="text-danger" *ngIf="submitted && branchNameEng.invalid">{{l("ThisFieldIsRequired") }}</p>
+
+                </div>
+
+
+                <div class="form-group">
+                    <label>{{ l("Select User") }} *</label>
+
+
+
+                    <ng-multiselect-dropdown required [class.error]="submitted && users.invalid" #users="ngModel"
+                        [ngClass]="darkModeService.currentSkin === 'dark' ? 'dark ' : ''" name="users" [placeholder]=""
+                        [settings]="dropdownSettings" [data]="agentsList" [(ngModel)]="selectedUserIds">
+                    </ng-multiselect-dropdown>
+                    <p class="text-danger" *ngIf="submitted && users.invalid">{{l("ThisFieldIsRequired") }}</p>
+                </div>
+
+                <div class="m-checkbox-list">
+                    <label for="isAvailableBranch" class="kt-checkbox">
+                        <input id="isAvailableBranch" #isAvailableBranch="ngModel" type="checkbox"
+                            name="isAvailableBranch" [(ngModel)]="area.isAvailableBranch" />
+                        {{ l("is Available Branch") }}
+                    </label>
+                </div>
+                <div class="m-checkbox-list">
+                    <label for="isRestaurantsTypeAll" class="kt-checkbox">
+                        <input id="isRestaurantsTypeAll" #isRestaurantsTypeAll="ngModel" type="checkbox"
+                            name="isRestaurantsTypeAll" [(ngModel)]="area.isRestaurantsTypeAll" />
+                        {{ l("all menus will be assigned to this branch.") }}
+                        <span></span>
+                    </label>
+                </div>
+
+                <div class="form-group">
+                    <label for="Area_Latitude">{{ l("Latitude") }} *</label>
+                    <input required min="0" type="number" [class.error]="submitted && latitude.invalid"
+                        #latitude="ngModel" id="Area_Latitude" class="form-control" [(ngModel)]="area.latitude"
+                        name="Latitude" />
+                    <p class="text-danger" *ngIf="submitted && latitude.invalid">{{l("ThisFieldIsRequired") }}</p>
+                </div>
+                <div class="form-group">
+                    <label for="Area_Longitude">{{ l("Longitude") }} *</label>
+                    <input required min="0" type="number" [class.error]="submitted && longitude.invalid"
+                        #longitude="ngModel" id="Area_Longitude" class="form-control" [(ngModel)]="area.longitude"
+                        name="Longitude" />
+                    <p class="text-danger" *ngIf="submitted && longitude.invalid">{{l("ThisFieldIsRequired") }}</p>
+
+                </div>
+
+                <div>
+
+
+                    <agm-map id="map" [latitude]="area.latitude" [longitude]="area.longitude" [zoom]="zoom">
+                        <agm-marker [latitude]="area.latitude" [longitude]="area.longitude" [markerDraggable]="true"
+                            (dragEnd)="markerDragEnd($event)"></agm-marker>
+                    </agm-map>
+
+                    <h5>Address: {{ address }}</h5>
+                    <div>Latitude: {{ area.latitude }}</div>
+                    <div>Longitude: {{ area.longitude }}</div>
+                </div>
+
+
+            </div>
+            <div class="modal-footer">
+                <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">{{ l("Cancel")
+                    }}</button>
+                <button (click)="save()" type="button" class="btn btn-primary blue" [buttonBusy]="saving"
+                    [busyText]="l('SavingWithThreeDot')">
+                    <i class="fa fa-save"></i> <span>{{ l("Save") }}</span>
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="modal-dialog modal-lg" *ngIf="theme === 'theme12'">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">
+                    <span *ngIf="area.id">{{ l("Edit") }}</span>
+                    <span *ngIf="!area.id">{{ l("createBranch") }}</span>
+                </h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="close()"
+                    aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label for="Area_areaName">{{ l("branchNameAr") }} *</label>
+                            <input required type="text" [class.error]="submitted && branchName.invalid"
+                                #branchName="ngModel" id="Area_areaName"
+                                class="form-control"
+                                [(ngModel)]="area.areaName" name="areaName" maxlength="17" required />
+                            <p class="text-danger" *ngIf="submitted && branchName.invalid">{{l("ThisFieldIsRequired") }}</p>
+
+                        </div>
+                    </div>
+
+                    <div class="col-12 mt-1">
+                        <div class="form-group">
+                            <label for="Area_areaNameEnglish">{{ l("branchNameEn") }} *</label>
+                            <input required type="text" id="Area_areaNameEnglish"
+                                class="form-control"
+                                [(ngModel)]="area.areaNameEnglish" name="areaNameEnglish" maxlength="17" required
+                                [class.error]="submitted && branchNameEng.invalid" #branchNameEng="ngModel" />
+                            <p class="text-danger" *ngIf="submitted && branchNameEng.invalid">{{l("ThisFieldIsRequired") }}</p>
+                        </div>
+                    </div>
+
+
+
+                    <div class="col-12 mt-1">
+                        <div class="form-group">
+                            <label>{{ l("user") }} *</label>
+
+
+                            <ng-multiselect-dropdown required [class.error]="submitted && users.invalid"
+                                #users="ngModel" [ngClass]="darkModeService.currentSkin === 'dark' ? 'dark ' : ''"
+                                name="users" [placeholder]="" [settings]="dropdownSettings" [data]="agentsList"
+                                [(ngModel)]="selectedUserIds">
+                            </ng-multiselect-dropdown>
+                            <p class="text-danger" *ngIf="submitted && users.invalid">{{l("ThisFieldIsRequired") }}</p>
+
+                        </div>
+                    </div>
+                    <div class="col-12 mt-1">
+                        <div class="m-checkbox-list form-check form-switch">
+                            <input class="form-check-input" id="isAvailableBranch" #isAvailableBranch="ngModel"
+                                type="checkbox" name="isAvailableBranch" [(ngModel)]="area.isAvailableBranch" />
+
+                            <label for="isAvailableBranch" class="kt-checkbox">
+                                {{ l("isAvailable") }}
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-12 mt-1">
+                        <div class="m-checkbox-list form-check form-switch">
+                            <input class="form-check-input" id="isRestaurantsTypeAll" #isRestaurantsTypeAll="ngModel"
+                                type="checkbox" name="isRestaurantsTypeAll" [(ngModel)]="area.isRestaurantsTypeAll" />
+
+                            <label for="isRestaurantsTypeAll" class="kt-checkbox">
+                                {{ l("assignToAll") }}
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-12 mt-1">
+                        <div class="form-group">
+                            <label for="Area_Latitude">{{ l("latitude") }} *</label>
+                            <input required type="number" [class.error]="submitted && latitude.invalid"
+                                #latitude="ngModel" id="Area_Latitude"
+                                class="form-control"
+                                [(ngModel)]="area.latitude" name="Latitude" />
+                            <p class="text-danger" *ngIf="submitted && latitude.invalid">{{l("ThisFieldIsRequired") }}</p>
+
+                        </div>
+                    </div>
+                    <div class="col-12 mt-1">
+                        <div class="form-group">
+                            <label for="Area_Longitude">{{ l("longitude") }} *</label>
+                            <input required [class.error]="submitted && longitude.invalid" #longitude="ngModel"
+                                type="number" id="Area_Longitude"
+                                class="form-control"
+                                [(ngModel)]="area.longitude" name="Longitude" />
+                            <p class="text-danger" *ngIf="submitted && longitude.invalid">{{l("ThisFieldIsRequired") }}</p>
+
+                        </div>
+                    </div>
+
+
+                    <div class="col-12 mt-1">
+
+                        <agm-map id="map" [latitude]="area.latitude" [longitude]="area.longitude" [zoom]="zoom">
+                            <agm-marker [latitude]="area.latitude" [longitude]="area.longitude" [markerDraggable]="true"
+                                (dragEnd)="markerDragEnd($event)"></agm-marker>
+                        </agm-map>
+
+                        <h5 class="mt-1">{{ l("Address") }}: {{ address }}</h5>
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">{{ l("Cancel")
+                    }}</button>
+                <button (click)="save()" type="button" class="btn btn-primary-info" [buttonBusy]="saving"
+                    [busyText]="l('SavingWithThreeDot')">
+                    <i class="fa fa-save"></i> <span>{{ l("Save") }}</span>
+                </button>
+            </div>
+
+        </div>
+    </div>
+</div>

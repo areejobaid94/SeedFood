@@ -1,0 +1,9 @@
+[import](common.lg)
+
+# SendActivity_wXuRSz()
+[Activity
+    Text = ${SendActivity_wXuRSz_text()}
+]
+
+# SendActivity_wXuRSz_text()
+- ${dialog.text}

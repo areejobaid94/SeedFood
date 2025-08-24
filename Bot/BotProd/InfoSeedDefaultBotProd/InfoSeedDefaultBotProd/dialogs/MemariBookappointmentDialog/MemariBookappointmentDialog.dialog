@@ -1,0 +1,203 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "ts7Y5l",
+    "name": "MemariBookappointmentDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "tIqvDX"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "0WhnUv"
+          },
+          "condition": "conversation.local",
+          "cases": [
+            {
+              "value": "ar",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "y4ex1b"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.text1",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1156)).text"
+                    },
+                    {
+                      "property": "dialog.text2",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1066)).text"
+                    },
+                    {
+                      "property": "dialog.text3",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1167)).text"
+                    },
+                    {
+                      "property": "dialog.text4",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1161)).text"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "en",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "V2hCir"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.text1",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1156)).text"
+                    },
+                    {
+                      "property": "dialog.text2",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1066)).text"
+                    },
+                    {
+                      "property": "dialog.text3",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1167)).text"
+                    },
+                    {
+                      "property": "dialog.text4",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1161)).text"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "default": [
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "MRLATt"
+              },
+              "assignments": [
+                {
+                  "property": "dialog.text1",
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1156)).text"
+                },
+                {
+                  "property": "dialog.text2",
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1066)).text"
+                },
+                {
+                  "property": "dialog.text3",
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1167)).text"
+                },
+                {
+                  "property": "dialog.text4",
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1161)).text"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "T63g2u"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "prompt": "${TextInput_Prompt_T63g2u()}",
+          "unrecognizedPrompt": "",
+          "invalidPrompt": "",
+          "property": "dialog.userNameInput"
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "pARNRC"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "unrecognizedPrompt": "",
+          "invalidPrompt": "",
+          "property": "dialog.userPhoneNumber",
+          "prompt": "${TextInput_Prompt_pARNRC()}"
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "dRaeMP"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "unrecognizedPrompt": "",
+          "invalidPrompt": "",
+          "property": "dialog.userLocation",
+          "prompt": "${TextInput_Prompt_dRaeMP()}"
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "r95RdH"
+          },
+          "value": {
+            "ContactName": "=dialog.userNameInput",
+            "ContactId": "=conversation.ContactId",
+            "TenantID": "=conversation.TenantId",
+            "PhoneNumber": "=dialog.userPhoneNumber",
+            "information": "=dialog.userLocation"
+          },
+          "property": "dialog.updateOrder"
+        },
+        {
+          "$kind": "Microsoft.HttpRequest",
+          "$designer": {
+            "id": "5Le9OM"
+          },
+          "resultProperty": "dialog.OrderUpdateFinsh",
+          "method": "POST",
+          "url": "${conversation.URL}/api/BotAPI/SendPrescription",
+          "body": "= dialog.updateOrder",
+          "headers": {
+            "accept": "text/plain",
+            "Content-Type": "application/json-patch+json"
+          },
+          "responseType": "json"
+        },
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "4HTza7"
+          },
+          "activity": "${SendActivity_4HTza7()}"
+        },
+        {
+          "$kind": "Microsoft.CancelAllDialogs",
+          "$designer": {
+            "id": "0kGVOS"
+          },
+          "activityProcessed": true
+        }
+      ]
+    }
+  ],
+  "generator": "MemariBookappointmentDialog.lg",
+  "recognizer": "MemariBookappointmentDialog.lu.qna",
+  "id": "MemariBookappointmentDialog"
+}

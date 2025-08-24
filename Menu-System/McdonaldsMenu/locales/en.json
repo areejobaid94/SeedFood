@@ -1,0 +1,37 @@
+{
+  "SEARCH": "Search",
+  "ADD_TO_CART": "Add to cart",
+  "QTY": "Quantity",
+  "EXTRA": "Extra",
+  "REQUIRED": "Required",
+  "VIEW_BASKET": "View Basket",
+  "CART_ITEMS": "Cart Items",
+  "REQUIRED_FIELD": "Required Field",
+  "CHECK_OUT": "Checkout",
+  "FREE": "Free",
+  "UNAVAILABLE_ITEM": "This item is currently unavailable",
+  "SELECTMAX": "Select ",
+
+
+
+  "Sort": "Sort",
+  "lowest_price": "lowest price ",
+  "highest_price": "highest price ",
+  "least_discount": "least discount ",
+  "highest_discount": "highest discount ",
+
+  "Condiments": "Condiments ",
+  "Sorry": "Sorry",
+  "SorryBody": "List time is over "
+  ,"FROM": "From"
+  ,"JOD": "JOD"
+  ,"New":"New"
+  ,"ChooseCondiments":"Add to your Order"
+ ,"OrderSummary":"Order Summary"
+,"Deserts":"Desserts"
+,"Crispy":"Crispy"
+,"Total": "Total"
+,"MyOrder":"My Order"
+,"ChooseItem":"Choose Your Item"
+
+}

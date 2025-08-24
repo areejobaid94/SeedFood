@@ -1,0 +1,373 @@
+[import](common.lg)
+
+# TextInput_Prompt_rDpdgB()
+[Activity
+
+    Attachments = ${json(dropList(dialog.text,1,2,3,4))}
+
+    InputHint=${conversation.InputHint}
+
+     Summary=${conversation.Summary}
+
+]
+# TextInput_Prompt_NZZ0hD()
+[Activity
+    SuggestedActions = ${dialog.Option1} | ${dialog.Option2}
+]
+
+# TextInput_Prompt_pXesOx()
+[Activity
+    SuggestedActions = ${dialog.Option2}
+]
+
+# TextInput_Prompt_wWoRY9_text()
+- ${dialog.text}
+# TextInput_Prompt_wWoRY9()
+[Activity
+    Text = ${TextInput_Prompt_wWoRY9_text()}
+    SuggestedActions = ${dialog.Option1} | ${dialog.Option2} | ${dialog.Option3}
+]
+
+# SendActivity_Itdky8_text()
+- ${dialog.price}
+# SendActivity_Itdky8()
+[Activity
+    Text = ${SendActivity_Itdky8_text()}
+]
+
+# SendActivity_o0ktZP_text()
+- ${dialog.price}
+# SendActivity_o0ktZP()
+[Activity
+    Text = ${SendActivity_o0ktZP_text()}
+]
+
+# TextInput_Prompt_p8OJVz()
+[Activity
+
+    Attachments = ${json(dropList(dialog.text,dialog.Option1,dialog.Option2,dialog.Option3,dialog.Option4))}
+
+    InputHint=${conversation.InputHint}
+
+     Summary=${conversation.Summary}
+
+]
+# TextInput_Prompt_h9pu0K_text()
+- ${dialog.text}
+# TextInput_Prompt_h9pu0K()
+[Activity
+    Text = ${TextInput_Prompt_h9pu0K_text()}
+    SuggestedActions = ${dialog.Option1} | ${dialog.Option2} | ${dialog.Option3}
+]
+
+# SendActivity_TR1Vuq_text()
+- ${dialog.price}
+# SendActivity_TR1Vuq()
+[Activity
+    Text = ${SendActivity_TR1Vuq_text()}
+]
+
+# SendActivity_KwEWeo_text()
+- اختر من التالي
+# SendActivity_KwEWeo()
+[Activity
+    Text = ${SendActivity_KwEWeo_text()}
+]
+
+# SendActivity_gZAr1p_text()
+- ${dialog.price}
+# SendActivity_gZAr1p()
+[Activity
+    Text = ${SendActivity_gZAr1p_text()}
+]
+
+# SendActivity_yVik0C_text()
+- ${dialog.price}
+# SendActivity_yVik0C()
+[Activity
+    Text = ${SendActivity_yVik0C_text()}
+]
+
+# TextInput_Prompt_5w5T9L_text()
+- ${dialog.text}
+# TextInput_Prompt_5w5T9L()
+[Activity
+    Text = ${TextInput_Prompt_5w5T9L_text()}
+    SuggestedActions = ${dialog.Option1} | ${dialog.Option2} | ${dialog.Option3}
+]
+
+# SendActivity_DDwG69_text()
+- ${dialog.price}
+# SendActivity_DDwG69()
+[Activity
+    Text = ${SendActivity_DDwG69_text()}
+]
+
+# SendActivity_QvNxxm_text()
+- ${dialog.price}
+# SendActivity_QvNxxm()
+[Activity
+    Text = ${SendActivity_QvNxxm_text()}
+]
+
+# SendActivity_UfgBwd_text()
+- ${dialog.price}
+# SendActivity_UfgBwd()
+[Activity
+    Text = ${SendActivity_UfgBwd_text()}
+]
+
+# SendActivity_Bt1dkd_text()
+- ${dialog.price}
+# SendActivity_Bt1dkd()
+[Activity
+    Text = ${SendActivity_Bt1dkd_text()}
+]
+
+# TextInput_Prompt_3zNVjc_text()
+- ${dialog.text}
+# TextInput_Prompt_3zNVjc()
+[Activity
+    Text = ${TextInput_Prompt_3zNVjc_text()}
+    SuggestedActions = ${dialog.Option1} | ${dialog.Option2} | ${dialog.Option3}
+]
+
+# SendActivity_l3X13e_text()
+- ${dialog.price}
+# SendActivity_l3X13e()
+[Activity
+    Text = ${SendActivity_l3X13e_text()}
+]
+
+# SendActivity_at2I7n_text()
+- ${dialog.price}
+# SendActivity_at2I7n()
+[Activity
+    Text = ${SendActivity_at2I7n_text()}
+]
+
+# SendActivity_0EVe4d_text()
+- ${dialog.price}
+# SendActivity_0EVe4d()
+[Activity
+    Text = ${SendActivity_0EVe4d_text()}
+]
+
+# SendActivity_kYwrIq_text()
+- ${dialog.price}
+# SendActivity_kYwrIq()
+[Activity
+    Text = ${SendActivity_kYwrIq_text()}
+]
+
+# TextInput_Prompt_l5EPeo_text()
+- ${dialog.text}
+# TextInput_Prompt_l5EPeo()
+[Activity
+    Text = ${TextInput_Prompt_l5EPeo_text()}
+    SuggestedActions = ${dialog.Option1} | ${dialog.Option2} | ${dialog.Option3}
+]
+
+# SendActivity_oZD14d_text()
+- ${dilaog.price}
+# SendActivity_oZD14d()
+[Activity
+    Text = ${SendActivity_oZD14d_text()}
+]
+
+# SendActivity_puGuOz_text()
+- ${dialog.price}
+# SendActivity_puGuOz()
+[Activity
+    Text = ${SendActivity_puGuOz_text()}
+]
+
+# SendActivity_vvYcP5_text()
+- ${dialog.price}
+# SendActivity_vvYcP5()
+[Activity
+    Text = ${SendActivity_vvYcP5_text()}
+]
+
+# SendActivity_wCdTeO_text()
+- ${dialog.price}
+# SendActivity_wCdTeO()
+[Activity
+    Text = ${SendActivity_wCdTeO_text()}
+]
+
+# TextInput_Prompt_VBWfii_text()
+- ${dialog.text}
+# TextInput_Prompt_VBWfii()
+[Activity
+    Text = ${TextInput_Prompt_VBWfii_text()}
+    SuggestedActions = ${dialog.Option1} | ${dialog.Option2} | ${dialog.Option3}
+]
+
+# SendActivity_DpSja4_text()
+- ${dialog.price}
+# SendActivity_DpSja4()
+[Activity
+    Text = ${SendActivity_DpSja4_text()}
+]
+
+# SendActivity_2FmzN1_text()
+- ${dialog.price}
+# SendActivity_2FmzN1()
+[Activity
+    Text = ${SendActivity_2FmzN1_text()}
+]
+
+# TextInput_Prompt_uBGPKS()
+[Activity
+
+    Attachments = ${json(dropList(dialog.text,dialog.Option1,dialog.Option2,dialog.Option3,dialog.Option4))}
+
+    InputHint=${conversation.InputHint}
+
+     Summary=${conversation.Summary}
+
+]
+# TextInput_Prompt_crgy3e_text()
+- ${dialog.text}
+# TextInput_Prompt_crgy3e()
+[Activity
+    Text = ${TextInput_Prompt_crgy3e_text()}
+    SuggestedActions = ${dialog.Option1} | ${dialog.Option2} | ${dialog.Option3}
+]
+
+# SendActivity_54U2Vf_text()
+- ${dialog.price}
+# SendActivity_54U2Vf()
+[Activity
+    Text = ${SendActivity_54U2Vf_text()}
+]
+
+# SendActivity_E2HO85_text()
+- ${dialog.price}
+# SendActivity_E2HO85()
+[Activity
+    Text = ${SendActivity_E2HO85_text()}
+]
+
+# SendActivity_n6IdES_text()
+- ${dialog.price}
+# SendActivity_n6IdES()
+[Activity
+    Text = ${SendActivity_n6IdES_text()}
+]
+
+# SendActivity_KYua4p_text()
+- ${dialog.price}
+# SendActivity_KYua4p()
+[Activity
+    Text = ${SendActivity_KYua4p_text()}
+]
+
+# TextInput_Prompt_akP4aD_text()
+- ${dialog.text}
+# TextInput_Prompt_akP4aD()
+[Activity
+    Text = ${TextInput_Prompt_akP4aD_text()}
+    SuggestedActions = ${dialog.Option1} | ${dialog.Option2} | ${dialog.Option3}
+]
+
+# SendActivity_Ut8V2x_text()
+- ${dialog.price}
+# SendActivity_Ut8V2x()
+[Activity
+    Text = ${SendActivity_Ut8V2x_text()}
+]
+
+# SendActivity_UbMyHO_text()
+- ${dialog.price}
+# SendActivity_UbMyHO()
+[Activity
+    Text = ${SendActivity_UbMyHO_text()}
+]
+
+# SendActivity_m2MIW7_text()
+- ${dialog.price}
+# SendActivity_m2MIW7()
+[Activity
+    Text = ${SendActivity_m2MIW7_text()}
+]
+
+# SendActivity_BtTlVc_text()
+- ${dialog.price}
+# SendActivity_BtTlVc()
+[Activity
+    Text = ${SendActivity_BtTlVc_text()}
+]
+
+# TextInput_Prompt_QoU5A6_text()
+- ${dialog.text}
+# TextInput_Prompt_QoU5A6()
+[Activity
+    Text = ${TextInput_Prompt_QoU5A6_text()}
+    SuggestedActions = ${dialog.Option1} | ${dialog.Option2} | ${dialog.Option3}
+]
+
+# SendActivity_IwblHv_text()
+- ${dialog.price}
+# SendActivity_IwblHv()
+[Activity
+    Text = ${SendActivity_IwblHv_text()}
+]
+
+# SendActivity_kFHv0x_text()
+- ${dialog.price}
+# SendActivity_kFHv0x()
+[Activity
+    Text = ${SendActivity_kFHv0x_text()}
+]
+
+# SendActivity_e2stmh_text()
+- ${dialog.price}
+# SendActivity_e2stmh()
+[Activity
+    Text = ${SendActivity_e2stmh_text()}
+]
+
+# SendActivity_vusYOg_text()
+- ${dialog.price}
+# SendActivity_vusYOg()
+[Activity
+    Text = ${SendActivity_vusYOg_text()}
+]
+
+# TextInput_Prompt_vnAAB0_text()
+- ${dialog.text}
+# TextInput_Prompt_vnAAB0()
+[Activity
+    Text = ${TextInput_Prompt_vnAAB0_text()}
+    SuggestedActions = ${dialog.Option1} | ${dialog.Option2} | ${dialog.Option3}
+]
+
+# SendActivity_vnwWo8_text()
+- ${dialog.price}
+# SendActivity_vnwWo8()
+[Activity
+    Text = ${SendActivity_vnwWo8_text()}
+]
+
+# SendActivity_AMdKAX_text()
+- ${dialog.price}
+# SendActivity_AMdKAX()
+[Activity
+    Text = ${SendActivity_AMdKAX_text()}
+]
+
+# SendActivity_VDx4NS_text()
+- ${dialog.price}
+# SendActivity_VDx4NS()
+[Activity
+    Text = ${SendActivity_VDx4NS_text()}
+]
+
+# SendActivity_uKJfWB_text()
+- ${dialog.price}
+# SendActivity_uKJfWB()
+[Activity
+    Text = ${SendActivity_uKJfWB_text()}
+]

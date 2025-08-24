@@ -1,0 +1,38 @@
+[import](common.lg)
+
+# TextInput_Prompt_YISvEy_text()
+- ${conversation.supportOption}
+# TextInput_Prompt_YISvEy()
+[Activity
+    Text = ${TextInput_Prompt_YISvEy_text()}
+    SuggestedActions = ${conversation.ContactOption1} | ${conversation.ContactOption2}
+]
+
+# SendActivity_L84EHA_text()
+- ${conversation.phoneNum}
+# SendActivity_L84EHA()
+[Activity
+    Text = ${SendActivity_L84EHA_text()}
+]
+
+# SendActivity_CZuU3j_text()
+- ${conversation.phoneNum}
+# SendActivity_CZuU3j()
+[Activity
+    Text = ${SendActivity_CZuU3j_text()}
+]
+
+# TextInput_Prompt_r8Lhdi_text()
+- ${conversation.qus}
+# TextInput_Prompt_r8Lhdi()
+[Activity
+    Text = ${TextInput_Prompt_r8Lhdi_text()}
+    SuggestedActions = ${conversation.ContactOption1}
+]
+
+# SendActivity_CTIOtG_text()
+- ${conversation.phoneNum}
+# SendActivity_CTIOtG()
+[Activity
+    Text = ${SendActivity_CTIOtG_text()}
+]

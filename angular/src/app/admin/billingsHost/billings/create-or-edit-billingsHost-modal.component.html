@@ -1,0 +1,161 @@
+﻿<div bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form *ngIf="active" #billingForm="ngForm" novalidate (ngSubmit)="save()" autocomplete="off">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        <span *ngIf="billing.id">{{l("EditBilling")}}</span>
+                        <span *ngIf="!billing.id">{{l("CreateNewBilling")}}</span>
+                    </h4>
+                    <button type="button" class="close" (click)="close()" aria-label="Close" [disabled]="saving">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                 
+
+					<div class="form-group m-form__group">
+                        <label for="CurrencyCurrencyName">{{l("Currency")}}</label>
+                        <div class="input-group">
+                            <input class="form-control" id="CurrencyCurrencyName" name="currencyCurrencyName" [(ngModel)]="currencyCurrencyName" type="text" disabled>     
+                            <div class="input-group-append">
+                                <button class="btn btn-primary blue" (click)="openSelectCurrencyModal()" type="button"><i class="fa fa-search"></i> {{l("Pick")}}</button>
+                            </div> <div class="input-group-prepend">
+                                <button class="btn btn-danger btn-icon" type="button" (click)="setCurrencyIdNull()"><i class="fa fa-times"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <input class="form-control" name="billing.currencyId" [(ngModel)]="billing.currencyId" type="text" required hidden>
+		 
+
+								<!-- <div class="form-group">
+									<label for="Billing_BillingID">{{l("BillingID")}} *</label>
+									<input type="text" #Billing_BillingID="ngModel" id="Billing_BillingID" class="form-control" [(ngModel)]="billing.billingID" name="BillingID"   minlength="0"  maxlength="256"  required/>
+								    <validation-messages [formCtrl]="Billing_BillingID"></validation-messages>
+								</div> -->
+					
+								<div class="form-group">
+									<label for="Billing_BillingDate">{{l("BillingDate")}}</label>
+									 <input required class="form-control m-input" #Billing_BillingDate type="datetime" bsDatepicker  datePickerMomentModifier  [(date)]="billing.billingDate" id="Billing_BillingDate" name="Billing_BillingDate">
+									<validation-messages [formCtrl]="Billing_BillingDate"></validation-messages>
+								</div>
+					
+								<!-- <div class="form-group">
+									<label for="Billing_TotalAmount">{{l("TotalAmount")}}</label>
+									<input type="number" #Billing_TotalAmount="ngModel" id="Billing_TotalAmount" class="form-control" [(ngModel)]="billing.totalAmount" name="TotalAmount"    required/>
+									<validation-messages [formCtrl]="Billing_TotalAmount"></validation-messages>
+								</div> -->
+					
+								<div class="form-group">
+									<label for="Billing_BillPeriodTo">{{l("BillPeriodTo")}}</label>
+									 <input required class="form-control m-input" #Billing_BillPeriodTo type="datetime" bsDatepicker  datePickerMomentModifier  [(date)]="billing.billPeriodTo" id="Billing_BillPeriodTo" name="Billing_BillPeriodTo">
+									<validation-messages [formCtrl]="Billing_BillPeriodTo"></validation-messages>
+								</div>
+					
+								<div class="form-group">
+									<label for="Billing_BillPeriodFrom">{{l("BillPeriodFrom")}}</label>
+									 <input required class="form-control m-input" #Billing_BillPeriodFrom type="datetime" bsDatepicker  datePickerMomentModifier  [(date)]="billing.billPeriodFrom" id="Billing_BillPeriodFrom" name="Billing_BillPeriodFrom">
+									<validation-messages [formCtrl]="Billing_BillPeriodFrom"></validation-messages>
+								</div>
+					
+								<div class="form-group">
+									<label for="Billing_DueDate">{{l("DueDate")}}</label>
+									 <input required class="form-control m-input" #Billing_DueDate type="datetime" bsDatepicker  datePickerMomentModifier  [(date)]="billing.dueDate" id="Billing_DueDate" name="Billing_DueDate">
+									<validation-messages [formCtrl]="Billing_DueDate"></validation-messages>
+								</div>
+					
+
+
+
+
+                                <div>
+
+                                    
+                            <table class="table table-hover table-light" id="myTable">
+                                <thead>
+                                    <th style="width: 130px">{{l('Actions')}}</th>
+                                    <th style="width: 150px" >
+                                        {{l('ServiceName')}}
+                                    </th>
+                                    <th style="width: 150px" >
+                                        {{l('Qty')}}
+                                    </th>
+                                    <!-- <th style="width: 150px" >
+                                        {{l('First Order')}}
+                                    </th> -->
+                                    <th style="width: 150px" >
+                                        {{l('Fees')}}
+                                    </th>
+                                </thead>
+                                <tbody>
+                
+                                    <tr *ngFor="let m of services; let index = index;">
+                
+                                        <td style="width: 130px">
+                                            <div class="btn-group dropdown" normalizePosition>
+                                                <label class="checkbox">
+                                                    <!-- <input type="checkbox" name="IsSelected" [checked]="record.isSelected"
+                                                        (change)="onChange(record, $event.target.checked)" /> -->
+                                                        <input type="checkbox" name="IsSelected"   [ngModelOptions]="{standalone: m.isSelected}" [(ngModel)]="m.isSelected"
+                                                         />
+                                                    <span></span>
+                                                </label>
+                                            </div>
+                                        </td>                   
+                                        <td style="width:150px">
+                                            {{m.serviceName}}
+                                        </td>
+                                        <td style="width:150px" > 
+
+                                          <input  name="fees{{index}}" type="number"   [(ngModel)]="m.fees" /> 
+                                            <!-- <input  name="fees" type="number"  value="{{m.fees}}"  />  -->
+                                         
+                                        </td>
+<!-- 
+                                        <td style="width:150px" > 
+
+                                            <div  *ngIf="m.isFeesPerTransaction">
+                                                <input  name="firstNumberOfOrders{{index}}" type="number"   [(ngModel)]="m.firstNumberOfOrders" /> 
+                                            </div>
+                                           
+                                           
+                                          </td> -->
+
+                                          <td style="width:150px"  > 
+
+                                              <div *ngIf="m.isFeesPerTransaction">
+
+                                                <input  name="feesForFirstOrder{{index}}" type="number"   [(ngModel)]="m.feesForFirstOrder" />
+                                              </div>
+                                            
+                                           
+                                          </td>
+
+
+                                        
+                                    </tr>
+                
+                                </tbody>
+                             
+                            </table>
+
+                                </div>
+
+
+
+
+
+
+                                
+
+                </div>
+                <div class="modal-footer">
+                    <button [disabled]="saving" type="button" class="btn btn-default" (click)="close()">{{l("Cancel")}}</button>
+                    <button type="submit" class="btn btn-primary blue" [disabled]="!billingForm.form.valid" [buttonBusy]="saving" [busyText]="l('SavingWithThreeDot')"><i class="fa fa-save"></i> <span>{{l("Save")}}</span></button>
+                </div>
+            </form>
+        </div>
+    </div>
+<billingHostCurrencyLookupTableModal #billingHostCurrencyLookupTableModal (modalSave)="getNewCurrencyId()"></billingHostCurrencyLookupTableModal>
+		 
+</div>

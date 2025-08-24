@@ -1,0 +1,106 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "Bu7iC2",
+    "name": "PolicyDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "cVjGAw"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "gjeSbA"
+          },
+          "condition": "conversation.isPolcy==\"true\"",
+          "elseActions": [
+            {
+              "$kind": "Microsoft.HttpRequest",
+              "$designer": {
+                "id": "Bowj2S"
+              },
+              "resultProperty": "conversation.AllCaption2",
+              "method": "GET",
+              "url": "${conversation.URL}/api/BotAPI/GetAllCaption?TenantID=27&local=ar",
+              "responseType": "json"
+            },
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "y3u5V9"
+              },
+              "property": "dialog.text",
+              "value": "=first(where(conversation.AllCaption2.content.result, x, x.textResourceId ==5000)).text"
+            },
+            {
+              "$kind": "Microsoft.DeleteProperty",
+              "$designer": {
+                "id": "EsV8Ed"
+              },
+              "property": "conversation.selectPolcy"
+            },
+            {
+              "$kind": "Microsoft.TextInput",
+              "$designer": {
+                "id": "BAzFoD"
+              },
+              "disabled": false,
+              "maxTurnCount": 100,
+              "alwaysPrompt": false,
+              "allowInterruptions": false,
+              "prompt": "${TextInput_Prompt_BAzFoD()}",
+              "unrecognizedPrompt": "",
+              "invalidPrompt": "",
+              "property": "conversation.selectPolcy"
+            },
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "j8w9V3"
+              },
+              "condition": "conversation.selectPolcy ==\"Agree /موافق\"",
+              "elseActions": [
+                {
+                  "$kind": "Microsoft.RepeatDialog",
+                  "$designer": {
+                    "id": "bUsZuW"
+                  },
+                  "activityProcessed": false,
+                  "allowLoop": false
+                }
+              ],
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "1T7ud1"
+                  },
+                  "property": "conversation.isPolcy",
+                  "value": "true"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "EoRb4k"
+          }
+        }
+      ]
+    }
+  ],
+  "generator": "PolicyDialog.lg",
+  "recognizer": "PolicyDialog.lu.qna",
+  "id": "PolicyDialog"
+}

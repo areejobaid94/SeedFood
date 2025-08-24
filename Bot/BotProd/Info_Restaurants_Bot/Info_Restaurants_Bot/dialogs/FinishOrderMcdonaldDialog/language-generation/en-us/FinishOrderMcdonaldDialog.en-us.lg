@@ -1,0 +1,12 @@
+[import](common.lg)
+
+# SendActivity_ANo4Al()
+- ${dialog.OrderUpdateFinsh.content.result}
+
+
+# SendActivity_u9cjPT()
+- ${dialog.OrderUpdateFinsh.content.result}
+# SendActivity_u9cjPT_text()
+- - ${dialog.OrderUpdateFinsh.content.result}
+# SendActivity_DzI4hQ()
+- ${dialog.OrderUpdateFinsh.content.result}

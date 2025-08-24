@@ -1,0 +1,171 @@
+﻿<div [@routerTransition]>
+  
+  <div class=" d-flex flex-column flex-column-fluid">
+   <sub-header [title]="'ServiceFrquencies' | localize" [description]="'ServiceFrquenciesHeaderInfo' | localize">
+             <div role="actions">
+                 
+                 <button *ngIf="isGranted('Pages.Administration.ServiceFrquencies.Create')" (click)="createServiceFrquency()" 
+                                        class="btn btn-primary blue"><i class="fa fa-plus"></i> {{l("CreateNewServiceFrquency")}}</button>
+             </div>
+            </sub-header>
+    
+    <div [class]="containerClass">
+        <div class="card card-custom gutter-b">
+            <div class="card-body">
+                <form class="form" autocomplete="off">
+                    <div>
+                        <div class="row align-items-center">
+                            <div class="col-xl-12">
+                                <div class="form-group m-form__group align-items-center">
+                                    <div class="input-group">
+                                        <input [(ngModel)]="filterText" name="filterText" autoFocus class="form-control m-input" [placeholder]="l('SearchWithThreeDot')" type="text">
+                                        <span class="input-group-btn">
+                                            <button (click)="getServiceFrquencies()" class="btn btn-primary" type="submit"><i class="flaticon-search-1"></i></button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+						 <div class="row" [hidden]="!advancedFiltersAreShown">
+						 	<div class="col-md-12">
+						         <div class="kt-separator kt-separator--border-dashed"></div>
+						     </div>
+
+
+							<div class="col-md-3">
+								<div class="form-group">
+									<label for="ServiceFrequencyNameFilter">{{l("ServiceFrequencyName")}}</label>
+									<input type="text" class="form-control" id="ServiceFrequencyNameFilter" name="serviceFrequencyNameFilter" [(ngModel)]="serviceFrequencyNameFilter">
+								</div>
+                            </div>	
+							<div class="col-md-3">
+								<label for="IsEnabledFilterSelect">{{l("IsEnabled")}}</label>
+								<select class="form-control" name="IsEnabledFilter" id="IsEnabledFilterSelect" [(ngModel)]="isEnabledFilter">
+								<option value="-1">{{l("All")}}</option>
+								<option value="0">{{l("False")}}</option>
+								<option value="1">{{l("True")}}</option>
+								</select>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+									<label  for="MinCreationDateFilter">{{l("CreationDateRange")}}</label>
+									<div class="input-group">
+                                        <input class="form-control m-input" id="MinCreationDateFilter" name="MinCreationDateFilter" type="datetime" bsDatepicker  placeholder="{{l('MinValue')}}" [(ngModel)]="minCreationDateFilter">
+			                            <span style="line-height: 40px;padding: 0 15px 0 15px;"> &mdash; </span>
+                                        <input class="form-control m-input" id="MaxCreationDateFilter" name="MaxCreationDateFilter" type="datetime" bsDatepicker  placeholder="{{l('MaxValue')}}" [(ngModel)]="maxCreationDateFilter">
+									</div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-sm-12">
+                                <span class="clickable-item text-muted" *ngIf="!advancedFiltersAreShown" (click)="advancedFiltersAreShown=!advancedFiltersAreShown"><i class="fa fa-angle-down"></i> {{l("ShowAdvancedFilters")}}</span>
+                                <span class="clickable-item text-muted" *ngIf="advancedFiltersAreShown" (click)="advancedFiltersAreShown=!advancedFiltersAreShown"><i class="fa fa-angle-up"></i> {{l("HideAdvancedFilters")}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+                <div class="row align-items-center">
+                    <!--<Primeng-Datatable-Start>-->
+                    <div class="primeng-datatable-container col-12"
+                         [busyIf]="primengTableHelper.isLoading">
+                        <p-table #dataTable
+                                     (onLazyLoad)="getServiceFrquencies($event)"
+                                     [value]="primengTableHelper.records"
+                                     rows="{{primengTableHelper.defaultRecordsCountPerPage}}"
+                                     [paginator]="false"
+                                     [lazy]="true"
+                                     [scrollable]="true"
+                                     ScrollWidth="100%"
+                                     [responsive]="primengTableHelper.isResponsive"
+                                     [resizableColumns]="primengTableHelper.resizableColumns">
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th style="width: 130px" [hidden]="!isGrantedAny('Pages.Administration.ServiceFrquencies.Edit', 'Pages.Administration.ServiceFrquencies.Delete')">{{l('Actions')}}</th>
+                                    <th style="width: 150px" pSortableColumn="serviceFrequencyName">
+                                        {{l('ServiceFrequencyName')}}
+                                        <p-sortIcon field="serviceFrquency.serviceFrequencyName"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="isEnabled">
+                                        {{l('IsEnabled')}}
+                                        <p-sortIcon field="serviceFrquency.isEnabled"></p-sortIcon>
+                                    </th>
+                                    <th style="width: 150px" pSortableColumn="creationDate">
+                                        {{l('CreationDate')}}
+                                        <p-sortIcon field="serviceFrquency.creationDate"></p-sortIcon>
+                                    </th>
+
+                                </tr>
+                            </ng-template>                           
+							<ng-template pTemplate="body" let-record="$implicit" let-i="rowIndex">
+                                <tr>
+                                    <td style="width: 130px"
+                                        [hidden]="!isGrantedAny('Pages.Administration.ServiceFrquencies.Edit', 'Pages.Administration.ServiceFrquencies.Delete')">
+                                       <div class="btn-group dropdown" dropdown container="body">
+                                            <button class="dropdown-toggle btn btn-sm btn-primary" dropdownToggle>
+                                                <i class="fa fa-cog"></i><span class="caret"></span> {{l("Actions")}}
+                                            </button>
+												<ul class="dropdown-menu"  *dropdownMenu>
+												<li>
+													<a href="javascript:;" class="dropdown-item"
+														(click)="viewServiceFrquencyModal.show(record)">{{l('View')}}</a>
+												</li>
+												<li>
+                                                <a href="javascript:;" *ngIf="permission.isGranted('Pages.Administration.ServiceFrquencies.Edit')" class="dropdown-item"
+														(click)="createOrEditServiceFrquencyModal.show(record.serviceFrquency.id)">{{l('Edit')}}</a>												
+                                                </li>
+												<li>
+											        <a class="dropdown-item" href="javascript:;" *ngIf="permission.isGranted('Pages.Administration.ServiceFrquencies.Delete')"
+														(click)="deleteServiceFrquency(record.serviceFrquency)">{{l('Delete')}}</a>
+												</li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                    <td style="width:150px">
+											<span class="p-column-title"> {{l('ServiceFrequencyName')}}</span>
+											{{record.serviceFrquency.serviceFrequencyName}}
+										</td>
+                                    <td style="width:150px">
+										<span class="p-column-title"> {{l('IsEnabled')}}</span>
+                                        <div *ngIf="record.serviceFrquency.isEnabled" class="text-center"><i class="fa fa-check-circle text-success" title="True"></i></div>
+										<div *ngIf="!record.serviceFrquency.isEnabled" class="text-center"><i class="fa fa-times-circle" title="False"></i></div>
+                                    </td>
+                                    <td style="width:150px">
+										<span class="p-column-title"> {{l('CreationDate')}}</span>
+                                        <span *ngIf="record.serviceFrquency.creationDate">
+											{{record.serviceFrquency.creationDate |  momentFormat:'L' }}
+                                        </span>
+                                        <span *ngIf="!record.serviceFrquency.creationDate">-</span>
+                                    </td>
+
+                                </tr>
+                               
+                            </ng-template>
+                        </p-table>
+						<div class="primeng-no-data" *ngIf="primengTableHelper.totalRecordsCount == 0">
+                            {{l('NoData')}}
+                        </div>
+                        <div class="primeng-paging-container">
+                            <p-paginator [rows]="primengTableHelper.defaultRecordsCountPerPage"
+                                         #paginator
+                                         (onPageChange)="getServiceFrquencies($event)"
+                                         [totalRecords]="primengTableHelper.totalRecordsCount"
+                                         [rowsPerPageOptions]="primengTableHelper.predefinedRecordsCountPerPage">
+                            </p-paginator>
+                            <span class="total-records-count">
+                                {{l('TotalRecordsCount', primengTableHelper.totalRecordsCount)}}
+                            </span>
+                        </div>
+                    </div>
+                    <!--<Primeng-Datatable-End>-->
+                </div>
+            </div>
+        </div>
+    </div>
+    <createOrEditServiceFrquencyModal #createOrEditServiceFrquencyModal (modalSave)="getServiceFrquencies()"></createOrEditServiceFrquencyModal>    
+    <viewServiceFrquencyModal #viewServiceFrquencyModal></viewServiceFrquencyModal>
+    
+  </div>
+</div>

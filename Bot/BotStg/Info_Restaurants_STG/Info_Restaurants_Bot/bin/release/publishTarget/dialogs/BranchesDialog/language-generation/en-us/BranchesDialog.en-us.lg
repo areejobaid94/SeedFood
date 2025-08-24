@@ -1,0 +1,43 @@
+[import](common.lg)
+
+
+#ButtonList3(Text,List)
+- ``` 
+{
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "version": "1.0",
+    "type": "AdaptiveCard",
+    "body": [
+          {
+            "type": "TextBlock",
+            "text": "${Text}"
+        },
+        {
+            "type": "Input.ChoiceSet",
+            "choices": [
+                ${join(getChoiceList3(List),',')}
+                               
+            ],
+            "placeholder": "",
+            "id": "InputAdultos"
+        }
+    ]
+}
+ ```
+# getChoiceList3(adaptiveCardAccounts)
+- ${foreach(adaptiveCardAccounts, x, getChoice3( x))}
+
+ #getChoice3(listC)
+- ``` 
+ {
+     "title": "${listC}",
+     "value": "${listC}"
+ }
+ ```
+
+# TextInput_Prompt_eJ7pD5()
+[Activity
+    Attachments = ${json(ButtonList3(dialog.text,dialog.Branch.content.result))}
+    InputHint=${dialog.InputHint}
+    Summary=${dialog.Summary}
+]

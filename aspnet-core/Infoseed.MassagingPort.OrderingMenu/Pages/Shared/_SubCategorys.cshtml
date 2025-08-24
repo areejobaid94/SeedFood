@@ -1,0 +1,19 @@
+﻿@model List<Infoseed.MassagingPort.OrderingMenu.Pages.Model.OrderingMenuSubCategoryModel>
+@{
+}
+
+@if (@Model != null)
+{
+    foreach (var subcategory in Model)
+    {
+        <div class="  filterDiv  show  @subcategory.ItemCategoryId  div-subcategory-item" data-pageNumber="0" data-subname="@subcategory.SubCategoryName" data-id="@subcategory.ItemSubCategoryId" id="div-subcategory_@subcategory.ItemSubCategoryId" onclick="SubCateItem('@subcategory.ItemSubCategoryId',true)">
+
+            <div class="item ">
+                <div class="subcategory-item">
+                    <button class="btn p-1 "> <strong>@subcategory.SubCategoryName</strong></button>
+
+                </div>
+            </div>
+        </div>
+    }
+}

@@ -1,0 +1,156 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "R4NA3C",
+    "name": "MangaTimeDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "WBhQWN"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.HttpRequest",
+          "$designer": {
+            "id": "DBhj8F"
+          },
+          "resultProperty": "dialog.Result",
+          "url": "${conversation.URL}/api/BotAPI/GetTenHours?local=${conversation.local}&Datetime=${conversation.ValueTime}",
+          "method": "GET",
+          "responseType": "json"
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "JZ083E"
+          },
+          "property": "dialog.TimeCaption",
+          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3617)).text"
+        },
+        {
+          "$kind": "Microsoft.DeleteProperty",
+          "$designer": {
+            "id": "JrlPeV"
+          },
+          "property": "dialog.UserSelect"
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "wettny"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "unrecognizedPrompt": "",
+          "invalidPrompt": "",
+          "prompt": "${TextInput_Prompt_wettny()}",
+          "property": "dialog.UserSelect"
+        },
+        {
+          "$kind": "Microsoft.Foreach",
+          "$designer": {
+            "id": "7bS1y6"
+          },
+          "index": "dialog.foreach.index",
+          "value": "dialog.foreach.value",
+          "itemsProperty": "dialog.Result.content.result",
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "nyFd42"
+              },
+              "property": "dialog.foreach.value",
+              "value": "=dialog.foreach.value"
+            },
+            {
+              "$kind": "Microsoft.EditArray",
+              "$designer": {
+                "id": "pVvUIJ"
+              },
+              "changeType": "push",
+              "itemsProperty": "dialog.list",
+              "value": "=dialog.foreach.value"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "SxXLvS"
+          },
+          "condition": "=contains(dialog.list,dialog.UserSelect) || contains(dialog.UserSelect, '#')",
+          "elseActions": [
+            {
+              "$kind": "Microsoft.RepeatDialog",
+              "$designer": {
+                "id": "nFWiCA"
+              },
+              "activityProcessed": true
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "RyfXS6"
+          },
+          "property": "conversation.RequestValue7",
+          "value": "${dialog.UserSelect}"
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "cAxoPr"
+          }
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "53HetA"
+          },
+          "property": "dialog.Hour",
+          "value": "${dialog.UserSelect}"
+        },
+        {
+          "$kind": "Microsoft.HttpRequest",
+          "$designer": {
+            "id": "Juh5KC"
+          },
+          "resultProperty": "dialog.ResultHour",
+          "method": "GET",
+          "url": "${conversation.URL}/api/BotAPI/IsCorrectHours?Time=${dialog.Hour}&Datetime=${conversation.ValueTime}",
+          "responseType": "json"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "RPy38i"
+          },
+          "condition": "dialog.ResultHour.content.result ==True",
+          "elseActions": [
+            {
+              "$kind": "Microsoft.RepeatDialog",
+              "$designer": {
+                "id": "tHb7dx"
+              },
+              "activityProcessed": true
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "generator": "MangaTimeDialog.lg",
+  "recognizer": "MangaTimeDialog.lu.qna",
+  "id": "MangaTimeDialog"
+}

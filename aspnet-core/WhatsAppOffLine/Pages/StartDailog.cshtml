@@ -1,0 +1,364 @@
+﻿@page
+
+@using Infoseed.MessagingPortal.Web.Models.Sunshine
+@using System.Text.RegularExpressions
+@model WhatsAppOffLine.Pages.StartDailog
+
+
+
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+@{
+    Layout = "_Layout";
+}
+
+
+
+
+<div id="snippetContent">
+
+    <div class="container app">
+        <div class="row app-one" style="margin-right: 0; margin-left: 0;">
+            <div class="col conversation">
+                <div class="heading">
+                    <div class="col-sm-2 col-md-1 col-xs-3 heading-avatar">
+                        <div class="heading-avatar-icon"> <img src="https://bootdey.com/img/Content/avatar/avatar6.png"></div>
+                    </div>
+                    <div class="col-sm-8 col-xs-7 heading-name"> <a class="heading-name-meta">John Doe </a> <span class="heading-online">Online</span></div>
+                </div>
+                <div class="row message" id="conversation">
+                    <div class="row message-body">
+                        @foreach (var massge in @Model.massgesModels)
+                        {
+                            if (massge.sender==MessageSenderType.TeamInbox)
+                            {
+                                <div class="col-sm-12 message-main-receiver">
+                                    <div class="receiver">
+                                        <div>
+                                            <p class="card-text text-truncate limited-text" style="white-space: pre-line;">
+
+                                                @Html.Raw(ConvertLinks(@massge.text))
+
+
+
+                                            </p>
+
+                                            <div class="btn-group" role="group" aria-label="Basic example">
+                                                @{
+                                                    int counter = 0;
+                                                    if (@massge.Buttons != null)
+                                                    {
+
+                                                        foreach (var bt in @massge.Buttons)
+                                                        {
+
+                                                                <button type="button" id="@counter" onclick="sendMessageBT('@bt')">@bt</button>
+
+
+
+                                                            counter++;
+                                                        }
+                                                    }
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                            if (massge.sender==MessageSenderType.Customer)
+                            {
+                                <div class="col-sm-12 message-main-sender">
+                                    <div class="sender">
+                                        <div>
+                                            <p class="card-text text-truncate limited-text" style="white-space: pre-line;">
+
+                                                @Html.Raw(ConvertLinks(@massge.text))
+
+                                            </p>
+
+
+
+
+                                            <div class="btn-group" role="group" aria-label="Basic example">
+                                                @{
+                                                    int counter = 0;
+                                                    if (@massge.Buttons != null)
+                                                    {
+
+                                                        foreach (var bt in @massge.Buttons)
+                                                        {
+
+
+                                                                <button type="button" id="@counter" onclick="sendMessageBT('@bt')">@bt</button>
+
+
+                                                            counter++;
+                                                        }
+                                                    }
+                                                }
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                            }
+
+
+                        }
+                    </div>
+                </div>
+                <div class="row reply">
+                    <form method="post">
+
+                        <div class="col-sm-10 col-xs-9 reply-main">
+                            <textarea asp-for="UserInput" class="form-control" rows="1" id="user-input"></textarea>
+                        </div>
+
+                        <div class="col-sm-2 col-xs-2 reply-send">
+                            <button type="submit"> <i class="fa fa-send fa-2x" aria-hidden="true"></i></button>
+
+                        </div>
+
+                    </form>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+@functions {
+    public string ConvertLinks(string text)
+    {
+        // Regular expression pattern to match URLs
+        string pattern = @"(?<url>https?://[^\s]+)";
+
+        // Replace URLs with clickable links
+        string result = Regex.Replace(text, pattern, "<a href=\"$1\">$1</a>");
+
+
+
+
+        return result;
+    }
+}
+
+<script>
+
+    var queryParameters = { token: '313cb6e6-caad-4457-a0e4-669415d93250' };
+
+    // Construct the URL with query parameters
+    var url = 'https://infoseedsocketioserverstg.azurewebsites.net?';
+    Object.keys(queryParameters).forEach(function (key, index) {
+        if (index > 0) {
+            url += '&';
+        }
+        url += key + '=' + encodeURIComponent(queryParameters[key]);
+    });
+
+    // Establish the Socket.IO connection with query parameters in the URL
+    var socket = io(url);
+    socket.emit("connected", 27);
+    // Handle socket events
+    socket.on('connect', function () {
+        console.log('Socket.IO connected');
+    });
+
+    socket.on('disconnect', function () {
+        console.log('Socket.IO disconnected');
+    });
+
+
+    socket.on('chat-get', function (data) {
+        console.log(data);
+
+        //var data2 = JSON.parse(data);
+        //console.log(data);
+
+        var chatContainer = document.querySelector(".message-body");
+        var botMessage = data.customerChat.text;
+        //var botMessageElement1 = document.createElement("div");
+        //botMessageElement1.className = "row message-body";
+        var botMessageElement2 = document.createElement("div");
+        botMessageElement2.className = "col-sm-12 message-main-receiver";
+        var botMessageElement3 = document.createElement("div");
+        botMessageElement3.className = "receiver";
+        var botMessageElement4 = document.createElement("div");
+        //botMessageElement4.className = "message-text";
+
+
+  
+
+
+        if (data.customerChat.buttons!=null){
+            var botMessageElement20 = document.createElement("p");
+            botMessageElement20.className = "card-text text-truncate limited-text";
+            botMessageElement20.style.whiteSpace = 'pre-line';
+
+            botMessageElement20.textContent = botMessage;
+            botMessageElement4.appendChild(botMessageElement20);
+
+
+            var botMessageElement10 = document.createElement("div");
+            botMessageElement10.className = "btn-group";
+
+            data.customerChat.buttons.forEach(function (element) {
+
+
+           
+                var botMessageElement11 = document.createElement("button");
+                botMessageElement11.onclick = function () {
+                    // Your click event logic goes here
+                    var urlParams = new URLSearchParams(window.location.search);
+
+                    // Retrieve the value of the parameter
+                    var tenantID = urlParams.get('tenantID');
+                    var phonenumber = urlParams.get('phonenumber');
+                    // Use the parameter value in your JavaScript logic
+
+                    var userMessage = element;
+
+                    var url = "/StartDailog?&handler=SendButton&massage=" + userMessage + "&TenantID=" + tenantID + "&phonenumber=" + phonenumber;
+                    fetch(url, {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+
+                    })
+                        .then(response => {
+                            if (response.ok) {
+                                // Handle the response if the API call is successful
+                                console.log('API call successful');
+                            } else {
+                                // Handle the response if the API call is unsuccessful
+                                console.error('API call failed');
+                            }
+                        })
+                        .catch(error => {
+                            // Handle any errors that occur during the API call
+                            console.error('API call error:', error);
+                        });
+                };
+                botMessageElement11.textContent = element;
+
+
+          
+
+                botMessageElement10.appendChild(botMessageElement11);
+                botMessageElement4.appendChild(botMessageElement10);
+
+                console.log(element);
+            });
+        }else{
+
+            var botMessageElement21 = document.createElement("p");
+            botMessageElement21.className = "card-text text-truncate limited-text";
+            botMessageElement21.style.whiteSpace = 'pre-line';
+
+
+            botMessageElement21.textContent = botMessage;
+
+            botMessageElement4.appendChild(botMessageElement21);
+
+        }
+
+
+
+       
+
+        botMessageElement3.appendChild(botMessageElement4);
+        botMessageElement2.appendChild(botMessageElement3);
+        chatContainer.appendChild(botMessageElement2);
+
+
+
+          var chatContainer = document.getElementById('conversation');
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+
+
+
+        //var urlParams = new URLSearchParams(window.location.search);
+
+        //var tenantID = urlParams.get('tenantID');
+        //var phonenumber = urlParams.get('phonenumber');
+
+        //var userMessage = msg;
+
+        //var url = "/StartDailog?&handler=TenantID=" + tenantID + "&phonenumber=" + phonenumber;
+        //fetch(url, {
+        //    method: 'GET',
+        //    headers: {
+        //        'Content-Type': 'application/json'
+        //    }
+
+        //})
+        //    .then(response => {
+        //        if (response.ok) {
+        //            console.log('API call successful');
+        //        } else {
+        //            console.error('API call failed');
+        //        }
+        //    })
+        //    .catch(error => {
+        //        console.error('API call error:', error);
+        //    });
+
+    
+
+
+
+
+        
+        });
+
+
+
+
+
+</script>
+<script>
+    function sendMessageBT(msg) {
+        console.log(msg);
+
+
+        var urlParams = new URLSearchParams(window.location.search);
+
+        // Retrieve the value of the parameter
+        var tenantID = urlParams.get('tenantID');
+        var phonenumber = urlParams.get('phonenumber');
+        // Use the parameter value in your JavaScript logic
+
+        var userMessage = msg;
+
+        var url = "/StartDailog?&handler=SendButton&massage=" + userMessage + "&TenantID=" + tenantID + "&phonenumber=" + phonenumber;
+        fetch(url, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+
+        })
+            .then(response => {
+                if (response.ok) {
+                    // Handle the response if the API call is successful
+                    console.log('API call successful');
+                } else {
+                    // Handle the response if the API call is unsuccessful
+                    console.error('API call failed');
+                }
+            })
+            .catch(error => {
+                // Handle any errors that occur during the API call
+                console.error('API call error:', error);
+            });
+
+    }
+
+
+
+</script>
+

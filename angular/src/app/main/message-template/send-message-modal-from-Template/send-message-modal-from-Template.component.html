@@ -1,0 +1,475 @@
+<div bsModal #sendMessageTeamInbox3="bs-modal" class="modal fade" aria-labelledby="sendMessageTeamInbox3" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content ">
+      <form *ngIf="theme != 'theme12'">
+        <div class="modal-header">
+          <h4 class="modal-title">
+            <span *ngIf="!isEdit">Add New Message</span>
+            <span *ngIf="isEdit">Edit Message Template</span>
+          </h4>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" (click)="close()">Cancel</button>
+          <button id="btn" type="button" class="btn btn-primary blue" (click)="handleSend()" [buttonBusy]="saving"
+            [busyText]="l('SavingWithThreeDot')">
+            <i class="fa fa-save"></i>  
+            <span>{{ l("Save") }}</span>
+          </button>
+        </div>
+      </form>
+      <div [hidden]="theme != 'theme12'">
+        <div class="vertical-wizard">
+          <div class="modal-header">
+            <h4 class="modal-title">
+              <span *ngIf="!isEdit">{{ l("addNewMessageTemplate") }}</span>
+              <span *ngIf="isEdit">{{ l("EditTemplateMessage") }}</span>
+            </h4>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="close()"
+              aria-label="Close"></button>
+          </div>
+          <div id="stepper3" class="modal-body mb-0 bs-stepper vertical vertical-wizard-example">
+            <div class="bs-stepper-header" style="border: none;">
+              <div class="step" data-target="#ContactNumberTeaminbox">
+
+                <button type="button" class="step-trigger"></button>
+              </div>
+              <div class="step" data-target="#personal-info-verticalTeamInbox">
+                <button type="button" class="step-trigger"></button>
+              </div>
+            </div>
+            <div class="bs-stepper-content">
+              <div id="ContactNumberTeaminbox" class="content">
+                <div>
+                  <input class="form-control mb-1" type="text" [(ngModel)]="whatsAppName" placeholder="What up Name"
+                    [disabled]="isExternal">
+                  <p class="text-danger" *ngIf="nextbtn &&!isExternal  && whatsAppName.length==0">{{
+                    l("ThisFieldIsRequired") }}</p>
+
+                  <div class="row mb-2">
+                    <div class="col-1">
+
+                      <ngx-intl-tel-input class="contact" id="countryCode1" [preferredCountries]="preferredCountries"
+                        [enablePlaceholder]="false" [enableAutoCountrySelect]="false" [searchCountryFlag]="false"
+                        [selectFirstCountry]="true" [phoneValidation]="true" [separateDialCode]="separateDialCode"
+                        [numberFormat]="PhoneNumberFormat.National" (countryChange)="onCountryChange($event)"
+                        [disabled]="isExternal" required>
+                      </ngx-intl-tel-input>
+
+                    </div>
+
+                    <div class="col-11 mb-2">
+                      <input class="form-control" type="text" placeholder="ex:789012345" [(ngModel)]="mobileNumber"
+                        (keydown)="preventNonNumeric($event)" [disabled]="isExternal">
+
+                    </div>
+                    <p class="text-danger" *ngIf="nextbtn && !isExternal  && mobileNumber.length==0">{{
+                      l("ThisFieldIsRequired") }}</p>
+                  </div>
+                </div>
+
+                <div class=" mb-2">
+                  <div class=" m-checkbox-list form-check form-switch my-1">
+                    <input class="form-check-input" id="isExternal" type="checkbox" name="isExternal"
+                      [checked]="isExternal" (input)="handleIsExternal($event)" />
+                    <label for="isExternal" class="kt-checkbox">Send To internal contact</label>
+                  </div>
+                </div>
+                <div class="col-12" *ngIf="isExternal">
+                  <div class="form-group">
+                    <ng-select [items]="localCust" bindLabel="combinedValue" [trackByFn]="trackByFn"
+                      (scrollToEnd)="onScroll()" [loading]="customerApiLoading" typeToSearchText="Please start typying "
+                      [typeahead]="customerApiInput$" placeholder="Select whatsapp Number"
+                      [(ngModel)]="selectedContact">
+                      <ng-option></ng-option>
+                    </ng-select>
+                  </div>
+                  <p class="text-danger" *ngIf="nextbtn && isExternal && selectedContact == null">{{
+                    l("ThisFieldIsRequired") }}</p>
+
+                </div>
+                <div class="row mt-2">
+                  <div class="col-6"></div>
+                  <div class="col-6 text-right">
+                    <button [disabled]="isValidMobileNumber" class="btn btn-primary-info btn-next"
+                      [buttonBusy]="savingNext" (click)="verticalWizardNext()" rippleEffect>
+                      <span class="align-middle d-sm-inline-block"> {{ l("next") }}</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div id="personal-info-verticalTeamInbox" class="content">
+                <div class="content-header">
+
+                </div>
+
+                <div class="row">
+                  <div class="form-group">
+                    <h3 *ngIf="isExternal && selectedContact">Send Message to {{selectedContact.combinedValue}}</h3>
+                    <h3 *ngIf="!isExternal && combinedValue">Send Message to {{combinedValue}}</h3>
+                    <label for="template">{{ l("template") }} *</label>
+
+                    <ng-select [items]="getItems()" bindLabel="name" placeholder="Select Template"
+                      [(ngModel)]="templateById" (ngModelChange)="getTemplateById($event)">
+                    </ng-select>
+                  </div>
+                  <p class="text-danger" *ngIf="isSubmitted && !templateById">{{
+                    l("ThisFieldIsRequired") }}</p>
+
+                  <div *ngIf="templateById" class="row justify-content-center h-100 ">
+                    <div
+                        *ngIf="templateById?.localTemplateId"
+                        class="templateCard w-75 p-1"
+                        [ngStyle]="{
+                            'border-color': templateById.localTemplateId ? '#d8d6de' : 'transparent',
+                            'background-color': templateById.localTemplateId ? 'white' : 'transparent'
+                        }"
+                    >
+                        <!-- <button (click)="test22()">test2222222222222222222</button> -->
+
+
+                        
+                        <!-- <button (click)="test22()">test2222222222222222222</button> -->
+                    <div class="whatsapp-carousel-container" *ngIf="componentCarousel!=null">                          
+                            <div class="wa-carousel-body">
+                                <div [ngClass]="templateById.language === 'ar' ? 'rtl' : 'ltr'">
+                                    <ng-container *ngFor="let item of dynamicTextParts; let i = index">
+                                        <span *ngIf="item.type == 'text'">
+                                            {{ item.content }}
+                                        </span>
+                                        <span *ngIf="item.type == 'input'" class="body-text-exampl">
+                                            {{checkPattern(item.content) ? '{{' + customeexampleBody[item.index] +'}}' : item.content }}
+                                        </span>
+                                    </ng-container>
+                                </div>
+                            </div>
+
+                            <!-- <div class="wa-carousel-body" *ngIf="componentBody?.text">
+                              <p>{{ componentBody.text }}</p>
+                            </div> -->
+
+                            <!-- Cards container with horizontal scrolling -->
+                            <div class="wa-cards-scroller">
+                              <div class="wa-cards-wrapper">
+                                <!-- Individual cards -->
+                                <div class="wa-card" *ngFor="let card of componentCarousel.cards">
+                                  <!-- Media (image/video) -->
+                                  <div class="wa-card-media">
+                                    <div *ngIf="card.components[0]?.format === 'IMAGE'">
+                                      <img class="wa-card-image" 
+                                           [src]="card.components[0]?.example.mediaCard[0]" 
+                                           alt="Card image" />
+                                    </div>
+                                    <div *ngIf="card.components[0]?.format === 'VIDEO'">
+                                      <video class="wa-card-video" 
+                                             [src]="card.components[0]?.example.mediaCard[0]" 
+                                             controls></video>
+                                    </div>
+                                  </div>
+
+                                  <!-- Card body text -->
+                                  <div class="wa-card-content">
+                                    <div class="wa-card-text" *ngIf="card.components[1]?.text">
+                                      {{ card.components[1].text }}
+                                    </div>
+
+                                    <!-- Buttons -->
+                                    <div class="wa-card-buttons">
+                                      <div *ngFor="let button of card.components[2]?.buttons | slice:0:2" 
+                                            class="wa-card-button"
+                                            [class.url-button]="button.type === 'URL'"
+                                            [class.phone-button]="button.type === 'PHONE_NUMBER'"
+                                            [class.quick-reply]="button.type === 'QUICK_REPLY'">
+                                        <span class="button-icon">
+                                          <img *ngIf="button.type === 'URL'" src="assets/common/images/imageFacebookTemplate/Icon/external-link1.png" alt="Link">
+                                          <img *ngIf="button.type === 'PHONE_NUMBER'" src="assets/common/images/imageFacebookTemplate/Icon/phone-receiver-silhouette1.png" alt="Call">
+                                          <img *ngIf="button.type === 'QUICK_REPLY'" src="assets/common/images/imageFacebookTemplate/Icon/reply1.png" alt="Reply">
+                                        </span>
+                                        <span class="button-text">{{ button.text }}</span>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                  <div  *ngIf=" componentCarousel!=null && templateById?.localTemplateId && dynamicTextParts.length !==0" class="col-12  p-0 w-75 mt-1">
+                      <ng-container *ngFor="let part of dynamicTextParts; let i = index">
+                        <ng-container *ngIf="part.type == 'input';">
+                          <!-- <label for="template-teamInbox">Custome Field {{ '{{' + ((part.index) + 1) + '}}' }} *</label> -->
+                          <h3> body  varible {{(part.index + 1)}}</h3>
+                          <label [for]="'var' + (part.index + 1)" class="body-text-exampl">{{(part.index + 1)}} {{ '{{' + customeexampleBody[part.index] + '}}' }} *</label>
+                          <input class="form-control" id="template-teamInbox" name="template-teamInbox"
+                            [(ngModel)]="inputs[part.index].value" (ngModelChange)="updateText()"
+                            [placeholder]="'Start Typing...'"
+                            (keypress)="onKeyPress($event , inputs[part.index].value)"
+                            />
+                          <p class="text-danger" *ngIf="isSubmitted && inputs[part.index].value.length === 0">{{
+                            l("ThisFieldIsRequired") }}</p>
+                        </ng-container>
+                      </ng-container>
+                    </div>
+
+                    <div *ngIf="componentCarousel!=null">
+                      <div class="carousel-container">
+                          <div class="carousel-nav" *ngIf="VariableCountCarousel[currentCardIndex] > 0||((urlVariables[currentCardIndex]?.[0])||([currentCardIndex]?.[1]))">
+                              <button *ngFor="let card of cards; let i = index" 
+                                      (click)="currentCardIndex = i"
+                                      [class.active]="currentCardIndex === i">
+                                  Card {{i + 1}}
+                              </button>
+                          </div>
+
+                          <div class="current-card" *ngIf="cards[currentCardIndex]">
+                              <div *ngIf="VariableCountCarousel[currentCardIndex] > 0">
+                                  <div *ngFor="let input of inputsCarousel[currentCardIndex]; let i = index">
+                                      <label>Variable {{i + 1}}:</label>
+                                      <input [(ngModel)]="input.value" 
+                                              (input)="updateCarouselText(currentCardIndex)"
+                                              placeholder="Enter value for {{i + 1}}">
+                                  </div>
+                                  <div class="preview" >
+                                      Preview: {{displayCarouselTexts[currentCardIndex]}}
+                                  </div>
+                              </div>
+                            </div>
+                          
+                          
+                          <!-- <div class="current-card" *ngFor="let card of componentCarousel.cards; let cardIndex = index"> -->
+                            <div   class="current-card" >
+                            <div *ngFor="let button of cards[currentCardIndex]?.components[2]?.buttons | slice:0:2; let buttonIndex = index"
+                                  [class.url-button]="button.type === 'URL'">
+                              <div *ngIf="button.type === 'URL' && urlVariables[currentCardIndex]?.[buttonIndex]"
+                                    class="url-variables">
+                                    <label>URL Variable Card {{currentCardIndex + 1}}:</label>
+                              <span class="button-text">
+                                {{ updateUrlWithVariables(currentCardIndex, buttonIndex, button.url) }}
+                              </span>
+                                <div *ngFor="let input of urlVariables[currentCardIndex][buttonIndex]; let i = index">
+                                  <label>URL Variable {{i + 1}}:</label>
+                                <input 
+                                    [(ngModel)]="input.value" 
+                                    name="urlVar{{currentCardIndex}}{{buttonIndex}}{{i}}" 
+                                    required 
+                                    #inputRef="ngModel"
+                                    [class.invalid]="inputRef.invalid && inputRef.touched"
+                                    (input)="updateUrlWithVariables(currentCardIndex, buttonIndex, button.url)"
+                                    placeholder="Enter value for {{i + 1}}">
+                                                                  
+                                  <div *ngIf="inputRef.invalid && inputRef.touched" class="error-message">
+                                    This field is required.
+                                  </div>
+
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        <!-- </div> -->
+                      
+                      
+                      
+                      
+                      </div>
+                  </div>
+
+                        <div class="card-template p-1">
+                            <div class="row mb-1" *ngIf="ComponentHeader?.text &&VariableCountHeader==0">
+                                <h4 [ngClass]="templateById.language === 'ar' ? 'rtl' : 'ltr'">
+                                    {{ ComponentHeader?.text }}
+                                </h4>
+                            </div>
+                                <div class="row body-text-container">
+                                  <div [ngClass]="templateById.language === 'ar' ? 'rtl' : 'ltr'">
+                                      <ng-container *ngFor="let item of dynamicTextPartsHeader; let i = index">
+                                          <span *ngIf="item.type == 'text'">
+                                              {{ item.content }}
+                                          </span>
+                                          <span *ngIf="item.type == 'input'" class="body-text-exampl">
+                                              {{checkPattern(item.content) ? '{{' + customeexampleHeader[item.index] +'}}' : item.content }}
+                                          </span>
+                                      </ng-container>
+                                  </div>
+                                </div>
+
+                            <div class="row mb-1" *ngIf="componentHeader?.format === 'IMAGE'">
+                                <img class="p-0" *ngIf="templateById.localTemplateId" [src]="safeMediaLink" style="height: 150px" alt="Campaign Image" />
+                            </div>
+                            <div class="row mb-1"   *ngIf="componentHeader?.format === 'VIDEO'" >
+                                <video 
+                                     class="wa-card-video p-0"  
+                                     frameborder="0"
+                                     controls>
+                                <source [src]="safeMediaLink" type="video/mp4">
+                                Your browser does not support the video tag.
+                              </video>
+                            </div>
+                            <div class="row mb-1" *ngIf="componentHeader?.format==='DOCUMENT'"  >
+                                <iframe  
+                                        class="p-0"
+                                        [src]="safeMediaLink"
+                                        style="height: 150px; width: 100%"
+                                        frameborder="0">
+                                </iframe>
+                            </div>
+    
+                            <div class="row body-text-container" *ngIf="componentCarousel?.type!='carousel'">
+                                <div [ngClass]="templateById.language === 'ar' ? 'rtl' : 'ltr'">
+                                    <ng-container *ngFor="let item of dynamicTextParts; let i = index">
+                                        <span *ngIf="item.type == 'text'">
+                                            {{ item.content }}
+                                        </span>
+                                        <span *ngIf="item.type == 'input'" class="body-text-exampl">
+                                            {{checkPattern(item.content) ? '{{' + customeexampleBody[item.index] +'}}' : item.content }}
+                                        </span>
+                                    </ng-container>
+                                </div>
+                            </div>
+
+
+                            <div class="card-footer footerCard p-1 pt-0" *ngIf="ComponentFooter?.text">
+                                <small [ngClass]="templateById.language === 'ar' ? 'rtl' : 'ltr'">
+                                    {{ ComponentFooter.text }}
+                                </small>
+                            </div>
+                        </div>
+
+
+                       <div class="row buttonText justify-content-center w-100" *ngIf="ComponentButton?.buttons">
+                            <div class="w-50 p-1" *ngFor="let button of ComponentButton.buttons; let i = index">
+                              <button class="btn w-100" 
+                                      [ngClass]="i % 2 === 0 ? 'btn-outline-primary-info' : 'btn-primary-info'">
+                                {{ button.text }}
+                              </button>
+                            </div>
+                          </div>
+                    </div>
+
+                    <div  *ngIf="templateById?.localTemplateId && dynamicTextPartsHeader.length !==0" class="col-12  p-0 w-75 mt-1">
+                      <ng-container *ngFor="let part of dynamicTextPartsHeader; let i = index">
+                        <ng-container *ngIf="part.type == 'input';">
+                          <h3> header varible {{(part.index + 1)}}</h3>
+                          <label [for]="'var' + (part.index + 1)" class="body-text-exampl">{{(part.index + 1)}} {{ '{{' + customeexampleHeader[part.index] + '}}' }} *</label>
+                          <input class="form-control" id="template-teamInbox" name="template-teamInbox"
+                            [(ngModel)]="inputsHeaders[part.index].value" (ngModelChange)="updateTextHeader()"
+                            [placeholder]="'Start Typing...'"
+                            (keypress)="onKeyPress($event , inputsHeaders[part.index].value)"
+                            />
+                          <p class="text-danger" *ngIf="isSubmitted && inputsHeaders[part.index].value.length === 0">{{
+                            l("ThisFieldIsRequired") }}</p>
+                        </ng-container>
+                      </ng-container>
+                    </div>
+                    <div   *ngIf="templateById?.localTemplateId && (componentCarousel==null) && VariableCount !==0" class="col-12  p-0 w-75 mt-1">
+                      <ng-container *ngFor="let part of dynamicTextParts; let i = index">
+                        <ng-container *ngIf="part.type == 'input';">
+                          <!-- <label for="template-teamInbox">Custome Field {{ '{{' + ((part.index) + 1) + '}}' }} *</label> -->
+                          <h3> body  varible {{(part.index + 1)}}</h3>
+                          <label [for]="'var' + (part.index + 1)" class="body-text-exampl">{{(part.index + 1)}} {{ '{{' + customeexampleBody[part.index] + '}}' }} *</label>
+                          <input class="form-control" id="template-teamInbox" name="template-teamInbox"
+                            [(ngModel)]="inputs[part.index].value" (ngModelChange)="updateText()"
+                            [placeholder]="'Start Typing...'"
+                            (keypress)="onKeyPress($event , inputs[part.index].value)"
+                            />
+                          <p class="text-danger" *ngIf="isSubmitted && inputs[part.index].value.length === 0">{{
+                            l("ThisFieldIsRequired") }}</p>
+                        </ng-container>
+                      </ng-container>
+                    </div>
+
+                    
+                     <div *ngIf="variableURL1 &&templateById.category!='AUTHENTICATION'" class="col-12 p-0 w-75 mt-1">
+                      <h3>Button <span class="body-text-exampl">{{URLBtton1.text}}</span> URL variable</h3>
+                      <label for="URLvar1" class="body-text-exampl">
+                        {{ buildURLButton1() }} {{ '1 {{ ' + urlExample1 + ' }}*' }}
+                      </label>
+                      <input class="form-control"
+                              id="URLvar1"
+                              name="template-teamInbox"
+                              [(ngModel)]="firstButtonURLVariabllesTemplate.varOne"
+                              (input)="URLValidVarible1()"
+                              placeholder="Start Typing..." />
+                      <p class="text-danger" *ngIf="isSubmitted && firstButtonURLVariabllesTemplate.varOne.length === 0">
+                        {{ l("ThisFieldIsRequired") }}
+                      </p>
+                      <p class="text-danger" *ngIf="isSubmitted && !URL1isValid">
+                        Write a valid URL
+                      </p>
+                    </div>
+
+                    <div *ngIf="variableURL2" class="col-12 p-0 w-75 mt-1">
+                      <h3>Button <span class="body-text-exampl">{{URLBtton2.text}}</span> URL variable</h3>
+                      <label for="URLvar2" class="body-text-exampl">
+                        {{ buildURLButton2() }} {{ '1 {{ ' + urlExample2 + ' }}*' }}
+                      </label>
+                      <input class="form-control"
+                              id="URLvar2"
+                              name="template-teamInbox"
+                              [(ngModel)]="secondButtonURLVariabllesTemplate.varOne"
+                              (input)="URLValidVarible2()"
+                              placeholder="Start Typing..." />
+                      <p class="text-danger" *ngIf="isSubmitted && secondButtonURLVariabllesTemplate.varOne.length === 0">
+                        {{ l("ThisFieldIsRequired") }}
+                      </p>
+                      <p class="text-danger" *ngIf="isSubmitted && !URL2isValid">
+                        Write a valid URL
+                      </p>
+                    </div>
+
+                      <div *ngIf="copyCodeEsxist" class="col-12  p-0 w-75 mt-1">
+                          <h3>Button <span class="body-text-exampl">{{copyCodeButton.text}}</span> Copy Code varible </h3>
+                          <label for="'URLvar2'" class="body-text-exampl">{{buildCopyCodeButton()}} {{ '1 {{ ' + copyCodeButton.example[0] + ' }}*' }}</label>
+                          <input class="form-control" id="template-teamInbox" name="template-teamInbox"
+                            [(ngModel)]="buttonCopyCodeVariabllesTemplate.varOne" 
+                            [placeholder]="'Start Typing...'"
+                             maxlength="15"
+                            />
+                            <p class="text-danger" *ngIf="isSubmitted && CopyCodeisValid">{{
+                            l("ThisFieldIsRequired") }}</p>
+                      </div>
+
+                  </div>
+                </div>
+                <div class="d-flex justify-content-between mt-2">
+                  <button class="btn btn-outline-primary-info btn-prev h-25" (click)="verticalWizardPrevious()"
+                    rippleEffect>
+                    <span class="align-middle d-sm-inline-block"> {{ l("previus") }}</span>
+                  </button>
+                  <div>
+
+                    <button id="btnSend" type="button" class="btn btn-primary-info" (click)="handleSend(false)"
+                      [buttonBusy]="saving && !isScheduleBtn">
+                      {{l("sendNow") }}
+                    </button>
+                    <!-- <div class=" m-checkbox-list form-check form-switch my-1">
+                      <input class="form-check-input" id="Schedule" type="checkbox" name="Schedule"
+                        (input)="handleIsSchedule($event)" />
+                      <label for="Schedule" class="kt-checkbox">Schedule Message</label>
+                    </div> -->
+
+
+                    <div *ngIf="isSchedule===true">
+
+                      <p-calendar [(ngModel)]="dateAndTime" [iconDisplay]="'input'" [showTime]="true"
+                        [minDate]="minDate" [showIcon]="true" class="btn-primary-info my-1"></p-calendar>
+
+                      <div class="my-1">
+                        <button id="btnSend" type="button" class="btn btn-primary-info" (click)="handleSend(true)"
+                          [buttonBusy]="saving && isScheduleBtn">
+                          {{l("messageSchedualing") }}
+                        </button>
+                      </div>
+
+                    </div>
+                  </div>
+
+
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

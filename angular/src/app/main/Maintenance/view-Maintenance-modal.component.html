@@ -1,0 +1,119 @@
+<div id="OrderModel" bsModal #createOrEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="createOrEditModal" aria-hidden="true" [config]="{backdrop: 'static'}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">
+                    <span>{{l("Details")}}</span>
+                </h4>
+                <button type="button" class="close" (click)="closee(item.stringTotal)" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+
+            <div class="modal-body">
+
+
+                <div class="center" style="padding-left: 64px ;font-size: 20px;">
+                    <div class="row">
+                        
+                        <div class="col-3 mb-3" style="font-size: 20px">                      
+                            <strong>{{l("Name")}} :</strong>
+                        </div>
+                        <div class="col-6 mb-3" style="font-size: 15px">                      
+                            {{ item.customerName }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-3 mb-3" style="font-size: 20px">                      
+                            <strong>{{l("Mobile 1")}} :</strong>
+                        </div>
+                        <div class="col-6 mb-3" style="font-size: 15px">                      
+                            {{ item.phoneNumber1}}
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-3 mb-3" style="font-size: 20px">                      
+                            <strong>{{l("Mobile 2")}} :</strong>
+                        </div>
+                        <div class="col-6 mb-3" style="font-size: 15px">                      
+                            {{ item.phoneNumber2}}
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-3 mb-3" style="font-size: 20px">                      
+                            <strong>{{l("Phone Type")}} :</strong>
+                        </div>
+                        <div class="col-6 mb-3" style="font-size: 15px">                      
+                            {{ item.phoneType}}
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-3 mb-3" style="font-size: 20px">                      
+                            <strong>{{l("Damage")}} :</strong>
+                        </div>
+                        <div class="col-6 mb-3" style="font-size: 15px">                      
+                            {{ item.damage}}
+                        </div>
+                    </div>
+
+
+
+
+                    <div class="row" *ngIf="item.address">
+                        <div class="col-3 mb-3" style="font-size: 20px">                      
+                            <strong>{{l("Address")}} :</strong>
+                        </div>
+                        <div class="col-6 mb-3" style="font-size: 15px"> 
+                            <a href="{{ item.locationFrom }}" target="_blank">{{ item.address }}</a>                     
+                            
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-3 mb-3" style="font-size: 20px">                      
+                            <strong>{{l("Status")}} :</strong>
+                        </div>
+                        <div class="col-6 mb-3" style="font-size: 15px">                      
+                            {{ item.orderStatusName }}
+                        </div>
+                    </div>
+               
+                </div>
+               
+                <br>
+                <br>
+                <br>
+                <br>
+
+                <div class="center" style="text-align: center;">
+
+                    <label style="font-size: 41px">Total </label>
+                   <p style="font-size: 41px"> {{item.stringTotal}} </p>
+                </div>
+
+
+            </div>
+            <div class="modal-footer" >
+
+                <div class="row" > 
+                    <!-- <button style="margin: 5px"  [disabled]="saving" type="button" class="btn btn-outline-success" (click)="printPage()">{{l("Print")}}</button> -->
+
+                    <a [routerLink]="['/app/main/teamInbox/teamInbox']" [queryParams]="{CustomerID: item.userId}" ><button class="btn btn-outline-dark" style="margin: 5px"> Chat</button></a>
+    
+                    <button [disabled]="saving" type="button" class="btn btn-outline-success" (click)="done(item.stringTotal)"style="margin: 5px">{{l("Done")}}</button>
+                    <button [disabled]="saving" type="button" class="btn btn-outline-danger" (click)="delete(item.stringTotal)"style="margin: 5px">{{l("Delete")}}</button>  
+                    
+                </div>
+
+                             
+                <button [disabled]="saving" type="button" class="btn btn-outline-secondary" (click)="closee(item.stringTotal)">{{l("Close")}}</button>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+

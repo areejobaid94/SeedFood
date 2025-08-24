@@ -1,0 +1,747 @@
+﻿@using Microsoft.AspNetCore.Localization
+@{
+
+
+    var requestCulture = Context.Features.Get<IRequestCultureFeature>();
+}
+
+<!doctype html>
+<html lang="@requestCulture.RequestCulture.UICulture.Name">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <link rel="icon" href="~/desgin/img/fv.ico" type="image/svg+xml">
+            <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+        <script src="https://netdna.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.2.0/socket.io.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!--bootstrap -->
+@*    <link rel="stylesheet" href="~/desgin/assets/bootstrap/css/bootstrap.min.css">
+*@    <!--skeleton -->
+    <link rel="stylesheet" href="~/desgin/css/skeleton.css?v=4.5.46">
+    <!-- Material Design Icons for filter -->
+    <link href="vendor/icons/css/materialdesignicons.min.css" media="all" rel="stylesheet" type="text/css" />
+
+    <!--RTL -->
+    @if (requestCulture.RequestCulture.UICulture.Name == "ar")
+    {
+        <link rel="stylesheet" href="~/desgin/css/rtl.css?v=4.5.46">
+    }
+    <!--slick -->
+
+
+    <title>WhatsApp</title>
+
+    <style type="text/css">
+        html,
+        body,
+        div,
+        span {
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: url("https://www.bootdey.com/img/bgy.png") no-repeat fixed center;
+            background-size: cover;
+        }
+
+        .fa-2x {
+            font-size: 1.5em;
+        }
+
+        .app {
+            position: relative;
+            overflow: hidden;
+            top: 19px;
+            height: calc(100% - 38px);
+            margin: auto;
+            padding: 0;
+            box-shadow: 0 1px 1px 0 rgba(0, 0, 0, .06), 0 2px 5px 0 rgba(0, 0, 0, .2);
+        }
+
+        .app-one {
+            background-color: #f7f7f7;
+            height: 100%;
+            overflow: hidden;
+            margin: 0;
+            padding: 0;
+            box-shadow: 0 1px 1px 0 rgba(0, 0, 0, .06), 0 2px 5px 0 rgba(0, 0, 0, .2);
+        }
+
+        .side {
+            padding: 0;
+            margin: 0;
+            height: 100%;
+        }
+
+        .side-one {
+            padding: 0;
+            margin: 0;
+            height: 100%;
+            width: 100%;
+            z-index: 1;
+            position: relative;
+            display: block;
+            top: 0;
+        }
+
+        .side-two {
+            padding: 0;
+            margin: 0;
+            height: 100%;
+            width: 100%;
+            z-index: 2;
+            position: relative;
+            top: -100%;
+            left: -100%;
+            -webkit-transition: left 0.3s ease;
+            transition: left 0.3s ease;
+        }
+
+
+        .heading {
+            padding: 10px 16px 10px 15px;
+            margin: 0;
+            height: 60px;
+            width: 100%;
+            background-color: #eee;
+            z-index: 1000;
+        }
+
+        .heading-avatar {
+            padding: 0;
+            cursor: pointer;
+        }
+
+        .heading-avatar-icon img {
+            border-radius: 50%;
+            height: 40px;
+            width: 40px;
+        }
+
+        .heading-name {
+            padding: 0 !important;
+            cursor: pointer;
+        }
+
+        .heading-name-meta {
+            font-weight: 700;
+            font-size: 100%;
+            padding: 5px;
+            padding-bottom: 0;
+            text-align: left;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            color: #000;
+            display: block;
+        }
+
+        .heading-online {
+            display: none;
+            padding: 0 5px;
+            font-size: 12px;
+            color: #93918f;
+        }
+
+        .heading-compose {
+            padding: 0;
+        }
+
+            .heading-compose i {
+                text-align: center;
+                padding: 5px;
+                color: #93918f;
+                cursor: pointer;
+            }
+
+        .heading-dot {
+            padding: 0;
+            margin-left: 10px;
+        }
+
+            .heading-dot i {
+                text-align: right;
+                padding: 5px;
+                color: #93918f;
+                cursor: pointer;
+            }
+
+        .searchBox {
+            padding: 0 !important;
+            margin: 0 !important;
+            height: 60px;
+            width: 100%;
+        }
+
+        .searchBox-inner {
+            height: 100%;
+            width: 100%;
+            padding: 10px !important;
+            background-color: #fbfbfb;
+        }
+
+
+            /*#searchBox-inner input {
+                              box-shadow: none;
+                            }*/
+
+            .searchBox-inner input:focus {
+                outline: none;
+                border: none;
+                box-shadow: none;
+            }
+
+        .sideBar {
+            padding: 0 !important;
+            margin: 0 !important;
+            background-color: #fff;
+            overflow-y: auto;
+            border: 1px solid #f7f7f7;
+            height: calc(100% - 120px);
+        }
+
+        .sideBar-body {
+            position: relative;
+            padding: 10px !important;
+            border-bottom: 1px solid #f7f7f7;
+            height: 72px;
+            margin: 0 !important;
+            cursor: pointer;
+        }
+
+            .sideBar-body:hover {
+                background-color: #f2f2f2;
+            }
+
+        .sideBar-avatar {
+            text-align: center;
+            padding: 0 !important;
+        }
+
+        .avatar-icon img {
+            border-radius: 50%;
+            height: 49px;
+            width: 49px;
+        }
+
+        .sideBar-main {
+            padding: 0 !important;
+        }
+
+            .sideBar-main .row {
+                padding: 0 !important;
+                margin: 0 !important;
+            }
+
+        .sideBar-name {
+            padding: 10px !important;
+        }
+
+        .name-meta {
+            font-size: 100%;
+            padding: 1% !important;
+            text-align: left;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            color: #000;
+        }
+
+        .sideBar-time {
+            padding: 10px !important;
+        }
+
+        .time-meta {
+            text-align: right;
+            font-size: 12px;
+            padding: 1% !important;
+            color: rgba(0, 0, 0, .4);
+            vertical-align: baseline;
+        }
+
+        /*New Message*/
+
+        .newMessage {
+            padding: 0 !important;
+            margin: 0 !important;
+            height: 100%;
+            position: relative;
+            left: -100%;
+        }
+
+        .newMessage-heading {
+            padding: 10px 16px 10px 15px !important;
+            margin: 0 !important;
+            height: 100px;
+            width: 100%;
+            background-color: #00bfa5;
+            z-index: 1001;
+        }
+
+        .newMessage-main {
+            padding: 10px 16px 0 15px !important;
+            margin: 0 !important;
+            height: 60px;
+            margin-top: 30px !important;
+            width: 100%;
+            z-index: 1001;
+            color: #fff;
+        }
+
+        .newMessage-title {
+            font-size: 18px;
+            font-weight: 700;
+            padding: 10px 5px !important;
+        }
+
+        .newMessage-back {
+            text-align: center;
+            vertical-align: baseline;
+            padding: 12px 5px !important;
+            display: block;
+            cursor: pointer;
+        }
+
+            .newMessage-back i {
+                margin: auto !important;
+            }
+
+        .composeBox {
+            padding: 0 !important;
+            margin: 0 !important;
+            height: 60px;
+            width: 100%;
+        }
+
+        .composeBox-inner {
+            height: 100%;
+            width: 100%;
+            padding: 10px !important;
+            background-color: #fbfbfb;
+        }
+
+            .composeBox-inner input:focus {
+                outline: none;
+                border: none;
+                box-shadow: none;
+            }
+
+        .compose-sideBar {
+            padding: 0 !important;
+            margin: 0 !important;
+            background-color: #fff;
+            overflow-y: auto;
+            border: 1px solid #f7f7f7;
+            height: calc(100% - 160px);
+        }
+
+        /*Conversation*/
+
+        .conversation {
+            padding: 0 !important;
+            margin: 0 !important;
+            height: 100%;
+            /*width: 100%;*/
+            border-left: 1px solid rgba(0, 0, 0, .08);
+            /*overflow-y: auto;*/
+        }
+
+        .message {
+            padding: 0 !important;
+            margin: 0 !important;
+            background-size: cover;
+            overflow-y: auto;
+            border: 1px solid #f7f7f7;
+            height: calc(100% - 120px);
+        }
+
+        .message-previous {
+            margin: 0 !important;
+            padding: 0 !important;
+            height: auto;
+            width: 100%;
+        }
+
+        .previous {
+            font-size: 15px;
+            text-align: center;
+            padding: 10px !important;
+            cursor: pointer;
+        }
+
+            .previous a {
+                text-decoration: none;
+                font-weight: 700;
+            }
+
+        .message-body {
+/*            overflow-y: auto;
+            margin: 0 !important;
+            padding: 0 !important;
+            width: 100%;
+            height: 100%;*/
+            margin: 0 !important;
+            padding: 0 !important;
+            width: auto;
+            height: auto;
+        }
+
+        .message-main-receiver {
+            padding: 10px 20px;
+            max-height: 25%;
+            max-width: 60%;
+        }
+
+        .message-main-sender {
+            max-height: 25%;
+            padding: 5px 20px !important;
+            margin-left: 40% !important;
+            max-width: 60%;
+        }
+
+     
+        .message-text {
+            white-space: pre-line;
+            margin: 0 !important;
+            padding: 5px !important;
+            word-wrap: break-word;
+            font-weight: 200;
+            font-size: 14px;
+            padding-bottom: 0 !important;
+        }
+
+        .message-time {
+            margin: 0 !important;
+            margin-left: 50px !important;
+            font-size: 12px;
+            text-align: right;
+            color: #9a9a9a;
+        }
+
+        .receiver {
+            width: auto !important;
+            padding: 4px 10px 7px !important;
+            border-radius: 10px 10px 10px 0;
+            background: #ffffff;
+            font-size: 12px;
+            text-shadow: 0 1px 1px rgba(0, 0, 0, .2);
+            word-wrap: break-word;
+            display: inline-block;
+        }
+
+        .sender {
+            float: right;
+            width: auto !important;
+            background: #dcf8c6;
+            border-radius: 10px 10px 0 10px;
+            padding: 4px 10px 7px !important;
+            font-size: 12px;
+            text-shadow: 0 1px 1px rgba(0, 0, 0, .2);
+            display: inline-block;
+            word-wrap: break-word;
+        }
+
+
+        /*Reply*/
+
+        .reply {
+            height: 60px;
+            width: 100%;
+            background-color: #f5f1ee;
+            padding: 10px 5px 10px 5px !important;
+            margin: 0 !important;
+            z-index: 1000;
+        }
+
+        .reply-emojis {
+            padding: 5px !important;
+        }
+
+            .reply-emojis i {
+                text-align: center;
+                padding: 5px 5px 5px 5px !important;
+                color: #93918f;
+                cursor: pointer;
+            }
+
+        .reply-recording {
+            padding: 5px !important;
+        }
+
+            .reply-recording i {
+                text-align: center;
+                padding: 5px !important;
+                color: #93918f;
+                cursor: pointer;
+            }
+
+        .reply-send {
+            padding: 5px !important;
+        }
+
+            .reply-send i {
+                text-align: center;
+                padding: 5px !important;
+                color: #93918f;
+                cursor: pointer;
+            }
+
+        .reply-main {
+            padding: 2px 5px !important;
+        }
+
+            .reply-main textarea {
+                width: 100%;
+                resize: none;
+                overflow: hidden;
+                padding: 5px !important;
+                outline: none;
+                border: none;
+                text-indent: 5px;
+                box-shadow: none;
+                height: 100%;
+                font-size: 16px;
+            }
+
+                .reply-main textarea:focus {
+                    outline: none;
+                    border: none;
+                    text-indent: 5px;
+                    box-shadow: none;
+                }
+
+    @@media screen and (max-width: 700px) {
+  .app {
+    top: 0;
+    height: 100%;
+  }
+  .heading {
+    height: 70px;
+    background-color: #009688;
+  }
+  .fa-2x {
+    font-size: 2.3em !important;
+  }
+  .heading-avatar {
+    padding: 0 !important;
+  }
+  .heading-avatar-icon img {
+    height: 50px;
+    width: 50px;
+  }
+  .heading-compose {
+    padding: 5px !important;
+  }
+  .heading-compose i {
+    color: #fff;
+    cursor: pointer;
+  }
+  .heading-dot {
+    padding: 5px !important;
+    margin-left: 10px !important;
+  }
+  .heading-dot i {
+    color: #fff;
+    cursor: pointer;
+  }
+  .sideBar {
+    height: calc(100% - 130px);
+  }
+  .sideBar-body {
+    height: 80px;
+  }
+  .sideBar-avatar {
+    text-align: left;
+    padding: 0 8px !important;
+  }
+  .avatar-icon img {
+    height: 55px;
+    width: 55px;
+  }
+  .sideBar-main {
+    padding: 0 !important;
+  }
+  .sideBar-main .row {
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+  .sideBar-name {
+    padding: 10px 5px !important;
+  }
+  .name-meta {
+    font-size: 16px;
+    padding: 5% !important;
+  }
+  .sideBar-time {
+    padding: 10px !important;
+  }
+  .time-meta {
+    text-align: right;
+    font-size: 14px;
+    padding: 4% !important;
+    color: rgba(0, 0, 0, .4);
+    vertical-align: baseline;
+  }
+  /*Conversation*/
+  .conversation {
+    padding: 0 !important;
+    margin: 0 !important;
+    height: 100%;
+    /*width: 100%;*/
+    border-left: 1px solid rgba(0, 0, 0, .08);
+    /*overflow-y: auto;*/
+  }
+  .message {
+    height: calc(100% - 140px);
+  }
+  .reply {
+    height: 70px;
+  }
+  .reply-emojis {
+    padding: 5px 0 !important;
+  }
+  .reply-emojis i {
+    padding: 5px 2px !important;
+    font-size: 1.8em !important;
+  }
+  .reply-main {
+    padding: 2px 8px !important;
+  }
+  .reply-main textarea {
+    padding: 8px !important;
+    font-size: 18px;
+  }
+  .reply-recording {
+    padding: 5px 0 !important;
+  }
+  .reply-recording i {
+    padding: 5px 0 !important;
+    font-size: 1.8em !important;
+  }
+  .reply-send {
+    padding: 5px 0 !important;
+  }
+  .reply-send i {
+    padding: 5px 2px 5px 0 !important;
+    font-size: 1.8em !important;
+  }
+}
+
+    </style>
+
+
+</head>
+
+
+
+
+<body>
+    <div id="turn">
+        <img src="~/desgin/img/dontRotate.png" alt="Dont Rotate" />
+        <h2>
+         @*   @localizer.Get("RotateDeviceOne")*@
+        </h2>
+        <h6>
+            @*@localizer.Get("RotateDeviceTow")*@
+        </h6>
+    </div>
+    <div id="container">
+        @RenderBody()
+    </div>
+
+
+    <!--slick JS -->
+    <!--main JS -->
+
+@*    <script>
+        var input = document.getElementById("user-input");
+        input.addEventListener("keypress", function (event) {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                document.getElementById("sendMessageID").click();
+            }
+        });
+        function sendMessage() {
+           
+            var userInput = document.getElementById("user-input");
+            var userMessage = userInput.value;
+
+            if (userMessage !== "") {
+                var chatContainer = document.querySelector(".message-body");
+
+                // Append user message
+                //var userMessageElement1 = document.createElement("div");
+                //userMessageElement1.className = "row message-body";
+                var userMessageElement2 = document.createElement("div");
+                userMessageElement2.className = "row-sm-12 message-main-sender";
+                var userMessageElement3 = document.createElement("div");
+                userMessageElement3.className = "sender";
+                var userMessageElement4 = document.createElement("div");
+                userMessageElement4.className = "message-text";
+
+                userMessageElement3.textContent = userMessage;
+
+                userMessageElement3.appendChild(userMessageElement4);
+                userMessageElement2.appendChild(userMessageElement3);
+
+                chatContainer.appendChild(userMessageElement2);
+
+                // Simulate bot response (replace with your own logic)
+                var botMessage = "Thank you for your message!";
+                //var botMessageElement1 = document.createElement("div");
+                //botMessageElement1.className = "row message-body";
+                var botMessageElement2 = document.createElement("div");
+                botMessageElement2.className = "row-sm-12 message-main-receiver";
+                var botMessageElement3 = document.createElement("div");
+                botMessageElement3.className = "receiver";
+                var botMessageElement4 = document.createElement("div");
+                botMessageElement4.className = "message-text";
+
+                botMessageElement4.textContent = botMessage;
+
+                botMessageElement3.appendChild(botMessageElement4);
+                botMessageElement2.appendChild(botMessageElement3);
+
+
+
+                chatContainer.appendChild(botMessageElement2);
+
+                // Clear user input
+                userInput.value = "";
+
+                // Scroll to the bottom of the chat container
+                chatContainer.scrollTop = chatContainer.scrollHeight;
+            }
+        }
+    </script>
+      *@
+
+    <script>
+            function scrollToBottom() {
+                var chatContainer = document.getElementById('conversation');
+                chatContainer.scrollTop = chatContainer.scrollHeight;
+            }
+
+        @Html.Raw(ViewData["ScrollToBottom"])
+    </script>
+
+
+
+
+
+</body>
+
+</html>
+
+
+
+
+
+

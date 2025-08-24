@@ -1,0 +1,10 @@
+[import](common.lg)
+
+# TextInput_Prompt_VEJ9zy()
+[Activity
+    Text = ${TextInput_Prompt_VEJ9zy_text()}
+    SuggestedActions = ${dialog.Option1} | ${dialog.Option2} | ${dialog.Option3}
+]
+
+# TextInput_Prompt_VEJ9zy_text()
+- ${dialog.ServiceCaption}

@@ -1,0 +1,206 @@
+.row {
+    margin-right: calc(var(--bs-gutter-x) * -0.5) !important;
+}
+
+.ticketPerformance {
+    height: 390px;
+    overflow-y: auto;
+    overflow-x: auto;
+}
+
+.sticky-header {
+    position: sticky;
+    top: 0;
+    background-color: white;
+    z-index: 10;
+}
+
+.dark-layout .sticky-header {
+    background-color: #283046 !important;
+}
+
+.progress-circle {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    border: 20px solid #28c76f66;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.circle-content {
+    text-align: center;
+}
+
+.circle-content h5 {
+    margin: 0;
+}
+
+.circle-content p {
+    margin: 0;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Two columns for stacking */
+    gap: 10px; /* Gap between items */
+}
+
+/* General rule for items */
+.grid-container > .box {
+    grid-column: span 1; /* Default span for all items */
+    margin-bottom: 10px;
+}
+
+.grid-container > .box2 {
+    display: flex; /* Use flexbox to align content inside */
+    align-items: center; /* Align content to the center */
+    justify-content: center; /* Center content horizontally */
+    box-sizing: border-box; /* Include padding and border in total width and height */
+}
+
+/* Last item spans all columns if the total count is odd */
+.grid-container.odd > .box:last-child {
+    grid-column: span 2; /* Last item spans both columns if odd */
+}
+
+/* Responsive layout */
+@media (max-width: 600px) {
+    .grid-container {
+        grid-template-columns: 1fr; /* Single column layout on small screens */
+    }
+
+    .grid-container.odd > .box:last-child {
+        grid-column: span 1; /* Last item doesn't span two columns on small screens */
+    }
+}
+
+.card-browser-states, .earnings-card {
+    min-height: 100%;
+}
+
+.card-body {
+    min-height: 100%;
+}
+
+.ticketPerformance {
+    height: 500px !important;
+}
+
+.box {
+    overflow: hidden;
+    padding-bottom: 20px;
+}
+
+
+
+
+body {
+  font-family: Arial, sans-serif;
+  background: #f7f7f7;
+  padding: 20px;
+}
+
+.ticket-container {
+  background: #fff;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.search-bar {
+  text-align: right;
+  margin-bottom: 10px;
+}
+
+.search-bar input {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 12px;
+  text-align: left;
+  vertical-align: middle;
+  border-bottom: 1px solid #eee;
+}
+
+.agent-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.avatar {
+  width: 36px;
+  height: 36px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  font-size: 16px;
+  color: white;
+}
+
+.admin { background: #fca5a5; }
+.bayan { background: #fcd34d; }
+.ahmad { background: #a5f3fc; }
+.hasan { background: #6ee7b7; }
+.manar { background: #c4b5fd; }
+
+.progress-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.progress {
+  background: #e5e7eb;
+  border-radius: 20px;
+  overflow: hidden;
+  height: 8px;
+  width: 100%;
+}
+
+.progress > div {
+  background: #3b82f6;
+  height: 100%;
+}
+
+.status span {
+  margin-right: 10px;
+  display: inline-block;
+}
+
+.pending { color: #ef4444; }
+.opened { color: #3b82f6; }
+.closed { color: #10b981; }
+
+.pagination {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 10px;
+}
+
+.pagination button {
+  margin: 0 2px;
+  padding: 5px 10px;
+  border: none;
+  background: #f3f4f6;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.pagination button.active {
+  background: #3b82f6;
+  color: white;
+}

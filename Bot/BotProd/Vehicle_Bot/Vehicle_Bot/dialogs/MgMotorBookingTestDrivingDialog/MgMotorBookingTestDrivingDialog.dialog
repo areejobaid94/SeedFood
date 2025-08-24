@@ -1,0 +1,227 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "r7QyAj",
+    "name": "MgMotorBookingTestDrivingDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "UZPPNK"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "zwGYsh"
+          },
+          "condition": "conversation.local",
+          "cases": [
+            {
+              "value": "ar",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "N9UvYY"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.date",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId ==1177)).text"
+                    },
+                    {
+                      "property": "dialog.InputHint",
+                      "value": "القائمة"
+                    },
+                    {
+                      "property": "dialog.time",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId ==1178)).text"
+                    },
+                    {
+                      "property": "dialog.Chas",
+                      "value": "أدخل رقم الشاصي"
+                    },
+                    {
+                      "property": "dialog.typeM",
+                      "value": "حدد نوع الصيانة"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "en",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "941kOX"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.date",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId ==1177)).text"
+                    },
+                    {
+                      "property": "dialog.InputHint",
+                      "value": "Menu"
+                    },
+                    {
+                      "property": "dialog.time",
+                      "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId ==1178)).text"
+                    },
+                    {
+                      "property": "dialog.Chas",
+                      "value": "Enter the chassis number"
+                    },
+                    {
+                      "property": "dialog.typeM",
+                      "value": "Select the type of maintenance"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "XiDNYt"
+          },
+          "property": "dialog.isMaintenance",
+          "value": false
+        },
+        {
+          "$kind": "Microsoft.HttpRequest",
+          "$designer": {
+            "id": "hNWLsO"
+          },
+          "resultProperty": "dialog.GetDay",
+          "method": "GET",
+          "url": "${conversation.URL}/api/BotAPI/GetDayMg?local=${conversation.local}&isMaintenance=${dialog.isMaintenance}",
+          "responseType": "json"
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "eneYRD"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "unrecognizedPrompt": "",
+          "invalidPrompt": "",
+          "prompt": "${TextInput_Prompt_eneYRD()}",
+          "property": "dialog.DateInput",
+          "validations": [
+            "contains(dialog.GetDay.content.result, this.value) || contains(this.value, '#')"
+          ]
+        },
+        {
+          "$kind": "Microsoft.HttpRequest",
+          "$designer": {
+            "id": "VTvqdI"
+          },
+          "resultProperty": "dialog.GetTime",
+          "method": "GET",
+          "url": "${conversation.URL}/api/BotAPI/GetTimeMg?TenantID=${conversation.TenantId}&isMaintenance=${dialog.isMaintenance}",
+          "responseType": "json"
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "HqtgkQ"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "prompt": "${TextInput_Prompt_HqtgkQ()}",
+          "property": "dialog.TimeInput",
+          "validations": []
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "VXfmTM"
+          },
+          "property": "dialog.TimeDate",
+          "value": "${conversation.book} , ${dialog.DateInput} ,  ${dialog.TimeInput} "
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "gmCYOO"
+          },
+          "property": "dialog.updateOrder",
+          "value": {
+            "ContactName": "=conversation.DisplayName",
+            "ContactId": "=conversation.ContactId",
+            "TenantID": "=conversation.TenantId",
+            "PhoneNumber": "=conversation.phoneNumber",
+            "information": "=dialog.TimeDate"
+          }
+        },
+        {
+          "$kind": "Microsoft.HttpRequest",
+          "$designer": {
+            "id": "it0EDm"
+          },
+          "resultProperty": "dialog.OrderUpdateFinsh",
+          "method": "POST",
+          "url": "${conversation.URL}/api/BotAPI/SendPrescription",
+          "body": "= dialog.updateOrder",
+          "headers": {
+            "accept": "text/plain"
+          },
+          "responseType": "json"
+        },
+        {
+          "$kind": "Microsoft.HttpRequest",
+          "$designer": {
+            "id": "y3SMHZ"
+          },
+          "resultProperty": "dialog.ApiFeedBack",
+          "url": "${conversation.URL}/api/BotAPI/UpdateComplaintMG?contactId=${conversation.ContactId}&subject=${conversation.book}&content=${dialog.TimeDate}",
+          "method": "GET",
+          "responseType": "json"
+        },
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "GbwOu6"
+          },
+          "activity": "${SendActivity_GbwOu6()}"
+        },
+        {
+          "$kind": "Microsoft.DeleteProperties",
+          "$designer": {
+            "id": "sBRC0l"
+          },
+          "properties": [
+            "conversation.book"
+          ]
+        },
+        {
+          "$kind": "Microsoft.CancelAllDialogs",
+          "$designer": {
+            "id": "7sbChr"
+          },
+          "activityProcessed": true
+        }
+      ]
+    }
+  ],
+  "generator": "MgMotorBookingTestDrivingDialog.lg",
+  "recognizer": "MgMotorBookingTestDrivingDialog.lu.qna",
+  "id": "MgMotorBookingTestDrivingDialog"
+}

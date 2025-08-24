@@ -1,0 +1,38 @@
+[import](common.lg)
+
+# TextInput_Prompt_O2ti8n_text()
+- ${dialog.ProblemCaption}
+# TextInput_Prompt_O2ti8n()
+[Activity
+    Text = ${TextInput_Prompt_O2ti8n_text()}
+]
+
+# TextInput_Prompt_uV2tnq_text()
+- ${dialog.LocationCpation}
+# TextInput_Prompt_uV2tnq()
+[Activity
+    Text = ${TextInput_Prompt_uV2tnq_text()}
+]
+
+# TextInput_Prompt_kaqk4W()
+[Activity
+    Text = ${TextInput_Prompt_kaqk4W_text()}
+    SuggestedActions = ${dialog.Option1} | ${dialog.Option2}
+]
+
+# TextInput_Prompt_kaqk4W_text()
+- ${dialog.selects}
+# SendActivity_iTGC70_text()
+- ${dialog.ReqCaption}
+# SendActivity_iTGC70()
+[Activity
+    Text = ${SendActivity_iTGC70_text()}
+]
+
+
+# TextInput_Prompt_9APzC2_text()
+- ${dialog.StationCaption}
+# TextInput_Prompt_9APzC2()
+[Activity
+    Text = ${TextInput_Prompt_9APzC2_text()}
+]

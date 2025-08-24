@@ -1,0 +1,32 @@
+[import](common.lg)
+
+# TextInput_Prompt_B6GMY1()
+[Activity
+    Text = ${TextInput_Prompt_B6GMY1_text()}
+]
+
+# TextInput_Prompt_B6GMY1_text()
+- ${dialog.Name}
+# TextInput_Prompt_hIGgyV_text()
+- ${dialog.choose}
+# TextInput_Prompt_hIGgyV()
+[Activity
+    Text = ${TextInput_Prompt_hIGgyV_text()}
+    SuggestedActions = ${dialog.book} | ${dialog.cancel}
+]
+
+# TextInput_Prompt_hCYGWk_text()
+- ${dialog.choose}
+# TextInput_Prompt_hCYGWk()
+[Activity
+    Text = ${TextInput_Prompt_hCYGWk_text()}
+    SuggestedActions = ${dialog.book} | ${dialog.cancel}
+]
+
+# TextInput_Prompt_I9MX8R_text()
+- ${dialog.choose}
+# TextInput_Prompt_I9MX8R()
+[Activity
+    Text = ${TextInput_Prompt_I9MX8R_text()}
+    SuggestedActions = ${dialog.book} | ${dialog.cancel} | ${dialog.AskDoctor}
+]

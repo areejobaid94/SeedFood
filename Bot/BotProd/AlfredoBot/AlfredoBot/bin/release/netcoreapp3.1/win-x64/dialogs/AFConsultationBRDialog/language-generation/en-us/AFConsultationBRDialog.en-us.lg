@@ -1,0 +1,8 @@
+[import](common.lg)
+
+# TextInput_Prompt_frL14V()
+[Activity
+    Attachments = ${json(ButtonList(conversation.ChooseSubject,dialog.subjectName))}
+    InputHint=${conversation.InputHint}
+    Summary=${conversation.Summary}
+]

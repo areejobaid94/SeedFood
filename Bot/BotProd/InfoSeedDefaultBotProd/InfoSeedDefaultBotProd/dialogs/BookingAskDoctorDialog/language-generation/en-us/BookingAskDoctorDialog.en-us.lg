@@ -1,0 +1,21 @@
+[import](common.lg)
+
+# TextInput_Prompt_WoQy3a()
+[Activity
+    Text = ${TextInput_Prompt_WoQy3a_text()}
+]
+
+# TextInput_Prompt_WoQy3a_text()
+- ${dialog.inquiries}
+# TextInput_Prompt_wAB7WF()
+[Activity
+    Attachments = ${json(ButtonList(dialog.textDoctor,dialog.UserInfo.content.result))}
+    InputHint=${dialog.InputHint}
+    Summary=${dialog.Summary}
+]
+# TextInput_Prompt_m1tnuC()
+[Activity
+    Attachments = ${json(ButtonList(dialog.textDoctor,dialog.UserInfo.content.result))}
+    InputHint=منطقتك
+    Summary=${dialog.Summary}
+]

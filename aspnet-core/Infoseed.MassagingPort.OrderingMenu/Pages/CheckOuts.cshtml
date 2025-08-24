@@ -1,0 +1,38 @@
+﻿@page
+@model Infoseed.MassagingPort.OrderingMenu.Pages.CheckOuts
+
+@{
+    Layout = "_LayoutCheckOuts";
+
+}
+
+
+
+<div class="login-page">
+    <div class="form">
+        <div class="text-color">
+            <div class="hed">
+                <div class="">
+                    <h4><b>Order Receipt</b></h4>
+                </div>
+                <div class="">
+                    <img src="~/img/logo_rebac.png" class="img-size" />
+                </div>
+            </div>
+            <hr />
+            <div class="font-size">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h5>@Model.checkOutsModel.result.description</h5>
+                    </div>
+                   
+                </div>
+              
+            </div>
+            <hr />
+            <br />
+        </div>
+     
+    </div>
+</div>
+

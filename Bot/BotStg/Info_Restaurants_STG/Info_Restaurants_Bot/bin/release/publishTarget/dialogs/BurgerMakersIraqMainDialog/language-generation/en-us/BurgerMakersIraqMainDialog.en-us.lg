@@ -1,0 +1,20 @@
+[import](common.lg)
+
+# TextInput_Prompt_O7TDej()
+[Activity
+    Text = ${dialog.delivery}
+    SuggestedActions = ${dialog.Option1} | ${dialog.Option2}
+]
+# TextInput_Prompt_VrUtNT()
+[Activity
+    Text = ${dialog.link}
+]
+
+#DeliveryCostText(text,Option1,Option2,Summary)
+[Activity
+  Text= ${text}
+  SuggestedActions = ${Option1} | ${Option2}
+  Summary =  ${Summary}  
+]
+# TextInput_Prompt_Dv0VRy()
+- ${DeliveryCostText(conversation.DeliveryCostText,conversation.Confirm,conversation.Cancel,conversation.Summary)}

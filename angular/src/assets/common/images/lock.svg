@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="44" height="62" viewBox="0 0 44 62">
+  <g id="Group_3718" data-name="Group 3718" transform="translate(-989 -70)">
+    <text id="Open" transform="translate(996 129)" fill="#7d7d7d" font-size="12" font-family="SegoeUI, Segoe UI"><tspan x="0" y="0">Open</tspan></text>
+    <g id="Group_3721" data-name="Group 3721">
+      <g id="Group_3717" data-name="Group 3717" transform="translate(0 -3)">
+        <g id="Group_3598" data-name="Group 3598" transform="translate(-104 -818)">
+          <circle id="Ellipse_35" data-name="Ellipse 35" cx="22" cy="22" r="22" transform="translate(1093 891)" fill="#f0f0f7"/>
+        </g>
+        <g id="Forums" transform="translate(1001 85)">
+          <rect id="rectangle" width="22" height="22" transform="translate(0 0)" fill="none"/>
+          <path id="path" d="M19.018,5.582H17.226v8.061H5.582v1.791a.9.9,0,0,0,.9.9h9.851l3.583,3.583V6.478a.9.9,0,0,0-.895-.9M14.54,2H2.9a.9.9,0,0,0-.9.9V15.434l3.582-3.583H14.54a.9.9,0,0,0,.895-.9V2.9A.9.9,0,0,0,14.54,2" transform="translate(-0.209 -0.209)" fill="#7d7d7d" fill-rule="evenodd"/>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

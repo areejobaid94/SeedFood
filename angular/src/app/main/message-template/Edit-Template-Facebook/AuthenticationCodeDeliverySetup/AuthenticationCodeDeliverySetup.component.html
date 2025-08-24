@@ -1,0 +1,257 @@
+<div class="form-group" >
+  <div class="title">Code delivery setup</div>
+  <p>
+    Choose how customers send the code from WhatsApp to your app. Edits to this section won't require review or count towards edit limits. Learn how to send authentication message templates.
+  </p>
+
+  <div class="option">
+    <input
+      type="radio"
+      name="deliveryMethod"
+      id="ZERO_TAP"
+      value="ZERO_TAP"
+      [checked]="otpType === 'ZERO_TAP'"
+      (change)="onDeliveryMethodChange('ZERO_TAP')"
+    />
+    <label for="ZERO_TAP">
+      <strong>Zero-tap autofill</strong>
+      <span class="desc">
+        This is recommended as the easiest option for your customers. Zero-tap will automatically send code without requiring your customer to tap a button. An autofill or copy code message will be sent if zero-tap and autofill aren’t possible.
+      </span>
+      <div class="extra-info" *ngIf="otpType === 'ZERO_TAP'">
+        <input
+          type="checkbox"
+          id="zeroTapAgreement"
+          [(ngModel)]="zeroTapAgreement"
+          (change)="checkErrorForChange()"
+        />
+        <label for="zeroTapAgreement">
+          By selecting zero-tap, I understand that the business' use of zero-tap authentication is subject to the
+          <a href="https://www.whatsapp.com/legal/business-terms/?fbclid=IwY2xjawKOmYxleHRuA2FlbQIxMABicmlkETFTNDVNQWdBNVA4cnROUnhRAR5x2iXTDvyIjQJIUuNWaWacYHoyNyZ5T6K5ejjXiESv-PPzg-XlO3zHiUkOvA_aem_9CBXb0hZXX7OlOjLi-dcPg" class="learn-more">WhatsApp Business Terms of Service</a>.
+        </label>
+        <p *ngIf="!zeroTapAgreement" class="error-message">
+          This box must be checked to submit this template.
+        </p>
+      </div>
+    </label>
+  </div>
+
+  <div class="option">
+    <input
+      type="radio"
+      name="deliveryMethod"
+      id="oneTap"
+      value="ONE_TAP"
+      [checked]="otpType === 'ONE_TAP'"
+      (change)="onDeliveryMethodChange('ONE_TAP')"
+    />
+    <label for="oneTap">
+      <strong>One-tap autofill</strong>
+      <span class="desc">
+        The code sends to your app when customers tap the button. A copy code message will be sent if autofill isn’t possible.
+      </span>
+    </label>
+  </div>
+
+  <div class="option">
+    <input
+      type="radio"
+      name="deliveryMethod"
+      id="copyCode"
+      value="COPY_CODE"
+      [checked]="otpType === 'COPY_CODE'"
+      (change)="onDeliveryMethodChange('COPY_CODE')"
+    />
+    <label for="copyCode">
+      <strong>Copy code</strong>
+      <span class="desc">
+        Basic authentication with quick setup. Your customers copy and paste the code into your app.
+      </span>
+    </label>
+  </div>
+</div>
+
+<div class="form-group" *ngIf="otpType !== 'COPY_CODE'" >
+  <h3>App Setup</h3>
+  <p class="subtitle">You can add up to 5 apps.</p>
+
+  <div *ngFor="let app of packageNameAndSignatureHashObj; let i = index" class="input-section">
+    <div class="input-group">
+      <label for="packageName-{{ i }}">Package Name</label>
+      <input
+        id="packageName-{{ i }}"
+        type="text"
+        [(ngModel)]="app.packageName"
+        [ngClass]="{'invalidInput': !isValidPackageName(app.packageName) || isDuplicatePackageName(i)}"
+        (ngModelChange)="validateAppInputs()"
+        maxlength="224"
+        required
+        placeholder="Enter text (com.example.myapplication)"
+        class="form-input"
+      />
+    </div>
+
+    <div class="input-group">
+      <label for="appSignature-{{ i }}">App Signature Hash</label>
+      <input
+        id="appSignature-{{ i }}"
+        type="text"
+        [(ngModel)]="app.signatureHash"
+        (ngModelChange)="validateAppInputs()"
+        [ngClass]="{'invalidInput': !isValidSignatureHash(app.signatureHash) || isDuplicatePackageName(i)}"
+        required
+        minlength="11"
+        maxlength="11"
+        placeholder="Enter text"
+        class="form-input"
+      />
+    </div>
+    <button type="button" *ngIf="packageNameAndSignatureHashObj.length > 1 " class="remove-btn" (click)="removeApp(i)">
+      <i class="fas fa-times"></i>
+    </button>
+  </div>
+
+  <div class="instructions error-message" *ngIf="isInvalidAppPackageName || isSignatureInvalid || isDuplicateError">
+    <ul class="error-list">
+      <li *ngIf="isInvalidAppPackageName">
+        Your package name is not a valid Android application ID. It must have at least two segments, separated by dots, each beginning with a letter. Characters in a segment should be alphanumeric or underscore.
+      </li>
+      <li *ngIf="isSignatureInvalid">
+        Your signature hash must be 11 characters long.        
+      </li>
+      <li *ngIf="isDuplicateError">
+        Your apps must contain unique package name and signature hash pairs.
+      </li>
+    </ul>
+  </div>
+
+  <div class="button-container">
+    <button class="add-app-button" (click)="addApp()" [disabled]="apps.length >= maxApps">
+      Add another app
+    </button>
+  </div>
+</div>
+
+<div class="form-group" >
+   <h3 class="heading">Content</h3>
+   <p class="instruction">Content for authentication message templates can't be edited. You can add additional content from the options below.</p>
+   <div class="checkbox-container">
+     <div class="checkbox-item">
+          <input type="checkbox" id="securityCheckbox" [(ngModel)]="componentBody.add_security_recommendation" (change)="onCheckboxChange()" class="checkbox">
+          <div>
+          <label for="securityCheckbox" class="checkbox-label">Add security recommendation</label>
+       </div>
+    </div>
+    <div class="checkbox-item">
+      <input type="checkbox" id="addExpirationTime" [(ngModel)]="addExpirationTime" (change)="toggleMinutesInput()" class="checkbox">
+      <div>
+        <label for="addExpirationTime" class="checkbox-label">After the code expires, the autofill button will be disabled.</label>  
+      </div>
+    </div>
+     <div  class="minutes-input-container" *ngIf="addExpirationTime">
+       <div class="minutes-input-group">
+         <label>Expires in</label>
+         <label for="minutesInput" class="minutes-label">Minutes</label>
+         <input 
+           name="minutes" 
+           id="minutesInput" 
+           type="number" 
+           [(ngModel)]="componentFooter.code_expiration_minutes" 
+           (change)="toggleMinutesInput()"
+           [min]="1" 
+           [max]="90" 
+           (input)="validateMinutes()"
+           class="minutes-input"
+           [ngClass]="{ 'invalid': minutesError }">
+         <div *ngIf="minutesError" class="error-message">
+           <p>Enter a value between 1 and 90.</p>
+         </div>
+       </div>
+     </div>
+
+   </div>
+ </div>
+
+<div class="form-group" >
+  <h3>Button</h3>
+  <p>You can customize the button text for both autofill and copy code. Even when zero-tap is turned on, buttons are still needed for the backup code delivery method.</p>
+<div class="input-section">
+<div class="input-group" *ngIf="otpType !== 'COPY_CODE'">
+  <label for="packageName">Autofill</label>
+  <div class="input-container">
+    <input
+      id="packageName"
+      type="text"
+      [(ngModel)]="ctaDisplayName"
+      (ngModelChange)="onInputChange()"   
+      required
+      maxlength="25"
+      placeholder="Autofill"
+      class="form-input"
+    />
+    <span class="char-counter"
+          [ngClass]="{
+            'text-warning': (ctaDisplayName?.length || 0) >= 20,
+            'text-danger': (ctaDisplayName?.length || 0) >= 25
+          }">
+      {{ctaDisplayName?.length || 0}}/25
+    </span>
+  </div>
+</div>
+
+<div class="input-group">
+  <label for="appSignature">Copy code</label>
+  <div class="input-container">
+    <input
+      id="appSignature"
+      type="text"
+      required
+      (ngModelChange)="onInputChangeButtonText()"       
+      [(ngModel)]="Button.text"
+      value="Copycode"
+      maxlength="25"
+      class="form-input"
+    />
+    <span class="char-counter"
+          [ngClass]="{
+            'text-warning': (Button.text?.length || 0) >= 20,
+            'text-danger': (Button.text?.length || 0) >= 25
+          }">
+      {{Button.text?.length || 0}}/25
+    </span>
+  </div>
+</div>
+
+</div>
+</div>
+
+<div class="form-group " >
+  <h3>Message validity period</h3>
+   <p>You can set a custom validity period that your utility message must be delivered by before it expires. If a message is not delivered within this timeframe, you will not be charged and your customer will not see the message.</p>
+   <h3>Set custom validity period for your message</h3>   
+   <div class="validity-toggle-container">
+<p>If you don't set a custom validity period, the standard 30 days WhatsApp message validity period will be applied.</p>
+
+
+<div class="form-check form-switch">
+  <input class="form-check-input" type="checkbox" id="toggleSwitch" 
+  [(ngModel)]="isCustomValidity"
+  (ngModelChange)="onToggleValidity($event)"
+  >
+</div>
+   </div>
+   <div *ngIf="isCustomValidity">
+     <label>Validity period</label>
+     <select name="ValidityPeriod" [(ngModel)]="template.message_send_ttl_seconds" id="ValidityPeriod">
+       <option value="30">30 seconds</option>
+       <option value="60">1 minute</option>
+       <option value="120">2 minutes</option>
+       <option value="180">3 minutes</option>
+       <option value="300">5 minutes</option>
+       <option value="600">10 minutes</option>
+       <option value="900">15 minutes</option>
+       <option value="1800">30 minutes</option>
+       <option value="3600">1 hour</option>
+     </select>
+   </div>
+</div>

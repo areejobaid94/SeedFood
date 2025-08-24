@@ -1,0 +1,9 @@
+[import](common.lg)
+
+# TextInput_Prompt_iUDsQC()
+[Activity
+    Text = ${TextInput_Prompt_iUDsQC_text()}
+]
+
+# TextInput_Prompt_iUDsQC_text()
+- ${dialog.text}

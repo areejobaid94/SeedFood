@@ -1,0 +1,138 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "QtnB1S",
+    "name": "JoPetrolStationFuDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "iXz5hW"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "06j6at"
+          },
+          "assignments": [
+            {
+              "property": "dialog.OptionList",
+              "value": [
+                "بنزين 95 / OCT95",
+                "بنزين 90 / OCT90",
+                "كاز / KER",
+                "سولار / Diesel"
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "vvDOCq"
+          },
+          "assignments": [
+            {
+              "property": "dialog.imageType",
+              "value": "image"
+            },
+            {
+              "property": "dialog.imageName",
+              "value": "dsdsd"
+            },
+            {
+              "property": "dialog.imageUrl",
+              "value": "https://infoseedmediastorageprod.blob.core.windows.net/4408da24-aad7-4802-a1f1-46f5ad9e2074/jopetrol.jpg"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "VuOKcA"
+          },
+          "property": "dialog.HintPlaseCaption",
+          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 19)).text"
+        },
+        {
+          "$kind": "Microsoft.DeleteProperty",
+          "$designer": {
+            "id": "FqSoaa"
+          },
+          "property": "dialog.UserSelect"
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "r3G7dm"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "property": "dialog.UserSelect",
+          "prompt": "${TextInput_Prompt_r3G7dm()}",
+          "validations": [
+            "equals(this.value, 'بنزين 95 / OCT95') || equals(this.value, '#') ||equals(this.value, 'بنزين 90 / OCT90')  ||equals(this.value, 'كاز / KER') ||equals(this.value, 'سولار / Diesel')"
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "Lhqmwb"
+          },
+          "property": "conversation.RequestValue1",
+          "value": "${dialog.UserSelect}"
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "otjgt0"
+          },
+          "property": "conversation.RequestValue111",
+          "value": "${dialog.HintPlaseCaption}: ${conversation.RequestValue1}"
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "aAL6PQ"
+          },
+          "property": "conversation.DepartmentValue2",
+          "value": "${dialog.UserSelect}"
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "sJXPeb"
+          },
+          "property": "conversation.Department2",
+          "value": "${dialog.UserSelect}"
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "dwCLqM"
+          },
+          "activityProcessed": true,
+          "dialog": "JoPetrolCommonDialog"
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "nJSsiE"
+          }
+        }
+      ]
+    }
+  ],
+  "generator": "JoPetrolStationFuDialog.lg",
+  "recognizer": "JoPetrolStationFuDialog.lu.qna",
+  "id": "JoPetrolStationFuDialog"
+}

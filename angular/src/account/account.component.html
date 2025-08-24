@@ -1,0 +1,55 @@
+<div id="kt_login">
+    <div class="login-aside">
+        <div class="login-aside-content">
+            <div style="display: flex; flex-direction: row; align-items: center">
+                <p class="welcom-text">Welcome Back!</p>
+                <img style="width: auto; height: 35px; margin: 0px" src="assets/images/icons/WhatsAppIcon.png" alt="" />
+            </div>
+            <p class="under-welcom-text">Log in to access your WhatsApp chatbot <i style="color: #73bdff; font-size: 24px" class="bi bi-robot"></i> services</p>
+        </div>
+    </div>
+    <div class="login-form-less">
+        <div [ngClass]="{ 'login-content': !useFullWidthLayout() }">
+            <div>
+                <div class="login-signin">
+                    <a (click)="goToHome()" href="" class="text-center mb-10" *ngIf="useFullWidthLayout() && showinfoSeddImage()">
+                        <img *ngIf="!appSession.tenant || !appSession.tenant.logoId" [src]="appRootUrl() + '/assets/common/images/login-logo.svg'" alt="logo" class="max-h-70px" />
+                        <img
+                            *ngIf="appSession.tenant && appSession.tenant.logoId"
+                            [src]="remoteServiceBaseUrl + '/TenantCustomization/GetTenantLogo?skin=light&tenantId=' + appSession.tenant.id + '&id=' + appSession.tenant.logoId"
+                            alt="logo"
+                            class="max-h-70px"
+                        />
+                    </a>
+                    <div *ngIf="showTenantChange()" class="login__signup-label tenant-change-box">
+                        <!-- <tenant-change></tenant-change> -->
+                    </div>
+                </div>
+                <router-outlet></router-outlet>
+            </div>
+
+            <div class="bottom-content-footer m-auto">
+                <hr />
+                <div class="container">
+                    <div class="row">
+                        <br />
+                        <div class="footerText row text-center row-custom" style="margin-left: 60px">
+                            <div class="col">
+                                <a routerLink="/account/Privcy-Policy">{{ l("privacyPolicy") }}</a>
+                            </div>
+                            <div class="col">
+                                <a routerLink="/account/Privcy-Policy">{{ l("termsAndConditions") }}</a>
+                            </div>
+                            <div class="col">
+                                <a href=" https://info-seed.com/privcy-policy.html" target="_blank">{{ l("refundPolicy") }}</a>
+                            </div>
+                            <div class="col">
+                                <a routerLink="/account/cancellation-policy">{{ l("cancellationPolicy") }}</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

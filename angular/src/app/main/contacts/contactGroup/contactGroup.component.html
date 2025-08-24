@@ -1,0 +1,350 @@
+<div class="group-page">
+<div [@routerTransition]>
+    <div class="header-navbar-shadow"></div>
+    <div class="content-wrapper container-xxl p-0">
+        <div class="content-body">
+            <p-dialog
+                header="Header"
+                [closeOnEscape]="false"
+                [closable]="false"
+                [resizable]="false"
+                [modal]="true"
+                [maximizable]="true"
+                appendTo="body"
+                [(visible)]="visible"
+                [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }"
+                [style]="{ width: '75vw' }"
+                [contentStyle]="{ height: '450px' }"
+            >
+                <ng-template pTemplate="header">
+                    <div class="inline-flex align-items-center justify-content-center gap-2">
+                        <span class="font-bold white-space-nowrap"> {{ l("information") }}</span>
+                    </div>
+
+                    <div class="d-flex col-6 p-0 mx-2">
+                        <input
+                            [(ngModel)]="faildNameOrPhoneSearch"
+                            name="faildNameOrPhoneSearch"
+                            autoFocus
+                            class="m-input form-control custome-search"
+                            [placeholder]="'searchByNameOrName' | localize"
+                            type="text"
+                        />
+
+                        <button (click)="loadFaild($event)" class="btn btn-primary-info custome-btn" type="button"><i class="flaticon-search-1"></i></button>
+                    </div>
+                </ng-template>
+
+                <div class="table-container">
+                    <p-table
+                        [value]="faildContacts?.members"
+                        [lazy]="true"
+                        (onLazyLoad)="loadFaild($event)"
+                        [paginator]="true"
+                        [rows]="10"
+                        responsiveLayout="stack"
+                        [breakpoint]="'960px'"
+                        [scrollable]="true"
+                        [loading]="faildloading"
+                        [rows]="5"
+                        [rowsPerPageOptions]="[20, 500, 1000]"
+                        scrollHeight="flex"
+                        [tableStyle]="{ 'min-width': '20rem' }"
+                        [totalRecords]="totalFaildRecords"
+                        [loading]="faildloading"
+                    >
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th>{{ l("DisplayName") }}</th>
+                                <th>{{ l("PhoneNumber") }}</th>
+                                <th>{{ l("createGroupFromExcelReason") }}</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-failedContact>
+                            <tr>
+                                <td>{{ failedContact.displayName }}</td>
+                                <td>{{ failedContact.phoneNumber }}</td>
+                                <!-- <td>{{failedContact.message}}</td> -->
+
+                                <td *ngIf="failedContact.failedStatusId == 1">{{ l("Error") }}</td>
+                                <td *ngIf="failedContact.failedStatusId == 2">{{ l("Phone number already exists in this group") }}</td>
+                                <td *ngIf="failedContact.failedStatusId == 3">{{ l("Phone number is invalid") }}</td>
+                                <td *ngIf="failedContact.failedStatusId == 4">{{ failedContact.failureMessage }}</td>
+                                <td *ngIf="failedContact.failedStatusId == 5">{{ l("Phone number has been deleted") }}</td>
+                                <td *ngIf="failedContact.failedStatusId == 6">{{ l("Phone number is Unsubscribe") }}</td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+
+                <!-- 
+      <ng-container >
+ 
+
+  
+      </ng-container> -->
+
+                <ng-template pTemplate="footer">
+                    <button class="btn btn-primary-info" (click)="handleCloseDialog()" [autofocus]="true">OK</button>
+                </ng-template>
+            </p-dialog>
+            <div class="d-flex flex-column flex-column-fluid">
+                <sub-header *ngIf="theme != 'theme12'" [description]="'groupcontactHeaderInfo' | localize" [showHomeIcon]="true">
+                    <div role="actions"></div>
+                </sub-header>
+
+                <!-- theme 12 sub header-->
+                <sub-header *ngIf="theme === 'theme12'" [description]="'groupcontactHeaderInfo' | localize" [showHomeIcon]="true">
+                </sub-header>
+
+                <div class="page-header mb-1 d-flex justify-content-between align-items-center flex-wrap">
+                    <div>
+                        <h2 class="fw-bold mb-1">Contacts Groups</h2>
+                        <p class="text-secondary mb-0">You can add and manage contact groups for your campaigns here</p>
+                    </div>
+                
+                    <div class="d-flex">
+                        <!-- Refresh Button -->
+                        <button type="button" class="btn btn-outline-primary me-2" (click)="refreshGroups()">
+                            <i class="bi bi-arrow-repeat me-1"></i> Refresh
+                        </button>
+                
+                        <!-- Add New Group Button -->
+                        <button type="button" class="btn btn-primary" (click)="openModal()">
+                            <i class="bi bi-plus-lg me-1"></i> Add New Group
+                        </button>
+                    </div>
+                </div>
+
+
+                <div [ngClass]="theme != 'theme12' ? 'container' : ''">
+                    <div class="card card-custom gutter-b">
+                        <div class="card-body">
+                            <form autocomplete="off" [hidden]="theme != 'theme12'">
+                                <div class="header-actions">
+                                    <div class="search-container ms-1">
+                                        <i class="bi bi-search search-icon me-1"></i>
+                                        <input [(ngModel)]="filterGroupName" name="filterGroupName" class="form-control"
+                                            [placeholder]="' Search Group Name'" type="text" />
+                                    </div>
+
+                                    <!-- search button -->
+                                    <button (click)="getGroupAll($event)" class="btn btn-outline-primary" type="submit"> Search </button>
+                
+                                </div>
+
+                                <div class="mb-1 ms-1">
+                                    <span class="total-records-count" style="font-weight: bold; font-size: 1.1rem;">
+                                        Total Groups
+                                        <span style="
+                                                display: inline-block;
+                                                background-color: #def7f1; 
+                                                border-radius: 999px;        
+                                                padding: 0.2rem 0.8rem;     
+                                                font-weight: bold;
+                                                margin-left: 0.5rem;
+                                                min-width: 2rem;
+                                                text-align: center;
+                                                border: 1px solid #bcebe0;
+                                                ">
+                                            {{ primengTableHelper.totalRecordsCount }}
+                                        </span>
+                                    </span>
+                                </div>
+                                
+                            </form>
+
+                            <!-- we need -->
+                            <div class="align-items-center">
+                                <div class="primeng-datatable-container" [busyIf]="primengTableHelper.isLoading">
+                                    <p-table
+                                        #dataTableGroup
+                                        (onLazyLoad)="getGroupAll($event)"
+                                        class="table-responsive"
+                                        [value]="primengTableHelper.records"
+                                        rows="5"
+                                        [paginator]="false"
+                                        [lazy]="true"
+                                        [scrollbarV]="true"
+                                        [scrollbarH]="true"
+                                        ScrollWidth="100%"
+                                        [scrollable]="true"
+                                        [responsive]="true"
+                                        responsiveLayout="stack"
+                                        [breakpoint]="'960px'"
+                                        [resizableColumns]="primengTableHelper.resizableColumns"
+                                        [rowsPerPageOptions]="[20, 30, 40]"
+                                    >
+                                        <ng-template pTemplate="header">
+                                            <tr>
+
+                                                <th class="GroupNameWidth" [ngClass]="darkModeService.currentSkin === 'dark' ? 'dark-table' : ''" pSortableColumn="groupName">
+                                                    <!-- <p-sortIcon field="groupName"></p-sortIcon> -->
+                                                    {{ l("groupName") }}
+                                                </th>
+
+                                                <th class="modifiedWidth" [ngClass]="darkModeService.currentSkin === 'dark' ? 'dark-table' : ''" pSortableColumn="creationDate">
+                                                    <!-- <p-sortIcon field="creationDate"></p-sortIcon> -->
+                                                    {{ l("Created In") }}
+                                                </th>
+
+                                                <th class="modifiedWidth" [ngClass]="darkModeService.currentSkin === 'dark' ? 'dark-table' : ''" pSortableColumn="groupModified">
+                                                    <!-- <p-sortIcon field="groupModified"></p-sortIcon> -->
+                                                    {{ l("Modified In") }}
+                                                </th>
+                                                <th class="totalNumberWidth" [ngClass]="darkModeService.currentSkin === 'dark' ? 'dark-table' : ''" pSortableColumn="totalNumber">
+                                                    <!-- <p-sortIcon field="totalNumber"></p-sortIcon> -->
+                                                    {{ l("Total Number of Contacts") }}
+                                                </th>
+
+                                                <th class="GroupCreatorWidth" [ngClass]="darkModeService.currentSkin === 'dark' ? 'dark-table' : ''" pSortableColumn="creatorFullName">
+                                                    <!-- <p-sortIcon field="creationDate"></p-sortIcon> -->
+                                                    {{ l("Created By") }}
+                                                </th>
+
+                                                <th class="totalNumberWidth" [ngClass]="darkModeService.currentSkin === 'dark' ? 'dark-table' : ''" pSortableColumn="onholdGroup">
+                                                    <!-- <p-sortIcon field="totalNumber"></p-sortIcon> -->
+                                                    {{ l("Processing Status") }}
+                                                </th>
+
+                                                    <th class="actionWidth" [ngClass]="darkModeService.currentSkin === 'dark' ? 'dark-table' : ''" pSortableColumn="groupACtion">
+                                                    <!-- <p-sortIcon field="groupName"></p-sortIcon> -->
+                                                    {{ l("Actions") }}
+                                                </th>
+
+                                                <!-- <th class="totalNumberWidth" [ngClass]="darkModeService.currentSkin === 'dark' ? 'dark-table' : ''" pSortableColumn="onholdGroup">
+                                                    {{ l("faild") }}
+                                                </th> -->
+                                            </tr>
+                                        </ng-template>
+                                        <ng-template pTemplate="body" let-record="$implicit" let-i="rowIndex">
+                                            <tr>
+                                                <!-- <td style="width: 80px" [ngClass]="darkModeService.currentSkin === 'dark' ? 'table-dark' : ''">
+                                                    <div class="btn-group dropdown" dropdown container="body" placement="bottom-start">
+                                                        <button
+                                                            [ngClass]="theme != 'theme12' ? 'btn-primary' : 'btn-primary-info'"
+                                                            class="dropdown-toggle btn btn-sm"
+                                                            dropdownToggle
+                                                        >
+                                                            <i class="fa fa-cog"></i><span class="caret"></span>
+                                                        </button>
+                                                        <ul
+                                                            placement="bottom-start"
+                                                            class="dropdown-menu"
+                                                            [ngClass]="darkModeService.currentSkin === 'dark' ? 'drop-down-dark' : ''"
+                                                            *dropdownMenu
+                                                        >
+                                                            <li *ngIf="record.onHoldCount === 0">
+                                                                <a class="dropdown-item" (click)="editGroup(record.id)"> {{ l("editGroup") }}</a>
+                                                            </li>
+                                                            <li>
+                                                                <a class="dropdown-item" (click)="deleteGroup(record)"> {{ l("deleteGroup") }}</a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </td> -->
+
+                                                <td class="GroupNameWidth" [ngClass]="{ 'table-dark': darkModeService.currentSkin === 'dark', ltr: isArabic }">
+                                                    <span class="p-column-title"> {{ "groupName" | localize }}</span>
+
+                                                    <span>{{ record.groupName }}</span>
+                                                </td>
+
+                                                <td class="GroupCreationWidth" [ngClass]="darkModeService.currentSkin === 'dark' ? 'table-dark' : ''">
+                                                    <span class="p-column-title" *ngIf="record.creationDate"> {{ l("Created In") }}</span>
+
+                                                    {{ record.creationDate | date : "longDate" }}
+                                                </td>
+
+                                                <td class="GroupCreationWidth" [ngClass]="darkModeService.currentSkin === 'dark' ? 'table-dark' : ''">
+                                                    <span class="p-column-title" *ngIf="record.modificationDate"> {{ l("Modified In") }}</span>
+
+                                                    {{ record.modificationDate | date : "longDate" }}
+                                                </td>
+
+                                                <td class="totalNumberWidth" [ngClass]="darkModeService.currentSkin === 'dark' ? 'table-dark' : ''">
+                                                    <span class="p-column-title"> {{ l("Total Number of Contacts") }}</span>
+                                                    {{ progressMap[record.id]?.inserted ?? record.totalNumber }}
+                                                </td>
+
+                                                <td class="GroupCreatorWidth" [ngClass]="darkModeService.currentSkin === 'dark' ? 'table-dark' : ''">
+                                                    <span class="p-column-title" *ngIf="record.CreatorFullName"> {{ l("Created By") }}</span>
+                                                    {{ record.creatorFullName }}
+                                                </td>
+
+                                            <td class="totalNumberWidth" [ngClass]="darkModeService.currentSkin === 'dark' ? 'table-dark' : ''">
+                                                <span class="p-column-title">{{ l("Processing Status") }}</span>
+                                            
+                                                <div *ngIf="displayProgressMap[record.id] < 100 && displayProgressMap[record.id] >= 0" class="progress-wrapper">
+                                                    <ngb-progressbar [value]="displayProgressMap[record.id] || 0" showValue="true" type="warning"
+                                                        class="progress-bar-info" [height]="progressbarHeight || '1.6rem'" [striped]="true" [animated]="true">
+                                                        {{ (displayProgressMap[record.id] || 0) | number: '1.0-0' }}%
+                                                    </ngb-progressbar>
+                                                    
+                                                </div>
+                                            
+                                                <div *ngIf="displayProgressMap[record.id] === 100 || (!displayProgressMap[record.id] && record.onHoldCount === 0)"
+                                                    class="progress-wrapper">
+                                                    <ngb-progressbar class="progress-bar-info" type="success" [height]="'1.6rem'" [value]="100" [striped]="false">
+                                                        Completed!
+                                                    </ngb-progressbar>
+                                                </div>
+                                            </td>
+
+
+
+                                                <td [ngClass]="darkModeService.currentSkin === 'dark' ? 'table-dark' : ''">
+                                                    <span class="p-column-title">
+                                                        {{ l("Action") }}
+                                                    </span>
+                                                    <i *ngIf="(record.onHoldCount === 0) || (!progressMap[record.id]) || (progressMap[record.id].progressPercent === 100)" class="bi bi-pencil-square transfer-icon" style=" cursor: pointer;" (click)="editGroup(record.id, record.groupName)"></i>
+                                                    <i *ngIf="(record.onHoldCount === 0) || (!progressMap[record.id]) || (progressMap[record.id].progressPercent === 100)" class="bi bi-trash mx-1" style=" cursor: pointer;" (click)="deleteGroup(record)"></i>
+                                                </td>
+
+                                                <!-- <td
+                                                    class="totalNumberWidth"
+                                                    (click)="getFaildNames(record.id)"
+                                                    [ngClass]="darkModeService.currentSkin === 'dark' ? 'table-dark' : ''"
+                                                >
+                                                    <span class="p-column-title"> {{ l("grouptotalNumber") }}</span>
+                                                    <i class="bi bi-clipboard-data"></i>
+                                                </td> -->
+                                            </tr>
+                                        </ng-template>
+                                    </p-table>
+
+                                    <div class="primeng-no-data" *ngIf="primengTableHelper.totalRecordsCount == 0">
+                                        {{ l("NoData") }}
+                                    </div>
+                                    <div class="primeng-paging-container d-flex align-items-center justify-content-between">
+                                        <button class="btn btn-outline-primary" (click)="paginator.changePage(paginator.getPage() - 1)"
+                                            [disabled]="paginator.getPage() === 0">
+                                            <i class="bi bi-arrow-left me-1"></i> Previous
+                                        </button>
+                                    
+                                        <p-paginator [ngClass]="darkModeService.currentSkin === 'dark' ? 'dark' : ''" [rows]="5" #paginator
+                                            (onPageChange)="getGroupAll($event)" [totalRecords]="primengTableHelper.totalRecordsCount"
+                                            [rowsPerPageOptions]="[5, 20, 30]">
+                                        </p-paginator>
+                                    
+                                        <button class="btn btn-outline-primary" (click)="paginator.changePage(paginator.getPage() + 1)"
+                                            [disabled]="paginator.getPage() === paginator.getPageCount() - 1">
+                                            Next <i class="bi bi-arrow-right ms-1"></i>
+                                        </button>
+                                    </div>
+
+                                </div>
+                                <!--<Primeng-Datatable-End>-->
+                            </div>
+                        </div>
+                    </div>
+
+                    <app-contactGroup-modal #createGroupContact [isEdit]="isEdit"></app-contactGroup-modal>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</div>

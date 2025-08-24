@@ -1,0 +1,30 @@
+[import](common.lg)
+
+# TextInput_Prompt_Znx44L_text()
+- ${dialog.text}
+# TextInput_Prompt_Znx44L()
+[Activity
+    Text = ${TextInput_Prompt_Znx44L_text()}
+    SuggestedActions = ${dialog.Option1} | ${dialog.Option2}
+]
+
+# SendActivity_laDJ0K()
+[Activity
+    Text = ${SendActivity_laDJ0K_text()}
+]
+
+# SendActivity_laDJ0K_text()
+- ${dialog.text}
+# TextInput_Prompt_LAhrh7()
+[Activity
+    Text = ${TextInput_Prompt_W8w5f7_text()}
+    SuggestedActions = ${dialog.Op1} | ${dialog.Op2} | ${dialog.Op3}
+]
+
+# TextInput_Prompt_W8w5f7_text()
+- ${dialog.text}
+# TextInput_Prompt_P2WOnS()
+[Activity
+    Text = ${TextInput_Prompt_W8w5f7_text()}
+    SuggestedActions = ${dialog.Op1} | ${dialog.Op2}
+]

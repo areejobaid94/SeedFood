@@ -1,0 +1,283 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "grC7Xa",
+    "name": "JeepBookTestDriveDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "lkss4i"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.DeleteProperty",
+          "$designer": {
+            "id": "91lAGF"
+          },
+          "property": "dialog.selectTypeCar"
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "mZNxD1"
+          },
+          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId ==1056)).text",
+          "property": "dialog.text"
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "mxBBHV"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "unrecognizedPrompt": "",
+          "invalidPrompt": "",
+          "prompt": "${TextInput_Prompt_mxBBHV()}",
+          "property": "dialog.selectTypeCar",
+          "validations": [
+            "=equals(this.value, 'جيب')|| equals(this.value, 'رام')|| equals(this.value, '#')"
+          ]
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "d5bCx8"
+          },
+          "condition": "dialog.selectTypeCar",
+          "cases": [
+            {
+              "value": "جيب",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "9iWwM0"
+                  },
+                  "property": "dialog.CarType",
+                  "value": "1"
+                },
+                {
+                  "$kind": "Microsoft.DeleteProperty",
+                  "$designer": {
+                    "id": "CABV7Y"
+                  },
+                  "property": "dialog.selectCategoryCar"
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "Fw6TqJ"
+                  },
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId ==1057)).text",
+                  "property": "dialog.text"
+                },
+                {
+                  "$kind": "Microsoft.TextInput",
+                  "$designer": {
+                    "id": "NRHnMc"
+                  },
+                  "disabled": false,
+                  "maxTurnCount": 100,
+                  "alwaysPrompt": false,
+                  "allowInterruptions": true,
+                  "unrecognizedPrompt": "",
+                  "prompt": "${TextInput_Prompt_NRHnMc()}",
+                  "property": "dialog.selectCategoryCar",
+                  "validations": [
+                    "=equals(this.value, 'رانجلر')|| equals(this.value, 'جلادييتر')|| equals(this.value, '#') || equals(this.value, 'شيروكي') "
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "رام",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "5IrVZD"
+                  },
+                  "property": "dialog.CarType",
+                  "value": "2"
+                },
+                {
+                  "$kind": "Microsoft.DeleteProperty",
+                  "$designer": {
+                    "id": "hW4JRC"
+                  },
+                  "property": "dialog.selectCategoryCar"
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "2HBFUy"
+                  },
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId ==1057)).text",
+                  "property": "dialog.text"
+                },
+                {
+                  "$kind": "Microsoft.TextInput",
+                  "$designer": {
+                    "id": "26aOCo"
+                  },
+                  "disabled": false,
+                  "maxTurnCount": 100,
+                  "alwaysPrompt": false,
+                  "allowInterruptions": true,
+                  "unrecognizedPrompt": "",
+                  "invalidPrompt": "",
+                  "prompt": "${TextInput_Prompt_26aOCo()}",
+                  "property": "dialog.selectCategoryCar",
+                  "validations": [
+                    "=equals(this.value, 'رانجلر')|| equals(this.value, 'جلادييتر')|| equals(this.value, '#') || equals(this.value, 'شيروكي') "
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "DRDAkE"
+          },
+          "condition": "dialog.selectCategoryCar",
+          "cases": [
+            {
+              "value": "رانجلر",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "oGG5oP"
+                  },
+                  "property": "dialog.CarCategory",
+                  "value": "1"
+                }
+              ]
+            },
+            {
+              "value": "جلادييتر",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "A6puc7"
+                  },
+                  "property": "dialog.CarCategory",
+                  "value": "2"
+                }
+              ]
+            },
+            {
+              "value": "شيروكي",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "Jyh4jx"
+                  },
+                  "property": "dialog.CarCategory",
+                  "value": "3"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "19Llzu"
+          },
+          "condition": "conversation.local==\"ar\"",
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "91Gg8T"
+              },
+              "assignments": [
+                {
+                  "property": "dialog.Summary",
+                  "value": "يمكنك إرسال # في أي وقت للعودة إلى القائمة الرئيسية"
+                },
+                {
+                  "property": "dialog.text",
+                  "value": "أختر الموديل:"
+                },
+                {
+                  "property": "dialog.InputHint",
+                  "value": "الموديل"
+                }
+              ]
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "Lx457x"
+              },
+              "assignments": [
+                {
+                  "value": "You can send # at any time to return to the main menu",
+                  "property": "dialog.Summary"
+                },
+                {
+                  "value": "choose model:",
+                  "property": "dialog.text"
+                },
+                {
+                  "property": "dialog.InputHint",
+                  "value": "Model"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.HttpRequest",
+          "$designer": {
+            "id": "6CYXFi"
+          },
+          "resultProperty": "dialog.ModelList",
+          "method": "GET",
+          "url": "${conversation.URL}/api/BotAPI/GetCarModel?TenantID=${conversation.TenantId}&&CarType=${dialog.CarType}&&CarCategory=${dialog.CarCategory}",
+          "responseType": "json"
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "DkuKhe"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "invalidPrompt": "",
+          "prompt": "${TextInput_Prompt_DkuKhe()}",
+          "property": "dialog.selectmodel"
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "olsU3g"
+          }
+        }
+      ]
+    }
+  ],
+  "generator": "JeepBookTestDriveDialog.lg",
+  "recognizer": "JeepBookTestDriveDialog.lu.qna",
+  "id": "JeepBookTestDriveDialog"
+}

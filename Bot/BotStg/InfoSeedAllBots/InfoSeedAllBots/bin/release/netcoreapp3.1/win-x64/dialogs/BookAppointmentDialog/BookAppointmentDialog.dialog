@@ -1,0 +1,498 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "uuu4kV",
+    "name": "BookAppointmentDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "F8gra4"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "Etj2f1"
+          },
+          "condition": "conversation.local==\"ar\"",
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "nNiZHs"
+              },
+              "assignments": [
+                {
+                  "property": "dialog.InputHint",
+                  "value": "اختيار"
+                },
+                {
+                  "property": "dialog.Summary",
+                  "value": "اضغط # للعودة الى القائمة الرئيسية "
+                },
+                {
+                  "property": "dialog.textDoctor",
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1265)).text"
+                },
+                {
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1266)).text",
+                  "property": "dialog.noteText"
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "YnaNXH"
+              },
+              "property": "dialog.doctorfall",
+              "value": "لا يوجد مواعيد للطبيب"
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "Y8YvnT"
+              },
+              "assignments": [
+                {
+                  "property": "dialog.InputHint",
+                  "value": "Choose"
+                },
+                {
+                  "property": "dialog.Summary",
+                  "value": "Press # to return to the main menu"
+                },
+                {
+                  "property": "dialog.textDoctor",
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1265)).text"
+                },
+                {
+                  "property": "dialog.noteText",
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1266)).text"
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "A5B1os"
+              },
+              "property": "dialog.doctorfall",
+              "value": "There are no doctor's appointments"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "4xBUZW"
+          },
+          "condition": "conversation.local==\"ar\"",
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "xDLrQA"
+              },
+              "assignments": [
+                {
+                  "property": "dialog.result",
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1258)).text"
+                },
+                {
+                  "property": "dialog.full",
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1259)).text"
+                },
+                {
+                  "property": "dialog.text",
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1262)).text"
+                },
+                {
+                  "property": "dialog.time",
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1263)).text"
+                },
+                {
+                  "property": "dialog.branchFull",
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1264)).text"
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "tCWbQQ"
+              },
+              "assignments": [
+                {
+                  "property": "dialog.TimeInputHint",
+                  "value": "الاوقات"
+                },
+                {
+                  "property": "dialog.DateInputHint",
+                  "value": "يرجى اختيار التاريخ"
+                },
+                {
+                  "property": "dialog.Summary",
+                  "value": "اضغط # للعودة الى القائمة الرئيسية "
+                }
+              ]
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "5pts6J"
+              },
+              "assignments": [
+                {
+                  "property": "dialog.result",
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1258)).text"
+                },
+                {
+                  "property": "dialog.full",
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1259)).text"
+                },
+                {
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1262)).text",
+                  "property": "dialog.text"
+                },
+                {
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1263)).text",
+                  "property": "dialog.time"
+                },
+                {
+                  "property": "dialog.branchFull",
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1264)).text"
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "aisVmb"
+              },
+              "assignments": [
+                {
+                  "property": "dialog.TimeInputHint",
+                  "value": "Times"
+                },
+                {
+                  "property": "dialog.DateInputHint",
+                  "value": "Choose The Date"
+                },
+                {
+                  "property": "dialog.Summary",
+                  "value": "Press # to return to the main menu"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "wFDTNM"
+          },
+          "activityProcessed": true,
+          "dialog": "BranchesDialog"
+        },
+        {
+          "$kind": "Microsoft.HttpRequest",
+          "$designer": {
+            "id": "PQgtqt"
+          },
+          "resultProperty": "dialog.UserInfo",
+          "method": "POST",
+          "url": "${conversation.URL}/api/BotAPI/GetUserByBranches?TenantId=${conversation.TenantId}&UserIds=${conversation.UserIds}",
+          "responseType": "json"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "tNhfwV"
+          },
+          "condition": "dialog.UserInfo.content.result.count == 1",
+          "elseActions": [
+            {
+              "$kind": "Microsoft.DeleteProperty",
+              "$designer": {
+                "id": "aRzqLI"
+              },
+              "property": "dialog.selectDoctor"
+            }
+          ],
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "tRkxFy"
+              },
+              "property": "dialog.selectDoctor",
+              "value": "=dialog.UserInfo.content.result[0]"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "82FGeo"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "unrecognizedPrompt": "",
+          "invalidPrompt": "",
+          "prompt": "${TextInput_Prompt_82FGeo()}",
+          "property": "dialog.selectDoctor",
+          "validations": [
+            "=contains(dialog.UserInfo.content.result, this.value) || contains(this.value, '#')"
+          ]
+        },
+        {
+          "$kind": "Microsoft.HttpRequest",
+          "$designer": {
+            "id": "w3GhBd"
+          },
+          "resultProperty": "dialog.UserModel",
+          "method": "POST",
+          "url": "${conversation.URL}/api/BotAPI/GetUserModelByBranches?TenantId=${conversation.TenantId}&UserName=${dialog.selectDoctor}",
+          "responseType": "json"
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "GzGQS0"
+          },
+          "property": "dialog.userId",
+          "value": "=dialog.UserModel.content.result.id"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "j7MNvA"
+          },
+          "condition": "conversation.local == \"ar\"",
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "pwU4cR"
+              },
+              "property": "dialog.languageId",
+              "value": "1"
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "ZSjWzR"
+              },
+              "property": "dialog.languageId",
+              "value": 2
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.HttpRequest",
+          "$designer": {
+            "id": "UhzucN"
+          },
+          "resultProperty": "dialog.day",
+          "method": "GET",
+          "url": "${conversation.URL}/api/BotAPI/GetBookingDay?userId=${dialog.userId}&languageId=${dialog.languageId}",
+          "responseType": "json"
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "UN9PHv"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "unrecognizedPrompt": "",
+          "invalidPrompt": "",
+          "prompt": "${TextInput_Prompt_UN9PHv()}",
+          "property": "dialog.DateInput",
+          "validations": [
+            "getProperty(dialog.day.content.result, this.value) != null || contains(this.value, '#')"
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "IHb4UZ"
+          },
+          "property": "dialog.dayInput",
+          "value": "=getProperty(dialog.day.content.result,dialog.DateInput)"
+        },
+        {
+          "$kind": "Microsoft.HttpRequest",
+          "$designer": {
+            "id": "yc7NLQ"
+          },
+          "resultProperty": "dialog.GetTime",
+          "method": "GET",
+          "url": "${conversation.URL}/api/BotAPI/GetBookingTime?date=${dialog.dayInput}&tenantId=${conversation.TenantId}&userId=${dialog.userId}",
+          "responseType": "json"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "9lCOIg"
+          },
+          "condition": "dialog.GetTime.content.result.count > 0",
+          "elseActions": [
+            {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "g8fBKB"
+              },
+              "activity": "${SendActivity_g8fBKB()}"
+            },
+            {
+              "$kind": "Microsoft.RepeatDialog",
+              "$designer": {
+                "id": "wl3XFm"
+              },
+              "activityProcessed": true
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "2KYYfG"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "unrecognizedPrompt": "",
+          "invalidPrompt": "",
+          "prompt": "${TextInput_Prompt_2KYYfG()}",
+          "property": "dialog.TimeInput",
+          "validations": [
+            "contains(dialog.GetTime.content.result, this.value) || contains(this.value, '#')"
+          ]
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "AyhZoB"
+          },
+          "disabled": false,
+          "maxTurnCount": 3,
+          "alwaysPrompt": false,
+          "allowInterruptions": false,
+          "unrecognizedPrompt": "",
+          "invalidPrompt": "",
+          "defaultValueResponse": "",
+          "prompt": "${TextInput_Prompt_AyhZoB()}",
+          "property": "dialog.note"
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "0YEEa9"
+          },
+          "property": "dialog.bookingBody",
+          "value": {
+            "contactId": "=conversation.ContactId",
+            "phoneNumber": "=conversation.PhoneNumber",
+            "tenantId": "=conversation.TenantId",
+            "customerName": "=conversation.DisplayName",
+            "BookingDate": "=dialog.dayInput",
+            "BookingTime": "=dialog.TimeInput",
+            "StatusId": "1",
+            "languageId": "=dialog.languageId",
+            "createdBy": "=conversation.ContactId",
+            "areaId": "=conversation.AreaId",
+            "bookingTypeId": "2",
+            "UserName": "=dialog.selectDoctor",
+            "Note": "=dialog.note",
+            "UserId": "=dialog.userId"
+          }
+        },
+        {
+          "$kind": "Microsoft.HttpRequest",
+          "$designer": {
+            "id": "aT2fXL"
+          },
+          "resultProperty": "dialog.createResult",
+          "method": "POST",
+          "body": "=dialog.bookingBody",
+          "url": "${conversation.URL}/api/BotAPI/CreateBooking",
+          "headers": {
+            "accept": "text/plain",
+            "Content-Type": "application/json-patch+json"
+          },
+          "responseType": "json"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "nxscwR"
+          },
+          "condition": "dialog.createResult.content.result == \"booking_success\"",
+          "actions": [
+            {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "i4hRZW"
+              },
+              "activity": "${SendActivity_i4hRZW()}"
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "SaIvzJ"
+              },
+              "activity": "${SendActivity_SaIvzJ()}"
+            },
+            {
+              "$kind": "Microsoft.DeleteProperties",
+              "$designer": {
+                "id": "7qcuEw"
+              },
+              "properties": [
+                "dialog.bookingBody"
+              ]
+            },
+            {
+              "$kind": "Microsoft.RepeatDialog",
+              "$designer": {
+                "id": "uJThzt"
+              },
+              "activityProcessed": true
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "GrgzJs"
+          }
+        }
+      ]
+    }
+  ],
+  "generator": "BookAppointmentDialog.lg",
+  "recognizer": "BookAppointmentDialog.lu.qna",
+  "id": "BookAppointmentDialog"
+}

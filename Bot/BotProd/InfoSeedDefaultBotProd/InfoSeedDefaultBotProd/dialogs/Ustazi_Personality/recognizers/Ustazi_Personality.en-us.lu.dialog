@@ -1,0 +1,8 @@
+{
+  "$kind": "Microsoft.LuisRecognizer",
+  "id": "LUIS_Ustazi_Personality",
+  "applicationId": "=settings.luis.Ustazi_Personality_en_us_lu.appId",
+  "version": "=settings.luis.Ustazi_Personality_en_us_lu.version",
+  "endpoint": "=settings.luis.endpoint",
+  "endpointKey": "=settings.luis.endpointKey"
+}

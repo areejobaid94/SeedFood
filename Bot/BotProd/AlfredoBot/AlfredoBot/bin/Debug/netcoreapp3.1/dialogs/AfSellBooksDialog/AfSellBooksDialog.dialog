@@ -1,0 +1,195 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "kypE6i",
+    "name": "AfSellBooksDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "mKjSQ7"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "AKA9dQ"
+          },
+          "condition": "conversation.local",
+          "cases": [
+            {
+              "value": "ar",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "eREovn"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.option1",
+                      "value": "بيع"
+                    },
+                    {
+                      "property": "dialog.option2",
+                      "value": "تبرع"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "en",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "0qoC92"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.option1",
+                      "value": "Sell"
+                    },
+                    {
+                      "property": "dialog.option2",
+                      "value": "Donate"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.DeleteProperties",
+          "$designer": {
+            "id": "hOhdDt"
+          },
+          "properties": [
+            "dialog.UserSelect"
+          ]
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "T0L13C"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "unrecognizedPrompt": "",
+          "invalidPrompt": "",
+          "property": "dialog.UserSelect",
+          "validations": [
+            "equals(this.value, 'Sell') || equals(this.value, 'Donate') || equals(this.value, 'تبرع')  || equals(this.value, 'بيع')  || equals(this.value, '#')"
+          ],
+          "prompt": "${TextInput_Prompt_T0L13C()}"
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "oOV2e2"
+          },
+          "assignments": [
+            {
+              "property": "conversation.Department2",
+              "value": "${dialog.UserSelect}"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.DeleteProperty",
+          "$designer": {
+            "id": "VZbhdW"
+          },
+          "property": "dialog.SellBookCaption"
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "O6qIcF"
+          },
+          "condition": "dialog.UserSelect",
+          "cases": [
+            {
+              "value": "Sell",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "5hi0aX"
+                  },
+                  "property": "dialog.SellBookCaption",
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3025)).text"
+                }
+              ]
+            },
+            {
+              "value": "Donate",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "QtGY0T"
+                  },
+                  "property": "dialog.SellBookCaption",
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3026)).text"
+                }
+              ]
+            },
+            {
+              "value": "تبرع",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "Btpo3J"
+                  },
+                  "property": "dialog.SellBookCaption",
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3026)).text"
+                }
+              ]
+            },
+            {
+              "value": "بيع",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "ia8srt"
+                  },
+                  "property": "dialog.SellBookCaption",
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 3025)).text"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "srgTTT"
+          },
+          "activity": "${SendActivity_srgTTT()}"
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "jIncyb"
+          }
+        }
+      ]
+    }
+  ],
+  "generator": "AfSellBooksDialog.lg",
+  "recognizer": "AfSellBooksDialog.lu.qna",
+  "id": "AfSellBooksDialog"
+}

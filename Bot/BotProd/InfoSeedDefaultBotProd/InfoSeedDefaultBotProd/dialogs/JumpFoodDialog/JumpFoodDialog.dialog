@@ -1,0 +1,206 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "XmHx6D",
+    "name": "JumpFoodDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "iVwzuH"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "HoT7P2"
+          },
+          "condition": "conversation.local",
+          "cases": [
+            {
+              "value": "ar",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "0svCmw"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.Option2",
+                      "value": "للتسجيل"
+                    },
+                    {
+                      "property": "dialog.Option1",
+                      "value": "تواصل معنا"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "en",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "71TZtW"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.Option2",
+                      "value": "to sign up"
+                    },
+                    {
+                      "property": "dialog.Option1",
+                      "value": "Connect with us"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "default": []
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "hqNc1F"
+          },
+          "assignments": [
+            {
+              "property": "dialog.ThanksMessage",
+              "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1028)).text"
+            },
+            {
+              "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 33)).text",
+              "property": "conversation.finalMassegForSignUp"
+            },
+            {
+              "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 28)).text",
+              "property": "conversation.PDFLink"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.DeleteProperty",
+          "$designer": {
+            "id": "DmPAYE"
+          },
+          "property": "dialog.UserSelect"
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "3KRzyd"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "unrecognizedPrompt": "",
+          "invalidPrompt": "",
+          "prompt": "${TextInput_Prompt_3KRzyd()}",
+          "property": "dialog.UserSelect",
+          "validations": [
+            "equals(this.value, 'تواصل معنا')|| equals(this.value, 'للتسجيل')|| equals(this.value, 'Connect with us') || equals(this.value, 'to sign up')  ||equals(this.value, '#')"
+          ]
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "9VphY6"
+          },
+          "condition": "dialog.UserSelect",
+          "cases": [
+            {
+              "value": "تواصل معنا",
+              "actions": []
+            },
+            {
+              "value": "للتسجيل",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "pTHw9R"
+                  },
+                  "activity": "${SendActivity_pTHw9R()}"
+                },
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "dquISm"
+                  },
+                  "activity": "${SendActivity_dquISm()}"
+                }
+              ]
+            },
+            {
+              "value": "Connect with us",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "IHNeuV"
+                  },
+                  "activity": "${SendActivity_IHNeuV()}"
+                }
+              ]
+            },
+            {
+              "value": "to sign up",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "0wMRHe"
+                  },
+                  "activity": "${SendActivity_0wMRHe()}"
+                },
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "EqqWQf"
+                  },
+                  "activity": "${SendActivity_EqqWQf()}"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "fdS3gY"
+          },
+          "property": "conversation.Department1",
+          "value": "=dialog.UserSelect"
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "Z4JUio"
+          },
+          "activityProcessed": true,
+          "dialog": "LiveChatDialog"
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "7dscZB"
+          }
+        }
+      ]
+    }
+  ],
+  "generator": "JumpFoodDialog.lg",
+  "recognizer": "JumpFoodDialog.lu.qna",
+  "id": "JumpAcademyAthleteNutritionProgramsDialog"
+}

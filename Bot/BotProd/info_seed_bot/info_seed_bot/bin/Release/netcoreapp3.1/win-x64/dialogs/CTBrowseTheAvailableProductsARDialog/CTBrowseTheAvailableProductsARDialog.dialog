@@ -1,0 +1,696 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "fHCYCZ",
+    "name": "CTBrowseTheAvailableProductsARDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "KNMKlS"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "2NVIaV"
+          },
+          "condition": "conversation.local",
+          "cases": [
+            {
+              "value": "ar",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "fcpX7V"
+                  },
+                  "value": "يوجد لدينا تشكيلة واسعة من قطع واجهزة الكمبيوتر و ملحقاتها ويمكنك حاليا تصفح اجهزة الكمبيوتر واللابتوب والاجهزة اللوحية المتوفرة من خلال الضغط على احد هذه الخيارات لعرض المنتجات المتوفرة:",
+                  "property": "conversation.ctsubmenu1"
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "AByKiu"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.Opation1",
+                      "value": "اجهزة اللابتوب"
+                    },
+                    {
+                      "property": "dialog.Opation2",
+                      "value": "اجهزة أخرى"
+                    },
+                    {
+                      "property": "conversation.BackText",
+                      "value": "# العوده الى الخيار البداية"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "en",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "jkL2tx"
+                  },
+                  "value": "We have a wide variety of computer parts, computers and accessories, and you can currently browse the available computers, laptops and tablets by clicking on one of these options to view the available products:",
+                  "property": "conversation.ctsubmenu1"
+                },
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "Y3kRql"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.Opation1",
+                      "value": "laptops"
+                    },
+                    {
+                      "property": "dialog.Opation2",
+                      "value": "other devices"
+                    },
+                    {
+                      "property": "conversation.BackText",
+                      "value": "# Return to the start option"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "default": []
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "zWl7Ic"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "unrecognizedPrompt": "",
+          "invalidPrompt": "",
+          "prompt": "${TextInput_Prompt_zWl7Ic()}",
+          "property": "conversation.userinput",
+          "validations": [
+            "contains(this.value, 'اجهزة اللابتوب') || contains(this.value, 'اجهزة أخرى') || contains(this.value, '#')"
+          ]
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "3843p6"
+          },
+          "condition": "conversation.userinput",
+          "cases": [
+            {
+              "value": "اجهزة اللابتوب",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SwitchCondition",
+                  "$designer": {
+                    "id": "pSLZo4"
+                  },
+                  "condition": "conversation.local",
+                  "cases": [
+                    {
+                      "value": "ar",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "0h7NAo"
+                          },
+                          "value": "اسهل طريقة لاختيار الجهاز المناسب لاحتياجاتك هو تحديد نوع الاستخدام ويوجد لدينا ؟ ",
+                          "property": "conversation.ctuserinput1"
+                        },
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "WW438v"
+                          },
+                          "property": "conversation.ctuserinput1",
+                          "value": " نوع الاستخدام"
+                        },
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "5rAhCc"
+                          },
+                          "property": "dialog.InputHint",
+                          "value": " نوع الاستخدام"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "en",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "X5INMc"
+                          },
+                          "value": "The easiest way to choose the right device for your needs is to determine the type of use and we have it?",
+                          "property": "conversation.ctuserinput1"
+                        }
+                      ]
+                    }
+                  ],
+                  "default": []
+                },
+                {
+                  "$kind": "Microsoft.TextInput",
+                  "$designer": {
+                    "id": "ElGZWp"
+                  },
+                  "disabled": false,
+                  "maxTurnCount": 100,
+                  "alwaysPrompt": false,
+                  "allowInterruptions": false,
+                  "prompt": "${TextInput_Prompt_ElGZWp()}",
+                  "unrecognizedPrompt": "",
+                  "invalidPrompt": "",
+                  "property": "conversation.ctuserinput11",
+                  "validations": [
+                    "contains(this.value, 'لابتوب استخدام يومي') || contains(this.value, 'لابتوب اعمال مكتبية') || contains(this.value, 'لابتوب يعمل باللمس') || contains(this.value, 'لابتوب خفيف الوزن') || contains(this.value, 'لابتوب العاب وبرامج') || contains(this.value, 'منتجات APPLE') || contains(this.value, '#') "
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SwitchCondition",
+                  "$designer": {
+                    "id": "IZb3fz"
+                  },
+                  "condition": "conversation.ctuserinput11",
+                  "cases": [
+                    {
+                      "value": "لابتوب استخدام يومي",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperties",
+                          "$designer": {
+                            "id": "XNnops"
+                          },
+                          "assignments": [
+                            {
+                              "property": "dialog.text1",
+                              "value": "https://citycenter.jo/pc-and-laptops/pc-and-laptops-laptops?sort=p.price&order=ASC&bfilter=s0:7,9;a613:1313,1319,1320;"
+                            },
+                            {
+                              "property": "dialog.text2",
+                              "value": "https://citycenter.jo/pc-and-laptops/pc-and-laptops-laptops?sort=p.price&order=ASC&limit=100&bfilter=s0:7,9;a613:1314,1321;"
+                            },
+                            {
+                              "property": "dialog.text3",
+                              "value": "https://citycenter.jo/pc-and-laptops/pc-and-laptops-laptops?sort=p.price&order=ASC&limit=100&bfilter=s0:7,9;a613:1315,1316,1322,1323,1325,1326"
+                            }
+                          ]
+                        },
+                        {
+                          "$kind": "Microsoft.SendActivity",
+                          "$designer": {
+                            "id": "AjafSS"
+                          },
+                          "activity": "${SendActivity_AjafSS()}"
+                        },
+                        {
+                          "$kind": "Microsoft.SendActivity",
+                          "$designer": {
+                            "id": "PkytWb"
+                          },
+                          "activity": "${SendActivity_PkytWb()}"
+                        },
+                        {
+                          "$kind": "Microsoft.SendActivity",
+                          "$designer": {
+                            "id": "0QFfsL"
+                          },
+                          "activity": "${SendActivity_0QFfsL()}"
+                        },
+                        {
+                          "$kind": "Microsoft.TextInput",
+                          "$designer": {
+                            "id": "VRHjYn"
+                          },
+                          "disabled": false,
+                          "maxTurnCount": 100,
+                          "alwaysPrompt": false,
+                          "allowInterruptions": false,
+                          "invalidPrompt": "",
+                          "prompt": "${TextInput_Prompt_VRHjYn()}",
+                          "property": "conversation.ctuC",
+                          "validations": [
+                            "contains(this.value, '#')"
+                          ]
+                        },
+                        {
+                          "$kind": "Microsoft.DeleteProperties",
+                          "$designer": {
+                            "id": "5FWF4B"
+                          },
+                          "properties": [
+                            "conversation.ctuC",
+                            "conversation.ctuserinput11"
+                          ]
+                        },
+                        {
+                          "$kind": "Microsoft.RepeatDialog",
+                          "$designer": {
+                            "id": "g34y3s"
+                          },
+                          "activityProcessed": true
+                        }
+                      ]
+                    },
+                    {
+                      "value": "لابتوب اعمال مكتبية",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "a9mZg1"
+                          },
+                          "property": "dialog.text4",
+                          "value": "https://citycenter.jo/pc-and-laptops/pc-and-laptops-laptops/business-laptop?sort=p.price&order=ASC&limit=75&bfilter=s0:7,9;"
+                        },
+                        {
+                          "$kind": "Microsoft.TextInput",
+                          "$designer": {
+                            "id": "mMX0zG"
+                          },
+                          "disabled": false,
+                          "maxTurnCount": 100,
+                          "alwaysPrompt": false,
+                          "allowInterruptions": false,
+                          "unrecognizedPrompt": "",
+                          "prompt": "${TextInput_Prompt_mMX0zG()}",
+                          "property": "conversation.ctuserinput211111",
+                          "validations": [
+                            "contains(this.value, '#')"
+                          ]
+                        },
+                        {
+                          "$kind": "Microsoft.DeleteProperties",
+                          "$designer": {
+                            "id": "BOXRhP"
+                          },
+                          "properties": [
+                            "conversation.ctuserinput11",
+                            "conversation.ctuserinput211111"
+                          ]
+                        },
+                        {
+                          "$kind": "Microsoft.RepeatDialog",
+                          "$designer": {
+                            "id": "2wPUL2"
+                          },
+                          "activityProcessed": true
+                        }
+                      ]
+                    },
+                    {
+                      "value": "لابتوب يعمل باللمس",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "AVgUZM"
+                          },
+                          "property": "dialog.text5",
+                          "value": "https://citycenter.jo/pc-and-laptops/pc-and-laptops-laptops/gaming-laptop?sort=p.price&order=ASC&limit=75&bfilter=s0:7,9;a5:69,71,74,75,23093"
+                        },
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "NrOIK0"
+                          },
+                          "property": "dialog.text6",
+                          "value": "https://citycenter.jo/pc-and-laptops/pc-and-laptops-laptops/gaming-laptop?sort=p.price&order=ASC&limit=75&bfilter=s0:7,9;a5:68,71,76,77,23093;"
+                        },
+                        {
+                          "$kind": "Microsoft.SendActivity",
+                          "$designer": {
+                            "id": "GguBeq"
+                          },
+                          "activity": "${SendActivity_GguBeq()}"
+                        },
+                        {
+                          "$kind": "Microsoft.SendActivity",
+                          "$designer": {
+                            "id": "D59uq5"
+                          },
+                          "activity": "${SendActivity_D59uq5()}"
+                        },
+                        {
+                          "$kind": "Microsoft.TextInput",
+                          "$designer": {
+                            "id": "DaZWwh"
+                          },
+                          "disabled": false,
+                          "maxTurnCount": 100,
+                          "alwaysPrompt": false,
+                          "allowInterruptions": false,
+                          "unrecognizedPrompt": "",
+                          "prompt": "${TextInput_Prompt_DaZWwh()}",
+                          "property": "conversation.ctuserinput311111",
+                          "validations": [
+                            "contains(this.value, '#')"
+                          ]
+                        },
+                        {
+                          "$kind": "Microsoft.DeleteProperties",
+                          "$designer": {
+                            "id": "ObwGiS"
+                          },
+                          "properties": [
+                            "conversation.ctuserinput11",
+                            "conversation.ctuserinput311111"
+                          ]
+                        },
+                        {
+                          "$kind": "Microsoft.RepeatDialog",
+                          "$designer": {
+                            "id": "CY9odA"
+                          },
+                          "activityProcessed": true
+                        }
+                      ]
+                    },
+                    {
+                      "value": "لابتوب خفيف الوزن",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "bdYIn9"
+                          },
+                          "property": "dialog.text7",
+                          "value": "https://citycenter.jo/pc-and-laptops/pc-and-laptops-laptops/touch-screen-laptops?sort=p.price&order=ASC&limit=75&bfilter=s0:7,9;"
+                        },
+                        {
+                          "$kind": "Microsoft.TextInput",
+                          "$designer": {
+                            "id": "KjfRGu"
+                          },
+                          "disabled": false,
+                          "maxTurnCount": 100,
+                          "alwaysPrompt": false,
+                          "allowInterruptions": false,
+                          "unrecognizedPrompt": "",
+                          "invalidPrompt": "",
+                          "prompt": "${TextInput_Prompt_KjfRGu()}",
+                          "property": "conversation.ctuserinput411111",
+                          "validations": [
+                            "contains(this.value, '#')"
+                          ]
+                        },
+                        {
+                          "$kind": "Microsoft.DeleteProperties",
+                          "$designer": {
+                            "id": "Sbj4wq"
+                          },
+                          "properties": [
+                            "conversation.ctuserinput11",
+                            "conversation.ctuserinput411111"
+                          ]
+                        },
+                        {
+                          "$kind": "Microsoft.RepeatDialog",
+                          "$designer": {
+                            "id": "v8rZrF"
+                          },
+                          "activityProcessed": true
+                        }
+                      ]
+                    },
+                    {
+                      "value": "لابتوب العاب وبرامج",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "mtz5fj"
+                          },
+                          "property": "dialog.text8",
+                          "value": "https://citycenter.jo/pc-and-laptops/pc-and-laptops-laptops/lightweight-laptop?sort=p.price&order=ASC&limit=100&bfilter=s0:7,9"
+                        },
+                        {
+                          "$kind": "Microsoft.TextInput",
+                          "$designer": {
+                            "id": "vl8bDE"
+                          },
+                          "disabled": false,
+                          "maxTurnCount": 100,
+                          "alwaysPrompt": false,
+                          "allowInterruptions": false,
+                          "unrecognizedPrompt": "",
+                          "invalidPrompt": "",
+                          "prompt": "${TextInput_Prompt_vl8bDE()}",
+                          "property": "conversation.ctuserinput511111",
+                          "validations": [
+                            "contains(this.value, '#')"
+                          ]
+                        },
+                        {
+                          "$kind": "Microsoft.DeleteProperties",
+                          "$designer": {
+                            "id": "5qpQp5"
+                          },
+                          "properties": [
+                            "conversation.ctuserinput11",
+                            "conversation.ctuserinput511111"
+                          ]
+                        },
+                        {
+                          "$kind": "Microsoft.RepeatDialog",
+                          "$designer": {
+                            "id": "H4MvND"
+                          },
+                          "activityProcessed": true
+                        }
+                      ]
+                    },
+                    {
+                      "value": "منتجات APPLE",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "lYepWd"
+                          },
+                          "property": "dialog.text9",
+                          "value": "https://citycenter.jo/pc-and-laptops/pc-and-laptops-laptops?sort=p.price&order=ASC&bfilter=s0:7,9;m0:189;"
+                        },
+                        {
+                          "$kind": "Microsoft.TextInput",
+                          "$designer": {
+                            "id": "NLXq1c"
+                          },
+                          "disabled": false,
+                          "maxTurnCount": 100,
+                          "alwaysPrompt": false,
+                          "allowInterruptions": false,
+                          "unrecognizedPrompt": "",
+                          "prompt": "${TextInput_Prompt_NLXq1c()}",
+                          "property": "conversation.ctuserinput611111",
+                          "validations": [
+                            "contains(this.value, '#')"
+                          ]
+                        },
+                        {
+                          "$kind": "Microsoft.DeleteProperties",
+                          "$designer": {
+                            "id": "Gfa9j4"
+                          },
+                          "properties": [
+                            "conversation.ctuserinput11",
+                            "conversation.ctuserinput611111"
+                          ]
+                        },
+                        {
+                          "$kind": "Microsoft.RepeatDialog",
+                          "$designer": {
+                            "id": "Fo15Is"
+                          },
+                          "activityProcessed": true
+                        }
+                      ]
+                    }
+                  ],
+                  "default": [
+                    {
+                      "$kind": "Microsoft.DeleteProperties",
+                      "$designer": {
+                        "id": "TABXTq"
+                      },
+                      "properties": [
+                        "conversation.userinput",
+                        "conversation.ctuserinput11"
+                      ]
+                    },
+                    {
+                      "$kind": "Microsoft.RepeatDialog",
+                      "$designer": {
+                        "id": "qBer24"
+                      },
+                      "activityProcessed": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "اجهزة أخرى",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SwitchCondition",
+                  "$designer": {
+                    "id": "1ikh6T"
+                  },
+                  "condition": "conversation.local",
+                  "cases": [
+                    {
+                      "value": "ar",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "UksfRo"
+                          },
+                          "value": "تصفح الموقع  https://citycenter.jo/",
+                          "property": "conversation.ctinputuser12"
+                        }
+                      ]
+                    },
+                    {
+                      "value": "en",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.SetProperty",
+                          "$designer": {
+                            "id": "qhs3XZ"
+                          },
+                          "value": " Browse the site https://citycenter.jo/",
+                          "property": "conversation.ctinputuser12"
+                        }
+                      ]
+                    }
+                  ],
+                  "default": []
+                },
+                {
+                  "$kind": "Microsoft.TextInput",
+                  "$designer": {
+                    "id": "ycskrA"
+                  },
+                  "disabled": false,
+                  "maxTurnCount": 100,
+                  "alwaysPrompt": false,
+                  "allowInterruptions": false,
+                  "unrecognizedPrompt": "",
+                  "invalidPrompt": "",
+                  "property": "conversation.ctinputuser121",
+                  "prompt": "${TextInput_Prompt_ycskrA()}",
+                  "validations": [
+                    "contains(this.value, '#') "
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "J0xv3p"
+                  },
+                  "condition": "conversation.ctinputuser121==\"#\"",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.DeleteProperty",
+                      "$designer": {
+                        "id": "shhqTs"
+                      },
+                      "property": "conversation.userinput"
+                    },
+                    {
+                      "$kind": "Microsoft.DeleteProperty",
+                      "$designer": {
+                        "id": "m609y4"
+                      },
+                      "property": "conversation.ctinputuser121"
+                    },
+                    {
+                      "$kind": "Microsoft.RepeatDialog",
+                      "$designer": {
+                        "id": "VU1C52"
+                      },
+                      "activityProcessed": true
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "#",
+              "actions": [
+                {
+                  "$kind": "Microsoft.DeleteProperty",
+                  "$designer": {
+                    "id": "k02weK"
+                  },
+                  "property": "conversation.userinput"
+                },
+                {
+                  "$kind": "Microsoft.EndDialog",
+                  "$designer": {
+                    "id": "Gq9yVA"
+                  }
+                }
+              ]
+            }
+          ],
+          "default": [
+            {
+              "$kind": "Microsoft.DeleteProperty",
+              "$designer": {
+                "id": "zFK1Lu"
+              },
+              "property": "conversation.userinput"
+            },
+            {
+              "$kind": "Microsoft.EndDialog",
+              "$designer": {
+                "id": "CYcnEE"
+              }
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.DeleteProperty",
+          "$designer": {
+            "id": "aq6962"
+          },
+          "property": "conversation.userinput"
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "lEg0QU"
+          }
+        }
+      ]
+    }
+  ],
+  "generator": "CTBrowseTheAvailableProductsARDialog.lg",
+  "recognizer": "CTBrowseTheAvailableProductsARDialog.lu.qna",
+  "id": "CTBrowseTheAvailableProductsARDialog"
+}

@@ -1,0 +1,9 @@
+.ng-select{
+    width: 228px !important;
+    min-width: 200px !important;
+}
+
+.card{
+    height: 428px;
+    min-height: 428px;
+}

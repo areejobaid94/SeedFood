@@ -1,0 +1,38 @@
+[import](common.lg)
+
+# TextInput_Prompt_tTRUJI_text()
+- ${conversation.InputHint}
+# TextInput_Prompt_tTRUJI()
+[Activity
+    Text = ${TextInput_Prompt_tTRUJI_text()}
+    SuggestedActions = ${dialog.option1} | ${dialog.option2}
+]
+
+# SendActivity_VGsGPI_text()
+- ${dialog.IBCaption}
+# SendActivity_VGsGPI()
+[Activity
+    Text = ${SendActivity_VGsGPI_text()}
+]
+
+# TextInput_Prompt_sw8CPv_text()
+- ${conversation.InputHint}
+# TextInput_Prompt_sw8CPv()
+[Activity
+    Text = ${TextInput_Prompt_sw8CPv_text()}
+    SuggestedActions = ${dialog.Option1} | ${dialog.Option2} | ${dialog.Option3}
+]
+
+# TextInput_Prompt_9lD3ya_text()
+- ${dialog.InquireCaption}
+# TextInput_Prompt_9lD3ya()
+[Activity
+    Text = ${TextInput_Prompt_9lD3ya_text()}
+]
+
+# TextInput_Prompt_4LdcPP_text()
+- ${dialog.InquireCaption}
+# TextInput_Prompt_4LdcPP()
+[Activity
+    Text = ${TextInput_Prompt_4LdcPP_text()}
+]

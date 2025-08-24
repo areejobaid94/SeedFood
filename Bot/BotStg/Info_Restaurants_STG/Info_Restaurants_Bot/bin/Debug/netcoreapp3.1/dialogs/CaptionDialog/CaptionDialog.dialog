@@ -1,0 +1,218 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "ocqyo2",
+    "name": "CaptionDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "U7HV3I"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.HttpRequest",
+          "$designer": {
+            "id": "LtuEXb"
+          },
+          "resultProperty": "conversation.AllCaption",
+          "method": "GET",
+          "url": "${conversation.URL}/api/BotAPI/GetAllCaption?TenantID=${conversation.TenantId}&local=${conversation.local}",
+          "responseType": "json"
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "2YP3BT"
+          },
+          "condition": "conversation.local",
+          "cases": [
+            {
+              "value": "ar",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "x7RzO4"
+                  },
+                  "assignments": [
+                    {
+                      "property": "conversation.Summary",
+                      "value": "ضغط *#* للعودة الى القائمة الرئيسية"
+                    },
+                    {
+                      "property": "conversation.EnterNewOrderNumber",
+                      "value": "ادخال رقم طلب جديد"
+                    },
+                    {
+                      "property": "conversation.FromBranch",
+                      "value": "استلام من الفرع"
+                    },
+                    {
+                      "property": "conversation.Delivery",
+                      "value": "توصيل \"Delivery\""
+                    },
+                    {
+                      "property": "conversation.Confirm",
+                      "value": "تاكيد"
+                    },
+                    {
+                      "property": "conversation.Cancel",
+                      "value": "الغاء"
+                    },
+                    {
+                      "property": "conversation.Yes",
+                      "value": "نعم"
+                    },
+                    {
+                      "property": "conversation.No",
+                      "value": "لا"
+                    },
+                    {
+                      "property": "conversation.AnotherTime",
+                      "value": "وقت آخر"
+                    },
+                    {
+                      "property": "conversation.RightNow",
+                      "value": "الآن"
+                    },
+                    {
+                      "property": "conversation.InsteadOfText",
+                      "value": "بدل من"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "en",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "0FWejM"
+                  },
+                  "assignments": [
+                    {
+                      "property": "conversation.Summary",
+                      "value": "ضغط *#* للعودة الى القائمة الرئيسية"
+                    },
+                    {
+                      "property": "conversation.EnterNewOrderNumber",
+                      "value": "ادخال رقم طلب جديد"
+                    },
+                    {
+                      "property": "conversation.FromBranch",
+                      "value": "استلام من الفرع"
+                    },
+                    {
+                      "property": "conversation.Delivery",
+                      "value": "توصيل \"Delivery\""
+                    },
+                    {
+                      "property": "conversation.Confirm",
+                      "value": "تاكيد"
+                    },
+                    {
+                      "property": "conversation.Cancel",
+                      "value": "الغاء"
+                    },
+                    {
+                      "property": "conversation.Yes",
+                      "value": "نعم"
+                    },
+                    {
+                      "property": "conversation.No",
+                      "value": "لا"
+                    },
+                    {
+                      "property": "conversation.AnotherTime",
+                      "value": "وقت آخر"
+                    },
+                    {
+                      "property": "conversation.RightNow",
+                      "value": "الآن"
+                    },
+                    {
+                      "property": "conversation.InsteadOfText",
+                      "value": "بدل من"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "default": [
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "SERHL8"
+              },
+              "assignments": [
+                {
+                  "property": "conversation.Summary",
+                  "value": "ضغط *#* للعودة الى القائمة الرئيسية"
+                },
+                {
+                  "property": "conversation.EnterNewOrderNumber",
+                  "value": "ادخال رقم طلب جديد"
+                },
+                {
+                  "property": "conversation.FromBranch",
+                  "value": "استلام من الفرع"
+                },
+                {
+                  "property": "conversation.Delivery",
+                  "value": "توصيل \"Delivery\""
+                },
+                {
+                  "property": "conversation.Confirm",
+                  "value": "تاكيد"
+                },
+                {
+                  "property": "conversation.Cancel",
+                  "value": "الغاء"
+                },
+                {
+                  "property": "conversation.Yes",
+                  "value": "نعم"
+                },
+                {
+                  "property": "conversation.No",
+                  "value": "لا"
+                },
+                {
+                  "property": "conversation.AnotherTime",
+                  "value": "وقت آخر"
+                },
+                {
+                  "property": "conversation.RightNow",
+                  "value": "الآن"
+                },
+                {
+                  "property": "conversation.InsteadOfText",
+                  "value": "بدل من"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "KsDh4w"
+          }
+        }
+      ]
+    }
+  ],
+  "generator": "CaptionDialog.lg",
+  "recognizer": "CaptionDialog.lu.qna",
+  "id": "CaptionDialog"
+}

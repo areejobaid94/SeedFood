@@ -1,0 +1,13 @@
+[import](common.lg)
+
+# TextInput_Prompt_ciRpC4()
+[Activity
+    Attachments = ${json(ButtonList2(conversation.select,dialog.ListFuel.content.result))}
+     InputHint= منطقتك
+     Summary=${dialog.Summary}
+]
+
+
+
+
+

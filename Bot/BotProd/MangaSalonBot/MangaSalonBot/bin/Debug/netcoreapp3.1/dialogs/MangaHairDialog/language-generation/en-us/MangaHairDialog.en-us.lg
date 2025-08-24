@@ -1,0 +1,9 @@
+[import](common.lg)
+
+# TextInput_Prompt_BBJ0yu()
+[Activity
+    Attachments = ${json(ButtonList(dialog.HintPlaseCaption,dialog.FirsList))}
+    InputHint=منطقتك
+    Summary=${conversation.Summary}
+]
+

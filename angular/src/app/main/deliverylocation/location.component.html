@@ -1,0 +1,199 @@
+<div [@routerTransition]>
+    <div [ngClass]="darkModeService.currentSkin === 'dark' ? 'header-navbar-shadow-dark' : 'header-navbar-shadow'"></div>
+        <div class="content-wrapper container-xxl p-0">
+            <div class="content-body">
+                <div class="d-flex flex-column flex-column-fluid">
+                    <sub-header *ngIf="theme != 'theme12'" [title]="'Locations' | localize" [description]="'Locations Header Info' | localize">
+                        <div role="actions">
+                            <!-- <button (click)="exportToExcel()" class="btn btn-outline-success"><i class="fa fa-file-excel"></i> {{l("ExportToExcel")}}</button> -->
+                            <button (click)="createLocation()" class="btn btn-primary blue"><i class="fa fa-plus"></i> My Location</button>
+                        </div>
+                    </sub-header>
+                    <sub-header *ngIf="theme === 'theme12'" [title]="'Locations' | localize" [description]="'Locations Header Info' | localize"> </sub-header>
+
+                    <!--<h1>Delivery Cost Per Location</h1>-->
+                    <div [ngClass]="theme != 'theme12' ? 'container' : ''">
+                        <div class=" card-custom gutter-b"  [ngClass]="darkModeService.currentSkin === 'dark' ? 'dark-card' : 'card'">
+                            <div class="card-body">
+                                <div class="row mb-2" *ngIf="theme === 'theme12'">
+                                    <div class="col-md-6 col-12 text-right"></div>
+                                    <div class="col-md-6 col-12 text-right">
+                                        <button (click)="createLocation()" class="btn btn-outline-primary-info mr-1"><i class="fa fa-plus"></i> My Location</button>
+                                    </div>
+                                </div>
+                                <!-- <div class="row" [hidden]="!advancedFiltersAreShown">
+                    <div class="col-md-3">
+                        <label>City:</label>
+                        <select (change)="onChangeCity($event)" class="form-control">
+                            <option *ngFor="let city of cities" [value]="city.id">{{city.locationName}}</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label>Area:</label>
+                        <select (change)="onChangeArea($event)" class="form-control">
+                            <option *ngFor="let area of areas" [value]="area.id">{{area.locationName}}</option>
+                        </select>
+                    </div>
+                    
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-sm-12">
+                            <span class="clickable-item text-muted" *ngIf="!advancedFiltersAreShown" (click)="advancedFiltersAreShown=!advancedFiltersAreShown"><i class="fa fa-angle-down"></i> {{l("ShowAdvancedFilters")}}</span>
+                            <span class="clickable-item text-muted" *ngIf="advancedFiltersAreShown" (click)="advancedFiltersAreShown=!advancedFiltersAreShown"><i class="fa fa-angle-up"></i> {{l("HideAdvancedFilters")}}</span>
+                        </div>
+                    </div> -->
+
+                                <div class="align-items-center">
+                                    <!--<Primeng-Datatable-Start>-->
+                                    <div  [ngClass]="darkModeService.currentSkin === 'dark' ? 'table-dark' : 'light'" class="primeng-datatable-container p-0" [busyIf]="primengTableHelper.isLoading">
+                                        <p-table
+                                        [ngClass]="darkModeService.currentSkin === 'dark' ? 'table-dark' : 'light'"
+                                            #dataTable
+                                            (onLazyLoad)="getCities($event)"
+                                            [value]="primengTableHelper.records"
+                                            rows="{{ primengTableHelper.defaultRecordsCountPerPage }}"
+                                            [paginator]="false"
+                                            [lazy]="true"
+                                            [scrollable]="true"
+                                            [scrollbarV]="true"
+                                            [scrollbarH]="true"
+                                            [scrollable]="true"
+                                            cols="10"
+                                            ScrollWidth="100%"
+                                            [responsive]="primengTableHelper.isResponsive"
+                                            [resizableColumns]="primengTableHelper.resizableColumns"
+                                        >
+                                            <ng-template pTemplate="header" [ngClass]="darkModeService.currentSkin === 'dark' ? 'table-dark' : 'light'">
+                                                <tr>
+                                                    <th style="width: 40px">{{ l("Actions") }}</th>
+
+                                                    <th style="width: 100px" pSortableColumn="fromCityName">
+                                                        {{ l("From  City Name") }}
+                                                        <p-sortIcon field="fromCityName"></p-sortIcon>
+                                                    </th>
+                                                    <th style="width: 100px" pSortableColumn="fromAreaName">
+                                                        {{ l("From Area Name") }}
+                                                        <p-sortIcon field="fromAreaName"></p-sortIcon>
+                                                    </th>
+                                                    <!--
+                                                    <th style="width: 100px" pSortableColumn="fromDistrictName">
+                                                        {{ l("From District Name") }}
+                                                        <p-sortIcon field="fromDistrictName"></p-sortIcon>
+                                                    </th>-->
+
+                                                    <th style="width: 100px" pSortableColumn="toCityName">
+                                                        {{ l("To City Name") }}
+                                                        <p-sortIcon field="toCityName"></p-sortIcon>
+                                                    </th>
+                                                    <th style="width: 100px" pSortableColumn="toAreaName">
+                                                        {{ l("To Area Name") }}
+                                                        <p-sortIcon field="toAreaName"></p-sortIcon>
+                                                    </th>
+                                                    <!--
+                                                    <th style="width: 100px" pSortableColumn="toDistrictName">
+                                                        {{ l("To District Name") }}
+                                                        <p-sortIcon field="toDistrictName"></p-sortIcon>
+                                                    </th>-->
+
+                                                    <th style="width: 100px" pSortableColumn="deliveryCost">
+                                                        {{ l("Delivery Cost") }}
+                                                        <p-sortIcon field="deliveryCost"></p-sortIcon>
+                                                    </th>
+                                                    <!-- <th style="width: 150px"  pSortableColumn="branchAreaId">
+                                    {{l('Assign to Branch')}}
+                                    <p-sortIcon field="branchAreaId"></p-sortIcon>
+                                </th> -->
+                                                </tr>
+                                            </ng-template>
+                                            <ng-template pTemplate="body" let-record="$implicit" let-i="rowIndex">
+                                                <tr>
+                                                    <td style="width: 40px">
+                                                        <div class="btn-group dropdown" dropdown container="body">
+                                                            <button [ngClass]="theme != 'theme12' ? 'btn-primary' : 'btn-primary-info'" class="dropdown-toggle btn btn-sm " dropdownToggle>
+                                                                <i class="fa fa-cog"></i><span class="caret"></span> 
+                                                            </button>
+
+                                                            <ul class="dropdown-menu" *dropdownMenu>
+                                                                <li>
+                                                                    <a href="javascript:;" class="dropdown-item" (click)="editLocation(record)">{{ l("Edit") }}</a>
+                                                                </li>
+
+                                                                <li>
+                                                                    <a href="javascript:;" class="dropdown-item" (click)="deleteLocation(record)">{{ l("Delete") }}</a>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </td>
+                                                    <td style="font-family: system-ui; width: 100px">
+                                                        <span class="p-column-title"> {{ l("From City Name") }}</span>
+                                                        {{ record.fromCityName }}
+                                                    </td>
+
+                                                    <td style="font-family: system-ui; width: 100px">
+                                                        <span class="p-column-title"> {{ l("From Area Name") }}</span>
+                                                        {{ record.fromAreaName }}
+                                                    </td>
+<!--
+                                                    <td style="font-family: system-ui; width: 100px">
+                                                        <span class="p-column-title"> {{ l("From District Name") }}</span>
+                                                        <a href="{{ record.fromGoogleURL }}" target="_blank">{{ record.fromDistrictName }}</a>
+                                                    </td>-->
+
+                                                    <td style="font-family: system-ui; width: 100px">
+                                                        <span class="p-column-title"> {{ l("To City Name") }}</span>
+                                                        {{ record.toCityName }}
+                                                    </td>
+
+                                                    <td style="font-family: system-ui; width: 100px">
+                                                        <span class="p-column-title"> {{ l("To Area Name") }}</span>
+                                                        {{ record.toAreaName }}
+                                                    </td>
+<!--
+                                                    <td style="font-family: system-ui; width: 100px">
+                                                        <span class="p-column-title"> {{ l("To District Name") }}</span>
+                                                        <a href="{{ record.toGoogleURL }}" target="_blank">{{ record.toDistrictName }}</a>
+                                                    </td>-->
+
+                                                    <td style="font-family: system-ui; width: 100px">
+                                                        <span class="p-column-title"> {{ l("Delivery Cost") }}</span>
+                                                        {{ record.deliveryCost }}
+                                                    </td>
+
+                                                    <!-- <td style="font-family: system-ui;width:150px">
+                                        <span class="p-column-title"> {{l('Assign to Branch')}}</span>
+                                        {{record.branchAreaRes}}   {{record.branchAreaCor}}
+                                    </td> -->
+                                                    <!-- <td style="font-family: system-ui;width:150px">
+                                        <span class="p-column-title"> {{l('Branch')}}</span>
+                                        {{record.deliveryCost}}
+                                    </td> -->
+                                                </tr>
+                                            </ng-template>
+                                        </p-table>
+                                        <div class="primeng-no-data" *ngIf="primengTableHelper.totalRecordsCount == 0">
+                                            {{ l("NoData") }}
+                                        </div>
+                                        <div class="primeng-paging-container">
+                                            <p-paginator
+                                                [rows]="primengTableHelper.defaultRecordsCountPerPage"
+                                                #paginator
+                                                (onPageChange)="getCities($event)"
+                                                [totalRecords]="primengTableHelper.totalRecordsCount"
+                                                [rowsPerPageOptions]="primengTableHelper.predefinedRecordsCountPerPage"
+                                            >
+                                            </p-paginator>
+                                            <span class="total-records-count">
+                                                {{ l("TotalRecordsCount", primengTableHelper.totalRecordsCount) }}
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <!--<Primeng-Datatable-End>-->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <createOrEditDeliveryLocationModal #createOrEditDeliveryLocationModal (modalSave)="getCities($event)"></createOrEditDeliveryLocationModal>
+                </div>
+            </div>
+        </div>
+    </div>

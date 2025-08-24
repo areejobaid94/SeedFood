@@ -1,0 +1,19 @@
+tr:nth-child(odd) {
+    background-color: #f9f9f9;
+  }
+  td{
+    padding: 10px 0px 10px 10px !important;
+  
+  }
+  th{
+      background-color: #f3f2f7;
+      padding: 10px 0px 10px 10px !important;
+  }
+  .darrk tr:nth-child(odd) {
+    background-color: transparent!important;
+  
+  }
+  .darrk th{
+    background-color: transparent!important;
+  }
+  

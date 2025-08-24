@@ -1,0 +1,495 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "scLfRT",
+    "name": "PreOrderDialog",
+    "description": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "kvt3CM"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "QTgJuy"
+          },
+          "condition": "conversation.TenantId ==\"34\"",
+          "actions": [
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "3oH2ET"
+              },
+              "condition": "conversation.local == \"ar\"",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "5UVS7F"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.Option1",
+                      "value": "اليوم"
+                    },
+                    {
+                      "property": "dialog.Option2",
+                      "value": "بكرة"
+                    }
+                  ]
+                }
+              ],
+              "elseActions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "9gtSl6"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.Option1",
+                      "value": "Today"
+                    },
+                    {
+                      "property": "dialog.Option2",
+                      "value": "Tomorrow"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.HttpRequest",
+              "$designer": {
+                "id": "LWTtLG"
+              },
+              "method": "GET",
+              "url": "${conversation.URL}/api/NewBotAPI/ChickDate",
+              "resultProperty": "dialog.chick",
+              "responseType": "json"
+            },
+            {
+              "$kind": "Microsoft.DeleteProperty",
+              "$designer": {
+                "id": "sbLxeU"
+              },
+              "property": "dialog.selectoption"
+            },
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "p1RJAe"
+              },
+              "condition": "dialog.chick.content.result",
+              "actions": [
+                {
+                  "$kind": "Microsoft.TextInput",
+                  "$designer": {
+                    "id": "RqUi36"
+                  },
+                  "disabled": false,
+                  "maxTurnCount": 100,
+                  "alwaysPrompt": false,
+                  "allowInterruptions": true,
+                  "prompt": "${TextInput_Prompt_RqUi36()}",
+                  "unrecognizedPrompt": "",
+                  "invalidPrompt": "",
+                  "property": "dialog.selectoption",
+                  "validations": [
+                    "contains(this.value, 'بكرة')  || contains(this.value, 'Tomorrow') || contains(this.value, '#') "
+                  ]
+                }
+              ],
+              "elseActions": [
+                {
+                  "$kind": "Microsoft.TextInput",
+                  "$designer": {
+                    "id": "18vCCD"
+                  },
+                  "disabled": false,
+                  "maxTurnCount": 100,
+                  "alwaysPrompt": false,
+                  "allowInterruptions": true,
+                  "prompt": "${TextInput_Prompt_18vCCD()}",
+                  "unrecognizedPrompt": "",
+                  "invalidPrompt": "",
+                  "validations": [
+                    "contains(this.value, 'اليوم') || contains(this.value, 'بكرة') || contains(this.value, 'Today') || contains(this.value, 'Tomorrow') || contains(this.value, '#') "
+                  ],
+                  "property": "dialog.selectoption"
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.HttpRequest",
+              "$designer": {
+                "id": "wB0G7Y"
+              },
+              "method": "GET",
+              "url": "${conversation.URL}/api/NewBotAPI/GetDay?local=${conversation.local}",
+              "resultProperty": "dialog.GetDay",
+              "responseType": "json"
+            },
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "wuyImX"
+              },
+              "condition": "dialog.selectoption == \"اليوم\"  || dialog.selectoption == \"Today\" ",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "OoSlWQ"
+                  },
+                  "value": "${dialog.GetDay.content.result[0]}",
+                  "property": "conversation.selectDay"
+                }
+              ],
+              "elseActions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "w0k62j"
+                  },
+                  "value": "${dialog.GetDay.content.result[1]}",
+                  "property": "conversation.selectDay"
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "2FASdg"
+              },
+              "condition": "conversation.local == \"ar\"",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "o33D7E"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.InputHint",
+                      "value": "الوقت"
+                    },
+                    {
+                      "property": "dialog.text",
+                      "value": "الرجاء اختيار الوقت"
+                    }
+                  ]
+                }
+              ],
+              "elseActions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "81tD3x"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.InputHint",
+                      "value": "Time"
+                    },
+                    {
+                      "property": "dialog.text",
+                      "value": "Please choose the Time"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.HttpRequest",
+              "$designer": {
+                "id": "NPCTa4"
+              },
+              "method": "GET",
+              "url": "${conversation.URL}/api/NewBotAPI/GetTime?TenantID=${conversation.TenantId}&selectDay=${conversation.selectDay}&local=${conversation.local}",
+              "resultProperty": "dialog.GetTime",
+              "responseType": "json"
+            },
+            {
+              "$kind": "Microsoft.DeleteProperty",
+              "$designer": {
+                "id": "63D7EN"
+              },
+              "property": "conversation.selectTime"
+            },
+            {
+              "$kind": "Microsoft.TextInput",
+              "$designer": {
+                "id": "2PWooF"
+              },
+              "disabled": false,
+              "maxTurnCount": 100,
+              "alwaysPrompt": false,
+              "allowInterruptions": true,
+              "prompt": "${TextInput_Prompt_2PWooF()}",
+              "unrecognizedPrompt": "",
+              "invalidPrompt": "",
+              "property": "conversation.selectTime",
+              "validations": [
+                "contains(dialog.GetTime.content.result, this.value) || contains(this.value, '#')"
+              ]
+            },
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "FC5GEP"
+              },
+              "property": "conversation.IsPreOrder",
+              "value": true
+            },
+            {
+              "$kind": "Microsoft.EndDialog",
+              "$designer": {
+                "id": "JskkfJ"
+              }
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.DeleteProperty",
+          "$designer": {
+            "id": "v1FNUZ"
+          },
+          "property": "dialog.PreOrderSelcet"
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "xHGnUt"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "prompt": "${TextInput_Prompt_xHGnUt()}",
+          "unrecognizedPrompt": "",
+          "invalidPrompt": "",
+          "defaultValueResponse": "",
+          "property": "dialog.PreOrderSelcet",
+          "validations": [
+            "contains(this.value, 'وقت آخر') || contains(this.value, 'الآن') || contains(this.value, 'Now') || contains(this.value, 'Schedule Time') || contains(this.value, '#') "
+          ]
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "UvMlMT"
+          },
+          "condition": "dialog.PreOrderSelcet==\"الآن\" || dialog.PreOrderSelcet==\"Now\"",
+          "actions": [
+            {
+              "$kind": "Microsoft.DeleteProperties",
+              "$designer": {
+                "id": "DTLH0I"
+              },
+              "properties": [
+                "conversation.selectDay",
+                "conversation.selectTime"
+              ]
+            },
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "4kLE75"
+              },
+              "property": "conversation.IsPreOrder",
+              "value": false
+            },
+            {
+              "$kind": "Microsoft.EndDialog",
+              "$designer": {
+                "id": "7cgyke"
+              }
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.HttpRequest",
+          "$designer": {
+            "id": "9KCTTW"
+          },
+          "method": "GET",
+          "url": "${conversation.URL}/api/NewBotAPI/GetDay?local=${conversation.local}",
+          "resultProperty": "dialog.GetDay",
+          "responseType": "json"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "7eeHyJ"
+          },
+          "condition": "conversation.local == \"ar\"",
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "VDTmez"
+              },
+              "assignments": [
+                {
+                  "property": "dialog.InputHint",
+                  "value": "الايام"
+                },
+                {
+                  "property": "dialog.text",
+                  "value": "الرجاء اختيار اليوم"
+                }
+              ]
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "r8wyNt"
+              },
+              "assignments": [
+                {
+                  "property": "dialog.InputHint",
+                  "value": "Days"
+                },
+                {
+                  "property": "dialog.text",
+                  "value": "Please choose the day"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.DeleteProperty",
+          "$designer": {
+            "id": "isvtLP"
+          },
+          "property": "conversation.selectDay"
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "RzNXv6"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "prompt": "${TextInput_Prompt_RzNXv6()}",
+          "unrecognizedPrompt": "",
+          "invalidPrompt": "",
+          "defaultValueResponse": "",
+          "property": "conversation.selectDay",
+          "validations": [
+            "contains(dialog.GetDay.content.result, this.value) || contains(this.value, '#') "
+          ]
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "NDIwnm"
+          },
+          "condition": "conversation.local == \"ar\"",
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "ox04ki"
+              },
+              "assignments": [
+                {
+                  "property": "dialog.InputHint",
+                  "value": "الوقت"
+                },
+                {
+                  "property": "dialog.text",
+                  "value": "الرجاء اختيار الوقت"
+                }
+              ]
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "xqRp9d"
+              },
+              "assignments": [
+                {
+                  "property": "dialog.InputHint",
+                  "value": "Time"
+                },
+                {
+                  "property": "dialog.text",
+                  "value": "Please choose the Time"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.HttpRequest",
+          "$designer": {
+            "id": "gz45Of"
+          },
+          "method": "GET",
+          "url": "${conversation.URL}/api/NewBotAPI/GetTime?TenantID=${conversation.TenantId}&selectDay=${conversation.selectDay}&local=${conversation.local}",
+          "resultProperty": "dialog.GetTime",
+          "responseType": "json"
+        },
+        {
+          "$kind": "Microsoft.DeleteProperty",
+          "$designer": {
+            "id": "QJJIHs"
+          },
+          "property": "conversation.selectTime"
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "d3aqZe"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "prompt": "${TextInput_Prompt_d3aqZe()}",
+          "unrecognizedPrompt": "",
+          "invalidPrompt": "",
+          "defaultValueResponse": "",
+          "validations": [
+            "contains(dialog.GetTime.content.result, this.value) || contains(this.value, '#') "
+          ],
+          "property": "conversation.selectTime"
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "7VDK9o"
+          },
+          "property": "conversation.IsPreOrder",
+          "value": true
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "tyAGKh"
+          }
+        }
+      ]
+    }
+  ],
+  "generator": "PreOrderDialog.lg",
+  "recognizer": "PreOrderDialog.lu.qna",
+  "id": "PreOrderDialog"
+}

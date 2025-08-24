@@ -1,0 +1,111 @@
+[import](common.lg)
+
+# TextInput_Prompt_wEtCM5_text()
+- ${dialog.Option8}
+# TextInput_Prompt_wEtCM5()
+[Activity
+    Text = ${TextInput_Prompt_wEtCM5_text()}
+    SuggestedActions = ${dialog.Option1} | ${dialog.Option2}
+]
+
+# SendActivity_BDwrb1_text()
+- ${dialog.paper}
+# SendActivity_BDwrb1()
+[Activity
+    Text = ${SendActivity_BDwrb1_text()}
+]
+
+# TextInput_Prompt_c2Gjay_text()
+- ${dialog.Direct}
+# TextInput_Prompt_c2Gjay()
+[Activity
+    Text = ${TextInput_Prompt_c2Gjay_text()}
+    SuggestedActions = ${dialog.Option3} | ${dialog.Option4} | ${dialog.Option7}
+]
+
+# SendActivity_FbRLDz_text()
+- ${dialog.website}
+# SendActivity_FbRLDz()
+[Activity
+    Text = ${SendActivity_FbRLDz_text()}
+]
+
+# SendActivity_WmhjwD_text()
+- ${dialog.paper}
+# SendActivity_WmhjwD()
+[Activity
+    Text = ${SendActivity_WmhjwD_text()}
+]
+
+# TextInput_Prompt_Z6TQTT_text()
+- ${dialog.Direct}
+# TextInput_Prompt_Z6TQTT()
+[Activity
+    Text = ${TextInput_Prompt_Z6TQTT_text()}
+    SuggestedActions = ${dialog.Option3} | ${dialog.Option4} | ${dialog.Option7}
+]
+
+# TextInput_Prompt_py1euW_text()
+- ${dialog.bank}
+# TextInput_Prompt_py1euW()
+[Activity
+    Text = ${TextInput_Prompt_py1euW_text()}
+    SuggestedActions = ${dialog.Option4} | ${dialog.Option5}
+]
+
+# SendActivity_POWs3L_text()
+- ${dialog.phone}
+# SendActivity_POWs3L()
+[Activity
+    Text = ${SendActivity_POWs3L_text()}
+]
+
+# SendActivity_AmLx54_text()
+- ${dialog.paper}
+# SendActivity_AmLx54()
+[Activity
+    Text = ${SendActivity_AmLx54_text()}
+]
+
+# SendActivity_dQgUOl_text()
+- ${dialog.phone}
+# SendActivity_dQgUOl()
+[Activity
+    Text = ${SendActivity_dQgUOl_text()}
+]
+
+# TextInput_Prompt_PRwttt_text()
+- ${dialog.bank}
+# TextInput_Prompt_PRwttt()
+[Activity
+    Text = ${TextInput_Prompt_PRwttt_text()}
+    SuggestedActions = ${dialog.Option4} | ${dialog.Option5}
+]
+
+# SendActivity_Ava3fm_text()
+- ${dialog.phone}
+# SendActivity_Ava3fm()
+[Activity
+    Text = ${SendActivity_Ava3fm_text()}
+]
+
+# SendActivity_leymqs_text()
+- ${dialog.phone}
+# SendActivity_leymqs()
+[Activity
+    Text = ${SendActivity_leymqs_text()}
+]
+
+# SendActivity_AdibVa_text()
+- ${dialog.website}
+# SendActivity_AdibVa()
+[Activity
+    Text = ${SendActivity_AdibVa_text()}
+]
+
+# SendActivity_Jd7sjK_text()
+- ${dialog.paper}
+# SendActivity_Jd7sjK()
+[Activity
+    Text = ${SendActivity_Jd7sjK_text()}
+]

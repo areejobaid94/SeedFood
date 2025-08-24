@@ -1,0 +1,43 @@
+  <div class="card p-0"
+  
+  style=" height: 485px;
+  min-height: 485px;"
+  >
+    <div
+      class="card-header d-flex flex-sm-row flex-column justify-content-md-between align-items-start justify-content-start"
+    >
+      <h4 class="card-title mb-sm-0 mb-1">{{ l("appoitments") }}</h4>
+      <form>
+        <fieldset class="form-group">
+          <ng-select [items]="allUsers" class="ng-select"   [(ngModel)]="dasboardService.selectedUser"  [bindValue]="'id'" name="name" bindLabel="name"
+            placeholder="Select User"    (change)="dasboardService.getDashboardAppoitmentsInfo()"></ng-select>
+        </fieldset>
+      </form>
+    </div>
+  
+    <div class="card-body pt-0 pl-0 pr-0 pb-2">
+      <div id="radialbar-chart" #apexRadialChartRef>
+        <apx-chart
+          [series]=" [
+          dasboardService?.appoitmentsData?.totalBooked || 0,
+          dasboardService?.appoitmentsData?.totalPending || 0,
+          dasboardService?.appoitmentsData?.totalConfirmed || 0,
+          dasboardService?.appoitmentsData?.totalCancelled || 0
+      ]"
+          [chart]="{
+            height: 400,
+            width: isMenuToggled === false ? apexRadialChartRef.offsetWidth : apexRadialChart.chart.width,
+            type: 'radialBar'
+          }"
+          [plotOptions]="apexRadialChart.plotOptions"
+          [labels]="apexRadialChart.labels"
+          [colors]="apexRadialChart.colors"
+          [stroke]="apexRadialChart.stroke"
+          [legend]="apexRadialChart.legend"
+        ></apx-chart>
+      </div>
+    </div>
+  </div>
+
+
+  

@@ -1,0 +1,473 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "4SX2It",
+    "name": "RaedKhalafLoopAssetDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "vVD74m"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "nh5CEH"
+          },
+          "condition": "conversation.local",
+          "cases": [
+            {
+              "value": "ar",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "PP2iGW"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.option1",
+                      "value": "للبيع"
+                    },
+                    {
+                      "property": "dialog.option2",
+                      "value": "للايجار"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "qertVV"
+                  },
+                  "value": "الرجاء الاختيار",
+                  "property": "dialog.text"
+                }
+              ]
+            },
+            {
+              "value": "en",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "c49UVh"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.option1",
+                      "value": "For Sale"
+                    },
+                    {
+                      "property": "dialog.option2",
+                      "value": "For Rent"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "NuFcIK"
+                  },
+                  "value": "Please choose",
+                  "property": "dialog.text"
+                }
+              ]
+            }
+          ],
+          "default": [
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "ZYTuYs"
+              },
+              "assignments": [
+                {
+                  "property": "dialog.option1",
+                  "value": "للبيع"
+                },
+                {
+                  "property": "dialog.option2",
+                  "value": "للايجار"
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "FjufbI"
+              },
+              "value": "الرجاء الاختيار",
+              "property": "dialog.text"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "ansdCz"
+          },
+          "condition": "conversation.StepBack==\"1\"",
+          "actions": [
+            {
+              "$kind": "Microsoft.DeleteProperty",
+              "$designer": {
+                "id": "jn7qS9"
+              },
+              "property": "conversation.userSelect"
+            },
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "veBHGB"
+              },
+              "assignments": [
+                {
+                  "property": "conversation.stepId",
+                  "value": "1"
+                },
+                {
+                  "property": "conversation.select",
+                  "value": "=dialog.text"
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "8MRQjF"
+              },
+              "activityProcessed": true,
+              "dialog": "AssetDialog"
+            },
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "RBplU4"
+              },
+              "condition": "conversation.isNullList",
+              "actions": [
+                {
+                  "$kind": "Microsoft.EndDialog",
+                  "$designer": {
+                    "id": "UgnvUc"
+                  }
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "rzClHj"
+              },
+              "condition": "conversation.DepartmentName ==\"#\"",
+              "actions": [
+                {
+                  "$kind": "Microsoft.EndDialog",
+                  "$designer": {
+                    "id": "tJTI8Y"
+                  }
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "EjUUqt"
+              },
+              "assignments": [
+                {
+                  "property": "conversation.StepBack",
+                  "value": "2"
+                },
+                {
+                  "property": "conversation.levelOneId",
+                  "value": "=conversation.userSelect"
+                },
+                {
+                  "property": "conversation.Department1",
+                  "value": "=conversation.DepartmentName"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "sqd1TM"
+          },
+          "condition": "conversation.StepBack==\"2\"",
+          "actions": [
+            {
+              "$kind": "Microsoft.TextInput",
+              "$designer": {
+                "id": "RMaVwq"
+              },
+              "disabled": false,
+              "maxTurnCount": 100,
+              "alwaysPrompt": false,
+              "allowInterruptions": false,
+              "unrecognizedPrompt": "",
+              "invalidPrompt": "",
+              "prompt": "${TextInput_Prompt_RMaVwq()}",
+              "property": "dialog.selectuserd"
+            },
+            {
+              "$kind": "Microsoft.SwitchCondition",
+              "$designer": {
+                "id": "hEDH0a"
+              },
+              "cases": [
+                {
+                  "value": "للبيع",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "LKJLiR"
+                      },
+                      "property": "conversation.typeId",
+                      "value": "1"
+                    }
+                  ]
+                },
+                {
+                  "value": "للاجار",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "5Z27oU"
+                      },
+                      "property": "conversation.typeId",
+                      "value": "2"
+                    }
+                  ]
+                },
+                {
+                  "value": "For Sale",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "C7CbBq"
+                      },
+                      "property": "conversation.typeId",
+                      "value": "1"
+                    }
+                  ]
+                },
+                {
+                  "value": "For Rent",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "vlr2pF"
+                      },
+                      "property": "conversation.typeId",
+                      "value": "2"
+                    }
+                  ]
+                }
+              ],
+              "condition": "dialog.selectuserd",
+              "default": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "474c2h"
+                  },
+                  "property": "conversation.typeId",
+                  "value": "0"
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "pRokj1"
+              },
+              "condition": "dialog.selectuserd ==\"#\"",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "GMfPRY"
+                  },
+                  "assignments": [
+                    {
+                      "property": "conversation.userSelect",
+                      "value": "=conversation.levelOneId"
+                    },
+                    {
+                      "property": "conversation.StepBack",
+                      "value": "1"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.RepeatDialog",
+                  "$designer": {
+                    "id": "8zbX32"
+                  },
+                  "activityProcessed": true
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "BaHCJG"
+              },
+              "assignments": [
+                {
+                  "property": "conversation.StepBack",
+                  "value": "3"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "9VftB9"
+          },
+          "condition": "conversation.StepBack==\"3\"",
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "2NlFNG"
+              },
+              "property": "conversation.userSelect",
+              "value": "=conversation.levelOneId"
+            },
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "GdHXVK"
+              },
+              "assignments": [
+                {
+                  "property": "conversation.stepId",
+                  "value": "2"
+                },
+                {
+                  "property": "conversation.select",
+                  "value": "=dialog.text"
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "j2OqkV"
+              },
+              "activityProcessed": true,
+              "dialog": "AssetDialog"
+            },
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "zBGkk5"
+              },
+              "condition": "conversation.isNullList",
+              "actions": [
+                {
+                  "$kind": "Microsoft.EndDialog",
+                  "$designer": {
+                    "id": "ZHOVnk"
+                  }
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "ajaRhu"
+              },
+              "condition": "conversation.DepartmentName ==\"#\"",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "C7dfi6"
+                  },
+                  "assignments": [
+                    {
+                      "property": "conversation.userSelect",
+                      "value": "=conversation.levelOneId"
+                    },
+                    {
+                      "property": "conversation.StepBack",
+                      "value": "2"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.DeleteProperty",
+                  "$designer": {
+                    "id": "QAAl1p"
+                  },
+                  "property": "conversation.DepartmentName"
+                },
+                {
+                  "$kind": "Microsoft.RepeatDialog",
+                  "$designer": {
+                    "id": "xQk4Nq"
+                  },
+                  "activityProcessed": true
+                }
+              ],
+              "elseActions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "1kPraN"
+                  },
+                  "property": "conversation.Department2",
+                  "value": "=conversation.DepartmentName"
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "B0v74a"
+                  },
+                  "property": "conversation.LevelTowId",
+                  "value": "=conversation.userSelect"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "O4I0TT"
+          },
+          "property": "conversation.levelThreeId",
+          "value": "0"
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "c5KtqT"
+          }
+        }
+      ]
+    }
+  ],
+  "generator": "RaedKhalafLoopAssetDialog.lg",
+  "recognizer": "RaedKhalafLoopAssetDialog.lu.qna",
+  "id": "RaedKhalafLoopAssetDialog"
+}

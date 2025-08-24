@@ -1,0 +1,63 @@
+[import](common.lg)
+
+# TextInput_Prompt_KhU4a5()
+[Activity
+    Attachments = ${json(ButtonList(dialog.choose,dialog.OptionLst))}
+     InputHint=${dialog.InputHint}
+     Summary=${conversation.Summary}
+]
+
+# TextInput_Prompt_KhU4a5_text()
+- ${dialog.choose}
+# SendActivity_elqwb4()
+[Activity
+    Text = ${SendActivity_elqwb4_text()}
+]
+
+# SendActivity_elqwb4_text()
+- ${dialog.calc}
+# SendActivity_XFWCDX_text()
+- ${dialog.calc}
+# SendActivity_XFWCDX()
+[Activity
+    Text = ${SendActivity_XFWCDX_text()}
+]
+
+# TextInput_Prompt_ZHQuuI()
+[Activity
+    Attachments = ${json(ButtonList(dialog.chooseDate,dialog.GetDay.content.result))}
+    InputHint=${dialog.InputHint}
+     Summary=${conversation.Summary}
+]
+# TextInput_Prompt_H3B3On()
+[Activity
+    Attachments = ${json(ButtonList(dialog.time,dialog.GetTime.content.result))}
+    InputHint=${dialog.InputHint}
+     Summary=${conversation.Summary}
+]
+# TextInput_Prompt_4mnSxZ()
+[Activity
+    Text = ${TextInput_Prompt_4mnSxZ_text()}
+]
+
+# TextInput_Prompt_4mnSxZ_text()
+- ${dialog.confirm}
+
+# TextInput_Prompt_xjQSWo()
+[Activity
+    Attachments = ${json(ButtonList(dialog.chooseDate,dialog.GetDay.content.result))}
+    InputHint=${dialog.InputHint}
+     Summary=${conversation.Summary}
+]
+# TextInput_Prompt_z7TX18()
+[Activity
+    Attachments = ${json(ButtonList(dialog.time,dialog.GetTime.content.result))}
+    InputHint=${dialog.InputHint}
+     Summary=${conversation.Summary}
+]
+# TextInput_Prompt_sDku0x_text()
+- ${dialog.confirm}
+# TextInput_Prompt_sDku0x()
+[Activity
+    Text = ${TextInput_Prompt_sDku0x_text()}
+]

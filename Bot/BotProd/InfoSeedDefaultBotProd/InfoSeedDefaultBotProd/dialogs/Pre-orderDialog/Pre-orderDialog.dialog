@@ -1,0 +1,24 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "fBECDP",
+    "name": "Pre-orderDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "Smfroy"
+      },
+      "actions": []
+    }
+  ],
+  "generator": "Pre-orderDialog.lg",
+  "recognizer": "Pre-orderDialog.lu.qna",
+  "id": "Pre-orderDialog"
+}

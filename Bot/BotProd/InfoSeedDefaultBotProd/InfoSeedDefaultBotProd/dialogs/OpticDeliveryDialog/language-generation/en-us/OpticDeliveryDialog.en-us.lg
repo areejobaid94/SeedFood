@@ -1,0 +1,34 @@
+[import](common.lg)
+
+# TextInput_Prompt_dRpyEQ_text()
+- ${dialog.text}
+# TextInput_Prompt_dRpyEQ()
+[Activity
+    Text = ${TextInput_Prompt_dRpyEQ_text()}
+]
+
+# TextInput_Prompt_PpDN06()
+[Activity
+    Attachments = ${json(ButtonList(dialog.TowLocationText,dialog.LocationTow.content.result))}
+    InputHint=منطقتك
+]
+# SendActivity_WapMKX_text()
+- ${dialog.text}
+# SendActivity_WapMKX()
+[Activity
+    Text = ${SendActivity_WapMKX_text()}
+]
+
+# SendActivity_f84WJw_text()
+- ${dialog.text}
+# SendActivity_f84WJw()
+[Activity
+    Text = ${SendActivity_f84WJw_text()}
+]
+
+# SendActivity_WWyTYA_text()
+- ${dialog.text}
+# SendActivity_WWyTYA()
+[Activity
+    Text = ${SendActivity_WWyTYA_text()}
+]

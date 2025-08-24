@@ -1,0 +1,416 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "2AJ3Lc",
+    "name": "MemariComplaintsDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "QyXrGJ"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "CYK5dq"
+          },
+          "condition": "conversation.local",
+          "cases": [
+            {
+              "value": "ar",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "NYVD80"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.Option1",
+                      "value": "لتقديم الشكوى"
+                    },
+                    {
+                      "property": "dialog.Option2",
+                      "value": "تواصل مع اقسامنا"
+                    },
+                    {
+                      "property": "dialog.text",
+                      "value": "الرجاء الاختيار"
+                    },
+                    {
+                      "property": "dialog.Yes",
+                      "value": "نعم"
+                    },
+                    {
+                      "property": "dialog.No",
+                      "value": "لا"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "en",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "L056NV"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.Option1",
+                      "value": "Complaint"
+                    },
+                    {
+                      "property": "dialog.Option2",
+                      "value": "Connect Departments"
+                    },
+                    {
+                      "property": "dialog.text",
+                      "value": "Please choose"
+                    },
+                    {
+                      "property": "dialog.Yes",
+                      "value": "Yes"
+                    },
+                    {
+                      "property": "dialog.No",
+                      "value": "No"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "default": [
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "SyVAZh"
+              },
+              "assignments": [
+                {
+                  "property": "dialog.Option1",
+                  "value": "لتقديم الشكوى"
+                },
+                {
+                  "property": "dialog.Option2",
+                  "value": "تواصل مع اقسامنا"
+                },
+                {
+                  "property": "dialog.text",
+                  "value": "الرجاء الاختيار"
+                },
+                {
+                  "property": "dialog.Yes",
+                  "value": "نعم"
+                },
+                {
+                  "property": "dialog.No",
+                  "value": "لا"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "VuB2Yh"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "prompt": "${TextInput_Prompt_VuB2Yh()}",
+          "unrecognizedPrompt": "",
+          "invalidPrompt": "",
+          "property": "dialog.select",
+          "validations": [
+            "contains(this.value, 'لتقديم الشكوى') || contains(this.value, 'تواصل مع اقسامنا') || contains(this.value, '#') || contains(this.value, 'Complaint') ||contains(this.value, 'Connect Departments')"
+          ]
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "RIfZvB"
+          },
+          "condition": "dialog.select",
+          "cases": [
+            {
+              "value": "لتقديم الشكوى",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "EVq4Ma"
+                  },
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1162)).text",
+                  "property": "dialog.text"
+                },
+                {
+                  "$kind": "Microsoft.TextInput",
+                  "$designer": {
+                    "id": "4SEBWB"
+                  },
+                  "disabled": false,
+                  "maxTurnCount": 100,
+                  "alwaysPrompt": false,
+                  "allowInterruptions": true,
+                  "prompt": "${TextInput_Prompt_4SEBWB()}",
+                  "unrecognizedPrompt": "",
+                  "property": "dialog.complaint"
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "YzA03a"
+                  },
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1163)).text",
+                  "property": "dialog.text"
+                },
+                {
+                  "$kind": "Microsoft.TextInput",
+                  "$designer": {
+                    "id": "uuqZSP"
+                  },
+                  "disabled": false,
+                  "maxTurnCount": 100,
+                  "alwaysPrompt": false,
+                  "allowInterruptions": true,
+                  "prompt": "${TextInput_Prompt_uuqZSP()}",
+                  "unrecognizedPrompt": "",
+                  "property": "dialog.userselectimg",
+                  "validations": [
+                    "equals(this.value, 'نعم') || equals(this.value, 'لا') || equals(this.value, '#')|| equals(this.value, 'Yes') ||equals(this.value, 'No')"
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "LgR70G"
+                  },
+                  "condition": "dialog.userselectimg==\"نعم\" || dialog.userselectimg==\"Yes\"",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "rNKdHj"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "MemariSendImgDialog"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.HttpRequest",
+                  "$designer": {
+                    "id": "d881ke"
+                  },
+                  "resultProperty": "dialog.ApiFeedBack",
+                  "method": "GET",
+                  "url": "${conversation.URL}/api/BotAPI/UpdateComplaint?contactId=${conversation.ContactId}",
+                  "responseType": "json"
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "Pg6liq"
+                  },
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1159)).text",
+                  "property": "dialog.text"
+                },
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "jcm8AZ"
+                  },
+                  "activity": "${SendActivity_jcm8AZ()}"
+                },
+                {
+                  "$kind": "Microsoft.CancelAllDialogs",
+                  "$designer": {
+                    "id": "LYAWyq"
+                  },
+                  "activityProcessed": true
+                }
+              ]
+            },
+            {
+              "value": "تواصل مع اقسامنا",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "gZROWa"
+                  },
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1160)).text",
+                  "property": "dialog.textContact"
+                },
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "npCkvj"
+                  },
+                  "activity": "${SendActivity_npCkvj()}"
+                },
+                {
+                  "$kind": "Microsoft.CancelAllDialogs",
+                  "$designer": {
+                    "id": "KMFk4a"
+                  },
+                  "activityProcessed": true
+                }
+              ]
+            },
+            {
+              "value": "Complaint",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "I0pqWH"
+                  },
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1162)).text",
+                  "property": "dialog.text"
+                },
+                {
+                  "$kind": "Microsoft.TextInput",
+                  "$designer": {
+                    "id": "pqKaos"
+                  },
+                  "disabled": false,
+                  "maxTurnCount": 3,
+                  "alwaysPrompt": false,
+                  "allowInterruptions": false,
+                  "prompt": "${TextInput_Prompt_pqKaos()}",
+                  "unrecognizedPrompt": "",
+                  "invalidPrompt": "",
+                  "defaultValueResponse": "",
+                  "property": "dialog.complaint"
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "VakWht"
+                  },
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1163)).text",
+                  "property": "dialog.text"
+                },
+                {
+                  "$kind": "Microsoft.TextInput",
+                  "$designer": {
+                    "id": "PqLf38"
+                  },
+                  "disabled": false,
+                  "maxTurnCount": 100,
+                  "alwaysPrompt": false,
+                  "allowInterruptions": true,
+                  "prompt": "${TextInput_Prompt_PqLf38()}",
+                  "invalidPrompt": "",
+                  "property": "dialog.userselectimg",
+                  "validations": [
+                    "contains(this.value, 'نعم') || contains(this.value, 'لا') || contains(this.value, '#')|| contains(this.value, 'Yes') ||contains(this.value, 'No')"
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "3yAAOz"
+                  },
+                  "condition": "dialog.userselectimg==\"نعم\" || dialog.userselectimg==\"Yes\"",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.BeginDialog",
+                      "$designer": {
+                        "id": "OltIK1"
+                      },
+                      "activityProcessed": true,
+                      "dialog": "MemariSendImgDialog"
+                    }
+                  ]
+                },
+                {
+                  "$kind": "Microsoft.HttpRequest",
+                  "$designer": {
+                    "id": "nsFcgu"
+                  },
+                  "resultProperty": "dialog.ApiFeedBack",
+                  "method": "GET",
+                  "url": "${conversation.URL}/api/BotAPI/UpdateComplaint?contactId=${conversation.ContactId}",
+                  "responseType": "json"
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "9Kf3Rf"
+                  },
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1159)).text",
+                  "property": "dialog.text"
+                },
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "q8WM4D"
+                  },
+                  "activity": "${SendActivity_q8WM4D()}"
+                },
+                {
+                  "$kind": "Microsoft.CancelAllDialogs",
+                  "$designer": {
+                    "id": "oZOqQy"
+                  },
+                  "activityProcessed": true
+                }
+              ]
+            },
+            {
+              "value": "Connect Departments",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "k4VQGh"
+                  },
+                  "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1160)).text",
+                  "property": "dialog.textContact"
+                },
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "ISIkrY"
+                  },
+                  "activity": "${SendActivity_ISIkrY()}"
+                },
+                {
+                  "$kind": "Microsoft.CancelAllDialogs",
+                  "$designer": {
+                    "id": "HOM2uR"
+                  },
+                  "activityProcessed": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "l6Yc9R"
+          }
+        }
+      ]
+    }
+  ],
+  "generator": "MemariComplaintsDialog.lg",
+  "recognizer": "MemariComplaintsDialog.lu.qna",
+  "id": "MemariComplaintsDialog"
+}

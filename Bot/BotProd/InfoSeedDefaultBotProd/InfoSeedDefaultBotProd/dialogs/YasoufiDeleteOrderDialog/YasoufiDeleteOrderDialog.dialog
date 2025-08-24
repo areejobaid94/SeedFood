@@ -1,0 +1,63 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "FovbGM",
+    "name": "YasoufiDeleteOrderDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "QIRoPN"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "J5tOhN"
+          },
+          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 11)).text",
+          "property": "dialog.DeleteDraftText"
+        },
+        {
+          "$kind": "Microsoft.HttpRequest",
+          "$designer": {
+            "id": "pbog0v"
+          },
+          "resultProperty": "dialog.deleteDrft",
+          "method": "GET",
+          "url": "${conversation.URL}/api/BotAPI/DeleteOrderDraft?tenantID=${conversation.TenantId}&orderId=${conversation.OrderId}",
+          "responseType": "json"
+        },
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "GwjnMW"
+          },
+          "activity": "${SendActivity_GwjnMW()}"
+        },
+        {
+          "$kind": "Microsoft.CancelAllDialogs",
+          "$designer": {
+            "id": "qxyeVt"
+          },
+          "activityProcessed": true
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "uV5DeQ"
+          }
+        }
+      ]
+    }
+  ],
+  "generator": "YasoufiDeleteOrderDialog.lg",
+  "recognizer": "YasoufiDeleteOrderDialog.lu.qna",
+  "id": "YasoufiDeleteOrderDialog"
+}

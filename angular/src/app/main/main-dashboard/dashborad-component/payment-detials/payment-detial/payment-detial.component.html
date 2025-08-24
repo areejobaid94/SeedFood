@@ -1,0 +1,44 @@
+<div class="row custom-row" *ngIf="dasboardService">
+  <div class="col-1">
+     <!-- app.component.html -->
+<div >
+  <svg *ngIf="svgType==='bolt'" xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-message-circle-dollar" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" [attr.stroke]="data.color" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+    <path d="M13.038 19.927a9.933 9.933 0 0 1 -5.338 -.927l-4.7 1l1.3 -3.9c-2.324 -3.437 -1.426 -7.872 2.1 -10.374c3.526 -2.501 8.59 -2.296 11.845 .48c1.993 1.7 2.93 4.043 2.746 6.346" />
+    <path d="M19 16l-2 3h4l-2 3" />
+  </svg>
+</div>
+
+<svg *ngIf="svgType==='dollar'" xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-message-circle-dollar" width="24" height="24" viewBox="0 0 24 24" stroke-width="2"  [attr.stroke]="data.color" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+  <path d="M13.16 19.914a9.94 9.94 0 0 1 -5.46 -.914l-4.7 1l1.3 -3.9c-2.324 -3.437 -1.426 -7.872 2.1 -10.374c3.526 -2.501 8.59 -2.296 11.845 .48c1.384 1.181 2.26 2.672 2.603 4.243" />
+  <path d="M21 15h-2.5a1.5 1.5 0 0 0 0 3h1a1.5 1.5 0 0 1 0 3h-2.5" />
+  <path d="M19 21v1m0 -8v1" />
+</svg>
+
+
+  </div>
+
+
+  <div class="col-6">
+    <h6 class="payment-detail-mobile-header " [style.color]="data.color">{{data.title}}</h6>
+    <h6 class="payment-detail-mobile-hover">Entry Chat</h6>
+  </div>
+  <div *ngIf="objData.typeofChat=='Markting' || objData.typeofChat=='Services' || objData.typeofChat=='Utility';else freeChat" class="col-5" >
+    <h6  *ngIf="objData.typeofChat=='Markting'"  class="payment-detail-mobile-details" >Total Chat : {{dasboardService.bundleData.totalMarketingConversation}}</h6>
+    <h6   *ngIf="objData.typeofChat=='Markting'" class="payment-detail-mobile-details" >Chat Feet : {{dasboardService.bundleData.totalMarketingCharge}}</h6>
+
+    <h6  *ngIf="objData.typeofChat=='Services'"  class="payment-detail-mobile-details" >Total Chat : {{dasboardService.bundleData.totalServicesConversation}}</h6>
+    <h6   *ngIf="objData.typeofChat=='Services'" class="payment-detail-mobile-details" >Chat Feet : {{dasboardService.bundleData.totalServicesCharge}}</h6>
+
+    <h6  *ngIf="objData.typeofChat=='Utility'"  class="payment-detail-mobile-details" >Total Chat : {{dasboardService.bundleData.totalUtilityConversation}}</h6>
+    <h6   *ngIf="objData.typeofChat=='Utility'" class="payment-detail-mobile-details" >Chat Feet : {{dasboardService.bundleData.totalUtilityCharge}}</h6>
+  </div>
+  <ng-template #freeChat >
+      <div class="col-5">
+      <h6 class="payment-detail-mobile-details" >Total Chat :{{dasboardService.bundleData.totalUtilityCharge}} </h6>
+      <h6 class="payment-detail-mobile-details" >Unlimited Entry: {{dasboardService.bundleData.totalFacebookEntry}} </h6>
+      <h6 class="payment-detail-mobile-details" >limited Entry: {{dasboardService.bundleData.totalUtilityCharge}} </h6>
+    </div>
+    </ng-template>
+</div>

@@ -1,0 +1,7 @@
+.card.card-custom > .card-body{
+    padding: 1rem 1.25rem;
+}
+
+.well {
+    background: none;
+}

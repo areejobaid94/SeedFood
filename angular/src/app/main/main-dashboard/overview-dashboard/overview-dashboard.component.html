@@ -1,0 +1,41 @@
+<div class="row justify-content-center">
+  <div class="col-6 col-xl-3" >
+   <app-card [cardType]="1" >
+    <h2 class="overview-card-title">Wallet</h2>
+    <h2 class="overview-card-numric-value" >  {{ dasboardService.walletModel.totalAmount | CustomCurrencyPipe  }} $
+    </h2>
+    <!-- <h2 class="overview-card-numric-onhold-title">On Hold</h2> -->
+    <h2 class="overview-card-numric-value" >{{  dasboardService.walletModel.totalAmountSAR | CustomCurrencyPipe}} (SAR)</h2> 
+  </app-card>
+  
+ 
+  </div>
+
+  <div class="col-6 col-xl-3">
+    <app-card>
+      <h2 class="overview-card-numric-value" >  {{15.982934 | currency:'':'symbol':'1.2-2' | slice:1 }}$
+      </h2>
+      <div>
+        <h2 class="overview-card-title text-sm-sm text-md-lg ">Revenues</h2>
+      </div>
+    </app-card>
+  </div>
+
+  <div class="col-6 col-xl-3">
+    <app-card>
+      <h2 class="overview-card-numric-value">4.8<i class="bi bi-star-fill star-design"></i></h2>
+      <span class="fa fa-star-o" aria-hidden="true"></span>
+      <h2 class="overview-card-title">Evalution </h2>
+    </app-card>
+</div>
+
+  <div class="col-6 col-xl-3">
+    <app-card 
+    style="cursor: pointer;"
+    [routerLink]="['/app/main/contacts/contacts']"
+    >
+      <h2 class="overview-card-numric-value" *ngIf="dasboardService" >{{ dasboardService.contactData.totalContact}}</h2>
+      <h2 class="overview-card-title">Contacts</h2>
+    </app-card>
+  </div>
+</div>

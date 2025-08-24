@@ -1,0 +1,274 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "uugvta",
+    "name": "MarketingMainDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "KMrBqg"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.DeleteProperty",
+          "$designer": {
+            "id": "iSXBzQ"
+          },
+          "property": "dialog.sendPic"
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "TTramh"
+          },
+          "property": "dialog.PhotoCaption",
+          "value": "يرجى ارسال صورة توثق شكوتك"
+        },
+        {
+          "$kind": "Microsoft.AttachmentInput",
+          "$designer": {
+            "id": "RnqH42"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "unrecognizedPrompt": "",
+          "invalidPrompt": "",
+          "property": "dialog.sendPic",
+          "outputFormat": "all",
+          "prompt": "${AttachmentInput_Prompt_RnqH42()}"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "ED9hF8"
+          },
+          "condition": "turn.Activity.Text!=\".\"",
+          "actions": [
+            {
+              "$kind": "Microsoft.DeleteProperty",
+              "$designer": {
+                "id": "kuHV3q"
+              },
+              "property": "dialog.sendPic"
+            },
+            {
+              "$kind": "Microsoft.AttachmentInput",
+              "$designer": {
+                "id": "qdehJq"
+              },
+              "disabled": false,
+              "maxTurnCount": 100,
+              "alwaysPrompt": false,
+              "allowInterruptions": true,
+              "unrecognizedPrompt": "",
+              "invalidPrompt": "",
+              "property": "dialog.sendPic",
+              "outputFormat": "all",
+              "prompt": "${AttachmentInput_Prompt_qdehJq()}"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.Foreach",
+          "$designer": {
+            "id": "PTGd7D"
+          },
+          "index": "dialog.foreach.index",
+          "value": "dialog.foreach.value",
+          "itemsProperty": "dialog.sendPic",
+          "actions": [
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "ujPcH1"
+              },
+              "condition": "dialog.foreach.value.contentUrl==null",
+              "actions": [
+                {
+                  "$kind": "Microsoft.RepeatDialog",
+                  "$designer": {
+                    "id": "tzdF5D"
+                  },
+                  "activityProcessed": true
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "tPHnJi"
+              },
+              "property": "conversation.AttachmentURL",
+              "value": {
+                "contentUrl": "=dialog.foreach.value.contentUrl",
+                "contentType": "=dialog.foreach.value.contentType",
+                "contentName": "=dialog.foreach.value.name"
+              }
+            },
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "aKcJeX"
+              },
+              "condition": "equals(dialog.foreach.value.contentType, 'image/png') || equals(dialog.foreach.value.contentType, 'image/jpeg') || equals(dialog.foreach.value.contentType, 'image/jpg')",
+              "elseActions": [
+                {
+                  "$kind": "Microsoft.RepeatDialog",
+                  "$designer": {
+                    "id": "cUcwXv"
+                  },
+                  "activityProcessed": true
+                }
+              ],
+              "actions": []
+            },
+            {
+              "$kind": "Microsoft.EditArray",
+              "$designer": {
+                "id": "XxtVMo"
+              },
+              "changeType": "push",
+              "itemsProperty": "conversation.AttachmetArray",
+              "value": "=conversation.AttachmentURL"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.DeleteProperty",
+          "$designer": {
+            "id": "vcOJ0x"
+          },
+          "property": "dialog.UserProblem"
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "O2ti8n"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "invalidPrompt": "",
+          "property": "conversation.UserProblem",
+          "validations": [
+            "lessOrEquals(length(this.value), 150)"
+          ],
+          "prompt": "${TextInput_Prompt_O2ti8n()}"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "S3mYbW"
+          },
+          "condition": "conversation.Department1==null || conversation.Department1==\"\" ",
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "42kosZ"
+              },
+              "assignments": [
+                {
+                  "property": "conversation.Department1",
+                  "value": "\"\""
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "jrhmtl"
+          },
+          "condition": "conversation.Department2==null || conversation.Department2==\"\"",
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperties",
+              "$designer": {
+                "id": "G0NVAF"
+              },
+              "assignments": [
+                {
+                  "property": "conversation.Department2",
+                  "value": "\"\""
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "XFVYnv"
+          },
+          "property": "dialog.text",
+          "value": "شكراً لك سيقوم فريقنا بالتواصل معك لمتابعة شكوتك بأسرع وقت ممكن "
+        },
+        {
+          "$kind": "Microsoft.HttpRequest",
+          "$designer": {
+            "id": "u0ZGCc"
+          },
+          "resultProperty": "dialog.sendLiveChat",
+          "method": "GET",
+          "responseType": "json",
+          "url": "${conversation.URL}/api/BotAPI/UpdateLiveChat?TenantID=${conversation.TenantId}&&phoneNumber=${conversation.phoneNumber}&&Department1=${conversation.Department1}&&Department2=${conversation.Department2}"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "dmmlZJ"
+          },
+          "condition": "dialog.sendLiveChat.content.result == \"\"",
+          "elseActions": [
+            {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "T3tdqf"
+              },
+              "activity": "${SendActivity_T3tdqf()}"
+            }
+          ],
+          "actions": [
+            {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "QxloDI"
+              },
+              "activity": "${SendActivity_QxloDI()}"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "lURDHr"
+          },
+          "property": "conversation.IsLiveChat",
+          "value": true
+        },
+        {
+          "$kind": "Microsoft.CancelAllDialogs",
+          "$designer": {
+            "id": "JzTxJQ"
+          },
+          "activityProcessed": true
+        }
+      ]
+    }
+  ],
+  "generator": "MarketingMainDialog.lg",
+  "recognizer": "MarketingMainDialog.lu.qna",
+  "id": "MarketingMainDialog"
+}

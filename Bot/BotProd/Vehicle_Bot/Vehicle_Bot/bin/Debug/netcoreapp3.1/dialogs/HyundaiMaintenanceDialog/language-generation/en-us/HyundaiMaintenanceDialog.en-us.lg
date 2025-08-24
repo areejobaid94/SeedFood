@@ -1,0 +1,109 @@
+[import](common.lg)
+
+
+
+# TextInput_Prompt_ctV46z()
+[Activity
+
+    Attachments = ${json(OptionsList(dialog.text,dialog.Option1,dialog.Option2,dialog.Option3,dialog.Option4,dialog.Option5))}
+    InputHint=${dialog.InputHint}
+    Summary=${dialog.Summary}
+
+]
+
+
+#OptionsList(Text,Option1,Option2,Option3,Option4,Option5)
+
+- ``` 
+
+{
+
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+
+    "version": "1.0",
+
+    "type": "AdaptiveCard",
+
+    "body": [
+
+          {
+
+            "type": "TextBlock",
+
+            "text": "${Text}"
+
+        },
+
+        {
+
+            "type": "Input.ChoiceSet",
+
+            "choices": [
+
+                    {
+
+                       "title": "${Option1}",
+
+                       "value": "${Option1}"
+
+                    },
+
+                     {
+
+                       "title": "${Option2}",
+
+                       "value": "${Option2}"
+
+                    },
+
+                     {
+
+                       "title": "${Option3}",
+
+                       "value": "${Option3}"
+
+                    },
+
+                      {
+
+                       "title": "${Option4}",
+
+                       "value": "${Option4}"
+
+                    },
+
+                      {
+
+                       "title": "${Option5}",
+
+                       "value": "${Option5}"
+
+                    }
+                                                     
+
+            ],
+
+            "placeholder": "",
+
+            "id": "InputAdultos"
+
+        }
+
+    ]
+
+}
+
+ ```
+# SendActivity_pSXZxL()
+[Activity
+    Text = ${SendActivity_pSXZxL_text()}
+]
+
+# SendActivity_pSXZxL_text()
+- ${dialog.text}
+# SendActivity_rAOcbG_text()
+- ${dialog.text}
+# SendActivity_rAOcbG()
+[Activity
+    Text = ${SendActivity_rAOcbG_text()}
+]

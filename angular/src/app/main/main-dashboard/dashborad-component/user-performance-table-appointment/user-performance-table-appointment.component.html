@@ -1,0 +1,99 @@
+<div class="card">
+    <div class="card-header">
+        <div class="card-title">
+            <h4 class="title-compaign-progress">{{ l("userPerfermence") }}</h4>
+            <h4 class="numeric-compaign-progress">{{ dasboardService.bookingPerformence.totalBooking }}</h4>
+            <h4 class="hint-compaign-progress">{{ l("total") }} {{ l("Appoitments") }}</h4>
+        </div>
+    </div>
+    <div [ngClass]="darkModeService.currentSkin === 'dark' ? 'table-dark' : 'light'" class="card-body primeng-datatable-container">
+        <p-table
+            [ngClass]="darkModeService.currentSkin === 'dark' ? 'table-dark' : 'light'"
+            [value]="dasboardService.bookingPerformence.userPerformanceBookingModel"
+            [paginator]="true"
+            [loading]="!dasboardService.bookingPerformence.userPerformanceBookingModel"
+            [rows]="5"
+            responsiveLayout="stack" [breakpoint]="'960px'" 
+            [showCurrentPageReport]="true"
+            [tableStyle]="{ 'min-width': '30rem' }"
+            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+            [rowsPerPageOptions]="[5, 10, 20]"
+        >
+            <ng-template pTemplate="header">
+                <tr>
+                    <th [ngClass]="darkModeService.currentSkin === 'dark' ? 'dark-table' : ''" style="width: 2%"></th>
+                    <th [ngClass]="darkModeService.currentSkin === 'dark' ? 'dark-table' : ''" >{{ l("User") }}</th>
+                    <th [ngClass]="darkModeService.currentSkin === 'dark' ? 'dark-table' : ''" >{{ l("booked") }}</th>
+                    <th [ngClass]="darkModeService.currentSkin === 'dark' ? 'dark-table' : ''" >{{ l("confirmed") }}</th>
+                    <th [ngClass]="darkModeService.currentSkin === 'dark' ? 'dark-table' : ''" >{{ l("canceled") }}</th>
+                    <th [ngClass]="darkModeService.currentSkin === 'dark' ? 'dark-table' : ''" >{{ l("deleted") }}</th>
+                    <th [ngClass]="darkModeService.currentSkin === 'dark' ? 'dark-table' : ''" >{{ l("pending") }}</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-user>
+                <tr [ngClass]="darkModeService.currentSkin === 'dark' ? 'table-dark' : ''">
+                    <td [ngClass]="darkModeService.currentSkin === 'dark' ? 'table-dark' : ''">
+                        <i data-feather="user" class="icon-user-performance"></i>
+                    </td>
+                    <td [ngClass]="darkModeService.currentSkin === 'dark' ? 'table-dark' : ''">
+                      <span class="p-column-title">{{ l("User") }}</span>
+                        <div class="row">
+                            <!-- <div class="col-3">
+                              <img src="./../../../../assets/images/avatarImage.png" class="rounded mr-1" height="30" alt="User Image" />
+                             
+                          </div> -->
+                            <div class="col-8">
+                                <div class="row">
+                                    <h6 class="align-self-center mb-0">{{ user.userName }}</h6>
+                                </div>
+                                <div class="row">
+                                    <div class="font-small-2 text-muted">{{ user.emailAddress }}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                    <td [ngClass]="darkModeService.currentSkin === 'dark' ? 'table-dark' : ''" class="p-1">
+                      <span class="p-column-title">{{l("booked")}}</span>
+                        <span class="row">
+                            {{ user.totalBooked }} %
+
+                            {{ l("ofConfirmedAppoitments") }}
+                        </span>
+                    </td>
+                    <td [ngClass]="darkModeService.currentSkin === 'dark' ? 'table-dark' : ''" class="p-1">
+                      <span class="p-column-title">{{l("confirmed")}}</span>
+                        <span class="row">
+                            {{ user.totalConfirmed }} %
+                            {{ l("ofConfirmedAppoitments") }}
+                        </span>
+                    </td>
+
+                    <td [ngClass]="darkModeService.currentSkin === 'dark' ? 'table-dark' : ''" class="p-1">
+                      <span class="p-column-title">{{l("canceled")}}</span>
+                        <span class="row">
+                            {{ user.totalCancelled }} %
+                            {{ l("ofCanceledAppoitments") }}
+                        </span>
+                    </td>
+
+                    <td [ngClass]="darkModeService.currentSkin === 'dark' ? 'table-dark' : ''" class="p-1">
+                      <span class="p-column-title">{{l("deleted") }}</span>
+                        <span class="row">
+                            {{ user.totalDeleted }} %
+                            {{ l("ofDeletedAppoitments") }}
+                        </span>
+                    </td>
+
+                    <td [ngClass]="darkModeService.currentSkin === 'dark' ? 'table-dark' : ''" class="p-1">
+                      <span class="p-column-title">{{l("pending")}}</span>
+                        <span class="row">
+                            {{ user.totalPending }} %
+                            {{ l("ofPendingAppoitments") }}
+                        </span>
+                    </td>
+
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+</div>

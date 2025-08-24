@@ -1,0 +1,171 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "pvljKw",
+    "name": "DongfengAttachmentDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "EP9K84"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "kytoC6"
+          },
+          "property": "conversation.isoffer",
+          "value": false
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "v9JhPR"
+          },
+          "assignments": [
+            {
+              "property": "conversation.typeId",
+              "value": "0"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "ssgM4G"
+          },
+          "activityProcessed": true,
+          "dialog": "AssetOffersDialog"
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "YaulvC"
+          },
+          "condition": "conversation.local",
+          "cases": [
+            {
+              "value": "ar",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "Bsc5Bs"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.Option1",
+                      "value": "تواصل مباشرة"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "value": "en",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperties",
+                  "$designer": {
+                    "id": "yI1f41"
+                  },
+                  "assignments": [
+                    {
+                      "property": "dialog.Option1",
+                      "value": "Contact directly"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "Y1FEbB"
+          },
+          "property": "dialog.HintCaption",
+          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 4)).text"
+        },
+        {
+          "$kind": "Microsoft.DeleteProperty",
+          "$designer": {
+            "id": "mZtz35"
+          },
+          "property": "dialog.UserSelect"
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "ItSwO7"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "unrecognizedPrompt": "",
+          "invalidPrompt": "",
+          "prompt": "${TextInput_Prompt_ItSwO7()}",
+          "property": "dialog.UserSelect",
+          "validations": [
+            "equals(this.value, 'Contact directly') || equals(this.value, 'تواصل مباشرة') || equals(this.value, '#')"
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "fTHaEc"
+          },
+          "property": "dialog.inquiryCaption",
+          "value": "=first(where(conversation.AllCaption.content.result, x, x.textResourceId == 1072)).text"
+        },
+        {
+          "$kind": "Microsoft.DeleteProperty",
+          "$designer": {
+            "id": "m8q4RO"
+          },
+          "property": "dialog.Select"
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "nuGQ1Z"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "unrecognizedPrompt": "",
+          "invalidPrompt": "",
+          "property": "dialog.Select",
+          "prompt": "${TextInput_Prompt_nuGQ1Z()}"
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "XEy0Lm"
+          },
+          "activityProcessed": true,
+          "dialog": "DongfengLiveCDialog"
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "uIGMTh"
+          }
+        }
+      ]
+    }
+  ],
+  "generator": "DongfengAttachmentDialog.lg",
+  "recognizer": "DongfengAttachmentDialog.lu.qna",
+  "id": "DongfengAttachmentDialog"
+}

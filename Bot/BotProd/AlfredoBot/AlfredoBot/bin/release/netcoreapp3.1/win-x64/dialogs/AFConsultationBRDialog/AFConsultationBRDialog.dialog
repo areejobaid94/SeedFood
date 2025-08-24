@@ -1,0 +1,206 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "ykylQ7",
+    "name": "AFConsultationBRDialog",
+    "comment": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "wnYvRg"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.DeleteProperty",
+          "$designer": {
+            "id": "fPYh94"
+          },
+          "property": "dialog.subjectName"
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "xEwRSb"
+          },
+          "assignments": [
+            {
+              "value": [
+                "Primary Stage",
+                "Secondary Stage",
+                "Cambridge IGCSE",
+                "Cambridge A level",
+                "AQA A level",
+                "AQA O level",
+                "Edexcel A level",
+                "Edexcel O level"
+              ],
+              "property": "dialog.subjectName"
+            },
+            {
+              "value": [
+                "0%",
+                "20%",
+                "50%",
+                "70%",
+                "90%"
+              ],
+              "property": "conversation.KnowledgeList"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.DeleteProperty",
+          "$designer": {
+            "id": "RP4fw1"
+          },
+          "property": "dialog.UserSelect"
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "frL14V"
+          },
+          "disabled": false,
+          "maxTurnCount": 100,
+          "alwaysPrompt": false,
+          "allowInterruptions": true,
+          "unrecognizedPrompt": "",
+          "invalidPrompt": "",
+          "property": "dialog.UserSelect",
+          "prompt": "${TextInput_Prompt_frL14V()}",
+          "validations": [
+            "equals(this.value, 'Primary Stage') || equals(this.value, 'Secondary Stage') || equals(this.value, 'Cambridge IGCSE') ||equals(this.value, 'Cambridge A level')  ||equals(this.value, 'AQA A level')  ||equals(this.value, 'AQA O level')  ||equals(this.value, 'Edexcel A level')  ||equals(this.value, 'Edexcel O level') || equals(this.value, '#')"
+          ]
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "Oe0qwk"
+          },
+          "condition": "dialog.UserSelect",
+          "cases": [
+            {
+              "value": "Primary Stage",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "rMCC0i"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "AfConProimaryDialog"
+                }
+              ]
+            },
+            {
+              "value": "Secondary Stage",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "PnJKfK"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "AfConSecondaryDialog"
+                }
+              ]
+            },
+            {
+              "value": "Cambridge IGCSE",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "oMmxpA"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "AfConIGCSEDialog"
+                }
+              ]
+            },
+            {
+              "value": "Cambridge A level",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "a1UYJa"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "AFconsCambridgeADialog"
+                }
+              ]
+            },
+            {
+              "value": "AQA A level",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "P3ZVoH"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "AfConAqaADialog"
+                }
+              ]
+            },
+            {
+              "value": "AQA O level",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "YsirqR"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "AFconsAQAODialog"
+                }
+              ]
+            },
+            {
+              "value": "Edexcel A level",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "wgqB1D"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "AFconsEdexcelADialog"
+                }
+              ]
+            },
+            {
+              "value": "Edexcel O level",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "dsWf68"
+                  },
+                  "activityProcessed": true,
+                  "dialog": "AFconsEdexcelODialog"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "I4t23L"
+          }
+        }
+      ]
+    }
+  ],
+  "generator": "AFConsultationBRDialog.lg",
+  "recognizer": "AFConsultationBRDialog.lu.qna",
+  "id": "AF-ConsultationBR-Dialog"
+}

@@ -1,0 +1,17 @@
+[import](common.lg)
+
+# TextInput_Prompt_ty3Ke5_text()
+- ${conversation.InputHint}
+# TextInput_Prompt_ty3Ke5()
+[Activity
+    Text = ${TextInput_Prompt_ty3Ke5_text()}
+    SuggestedActions = ${dialog.Option1} | ${dialog.Option2}
+]
+
+# SendActivity_Yf3sRN()
+[Activity
+    Text = ${SendActivity_Yf3sRN_text()}
+]
+
+# SendActivity_Yf3sRN_text()
+- ${dialog.DescriptionLink}

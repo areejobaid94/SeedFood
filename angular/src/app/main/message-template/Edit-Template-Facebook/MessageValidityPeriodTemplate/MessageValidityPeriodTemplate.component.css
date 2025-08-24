@@ -1,0 +1,1761 @@
+/* Main container */
+.template-container {
+    /* height: 281vh; */
+    display: flex;
+      gap: 20px;
+      padding-top: 20px;
+      justify-content: space-between; /* Centers items on larger screens */
+      align-items: flex-start;
+      padding-right: 25px;
+      /* background-color: white; */
+    }
+    /* body{
+      height: 170vh;
+  
+    } */
+    /* Form section */
+  
+    
+    .template-form {
+      flex: 1;
+      /* max-width: 60%; 
+      width: 75%; */
+      min-width: 300; /* Minimum width for smaller screens */
+      padding: 10px;
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      overflow-x: auto; /* Allow horizontal scrolling */
+      padding-bottom: 70px;
+      
+    }
+    
+    /* Preview section (fixed on the right) */
+    .template-preview {
+      position: sticky;
+      top: 70px; 
+      width: 30%; 
+      min-width: 250px;
+      /* padding: 20px; */
+      padding-top: 20px;
+  
+      background-color: #e6edf3;
+      background-image: url('assets\common\images\imageFacebookTemplate\Icon\wahtsappBackground.bmp'); /* Add the background image */
+      background-size: cover; /* Ensure the image covers the entire element */
+      background-position: center; /* Center the image */
+      background-repeat: repeat; /* Prevent the image from repeating */
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      max-height: 80vh; 
+      overflow-y: auto; 
+      margin-bottom: 100px;
+      
+  }
+  
+  
+    
+    /* Responsive layout for medium-sized screens (e.g., small laptops) */
+    @media (max-width: 1300px) {
+      .template-form {
+        max-width: 65%;
+      }
+      .template-preview {
+        width: 35%;
+      }
+    }
+    
+    /* Responsive layout for tablets */
+    @media (max-width: 992px) {
+      .template-container {
+        height: 300vh;
+  
+        flex-direction: row; /* Keeps them side by side */
+      }
+      .template-form,
+      .template-preview {
+        max-width: 100%;
+        min-width: 250px;
+        margin-bottom: 20px;
+      }
+    }
+    
+    /* Responsive layout for mobile devices */
+    @media (max-width: 768px) {
+      .template-container {
+        height: 130vh;
+        margin-bottom: 100px;
+        flex-direction: column; /* Stacks them vertically on mobile */
+        padding: 10px;
+      }
+      .template-form,
+      .template-preview {
+        width: 100%; /* Full width on mobile */
+        padding: 15px;
+      }
+      .template-preview {
+        position: static; /* Removes the fixed position on mobile */
+        max-height: none; /* Allows full scrolling on mobile */
+        overflow-y: visible;
+      }
+    }
+    
+    /* Form styling */
+    h2, h3 {
+      color: #333;
+    }
+    
+    /* .form-group {
+      margin-bottom: 15px;
+    } */
+    
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+    
+    input[type="text"],
+    select,
+    textarea {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 16px;
+    }
+    
+    textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+    
+    /* Preview content styling */
+    .preview-content {
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+      font-size: 18px;
+      width: 90%;
+      margin-left: 7%;
+      width: 86%; 
+      margin-bottom: 5%;
+     }
+  
+    .preview-content{
+      text-align: left;
+    }
+    
+    .preview-content p {
+      display: block;
+      font-size: 20px;
+      text-align: left; /* Aligns text to the right */
+      margin: 5px 0;
+  }
+  .body{
+    color: black;
+  
+  }
+    .time {
+      display: block;
+      font-size: 12px;
+      color: #888;
+      margin-top: 10px;
+      text-align: -webkit-right;
+    }
+    
+  
+  .form-group {
+      margin-bottom: 25px;
+      border-radius: 5px;
+      border: 2px solid #e1e1e1;
+      padding: 1%;
+      border-radius: 5px;
+      border: solid  #888 ;
+    }
+  
+    .Content-Parts{
+      position: relative;
+    display: inline-block;
+    width: 100%;
+      margin-bottom: 20px;
+    }
+  
+    .sample-inputs h4{
+      color: black;
+    }
+    /* .header-option {
+      margin-top: 10px;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      background-color: #f9f9f9;
+    } */
+    
+    .header-option p {
+      margin: 0 0 10px;
+      color: #555;
+    }
+    
+    .header-option label {
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+    
+    .upload-button input{
+      padding: 8px 16px;
+      border: none;
+      background-color: #007bff;
+      color: #fff;
+      cursor: pointer;
+      border-radius: 4px;
+      
+    }
+  
+    
+    .upload-button:hover input{
+      background-color: #0056b3;
+    }
+  
+    .header-content label{
+      display: inline;
+    }
+  
+    .toolbar {
+      display: flex;
+      gap: 5px;
+      margin-bottom: 10px;
+      justify-content: flex-end;
+    }
+    
+    .toolbar button {
+      padding: 5px 10px;
+      font-size: 14px;
+      cursor: pointer;
+      /* background-color: #f0f0f0;
+      border: 1px solid #ddd; */
+      border: none;
+      border-radius: 4px;
+    }
+    
+    .toolbar button:hover {
+      background-color: #e0e0e0;
+    }
+    
+    /* Emoji Picker styling */
+    .emoji-picker {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      max-width: 200px;
+      padding: 10px;
+      background-color: #fff;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      margin-bottom: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    /* .emoji-picker {
+      max-width: 250px;
+      margin-bottom: 10px;
+    } */
+    .emoji-picker span {
+      font-size: 20px;
+      cursor: pointer;
+    }
+    
+    .emoji-picker span:hover {
+      transform: scale(1.1);
+    }
+  
+    .header-content .label{
+      display: inline;
+    }
+  
+    .uploaded-image, .uploaded-video {
+      max-width: 100%;
+      height: auto;
+    }
+  
+    .footer-preview {
+      padding-top: 10px;
+      font-size: 7px;
+      color: #888;
+    }
+    
+  
+    
+  
+  
+    
+  /* .upload-button {
+    display: inline-block;
+    padding: 10px 15px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .upload-button:hover {
+    background-color: #0056b3;
+  }
+  
+  .upload-button:active {
+    background-color: #004494;
+  }
+  
+  .upload-button:focus {
+    outline: 2px solid #0056b3;
+    outline-offset: 2px;
+  } */
+  
+  
+  
+  .header-option {
+      display: flex;
+      flex-direction: column;
+      padding: 16px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      background-color: #f9f9f9;
+      margin-top: 16px;
+    }
+    
+    .header-content h4 {
+      margin: 0;
+      font-size: 18px;
+      font-weight: bold;
+      color: #333;
+    }
+    
+    #imageDescription {
+      font-size: 14px;
+      color: #666;
+      margin-top: 4px;
+      margin-bottom: 16px;
+    }
+    
+    label[for="headerImage"] {
+      font-size: 14px;
+      font-weight: 500;
+      color: #555;
+      margin-bottom: 8px;
+    }
+    
+    /* Hide the default file input */
+    .hidden-file-input {
+      display: none;
+    }
+    
+    /* Style the custom "Choose File" button */
+    .custom-upload-button {
+      display: inline-block;
+      padding: 10px 15px;
+      padding-left: 10px;
+      font-size: 14px;
+      color: black;
+      background-color: white;
+      border: solid 1px ;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: normal;
+      transition: background-color 0.3s ease;
+    }
+    
+    .custom-upload-button:hover {
+      background-color: #e7eaec;
+    }
+    
+    .custom-upload-button:active {
+      background-color: #dadada;
+    }
+    
+    .custom-upload-button:focus {
+      outline: 2px solid #0056b3;
+      outline-offset: 2px;
+    }
+    
+  
+  /* ksdnm */
+  
+  .buttons-section{
+    /* margin-top: 60px; */
+    overflow-x:auto ;
+    position: relative;
+    /* outline-offset: 0;  */
+  }
+  
+  .b
+  .buttons-section,
+  .quick-reply-section {
+    margin-top: 50px;
+    padding-bottom: 100px;
+  }
+  
+  .button-row {
+    display: flex; /* Keep items in a row */
+    /* Enable horizontal scrolling if content overflows */
+    gap: 10px; /* Spacing between elements */
+    margin-bottom: 15px;
+  }
+  
+  .button-row label {
+    font-weight: bold;
+  }
+  
+  .button-row select,
+  .button-row input {
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    flex: 1 1 auto; /* Allow input to grow and shrink as needed */
+    min-width: 150px; /* Set a minimum width to avoid too small input */
+  }
+  
+  .field {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 200px; /* Each field can grow, shrink, and has a base width */
+  }
+  .padding-left{
+    padding-left: 3%;
+  }
+  
+  .field label {
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  
+  
+  .url-container {
+    display: flex;
+    align-items: center; /* Align input and text vertically centered */
+  }
+  
+  .url-container input {
+    flex-grow: 1; /* Let the input field take up available space */
+  }
+  
+  .url-container span {
+    margin-left: 10px; /* Optional: adds spacing between the input and the text */
+    font-weight: normal; /* Styling for the dynamic text */
+    color: #6b757a; /* Optional color for the dynamic text */
+  }
+  
+  /* Media Queries for Responsive Design */
+  @media (max-width: 768px) {
+    .field {
+      min-width: 150px; /* Ensure fields don’t get too small */
+    }
+    
+    .url-container span {
+      font-size: 12px; /* Optional: smaller font size for dynamic text on smaller screens */
+    }
+  }
+  
+  
+  .buttons-section p{
+    color: #000000;
+  }
+  .Optional{
+    color: #6b757a;
+    font-size: 14px;
+  }
+  
+  
+  .remove-btn {
+    background: none;
+    border: none;
+    color: #3e3e3e; /* Red color for the remove icon */
+    cursor: pointer;
+    font-size: 1.2rem;
+    margin-left: 10px; /* Optional: adds spacing between fields and the icon */
+  }
+  
+  .remove-btn:hover {
+    color: #6c6c6c; /* Darker red on hover */
+    background-color: #888;
+  
+  }
+  
+  
+  #addButton{
+    margin-bottom: 50px;
+  }
+  
+  /* 
+  .icon {
+    color: blue;
+    font-size: 1.2em;
+    margin-right: 8px;
+  } */
+  
+  .preview-button {
+    color: #51a6cc;
+    border: none;
+    background-color: white;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-size: 1em;
+    font-size: 16px;
+    border-radius: 4px;
+  }
+  
+  
+  
+  
+  
+  .info-template{
+  
+    display: flex;
+    /* margin-bottom: 40px; */
+  
+  }
+  
+  
+  
+  
+  .circle {
+    width: 20px; /* Adjust the size as needed */
+    height: 20px;
+    border-radius: 50%;
+    border: 2px solid #009789; /* Border color */
+    margin: 5px; /* Spacing between circles */
+    background: linear-gradient(to left, #009789 50%, transparent 50%); /* Fill one half with color */
+    transition: background-color 0.3s;
+  }
+  
+  
+  .circle-full {
+    width: 20px; /* Adjust the size as needed */
+    height: 20px;
+    border-radius: 50%;
+    border: 2px solid #009789; 
+    background-color: #009789; /* Border color */
+    margin: 5px;
+    display: flex; /* Center the check mark */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+  }
+  
+  .check-icon {
+    /* Optional: Adjust the size of the check mark */
+    width: 15px; /* Adjust as necessary */
+    height: 15px; /* Adjust as necessary */
+  }
+  .circle.filled {
+    background-color: #009789; /* Change to your filled color */
+    border-color: #009789; /* Change border color for filled state */
+  }
+  .TemplateConstructionstages{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-items: flex-end;
+    background-color: #f0f0f0;
+    padding: 1%;
+    margin-bottom: 5%;
+  }
+  .TemplateConstructionstages p{
+    font-weight: bold;
+    font-size: medium;
+    color: black;
+  }
+  .circle-empty{
+    width: 20px; /* Adjust the size as needed */
+    height: 20px;
+    border-radius: 50%;
+    border: 2px solid #626b73; 
+    margin: 5px;
+  }
+  .circle-empty p{
+    color: #626b73;
+  }
+  .TemplateConstructionstages p {
+    margin: 0px 10px 5px 0px;
+  }
+  .circle-active{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-items: flex-end;
+    background-color: #e1edf7;
+  }
+  
+  .sample-inputs{
+    background-color: white;
+    padding: 1%;
+  }
+  
+  .sample-variable{
+    display: flex;
+    padding-left: 10px;
+    align-items: baseline;
+    padding-bottom: 13px;
+  
+  }
+  
+  
+  .action-buttons {
+    display: flex;
+    justify-content: flex-end;;
+    width: 80%; /* Set width to 95% */
+    /* margin: 20px auto;  */
+    position: fixed; /* Fixed position at the bottom */
+    left: 16%;
+    bottom: 20px; /* Adjust distance from the bottom */
+    background-color: #f8f8f8; /* Optional: Background color */
+    padding: 10px; /* Optional: Padding */
+    border-radius: 8px; 
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); 
+  }
+  
+  
+  @media (max-width: 1441px) {
+    .action-buttons {
+      width: 73%; /* Adjust width for tablets */
+      left: 25%; /* Adjust left for tablets */
+    }
+  }
+  /* Responsive adjustments */
+  @media (max-width: 1024px) {
+    .action-buttons {
+      width: 78%; /* Adjust width for tablets */
+      left: 18%; /* Adjust left for tablets */
+    }
+  }
+  @media (max-width: 768px) {
+    .action-buttons {
+      width:  92%; /* Adjust width for smaller tablets */
+      left: 5%; /* Adjust left for smaller tablets */
+    }
+  }
+  @media (max-width: 480px) {
+    .action-buttons {
+      width: 100%; /* Full width for mobile */
+      left: 0; /* Centered for mobile */
+      bottom: 10px; /* Optionally adjust bottom spacing for mobile */
+    }
+  }
+  
+  .discard-button ,.add-app-button{
+    padding: 10px 20px;
+    margin-left: 10px;
+    margin-right: 10px;
+    font-size: 1em;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    background-color: white; /* Red color for Discard */
+    color: black;
+    border: 1px solid black  ;
+  }
+  .Submit-button{
+    padding: 10px 20px;
+    font-size: 1em;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    background-color: #009789; /* Red color for Discard */
+    color: white;
+    border: 1px solid #009789;
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+  
+  .Catalog-radio{
+    display: flex;
+    /* flex-wrap: wrap; */
+  
+  }
+  .catalog-options, .options-container {
+    display: flex;
+    flex-direction: column; /* Stack the radio options vertically */
+    gap: 20px; /* Space between options */
+  }
+  
+  .catalog-radio .option-item{
+    display: flex;
+    flex-direction: column; /* Stack label and description */
+  }
+  
+  .radio-label {
+    display: flex; /* Make the label a flex container */
+    align-items: center; /* Align items vertically */
+    cursor: pointer; /* Make label clickable */
+    margin-bottom: 5px; /* Space below the label */
+  }
+  
+  /* Hide default radio button appearance */
+  .radio-input {
+    display: none; /* Hide the radio button */
+  }
+  
+  /* Custom radio button style */
+  .radio-label::before {
+    content: ""; /* Empty content for custom radio */
+    display: inline-block; /* Keep it inline */
+    width: 25px; /* Increased width for custom radio */
+    height: 25px; /* Increased height for custom radio */
+    border-radius: 50%; /* Circular shape */
+    border: 3px solid #009789; /* Border color */
+    margin-right: 10px; /* Space between radio and label */
+    position: relative; /* Position relative for the checkmark */
+  }
+  
+  /* Style when radio is checked */
+  .radio-input:checked + .radio-label::before {
+    background-color: #009789; /* Fill color when checked */
+    border: 3px solid #009789; /* Darker border when checked */
+  }
+  
+  /* Add a checkmark for selected state */
+  .radio-input:checked + .radio-label::after {
+    content: ""; /* Empty content for checkmark */
+    position: absolute; /* Position it absolutely */
+    left: 7px; /* Adjust position to center it */
+    top: 3px; /* Adjust position to center it */
+    width: 10px; /* Checkmark width */
+    height: 10px; /* Checkmark height */
+    border: solid white; /* Checkmark color */
+    border-width: 0 3px 3px 0; /* Checkmark border width */
+    transform: rotate(45deg); /* Rotate to form a checkmark */
+  }
+  
+  /* Style for description */
+  .description ,.option-description{
+    margin-left: 25px; /* Indent the description under the label */
+    color: #555; /* Slightly lighter color for description */
+  }
+  
+  .CompleteFlowNote{
+    background-color: #f1f4f7;
+    padding: 5px;
+    border-radius: 5px; 
+    display: flex; 
+    align-items: center; 
+    gap: 10px; 
+    margin-top: 15px; 
+    margin-bottom: 25px; 
+    word-wrap: break-word; 
+  }
+  
+  
+  .catalog-note {
+    background-color: #8888883d; 
+    padding: 15px; 
+    border-radius: 5px; 
+    display: flex; 
+    align-items: center; 
+    gap: 10px; 
+    margin-top: 15px; 
+    word-wrap: break-word;
+  }
+  
+  .icon-lamp {
+    font-size: 24px; /* Size of the lamp icon */
+    color: inherit; /* Use inherited color (no specific color applied) */
+  }
+  
+  .note-text {
+    color: #333; /* Text color for the note */
+    white-space: pre-wrap; /* Preserve whitespace and allow wrapping */
+  }
+  .note-text-Auth {
+    color: #f1f4f7; /* Text color for the note */
+    white-space: pre-wrap; /* Preserve whitespace and allow wrapping */
+  }
+  
+  .connect-button {
+    margin-top: 20px; /* Space above the button */
+    padding: 10px 20px; /* Button padding */
+    color: white; /* Text color for the button */
+    background-color:#0a78be ;
+    border: 2px solid #0a78be; /* Border color */
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: background-color 0.3s, color 0.3s; /* Transition for hover effects */
+  }
+  
+  /* Button hover effects */
+  .connect-button:hover {
+    background-color: #0061a0; /* Background color on hover */
+  }
+  
+  .buttonText{
+    background-color: white;
+    padding: 1%;
+    padding-left: 18px;
+    
+  }
+  .buttonText:hover {
+    background-color: #f7f7f7; /* Change to your desired hover color */
+  }
+  .buttonTextContainer{
+    padding-top: 20px;
+    border-radius: 5px;
+    background-color: #f7f7f7;
+    padding: 2%;
+  
+  }
+  
+  .buttonTextContainer:hover{
+    background-color: #eceded;
+    padding: 2%;
+    
+  }
+  .buttonText input{
+    background-color: #f1f4f7;
+  }
+  
+  
+  /* start custom tagel */
+  /* Flex container to align text and toggle on the same line */
+  .validity-toggle-container {
+    display: flex;
+    align-items: center; /* Centers the elements vertically */
+    gap: 10px; /* Space between the text and the toggle */
+  }
+  
+  /* Custom switch styles */
+  .switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+  }
+  
+  .switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: 0.4s;
+    border-radius: 34px;
+  }
+  
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    border-radius: 50%;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: 0.4s;
+  }
+  
+  input:checked + .slider {
+    background-color: #009789;
+  }
+  
+  input:checked + .slider:before {
+    transform: translateX(26px);
+  }
+  
+  
+  p{
+    color: #6b757a;
+  }
+  
+  h3{
+    font-weight: bold;
+  }
+  /* end */
+  
+  .Zero-tap-autofill {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 10px;
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    margin-top: 10px;
+  }
+  
+  .Zero-tap-autofill input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    accent-color: #009789; /* For supported browsers, this sets the color of the checkbox */
+  }
+  input[type="checkbox"]:checked {
+    accent-color: #009789; /* Changes the color of the checkbox */
+  }
+  
+  .Zero-tap-autofill p {
+    margin: 0;
+    font-size: 14px;
+    color: #333;
+    line-height: 1.5;
+  }
+  
+  
+  
+  
+  .example-h2 {
+    margin: 10px;
+  }
+  
+  .example-section {
+    display: flex;
+    align-content: center;
+    align-items: center;
+    height: 60px;
+  }
+  
+  .example-margin {
+    margin: 0 10px;
+  }
+  
+  
+  .subtitle {
+    font-size: 14px;
+    color: #6b757a;
+    margin-bottom: 20px;
+  }
+  
+  .input-section {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+  }
+  
+  .input-group {
+    
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .input-group label {
+    font-size: 14px;
+    color: #333;
+    margin-bottom: 5px;
+  }
+  
+  .form-input {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    color: #333;
+    width: 100%;
+  }
+  
+  .error-message {
+    background-color: #ffebeb;
+    color: #d9534f;
+    font-size: 12px;
+    padding: 8px;
+    margin-top: 5px;
+    border: 1px solid #d9534f;
+    border-radius: 4px;
+  }
+  
+  .instructions {
+    font-size: 12px;
+    color: #6b757a;
+    margin-top: 5px;
+  }
+  
+  .error-list {
+    list-style-type: disc;
+    padding-left: 20px;
+    color: #d9534f; /* You can customize this color */
+    font-size: 0.9em;
+  }
+  
+  .input-error {
+    border: 2px solid red; /* Red border for errors */
+  }
+  
+  .input-valid {
+    border: 2px solid blue; /* Blue border when input is valid */
+  }
+  
+  
+  
+  .button-container {
+    display: flex;
+    justify-content: flex-start;
+    margin-top: 15px;
+  }
+  
+  /* .add-app-button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  } */
+  
+  .add-app-button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+  }
+  
+  .input-group {
+    margin-bottom: 1em;
+  }
+  .input-group input:focus{
+    border-color: #0a78be;  /* Change border color to blue when focused */
+    outline: none;        /* Optional: removes the default outline for better style */
+  
+  }
+  input:focus{
+    border-color: #0a78be;  /* Change border color to blue when focused */
+    outline: none;        /* Optional: removes the default outline for better style */
+  }
+  select:focus{
+    border-color: #0a78be;  /* Change border color to blue when focused */
+    outline: none;  
+  }
+  
+  .form-input {
+    width: 100%;
+    padding: 0.5em;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+  
+  .error-message {
+    color: red;
+    font-size: 0.9em;
+  }
+  
+  .button-container {
+    margin-top: 1em;
+  }
+  
+  .add-app-button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+  
+  
+  
+  /*  */
+  
+  /* Styling for the heading */
+  .heading {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 10px;
+  }
+  
+  /* Paragraph for instructional text */
+  .instruction {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 20px;
+  }
+  
+  /* Checkbox container for better organization */
+  .checkbox-container {
+    margin-bottom: 20px;
+  }
+  
+  /* Each checkbox item wrapper */
+  .checkbox-item {
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+  }
+  
+  /* Checkbox styling */
+  .checkbox {
+    margin-right: 10px;
+    transform: scale(1.2); /* Slightly larger checkboxes */
+  }
+  
+  /* Label for the checkbox */
+  .checkbox-label {
+    font-size: 16px;
+    color: #333;
+  }
+  
+  /* Description for checkbox (e.g., for expiration time) */
+  .checkbox-description {
+    font-size: 14px;
+    color: #666;
+  }
+  
+  /* Container for minutes input */
+  .minutes-input-container {
+    margin-top: 15px;
+    display: block;
+    border-radius: 10px;
+    border: solid 1px #dbdde1;
+    margin-left: 20px;
+    padding: 1%;
+  }
+  
+  /* Group for minutes input */
+  .minutes-input-group {
+    display: flex;
+    flex-direction: column;
+    padding-left: 15px;
+    gap: 10px;
+  }
+  
+  /* Label for minutes input */
+  .minutes-label {
+    font-size: 16px;
+    color: #333;
+  }
+  
+  /* Styling for the minutes input field */
+  .minutes-input {
+    width: 100px;
+    padding: 8px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+  }
+  
+  /* Error message styling for invalid input */
+  .error-message {
+    margin-top: 5px;
+    color: red;
+    font-size: 12px;
+  }
+  
+  /* Style for invalid input */
+  .invalid {
+    border-color: #f44336;
+    background-color: #fdd;
+  }
+  
+  /* Style for the form when active */
+  .form-group.active {
+    background-color: #eef7ff;
+    border-left: 5px solid #2196f3;
+  }
+  
+  /* Hover effect for checkboxes */
+  .checkbox:hover {
+    cursor: pointer;
+    transform: scale(1.3);
+  }
+  
+  /* Focus effect for input fields */
+  .minutes-input:focus {
+    border-color: #4caf50;
+    box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+  }
+  
+  /*  */
+  
+  .container {
+    max-width: 600px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    font-size: 14px;
+    color: #333;
+    margin: 20px auto;
+  }
+  
+  .title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .option {
+    display: flex;
+    align-items: flex-start;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    cursor: pointer;
+  }
+  
+  .option input[type="radio"] {
+    margin-right: 15px;
+    transform: scale(1.2);
+  }
+  
+  .option label {
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+  }
+  
+  .option .desc {
+    font-size: 13px;
+    color: #666;
+    margin-top: 4px;
+  }
+  .extra-info {
+    display: flex;
+    font-size: 13px;
+    margin-top: 10px;  /* Adds space above the element */
+    padding: 10px;
+    background-color: #f7f7f7;
+    border-radius: 8px;
+    display: block;   /* Ensures it takes up a new line */
+  }
+  
+  .extra-info input[type="checkbox"] {
+    display: inline;
+    margin-right: 10px;
+  }
+  
+  .extra-info label{
+    display: inline;
+  }
+  
+  .learn-more {
+    text-decoration: none;
+    font-size: 13px;
+    margin-top: 4px;
+    display: inline-block;
+  }
+  
+  .learn-more:hover {
+    text-decoration: underline;
+  }
+  
+  
+  /*  */
+  
+  
+  .catalog-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .catalog-content {
+    display: flex;
+    gap: 15px;
+  }
+  
+  .catalog-image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #a3a7ac;
+    padding: 15px;
+    border-radius: 5px;
+    
+  }
+  
+  .catalog-image img {
+    display: block;
+    max-width: 50px;
+    align-items: center;
+  
+    height: auto;
+  }
+  
+  .catalog-text {
+    flex: 1; /* Ensures full-width alignment for text */
+    background-color: #f5f5f5;
+    padding: 1%;
+  }
+  
+  .catalog-text h4,
+  .catalog-text p {
+    margin: 0;
+    color: #6b757a;
+  }
+  .catalog-text p {  font-size: 0.6em;
+  }
+  .catalog-text h4 {
+    font-size: 0.75em;
+    line-height: 1.3;
+    /* font-weight: bold; */
+    display: block;
+    text-align: left;
+    color: black;
+  }
+  
+  
+  
+  
+  
+  .message-types label {
+    display: block;
+    padding: 10px;
+    background: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-top: 10px;
+    cursor: pointer;
+  }
+  
+  .message-types label input {
+    margin-right: 8px;
+  }
+  
+  input[type="radio"] {
+    accent-color: #009789; 
+  }
+  
+  .button-preview{
+    text-align: center;
+  }
+  
+  
+  .validation-message{
+  
+  }
+  
+  
+  .fas.fa-file-pdf {
+    margin-right: 8px;
+  }
+  
+  
+  
+  
+  /* start */
+  .error-border {
+    border-color: red;
+  }
+  .errorss{
+    border: red;
+  }
+  
+  
+  /* input.error-border {
+    border-color: red;
+    border: 1px solid red;
+    outline: none;
+  } */
+  
+  .marketing-opt-out {
+    display: flex;
+    flex-direction: column; /* Ensures error message is below checkbox & label */
+    margin-bottom: 10px;
+  }
+  
+  /* Wrapper for checkbox and label on the same line */
+  .checkbox-label-wrapper {
+    display: flex;
+    align-items: center; /* Aligns checkbox and label vertically */
+    gap: 8px; /* Space between checkbox and label */
+  }
+  
+  /* Label styling */
+  .marketing-opt-out label {
+    font-size: 14px;
+    color: #333; /* Text color */
+  }
+  
+  /* Checkbox styling */
+  .marketing-opt-out input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+  }
+  
+  
+  /* dropdown.component.css */
+  /* dropdown.component.css */
+  /* dropdown.component.css */
+  
+  .dropdown {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .dropdown-toggle {
+    background-color: #f8f9fa;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+  }
+  
+  .dropdown-menu {
+    display: block; /* Hidden by default */
+    position: absolute;
+    top: 100%; 
+    /* bottom: 100%; */
+    /* Aligns the dropdown below the button */
+    left: 0;
+    background-color: #fff;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    padding: 10px;
+    z-index: 100;
+    width: 250px;
+  }
+  
+  .dropdown:hover .dropdown-menu {
+    display: block; /* Show on hover for CSS testing */
+  }
+  
+  .container-addButton {
+    
+    box-shadow: none;
+   
+  
+  }
+  .dropdown-menu h3 {
+    font-size: 14px;
+    color: #333;
+    margin: 10px 0 5px;
+  }
+  
+  .dropdown-menu button {
+    flex-direction: column;
+    background: none;
+    border: none;
+    padding: 8px 0;
+    text-align: left;
+    width: 100%;
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+  
+    justify-content: space-between;
+  }
+  
+  .dropdown-menu button:hover {
+    background-color: #f0f0f0;
+  }
+  .dropdown-item:hover{
+    background-color: #f0f0f0;
+  }
+  
+  .recommended {
+    color: #6c757d;
+    font-size: 12px;
+  }
+  
+  .button-limit {
+    color: #888;
+    font-size: 12px;
+  }
+  
+  
+  .dropdownMenuButton{
+    z-index: 23=050;
+  }
+  
+  .box-shadow{
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  
+  }
+  .padding-bottom{
+    padding-bottom: 100px;
+  }
+  
+  
+  /* Container for the entire options section */
+  .options-container-preview {
+    margin-top: 40px;
+    padding: 10px;
+    border-top-right-radius: 20px;
+    border-top-left-radius: 20px;
+    background-color: white;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
+  }
+  
+  /* Header section for icon and title */
+  /* Header section for icon and title */
+  
+  
+  
+  .header {
+    display: flex;
+    align-items: center; /* Vertically align the icon and title */
+    justify-content: center; /* Center all content horizontally (but this centers both icon and title) */
+    position: relative; /* To position the line and title properly */
+    width: 100%; /* Ensure the header spans the entire width of the container */
+  }
+  
+  /* Close icon styling */
+  .close-icon {
+    font-size: 18px;
+    position: absolute; /* Position the icon at the left of the container */
+    left: 10px; /* Adjust the spacing from the left */
+    color: #5e5e5e;
+  }
+  
+  /* Title styling */
+  .title-preview {
+    text-align: center;
+    font-size: 20px;
+    font-weight: 200;
+    margin: 0;
+    padding-left: 30px;
+    color: #000000; /* Adjust the space between the close icon and the title */
+  }
+  
+  .header {
+    display: flex;
+    align-items: center; /* Vertically centers icon and title */
+    justify-content: center; /* Horizontally centers icon and title */
+    margin-bottom: 20px;
+    gap: 10px; /* Creates space between icon and title */
+  }
+  
+  
+  /* Individual button item */
+  .button-item-preview {
+    display: flex;
+    align-items: center; /* Centers icon and text vertically */
+    padding-top: 10px;
+    margin: 10px 0;
+    width: 100%;
+    justify-content: flex-start; /* Aligns content to the left (icon on the left) */
+    opacity: 0;
+    transition: opacity 2s ease-in-out;
+    padding-left: 0px;
+  }
+  .button-list-preview{
+    padding-left: 0px;
+  }
+  .button-item-preview.visible {
+    opacity: 1;  /* Fully visible when the 'visible' class is added */
+  }
+  
+  /* Image inside each list item */
+  .button-item-preview img {
+    margin-right: 10px; /* Space between image and text */
+    width: 20px; /* Image size */
+    height: 20px;
+  }
+  
+  /* Optional: If you want to add hover effect to the list items */
+  .button-item-preview:hover {
+    background-color: #f0f0f0;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  .line-above {
+    width: 15%; /* Set the line to match the width of the title */
+    height: 4px; /* Make the line thicker (bold) */
+    background-color: #5e5e5e; /* Black or bold color for the line */
+    margin: 0 auto 3px; /* Center the line and give space below */
+    border-radius: 10px;
+  }
+  /* Styling for the horizontal line */
+  .button-item-preview hr {
+    width: 100%;
+    border-top: 1px solid #ccc;
+    margin: 10px 0;
+    
+  }
+  .ul{
+    padding-left: 1rem;
+  }
+  
+  .hr-item {
+    width: 100%;
+    padding: 0; /* Remove padding */
+    margin: 0; /* Remove margin */
+  }
+  
+  .hr-item hr {
+    width: 100%;
+    border-top: 1px solid #ccc;
+    margin: 10px 0;
+  }
+  
+  
+  .play-button:hover rect {
+    fill: #f0f0f0; /* Light gray on hover */
+    stroke: #555; /* Darker border on hover */
+  }
+  .play-button:hover polygon {
+    /* fill: #ff5722;  */
+  }
+  svg {
+    transition: all 0.3s ease;
+  }
+  
+  .svg-icon{
+    width: 50px;  /* Set the desired width */
+    height: 30px;
+  }
+  
+  .TemplatePreview-Header{
+    display: flex;
+    justify-content: space-between;
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+  
+  .error-body-message:focus{
+    border-color:#d27805 !important;  
+  }
+  
+  .error-body-message:hover {
+    border-color: orange;  
+  }
+  /* 
+  .placeholder-number-input{
+    position: absolute;
+    bottom: 0px;
+    top: 5px;
+    right: 10px;
+    font-size: 0.9rem;
+    color: #6c757d;
+  }
+  .placeholder-number {
+    position: absolute;
+    bottom: 0px;
+    top: 20px;
+    right: 10px;
+    font-size: 0.9rem;
+    color: #6c757d;
+  }
+    */
+  
+  textarea {
+    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica,
+        Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol !important;
+  }
+  /* .input-container{
+    position: relative;
+    display: inline-block;
+    width: 100%;
+  }   */
+  
+  .Document-preview{
+    width: 70%;
+    padding: 20px;
+    background-color: #ccd0d5;
+  align-items: center;
+  }
+  
+  
+  
+  
+  .discard-buttonQ {
+    padding: 10px 20px;
+    margin-left: 10px;
+    margin-right: 10px;
+    font-size: 1em;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    background-color: white; /* Red color for Discard */
+    color: black;
+    border: 1px solid black  ;
+  }
+  .Submit-buttonQ{
+    padding: 10px 20px;
+    font-size: 1em;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    background-color: #009789; /* Red color for Discard */
+    color: white;
+    border: 1px solid #009789;
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+  
+  .action-buttonsQ {
+    display: flex;
+    justify-content: flex-end;;
+    width: 75%; 
+    position: fixed; 
+    left: 23%;
+    bottom: 20px; 
+    background-color: #f8f8f8; 
+    padding: 10px; 
+    border-radius: 8px; 
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); 
+  }
+  
+  
+  
+  @media (max-width: 1441px) {
+    .action-buttonsQ {
+      width: 73%; /* Adjust width for tablets */
+      left: 25%; /* Adjust left for tablets */
+    }
+  }
+  /* Responsive adjustments */
+  @media (max-width: 1024px) {
+    .action-buttonsQ {
+      width: 78%; /* Adjust width for tablets */
+      left: 18%; /* Adjust left for tablets */
+    }
+  }
+  @media (max-width: 768px) {
+    .action-buttonsQ {
+      width:  92%; /* Adjust width for smaller tablets */
+      left: 5%; /* Adjust left for smaller tablets */
+    }
+  }
+  @media (max-width: 480px) {
+    .action-buttonsQ {
+      width: 100%; /* Full width for mobile */
+      left: 0; /* Centered for mobile */
+      bottom: 10px; /* Optionally adjust bottom spacing for mobile */
+    }
+  }
+  
+  
+  /* model */
+  .modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+  }
+  
+  .modal-content {
+    background: white;
+    padding: 20px;
+    border-radius: 5px;
+    width: 400px;
+    text-align: center;
+  }
+  
+  .modal-footer {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+  
