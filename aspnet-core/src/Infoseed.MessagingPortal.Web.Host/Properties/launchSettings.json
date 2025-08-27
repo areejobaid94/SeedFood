@@ -29,7 +29,7 @@
       "applicationUrl": "https://0.0.0.0:44301"
     },
     "Infoseed.MessagingPortal.Web.Host": {
-      "commandName": "IISExpress",
+      "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "https://localhost:44301",
       "environmentVariables": {

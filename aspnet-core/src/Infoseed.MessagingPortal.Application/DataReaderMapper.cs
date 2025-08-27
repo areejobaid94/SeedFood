@@ -1350,7 +1350,132 @@ namespace Infoseed.MessagingPortal
             //customerLiveChat.agentId = SqlDataHelper.GetValue<int>(dataReader, "AgentId");
             return customerLiveChat;
         }
+        public static TickitDashModel MapGetTicketsAllDashPSQL(Npgsql.NpgsqlDataReader dataReader)
+        {
+            try
+            {
+                TickitDashModel model = new TickitDashModel();
+                model.AgentId = dataReader["agentid"] != DBNull.Value ? Convert.ToInt64(dataReader["agentid"]) : 0;
+                model.TotalOpen = dataReader["totalopen"] != DBNull.Value ? Convert.ToInt32(dataReader["totalopen"]) : 0;
+                model.TotalClose = dataReader["totalclose"] != DBNull.Value ? Convert.ToInt32(dataReader["totalclose"]) : 0;
+                model.TotalPending = dataReader["totalpending"] != DBNull.Value ? Convert.ToInt32(dataReader["totalpending"]) : 0;
+                model.AvgTimeMinutes = dataReader["avgtimeminutes"] != DBNull.Value ? Convert.ToInt64(dataReader["avgtimeminutes"]) : 0;
+                return model;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
 
+        public static ContactStatisticsModel MapContactGetStatisticsPSQL(IDataReader reader)
+        {
+            var model = new ContactStatisticsModel();
+
+            // Use safe conversion with DBNull check
+            model.TotalContact = reader["totalcontact"] != DBNull.Value ? Convert.ToInt64(reader["totalcontact"]) : 0;
+            model.TotalContactOptIn = reader["totalcontactoptin"] != DBNull.Value ? Convert.ToInt64(reader["totalcontactoptin"]) : 0;
+            model.TotalContactOptOut = reader["totalcontactoptout"] != DBNull.Value ? Convert.ToInt64(reader["totalcontactoptout"]) : 0;
+            model.TotalContactNeutral = reader["totalcontactneutral"] != DBNull.Value ? Convert.ToInt64(reader["totalcontactneutral"]) : 0;
+
+            return model;
+        }
+
+
+        // Mapper for PostgreSQL
+        public static BookingStatisticsModel MapBookingGetStatisticsPSQL(IDataReader reader)
+        {
+            BookingStatisticsModel model = new BookingStatisticsModel();
+
+            model.TotalAppointments = reader["totalappointments"] != DBNull.Value ? Convert.ToInt64(reader["totalappointments"]) : 0;
+            model.TotalBooked = reader["totalbooked"] != DBNull.Value ? Convert.ToInt32(reader["totalbooked"]) : 0;
+            model.TotalConfirmed = reader["totalconfirmed"] != DBNull.Value ? Convert.ToInt32(reader["totalconfirmed"]) : 0;
+            model.TotalCancelled = reader["totalcancelled"] != DBNull.Value ? Convert.ToInt32(reader["totalcancelled"]) : 0;
+            model.TotalPending = reader["totalpending"] != DBNull.Value ? Convert.ToInt32(reader["totalpending"]) : 0;
+
+            return model;
+        }
+
+        public static BookingStatisticsModel MapBookingStatisticsPSQL(IDataReader reader)
+        {
+            var model = new BookingStatisticsModel();
+
+            // Read values directly from NpgsqlDataReader
+            model.TotalAppointments = reader["totalappointments"] != DBNull.Value ? Convert.ToInt64(reader["totalappointments"]) : 0;
+            model.TotalBooked = reader["totalbooked"] != DBNull.Value ? Convert.ToInt64(reader["totalbooked"]) : 0;
+            model.TotalConfirmed = reader["totalconfirmed"] != DBNull.Value ? Convert.ToInt64(reader["totalconfirmed"]) : 0;
+            model.TotalCancelled = reader["totalcancelled"] != DBNull.Value ? Convert.ToInt64(reader["totalcancelled"]) : 0;
+            model.TotalPending = reader["totalpending"] != DBNull.Value ? Convert.ToInt64(reader["totalpending"]) : 0;
+
+            return model;
+        }
+
+        public static BookingDashModel MapGetBookingAllDashPSQL(IDataReader reader)
+        {
+            try
+            {
+                var model = new BookingDashModel();
+
+                model.UserId = reader["userid"] != DBNull.Value ? Convert.ToInt64(reader["userid"]) : 0;
+                model.TotalBooked = reader["totalbooked"] != DBNull.Value ? Convert.ToInt32(reader["totalbooked"]) : 0;
+                model.TotalConfirmed = reader["totalconfirmed"] != DBNull.Value ? Convert.ToInt32(reader["totalconfirmed"]) : 0;
+                model.TotalCancelled = reader["totalcancelled"] != DBNull.Value ? Convert.ToInt32(reader["totalcancelled"]) : 0;
+                model.TotalDeleted = reader["totaldeleted"] != DBNull.Value ? Convert.ToInt32(reader["totaldeleted"]) : 0;
+                model.TotalPending = reader["totalpending"] != DBNull.Value ? Convert.ToInt32(reader["totalpending"]) : 0;
+
+                return model;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        private GetAllDashboard MapTenantDashboardStatisticNew(IDataReader reader)
+        {
+            var dashboard = new GetAllDashboard();
+            dashboard.TotalOfAllContact = SqlDataHelper.GetValue<int>(reader, "totalofallcontact");
+            dashboard.TotalOfOrders = SqlDataHelper.GetValue<int>(reader, "totaloforders");
+            dashboard.Bandel = SqlDataHelper.GetValue<int>(reader, "conversationbundle");
+
+            dashboard.TotalOfRating = SqlDataHelper.GetValue<double>(reader, "totalofrating");
+            dashboard.TotalFreeConversationWA = SqlDataHelper.GetValue<decimal>(reader, "totalfreeconversationwa");
+            dashboard.TotalUsageFreeConversationWA = SqlDataHelper.GetValue<int>(reader, "totalusagefreeconversationwa");
+            dashboard.TotalUsageFreeUIWA = SqlDataHelper.GetValue<int>(reader, "totalusagefreeuiwa");
+            dashboard.TotalUsageFreeBIWA = SqlDataHelper.GetValue<int>(reader, "totalusagefreebiwa");
+            dashboard.TotalUsagePaidConversationWA = SqlDataHelper.GetValue<int>(reader, "totalusagepaidconversationwa");
+            dashboard.TotalUsagePaidUIWA = SqlDataHelper.GetValue<int>(reader, "totalusagepaiduiwa");
+            dashboard.TotalUsagePaidBIWA = SqlDataHelper.GetValue<int>(reader, "totalusagepaidbiwa");
+            dashboard.TotalUsageFreeEntry = SqlDataHelper.GetValue<int>(reader, "totalusagefreeentry");
+            dashboard.TotalUsageFreeConversation = SqlDataHelper.GetValue<decimal>(reader, "totalusagefreeconversation");
+            dashboard.TotalUIConversation = SqlDataHelper.GetValue<decimal>(reader, "totaluiconversation");
+            dashboard.TotalUsageUIConversation = SqlDataHelper.GetValue<decimal>(reader, "totalusageuiconversation");
+            dashboard.TotalBIConversation = SqlDataHelper.GetValue<decimal>(reader, "totalbiconversation");
+            dashboard.TotalUsageBIConversation = SqlDataHelper.GetValue<decimal>(reader, "totalusagebiconversation");
+
+            dashboard.RemainingConversation = (int)dashboard.TotalFreeConversationWA - dashboard.TotalUsageFreeConversationWA;
+            return dashboard;
+        }
+
+        public static TickitDashModel MapGetTicketsAllDashPSQL(IDataReader reader)
+        {
+            try
+            {
+                var dataReader = (Npgsql.NpgsqlDataReader)reader; // minimal change
+                TickitDashModel model = new TickitDashModel();
+
+                model.AgentId = dataReader["agentid"] != DBNull.Value ? Convert.ToInt64(dataReader["agentid"]) : 0;
+                model.TotalOpen = dataReader["totalopen"] != DBNull.Value ? Convert.ToInt32(dataReader["totalopen"]) : 0;
+                model.TotalClose = dataReader["totalclose"] != DBNull.Value ? Convert.ToInt32(dataReader["totalclose"]) : 0;
+                model.TotalPending = dataReader["totalpending"] != DBNull.Value ? Convert.ToInt32(dataReader["totalpending"]) : 0;
+                model.AvgTimeMinutes = dataReader["avgtimeminutes"] != DBNull.Value ? Convert.ToInt64(dataReader["avgtimeminutes"]) : 0;
+
+                return model;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
 
         public static TickitDashModel MapGetTicketsAllDash(IDataReader dataReader)
         {
