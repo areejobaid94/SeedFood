@@ -27,18 +27,115 @@ namespace WebHookStatusFun
             try
             {
                 WebHookModel model = JsonConvert.DeserializeObject<WebHookModel>(message);
-                await StatAsync(model);
+                await StatAsync(model, log);
             }
             catch (System.Exception ex)
             {
-                log.LogError(ex, "Failed to process webhook message.");
+                log.LogError(ex.Message, message);
             }
         }
 
 
+        private static async Task StatAsync(WebHookModel model, ILogger log)
+        {
+            var tenant = model.tenant;
+            var jsonData = model.whatsApp;
+            var userId = "";
+
+            var entry = jsonData.Entry?.FirstOrDefault();
+            var change = entry?.Changes?.FirstOrDefault();
+            var value = change?.Value;
+            var statusData = value?.statuses?.FirstOrDefault();
+
+            if (value == null || statusData == null || string.IsNullOrEmpty(statusData.id))
+                return;
+
+            var phoneNumberId = value.Metadata?.phone_number_id;
+            var phoneNumber = statusData.recipient_id ?? "";
+            var name = value.Contacts?.FirstOrDefault()?.Profile?.Name ?? phoneNumber;
+            userId = $"{tenant.TenantId}_{phoneNumber}";
+            var status = statusData.status;
+
+            if (!tenant.IsBundleActive) return;
+
+            var itemsCollection = new DocumentDBHelper<CustomerModel>(CollectionTypes.ItemsCollection);
+            var customerResult = await itemsCollection.GetItemAsync(a =>
+                a.ItemType == InfoSeedContainerItemTypes.CustomerItem &&
+                a.userId == userId &&
+                a.TenantId == tenant.TenantId);
+
+            var customer = customerResult;
+            var timestamp = int.TryParse(statusData.timestamp, out var creationTs) ? creationTs : (int)DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+            var expirationTs = creationTs + 86400;
+
+            if (status == "sent")
+            {
+                if (customer == null)
+                {
+                    customer = CreateNewCustomer(phoneNumber, name, "text", tenant.botId, tenant.TenantId.Value, phoneNumberId);
+                }
+
+                customer.channel = "Whatsapp";
+                customer.creation_timestamp = creationTs;
+                customer.expiration_timestamp = expirationTs;
+
+                if (customer.IsBlock)
+                    return;
+
+                var parameters = customer.CustomerStepModel.UserParmeter;
+                parameters["ContactID"] = customer.ContactID;
+                parameters["TenantId"] = customer.TenantId.ToString();
+                parameters["PhoneNumber"] = customer.phoneNumber;
+                parameters["Name"] = customer.displayName ?? name;
+                parameters["Location"] = parameters.ContainsKey("Location") ? parameters["Location"] : "No Location";
+
+                if (string.IsNullOrEmpty(customer.ContactID))
+                {
+                    var fetched = GetCustomerfromDB(phoneNumber, "", "text", tenant.botId, tenant.TenantId.Value, phoneNumberId);
+                    customer.ContactID = fetched.Id.ToString();
+                }
+
+                await itemsCollection.UpdateItemAsync(customer._self, customer);
+            }
+
+            try
+            {
+                bool shouldUpdate = false;
+
+                if (status == "read" || status == "failed")
+                {
+                    shouldUpdate = true;
+                }
+                else if (statusData.pricing == null)
+                {
+                    shouldUpdate = true;
+                }
+                else
+                {
+                    var category = statusData.pricing.category?.ToLowerInvariant();
+                    shouldUpdate = category == "marketing" || category == "utility" || category == "authentication";
+                }
+
+                if (shouldUpdate)
+                {
+                    var webhook = new WebHookModel
+                    {
+                        tenant = tenant,
+                        whatsApp = jsonData,
+                        customer = customer
+                    };
+
+                    await TestUpdateMongoDBAsync(webhook, itemsCollection);
+                }
+            }
+            catch (Exception ex)
+            {
+                log.LogError(ex, "Error while updating MongoDB");
+            }
+        }
 
 
-        private static async Task StatAsync(WebHookModel model)
+        private static async Task StatAsync33(WebHookModel model, ILogger log)
         {
     
             TenantModel Tenant = new TenantModel();
@@ -189,8 +286,11 @@ namespace WebHookStatusFun
                     }
                     else
                     {
-                        if (jsonData.Entry[0].Changes[0].Value.statuses[0].pricing.category.ToLower() == "marketing" || jsonData.Entry[0].Changes[0].Value.statuses[0].pricing.category.ToLower() == "utility" || jsonData.Entry[0].Changes[0].Value.statuses[0].pricing.category.ToUpper() == "AUTHENTICATION")
+
+
+                        if (jsonData.Entry[0].Changes[0].Value.statuses[0].pricing==null)
                         {
+
                             WebHookModel webHookModel = new WebHookModel();
                             webHookModel.tenant = Tenant;
                             webHookModel.whatsApp = jsonData;
@@ -198,16 +298,30 @@ namespace WebHookStatusFun
                             //SetStatusInQueuestg(webHookModel);
                             await TestUpdateMongoDBAsync(webHookModel, itemsCollection3);
 
-
                         }
+                        else
+                        {
+                            if (jsonData.Entry[0].Changes[0].Value.statuses[0].pricing.category.ToLower() == "marketing" || jsonData.Entry[0].Changes[0].Value.statuses[0].pricing.category.ToLower() == "utility" || jsonData.Entry[0].Changes[0].Value.statuses[0].pricing.category.ToUpper() == "AUTHENTICATION")
+                            {
+                                WebHookModel webHookModel = new WebHookModel();
+                                webHookModel.tenant = Tenant;
+                                webHookModel.whatsApp = jsonData;
+                                webHookModel.customer = Customer3;
+                                //SetStatusInQueuestg(webHookModel);
+                                await TestUpdateMongoDBAsync(webHookModel, itemsCollection3);
+
+
+                            }
+                        }
+
                     }
 
 
 
                 }
-                catch
+                catch (System.Exception ex)
                 {
-
+                    log.LogError(ex.Message, jsonData);
                 }
 
 
@@ -217,9 +331,166 @@ namespace WebHookStatusFun
             
         }
 
-
-
         private static async Task<string> TestUpdateMongoDBAsync(WebHookModel model, DocumentDBHelper<CustomerModel> documentCosmoseDB)
+        {
+            try
+            {
+                var entry = model?.whatsApp?.Entry?.FirstOrDefault();
+                var change = entry?.Changes?.FirstOrDefault();
+                var value = change?.Value;
+                var statusData = value?.statuses?.FirstOrDefault();
+
+                if (statusData == null || string.IsNullOrEmpty(statusData.id))
+                    return "";
+
+                string phoneNumber = statusData.recipient_id;
+                string status = statusData.status;
+                string messageId = statusData.id;
+                string jsonResult = JsonConvert.SerializeObject(model.whatsApp, Formatting.None, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
+                int statusCode = status == "failed" ? 400 : 200;
+                string tenantId = model.tenant.TenantId.ToString();
+
+                string connectionString = Constant.connectionStringMongoDB;
+                string databaseName = "test";
+                string collectionName = "campaignmessages";
+
+                var client = new MongoClient(connectionString);
+                var database = client.GetDatabase(databaseName);
+                var collection = database.GetCollection<CampaginMDRez>(collectionName);
+
+                var filter = Builders<CampaginMDRez>.Filter.Eq(x => x.messageId, messageId);
+                var existingRecord = await collection.Find(filter).FirstOrDefaultAsync();
+
+                if (existingRecord == null)
+                {
+                    var newDoc = new CampaginMDRez
+                    {
+                        tenantId = model.tenant.TenantId.Value,
+                        campaignId = "1",
+                        phoneNumber = phoneNumber,
+                        messageId = messageId,
+                        status = status,
+                        statusCode = statusCode,
+                        failedDetails = "",
+                        is_accepted = false,
+                        is_delivered = status == "delivered",
+                        is_read = status == "read",
+                        is_sent = status == "sent",
+                        delivered_detailsJson = status == "delivered" ? jsonResult : "",
+                        read_detailsJson = status == "read" ? jsonResult : "",
+                        sent_detailsJson = status == "sent" ? jsonResult : ""
+                    };
+
+                    await collection.InsertOneAsync(newDoc);
+                }
+                else
+                {
+                    var update = Builders<CampaginMDRez>.Update
+                        .Set(x => x.status, status)
+                        .Set(x => x.updatedAt, DateTime.UtcNow);
+
+                    switch (status)
+                    {
+                        case "sent":
+                            update = update
+                                .Set(x => x.is_sent, true)
+                                .Set(x => x.sent_detailsJson, jsonResult);
+
+                            await collection.UpdateOneAsync(filter, update);
+
+                            try
+                            {
+                                var camp = GetCampaignFun(long.Parse(existingRecord.campaignId)).FirstOrDefault();
+                                if (camp != null)
+                                {
+                                    model.customer.templateId = camp.templateId.ToString();
+                                    model.customer.CampaignId = existingRecord.campaignId;
+                                    model.customer.IsTemplateFlow = true;
+                                    model.customer.TemplateFlowDate = DateTime.UtcNow;
+                                    model.customer.getBotFlowForViewDto = new GetBotFlowForViewDto();
+
+                                    await documentCosmoseDB.UpdateItemAsync(model.customer._self, model.customer);
+
+                                    string type = "", mediaUrl = "";
+                                    string msg = prepareMessageTemplateText(camp.model, out type, out mediaUrl);
+
+                                    var chatItem = new CustomerChat
+                                    {
+                                        messageId = messageId,
+                                        TenantId = model.tenant.TenantId.Value,
+                                        userId = model.customer.userId,
+                                        text = msg,
+                                        type = "text",
+                                        CreateDate = DateTime.Now,
+                                        status = (int)Messagestatus.New,
+                                        sender = MessageSenderType.TeamInbox,
+                                        ItemType = InfoSeedContainerItemTypes.ConversationItem,
+                                        UnreadMessagesCount = 0,
+                                        agentName = "admin",
+                                        agentId = ""
+                                    };
+
+                                    var chatCollection = new DocumentDBHelper<CustomerChat>(CollectionTypes.ItemsCollection);
+                                    await chatCollection.CreateItemAsync(chatItem);
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                // You should log this exception properly.
+                                Console.WriteLine($"Inner update failed: {ex.Message}");
+                            }
+                            break;
+
+                        case "delivered":
+                            update = update
+                                .Set(x => x.is_delivered, true)
+                                .Set(x => x.is_sent, true)
+                                .Set(x => x.delivered_detailsJson, jsonResult);
+
+                            await collection.UpdateOneAsync(filter, update);
+                            break;
+
+                        case "read":
+                            update = update
+                                .Set(x => x.is_read, true)
+                                .Set(x => x.is_delivered, true)
+                                .Set(x => x.is_sent, true)
+                                .Set(x => x.read_detailsJson, jsonResult);
+
+                            await collection.UpdateOneAsync(filter, update);
+
+                            UpdateCustomerChatStatusNew(messageId, model.tenant.TenantId.Value);
+                            break;
+
+                        case "failed":
+                            var errors = statusData.Errors;
+                            if (errors != null && errors.Any())
+                            {
+                                foreach (var error in errors)
+                                {
+                                    var failUpdate = Builders<CampaginMDRez>.Update
+                                        .Set(x => x.statusCode, error.code)
+                                        .Set(x => x.failedDetails, error.error_data?.details ?? "")
+                                        .Set(x => x.updatedAt, DateTime.UtcNow);
+
+                                    await collection.UpdateOneAsync(filter, failUpdate);
+                                }
+                            }
+                            break;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"TestUpdateMongoDBAsync error: {ex.Message}");
+                // Add logging here if using ILogger
+            }
+
+            return "";
+        }
+
+
+        private static async Task<string> TestUpdateMongoDBAsyncold(WebHookModel model, DocumentDBHelper<CustomerModel> documentCosmoseDB)
         {
             try
             {

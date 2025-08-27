@@ -31,6 +31,8 @@
             public static string SP_AreasByTenantIdGet = "[dbo].[AreasByTenantIdGet]";
             public static string SP_OrderStatusHistoryGet = "[dbo].[OrderStatusHistoryGet]";
             public static string SP_OrderStatusHistoryAdd = "[dbo].[OrderStatusHistoryAdd]";
+            public static string SP_OrderStatusHistoryAddFromZeedly = "[dbo].[OrderStatusHistoryAddFromZeedly]";
+
             public static string SP_OrderStatusHistoryValidationGet = "[dbo].[OrderStatusHistoryValidationGet]";
             public static string SP_OrderMenuDetailExtraDetailsGet = "[dbo].[OrderMenuDetailExtraDetailsGet]";
 

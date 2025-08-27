@@ -20,6 +20,7 @@ namespace Infoseed.MessagingPortal.TemplateMessages.Dtos
         public Guid AttachmentId { get; set; }
 
         public int TemplateMessagePurposeId { get; set; }
+        public string Category { get; set; }
 
     }
 }

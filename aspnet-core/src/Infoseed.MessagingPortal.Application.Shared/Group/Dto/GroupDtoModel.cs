@@ -14,6 +14,7 @@ namespace Infoseed.MessagingPortal.Group.Dto
         public int FailedCount { get; set; } = 0;
         public int OnHoldCount { get; set; } = 0;
         public int TotolForPrograss { get; set; } = 0;
-        public string CreatorFullName { get; set; }
+        public string CreatorUserName { get; set; }
+        public bool AllUnsubscribed { get; set; } = false;
     }
 }

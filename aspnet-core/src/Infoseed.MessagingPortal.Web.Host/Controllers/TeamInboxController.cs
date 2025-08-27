@@ -383,9 +383,7 @@ namespace Infoseed.MessagingPortal.Web.Controllers
             //}
             customer.ConversationsCount=0;
 
-            if (!string.IsNullOrEmpty(tenant.AccessToken))
-            {
-
+       
 
 
                 var postBody = "";
@@ -515,59 +513,6 @@ namespace Infoseed.MessagingPortal.Web.Controllers
 
                 SocketIOManager.SendChat(customer, AbpSession.TenantId.Value);
 
-            }
-            else if (customer != null)
-            {
-
-                if (!string.IsNullOrEmpty(customer.D360Key))
-                {
-
-                    SendWhatsAppD360Model masseges = new SendWhatsAppD360Model
-                    {
-                        to = postMessage.To,
-                        type = "text",
-                        text = new SendWhatsAppD360Model.Text
-                        {
-                            body = postMessage.Text
-                        }
-                    };
-
-                    var content = new Content()
-                    {
-                        type = "text",
-                        text = postMessage.Text,
-
-                        agentName = postMessage.AgentName,
-                        agentId = postMessage.AgentId
-                    };
-
-                    result = await WhatsAppDialogConnector.PostMsgToSmooch(customer.D360Key, masseges, _telemetry);
-                    if (result == HttpStatusCode.Created)
-                    {
-                        var CustomerChat = _dbService.UpdateCustomerChatD360(AbpSession.TenantId, content, AbpSession.TenantId + "_" + postMessage.To, customer.ConversationId);
-                        customer.customerChat = CustomerChat;
-                        SocketIOManager.SendChat(customer, customer.TenantId.Value);
-
-                    }
-                    else
-                    {
-                        result = HttpStatusCode.BadRequest;
-
-                    }
-
-                }
-                else
-                {
-                    result = HttpStatusCode.BadRequest;
-                }
-
-
-            }
-            else
-            {
-                result = HttpStatusCode.BadRequest;
-
-            }
 
 
 

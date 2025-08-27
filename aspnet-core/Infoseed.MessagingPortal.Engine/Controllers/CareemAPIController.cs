@@ -21,8 +21,10 @@ using NUglify.JavaScript.Syntax;
 using System;
 using System.Data;
 using System.Data.SqlClient;
+using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Infoseed.MessagingPortal.Engine.Controllers
@@ -72,18 +74,24 @@ namespace Infoseed.MessagingPortal.Engine.Controllers
         {
             try
             {
-                var msg= string.Empty;
+                var msg = string.Empty;
 
                 var json = JsonConvert.SerializeObject(jsonData);
                 CareemModel model = JsonConvert.DeserializeObject<CareemModel>(json);
 
-                var orderRefrence = model.details.external_order_reference.Split(","); 
-                var tenantId = Convert.ToInt32(orderRefrence[0]);
-                var orderNumber = Convert.ToInt64(orderRefrence[1]);
-                var customerPhoneNumber = orderRefrence[2];
+                var dict = model.details.external_order_reference
+                           .Split(',')
+                           .Select(x => x.Split(':'))
+                           .ToDictionary(x => x[0], x => x[1]);
+
+                var orderNumber = Convert.ToInt64(Regex.Match(dict["OrderNumber"], @"\d+").Value);
+                var tenantId = Convert.ToInt32(Regex.Match(dict["TenantId"], @"\d+").Value);
+                var customerPhoneNumber = Regex.Match(dict["CustomerPhone"], @"\d+").Value;
 
                 var deliveryId = model.details.delivery_id;
                 var trackingDelivery = new TrackDeliveryResponse();
+
+                SocketIOManager.SendCareem(model, tenantId);
 
                 try
                 {
@@ -101,7 +109,7 @@ namespace Infoseed.MessagingPortal.Engine.Controllers
                 var objTenant = _cacheManager.GetCache("CacheTenant").Get(tenantId.ToString(), cache => cache);
                 if (objTenant.Equals(tenantId.ToString()))
                 {
-                    Tenant = await _dbService.GetTenantInfoById(tenantId); 
+                    Tenant = await _dbService.GetTenantInfoById(tenantId);
                     _cacheManager.GetCache("CacheTenant").Set(tenantId.ToString(), Tenant);
                 }
                 else
@@ -113,11 +121,11 @@ namespace Infoseed.MessagingPortal.Engine.Controllers
                 AddCareemLog(tenantId, json);
 
                 //update order ETA
-                if(model.details.captain_eta != null)
-                {
-                    var str = JsonConvert.SerializeObject(model.details.captain_eta);
-                    _iOrdersAppService.updateOrderETA(orderNumber, tenantId, str);
-                }
+                //if (model.details.captain_eta != null)
+                //{
+                //    var str = JsonConvert.SerializeObject(model.details.captain_eta);
+                //    _iOrdersAppService.updateOrderETA(orderNumber, tenantId, str);
+                //}
 
                 //update zeedly status for the order
                 //switch (model.event_type)
@@ -147,6 +155,9 @@ namespace Infoseed.MessagingPortal.Engine.Controllers
                 //}
                 switch (model.event_type)
                 {
+                    case "CAPTAIN_ASSIGNED":
+                        var update = _iOrdersAppService.updateOrderZeedlyStatus(orderNumber, tenantId, (int)ZeedlyOrderStatus.DriverOnTheWay);
+                        break;
                     case "DELIVERY_STARTED":
                         var update1 = _iOrdersAppService.updateOrderZeedlyStatus(orderNumber, tenantId, (int)ZeedlyOrderStatus.OrderOnTheWay);
                         msg = $"حالة طلبك: الطلب في الطريق\n\nمعلومات السائق:\nالاسم: {model.details.captain.name}\n" +
@@ -193,7 +204,7 @@ namespace Infoseed.MessagingPortal.Engine.Controllers
                     {
                         //var userId = tenantId.ToString() + "_" + customerPhoneNumber.ToString();
                         var itemsCollection = new DocumentCosmoseDB<CustomerModel>(CollectionTypes.ItemsCollection, _IDocumentClient);
-                        var customerResult = itemsCollection.GetItemAsync(a => a.ItemType == InfoSeedContainerItemTypes.CustomerItem && 
+                        var customerResult = itemsCollection.GetItemAsync(a => a.ItemType == InfoSeedContainerItemTypes.CustomerItem &&
                                         a.phoneNumber.Contains(customerPhoneNumber) && a.TenantId == Tenant.TenantId);
                         var Customer = await customerResult;
 
@@ -295,7 +306,7 @@ namespace Infoseed.MessagingPortal.Engine.Controllers
             }
             catch
             {
-                throw; 
+                throw;
             }
 
             return contact;

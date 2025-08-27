@@ -98,7 +98,13 @@ namespace Infoseed.MessagingPortal
                 Order.OrderLocal = SqlDataHelper.GetValue<string>(dataReader, "OrderLocal");
                 Order.ActionTime = DateTime.Now;
                 Order.LastModificationTime = DateTime.Now;
-
+                Order.OrderDetailsCareem = SqlDataHelper.GetValue<string>(dataReader, "OrderDetailsCareem");
+                Order.DeliveryEstimation = SqlDataHelper.GetValue<DateTime?>(dataReader, "DeliveryEstimation");
+                int? statusInt = SqlDataHelper.GetValue<int?>(dataReader, "ZeedlyOrderStatus");
+                Order.ZeedlyOrderStatus = statusInt.HasValue
+                    ? (ZeedlyOrderStatus)statusInt.Value
+                    : default(ZeedlyOrderStatus);
+                Order.IsZeedlyOrder = SqlDataHelper.GetValue<bool>(dataReader, "IsZeedlyOrder");
                 return Order;
             }
             catch (Exception ex)
@@ -192,6 +198,10 @@ namespace Infoseed.MessagingPortal
             entity.BranchAreaName = SqlDataHelper.GetValue<string>(dataReader, "BranchAreaName");
             entity.AreaCoordinatetow = entity.BranchAreaName;
             entity.AreahNametow = Order.RestaurantName;
+            entity.DeliveryEstimation = SqlDataHelper.GetValue<string>(dataReader, "DeliveryEstimation");
+            entity.OrderDetailsCareem = SqlDataHelper.GetValue<string>(dataReader, "OrderDetailsCareem");
+            entity.IsZeedlyOrder = SqlDataHelper.GetValue<bool?>(dataReader, "IsZeedlyOrder");
+            entity.ZeedlyOrderStatus = SqlDataHelper.GetValue<int?>(dataReader, "ZeedlyOrderStatus");
             try
             {
                 if (SqlDataHelper.GetValue<DateTime>(dataReader, "ActionTime") != null)
@@ -3360,7 +3370,8 @@ namespace Infoseed.MessagingPortal
             groupDtoModel.OnHoldCount = SqlDataHelper.GetValue<int>(dataReader, "OnHoldCount");
             groupDtoModel.FailedCount = SqlDataHelper.GetValue<int>(dataReader, "FailedCount");
             groupDtoModel.TotolForPrograss = SqlDataHelper.GetValue<int>(dataReader, "TotolForPrograss");
-            groupDtoModel.CreatorFullName = SqlDataHelper.GetValue<string>(dataReader, "CreatorFullName");
+            groupDtoModel.CreatorUserName = SqlDataHelper.GetValue<string>(dataReader, "CreatorUserName");
+            groupDtoModel.AllUnsubscribed = SqlDataHelper.GetValue<bool>(dataReader, "AllUnsubscribed");
 
             return groupDtoModel;
         }

@@ -209,8 +209,9 @@ namespace Infoseed.MessagingPortal.MultiTenancy
                 input.IsD360Dialog,
                 input.CatalogueLink,
                 input.BusinessId,
-                input.CatalogueAccessToken
-
+                input.CatalogueAccessToken,
+                input.DeliveryType,
+                input.CareemAccessToken
             );
         }
         public async Task<TenantEditDto> GetTenantForEdit(EntityDto input)
@@ -454,12 +455,11 @@ namespace Infoseed.MessagingPortal.MultiTenancy
             return result;
         }
 
-        public async Task<CatalogueItemsDto> GetCatalogueItems(int tenantId)
+        public async Task<List<ProductItem>> GetCatalogueItems(int tenantId)
         {
-            //retrieve access token based on tenant id
             var tenant = GetTenantById(tenantId);
             var accessToken = tenant.CatalogueAccessToken;
-            if (accessToken.IsNullOrEmpty())
+            if (string.IsNullOrEmpty(accessToken))
             {
                 throw new UserFriendlyException("Access Token is missing");
             }
@@ -468,24 +468,39 @@ namespace Infoseed.MessagingPortal.MultiTenancy
             var catalogueId = catalogue.Data[0].Id;
 
             var fields = "id,name,retailer_id,description,price,currency,availability,image_url,url";
-            var getUrl = $"https://graph.facebook.com/v19.0/{catalogueId}/products?fields={fields}&access_token={accessToken}";
+            var baseUrl = $"https://graph.facebook.com/v19.0/{catalogueId}/products?fields={fields}&access_token={accessToken}";
 
             var httpClient = new HttpClient();
-            var response = await httpClient.GetAsync(getUrl);
-            if (!response.IsSuccessStatusCode)
-            {
-                throw new HttpRequestException($"Error calling Facebook API: {response.StatusCode}");
-            }
-            var json = await response.Content.ReadAsStringAsync();
-            var options = new JsonSerializerOptions
-            {
-                PropertyNameCaseInsensitive = true
-            };
 
-            var result = JsonSerializer.Deserialize<CatalogueItemsDto>(json, options);
-            return result;
+            var allItems = new List<ProductItem>();
+            var url = baseUrl;
 
+            do
+            {
+                var response = await httpClient.GetAsync(url);
+                if (!response.IsSuccessStatusCode)
+                {
+                    throw new HttpRequestException($"Error calling Facebook API: {response.StatusCode}");
+                }
+
+                var json = await response.Content.ReadAsStringAsync();
+                var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+
+                var result = JsonSerializer.Deserialize<CatalogueItemsDto>(json, options);
+
+                if (result?.Data != null)
+                {
+                    allItems.AddRange(result.Data);
+                }
+
+                url = result?.Paging?.Next;
+
+            } while (!string.IsNullOrEmpty(url));
+
+            return allItems;
         }
+
+
 
         [HttpPost]
         public bool AddCatalogueEditLog([FromBody] CatalogueAuditLogDto model)

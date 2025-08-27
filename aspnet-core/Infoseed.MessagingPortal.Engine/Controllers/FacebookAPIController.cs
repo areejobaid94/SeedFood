@@ -226,9 +226,22 @@ namespace Infoseed.MessagingPortal.Engine.Controllers
                     }
                 }
 
+
+
+                //if (phoneNumberId=="389975521047092"||phoneNumberId=="113692038471764"||phoneNumberId=="704283939426481")
+                //{
+                //    return Ok();
+                //}
+
+
                 // Fetch tenant information
                 TenantModel Tenant = new TenantModel();
                 var tenantId = jsonData.Entry[0].Messaging.FirstOrDefault().Recipient.Id;
+
+
+
+       
+
                 var objTenant = _cacheManager.GetCache("CacheTenant").Get(tenantId.ToString(), cache => cache);
                 if (objTenant.Equals(tenantId.ToString()))
                 {
@@ -600,7 +613,7 @@ namespace Infoseed.MessagingPortal.Engine.Controllers
         
         private async Task<bool> PrepareBotChatWithCustomer(string from, TenantModel Tenant, CustomerModel Customer, string msg, List<Microsoft.Bot.Connector.DirectLine.Attachment> tAttachments, string interactiveId)
         {
-            Customer.TennantPhoneNumberId = Tenant.D360Key;
+           // Customer.TennantPhoneNumberId = Tenant.D360Key;
             Customer.interactiveId = interactiveId;
             Customer.attachments = tAttachments;
             List<Activity> Bot = new List<Activity>();

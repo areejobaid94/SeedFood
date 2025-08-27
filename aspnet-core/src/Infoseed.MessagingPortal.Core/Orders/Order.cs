@@ -125,8 +125,11 @@ namespace Infoseed.MessagingPortal.Orders
         public decimal? DeliveryOffer { get; set; }
 		public short IsZeedlyOrder { get; set; }
 		public ZeedlyOrderStatus ZeedlyOrderStatus { get; set; }
-        public string DeliveryEstimation { get; set; }
+		public string DeliveryEstimation { get; set; }
+        public string OrderDetailsCareem { get; set; }
 
+
+		public string MerchantOrderNumber { get; set; }
     }
 
 

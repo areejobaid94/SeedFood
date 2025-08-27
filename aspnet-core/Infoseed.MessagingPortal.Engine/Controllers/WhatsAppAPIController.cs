@@ -1,4 +1,6 @@
-﻿using Abp.Runtime.Caching;
+﻿using Abp.Extensions;
+using Abp.Runtime.Caching;
+using Abp.UI;
 using Abp.Web.Models;
 using Azure;
 using Azure.Communication.Email;
@@ -66,7 +68,7 @@ namespace Infoseed.MessagingPortal.Engine.Controllers
         private ILiveChatAppService _iliveChat;
         //private string fbToken = "EAAKTbPZAaKtYBAGxYaZAa3JckCvl7QDd1wbK8w9MNrwjsvMkUDKBFDoHKVKgE9JaYNkUc4C1IvdxQgn73nLPQ81zW6bhbfflnfZC2xpG7ofzGqP2T7YXCSu7LbWccPVJVdafiCFw5UnyikowudxmYW9VLzEcvbobqlW4ZBqe47IUHid3IbZBC6SmC9GyiJBGkrV1cAmuZAEQZDZD";
         //private string postUrl = "https://graph.facebook.com/v17.0/103674912368849/messages";
-        public string URLG = "https://b032-109-237-205-93.ngrok-free.app";
+        public string URLG = "https://4d715913baa1.ngrok-free.app";
         //public string connectionStringMongoDB = "mongodb+srv://infoseed:P%40ssw0rd@campagindbqa.mongocluster.cosmos.azure.com/?tls=true&authMechanism=SCRAM-SHA-256&retrywrites=false&maxIdleTimeMS=120000";
 
         //  public string connectionStringMongoDB = "mongodb+srv://infoseed:P%40ssw0rd@campagindb.global.mongocluster.cosmos.azure.com/?tls=true&authMechanism=SCRAM-SHA-256&retrywrites=false&maxIdleTimeMS=120000";
@@ -80,7 +82,6 @@ namespace Infoseed.MessagingPortal.Engine.Controllers
         private readonly TenantDashboardAppService _tenantDashboardAppService;
         private readonly IOrdersAppService _IOrdersAppService;
         private TelemetryClient _telemetry;
-
 
         public WhatsAppAPIController(
             IDBService dbService
@@ -617,6 +618,7 @@ namespace Infoseed.MessagingPortal.Engine.Controllers
             var Customer = customerResult.Result;
             return "";
         }
+
         [HttpPost("SallaWebhook")]
         public async void SallaWebhook(dynamic jsonData2)
         {
@@ -643,12 +645,6 @@ namespace Infoseed.MessagingPortal.Engine.Controllers
                 else if (jsonData._event == "abandoned.cart" || jsonData._event == "abandoned.cart.update")
                 {
 
-                    if (jsonData._event == "order.created" || jsonData._event == "abandoned.cart")
-                    {
-
-                        jsonData.data.customer.mobile = jsonData.data.customer.mobile_code + jsonData.data.customer.mobile;
-                    }
-
                     try
                     {
                         var model = GetTenantById(Tenant.TenantId.Value).FirstOrDefault();
@@ -666,6 +662,8 @@ namespace Infoseed.MessagingPortal.Engine.Controllers
 
                         request.Content = content;
                         var response = await client.SendAsync(request);
+                        string responseBody = await response.Content.ReadAsStringAsync();
+
                         response.EnsureSuccessStatusCode();
                         Console.WriteLine(await response.Content.ReadAsStringAsync());
 
@@ -1217,7 +1215,7 @@ namespace Infoseed.MessagingPortal.Engine.Controllers
 
             try
             {
-               // return;
+                //return;
 
                 var aaaa = JsonConvert.SerializeObject(jsonData2);
                 WhatsAppModel jsonData = JsonConvert.DeserializeObject<WhatsAppModel>(aaaa);
@@ -1871,11 +1869,13 @@ namespace Infoseed.MessagingPortal.Engine.Controllers
         {
             try
             {
-                //return;
+                return;
 
                 var aaaa = JsonConvert.SerializeObject(jsonData2);
                 WhatsAppModel jsonData = JsonConvert.DeserializeObject<WhatsAppModel>(aaaa);
 
+                //testtAsync(jsonData);
+                //return;
 
 
                 string userId = string.Empty;
@@ -1903,35 +1903,35 @@ namespace Infoseed.MessagingPortal.Engine.Controllers
                 }
 
 
-                //try
-                //{
-                //    if (Tenant.TenantId.Value==27)
-                //    {
+                try
+                {
+                    if (Tenant.TenantId.Value==27)
+                    {
 
-                //        MoveToStg(jsonData);
-                //        return;
-                //    }
+                        MoveToStg(jsonData);
+                        return;
+                    }
 
-                //}
-                //catch
-                //{
+                }
+                catch
+                {
 
-                //}
+                }
 
-                //try
-                //{
-                //    if (Tenant.TenantId.Value==156)
-                //    {
+                try
+                {
+                    if (Tenant.TenantId.Value==156)
+                    {
 
-                //        MoveToQa(jsonData);
-                //        return;
-                //    }
+                        MoveToQa(jsonData);
+                        return;
+                    }
 
-                //}
-                //catch
-                //{
+                }
+                catch
+                {
 
-                //}
+                }
 
 
 
@@ -1940,6 +1940,15 @@ namespace Infoseed.MessagingPortal.Engine.Controllers
                 if (jsonData.Entry[0].Changes[0].Value.statuses != null)
                 {
                     var from2 = jsonData.Entry[0].Changes[0].Value.statuses[0].recipient_id; // extract the phone number from the webhook payload
+
+                    WebHookModel model = new WebHookModel();
+
+                    model.tenant=Tenant;
+                    model.whatsApp=jsonData;
+                    SetStatusInQueue(model);
+                    //SetStatusInQueuestg(model);
+
+                    return;
 
                     //try
                     //{
@@ -1973,16 +1982,6 @@ namespace Infoseed.MessagingPortal.Engine.Controllers
 
                     if (Tenant.IsBundleActive)
                     {
-
-
-                        var catgory = jsonData.Entry[0].Changes[0].Value.statuses[0].pricing.category;
-                        var creationtimestamp1 = int.Parse(jsonData.Entry[0].Changes[0].Value.statuses.FirstOrDefault().timestamp);
-                        var expirationtimestamp1 = jsonData.Entry[0].Changes[0].Value.statuses.FirstOrDefault().conversation.expiration_timestamp;
-
-
-
-
-
                         string PhoneNumber = jsonData.Entry[0].Changes[0].Value.statuses.FirstOrDefault().recipient_id;
                         var name = PhoneNumber;
                         if (jsonData.Entry[0].Changes[0].Value.Contacts != null)
@@ -2027,6 +2026,7 @@ namespace Infoseed.MessagingPortal.Engine.Controllers
                                 Customer3.creation_timestamp = int.Parse(jsonData.Entry[0].Changes[0].Value.statuses.FirstOrDefault().timestamp);
                                 Customer3.expiration_timestamp = Customer3.creation_timestamp + 86400;
 
+
                                 var Result = await itemsCollection3.UpdateItemAsync(Customer3._self, Customer3);
 
                             }
@@ -2034,22 +2034,16 @@ namespace Infoseed.MessagingPortal.Engine.Controllers
                             {
                                 Customer3.channel = "Whatsapp";
 
-
-
                                 Customer3.creation_timestamp = int.Parse(jsonData.Entry[0].Changes[0].Value.statuses.FirstOrDefault().timestamp);
                                 Customer3.expiration_timestamp = Customer3.creation_timestamp + 86400;
 
-
-
-                                //Customer3.creation_timestamp = int.Parse(jsonData.Entry[0].Changes[0].Value.statuses.FirstOrDefault().timestamp);
-                                //Customer3.expiration_timestamp = jsonData.Entry[0].Changes[0].Value.statuses.FirstOrDefault().conversation.expiration_timestamp;
-
-                                //// Get current UTC time as Unix timestamp
+                                // Customer3.creation_timestamp = int.Parse(jsonData.Entry[0].Changes[0].Value.statuses.FirstOrDefault().timestamp);
+                                // Customer3.expiration_timestamp = jsonData.Entry[0].Changes[0].Value.statuses.FirstOrDefault().conversation.expiration_timestamp;
+                                // Get current UTC time as Unix timestamp
                                 //Customer3.creation_timestamp = (int)DateTimeOffset.UtcNow.ToUnixTimeSeconds();
 
                                 //// Add 1 day (86400 seconds) to the creation timestamp
                                 //Customer3.expiration_timestamp = Customer3.creation_timestamp + 86400;
-
 
 
                                 if (Customer3.IsBlock)
@@ -2224,6 +2218,8 @@ namespace Infoseed.MessagingPortal.Engine.Controllers
                     Customer.customerChat.text = msgBody;
 
                 }
+
+                Customer.avatarUrl = "avatar3";
                 Customer.channel = "Whatsapp";
 
                 if (Customer.expiration_timestamp != 0)
@@ -2260,6 +2256,14 @@ namespace Infoseed.MessagingPortal.Engine.Controllers
                 Customer.CustomerStepModel.UserParmeter.Add("TenantId", Customer.TenantId.ToString());
                 Customer.CustomerStepModel.UserParmeter.Remove("PhoneNumber");
                 Customer.CustomerStepModel.UserParmeter.Add("PhoneNumber", Customer.phoneNumber.ToString());
+
+
+
+
+                Customer.creation_timestamp = (int)DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+                Customer.expiration_timestamp = Customer.creation_timestamp + 86400;
+
+
 
                 try
                 {
@@ -2497,7 +2501,15 @@ namespace Infoseed.MessagingPortal.Engine.Controllers
                     return;
                 }
 
+                //if the customer message type is order then create a new order
+                if (jsonData.Entry[0].Changes[0].Value.Messages[0].Type == WhatsContentTypeEnum.order.ToString())
+                {
+                    var msg = jsonData.Entry[0].Changes[0].Value.Messages[0];
+                    var cusId = int.Parse(Customer.id);
+                    var orderModel = MapOrder(Tenant.TenantId.Value, cusId, msg);
 
+                    await CreateOrder(orderModel);
+                }
 
             }
             catch (Exception ex)
@@ -2757,7 +2769,7 @@ namespace Infoseed.MessagingPortal.Engine.Controllers
             order.Total = 0;
 
             order.CreateOrderDetailsModels = new List<CreateOrderDetailsModel>();
-             foreach(var item in orderMsg.order.product_items)
+            foreach (var item in orderMsg.order.product_items)
             {
                 var orderDetailsItem = new CreateOrderDetailsModel();
                 orderDetailsItem.ItemId = Convert.ToInt32(item.product_retailer_id);
@@ -2775,13 +2787,189 @@ namespace Infoseed.MessagingPortal.Engine.Controllers
 
             return order;
         }
+        private TenantModel GetTenantById2(int tenantId)
+        {
+            try
+            {
+                string connectionString = AppSettingsModel.ConnectionStrings;
+                using (var connection = new SqlConnection(connectionString))
+                {
+                    using (var command = new SqlCommand("dbo.GetTenantById", connection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.AddWithValue("@Id", tenantId);
+
+                        connection.Open();
+
+                        using (var reader = command.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                return new TenantModel
+                                {
+                                    BusinessId = reader["BusinessId"]?.ToString(),
+                                    CatalogueAccessToken = reader["CatalogueAccessToken"]?.ToString()
+                                };
+                            }
+                        }
+                    }
+                }
+                return null;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
+        private async Task<CatalogueDto> GetCatalogue(int tenantId)
+        {
+            //retrieve business id and access token based on tenant id
+            var tenant = GetTenantById2(tenantId);
+            var businessId = tenant.BusinessId;
+            var accessToken = tenant.CatalogueAccessToken;
+            if (businessId.IsNullOrEmpty() || accessToken.IsNullOrEmpty())
+            {
+               throw new UserFriendlyException("Business Id or Access Token is missing");
+
+            }
+            var getUrl = $"https://graph.facebook.com/v22.0/{businessId}/owned_product_catalogs?access_token={accessToken}";
+
+            var httpClient = new HttpClient();
+            var response = await httpClient.GetAsync(getUrl);
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new HttpRequestException($"Error calling Facebook API: {response.StatusCode}");
+            }
+            var json = await response.Content.ReadAsStringAsync();
+
+            var options = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            };
+
+            var result = System.Text.Json.JsonSerializer.Deserialize<CatalogueDto>(json, options);
+
+            return result;
+        }
+        private async Task<List<ProductItem>> GetCatalogueItems(int tenantId)
+        {
+            var tenant = GetTenantById2(tenantId);
+            var accessToken = tenant.CatalogueAccessToken;
+            if (string.IsNullOrEmpty(accessToken))
+            {
+                throw new UserFriendlyException("Access Token is missing");
+            }
+
+            var catalogue = await GetCatalogue(tenantId);
+            var catalogueId = catalogue.Data[0].Id;
+
+            var fields = "id,name,retailer_id,description,price,currency,availability,image_url,url";
+            var baseUrl = $"https://graph.facebook.com/v19.0/{catalogueId}/products?fields={fields}&access_token={accessToken}";
+
+            var httpClient = new HttpClient();
+
+            var allItems = new List<ProductItem>();
+            var url = baseUrl;
+
+            do
+            {
+                var response = await httpClient.GetAsync(url);
+                if (!response.IsSuccessStatusCode)
+                {
+                    throw new HttpRequestException($"Error calling Facebook API: {response.StatusCode}");
+                }
+
+                var json = await response.Content.ReadAsStringAsync();
+                var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+
+                var result = System.Text.Json.JsonSerializer.Deserialize<CatalogueItemsDto>(json, options);
+
+                if (result?.Data != null)
+                {
+                    allItems.AddRange(result.Data);
+                }
+
+                url = result?.Paging?.Next;
+
+            } while (!string.IsNullOrEmpty(url));
+
+            return allItems;
+        }
+
+        //private async Task<CatalogueItemsDto> GetCatalogueItems(int tenantId)
+        //{
+        //    //retrieve access token based on tenant id
+        //    var tenant = GetTenantById2(tenantId);
+        //    var accessToken = tenant.CatalogueAccessToken;
+        //    if (accessToken.IsNullOrEmpty())
+        //    {
+        //       throw new UserFriendlyException("Access Token is missing");
+        //    }
+
+        //    var catalogue = await GetCatalogue(tenantId);
+        //    var catalogueId = catalogue.Data[0].Id;
+
+        //    var fields = "id,name,retailer_id,description,price,currency,availability,image_url,url";
+        //    var getUrl = $"https://graph.facebook.com/v19.0/{catalogueId}/products?fields={fields}&access_token={accessToken}";
+
+        //    var httpClient = new HttpClient();
+        //    var response = await httpClient.GetAsync(getUrl);
+        //    if (!response.IsSuccessStatusCode)
+        //    {
+        //        throw new HttpRequestException($"Error calling Facebook API: {response.StatusCode}");
+        //    }
+        //    var json = await response.Content.ReadAsStringAsync();
+        //    var options = new JsonSerializerOptions
+        //    {
+        //        PropertyNameCaseInsensitive = true
+        //    };
+
+        //    var result = System.Text.Json.JsonSerializer.Deserialize<CatalogueItemsDto>(json, options);
+        //    return result;
+
+        //}
+
         private async Task CreateOrder(CreateOrderModel createOrderModel)
         {
+            var catalogueDto = await GetCatalogueItems(createOrderModel.TenantId.Value);
+
+            var orderDetailsWithProductInfo = new List<object>();
+
+            foreach (var orderDetail in createOrderModel.CreateOrderDetailsModels)
+            {
+                //var product = catalogue.Data.FirstOrDefault(p => p.Retailer_Id == orderDetail.ItemId.ToString());
+                var product = catalogueDto.FirstOrDefault(p => p.Retailer_Id == orderDetail.ItemId.ToString());
+
+                if (product != null)
+                {
+                    var detail = new
+                    {
+                        orderDetail.Quantity,
+                        orderDetail.UnitPrice,
+                        orderDetail.Total,
+                        orderDetail.ItemId,
+                        ProductId = product.Id,
+                        Name = product.Name,
+                        Retailer_Id = product.Retailer_Id,
+                        Description = product.Description,
+                        Price = product.Price,
+                        Currency = product.Currency,
+                        Availability = product.Availability,
+                        Image_Url = product.Image_Url,
+                        Url = product.Url
+                    };
+
+                    orderDetailsWithProductInfo.Add(detail);
+                }
+            }
+
+            string jsonOrderDetailsCareem = System.Text.Json.JsonSerializer.Serialize(orderDetailsWithProductInfo);
+
             if (createOrderModel.IsZeedlyOrder.HasValue && createOrderModel.IsZeedlyOrder == true)
             {
                 try
                 {
-
                     Orders.Order order = new Orders.Order
                     {
                         TenantId = createOrderModel.TenantId,
@@ -2796,8 +2984,10 @@ namespace Infoseed.MessagingPortal.Engine.Controllers
                         orderStatus = OrderStatusEunm.Draft,
                         IsEvaluation = false,
                         IsZeedlyOrder = 1,
-                        ZeedlyOrderStatus = ZeedlyOrderStatus.New
+                        ZeedlyOrderStatus = ZeedlyOrderStatus.New,
+                        OrderDetailsCareem = jsonOrderDetailsCareem
                     };
+                
 
                     long orderId = 0;
                     try
@@ -2837,6 +3027,8 @@ namespace Infoseed.MessagingPortal.Engine.Controllers
 
         private async Task InsertMethod(CreateOrderModel createOrderModel, List<CreateOrderDetailsModel> createOrderDetailsModels, long orderId)
         {
+
+
             if (createOrderModel.CreateOrderDetailsModels.Count() > 0)
             {
                 foreach (var item in createOrderModel.CreateOrderDetailsModels)
@@ -2875,7 +3067,6 @@ namespace Infoseed.MessagingPortal.Engine.Controllers
                             UnitPrice = ext.UnitPrice,
                             OrderDetailId = orderDetailID,
                             Total = ext.Total
-
                         };
 
                         var extID = await _IOrdersAppService.CreateOrderDetailsExtra(JsonConvert.SerializeObject(extraOrderDetail));
@@ -2965,7 +3156,7 @@ namespace Infoseed.MessagingPortal.Engine.Controllers
         private async Task<bool> sendToWhatsApp(TenantModel Tenant, CustomerModel user)
         {
             string from = user.phoneNumber;
-            string userId = Tenant.id + "_" + user.phoneNumber;
+            string userId = Tenant.TenantId + "_" + user.phoneNumber;
             DirectLineConnector directLineConnector = new DirectLineConnector(_IDocumentClient);
             var micosoftConversationID = directLineConnector.CheckIsNewConversationD360(Tenant.D360Key, Tenant.DirectLineSecret, user.userId, Tenant.botId).Result;
             var Bot = directLineConnector.StartBotConversationD360(userId, user.ContactID.ToString(), micosoftConversationID.MicrosoftBotId, "testinfoseed", Tenant.DirectLineSecret, Tenant.botId, user.phoneNumber, user.TenantId.ToString(), user.displayName, Tenant.PhoneNumber, Tenant.isOrderOffer.ToString(), micosoftConversationID.watermark, null).Result;
@@ -3006,6 +3197,274 @@ namespace Infoseed.MessagingPortal.Engine.Controllers
             return true;
 
         }
+        [HttpPost("webhookyara")]
+        public async void test(dynamic jsonData2)
+        {
+            try
+            {
+                var aaaa = JsonConvert.SerializeObject(jsonData2);
+                WhatsAppModel jsonData = JsonConvert.DeserializeObject<WhatsAppModel>(aaaa);
+
+                string userId = string.Empty;
+                var phoneNumberId = jsonData.Entry[0].Changes[0].Value.Metadata.phone_number_id;
+
+                TenantModel Tenant = new TenantModel();
+
+                var objTenant = _cacheManager.GetCache("CacheTenant").Get(phoneNumberId.ToString(), cache => cache);
+                if (objTenant.Equals(phoneNumberId.ToString()))
+                {
+                    Tenant = await _dbService.GetTenantByKey("", phoneNumberId.ToString());
+                    _cacheManager.GetCache("CacheTenant").Set(phoneNumberId.ToString(), Tenant);
+                }
+                else
+                {
+                    Tenant = (TenantModel)objTenant;
+                }
+
+
+                if (jsonData.Entry[0].Changes[0].Value.Messages == null && jsonData.Entry[0].Changes[0].Value.statuses == null)
+                {
+                    return;
+                }
+
+
+                if (jsonData.Entry[0].Changes[0].Value.Messages != null)
+                {
+                    if (jsonData.Entry[0].Changes[0].Value.Messages[0].context != null)
+                    {
+
+                        ConservationMeasurementMessage conservationMeasurementMessage = new ConservationMeasurementMessage()
+                        {
+                            TenantId = Tenant.TenantId.Value,
+                            MessageStatusId = 4,
+                            MessageDateTime = DateTime.Now,
+                            MessageId = jsonData.Entry[0].Changes[0].Value.Messages[0].context.id
+
+                        };
+                        //SetConversationMeasurmentsInQueue(conservationMeasurementMessage);
+
+                        var replayid = jsonData.Entry[0].Changes[0].Value.Messages[0].context.id;
+                    }
+                }
+
+                var name2 = jsonData.Entry[0].Changes[0].Value.Contacts[0].Profile.Name;
+
+
+                var massageId = jsonData.Entry[0].Changes[0].Value.Messages[0].Id;
+                var from = jsonData.Entry[0].Changes[0].Value.Messages[0].From; // extract the phone number from the webhook payload
+                string medaiUrl = string.Empty;
+                userId = (Tenant.TenantId + "_" + from).ToString();
+                var type = jsonData.Entry[0].Changes[0].Value.Messages[0].Type;
+                string interactiveId = string.Empty;
+
+                WhatsAppAppService whatsAppAppService = new WhatsAppAppService();
+                AttachmentMessageModel attachmentMessageModel = new AttachmentMessageModel();
+                List<Microsoft.Bot.Connector.DirectLine.Attachment> tAttachments = new List<Microsoft.Bot.Connector.DirectLine.Attachment>();
+
+                string msgBody = whatsAppAppService.MassageTypeText(jsonData.Entry[0].Changes[0].Value.Messages, Tenant.AccessToken, tAttachments, ref medaiUrl, attachmentMessageModel, out interactiveId);
+
+                if (jsonData.Entry[0].Changes[0].Value.Messages[0].button != null)
+                {
+                    msgBody = jsonData.Entry[0].Changes[0].Value.Messages[0].button.text;
+
+                }
+
+                var itemsCollection = new DocumentCosmoseDB<CustomerModel>(CollectionTypes.ItemsCollection, _IDocumentClient);
+                var customerResult = itemsCollection.GetItemAsync(a => a.ItemType == InfoSeedContainerItemTypes.CustomerItem && a.userId == userId && a.TenantId == Tenant.TenantId);
+                var Customer = await customerResult;
+
+                if (Customer == null)
+                {
+                    Customer = _dbService.CreateNewCustomer(from, name2, type, Tenant.botId, Tenant.TenantId.Value, phoneNumberId);
+                    Customer.customerChat.text = msgBody;
+
+                }
+
+                Customer.avatarUrl = "avatar3";
+                Customer.channel = "Whatsapp";
+
+                if (Customer.expiration_timestamp != 0)
+                {
+                    long currentTimestamp = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+
+                    // Check if the expiration time has passed
+                    if (currentTimestamp > Customer.expiration_timestamp)
+                    {
+                        Customer.IsLockedByAgent = false;
+                        Customer.IsOpen = false;
+                        Customer.CustomerStepModel = new CustomerStepModel() { ChatStepId = -1, ChatStepPervoiusId = 0, IsLiveChat = false, UserParmeter = new Dictionary<string, string>() };
+                        Customer.IsHumanhandover = false;
+                    }
+                    else
+                    {
+                    }
+
+                }
+
+                if (Customer.CustomerStepModel == null)
+                {
+                    Customer.CustomerStepModel = new CustomerStepModel() { ChatStepId = -1, ChatStepPervoiusId = 0, IsLiveChat = false, UserParmeter = new Dictionary<string, string>() };
+
+                }
+                Customer.CustomerStepModel.UserParmeter.Remove("ContactID");
+                Customer.CustomerStepModel.UserParmeter.Add("ContactID", Customer.ContactID.ToString());
+                Customer.CustomerStepModel.UserParmeter.Remove("TenantId");
+                Customer.CustomerStepModel.UserParmeter.Add("TenantId", Customer.TenantId.ToString());
+                Customer.CustomerStepModel.UserParmeter.Remove("PhoneNumber");
+                Customer.CustomerStepModel.UserParmeter.Add("PhoneNumber", Customer.phoneNumber.ToString());
+
+                Customer.creation_timestamp = (int)DateTimeOffset.UtcNow.ToUnixTimeSeconds();
+                Customer.expiration_timestamp = Customer.creation_timestamp + 86400;
+
+                try
+                {
+                    if (!Customer.CustomerStepModel.UserParmeter.ContainsKey("Name"))
+                    {
+                        Customer.CustomerStepModel.UserParmeter.Remove("Name");
+                        Customer.CustomerStepModel.UserParmeter.Add("Name", Customer.displayName);
+                    }
+                }
+                catch
+                {
+                    Customer.CustomerStepModel.UserParmeter.Remove("Name");
+                    Customer.CustomerStepModel.UserParmeter.Add("Name", Customer.displayName);
+                }
+
+
+                try
+                {
+                    if (!Customer.CustomerStepModel.UserParmeter.ContainsKey("Location"))
+                    {
+                        Customer.CustomerStepModel.UserParmeter.Remove("Location");
+                        Customer.CustomerStepModel.UserParmeter.Add("Location", "No Location");
+                    }
+                }
+                catch
+                {
+                    Customer.CustomerStepModel.UserParmeter.Remove("Location");
+                    Customer.CustomerStepModel.UserParmeter.Add("Location", "No Location");
+                }
+                if (string.IsNullOrEmpty(Customer.displayName))
+                {
+                    Customer.displayName = name2;
+                }
+
+                if (Customer.IsBlock)
+                {
+                    return;
+                }
+
+                if (Tenant == null)
+                {
+                    return;
+                }
+                if (!Tenant.IsBundleActive)
+                {
+                    return;
+                }
+                if (!Tenant.IsBotActive)
+                {
+                    PostWhatsAppMessageModel postWhatsAppMessageModel = new PostWhatsAppMessageModel();
+                    postWhatsAppMessageModel.type = "text";
+                    postWhatsAppMessageModel.to = from;
+                    postWhatsAppMessageModel.text = new PostWhatsAppMessageModel.Text();
+                    postWhatsAppMessageModel.text.body = Tenant.MassageIfBotNotActive;
+                    var result = await new WhatsAppAppService().postToFB(postWhatsAppMessageModel, phoneNumberId, Tenant.AccessToken, Tenant.IsD360Dialog);
+                    if (result)
+                    {
+                        Content message = new Content();
+                        message.text = Tenant.MassageIfBotNotActive;
+                        message.agentName = Tenant.botId;
+                        message.agentId = "1000000";
+                        message.type = "text";
+
+                        var CustomerSendChat2 = _dbService.UpdateCustomerChat(Customer, userId, msgBody, type, Tenant.TenantId.Value, 0, medaiUrl, string.Empty, string.Empty, MessageSenderType.Customer, massageId, null, jsonData.Entry[0].Changes[0].Value.Messages[0].referral);
+                        SocketIOManager.SendChat(Customer, Tenant.TenantId.Value);
+
+                        var CustomerSendChat = _dbService.UpdateCustomerChat(Customer, userId, message.text, message.type, Tenant.TenantId.Value, 0, medaiUrl, string.Empty, string.Empty, MessageSenderType.TeamInbox, massageId, null, jsonData.Entry[0].Changes[0].Value.Messages[0].referral);
+
+                        SocketIOManager.SendChat(Customer, Tenant.TenantId.Value);
+
+                    }
+                    return;
+
+                }
+                if (!Tenant.IsPaidInvoice)
+                {
+                    return;
+                }
+
+                try
+                {
+                    TimeSpan timeSpan = DateTime.UtcNow - Customer.TemplateFlowDate.Value;
+                    int totalHours = (int)Math.Ceiling(timeSpan.TotalHours);
+                    if (totalHours <= 24)
+                    {
+
+
+                    }
+                    else
+                    {
+                        Customer.IsTemplateFlow = false;
+                        Customer.templateId = "";
+                    }
+
+                }
+                catch
+                {
+                    Customer.IsTemplateFlow = false;
+                    Customer.templateId = "";
+
+                }
+
+
+                if (attachmentMessageModel.IsHasAttachment)
+                {
+                    try
+                    {
+                        //await Sync(attachmentMessageModel, Customer, massageId);
+
+                    }
+                    catch
+                    {
+
+
+                    }
+                    var objCustomer = _dbService.PrePareCustomerChat(Customer, userId, msgBody, type, Tenant.TenantId.Value, 0, medaiUrl, string.Empty, string.Empty, MessageSenderType.Customer, massageId);
+                    attachmentMessageModel.CustomerModel = JsonConvert.SerializeObject(objCustomer);
+
+                }
+                else
+                {
+
+                    var CustomerSendChat = _dbService.UpdateCustomerChat(Customer, userId, msgBody, type, Tenant.TenantId.Value, 0, medaiUrl, string.Empty, string.Empty, MessageSenderType.Customer, massageId, null, jsonData.Entry[0].Changes[0].Value.Messages[0].referral);
+                    Customer.customerChat = CustomerSendChat;
+
+                    if (Customer.IsConversationExpired)
+                    {
+
+                        Customer.IsConversationExpired = false;
+                    }
+
+                }
+
+                //if the customer message type is order then create a new order
+                if (jsonData.Entry[0].Changes[0].Value.Messages[0].Type == WhatsContentTypeEnum.order.ToString())
+                {
+                    var msg = jsonData.Entry[0].Changes[0].Value.Messages[0];
+                    var cusId = Convert.ToInt32(Customer.ContactID);
+                    var orderModel = MapOrder(Tenant.TenantId.Value, cusId, msg);
+
+                    await CreateOrder(orderModel);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return;
+            }
+        }
+
 
 
         private static CreateContactMg CreateContactMgFun(CreateContactFromInfoSeed model)

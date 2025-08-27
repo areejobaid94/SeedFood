@@ -38,7 +38,7 @@ namespace Infoseed.MessagingPortal.MultiTenancy
         SettingsTenantHostModel UpdateSettingsTenantHost(SettingsTenantHostModel model);
         string GetTenantCatalogueLink(int tenantId);
         Task<CatalogueDto> GetCatalogue(int tenantId);
-        Task<CatalogueItemsDto> GetCatalogueItems(int tenantId);
+        Task<List<ProductItem>> GetCatalogueItems(int tenantId);
         bool AddCatalogueEditLog(CatalogueAuditLogDto model);
 
 

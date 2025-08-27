@@ -111,7 +111,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CampaignSendNew", "Campaign
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebHookStatusFun", "WebHookStatusFun\WebHookStatusFun.csproj", "{85E9A2D9-437E-4A60-9E6A-D92F04A60C2F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CampaignProject", "CampaignProject\CampaignProject.csproj", "{9D69FDEB-3BBF-4212-87F6-BE0F1C2FA106}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CampaignProject", "CampaignProject\CampaignProject.csproj", "{9D69FDEB-3BBF-4212-87F6-BE0F1C2FA106}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

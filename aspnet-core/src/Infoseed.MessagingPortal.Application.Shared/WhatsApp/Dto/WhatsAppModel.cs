@@ -205,6 +205,7 @@ namespace Infoseed.MessagingPortal.WhatsApp.Dto
 
         [JsonProperty("button")]
         public Button button { get; set; }
+
         [JsonProperty("order")]
         public WhatsAppOrder order { get; set; }
 
@@ -354,3 +355,7 @@ namespace Infoseed.MessagingPortal.WhatsApp.Dto
 
 
 }
+
+
+
+

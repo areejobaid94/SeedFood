@@ -285,7 +285,7 @@ namespace Infoseed.MessagingPortal.Authorization.Accounts
                
                 //access_token
                 var client = new HttpClient();
-                var request = new HttpRequestMessage(HttpMethod.Post, "https://graph.facebook.com/v20.0/oauth/access_token");
+                var request = new HttpRequestMessage(HttpMethod.Post, "https://graph.facebook.com/v23.0/oauth/access_token");
 
                 // Add Authorization header
                 request.Headers.Add("Authorization", "Bearer " + model.code);
@@ -316,7 +316,7 @@ namespace Infoseed.MessagingPortal.Authorization.Accounts
 
                 //info
                 var client2 = new HttpClient();
-                var request2 = new HttpRequestMessage(HttpMethod.Get, "https://graph.facebook.com/v20.0/"+model.phone_number_id+"?\\fields=id,name,currency,owner_business_info&\\access_token="+facebookToken.access_token);
+                var request2 = new HttpRequestMessage(HttpMethod.Get, "https://graph.facebook.com/v23.0/"+model.phone_number_id+"?\\fields=id,name,currency,owner_business_info&\\access_token="+facebookToken.access_token);
                 request2.Headers.Add("Authorization", "Bearer " + facebookToken.access_token);
                 request2.Headers.Add("Cookie", "ps_l=1; ps_n=1; sb=pekaZDOqpOtc-qAgQ3WxnYlO");
                 var response2 = await client.SendAsync(request2);
@@ -332,7 +332,7 @@ namespace Infoseed.MessagingPortal.Authorization.Accounts
 
                 //register
                 var client3 = new HttpClient();
-                var request3 = new HttpRequestMessage(HttpMethod.Post, "https://graph.facebook.com/v20.0/"+model.phone_number_id+"/register");
+                var request3 = new HttpRequestMessage(HttpMethod.Post, "https://graph.facebook.com/v23.0/"+model.phone_number_id+"/register");
                 request3.Headers.Add("Authorization", "Bearer " + facebookToken.access_token);
                 request3.Headers.Add("Cookie", "ps_l=1; ps_n=1; sb=pekaZDOqpOtc-qAgQ3WxnYlO");
                 var content3 = new StringContent("{\r\n  \"messaging_product\": \"whatsapp\",\r\n  \"pin\": \"123456\"\r\n}", null, "application/json");

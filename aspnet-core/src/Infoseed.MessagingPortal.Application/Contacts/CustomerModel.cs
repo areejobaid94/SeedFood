@@ -8,6 +8,8 @@ namespace Infoseed.MessagingPortal.Tenants.Contacts
 {
     public class CustomerModel
     {
+        public string channel { get; set; }
+        public bool IsHumanhandover { get; set; } = false;
         public string SunshineConversationId { get; set; }
         public bool IsDeleted { get; set; }
         public bool IsReStart { get; set; }

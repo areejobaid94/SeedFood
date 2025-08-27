@@ -3,6 +3,8 @@ using Infoseed.MessagingPortal.Customers.Dtos;
 using Infoseed.MessagingPortal.DashboardUI;
 using Infoseed.MessagingPortal.DashboardUI.Dto;
 using Infoseed.MessagingPortal.SealingReuest.Dto;
+using Infoseed.MessagingPortal.Tenants.Contacts;
+using Microsoft.Azure.Documents;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -14,6 +16,14 @@ namespace Infoseed.MessagingPortal.Customers
     public class CustomerBehaviourAppService : MessagingPortalAppServiceBase, ICustomerBehaviourAppService
     {
         private readonly IDashboardUIAppService _dashboardUIAppService;
+        private readonly IDocumentClient _IDocumentClient;
+
+        public CustomerBehaviourAppService(IDashboardUIAppService dashboardUIAppService, IDocumentClient iDocumentClient)
+        {
+            _dashboardUIAppService = dashboardUIAppService;
+            _IDocumentClient = iDocumentClient;
+
+        }
 
         public CustomerBehaviourAppService(IDashboardUIAppService dashboardUIAppService)
         {
@@ -51,11 +61,11 @@ namespace Infoseed.MessagingPortal.Customers
             {
                 var SP_Name = Constants.Contacts.SP_CustomerBehaviourUpdate;
 
-                var sqlParameters = new List<SqlParameter> {
-                    new SqlParameter("@Stop", behaviourModel.Stop),
-                    new SqlParameter("@Start", behaviourModel.Start),
-                    new SqlParameter("@ContactId", behaviourModel.ContactId),
-                    new SqlParameter("@TenantID", behaviourModel.TenantID),
+                var sqlParameters = new List<System.Data.SqlClient.SqlParameter> {
+                    new System.Data.SqlClient.SqlParameter("@Stop", behaviourModel.Stop),
+                    new System.Data.SqlClient.SqlParameter("@Start", behaviourModel.Start),
+                    new System.Data.SqlClient.SqlParameter("@ContactId", behaviourModel.ContactId),
+                    new System.Data.SqlClient.SqlParameter("@TenantID", behaviourModel.TenantID),
                 };
 
                 SqlDataHelper.ExecuteNoneQuery(SP_Name, sqlParameters.ToArray(), AppSettingsModel.ConnectionStrings);
@@ -82,12 +92,12 @@ namespace Infoseed.MessagingPortal.Customers
             {
                 var SP_Name = Constants.Contacts.SP_ContactsInterrestedOfAdd;
 
-                var sqlParameters = new List<SqlParameter> {
-                    new SqlParameter("@levleOneId", interestedOf.levleOneId),
-                    new SqlParameter("@levelTwoId", interestedOf.levelTwoId),
-                    new SqlParameter("@levelThreeId", interestedOf.levelThreeId),
-                    new SqlParameter("@ContactId", interestedOf.ContactId),
-                    new SqlParameter("@TenantID", interestedOf.TenantID),
+                var sqlParameters = new List<System.Data.SqlClient.SqlParameter> {
+                    new System.Data.SqlClient.SqlParameter("@levleOneId", interestedOf.levleOneId),
+                    new System.Data.SqlClient.SqlParameter("@levelTwoId", interestedOf.levelTwoId),
+                    new System.Data.SqlClient.SqlParameter("@levelThreeId", interestedOf.levelThreeId),
+                    new System.Data.SqlClient.SqlParameter("@ContactId", interestedOf.ContactId),
+                    new System.Data.SqlClient.SqlParameter("@TenantID", interestedOf.TenantID),
                 };
 
                 SqlDataHelper.ExecuteNoneQuery(SP_Name, sqlParameters.ToArray(), AppSettingsModel.ConnectionStrings);
@@ -104,10 +114,10 @@ namespace Infoseed.MessagingPortal.Customers
             try
             {
                 var SP_Name = Constants.Contacts.SP_ContactUpdate;
-                var sqlParameters = new List<SqlParameter>
+                var sqlParameters = new List<System.Data.SqlClient.SqlParameter>
                 {
-               new SqlParameter("@Id",id)
-               ,new SqlParameter("@ContactDisplayName",name)
+               new System.Data.SqlClient.SqlParameter("@Id",id)
+               ,new System.Data.SqlClient.SqlParameter("@ContactDisplayName",name)
                  };
 
                 SqlDataHelper.ExecuteNoneQuery(SP_Name, sqlParameters.ToArray(), AppSettingsModel.ConnectionStrings);
@@ -124,10 +134,10 @@ namespace Infoseed.MessagingPortal.Customers
             try
             {
                 var SP_Name = Constants.Contacts.SP_ContactkinshipUpdate;
-                var sqlParameters = new List<SqlParameter>
+                var sqlParameters = new List<System.Data.SqlClient.SqlParameter>
                 {
-               new SqlParameter("@Id",id)
-               ,new SqlParameter("@ContactkinshipName",name)
+               new System.Data.SqlClient.SqlParameter("@Id",id)
+               ,new System.Data.SqlClient.SqlParameter("@ContactkinshipName",name)
                  };
 
                 SqlDataHelper.ExecuteNoneQuery(SP_Name, sqlParameters.ToArray(), AppSettingsModel.ConnectionStrings);
@@ -140,27 +150,51 @@ namespace Infoseed.MessagingPortal.Customers
         }
         #endregion
 
-     private void updateCustomerBehaviorByUser(CustomerBehaviourModel behaviourModel)
+        private async void updateCustomerBehaviorByUser(CustomerBehaviourModel behaviourModel)
         {
             try
             {
                 var SP_Name = Constants.Contacts.SP_CustomerBehaviourUpdateByUser;
 
-                var sqlParameters = new List<SqlParameter> {
-                    new SqlParameter("@TenantID", behaviourModel.TenantID),
-                    new SqlParameter("@ContactId", behaviourModel.ContactId),
-                    new SqlParameter("@CustomerOPT", behaviourModel.CustomerOPt)
+                var sqlParameters = new List<System.Data.SqlClient.SqlParameter> {
+                    new System.Data.SqlClient.SqlParameter("@TenantID", behaviourModel.TenantID),
+                    new System.Data.SqlClient.SqlParameter("@ContactId", behaviourModel.ContactId),
+                    new System.Data.SqlClient.SqlParameter("@CustomerOPT", behaviourModel.CustomerOPt)
                 };
 
                 SqlDataHelper.ExecuteNoneQuery(SP_Name, sqlParameters.ToArray(), AppSettingsModel.ConnectionStrings);
 
+                // Get the collection
+                var itemsCollection = new DocumentCosmoseDB<CustomerModel>(CollectionTypes.ItemsCollection, _IDocumentClient);
+
+                // Find the customer in Cosmos DB by phone number (or userId)
+                var customerResult = await itemsCollection.GetItemAsync(c =>
+                          c.TenantId == behaviourModel.TenantID &&
+                          c.ContactID == behaviourModel.ContactId.ToString()
+                      );
+
+                var customer = customerResult;
+                if (customer != null)
+                {
+                    // Apply the same logic as the SQL SP
+                    if (behaviourModel.CustomerOPt == 1)
+                    {
+                        customer.CustomerOPT = 0;
+                    }
+                    else if (behaviourModel.CustomerOPt == 0 || behaviourModel.CustomerOPt == 2)
+                    {
+                        customer.CustomerOPT = 1;
+                    }
+
+                    await itemsCollection.UpdateItemAsync(customer._self, customer);
+                }
+
             }
             catch (Exception ex)
             {
-
-                throw ex;
+                throw;
             }
-
         }
+
     }
     }

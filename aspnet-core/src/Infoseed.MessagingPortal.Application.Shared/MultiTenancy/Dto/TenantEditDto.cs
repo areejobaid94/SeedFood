@@ -116,5 +116,7 @@ namespace Infoseed.MessagingPortal.MultiTenancy.Dto
         public string CatalogueLink { get; set; }
         public string BusinessId { get; set; }
         public string CatalogueAccessToken { get; set; }
+        public string DeliveryType { get; set; }
+        public string CareemAccessToken { get; set; }
     }
 }

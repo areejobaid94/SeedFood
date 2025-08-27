@@ -124,6 +124,8 @@ namespace Infoseed.MessagingPortal.Careem_Express
         public string BusinessId { get; set; }
         public string CatalogueAccessToken { get; set; }
         public string DeliveryType { get; set; }
+        public string CareemAccessToken { get; set; }
+
 
     }
 
