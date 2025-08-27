@@ -44,6 +44,9 @@ using static Infoseed.MessagingPortal.WhatsApp.Dto.WhatsAppEnum;
 using static Infoseed.MessagingPortal.WhatsApp.Dto.WhatsAppMediaResult;
 using Parameter = Infoseed.MessagingPortal.WhatsApp.Dto.Parameter;
 using Task = System.Threading.Tasks.Task;
+using Microsoft.Extensions.Configuration;
+using Npgsql;
+using Framework.Data.Sql; // <-- Import PostgresDataHelper
 
 namespace Infoseed.MessagingPortal.WhatsApp
 {
@@ -61,6 +64,7 @@ namespace Infoseed.MessagingPortal.WhatsApp
         private readonly ICampaginExcelExporter _campaginExcelExporter;
 
         private readonly IContactNewParser _ContactNewParser;
+        private readonly string _postgresConnection;
 
 
         private string url = "https://startcampingstgnew.azurewebsites.net/api/startCampaign";
@@ -72,7 +76,8 @@ namespace Infoseed.MessagingPortal.WhatsApp
             TenantDashboardAppService tenantDashboardAppService,
             IGroupAppService groupAppService,
             IWalletAppService walletAppService,
-            ICampaginExcelExporter campaginExcelExporter
+            ICampaginExcelExporter campaginExcelExporter,
+            IConfiguration configuration
             )
         {
             _ContactParser = new ParserFactory().CreateParserContact(nameof(ContactExcelParser));
@@ -84,6 +89,8 @@ namespace Infoseed.MessagingPortal.WhatsApp
             _groupAppService = groupAppService;
             _walletAppService = walletAppService;
             _campaginExcelExporter=campaginExcelExporter;
+            // Here is the Postgres connection string from appsettings.json
+            _postgresConnection = configuration.GetConnectionString("postgres");
         }
 
 
@@ -3164,28 +3171,34 @@ namespace Infoseed.MessagingPortal.WhatsApp
         {
             try
             {
-                var SP_Name = Constants.WhatsAppTemplates.SP_TemplateGetByWhatsAppId;
-                MessageTemplateModel objWhatsAppTemplateModel = new MessageTemplateModel();
-                var sqlParameters = new List<System.Data.SqlClient.SqlParameter> { new System.Data.SqlClient.SqlParameter("@TemplateId", templateId) };
-                objWhatsAppTemplateModel = SqlDataHelper.ExecuteReader(SP_Name, sqlParameters.ToArray(), DataReaderMapper.MapTemplate, AppSettingsModel.ConnectionStrings).FirstOrDefault();
+                // Prepare Npgsql parameter
+                var npgsqlParams = new NpgsqlParameter[]
+                {
+                    new NpgsqlParameter("p_templateid", templateId)
+                };
 
-                //if (objWhatsAppTemplateModel != null)
-                //{
-                //    foreach (var item in objWhatsAppTemplateModel.components)
-                //    {
-                //        if (item.text != null)
-                //        {
-                //            item.text = PlainTextTohtml(item.text);
-                //            //item.text = PlainTextTohtml(item.text);
-                //        }
-                //    }
-                //}
-                
-                return objWhatsAppTemplateModel;
+                // Execute the PostgreSQL function
+                var result = PostgresDataHelper.ExecuteFunction(
+                    "dbo.template_get_by_whatsappid", // PostgreSQL function name
+                    npgsqlParams,
+                    DataReaderMapper.MapTemplatePSQL,      // Your mapper
+                    _postgresConnection               // Connection string from configuration
+                ).FirstOrDefault();
+
+                // Optional: process components if needed
+                 if (result != null)
+                 {
+                     //foreach (var item in result.components)
+                     //{
+                         //if (item.text != null)
+                         //    item.text = PlainTextTohtml(item.text);
+                     //}
+                 }
+
+                return result;
             }
             catch (Exception ex)
             {
-
                 throw ex;
             }
         }

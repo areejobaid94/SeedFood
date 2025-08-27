@@ -1931,45 +1931,79 @@ namespace Infoseed.MessagingPortal
             return model;
         }
         #endregion
+        public static MessageTemplateModel MapTemplatePSQL(IDataReader dataReader)
+        {
+            MessageTemplateModel _MessageTemplateModel = new MessageTemplateModel();
+
+            // ✅ Column names updated to lowercase (Postgres default)
+            _MessageTemplateModel.name = SqlDataHelper.GetValue<string>(dataReader, "name");
+            _MessageTemplateModel.language = SqlDataHelper.GetValue<string>(dataReader, "language");
+            _MessageTemplateModel.category = SqlDataHelper.GetValue<string>(dataReader, "category");
+            _MessageTemplateModel.sub_category = SqlDataHelper.GetValue<string>(dataReader, "sub_category");
+
+            var components = SqlDataHelper.GetValue<string>(dataReader, "components");
+            var options = new JsonSerializerOptions { WriteIndented = true };
+
+            _MessageTemplateModel.components = JsonSerializer.Deserialize<List<WhatsAppComponentModel>>(components, options);
+            _MessageTemplateModel.id = SqlDataHelper.GetValue<string>(dataReader, "whatsapptemplateid");
+            _MessageTemplateModel.LocalTemplateId = SqlDataHelper.GetValue<long>(dataReader, "id");
+            _MessageTemplateModel.mediaType = SqlDataHelper.GetValue<string>(dataReader, "mediatype");
+            _MessageTemplateModel.mediaLink = SqlDataHelper.GetValue<string>(dataReader, "medialink");
+            _MessageTemplateModel.isDeleted = SqlDataHelper.GetValue<bool>(dataReader, "isdeleted");
+
+            if (_MessageTemplateModel.category == "AUTHENTICATION")
+            {
+                _MessageTemplateModel.VariableCount = 1;
+            }
+            else
+            {
+                _MessageTemplateModel.VariableCount = SqlDataHelper.GetValue<int>(dataReader, "variablecount");
+            }
+
+            _MessageTemplateModel.BtnOneActionId = SqlDataHelper.GetValue<long>(dataReader, "btnoneactionid");
+            _MessageTemplateModel.BtnTwoActionId = SqlDataHelper.GetValue<long>(dataReader, "btntwoactionid");
+            _MessageTemplateModel.BtnThreeActionId = SqlDataHelper.GetValue<long>(dataReader, "btnthreeactionid");
+
+            return _MessageTemplateModel;
+        }
 
         #region WhatsApp
         public static MessageTemplateModel MapTemplate(IDataReader dataReader)
         {
             MessageTemplateModel _MessageTemplateModel = new MessageTemplateModel();
-            _MessageTemplateModel.name = SqlDataHelper.GetValue<string>(dataReader, "Name");
-            _MessageTemplateModel.language = SqlDataHelper.GetValue<string>(dataReader, "Language");
-            _MessageTemplateModel.category = SqlDataHelper.GetValue<string>(dataReader, "Category");
+
+            // ✅ Column names updated to lowercase (Postgres default)
+            _MessageTemplateModel.name = SqlDataHelper.GetValue<string>(dataReader, "name");
+            _MessageTemplateModel.language = SqlDataHelper.GetValue<string>(dataReader, "language");
+            _MessageTemplateModel.category = SqlDataHelper.GetValue<string>(dataReader, "category");
             _MessageTemplateModel.sub_category = SqlDataHelper.GetValue<string>(dataReader, "sub_category");
 
-            var components = SqlDataHelper.GetValue<string>(dataReader, "Components");
+            var components = SqlDataHelper.GetValue<string>(dataReader, "components");
             var options = new JsonSerializerOptions { WriteIndented = true };
 
             _MessageTemplateModel.components = JsonSerializer.Deserialize<List<WhatsAppComponentModel>>(components, options);
-            _MessageTemplateModel.id = SqlDataHelper.GetValue<string>(dataReader, "WhatsAppTemplateId");
-            _MessageTemplateModel.LocalTemplateId = SqlDataHelper.GetValue<long>(dataReader, "Id");
-            _MessageTemplateModel.mediaType = SqlDataHelper.GetValue<string>(dataReader, "MediaType");
-            _MessageTemplateModel.mediaLink = SqlDataHelper.GetValue<string>(dataReader, "MediaLink");
-            _MessageTemplateModel.isDeleted = SqlDataHelper.GetValue<bool>(dataReader, "IsDeleted");
+            _MessageTemplateModel.id = SqlDataHelper.GetValue<string>(dataReader, "whatsapptemplateid");
+            _MessageTemplateModel.LocalTemplateId = SqlDataHelper.GetValue<long>(dataReader, "id");
+            _MessageTemplateModel.mediaType = SqlDataHelper.GetValue<string>(dataReader, "mediatype");
+            _MessageTemplateModel.mediaLink = SqlDataHelper.GetValue<string>(dataReader, "medialink");
+            _MessageTemplateModel.isDeleted = SqlDataHelper.GetValue<bool>(dataReader, "isdeleted");
 
-
-            if (_MessageTemplateModel.category=="AUTHENTICATION")
+            if (_MessageTemplateModel.category == "AUTHENTICATION")
             {
-
-                _MessageTemplateModel.VariableCount =1;
+                _MessageTemplateModel.VariableCount = 1;
             }
             else
             {
-                _MessageTemplateModel.VariableCount = SqlDataHelper.GetValue<int>(dataReader, "VariableCount");
+                _MessageTemplateModel.VariableCount = SqlDataHelper.GetValue<int>(dataReader, "variablecount");
             }
 
-
-            
-            _MessageTemplateModel.BtnOneActionId = SqlDataHelper.GetValue<long>(dataReader, "BtnOneActionId");
-            _MessageTemplateModel.BtnTwoActionId = SqlDataHelper.GetValue<long>(dataReader, "BtnTwoActionId");
-            _MessageTemplateModel.BtnThreeActionId = SqlDataHelper.GetValue<long>(dataReader, "BtnThreeActionId");
+            _MessageTemplateModel.BtnOneActionId = SqlDataHelper.GetValue<long>(dataReader, "btnoneactionid");
+            _MessageTemplateModel.BtnTwoActionId = SqlDataHelper.GetValue<long>(dataReader, "btntwoactionid");
+            _MessageTemplateModel.BtnThreeActionId = SqlDataHelper.GetValue<long>(dataReader, "btnthreeactionid");
 
             return _MessageTemplateModel;
         }
+
         public static WhatsAppCampaignModel MapCampaign(IDataReader dataReader)
         {
             try
