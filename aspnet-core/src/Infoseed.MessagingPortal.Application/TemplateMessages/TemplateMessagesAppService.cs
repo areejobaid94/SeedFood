@@ -61,7 +61,8 @@ namespace Infoseed.MessagingPortal.TemplateMessages
                                            TemplateMessageName = o.TemplateMessageName,
                                            MessageCreationDate = o.MessageCreationDate,
                                            Id = o.Id,
-                                           AttachmentId = o.AttachmentId
+                                           AttachmentId = o.AttachmentId,
+                                           Category = o.Category
                                        },
                                        TemplateMessagePurposePurpose = s1 == null || s1.Purpose == null ? "" : s1.Purpose.ToString()
                                    };

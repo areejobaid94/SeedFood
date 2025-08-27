@@ -70,6 +70,25 @@ namespace Infoseed.MessagingPortal.BotAPI.BotService
             _cacheManager.GetCache("CacheTenant_CaptionStps").Remove("Step_" + TenantId.ToString());
             _cacheManager.GetCache("CacheTenant").Remove(model.D360Key);
 
+            try
+            {
+                _cacheManager.GetCache("CacheTenant").Remove(model.FacebookPageId);
+            }
+            catch
+            {
+
+            }
+
+            try
+            {
+                _cacheManager.GetCache("CacheTenant").Remove(model.InstagramId);
+            }
+            catch
+            {
+
+            }
+      
+          
             MessagesSent=null;
 
             return "Done";
@@ -3079,43 +3098,31 @@ namespace Infoseed.MessagingPortal.BotAPI.BotService
                     if (botStepModel.customerModel.CustomerStepModel.LangString == "ar")
                     {
                         text = fw.captionAr;
-                        Summary = fw.footerTextAr;// "الرجاء ارسال # للعودة للقائمة الرئسية";
-                    }
-                    else
-                    {
-                        text = fw.captionEn;
-                        Summary = fw.footerTextEn;// "Please send # to return to the main menu";
-                    }
+                        Summary = fw.footerTextAr;
 
-
-
-                    string pattern3 = @"(?<=\$)[^\s]+"; // Pattern to match anything after '$' until a space character
-
-                    MatchCollection matches = Regex.Matches(text, pattern3);
-                    foreach (Match match in matches)
-                    {
-                        string result = match.Value;
-                        result = result.Replace(")", "");
-                        if (result.Contains(".") || result.Contains("["))
+                        if (fw.catalogTemplateDto?.Catalog?.Products != null && fw.catalogTemplateDto.Catalog.Products.Any())
                         {
-                            var word = result.Split(".")[0];
-                            var diVAlue = botStepModel.customerModel.CustomerStepModel.UserParmeter[word];
-                            var textModel = GetTextFromModel(result, diVAlue);
-                            text = text.Replace("$" + result, textModel);
+                            var productLines = fw.catalogTemplateDto.Catalog.Products
+                                .Select(p => $"المنتج: {p.Name} | رقم المورّد: {p.retailer_Id} | السعر: {p.Price} {p.Currency}");
 
+                            string productsMessage = "📦 الكاتالوج يحتوي على المنتجات التالية:\n" + string.Join("\n", productLines);
+
+                            text = $"{text}\n\n{productsMessage}";
                         }
-                        else
+                    }
+                    else if (botStepModel.customerModel.CustomerStepModel.LangString == "en")
+                    {
+                        Summary = fw.footerTextEn;
+
+                        if (fw.catalogTemplateDto?.Catalog?.Products != null && fw.catalogTemplateDto.Catalog.Products.Any())
                         {
-                            var diVAlue = botStepModel.customerModel.CustomerStepModel.UserParmeter[result];
-                            text = text.Replace("$" + result, diVAlue);
+                            var productLines =  fw.catalogTemplateDto.Catalog.Products
+                                .Select(p => $"Product: {p.Name} | Retailer ID: {p.retailer_Id} | Price: {p.Price} {p.Currency}");
 
+                            string productsMessage = "📦 The catalogue contains the following products:\n" + string.Join("\n", productLines);
+
+                            text = $"{text}\n\n{productsMessage}";
                         }
-
-
-
-
-
-
                     }
 
                     if (text.Contains("IMG("))
@@ -3213,12 +3220,34 @@ namespace Infoseed.MessagingPortal.BotAPI.BotService
                     {
                         text = fw.captionAr;
                         Summary = fw.footerTextAr;
+
+                        if (fw.catalogTemplateDto?.Catalog?.Products != null && fw.catalogTemplateDto.Catalog.Products.Any())
+                        {
+                            var productLines = fw.catalogTemplateDto.Catalog.Products
+                                .Select(p => $"المنتج: {p.Name} | رقم المورّد: {p.retailer_Id} | السعر: {p.Price} {p.Currency}");
+
+                            string productsMessage = "📦 الكاتالوج يحتوي على المنتج :\n" + string.Join("\n", productLines);
+
+                            text = $"{text}\n\n{productsMessage}";
+                        }
                     }
-                    else
+                    else if (botStepModel.customerModel.CustomerStepModel.LangString == "en")
                     {
                         text = fw.captionEn;
                         Summary = fw.footerTextEn;
+
+                        if (fw.catalogTemplateDto?.Catalog?.Products != null && fw.catalogTemplateDto.Catalog.Products.Any())
+                        {
+                            var productLines = fw.catalogTemplateDto.Catalog.Products
+                                .Select(p => $"Product: {p.Name} | Retailer ID: {p.retailer_Id} | Price: {p.Price} {p.Currency}");
+
+                            string productsMessage = "📦 The catalogue contains the following product:\n" + string.Join("\n", productLines);
+
+                            text = $"{text}\n\n{productsMessage}";
+                        }
                     }
+
+
                     string pattern3 = @"(?<=\$)[^\s]+";
 
                     MatchCollection matches = Regex.Matches(text, pattern3);
@@ -3598,17 +3627,53 @@ namespace Infoseed.MessagingPortal.BotAPI.BotService
                 model.CustomerStepModel=new CustomerStepModel() { ChatStepId=0 };
             }
 
-            // Cache Tenant
-            var objTenant = _cacheManager.GetCache("CacheTenant").Get(model.TennantPhoneNumberId.ToString(), cache => cache);
-            if (objTenant.Equals(model.TennantPhoneNumberId.ToString()))
+
+            if (model.channel=="facebook")
             {
-                Tenant = _dbService.GetTenantByKey("", model.TennantPhoneNumberId.ToString()).Result;
-                _cacheManager.GetCache("CacheTenant").Set(model.TennantPhoneNumberId.ToString(), Tenant);
+                // Cache Tenant
+                var objTenant = _cacheManager.GetCache("CacheTenant").Get(model.TennantPhoneNumberId.ToString(), cache => cache);
+                if (objTenant.Equals(model.TennantPhoneNumberId.ToString()))
+                {
+                    Tenant = _dbService.GetTenantByFacebookId("", model.TennantPhoneNumberId.ToString()).Result;
+                    _cacheManager.GetCache("CacheTenant").Set(model.TennantPhoneNumberId.ToString(), Tenant);
+                }
+                else
+                {
+                    Tenant = (TenantModel)objTenant;
+                }
+
             }
-            else
+            else if (model.channel=="instagram")
             {
-                Tenant = (TenantModel)objTenant;
+
+                // Cache Tenant
+                var objTenant = _cacheManager.GetCache("CacheTenant").Get(model.TennantPhoneNumberId.ToString(), cache => cache);
+                if (objTenant.Equals(model.TennantPhoneNumberId.ToString()))
+                {
+                    Tenant = _dbService.GetTenantByInstagramId("", model.TennantPhoneNumberId.ToString()).Result;
+                    _cacheManager.GetCache("CacheTenant").Set(model.TennantPhoneNumberId.ToString(), Tenant);
+                }
+                else
+                {
+                    Tenant = (TenantModel)objTenant;
+                }
             }
+            else 
+            {
+                // Cache Tenant
+                var objTenant = _cacheManager.GetCache("CacheTenant").Get(model.TennantPhoneNumberId.ToString(), cache => cache);
+                if (objTenant.Equals(model.TennantPhoneNumberId.ToString()))
+                {
+                    Tenant = _dbService.GetTenantByKey("", model.TennantPhoneNumberId.ToString()).Result;
+                    _cacheManager.GetCache("CacheTenant").Set(model.TennantPhoneNumberId.ToString(), Tenant);
+                }
+                else
+                {
+                    Tenant = (TenantModel)objTenant;
+                }
+
+            }
+          
 
             //Cache Caption
             var objTenant1 = _cacheManager.GetCache("CacheTenant_CaptionStps").Get("Step_" + Tenant.TenantId.ToString(), cache => cache);

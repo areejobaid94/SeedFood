@@ -9,6 +9,12 @@ namespace Infoseed.MessagingPortal.Orders.Dtos
 		public decimal Total { set; get; }
         public decimal? Tax { set; get; }
 
+
+        public int? ZeedlyOrderStatus { get; set; }         
+        public string? DeliveryEstimation { get; set; }     
+        public string? OrderDetailsCareem { get; set; }     
+        public bool? IsZeedlyOrder { get; set; }
+
         public decimal TotalPoints { set; get; }
 		public bool IsLockedByAgent { get; set; }
 		public bool IsConversationExpired { get; set; }

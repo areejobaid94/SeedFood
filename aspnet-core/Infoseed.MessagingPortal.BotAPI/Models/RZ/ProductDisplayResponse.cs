@@ -10,6 +10,7 @@
         public string unitDescription { get; set; }
         public decimal itemBalance { get; set; }
         public decimal priceAmount { get; set; }
+        public decimal componentUnitNo { get; set; }
     }
 
 }

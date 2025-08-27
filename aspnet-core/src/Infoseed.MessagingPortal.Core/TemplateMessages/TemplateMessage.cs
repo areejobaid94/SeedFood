@@ -30,6 +30,7 @@ namespace Infoseed.MessagingPortal.TemplateMessages
 
         [ForeignKey("TemplateMessagePurposeId")]
         public TemplateMessagePurpose TemplateMessagePurposeFk { get; set; }
+        public virtual string Category { get; set; }
 
     }
 }

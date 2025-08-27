@@ -1,4 +1,5 @@
-﻿using Abp.UI;
+﻿using Abp.Extensions;
+using Abp.UI;
 using Abp.Webhooks;
 using Framework.Data;
 using GeoCoordinatePortable;
@@ -75,6 +76,14 @@ namespace Infoseed.MessagingPortal.Careem_Express
 
                 var pickupLocation = GetLocation($"{area.Latitude},{area.Longitude}");
 
+                var deliveryType = DeliveryType.LMD;
+                if (tenant != null && tenant?.DeliveryType != null)
+                {
+                    var deliveryTypes = tenant.DeliveryType.Split(",");
+                    deliveryType = deliveryTypes.Contains(((int)DeliveryType.LMD).ToString()) ? DeliveryType.LMD : DeliveryType.LMD_DELIVERY;
+                }
+                model.type = deliveryType.ToString();
+
                 model.pickup = new Pickup
                 {
                     coordinate = new Coordinate
@@ -108,17 +117,28 @@ namespace Infoseed.MessagingPortal.Careem_Express
                     phone_number = tenant.PhoneNumber
                 };
 
-                model.order = new Order
+                if (!dto.merchantOrderNumber.IsNullOrEmpty())
                 {
-                    reference = dto.tenantId.ToString() + "," + dto.orderNumber.ToString() + ","+ dto.customerPhoneNumber.ToString(),
-                }; 
+                    model.order = new Order
+                    {
+                        reference = $"OrderNumber:{dto.merchantOrderNumber},TenantId:{dto.tenantId},CustomerPhone:{dto.customerPhoneNumber}"
+                    };
+                }
+                else
+                {
+                    model.order = new Order
+                    {
+                        reference = $"OrderNumber:{dto.orderNumber},TenantId:{dto.tenantId},CustomerPhone:{dto.customerPhoneNumber}"
+                    };
+                }
+                    
 
                 var order = _iOrdersAppService.GetOrderByNumber(dto.orderNumber, dto.tenantId);
                 var deliveryEstimation = JsonSerializer.Deserialize<EstimateDeliveryResponse>(order.DeliveryEstimation);
 
                 model.cash_collection = new Cash_Collection
                 {
-                    amount = (double)order.Total + 0.20 + deliveryEstimation.trip_cost,
+                    amount = (double)order.Total, // order + delivery + 0.20
                     payment_type = "CASH"
                 };
 
@@ -625,7 +645,7 @@ namespace Infoseed.MessagingPortal.Careem_Express
                                 result.Id = reader.GetInt32(reader.GetOrdinal("Id"));
                                 result.TenantId = reader.GetInt32(reader.GetOrdinal("TenantId"));
                                 result.DisplayName = reader["DisplayName"] as string;
-                                result.PhoneNumber = reader["DisplayName"] as string;
+                                result.PhoneNumber = reader["PhoneNumber"] as string;
                             }
                         }
                     }

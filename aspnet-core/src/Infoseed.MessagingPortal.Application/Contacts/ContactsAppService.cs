@@ -1,41 +1,42 @@
-﻿using Infoseed.MessagingPortal.ChatStatuses;
+﻿using Abp.Application.Services.Dto;
+using Abp.Authorization;
+using Abp.Domain.Repositories;
+using Abp.Extensions;
+using Abp.Linq.Extensions;
+using Abp.Notifications;
+using DocumentFormat.OpenXml.Bibliography;
+using DocumentFormat.OpenXml.Wordprocessing;
+using Framework.Data;
+using Infoseed.MessagingPortal.Authorization;
+using Infoseed.MessagingPortal.ChatStatuses;
+using Infoseed.MessagingPortal.Contacts.Dtos;
+using Infoseed.MessagingPortal.Contacts.Exporting;
 using Infoseed.MessagingPortal.ContactStatuses;
+using Infoseed.MessagingPortal.Dto;
+using Infoseed.MessagingPortal.ExtraOrderDetails.Dtos;
+using Infoseed.MessagingPortal.General;
+using Infoseed.MessagingPortal.Notifications;
+using Infoseed.MessagingPortal.OrderDetails.Dtos;
+using Infoseed.MessagingPortal.Orders;
+using Infoseed.MessagingPortal.Orders.Dtos;
+using Infoseed.MessagingPortal.SocketIOClient;
+using Infoseed.MessagingPortal.Tenants.Contacts;
+using Infoseed.MessagingPortal.Tenants.Dashboard.Dto;
+using Infoseed.MessagingPortal.WhatsApp.Dto;
+using MailKit.Search;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Azure.Documents;
+using Microsoft.EntityFrameworkCore;
+using MongoDB.Bson;
+using MongoDB.Driver;
+using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Linq.Dynamic.Core;
-using Abp.Linq.Extensions;
-using System.Collections.Generic;
 using System.Threading.Tasks;
-using Abp.Domain.Repositories;
-using Infoseed.MessagingPortal.Contacts.Exporting;
-using Infoseed.MessagingPortal.Contacts.Dtos;
-using Infoseed.MessagingPortal.Dto;
-using Abp.Application.Services.Dto;
-using Infoseed.MessagingPortal.Authorization;
-using Abp.Authorization;
-using Microsoft.EntityFrameworkCore;
-using Framework.Data;
-using Abp.Notifications;
-using Infoseed.MessagingPortal.Notifications;
-using System.Data.SqlClient;
-using Infoseed.MessagingPortal.Orders;
-using System.Data;
-using Infoseed.MessagingPortal.OrderDetails.Dtos;
-using Infoseed.MessagingPortal.ExtraOrderDetails.Dtos;
-using Infoseed.MessagingPortal.Tenants.Contacts;
-using Microsoft.Azure.Documents;
-using Newtonsoft.Json;
-using Abp.Extensions;
-using Infoseed.MessagingPortal.General;
-using DocumentFormat.OpenXml.Wordprocessing;
-using Infoseed.MessagingPortal.WhatsApp.Dto;
-using Microsoft.AspNetCore.Mvc;
-using Infoseed.MessagingPortal.SocketIOClient;
-using DocumentFormat.OpenXml.Bibliography;
-using MailKit.Search;
-using MongoDB.Driver;
-using Infoseed.MessagingPortal.Tenants.Dashboard.Dto;
-using MongoDB.Bson;
 
 namespace Infoseed.MessagingPortal.Contacts
 {
@@ -154,6 +155,181 @@ namespace Infoseed.MessagingPortal.Contacts
                 await Update(input);
             }
         }
+
+        public long AddNewContact([FromBody] CreateContactDto model)
+        {
+            //first check if the customer exist
+            var customer = GetContactByPhoneNumber(model.phoneNumber, model.tenantId);
+            if(customer != null && customer.Id > 0)
+            {
+                return customer.Id;
+            }
+
+            //if customr not exist >> create new one
+            var itemsCollection = new DocumentCosmoseDB<CustomerModel>(CollectionTypes.ItemsCollection, _IDocumentClient);
+
+            string userId = model.tenantId + "_" + model.phoneNumber;
+            string displayName = model.name;
+
+            var cont = new ContactDto()
+            {
+                loyalityPoint = 0,
+                TotalOrder = 0,
+                TakeAwayOrder = 0,
+                DeliveryOrder = 0,
+                UserId = userId,
+                DisplayName = displayName,
+                AvatarUrl = "avatar3",
+                CreatorUserId = 1,
+                Description = "",
+                EmailAddress = $"{model.latitude},{model.longitude}",
+                IsDeleted = false,
+                CreationTime = DateTime.Now,
+                IsLockedByAgent = false,
+                IsConversationExpired = false,
+                IsBlock = false,
+                IsOpen = false,
+                LockedByAgentName = "",
+                PhoneNumber = model.phoneNumber,
+                SunshineAppID = "",
+                Website = "",
+                TenantId = model.tenantId,
+                DeletionTime = null,
+                DeleterUserId = null,
+                ConversationsCount = 1,
+                channel = "Whatsapp"
+            };
+
+            var contact = createNewContact(cont);
+            if (string.IsNullOrEmpty(contact.Group))
+            {
+                contact.Group = "0";
+                contact.GroupName = "";
+            }
+            var UserParmeter = new Dictionary<string, string>();
+            UserParmeter.Add("Name", displayName);
+            UserParmeter.Add("PhoneNumber", model.phoneNumber);
+            UserParmeter.Add("Location", "No Location");
+            UserParmeter.Add("ContactID", contact.Id.ToString());
+            UserParmeter.Add("TenantId", model.tenantId.ToString());
+
+            var CustomerModel = new CustomerModel()
+            {
+                //TennantPhoneNumberId = D360Key,
+                ConversationsCount = 0,
+                ContactID = contact.Id.ToString(),
+                IsComplaint = false,
+                userId = userId,
+                displayName = displayName,
+                avatarUrl = "avatar3",
+                //type = type,
+                //D360Key = D360Key,
+                CreateDate = DateTime.Now,
+                IsLockedByAgent = false,
+                //LockedByAgentName = botID,
+                IsOpen = false,
+                agentId = 100000,
+                IsBlock = false,
+                IsConversationExpired = false,
+                CustomerChatStatusID = (int)CustomerChatStatus.Active,
+                CustomerStatusID = (int)CustomerStatus.Active,
+                LastMessageData = DateTime.Now,
+                IsNew = true,
+                TenantId = model.tenantId,
+                phoneNumber = model.phoneNumber,
+                UnreadMessagesCount = 1,
+                IsNewContact = true,
+                IsBotChat = true,
+                IsBotCloseChat = false,
+                loyalityPoint = 0,
+                TotalOrder = 0,
+                TakeAwayOrder = 0,
+                DeliveryOrder = 0,
+                customerChat = new CustomerChat()
+                {
+                    CreateDate = DateTime.Now,
+                },
+                creation_timestamp = 0,
+                expiration_timestamp = 0,
+                // ConversationId = model.statuses.FirstOrDefault().conversation.id
+                CustomerStepModel = new CustomerStepModel() { ChatStepId = -1, ChatStepPervoiusId = 0, IsLiveChat = false, UserParmeter = UserParmeter },
+                OneTimeQuestionIds = new Dictionary<string, string>(),
+
+                GroupId = long.Parse(contact.Group),
+                GroupName = contact.GroupName,
+                IsHumanhandover = false,
+                channel = "whatsapp"
+            };
+
+            var Result = itemsCollection.CreateItemAsync(CustomerModel).Result;
+
+            return contact.Id;
+        }
+        private ContactDto createNewContact(ContactDto contactDto)
+        {
+            try
+            {
+                var SP_Name = Constants.Contacts.SP_ContactsAdd;
+                var sqlParameters = new List<System.Data.SqlClient.SqlParameter>
+                {
+                    new System.Data.SqlClient.SqlParameter("@ContactInfoJson",JsonConvert.SerializeObject(contactDto))
+                };
+
+                var OutputParameter = new System.Data.SqlClient.SqlParameter();
+                OutputParameter.SqlDbType = SqlDbType.Int;
+                OutputParameter.ParameterName = "@ContactId";
+                OutputParameter.Direction = ParameterDirection.Output;
+                sqlParameters.Add(OutputParameter);
+                contactDto = SqlDataHelper.ExecuteReader(SP_Name, sqlParameters.ToArray(),
+                 DataReaderMapper.MapContact, AppSettingsModel.ConnectionStrings).FirstOrDefault();
+
+                return contactDto;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+
+        private ContactDto GetContactByPhoneNumber(string phoneNumber, int tenantId)
+        {
+            try
+            {
+                var result = new ContactDto();
+                string connectionString = AppSettingsModel.ConnectionStrings;
+
+                using (var connection = new SqlConnection(connectionString))
+                {
+                    using (var command = new SqlCommand("dbo.GetContactByPhoneNumber", connection))
+                    {
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Parameters.AddWithValue("@TenantId", tenantId);
+                        command.Parameters.AddWithValue("@PhoneNumber", phoneNumber);
+
+                        connection.Open();
+
+                        using (var reader = command.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                result.Id = reader.GetInt32(reader.GetOrdinal("Id"));
+                                result.TenantId = reader.GetInt32(reader.GetOrdinal("TenantId"));
+                                result.DisplayName = reader["DisplayName"] as string;
+                                result.PhoneNumber = reader["PhoneNumber"] as string;
+                            }
+                        }
+                    }
+                }
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
 
         [AbpAuthorize(AppPermissions.Pages_Contacts_Create)]
         protected virtual async Task Create(ContactDto input)

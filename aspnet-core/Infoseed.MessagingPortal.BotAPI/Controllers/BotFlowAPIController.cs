@@ -12,6 +12,7 @@ using AutoMapper;
 using Azure;
 using Azure.Communication.Email;
 using Azure.Storage.Blobs;
+using DocumentFormat.OpenXml.Bibliography;
 using DocumentFormat.OpenXml.ExtendedProperties;
 using DocumentFormat.OpenXml.Spreadsheet;
 using Framework.Data;
@@ -43,6 +44,7 @@ using Infoseed.MessagingPortal.BotAPI.Models.NewFolder;
 using Infoseed.MessagingPortal.BotAPI.Models.RZ;
 using Infoseed.MessagingPortal.BotAPI.Models.Sala;
 using Infoseed.MessagingPortal.BotAPI.Models.Tania;
+using Infoseed.MessagingPortal.BotAPI.Models.Zeedly;
 using Infoseed.MessagingPortal.Branches;
 using Infoseed.MessagingPortal.CaptionBot;
 using Infoseed.MessagingPortal.CaptionBot.Dtos;
@@ -51,6 +53,7 @@ using Infoseed.MessagingPortal.Configuration.Tenants;
 using Infoseed.MessagingPortal.Configuration.Tenants.Dto;
 using Infoseed.MessagingPortal.ContactNotification;
 using Infoseed.MessagingPortal.Contacts;
+
 using Infoseed.MessagingPortal.Customers;
 using Infoseed.MessagingPortal.Customers.Dtos;
 using Infoseed.MessagingPortal.DashboardUI;
@@ -59,6 +62,7 @@ using Infoseed.MessagingPortal.DeliveryCost;
 using Infoseed.MessagingPortal.DeliveryCost.Dto;
 using Infoseed.MessagingPortal.Evaluations;
 using Infoseed.MessagingPortal.Evaluations.Dtos;
+//using Infoseed.MessagingPortal.ExtraOrderDetails;
 using Infoseed.MessagingPortal.ExtraOrderDetails.Dtos;
 using Infoseed.MessagingPortal.General;
 using Infoseed.MessagingPortal.Items;
@@ -86,6 +90,8 @@ using Infoseed.MessagingPortal.Web.Models.Sunshine;
 using Infoseed.MessagingPortal.Web.Sunshine;
 using Infoseed.MessagingPortal.WhatsApp;
 using Infoseed.MessagingPortal.WhatsApp.Dto;
+//using Microsoft.ApplicationInsights;
+//using Microsoft.ApplicationInsights.DataContracts;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
@@ -164,6 +170,8 @@ namespace Infoseed.MessagingPortal.BotAPI.Controllers
         private readonly IRepository<UserRole, long> _userRoleRepository;
         private readonly IEmailSender _emailSender;
         private readonly ITenantSettingsAppService _tenantSettingsAppService;
+        //private readonly IOrdersAppService _IOrdersAppService;
+        //private TelemetryClient _telemetry;
 
 
         private static readonly string clientId = "82465cce-2e5e-4d82-9f2d-70990fdc6456";
@@ -212,7 +220,10 @@ namespace Infoseed.MessagingPortal.BotAPI.Controllers
             IAppNotifier appNotifier,
             ICaptionBotAppService captionBotAppService,
             IDashboardUIAppService dashboardAppService,
+            //IOrdersAppService IOrdersAppService,
+            //TelemetryClient telemetry ,
              IBotApis botApis
+
             )
         {
             _emailSender = emailSender;
@@ -252,6 +263,9 @@ namespace Infoseed.MessagingPortal.BotAPI.Controllers
             _dashboardAppService = dashboardAppService;
 
             _botApis = botApis;
+            //_IOrdersAppService = IOrdersAppService;
+            //_telemetry = telemetry;
+
 
         }
 
@@ -1835,7 +1849,63 @@ namespace Infoseed.MessagingPortal.BotAPI.Controllers
             }
         }
 
+        [Route("Taniatest")]
+        [HttpGet]
+        public async Task<TaniaGetProductsByLocModel> Taniatest(string phonenumber, string latitude, string longitude)
+        {
 
+            phonenumber="966562545333";
+            latitude="25.33370866450798";
+            longitude="49.5860495380875";
+            try
+            {
+                System.Net.ServicePointManager.SecurityProtocol =
+                    System.Net.SecurityProtocolType.Tls12 |
+                    System.Net.SecurityProtocolType.Tls13;
+
+                HttpClientHandler handler = new HttpClientHandler
+                {
+                    // ⚠️ For testing only: bypass SSL errors
+                    ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => true
+                };
+
+                using var client = new HttpClient(handler);
+
+                var request = new HttpRequestMessage(
+                    HttpMethod.Post,
+                    "Https://oms.taniawater.sa/oms/api/WhatsApp/get-products-by-loc"
+                );
+
+                // Auth header
+                request.Headers.Add("Authorization", "060fac9a80afec9b95eb292ad884c5f5");
+
+                // JSON body
+                var jsonBody = "{\r\n" +
+                               "\"latitude\":\"" + latitude + "\",\r\n" +
+                               "\"longitude\":\"" + longitude + "\",\r\n" +
+                               "\"mobile\":\"" + phonenumber + "\"\r\n" +
+                               "}\r\n";
+
+                var content = new StringContent(jsonBody);
+                content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
+                request.Content = content;
+
+                var response = await client.SendAsync(request);
+                response.EnsureSuccessStatusCode();
+
+                var responseContent = await response.Content.ReadAsStringAsync();
+
+                // Map JSON to your model
+                var lastResponse = JsonConvert.DeserializeObject<TaniaGetProductsByLocModel>(responseContent);
+
+                return lastResponse;
+            }
+            catch (Exception ex)
+            {
+                // Return error model if something fails
+                return new TaniaGetProductsByLocModel() { message_ar=ex.Message };
+            }
+        }
         [Route("TaniaGetProductsByLoc")]
         [HttpGet]
         public async Task<string> TaniaGetProductsByLoc(string phonenumber, string LatAndLong, string addressId = "", int step = 1, string cat = "كرتون", string lang = "ar", bool IsSelectoffer = false)
@@ -1850,59 +1920,87 @@ namespace Infoseed.MessagingPortal.BotAPI.Controllers
                     var Long = LatAndLong.Split(",")[1];
 
 
-                    System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12 | System.Net.SecurityProtocolType.Tls13;
+                    System.Net.ServicePointManager.SecurityProtocol =
+                        System.Net.SecurityProtocolType.Tls12 |
+                        System.Net.SecurityProtocolType.Tls13;
 
                     HttpClientHandler handler = new HttpClientHandler
                     {
-                        ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => true // Bypass certificate validation (for testing only)
+                        // ⚠️ For testing only: bypass SSL errors
+                        ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => true
                     };
 
                     using var client = new HttpClient(handler);
 
-                    var request = new HttpRequestMessage(HttpMethod.Post, "https://oms.taniawater.sa/oms/api/WhatsApp/get-products-by-loc");
+                    var request = new HttpRequestMessage(
+                        HttpMethod.Post,
+                        "Https://oms.taniawater.sa/oms/api/WhatsApp/get-products-by-loc"
+                    );
+
+                    // Auth header
                     request.Headers.Add("Authorization", "060fac9a80afec9b95eb292ad884c5f5");
 
-                    // Correctly set content type to application/json with UTF-8 encoding
-                    var content = new StringContent("{\r\n\"latitude\":\"" + lat + "\",\r\n\"longitude\":\"" + Long + "\",\r\n\"mobile\":\"" + phonenumber + "\"\r\n}");
-                    content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+                    // JSON body
+                    var jsonBody = "{\r\n" +
+                                   "\"latitude\":\"" + lat + "\",\r\n" +
+                                   "\"longitude\":\"" + Long + "\",\r\n" +
+                                   "\"mobile\":\"" + phonenumber + "\"\r\n" +
+                                   "}\r\n";
+
+                    var content = new StringContent(jsonBody);
+                    content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
                     request.Content = content;
 
-                    try
-                    {
-                        var response = await client.SendAsync(request);
-                        response.EnsureSuccessStatusCode();
-                        var responseContent = await response.Content.ReadAsStringAsync();
-                        LastResponse = JsonConvert.DeserializeObject<TaniaGetProductsByLocModel>(responseContent);
-                    }
-                    catch (HttpRequestException ex)
-                    {
-                        Console.WriteLine($"Request error: {ex.Message}");
-                        Console.WriteLine(ex.InnerException?.Message);
-                    }
-
-                    //var responseContent = await response.Content.ReadAsStringAsync();
-                    // LastResponse = JsonConvert.DeserializeObject<TaniaGetProductsByLocModel>(responseContent);
-
-                }
-                else
-                {
-                    System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12 | System.Net.SecurityProtocolType.Tls13;
-
-                    HttpClientHandler handler = new HttpClientHandler
-                    {
-                        ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => true // Bypass certificate validation (for testing only)
-                    };
-
-                    using var client = new HttpClient(handler);
-                    var request = new HttpRequestMessage(HttpMethod.Post, "https://oms.taniawater.sa/oms/api/WhatsApp/get-products-by-loc");
-                    request.Headers.Add("Authorization", "060fac9a80afec9b95eb292ad884c5f5");
-                    var content = new StringContent("{\r\n\"address_id\":\"" + addressId + "\",\r\n\"mobile\":\"" + phonenumber + "\"\r\n}\r\n");
-                    content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-                    request.Content = content;
                     var response = await client.SendAsync(request);
                     response.EnsureSuccessStatusCode();
 
                     var responseContent = await response.Content.ReadAsStringAsync();
+
+                    // Map JSON to your model
+                    LastResponse = JsonConvert.DeserializeObject<TaniaGetProductsByLocModel>(responseContent);
+
+
+
+                }
+                else
+                {
+                    System.Net.ServicePointManager.SecurityProtocol =
+                            System.Net.SecurityProtocolType.Tls12 |
+                            System.Net.SecurityProtocolType.Tls13;
+
+                    HttpClientHandler handler = new HttpClientHandler
+                    {
+                        // ⚠️ For testing only: bypass SSL errors
+                        ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => true
+                    };
+
+                    using var client = new HttpClient(handler);
+
+                    var request = new HttpRequestMessage(
+                        HttpMethod.Post,
+                        "Https://oms.taniawater.sa/oms/api/WhatsApp/get-products-by-loc"
+                    );
+
+                    // Auth header
+                    request.Headers.Add("Authorization", "060fac9a80afec9b95eb292ad884c5f5");
+
+
+                    // JSON body
+                    var jsonBody = "{\r\n" +
+                                   "\"address_id\":\"" + addressId + "\",\r\n" +
+                                   "\"mobile\":\"" + phonenumber + "\"\r\n" +
+                                   "}\r\n";
+
+                    var content = new StringContent(jsonBody);
+                    content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
+                    request.Content = content;
+
+                    var response = await client.SendAsync(request);
+                    response.EnsureSuccessStatusCode();
+
+                    var responseContent = await response.Content.ReadAsStringAsync();
+
+                    // Map JSON to your model
                     LastResponse = JsonConvert.DeserializeObject<TaniaGetProductsByLocModel>(responseContent);
                 }
 
@@ -2036,10 +2134,9 @@ namespace Infoseed.MessagingPortal.BotAPI.Controllers
             }
             catch (Exception ex)
             {
-                return "-1";
+                return ex.Message;
             }
         }
-
 
         [Route("TaniaGetProductsId")]
         [HttpGet]
@@ -3605,7 +3702,7 @@ namespace Infoseed.MessagingPortal.BotAPI.Controllers
                         .Select(hit => hit.Name["ar"])
                         .ToArray() ?? Array.Empty<string>());
 
-                if (formattedString=="")
+                if (formattedString == "")
                 {
                     formattedString = "-1";
                 }
@@ -4367,7 +4464,7 @@ namespace Infoseed.MessagingPortal.BotAPI.Controllers
         #endregion
 
 
-        #region res
+        #region restaurant
         [HttpGet("GenrateLink")]
         public string ChatStepLink(
                     string SelectedAreaId,
@@ -4903,7 +5000,8 @@ namespace Infoseed.MessagingPortal.BotAPI.Controllers
                 var response = client.GetAsync(url).Result;
 
                 var result = response.Content.ReadAsStringAsync().Result;
-                var resultO = Newtonsoft.Json.JsonConvert.DeserializeObject<Web.Models.Sunshine.GoogleMapModel>(result);
+                var resultO = Newtonsoft.Json.JsonConvert.DeserializeObject < Web.Models.Sunshine.GoogleMapModel > (result);
+
 
 
                 ////
@@ -5860,7 +5958,7 @@ namespace Infoseed.MessagingPortal.BotAPI.Controllers
                 tax = 0;
             }
 
-                OrderAndDetailsModel Details = null;
+            OrderAndDetailsModel Details = null;
             OrderDetalisRes orderDetalis = new OrderDetalisRes();
 
             if (true)
@@ -5868,7 +5966,7 @@ namespace Infoseed.MessagingPortal.BotAPI.Controllers
             {
                 GetOrderAndDetailModel sendOrderAndDetailModel = new GetOrderAndDetailModel();
 
-                if (LangString=="ar")
+                if (LangString == "ar")
                 {
                     sendOrderAndDetailModel.DeliveryCostTextTow = "";
                     sendOrderAndDetailModel.captionQuantityText = "العدد: ";
@@ -5876,7 +5974,8 @@ namespace Infoseed.MessagingPortal.BotAPI.Controllers
                     sendOrderAndDetailModel.captionTotalText = "المجموع:   ";
                     sendOrderAndDetailModel.captionTotalOfAllText = "السعر الإجمالي للطلب";
                 }
-                else {
+                else
+                {
                     sendOrderAndDetailModel.DeliveryCostTextTow = "";
                     sendOrderAndDetailModel.captionQuantityText = "Number: ";
                     sendOrderAndDetailModel.captionAddtionText = "Additions";
@@ -6040,9 +6139,8 @@ namespace Infoseed.MessagingPortal.BotAPI.Controllers
                     string IsPreOrder,
                     string SelectDay,
                     string SelectTime,
-                    string BayType ,
-                    decimal Tax ,
-                    string DeliveryEstimation
+                    string BayType,
+                    decimal Tax
             )
 
         {
@@ -6062,19 +6160,7 @@ namespace Infoseed.MessagingPortal.BotAPI.Controllers
 
 
             string userId = tenantID + "_" + PhoneNumbe;
-            //var cacheKey = "Step_" + tenantID.ToString();
-            //var objTenant1 = _cacheManager.GetCache("CacheTenant_CaptionStps").Get(cacheKey, cache => null);
 
-            //List<CaptionDto> caption;
-            //if (objTenant1 == null)
-            //{
-            //caption = _botApis.GetAllCaption(tenantID, LangString);
-            //_cacheManager.GetCache("CacheTenant_CaptionStps").Set(cacheKey, caption);
-            //}
-            //else
-            //{
-            //    captionDtos = (List<CaptionDto>)objTenant1;
-            //}
             UpdateOrderModel updateOrderModel = new UpdateOrderModel();
 
             if (LangString == "ar")
@@ -6182,7 +6268,7 @@ namespace Infoseed.MessagingPortal.BotAPI.Controllers
             }
             //is important
             //updateOrderModel.loyalityPoint = Customer.CustomerStepModel.TotalPoints;
-            updateOrderModel.DeliveryEstimation = DeliveryEstimation;
+            //updateOrderModel.DeliveryEstimation = DeliveryEstimation;
             var text = _botApis.UpdateOrderAsync(updateOrderModel);
 
 
@@ -6318,15 +6404,17 @@ namespace Infoseed.MessagingPortal.BotAPI.Controllers
 
         #endregion
 
-        #region Careem 
-        [HttpGet("GetEstimateDelivery")]
-        public async Task<EstimateDeliveryResponse> GetEstimateDelivery(double customerLongitude, double customerLatitude, int tenantId)
+        #region Careem
+
+        [HttpGet("GetEstimateDeliveryCareem")]
+        public async Task<EstimateDeliveryResponse> GetEstimateDelivery(string customerLongitude, string customerLatitude, int tenantId)
         {
+
 
             EstimateDeliveryResponse DeliveryEstimation = new EstimateDeliveryResponse();
             Models.BotModel.SendLocationUserModel model = new Models.BotModel.SendLocationUserModel
             {
-                query = $"{customerLatitude},{customerLongitude}",
+                query = $"{customerLongitude},{customerLatitude}",
                 tenantID = tenantId,
                 isOrderOffer = false,
                 OrderTotal = 0,
@@ -6338,6 +6426,8 @@ namespace Infoseed.MessagingPortal.BotAPI.Controllers
 
             var merchantLocation = GetlocationUserModel(model);
             AreaDto area = _iAreasAppService.GetAreaById(merchantLocation.LocationId, tenantId);
+
+            //var tenant = await GetTenantByIdAsync(tenantId);
             var tenant = await GetTenantByIdPrivate(tenantId);
 
             EtimateDeliveryDTO estimateDelivery = new EtimateDeliveryDTO();
@@ -6353,8 +6443,8 @@ namespace Infoseed.MessagingPortal.BotAPI.Controllers
             {
                 coordinate = new EtimateDeliveryDTO.Coordinate
                 {
-                    latitude = (double)area.Latitude,
-                    longitude = (double)area.Longitude
+                    latitude = area.Latitude.ToString(),
+                    longitude = area.Longitude.ToString()
                 }
             };
 
@@ -6366,7 +6456,7 @@ namespace Infoseed.MessagingPortal.BotAPI.Controllers
                     longitude = customerLongitude
                 }
             };
-
+            
             using (var client = new HttpClient())
             {
                 var postUrl = "https://cnow-transporter-service.core.gw.prod.careem-rh.com/deliveries/estimate";
@@ -6379,28 +6469,36 @@ namespace Infoseed.MessagingPortal.BotAPI.Controllers
 
                 try
                 {
-                    var response = await client.PostAsync(postUrl, content);
-
-                    if (!response.IsSuccessStatusCode)
+                    for(int i=0; i < 3; i++)
                     {
-                        var error = await response.Content.ReadAsStringAsync();
-                        throw new UserFriendlyException($"Failed to Estimate delivery: {error}");
+                        var response = await client.PostAsync(postUrl, content);
+                    
+
+                        var responseBody = await response.Content.ReadAsStringAsync();
+                        if (response.IsSuccessStatusCode)
+                        {
+                            DeliveryEstimation = System.Text.Json.JsonSerializer.Deserialize<EstimateDeliveryResponse>(responseBody);
+                            DeliveryEstimation.trip_cost += 0.2;
+                            return DeliveryEstimation;
+                        }
+                        else if(!response.IsSuccessStatusCode && i == 2)
+                        {
+                            var error = await response.Content.ReadAsStringAsync();
+                            throw new UserFriendlyException($"Failed to Estimate delivery: {error}");
+                        }
                     }
 
-                    var responseBody = await response.Content.ReadAsStringAsync();
-                    DeliveryEstimation = System.Text.Json.JsonSerializer.Deserialize<EstimateDeliveryResponse>(responseBody);
+                    //DeliveryEstimation = System.Text.Json.JsonSerializer.Deserialize<EstimateDeliveryResponse>(responseBody);
                     return DeliveryEstimation;
                 }
                 catch (HttpRequestException ex)
                 {
+
                     throw;
                 }
             }
 
         }
-
-        #region private 
-
         private Models.BotModel.GetLocationInfoModel GetlocationUserModel(Models.BotModel.SendLocationUserModel input)
         {
             string connString = AppSettingsModel.ConnectionStrings;
@@ -6697,6 +6795,36 @@ namespace Infoseed.MessagingPortal.BotAPI.Controllers
 
         }
 
+        [HttpGet("CancelDeliveryCareem")]
+        public async Task<string> CancelDelivery(string deliveryId, string cancellationReason)
+        {
+            using (var client = new HttpClient())
+            {
+                var requestUrl = $"https://sagateway.careem-engineering.com/b2b/deliveries/{deliveryId}?cancellation_reason={cancellationReason}";
+
+                var accessToken = string.Empty; //where to get it ??
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+                try
+                {
+                    var response = await client.DeleteAsync(requestUrl);
+
+                    if (!response.IsSuccessStatusCode)
+                    {
+                        var error = await response.Content.ReadAsStringAsync();
+                        throw new UserFriendlyException($"Failed to cancel delivery: {error}");
+                    }
+
+                    var responseBody = await response.Content.ReadAsStringAsync();
+                    return responseBody;
+                }
+                catch (HttpRequestException ex)
+                {
+                    throw;
+                }
+            }
+        }
+
+
         private async Task<Web.Models.Sunshine.TenantModel> GetTenantByIdPrivate(int? id)
         {
             var itemsCollection = new DocumentCosmoseDB<Web.Models.Sunshine.TenantModel>(CollectionTypes.ItemsCollection, _IDocumentClient);
@@ -6705,45 +6833,234 @@ namespace Infoseed.MessagingPortal.BotAPI.Controllers
             return tenant;
         }
 
-        private Contact GetContactByPhoneNumber(string phoneNumber, int tenantId)
+        [HttpGet("GetOrderDetalisCareem")]
+        public OrderDetalisRes GetOrderDetalisCareem(
+                        string selectedAreaId,
+                        string contactID,
+                        string langString,
+                        string displayName,
+                        int tenantID,
+                        string phoneNumber,
+                        string location
+                    )
+        {
+            if (location.StartsWith("https://maps.google.com/"))
+            {
+                var uri = new Uri(location);
+                var queryParams = Microsoft.AspNetCore.WebUtilities.QueryHelpers.ParseQuery(uri.Query);
+
+                if (queryParams.TryGetValue("q", out var coordinates))
+                {
+                    location = coordinates.ToString();
+                }
+            }
+
+            var tenant = GetTenantByIdRes(tenantID).Result;
+            decimal tax = (tenant.TaxValue != null && tenant.IsTaxOrder) ? tenant.TaxValue : 0;
+
+            long contactIdLong = long.Parse(contactID);
+            var order = _iOrdersAppService.GetOrderExtraDetails(tenantID, contactIdLong);
+            var orderDetailsJson = getOrderById(order.Id).OrderDetailsCareem;
+            var orderDetails = JsonConvert.DeserializeObject<List<ZeedlyOrderDetail>>(orderDetailsJson);
+
+            var parts = location.Split(',');
+            if (parts.Length != 2)
+                throw new ArgumentException("Invalid location format. Expected 'lat,lng'.");
+
+            string dropLat = parts[0].Trim();
+            string dropLng = parts[1].Trim();
+
+            //var estimateDelivery = GetEstimateDelivery(dropLat, dropLng, AbpSession.TenantId).Result;
+            //if ()
+            //{
+            //}
+
+            EstimateDeliveryResponse estimateDelivery = new EstimateDeliveryResponse
+            {
+                trip_cost = 2.5,
+                currency = "SAR"
+            };
+
+            var sb = new StringBuilder();
+            decimal grandTotal = 0;
+
+            if (langString == "ar")
+            {
+                sb.AppendLine("📦 تفاصيل الطلب:");
+                sb.AppendLine("-----------------------------");
+
+                foreach (var detail in orderDetails)
+                {
+                    decimal itemTotal = detail.UnitPrice * detail.Quantity;
+                    grandTotal += itemTotal;
+
+                    sb.AppendLine($"المنتج: {detail.Name}");
+                    sb.AppendLine($"الوصف: {detail.Description}");
+                    sb.AppendLine($"الكمية: {detail.Quantity}");
+                    //sb.AppendLine($"سعر الوحدة: {detail.UnitPrice:F2}");
+                    sb.AppendLine($"المجموع: {itemTotal:F2}");
+                    //sb.AppendLine($"التوفر: {detail.Availability}");
+                    sb.AppendLine("-----------------------------");
+                }
+
+                sb.AppendLine($"المجموع الكلي: {grandTotal:F2}");
+
+                //if (estimateDelivery != null)
+                //{
+                //    sb.AppendLine($"تكلفة التوصيل : {estimateDelivery.trip_cost:F2} {estimateDelivery.currency}");
+                //}
+            }
+            else 
+            {
+                sb.AppendLine("📦 Order Details:");
+                sb.AppendLine("-----------------------------");
+
+                foreach (var detail in orderDetails)
+                {
+                    decimal itemTotal = detail.UnitPrice * detail.Quantity;
+                    grandTotal += itemTotal;
+
+                    sb.AppendLine($"Item: {detail.Name}");
+                    sb.AppendLine($"Description: {detail.Description}");
+                    sb.AppendLine($"Quantity: {detail.Quantity}");
+                    sb.AppendLine($"Unit Price: {detail.UnitPrice:F2}");
+                    sb.AppendLine($"Total: {itemTotal:F2}");
+                    sb.AppendLine($"Availability: {detail.Availability}");
+                    sb.AppendLine("-----------------------------");
+                }
+
+                sb.AppendLine($"Grand Total: {grandTotal:F2}");
+
+                //if (estimateDelivery != null)
+                //{
+                //    sb.AppendLine($"Estimated Delivery Cost: {estimateDelivery.trip_cost:F2} {estimateDelivery.currency}");
+                //}
+            }
+
+            decimal totalWithDelivery = grandTotal;
+            //if (estimateDelivery != null)
+            //{
+            //    totalWithDelivery += (decimal)estimateDelivery.trip_cost;
+            //    sb.AppendLine(langString == "ar"
+            //        ? $"المجموع مع التوصيل: {totalWithDelivery:F2}"
+            //        : $"Total with Delivery: {totalWithDelivery:F2}");
+            //}
+
+            return new OrderDetalisRes
+            {
+                detailText = sb.ToString(),
+                OrderId = order.Id,
+                OrderTotal = grandTotal,
+                TotalWithCareemDelivery = totalWithDelivery,
+                currency= estimateDelivery.currency,
+                trip_cost=estimateDelivery.trip_cost,
+                Tax=tax
+            };
+        }
+
+
+        private OrderDto getOrderById(long orderId)
         {
             try
             {
-                var result = new Contact();
-                string connectionString = AppSettingsModel.ConnectionStrings;
+                OrderDto order = new OrderDto();
+                var SP_Name = Constants.Order.SP_OrderByIdGet;
+                var sqlParameters = new List<System.Data.SqlClient.SqlParameter> {
+                      new System.Data.SqlClient.SqlParameter("@OrderId",orderId)
+                };
+                order = SqlDataHelper.ExecuteReader(SP_Name, sqlParameters.ToArray(), DataReaderMapper.MapOrder, AppSettingsModel.ConnectionStrings).FirstOrDefault();
 
-                using (var connection = new SqlConnection(connectionString))
-                {
-                    using (var command = new SqlCommand("dbo.GetContactByPhoneNumber", connection))
-                    {
-                        command.CommandType = CommandType.StoredProcedure;
-                        command.Parameters.AddWithValue("@TenantId", tenantId);
-                        command.Parameters.AddWithValue("@PhoneNumber", phoneNumber);
-
-                        connection.Open();
-
-                        using (var reader = command.ExecuteReader())
-                        {
-                            if (reader.Read())
-                            {
-                                result.Id = reader.GetInt32(reader.GetOrdinal("Id"));
-                                result.TenantId = reader.GetInt32(reader.GetOrdinal("TenantId"));
-                                result.DisplayName = reader["DisplayName"] as string;
-                                result.PhoneNumber = reader["DisplayName"] as string;
-                            }
-                        }
-                    }
-                }
-
-                return result;
+                return order;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
+
                 throw;
             }
         }
+        [HttpGet("CreateOrderCareem")]
+        public string CreateOrderCareem(
+            string selectedAreaId,
+            string contactID,
+            string langString,
+            string displayName,
+            int tenantID,
+            string phoneNumber,
+            string addressLatLong,
+            string address,
+            int locationId,
+            decimal orderId,
+            decimal orderTotal,
+            string payType,
+            decimal tax,
+            string deliveryEstimation
+        )
+        {
+            int langId = langString == "ar" ? 1 : 2;
+            string orderType = "Delivery";
 
-        #endregion
+            //var tenant = GetTenantByIdRes(tenantID).Result;
+            //tax = (tenant.TaxValue != null && tenant.IsTaxOrder) ? tenant.TaxValue : 0;
+
+            bool isItemOffer = false;
+            bool isPreOrder = false;
+            bool isDeliveryOffer = false;
+
+            string userId = $"{tenantID}_{phoneNumber}";
+
+            UpdateOrderModel updateOrderModel = new UpdateOrderModel
+            {
+                BotLocal = langString,
+                BuyType = payType,
+                Tax = tax,
+                OrderTotal = orderTotal,
+                OrderId = (int)orderId,
+                ContactId = int.Parse(contactID),
+                TenantID = tenantID,
+                MenuId = locationId,
+                BranchId = locationId,
+                BranchName = "",
+                TypeChoes = orderType,
+                IsSpecialRequest = false,
+                SpecialRequest = "",
+                IsItemOffer = isItemOffer,
+                ItemOffer = 0,
+                isOrderOfferCost = isItemOffer,
+                IsDeliveryOffer = isDeliveryOffer,
+                DeliveryOffer = 0,
+                IsPreOrder = isPreOrder,
+                DeliveryEstimation = deliveryEstimation,
+                SelectDay = DateTime.Now.DayOfWeek.ToString(),
+                SelectTime = DateTime.Now.ToString("HH:mm"),
+                LocationFrom = addressLatLong,
+                Address = address,
+                DeliveryCostAfter = 0,
+                DeliveryCostBefor = 0,
+                loyalityPoint = 0
+            };
+
+            if (langString == "ar")
+            {
+                updateOrderModel.captionOrderInfoText =
+                    "------------------ \r\n\r\nشكرا لك معلومات الطلب\r\nرقم الطلب :  {0}\r\nقيمة التوصيل :  {1}\r\nمن الموقع :  {2}\r\nمن الفرع : {3}\r\nالسعر الإجمالي للطلب: {4}\r\n\r\n------------------ \r\n\r\nسوف يتم اعلامكم عند بدا تجهيز طلبكم.. شكرا لكم";
+            }
+            else
+            {
+                updateOrderModel.captionOrderInfoText =
+                    "------------------ \r\n\r\nThank you for your order information\r\nOrder Number: {0}\r\nDelivery Cost: {1}\r\nFrom Location: {2}\r\nFrom Branch: {3}\r\nTotal Order Price: {4}\r\n\r\n------------------ \r\n\r\nYou will be notified when your order preparation starts.. Thank you.";
+            }
+
+            var text = _botApis.UpdateOrderAsync(updateOrderModel);
+
+            var area = GetAreasList(updateOrderModel.TenantID.ToString())
+                       .FirstOrDefault(x => x.Id == updateOrderModel.BranchId);
+
+            string areaName = (langString == "ar") ? area.AreaName : area.AreaNameEnglish;
+
+            return areaName;
+        }
+
+
 
         #endregion
 

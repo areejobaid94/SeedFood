@@ -174,8 +174,9 @@ namespace Infoseed.MessagingPortal.MultiTenancy
             bool IsD360Dialog = false,
             string CatalogueLink = null,
             string BusinessId = null,
-            string CatalogueAccessToken = null
-
+            string CatalogueAccessToken = null,
+            string DeliveryType = null,
+            string CareemAccessToken = null
             )
         {
             int newTenantId;
@@ -254,7 +255,9 @@ namespace Infoseed.MessagingPortal.MultiTenancy
                     IsD360Dialog=IsD360Dialog,
                     CatalogueLink = CatalogueLink,
                     BusinessId = BusinessId,
-                    CatalogueAccessToken = CatalogueAccessToken
+                    CatalogueAccessToken = CatalogueAccessToken,
+                    DeliveryType = DeliveryType,
+                    CareemAccessToken = CareemAccessToken
                 };
                 tenant.CreatorUserId=1;
                 tenant.BellSrc="https://infoseedmediastorageprod.blob.core.windows.net/4408da24-aad7-4802-a1f1-46f5ad9e2074/notificacionlivechat.mp3";

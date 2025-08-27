@@ -84,6 +84,12 @@ namespace Infoseed.MessagingPortal.SocketIOClient
         {
             await client.EmitAsync("chat-get", TocamelCase(model), tenantId);
         }
+
+        public static async void SendCareem(object model, int tenantId)
+        {
+            await client.EmitAsync("careem-get", TocamelCase(model), tenantId);
+        }
+
         public static async void SendLiveChat(object model, int tenantId)
         {
             await client.EmitAsync("live-chat-get", TocamelCase(model), tenantId);

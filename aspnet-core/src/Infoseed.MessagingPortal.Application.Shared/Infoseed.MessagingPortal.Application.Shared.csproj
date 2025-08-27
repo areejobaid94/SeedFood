@@ -4,6 +4,7 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <RootNamespace>Infoseed.MessagingPortal</RootNamespace>
     <Configurations>Debug;Release;Staging</Configurations>
+	 <LangVersion>8.0</LangVersion>
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="TenantInformation\Dtos\**" />

@@ -10,7 +10,7 @@ namespace Infoseed.MessagingPortal.Engine.Model
     {
         [JsonProperty("event")]
         public string _event { get; set; }
-        public int merchant { get; set; }
+        public long merchant { get; set; }
         public string created_at { get; set; }
         public Data data { get; set; }
         public class Subtotal
@@ -33,7 +33,7 @@ namespace Infoseed.MessagingPortal.Engine.Model
         public class DateTimeInfo
         {
             public string date { get; set; }
-            public int timezone_type { get; set; }
+            public long timezone_type { get; set; }
             public string timezone { get; set; }
         }
 
@@ -51,7 +51,7 @@ namespace Infoseed.MessagingPortal.Engine.Model
 
         public class Coupon
         {
-            public int id { get; set; }
+            public long id { get; set; }
             public string code { get; set; }
             public string status { get; set; }
             public string type { get; set; }
@@ -65,7 +65,7 @@ namespace Infoseed.MessagingPortal.Engine.Model
 
         public class Product
         {
-            public int id { get; set; }
+            public long id { get; set; }
             public string type { get; set; }
             public Promotion promotion { get; set; }
             public double quantity { get; set; }
@@ -102,8 +102,8 @@ namespace Infoseed.MessagingPortal.Engine.Model
 
         public class Item
         {
-            public int id { get; set; }
-            public int product_id { get; set; }
+            public long id { get; set; }
+            public long product_id { get; set; }
             public string name { get; set; }
             public string sku { get; set; }
             public double quantity { get; set; }
@@ -118,7 +118,8 @@ namespace Infoseed.MessagingPortal.Engine.Model
             public object mpn { get; set; }
             public object gtin { get; set; }
             public string notes { get; set; }
-            public Product product { get; set; }
+            [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+            public Product? product { get; set; }
             public object[] options { get; set; }
             public object[] images { get; set; }
             public object[] reservations { get; set; }
@@ -162,7 +163,7 @@ namespace Infoseed.MessagingPortal.Engine.Model
 
         public class Status2
         {
-            public int id { get; set; }
+            public long id { get; set; }
             public string name { get; set; }
             public string slug { get; set; }
             public Customized customized { get; set; }
@@ -170,11 +171,11 @@ namespace Infoseed.MessagingPortal.Engine.Model
 
         public class Customized
         {
-            public int id { get; set; }
+            public long id { get; set; }
             public string name { get; set; }
             public string type { get; set; }
             public string slug { get; set; }
-            public int sort { get; set; }
+            public long sort { get; set; }
             public object message { get; set; }
             public string icon { get; set; }
             public bool is_active { get; set; }
@@ -194,7 +195,7 @@ namespace Infoseed.MessagingPortal.Engine.Model
         }
         public class Original
         {
-            public int id { get; set; }
+            public long id { get; set; }
             public string name { get; set; }
         }
 
@@ -261,7 +262,7 @@ namespace Infoseed.MessagingPortal.Engine.Model
 
         public class Customer
         {
-            public int id { get; set; }
+            public long id { get; set; }
             public string name { get; set; }
             public string mobile { get; set; }
             public string email { get; set; }
@@ -286,9 +287,9 @@ namespace Infoseed.MessagingPortal.Engine.Model
 
         public class Bank
         {
-            public int id { get; set; }
+            public long id { get; set; }
             public string bank_name { get; set; }
-            public int bank_id { get; set; }
+            public long bank_id { get; set; }
             public string account_name { get; set; }
             public string account_number { get; set; }
             public string iban_number { get; set; }
@@ -296,14 +297,14 @@ namespace Infoseed.MessagingPortal.Engine.Model
             public object sbc_certificate { get; set; }
             public string certificate_type { get; set; }
             public string status { get; set; }
-            public int lean_supported { get; set; }
+            public long lean_supported { get; set; }
         }
 
         public class Store
         {
-            public int id { get; set; }
-            public int store_id { get; set; }
-            public int user_id { get; set; }
+            public long id { get; set; }
+            public long store_id { get; set; }
+            public long user_id { get; set; }
             public string user_email { get; set; }
             public string username { get; set; }
             public Name name { get; set; }
@@ -325,29 +326,29 @@ namespace Infoseed.MessagingPortal.Engine.Model
 
         public class Category
         {
-            public int id { get; set; }
+            public long id { get; set; }
             public string name { get; set; }
             public Urls urls { get; set; }
         }
 
         public class BranchQuantity
         {
-            public int id { get; set; }
+            public long id { get; set; }
             public string name { get; set; }
-            public int quantity { get; set; }
+            public long quantity { get; set; }
         }
 
         public class Notifier
         {
-            public int? minimum_notify_quantity { get; set; }
-            public int? subscribers_percentage { get; set; }
+            public long? minimum_notify_quantity { get; set; }
+            public long? subscribers_percentage { get; set; }
         }
 
         public class Order
         {
-            public int id { get; set; }
+            public long id { get; set; }
             public object checkout_id { get; set; }
-            public int reference_id { get; set; }
+            public long reference_id { get; set; }
             public Urls urls { get; set; }
             public DateTimeInfo date { get; set; }
             public DateTimeInfo updated_at { get; set; }
@@ -367,7 +368,7 @@ namespace Infoseed.MessagingPortal.Engine.Model
             public bool show_weight { get; set; }
             public bool can_reorder { get; set; }
             public bool is_pending_payment { get; set; }
-            public int pending_payment_ends_at { get; set; }
+            public long pending_payment_ends_at { get; set; }
             public string total_weight { get; set; }
             public Features features { get; set; }
             public object shipping { get; set; }
@@ -392,10 +393,10 @@ namespace Infoseed.MessagingPortal.Engine.Model
 
         public class ProductData
         {
-            public int id { get; set; }
+            public long id { get; set; }
             public string name { get; set; }
             public string sku { get; set; }
-            public int quantity { get; set; }
+            public long quantity { get; set; }
             public bool is_available { get; set; }
             public string status { get; set; }
             public MonetaryValue price { get; set; }
@@ -418,8 +419,9 @@ namespace Infoseed.MessagingPortal.Engine.Model
 
         public class Data
         {
+
             public string access_token { get; set; }
-            public int expires { get; set; }
+            public long expires { get; set; }
             public string refresh_token { get; set; }
             public string scope { get; set; }
             [JsonProperty("status")]
@@ -445,13 +447,13 @@ namespace Infoseed.MessagingPortal.Engine.Model
                 }
             }
             public string token_type { get; set; }
-            public int id { get; set; }
+            public long id { get; set; }
             public string name { get; set; }
             public MonetaryValue total { get; set; }
             public MonetaryValue subtotal { get; set; }
             public MonetaryValue total_discount { get; set; }
             public string checkout_url { get; set; }
-            public int age_in_minutes { get; set; }
+            public long age_in_minutes { get; set; }
             public DateTimeInfo created_at { get; set; }
             public DateTimeInfo updated_at { get; set; }
             public Customer customer { get; set; }
@@ -464,7 +466,7 @@ namespace Infoseed.MessagingPortal.Engine.Model
             public string type { get; set; }
             public Order order { get; set; }
             public object checkout_id { get; set; }
-            public int reference_id { get; set; }
+            public long reference_id { get; set; }
             public Urls urls { get; set; }
             public DateTimeInfo date { get; set; }
             public string source { get; set; }
@@ -482,7 +484,7 @@ namespace Infoseed.MessagingPortal.Engine.Model
             public bool show_weight { get; set; }
             public bool can_reorder { get; set; }
             public bool is_pending_payment { get; set; }
-            public int pending_payment_ends_at { get; set; }
+            public long pending_payment_ends_at { get; set; }
             public string total_weight { get; set; }
             public Features features { get; set; }
             public object shipping { get; set; }
@@ -513,14 +515,14 @@ namespace Infoseed.MessagingPortal.Engine.Model
         public class Created_At
         {
             public string date { get; set; }
-            public int timezone_type { get; set; }
+            public long timezone_type { get; set; }
             public string timezone { get; set; }
         }
 
         public class Updated_At
         {
             public string date { get; set; }
-            public int timezone_type { get; set; }
+            public long timezone_type { get; set; }
             public string timezone { get; set; }
         }
 
@@ -529,7 +531,7 @@ namespace Infoseed.MessagingPortal.Engine.Model
         public class Date
         {
             public string date { get; set; }
-            public int timezone_type { get; set; }
+            public long timezone_type { get; set; }
             public string timezone { get; set; }
         }
 
@@ -611,7 +613,7 @@ namespace Infoseed.MessagingPortal.Engine.Model
         public class Birthday
         {
             public string date { get; set; }
-            public int timezone_type { get; set; }
+            public long timezone_type { get; set; }
             public string timezone { get; set; }
         }
 
@@ -621,7 +623,7 @@ namespace Infoseed.MessagingPortal.Engine.Model
         public class Updated_At1
         {
             public string date { get; set; }
-            public int timezone_type { get; set; }
+            public long timezone_type { get; set; }
             public string timezone { get; set; }
         }
 
@@ -698,7 +700,7 @@ namespace Infoseed.MessagingPortal.Engine.Model
 
         public class Customized1
         {
-            public int id { get; set; }
+            public long id { get; set; }
             public string name { get; set; }
         }
 

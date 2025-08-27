@@ -12,8 +12,9 @@ namespace Infoseed.MessagingPortal.Orders.Dtos
         public List<CreateOrderDetailsModel> CreateOrderDetailsModels { get; set; }
 
         public decimal Total { get; set; }
-
         public bool? IsZeedlyOrder { get; set; }
+        public string MerchantOrderJson { get; set; }
 
+        public string? OrderDetailsCareem { get; set; }
     }
 }

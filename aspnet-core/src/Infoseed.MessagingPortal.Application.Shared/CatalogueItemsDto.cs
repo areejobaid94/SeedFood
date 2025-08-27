@@ -8,6 +8,7 @@ namespace Infoseed.MessagingPortal
     public class CatalogueItemsDto
     {
         public List<ProductItem> Data { get; set; }
+        public FbPaging Paging { get; set; }
     }
     public class ProductItem
     {
@@ -20,6 +21,12 @@ namespace Infoseed.MessagingPortal
         public string Availability { get; set; }
         public string Image_Url { get; set; }
         public string Url { get; set; }
+    }
+
+    public class FbPaging
+    {
+        [JsonPropertyName("next")]
+        public string Next { get; set; }
     }
 
 }

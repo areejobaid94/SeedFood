@@ -13,6 +13,7 @@ namespace Infoseed.MessagingPortal.Careem_Express
         public string customerBuildingNo { get; set; } = null;
         public string customerBuildingName { get; set; } = null;
         public string customerStreet { get; set; } = null;
+        public string merchantOrderNumber { get; set; } = null;
     }
 
 }

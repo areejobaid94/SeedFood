@@ -227,6 +227,96 @@ namespace Infoseed.MessagingPortal.Orders
                 throw ex;
             }
         }
+        //public bool CreateOrderStatusZeedlyHistory(long orderId, int orderStatusId, int? TenantId = null)
+        //{
+        //    return createOrderStatusHistory(orderId, orderStatusId, TenantId);
+        //}
+        //private bool createOrderStatusZeedlyHistory(long orderId, int orderStatusId, int? tenantId = null)
+        //{
+        //    if (tenantId == null)
+        //    {
+        //        tenantId = AbpSession.TenantId;
+        //    }
+        //    int createdBy = AbpSession.UserId != null ? (int)AbpSession.UserId.Value : 0;
+
+        //    try
+        //    {
+        //        string spName = Constants.Order.SP_OrderStatusHistoryAddFromZeedly;
+
+        //        var sqlParameters = new List<System.Data.SqlClient.SqlParameter>
+        //       {
+        //           new System.Data.SqlClient.SqlParameter("@TenantId", tenantId ?? (object)DBNull.Value),
+        //           new System.Data.SqlClient.SqlParameter("@OrderId", orderId),
+        //           new System.Data.SqlClient.SqlParameter("@OrderStatusIdZeedly", orderStatusId), 
+        //           new System.Data.SqlClient.SqlParameter("@CreatedDate", DateTime.UtcNow),
+        //           new System.Data.SqlClient.SqlParameter("@CreatedBy", createdBy)
+        //       };
+
+        //        var outputParameter = new System.Data.SqlClient.SqlParameter
+        //        {
+        //            SqlDbType = System.Data.SqlDbType.Bit,
+        //            ParameterName = "@Result",
+        //            Direction = System.Data.ParameterDirection.Output
+        //        };
+
+        //        sqlParameters.Add(outputParameter);
+
+        //        SqlDataHelper.ExecuteNoneQuery(spName, sqlParameters.ToArray(), AppSettingsModel.ConnectionStrings);
+
+        //        return (bool)outputParameter.Value;
+        //    }
+        //    catch
+        //    {
+        //        throw;
+        //    }
+        //}
+
+        //private bool CreateOrderStatusZeedlyHistory(long orderId, int? orderStatusId, int? tenantId = null)
+        //{
+        //    if (tenantId == null)
+        //    {
+        //        tenantId = AbpSession.TenantId;
+        //    }
+
+        //    var createdBy = 0;
+        //    if (AbpSession.UserId != null)
+        //    {
+        //        createdBy = (int)AbpSession.UserId.Value;
+        //    }
+
+        //    try
+        //    {
+        //        var spName = Constants.Order.SP_OrderStatusHistoryAddFromZeedly; // خلي اسم SP الخاص بالجدول الجديد
+        //        var sqlParameters = new List<System.Data.SqlClient.SqlParameter>
+        //{
+        //    new System.Data.SqlClient.SqlParameter("@TenantId", tenantId ?? (object)DBNull.Value),
+        //    new System.Data.SqlClient.SqlParameter("@OrderId", orderId),
+        //    new System.Data.SqlClient.SqlParameter("@OrderStatusId", orderStatusId ?? (object)DBNull.Value),
+        //    new System.Data.SqlClient.SqlParameter("@CreatedDate", DateTime.UtcNow),
+        //    new System.Data.SqlClient.SqlParameter("@CreatedBy", createdBy)
+        //};
+
+        //        var outputParameter = new System.Data.SqlClient.SqlParameter
+        //        {
+        //            SqlDbType = System.Data.SqlDbType.Bit,
+        //            ParameterName = "@Result",
+        //            Direction = System.Data.ParameterDirection.Output
+        //        };
+
+        //        sqlParameters.Add(outputParameter);
+
+        //        SqlDataHelper.ExecuteNoneQuery(spName, sqlParameters.ToArray(), AppSettingsModel.ConnectionStrings);
+
+        //        return (bool)outputParameter.Value;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw; // نعيد الرمي من غير ex علشان ما نضيع الـ StackTrace
+        //    }
+        //}
+
+
+
         private bool getOrderStatusValidation(long orderId, int orderStatusId)
         {
             try
@@ -1179,17 +1269,17 @@ namespace Infoseed.MessagingPortal.Orders
                     postWhatsAppMessageModel.to = user.phoneNumber;
 
 
-           
-                        var result = await new WhatsAppAppService().postToFB(postWhatsAppMessageModel, tenant.D360Key, tenant.AccessToken, tenant.IsD360Dialog);
-                        if (result)
-                        {
-                            var CustomerChat = UpdateCustomerChat(user.TenantId, message, user.userId, user.SunshineConversationId);
-                            user.customerChat = CustomerChat;
-                            SocketIOManager.SendContact(user, (int)user.TenantId);
-                        }
 
-                    
-                    
+                    var result = await new WhatsAppAppService().postToFB(postWhatsAppMessageModel, tenant.D360Key, tenant.AccessToken, tenant.IsD360Dialog);
+                    if (result)
+                    {
+                        var CustomerChat = UpdateCustomerChat(user.TenantId, message, user.userId, user.SunshineConversationId);
+                        user.customerChat = CustomerChat;
+                        SocketIOManager.SendContact(user, (int)user.TenantId);
+                    }
+
+
+
 
                     GetOrderForViewDto getOrderForViewDto = new GetOrderForViewDto();
                     var GetOrderMap = ObjectMapper.Map(order, getOrderForViewDto.Order);
@@ -1219,10 +1309,14 @@ namespace Infoseed.MessagingPortal.Orders
                 throw ex;
             }
         }
+
+
         public async Task<bool> DoneOrder(EntityDto<long> input, string stringTotall, int agentId, string agentName)
         {
             try
             {
+
+
                 if (getOrderStatusValidation(input.Id, (int)OrderStatusEunm.Done))
                 {
 
@@ -1300,12 +1394,12 @@ namespace Infoseed.MessagingPortal.Orders
                                     OrderId = order.Id,
                                     LoyaltyDefinitionId = loyaltyModel.Id,
                                     ContactId = order.ContactId.Value,
-                                    Points= order.TotalPoints,
-                                    CreditPoints= order.TotalCreditPoints,
+                                    Points = order.TotalPoints,
+                                    CreditPoints = order.TotalCreditPoints,
                                     CreatedBy = (long)AbpSession.UserId,
-                                    Year=DateTime.UtcNow.Year,
+                                    Year = DateTime.UtcNow.Year,
                                     TransactionTypeId = (int)LoyaltyTransactionType.MakeOrder,
-                                });;;
+                                }); ; ;
 
                             }
 
@@ -1341,17 +1435,17 @@ namespace Infoseed.MessagingPortal.Orders
                     postWhatsAppMessageModel.text.body = captionDoneOrderText;
 
 
-              
-                        var result = await new WhatsAppAppService().postToFB(postWhatsAppMessageModel, tenant.D360Key, tenant.AccessToken, tenant.IsD360Dialog);
-                        if (result)
-                        {
-                            var CustomerChat = UpdateCustomerChat(user.TenantId, message, user.userId, user.SunshineConversationId);
-                            user.customerChat = CustomerChat;
-                            SocketIOManager.SendContact(user, (int)user.TenantId);
-                        }
 
-                    
-                   
+                    var result = await new WhatsAppAppService().postToFB(postWhatsAppMessageModel, tenant.D360Key, tenant.AccessToken, tenant.IsD360Dialog);
+                    if (result)
+                    {
+                        var CustomerChat = UpdateCustomerChat(user.TenantId, message, user.userId, user.SunshineConversationId);
+                        user.customerChat = CustomerChat;
+                        SocketIOManager.SendContact(user, (int)user.TenantId);
+                    }
+
+
+
                     GetOrderForViewDto getOrderForViewDto = new GetOrderForViewDto();
                     var GetOrderMap = ObjectMapper.Map(order, getOrderForViewDto.Order);
                     GetOrderMap.StringTotal = stringTotall;
@@ -1381,6 +1475,170 @@ namespace Infoseed.MessagingPortal.Orders
                 throw ex;
             }
         }
+
+        //public async Task<bool> AcceptOrder(EntityDto<long> input, string stringTotall, int agentId, string agentName)
+        //{
+        //    try
+        //    {
+        //        if (getOrderStatusValidation(input.Id, (int)ZeedlyOrderStatus.Accepted))
+        //        {
+
+        //            var order = getOrderById(input.Id);
+        //            var tenant = _generalAppService.GetTenantById(order.TenantId);
+        //            var user = GetCustomerAzuer(order.ContactId.ToString());
+        //            var area = _areasAppService.GetAreaById((int)order.AreaId, order.TenantId);
+        //            var orderStatusName = Enum.GetName(typeof(ZeedlyOrderStatus), (int)ZeedlyOrderStatus.Accepted);
+        //            var orderTypeName = Enum.GetName(typeof(ZeedlyOrderStatus), (int)order.OrderType);
+        //            var setting = _areasAppService.GetMenuSetting(order.AreaId.Value);
+        //            string captionDoneOrderText = "طلبكم قيد التجهيز ...";
+
+        //            using (TransactionScope transactionScope = new TransactionScope())
+        //            {
+        //                if (!string.IsNullOrEmpty(tenant.AccessToken))
+        //                {
+
+        //                    //order.ZeedlyOrderStatus = ZeedlyOrderStatus.Accepted;
+        //                    order.OrderRemarks = "";
+        //                    order.IsLockByAgent = true;
+        //                    order.AgentId = agentId;
+        //                    order.LockByAgentName = agentName;
+        //                    order.ActionTime = DateTime.UtcNow;
+
+        //                    bool isValid = createOrderStatusZeedlyHistory(input.Id, (int)ZeedlyOrderStatus.Accepted);
+        //                    updateOrderStatus(order);
+        //                    _dashboardUIAppService.CreateDashboardNumber(new DashboardNumbers
+        //                    {
+        //                        TenantId = order.TenantId,
+        //                        TypeId = (int)DashboardTypeEnum.Order,
+        //                        StatusId = (int)ZeedlyOrderStatus.Accepted,
+        //                        StatusName = orderStatusName
+        //                    });
+        //                    ContactLoyaltyTransactionModel contactLoyalty = new ContactLoyaltyTransactionModel();
+        //                    decimal total = 0;
+        //                    if (order.Total > 0)
+        //                    {
+        //                        decimal DeliveryCost = order.DeliveryCost.HasValue ? order.DeliveryCost.Value : 0;
+        //                        total = order.Total - DeliveryCost;
+        //                        if (total < 0)
+        //                        {
+        //                            total = 0;
+        //                        }
+        //                    }
+        //                    else
+        //                    {
+        //                        total = 0;
+        //                    }
+        //                    var loyaltyModel = _ILoyaltyAppService.GetAll();
+        //                    //var CardPoints = _ILoyaltyAppService.ConvertCustomerPriceToPoint(total, order.TenantId);
+        //                    //long loyalityDefId = _ILoyaltyAppService.GetAll(50).Id;
+
+        //                    //var DateNow = Convert.ToDateTime(DateTime.Now.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture));
+        //                    //var DateStart = Convert.ToDateTime(loyaltyModel.StartDate.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture));
+        //                    //var DateEnd = Convert.ToDateTime(loyaltyModel.EndDate.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture));
+
+        //                    //if (loyaltyModel.IsLoyalityPoint && loyalityDefId != 0 && loyaltyModel.OrderType.Contains(((int)order.OrderType).ToString())&& DateStart <= DateNow && DateEnd >= DateNow)
+        //                    //{
+        //                    //    contactLoyalty.CreditPoints = order.TotalPoints;
+        //                    //    contactLoyalty.Points = CardPoints;
+        //                    //    contactLoyalty.ContactId = (int)order.ContactId;
+        //                    //    contactLoyalty.OrderId = order.Id;
+        //                    //    contactLoyalty.LoyaltyDefinitionId = loyalityDefId;
+        //                    //    contactLoyalty.CreatedBy = (long)AbpSession.UserId;
+        //                    //    contactLoyalty.TransactionTypeId = 1;
+        //                    //    _ILoyaltyAppService.CreateContactLoyaltyTransaction(contactLoyalty);
+        //                    //}
+        //                    //var x = 0;
+        //                    //var r = 3 / x;
+
+        //                    if (order.TotalCreditPoints > 0 || order.TotalPoints > 0)
+        //                    {    // [dbo].[ContactLoyaltyTransactionAdd]
+        //                        _ILoyaltyAppService.CreateContactLoyaltyTransaction(new ContactLoyaltyTransactionModel
+        //                        {
+        //                            OrderId = order.Id,
+        //                            LoyaltyDefinitionId = loyaltyModel.Id,
+        //                            ContactId = order.ContactId.Value,
+        //                            Points = order.TotalPoints,
+        //                            CreditPoints = order.TotalCreditPoints,
+        //                            CreatedBy = (long)AbpSession.UserId,
+        //                            Year = DateTime.UtcNow.Year,
+        //                            TransactionTypeId = (int)LoyaltyTransactionType.MakeOrder,
+        //                        }); ; ;
+
+        //                    }
+
+        //                }
+        //                transactionScope.Complete();
+        //            }
+
+        //            if (setting != null)
+        //            {
+        //                if ((order.OrderLocal == "ar" || order.OrderLocal == null) && setting.WorkTextAR != null)
+        //                {
+        //                    captionDoneOrderText = setting.WorkTextAR;
+        //                }
+        //                if (order.OrderLocal == "en" && setting.WorkTextEN != null)
+        //                {
+        //                    captionDoneOrderText = setting.WorkTextEN;
+        //                }
+        //            }
+
+        //            SunshinePostMsgBotModel.Content message = new SunshinePostMsgBotModel.Content
+        //            {
+        //                text = captionDoneOrderText,
+        //                type = "text",
+        //                agentName = order.LockByAgentName,
+        //                agentId = order.AgentId.ToString()
+        //            };
+
+        //            PostWhatsAppMessageModel postWhatsAppMessageModel = new PostWhatsAppMessageModel();
+        //            postWhatsAppMessageModel.type = "text";
+        //            postWhatsAppMessageModel.to = user.phoneNumber;
+
+        //            postWhatsAppMessageModel.text = new PostWhatsAppMessageModel.Text();
+        //            postWhatsAppMessageModel.text.body = captionDoneOrderText;
+
+
+
+        //            var result = await new WhatsAppAppService().postToFB(postWhatsAppMessageModel, tenant.D360Key, tenant.AccessToken, tenant.IsD360Dialog);
+        //            if (result)
+        //            {
+        //                var CustomerChat = UpdateCustomerChat(user.TenantId, message, user.userId, user.SunshineConversationId);
+        //                user.customerChat = CustomerChat;
+        //                SocketIOManager.SendContact(user, (int)user.TenantId);
+        //            }
+
+
+
+        //            GetOrderForViewDto getOrderForViewDto = new GetOrderForViewDto();
+        //            var GetOrderMap = ObjectMapper.Map(order, getOrderForViewDto.Order);
+        //            GetOrderMap.StringTotal = stringTotall;
+        //            getOrderForViewDto.Order = GetOrderMap;
+        //            getOrderForViewDto.OrderStatusName = orderStatusName;
+        //            getOrderForViewDto.OrderTypeName = orderTypeName;
+        //            getOrderForViewDto.CustomerCustomerName = user.displayName;
+        //            getOrderForViewDto.TenantId = AbpSession.TenantId;
+        //            getOrderForViewDto.ActionTime = DateTime.Now.AddHours(AppSettingsModel.AddHour).ToString("hh:mm tt");
+
+        //            if (area != null)
+        //            {
+        //                getOrderForViewDto.AreahName = area.AreaName;
+        //            }
+        //            SocketIOManager.SendOrder(getOrderForViewDto, order.TenantId);
+        //            return true;
+
+        //        }
+        //        else
+        //        {
+        //            return false;
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+
+        //        throw ex;
+        //    }
+        //}
+      
         public async Task CloseOrder(EntityDto<long> input, string stringTotall)
         {
             var order = await _orderRepository.FirstOrDefaultAsync((long)input.Id);
@@ -1751,7 +2009,6 @@ namespace Infoseed.MessagingPortal.Orders
         }
         private List<CategoryExtraOrderDetailsDto> GetMenuOrderDetailExtraForDetails(int? TenantID, long? OrderDetailId)
         {
-
 
             List<ExtraOrderDetailsDto> orderDetailDtos = new List<ExtraOrderDetailsDto>();
 

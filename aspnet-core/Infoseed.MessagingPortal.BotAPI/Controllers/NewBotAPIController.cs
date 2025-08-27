@@ -1554,7 +1554,6 @@ namespace Infoseed.MessagingPortal.BotAPI.Controllers
                     //  order.Total=order.Total+cost.Value;
                 }
 
-
                 // input.DeliveryCostText=input.DeliveryCostTextTow.Replace("{0}", cost.ToString());
                 if (input.DeliveryCostTextTow != null)
                 {
@@ -1590,7 +1589,6 @@ namespace Infoseed.MessagingPortal.BotAPI.Controllers
                     DeliveryOffer = after
 
                 };
-
 
 
                 return orderAndDetailsModel;

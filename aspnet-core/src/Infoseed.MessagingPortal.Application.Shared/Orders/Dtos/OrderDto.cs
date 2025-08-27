@@ -28,7 +28,9 @@ namespace Infoseed.MessagingPortal.Orders.Dtos
 		public int? ContactId { get; set; }
 
 		public OrderStatusEunm OrderStatus { get; set; }
-		public OrderTypeEunm OrderType { get; set; } 
+        public ZeedlyOrderStatus ZeedlyOrderStatus { get; set; }
+
+        public OrderTypeEunm OrderType { get; set; } 
 
 		public virtual bool IsLockByAgent { get; set; }
 		public virtual long AgentId { get; set; }
@@ -89,10 +91,11 @@ namespace Infoseed.MessagingPortal.Orders.Dtos
 
 
 		public string OrderLocal { get; set; }
-        public short IsZeedlyOrder { get; set; }
-        public ZeedlyOrderStatus ZeedlyOrderStatus { get; set; }
+        public bool IsZeedlyOrder { get; set; }
         public string DeliveryEstimation { get; set; }
-	}
+        public string OrderDetailsCareem { get; set; }
+
+    }
 
 
 }

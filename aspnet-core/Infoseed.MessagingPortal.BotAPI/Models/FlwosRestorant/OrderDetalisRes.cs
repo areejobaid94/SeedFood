@@ -10,6 +10,8 @@ namespace Infoseed.MessagingPortal.BotAPI.Models.FlwosRestorant
         public long OrderNumber { get; set; }
         public string OrderTypeId { get; set; }
         public decimal? OrderTotal { get; set; }
+        public decimal? TotalWithCareemDelivery { get; set; }
+
         public decimal OrderDeliveryCost { get; set; }
         public int PageNumber { get; set; }
 
@@ -55,6 +57,9 @@ namespace Infoseed.MessagingPortal.BotAPI.Models.FlwosRestorant
         public DateTime CreationTime { get; set; }
 
         public DateTime? DeletionTime { get; set; }
+
+        public double trip_cost { get; set; }
+        public string currency { get; set; }
 
 
     }

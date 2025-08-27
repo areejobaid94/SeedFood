@@ -70,6 +70,8 @@ namespace Infoseed.MessagingPortal.Web.Models.Sunshine
         }
 
         public string AccessToken { get; set; }
+        public string CatalogueAccessToken { get; set; }
+
         public string WhatsAppAccountID { get; set; }
         public int flag { get; set; }
         public bool IsLiveChatWorkActive { get; set; }
@@ -124,7 +126,8 @@ namespace Infoseed.MessagingPortal.Web.Models.Sunshine
         public string InstagramAccessToken { get; set; }
         public string CatalogueLink { get; set; }
         public string BusinessId { get; set; }
-        public string CatalogueAccessToken { get; set; }
+        //public string CatalogueAccessToken { get; set; }
+        //public string BusinessId { get; set; }
         public string DeliveryType { get; set; }
     }
 

@@ -1,5 +1,6 @@
 ﻿using Abp.Domain.Repositories;
 using Framework.Data;
+using Hangfire.Storage;
 using Infoseed.MessagingPortal.Contacts;
 using Infoseed.MessagingPortal.ExtraOrderDetails;
 using Infoseed.MessagingPortal.ItemAdditions;
@@ -19,6 +20,7 @@ using Infoseed.MessagingPortal.OrderDetails.Dtos;
 using Infoseed.MessagingPortal.Orders;
 using Infoseed.MessagingPortal.Orders.Dtos;
 using Infoseed.MessagingPortal.SocketIOClient;
+using Infoseed.MessagingPortal.Web.Models;
 using Infoseed.MessagingPortal.Web.Models.Menu;
 using Infoseed.MessagingPortal.Web.Models.Sunshine;
 using Infoseed.MessagingPortal.Web.Sunshine;
@@ -28,6 +30,7 @@ using InfoSeedAzureFunction;
 using Microsoft.ApplicationInsights;
 using Microsoft.ApplicationInsights.DataContracts;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Razor.Language;
 using Microsoft.Azure.Documents;
 using Microsoft.Bot.Connector.DirectLine;
 using Microsoft.Extensions.Configuration;
@@ -37,6 +40,8 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Net.Http;
+using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
@@ -343,6 +348,124 @@ namespace Infoseed.MessagingPortal.Web.Controllers
                 return null;
             }
 
+        }
+        
+
+        [Route("CreateOrderMerchant")]
+        [HttpPost]
+        public async Task<string> CreateOrderMerchant(CreateOrderModel createOrderModel)
+        {
+            try
+            {
+                var merchantOrder = System.Text.Json.JsonSerializer.Deserialize<MerchantOrder>(createOrderModel.MerchantOrderJson);
+                if (merchantOrder.IsCreate)
+                {
+                    Order order = new Order
+                    {
+                        TenantId = createOrderModel.TenantId,
+                        ContactId = createOrderModel.CustomerId,
+                        Total = decimal.Parse(merchantOrder.TotalAmount), //orderPrice + delivery cost
+                        IsDeleted = false,
+                        OrderTime = DateTime.Now,
+                        OrderNumber = new Random().Next(0001, 9999),//OrdersCount + 1, //new Random().Next(1000, 9999),
+                        CreationTime = DateTime.Now,
+                        AgentId = -1,
+                        IsLockByAgent = false,
+                        orderStatus = OrderStatusEunm.Pending,
+                        IsEvaluation = false,
+                        IsZeedlyOrder = 1,
+                        ZeedlyOrderStatus = ZeedlyOrderStatus.UnderPrep,
+                        MerchantOrderNumber = merchantOrder.OrderNumber,
+                        DeliveryEstimation = merchantOrder.DeliveryAmount
+
+                    };
+                    long orderId = 0;
+                    try
+                    {
+                        orderId = await _IOrdersAppService.CreateNewOrder(JsonConvert.SerializeObject(order));
+
+                        if (orderId == 0)
+                        {
+                            this._telemetry.TrackTrace("error insert order to data base ", SeverityLevel.Critical);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        this._telemetry.TrackTrace(ex.Message, SeverityLevel.Critical);
+                    }
+
+                    //send template
+
+                    var itemsCollection = new DocumentCosmoseDB<TenantModel>(CollectionTypes.ItemsCollection, _IDocumentClient);
+                    TenantModel tenant = await itemsCollection.GetItemAsync(a => a.ItemType == InfoSeedContainerItemTypes.Tenant && a.TenantId == createOrderModel.TenantId);
+
+                    var client = new HttpClient();
+                    var request = new HttpRequestMessage(HttpMethod.Post, "https://infoseedintegrationserverprod.azurewebsites.net/api/SendCampaign/SendMessage");
+
+                    request.Headers.Add("accept", "text/plain");
+                    request.Headers.Add("tenancy", tenant.TenancyName);
+                    //request.Headers.Add("username", "admin");
+                    //request.Headers.Add("password", "123qwe");
+                    //request.Headers.Add("templateName", "");
+
+                    var content = new StringContent(JsonConvert.SerializeObject(new
+                    {
+                        reciverPhoneNumber = merchantOrder.CustomerPhone,
+                        reciverName = merchantOrder.CustomerName,
+                        //mssageContent = jsonData.data.customer.full_name.ToString(),
+                        //mssageContent2 = jsonData.data.reference_id.ToString(),
+                        //mssageContent3 = jsonData.data.amounts.total.amount.ToString(),
+                        //mssageContent16 = jsonData.data.id.ToString(),
+                    }), Encoding.UTF8, "application/json");
+
+                    request.Content = content;
+                    var response = await client.SendAsync(request);
+                    response.EnsureSuccessStatusCode();
+
+                    return order.OrderNumber.ToString();
+                }
+                else
+                {
+                    Order order = new Order
+                    {
+                        TenantId = createOrderModel.TenantId,
+                        ContactId = createOrderModel.CustomerId,
+                        Total = decimal.Parse(merchantOrder.TotalAmount), //orderPrice + delivery cost 
+                        IsDeleted = false,
+                        OrderTime = DateTime.Now,
+                        OrderNumber = new Random().Next(0001, 9999),//OrdersCount + 1, //new Random().Next(1000, 9999),
+                        CreationTime = DateTime.Now,
+                        AgentId = -1,
+                        IsLockByAgent = false,
+                        orderStatus = OrderStatusEunm.Draft,
+                        IsEvaluation = false,
+                        IsZeedlyOrder = 1,
+                        ZeedlyOrderStatus = ZeedlyOrderStatus.New,
+                        MerchantOrderNumber = merchantOrder.OrderNumber,
+                        DeliveryEstimation = merchantOrder.DeliveryAmount
+                    };
+                    long orderId = 0;
+                    try
+                    {
+                        orderId = await _IOrdersAppService.CreateNewOrder(JsonConvert.SerializeObject(order));
+
+                        if (orderId == 0)
+                        {
+                            this._telemetry.TrackTrace("error insert order to data base ", SeverityLevel.Critical);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        this._telemetry.TrackTrace(ex.Message, SeverityLevel.Critical);
+                    }
+                  
+                    return order.OrderNumber.ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
 
         //[Route("SendToBot")]
@@ -2285,7 +2408,6 @@ namespace Infoseed.MessagingPortal.Web.Controllers
                 da.Dispose();
 
                 return tenant;
-
             }
             catch
             {
@@ -2294,6 +2416,12 @@ namespace Infoseed.MessagingPortal.Web.Controllers
             }
 
         }
+
+
+
+
+
+
 
 
         private List<GetCategorysModel> fillGetCategorysModel(List<CategoryEntity> categoryEntity)

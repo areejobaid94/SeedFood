@@ -587,7 +587,7 @@ namespace Infoseed.MessagingPortal.Engine.Controllers
 
         private async Task<bool> PrepareBotChatWithCustomer(string from, TenantModel Tenant, CustomerModel Customer, string msg, List<Microsoft.Bot.Connector.DirectLine.Attachment> tAttachments, string interactiveId)
         {
-            Customer.TennantPhoneNumberId = Tenant.D360Key;
+           // Customer.TennantPhoneNumberId = Tenant.D360Key;
             Customer.interactiveId = interactiveId;
             Customer.attachments = tAttachments;
             List<Activity> Bot = new List<Activity>();

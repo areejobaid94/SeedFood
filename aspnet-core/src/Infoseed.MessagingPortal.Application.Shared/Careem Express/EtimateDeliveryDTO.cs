@@ -14,8 +14,8 @@ namespace Infoseed.MessagingPortal.Careem_Express
 
         public class Coordinate
         {
-            public double latitude { get; set; }
-            public double longitude { get; set; }
+            public string latitude { get; set; }
+            public string longitude { get; set; }
         }
 
         public class Dropoff

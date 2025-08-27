@@ -321,7 +321,7 @@ namespace Infoseed.MessagingPortal.Group
 
         #region CRUD Operation for Groups (private)
 
-        private GroupModel groupGetAll(string searchTerm = "", int? pageNumber = 0, int? pageSize = 10)
+        private GroupModel groupGetAll(string searchTerm = "", int? pageNumber = 0, int? pageSize = 10,bool? forceAdmin = null)
         {
             GroupModel groupModel = new GroupModel();
             try
@@ -332,7 +332,7 @@ namespace Infoseed.MessagingPortal.Group
                 //var SP_Name = Constants.Groups.SP_GroupsGetAllNew;
                 int tenantId = AbpSession.TenantId.Value;
                 long userId = AbpSession.UserId.Value;
-                bool isAdmin = IsUserAdmin();
+                bool isAdmin = forceAdmin ?? IsUserAdmin();
 
                 var sqlParameters = new List<System.Data.SqlClient.SqlParameter> {
                     new System.Data.SqlClient.SqlParameter("@tenantId",tenantId) ,
@@ -469,14 +469,14 @@ namespace Infoseed.MessagingPortal.Group
                     int tenantId = AbpSession.TenantId.Value;
                     long userId = AbpSession.UserId.Value;
                     var user = await UserManager.GetUserByIdAsync(userId);
-                    string fullName = user.Name + " " + user.Surname;
+                    string userName = user.UserName;
 
                     var sqlParameters = new List<System.Data.SqlClient.SqlParameter> {
                         new System.Data.SqlClient.SqlParameter("@tenantId",tenantId) ,
                         new System.Data.SqlClient.SqlParameter("@groupName",input.groupDtoModel.groupName) ,
                         new System.Data.SqlClient.SqlParameter("@creationDate",DateTime.UtcNow.AddHours(3)),
                         new System.Data.SqlClient.SqlParameter("@userId",userId),
-                        new System.Data.SqlClient.SqlParameter("@fullName",fullName)
+                        new System.Data.SqlClient.SqlParameter("@userName",userName)
 
                     };
                     var OutputParameter = new System.Data.SqlClient.SqlParameter
@@ -1176,7 +1176,7 @@ namespace Infoseed.MessagingPortal.Group
                 var response = new Dictionary<string, dynamic>();
                 if (!string.IsNullOrEmpty(groupName) && groupName.Length <= 20)
                 {
-                    var model = GroupGetAll("", 0, int.MaxValue)
+                    var model = groupGetAll("", 0, int.MaxValue, forceAdmin: true)
                                     .groupDtoModel
                                     .Where(x => x.groupName.ToLower().Trim() == groupName.ToLower().Trim())
                                     .FirstOrDefault();

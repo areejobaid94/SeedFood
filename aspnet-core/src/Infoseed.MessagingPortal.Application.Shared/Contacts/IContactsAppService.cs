@@ -42,5 +42,8 @@ namespace Infoseed.MessagingPortal.Contacts
         bool CheckIfExistContactByPhoneNumber(string phoneNumber);
         Task<FileDto> ExportContactCampaignToExcel(long? templateId, long? campaignId, bool? isSent = null, bool? isDelivered = null, bool? isRead = null, bool? isFailed = null, bool? isHanged = null);
         List<WhatsAppContactsDto> GetOptOutContactByTenantId(int tenantId);
+        long AddNewContact(CreateContactDto model);
+
+
     }
 }
