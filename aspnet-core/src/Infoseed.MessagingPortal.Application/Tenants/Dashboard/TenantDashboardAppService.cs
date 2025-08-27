@@ -5,6 +5,7 @@ using DocumentFormat.OpenXml.Bibliography;
 using DocumentFormat.OpenXml.Wordprocessing;
 using Elasticsearch.Net;
 using Framework.Data;
+using Framework.Data.Sql; // <-- Import PostgresDataHelper
 using Infoseed.MessagingPortal.Contacts;
 using Infoseed.MessagingPortal.Dto;
 using Infoseed.MessagingPortal.Evaluations;
@@ -22,8 +23,10 @@ using InfoSeedAzureFunction.AppFunEntities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Documents;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using MongoDB.Driver;
 using Newtonsoft.Json;
+using Npgsql;
 using NPOI.SS.Formula.Functions;
 using Org.BouncyCastle.Asn1;
 using PhoneNumbers;
@@ -59,12 +62,14 @@ namespace Infoseed.MessagingPortal.Tenants.Dashboard
         private readonly ZohoAppService _zohoAppService;
         private readonly IWalletAppService _walletAppService;
         private readonly IUsageDetailsExcelExport _usageDetailsExcelExport;
+        private readonly string _postgresConnection;
 
         public TenantDashboardAppService(IRepository<Order, long> orderRepository, IRepository<Evaluation, long> evaluationRepository, IRepository<Contact> contactRepository
             , IDocumentClient iDocumentClient
             ,ZohoAppService zohoAppService
             , IWalletAppService walletAppService
             , IUsageDetailsExcelExport usageDetailsExcelExport
+            , IConfiguration configuration
             )
         {
             _orderRepository = orderRepository;
@@ -74,7 +79,7 @@ namespace Infoseed.MessagingPortal.Tenants.Dashboard
             _zohoAppService = zohoAppService;
             _walletAppService = walletAppService;
             _usageDetailsExcelExport = usageDetailsExcelExport;
-
+            _postgresConnection = configuration.GetConnectionString("postgres");
         }
         public GetMemberActivityOutput GetMemberActivity()
         {
@@ -768,45 +773,45 @@ namespace Infoseed.MessagingPortal.Tenants.Dashboard
 
         private GetAllDashboard GetTenantDashboardStatistic(int year, int month, DateTime dateFrom, DateTime dateTo)
         {
-
-
             try
             {
+                var tenantId = AbpSession.TenantId ?? 0;
 
-                var TenantId = (int?)AbpSession.TenantId;
-
-
-                if (TenantId == null)
+                var sqlParameters = new Npgsql.NpgsqlParameter[]
                 {
-                    TenantId = 0;
-                }
-
-
-                GetAllDashboard GetAllDashboard = new GetAllDashboard();
-                var SP_Name = "[dbo].[TenantDashboardStatisticGet]";
-
-
-                var sqlParameters = new List<System.Data.SqlClient.SqlParameter> {
-                     new System.Data.SqlClient.SqlParameter("@Year",year)
-                    ,new System.Data.SqlClient.SqlParameter("@Month",month)
-                    ,new System.Data.SqlClient.SqlParameter("@DateFrom",dateFrom)
-                    ,new System.Data.SqlClient.SqlParameter("@DateTo",dateTo)
-                    ,new System.Data.SqlClient.SqlParameter("@TenantId",TenantId)
-
+                    new Npgsql.NpgsqlParameter("p_tenant_id", tenantId),
+                    new Npgsql.NpgsqlParameter("p_year", year),
+                    new Npgsql.NpgsqlParameter("p_month", month),
+                    new Npgsql.NpgsqlParameter("p_datefrom", dateFrom),
+                    new Npgsql.NpgsqlParameter("p_dateto", dateTo)
                 };
 
+                var functionName = "dbo.tenant_dashboard_statistic_get";
 
-                GetAllDashboard = SqlDataHelper.ExecuteReader(SP_Name, sqlParameters.ToArray(), MapTenantDashboardStatistic, AppSettingsModel.ConnectionStrings).FirstOrDefault();
-                GetAllDashboard.RemainingUIConversation = GetAllDashboard.TotalUIConversation - GetAllDashboard.TotalUsageUIConversation;
-                GetAllDashboard.RemainingBIConversation = GetAllDashboard.TotalBIConversation - GetAllDashboard.TotalUsageBIConversation;
-                GetAllDashboard.RemainingFreeConversation = GetAllDashboard.TotalFreeConversationWA - GetAllDashboard.TotalUsageFreeConversation;// GetAllDashboard.TotalFreeConversationWA - GetAllDashboard.TotalUsageFreeConversationWA;
-                return GetAllDashboard;
+                // Get the PostgreSQL connection string from configuration
+                string connectionString = _postgresConnection;
+
+                // Execute function using PostgresDataHelper
+                var result = PostgresDataHelper.ExecuteFunction(functionName, sqlParameters, MapTenantDashboardStatistic, connectionString)
+                                               .FirstOrDefault();
+
+                if (result != null)
+                {
+                    // Keep the original calculation logic
+                    result.RemainingUIConversation = result.TotalUIConversation - result.TotalUsageUIConversation;
+                    result.RemainingBIConversation = result.TotalBIConversation - result.TotalUsageBIConversation;
+                    result.RemainingFreeConversation = result.TotalFreeConversationWA - result.TotalUsageFreeConversation;
+                }
+
+                return result;
             }
             catch (Exception ex)
             {
-                throw ex;
+                // Best practice: preserve stack trace
+                throw;
             }
         }
+
 
         private GetAllDashboard MapTenantDashboardStatistic(IDataReader dataReader)
         {
@@ -1352,26 +1357,46 @@ namespace Infoseed.MessagingPortal.Tenants.Dashboard
                 throw ex;
             }
         }
-        //Booking Statistics (Booking)
-        public BookingStatisticsModel BookingStatisticsGet(DateTime start, DateTime end ,int TenantId, long UserId = 0)
+        // Booking Statistics (Booking)
+        public BookingStatisticsModel BookingStatisticsGet(DateTime start, DateTime end, int TenantId, long UserId = 0)
         {
             try
             {
-                BookingStatisticsModel bookingStatisticsModel = new BookingStatisticsModel();
-                bookingStatisticsModel = bookingStatisticsGet(start, end, TenantId, UserId);
-                decimal Total = bookingStatisticsModel.TotalAppointments;
+                // PostgreSQL function name
+                string functionName = "dbo.booking_statistics_get";
+
+                // Prepare PostgreSQL parameters
+                var npgsqlParameters = new Npgsql.NpgsqlParameter[]
+                {
+            new Npgsql.NpgsqlParameter("p_tenantid", TenantId),
+            new Npgsql.NpgsqlParameter("p_start", start),
+            new Npgsql.NpgsqlParameter("p_end", end),
+            new Npgsql.NpgsqlParameter("p_userid", UserId)
+                };
+
+                // Execute function using your helper
+                var result = PostgresDataHelper.ExecuteFunction(
+                    functionName,
+                    npgsqlParameters,
+                    DataReaderMapper.MapBookingStatisticsPSQL,
+                    _postgresConnection
+                ).FirstOrDefault() ?? new BookingStatisticsModel();
+
+                // Calculate percentages (same logic as before)
+                decimal Total = result.TotalAppointments;
                 if (Total > 0)
                 {
-                    bookingStatisticsModel.PercentageBooked = (int)((bookingStatisticsModel.TotalBooked/ Total) * 100);
-                    bookingStatisticsModel.PercentageConfirmed = (int)((bookingStatisticsModel.TotalConfirmed / Total) * 100);
-                    bookingStatisticsModel.PercentageCanceled = (int)((bookingStatisticsModel.TotalCancelled / Total) * 100);
-                    bookingStatisticsModel.PercentagePending = (int)((bookingStatisticsModel.TotalPending / Total) * 100);
+                    result.PercentageBooked = (int)((result.TotalBooked / Total) * 100);
+                    result.PercentageConfirmed = (int)((result.TotalConfirmed / Total) * 100);
+                    result.PercentageCanceled = (int)((result.TotalCancelled / Total) * 100);
+                    result.PercentagePending = (int)((result.TotalPending / Total) * 100);
                 }
-                return bookingStatisticsModel;
+
+                return result;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw ex;
+                throw;
             }
         }
         //Tickets Statistics (Tickets)
@@ -1718,26 +1743,36 @@ namespace Infoseed.MessagingPortal.Tenants.Dashboard
                 }
             }
         }
-        private TenantModelDash getTenantById(int TenantId)
+        private TenantModelDash getTenantById(int tenantId)
         {
             try
             {
-                TenantModelDash tenant = new TenantModelDash();
-                var SP_Name = Constants.Tenant.SP_TenantByIdGetInfo;
-                
-                var sqlParameters = new List<System.Data.SqlClient.SqlParameter>
-                {
-                    new System.Data.SqlClient.SqlParameter("@TenantId",TenantId)
-                };
-                tenant = SqlDataHelper.ExecuteReader(SP_Name, sqlParameters.ToArray(), DataReaderMapper.MapTenantForDash, AppSettingsModel.ConnectionStrings).FirstOrDefault();
+                var functionName = "dbo.tenants_by_id_get"; // your new PostgreSQL function name
 
-                return tenant;
+                // Define PostgreSQL parameters
+                var npgsqlParameters = new Npgsql.NpgsqlParameter[]
+                {
+                    new Npgsql.NpgsqlParameter("p_id", tenantId),
+                    new Npgsql.NpgsqlParameter("p_contact_id", DBNull.Value) // pass contactId if needed, else NULL
+                };
+
+                // Execute function and map result
+                var tenant = PostgresDataHelper.ExecuteFunction(
+                    functionName,
+                    npgsqlParameters,
+                    DataReaderMapper.MapTenantForDash, 
+                    _postgresConnection
+                ).FirstOrDefault();
+
+                return tenant ?? new TenantModelDash();
             }
             catch (Exception ex)
             {
-                throw ex;
+                // Better: log exception instead of rethrowing directly
+                throw new Exception("Error fetching tenant data", ex);
             }
         }
+
         private long walletDeposit(WalletModel model, decimal DepositAmount)
         {
             try
@@ -1746,45 +1781,42 @@ namespace Infoseed.MessagingPortal.Tenants.Dashboard
                 {
                     return 0;
                 }
-                var SP_Name = Constants.Wallet.SP_WalletDeposit;
 
-                var sqlParameters = new List<System.Data.SqlClient.SqlParameter> {
-                     new System.Data.SqlClient.SqlParameter("@WalletId",model.WalletId)
-                    ,new System.Data.SqlClient.SqlParameter("@TenantId",model.TenantId)
-                    ,new System.Data.SqlClient.SqlParameter("@TotalAmount",model.TotalAmount)
-                    ,new System.Data.SqlClient.SqlParameter("@DepositAmount",DepositAmount)
-                    ,new System.Data.SqlClient.SqlParameter("@DepositDate",DateTime.UtcNow)
+                // PostgreSQL function name
+                var functionName = "dbo.wallet_deposit"; // should match "dbo.wallet_deposit"
+
+                // Prepare parameters for the function
+                var npgsqlParams = new Npgsql.NpgsqlParameter[]
+                {
+                    new Npgsql.NpgsqlParameter("p_walletid", model.WalletId),
+                    new Npgsql.NpgsqlParameter("p_tenantid", model.TenantId),
+                    new Npgsql.NpgsqlParameter("p_totalamount", model.TotalAmount),
+                    new Npgsql.NpgsqlParameter("p_depositamount", DepositAmount),
+                    new Npgsql.NpgsqlParameter("p_depositdate", DateTime.UtcNow)
                 };
 
-                var OutputParameter = new System.Data.SqlClient.SqlParameter
-                {
-                    SqlDbType = SqlDbType.BigInt,
-                    ParameterName = "@DepositId",
-                    Direction = ParameterDirection.Output
-                };
-                sqlParameters.Add(OutputParameter);
+                // Execute the PostgreSQL function and get the WalletId (DepositId)
+                long depositId = PostgresDataHelper.ExecuteScalarFunction<long>(
+                    functionName,
+                    npgsqlParams,
+                    _postgresConnection // using your PostgreSQL connection string
+                );
 
-                SqlDataHelper.ExecuteNoneQuery(SP_Name, sqlParameters.ToArray(), AppSettingsModel.ConnectionStrings);
-
-                if (OutputParameter.Value.ToString() != "" && (long)OutputParameter.Value == model.WalletId)
+                // Check the returned value
+                if (depositId == model.WalletId)
                 {
-                    return (long)OutputParameter.Value;
+                    return depositId;
                 }
                 else
                 {
                     return 0;
                 }
-
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw;
             }
         }
-
-
-
-
 
         private WalletModel walletGetByTenantId(int TenantId)
         {
@@ -1792,31 +1824,39 @@ namespace Infoseed.MessagingPortal.Tenants.Dashboard
             {
                 WalletModel walletModel = new WalletModel();
 
-                var SP_Name = Constants.Wallet.SP_WalletGet;
+                var functionName = "dbo.wallet_get";
 
-                var sqlParameters = new List<System.Data.SqlClient.SqlParameter> {
-            new System.Data.SqlClient.SqlParameter("@TenantId", TenantId)
-        };
+                // PostgreSQL parameters
+                var npgsqlParams = new Npgsql.NpgsqlParameter[]
+                {
+                   new Npgsql.NpgsqlParameter("p_tenantid", TenantId)
+                };
 
-                walletModel = SqlDataHelper.ExecuteReader(SP_Name, sqlParameters.ToArray(), DataReaderMapper.MapWallet, AppSettingsModel.ConnectionStrings).FirstOrDefault();
+                // Execute the PostgreSQL function
+                walletModel = PostgresDataHelper.ExecuteFunction(
+                    functionName,
+                    npgsqlParams,
+                    DataReaderMapper.MapWallet,
+                    _postgresConnection // Use your PostgreSQL connection string
+                ).FirstOrDefault();
 
                 if (walletModel != null)
                 {
                     walletModel.TotalAmountSAR = (walletModel.TotalAmount > 0)
-                        ? Math.Round(walletModel.TotalAmount * (decimal)3.75, 3)
+                        ? Math.Round(walletModel.TotalAmount * 3.75m, 3)
                         : 0;
                 }
                 else
                 {
-                    // Handle the case where no wallet data is returned, e.g., return a new WalletModel
-                    walletModel = new WalletModel();  // or return null based on your business logic
+                    // Handle the case where no wallet data is returned
+                    walletModel = new WalletModel();
                 }
 
                 return walletModel;
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw;
             }
         }
 
@@ -1824,47 +1864,47 @@ namespace Infoseed.MessagingPortal.Tenants.Dashboard
         {
             try
             {
-                var SP_Name = Constants.Transaction.SP_TransactionAdd;
+                long outId = 0;
 
-                var sqlParameters = new List<System.Data.SqlClient.SqlParameter> {
-                     new System.Data.SqlClient.SqlParameter("@DoneBy",model.DoneBy)
-                    ,new System.Data.SqlClient.SqlParameter("@TotalTransaction",model.TotalTransaction)
-                    ,new System.Data.SqlClient.SqlParameter("@TransactionDate",model.TransactionDate)
-                    ,new System.Data.SqlClient.SqlParameter("@CategoryType",model.CategoryType)
-                    ,new System.Data.SqlClient.SqlParameter("@TotalRemaining",model.TotalRemaining)
-                    ,new System.Data.SqlClient.SqlParameter("@WalletId",model.WalletId)
-                    ,new System.Data.SqlClient.SqlParameter("@Country",model.Country)
-                    ,new System.Data.SqlClient.SqlParameter("@TenantId",model.TenantId)
-                    ,new System.Data.SqlClient.SqlParameter("@invoiceId",model.invoiceId)
-                    ,new System.Data.SqlClient.SqlParameter("@invoiceUrl",model.invoiceUrl)
-                    ,new System.Data.SqlClient.SqlParameter("@IsPayed",model.IsPayed)
-                    ,new System.Data.SqlClient.SqlParameter("@Note",model.Note)
-
-                };
-
-                var OutputParameter = new System.Data.SqlClient.SqlParameter
+                // Use your PostgreSQL connection string
+                using (var conn = new Npgsql.NpgsqlConnection(_postgresConnection))
                 {
-                    SqlDbType = SqlDbType.BigInt,
-                    ParameterName = "@OiutId",
-                    Direction = ParameterDirection.Output
-                };
-                sqlParameters.Add(OutputParameter);
-                SqlDataHelper.ExecuteNoneQuery(SP_Name, sqlParameters.ToArray(), AppSettingsModel.ConnectionStrings);
+                    conn.Open();
 
-                if (OutputParameter.Value != DBNull.Value && OutputParameter.Value.ToString() != "" && OutputParameter.Value.ToString() != null)
-                {
-                    return (long)OutputParameter.Value;
+                    using (var cmd = new Npgsql.NpgsqlCommand("SELECT dbo.transaction_add(@DoneBy, @TotalTransaction, @TransactionDate, @CategoryType, @TotalRemaining, @WalletId, @Country, @TenantId, @InvoiceId, @InvoiceUrl, @IsPayed, @Note);", conn))
+                    {
+                        cmd.Parameters.AddWithValue("@DoneBy", NpgsqlTypes.NpgsqlDbType.Text, model.DoneBy ?? "");
+                        cmd.Parameters.AddWithValue("@TotalTransaction", NpgsqlTypes.NpgsqlDbType.Numeric, model.TotalTransaction);
+                        cmd.Parameters.AddWithValue("@TransactionDate", NpgsqlTypes.NpgsqlDbType.Timestamp, model.TransactionDate);
+                        cmd.Parameters.AddWithValue("@CategoryType", NpgsqlTypes.NpgsqlDbType.Text, model.CategoryType ?? "");
+                        cmd.Parameters.AddWithValue("@TotalRemaining", NpgsqlTypes.NpgsqlDbType.Numeric, model.TotalRemaining);
+                        cmd.Parameters.AddWithValue("@WalletId", NpgsqlTypes.NpgsqlDbType.Bigint, model.WalletId);
+                        cmd.Parameters.AddWithValue("@Country", NpgsqlTypes.NpgsqlDbType.Text, model.Country ?? "");
+                        cmd.Parameters.AddWithValue("@TenantId", NpgsqlTypes.NpgsqlDbType.Integer, model.TenantId);
+                        cmd.Parameters.AddWithValue("@InvoiceId", NpgsqlTypes.NpgsqlDbType.Text, model.invoiceId ?? "");
+                        cmd.Parameters.AddWithValue("@InvoiceUrl", NpgsqlTypes.NpgsqlDbType.Text, model.invoiceUrl ?? "");
+                        cmd.Parameters.AddWithValue("@IsPayed", NpgsqlTypes.NpgsqlDbType.Boolean, model.IsPayed);
+                        cmd.Parameters.AddWithValue("@Note", NpgsqlTypes.NpgsqlDbType.Text, model.Note ?? "");
+
+                        // Execute function and get returned transaction ID
+                        var result = cmd.ExecuteScalar();
+                        if (result != null && result != DBNull.Value)
+                        {
+                            outId = Convert.ToInt64(result);
+                        }
+                    }
+
+                    conn.Close();
                 }
-                else
-                {
-                    return 0;
-                }
+
+                return outId;
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw;
             }
         }
+
         private CountryCodeModel GetCountryCode(string PhoneNumber)
         {
             // not used
@@ -1936,45 +1976,69 @@ namespace Infoseed.MessagingPortal.Tenants.Dashboard
                 throw ex;
             }
         }
+
         private List<TransactionModel> transactionGetLastFour(int TenantId)
         {
             try
             {
                 List<TransactionModel> transactionModel = new List<TransactionModel>();
-                
-                var SP_Name = Constants.Transaction.SP_TransactionGetLastFour;
 
-                var sqlParameters = new List<System.Data.SqlClient.SqlParameter> {
-                    new System.Data.SqlClient.SqlParameter("@TenantId",TenantId)
-                };
+                // PostgreSQL function name
+                var functionName = "dbo.transaction_get_last_four";
 
-                transactionModel = SqlDataHelper.ExecuteReader(SP_Name, sqlParameters.ToArray(), DataReaderMapper.MapTransactionInfo, AppSettingsModel.ConnectionStrings).ToList();
+                using (var conn = new Npgsql.NpgsqlConnection(_postgresConnection))
+                {
+                    conn.Open();
+                    using (var cmd = new Npgsql.NpgsqlCommand(functionName, conn))
+                    {
+                        cmd.CommandType = System.Data.CommandType.StoredProcedure;
+
+                        // Add PostgreSQL parameter
+                        cmd.Parameters.AddWithValue("p_tenantid", NpgsqlTypes.NpgsqlDbType.Integer, TenantId);
+
+                        using (var reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                transactionModel.Add(DataReaderMapper.MapTransactionInfo(reader));
+                            }
+                        }
+                    }
+                }
 
                 return transactionModel;
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw;
             }
         }
+
         private List<CountryCodeModel> countryGetAll(int TenantId)
         {
             try
             {
-                //int TenantId = AbpSession.TenantId.Value;
                 List<CountryCodeModel> countryCodeModel = new List<CountryCodeModel>();
 
                 if (TenantId > 0)
                 {
+                    // PostgreSQL function name
+                    string functionName = "dbo.country_get_all";
 
-                    var SP_Name = Constants.Country.SP_CountryGetAll;
+                    // PostgreSQL function has no parameters
+                    var npgsqlParameters = new Npgsql.NpgsqlParameter[] { };
 
-                    var sqlParameters = new List<System.Data.SqlClient.SqlParameter> { };
-
-                    countryCodeModel = SqlDataHelper.ExecuteReader(SP_Name, sqlParameters.ToArray(), DataReaderMapper.MapCountry, AppSettingsModel.ConnectionStrings).ToList();
+                    // Execute the PostgreSQL function using your helper
+                    countryCodeModel = PostgresDataHelper.ExecuteFunction(
+                        functionName,
+                        npgsqlParameters,
+                        DataReaderMapper.MapCountry,
+                        _postgresConnection
+                    ).ToList();
 
                     return countryCodeModel;
                 }
+
                 return countryCodeModel;
             }
             catch (Exception ex)
@@ -2013,15 +2077,23 @@ namespace Infoseed.MessagingPortal.Tenants.Dashboard
             try
             {
                 List<UsersDashModel> usersDashModel = new List<UsersDashModel>();
-                //int TenantId = AbpSession.TenantId.Value;
 
-                var SP_Name = Constants.User.SP_UsersGetAll;
+                if (TenantId > 0)
+                {
+                    // PostgreSQL function name as string
+                    string functionName = "dbo.users_get_all";
 
-                var sqlParameters = new List<System.Data.SqlClient.SqlParameter> {
-                    new System.Data.SqlClient.SqlParameter("@TenantId",TenantId)
-                };
+                    // Prepare parameters for Postgres as array
+                    var npgsqlParameters = new Npgsql.NpgsqlParameter[]
+                    {
+                new Npgsql.NpgsqlParameter("p_tenantid", TenantId)
+                    };
 
-                usersDashModel = SqlDataHelper.ExecuteReader(SP_Name, sqlParameters.ToArray(), DataReaderMapper.MapUserInfo, AppSettingsModel.ConnectionStrings).ToList();
+                    // Call Postgres function using helper
+                    usersDashModel = PostgresDataHelper
+                                        .ExecuteFunction(functionName, npgsqlParameters, DataReaderMapper.MapUserInfo, _postgresConnection)
+                                        .ToList();
+                }
 
                 return usersDashModel;
             }
@@ -2191,32 +2263,35 @@ namespace Infoseed.MessagingPortal.Tenants.Dashboard
             }
         }
         //User Performance (tickits)
-        private TickitsDashbordModel tickitsGetAll(DateTime start, DateTime end,int TenantId)
+        private TickitsDashbordModel tickitsGetAll(DateTime start, DateTime end, int TenantId)
         {
             try
             {
                 TickitsDashbordModel tickitsDashbordModel = new TickitsDashbordModel();
                 //int TenantId = AbpSession.TenantId.Value;
 
-                var SP_Name = Constants.LiveChat.SP_TicketsGetAll;
+                string functionName = "dbo.tickets_get_all"; // PostgreSQL function name as string
 
-                var sqlParameters = new List<System.Data.SqlClient.SqlParameter> {
-                     new System.Data.SqlClient.SqlParameter("@TenantId",TenantId)
-                    ,new System.Data.SqlClient.SqlParameter("@Start",start)
-                    ,new System.Data.SqlClient.SqlParameter("@End",end)
-
-                };
-
-                var OutputParameter = new System.Data.SqlClient.SqlParameter
+                // Create NpgsqlParameter array
+                Npgsql.NpgsqlParameter[] npgsqlParameters = new Npgsql.NpgsqlParameter[]
                 {
-                    SqlDbType = SqlDbType.BigInt,
-                    ParameterName = "@TotalTicket",
-                    Direction = ParameterDirection.Output
+            new Npgsql.NpgsqlParameter("p_tenantid", TenantId),
+            new Npgsql.NpgsqlParameter("p_start", start),
+            new Npgsql.NpgsqlParameter("p_end", end)
                 };
-                sqlParameters.Add(OutputParameter);
 
-                tickitsDashbordModel.tickitDashModel = SqlDataHelper.ExecuteReader(SP_Name, sqlParameters.ToArray(), DataReaderMapper.MapGetTicketsAllDash, AppSettingsModel.ConnectionStrings).ToList();
-                tickitsDashbordModel.TotalTickits = (long)OutputParameter.Value;
+                // Execute function
+                tickitsDashbordModel.tickitDashModel = PostgresDataHelper.ExecuteFunction(
+                    functionName,
+                    npgsqlParameters,
+                    DataReaderMapper.MapGetTicketsAllDashPSQL,
+                    _postgresConnection
+                ).ToList();
+
+                // Compute total tickets
+                tickitsDashbordModel.TotalTickits = tickitsDashbordModel.tickitDashModel != null
+                ? tickitsDashbordModel.tickitDashModel.Sum(x => x.TotalOpen + x.TotalClose + x.TotalPending)
+                   : 0;
 
                 return tickitsDashbordModel;
             }
@@ -2323,38 +2398,40 @@ namespace Infoseed.MessagingPortal.Tenants.Dashboard
                 throw ex;
             }
         }
-        //User Performance (booking)
-        private BookingDashbordModel bookingGetAll(DateTime start, DateTime end,int TenantId)
+        private BookingDashbordModel bookingGetAll(DateTime start, DateTime end, int TenantId)
         {
             try
             {
-                BookingDashbordModel model = new BookingDashbordModel();
+                var model = new BookingDashbordModel();
+                string functionName = "dbo.booking_get_all"; // PostgreSQL function name
 
-                var SP_Name = Constants.Booking.SP_BookingGetAll;
-
-                var sqlParameters = new List<System.Data.SqlClient.SqlParameter> {
-                     new System.Data.SqlClient.SqlParameter("@TenantId",TenantId)
-                    ,new System.Data.SqlClient.SqlParameter("@Start",start)
-                    ,new System.Data.SqlClient.SqlParameter("@End",end)
-
-                };
-
-                var OutputParameter = new System.Data.SqlClient.SqlParameter
+                // PostgreSQL function parameters
+                var parameters = new NpgsqlParameter[]
                 {
-                    SqlDbType = SqlDbType.BigInt,
-                    ParameterName = "@TotalBooking",
-                    Direction = ParameterDirection.Output
+                    new NpgsqlParameter("p_tenantid", TenantId),
+                    new NpgsqlParameter("p_start", start),
+                    new NpgsqlParameter("p_end", end)
                 };
-                sqlParameters.Add(OutputParameter);
 
-                model.bookingDashModel = SqlDataHelper.ExecuteReader(SP_Name, sqlParameters.ToArray(), DataReaderMapper.MapGetBookingAllDash, AppSettingsModel.ConnectionStrings).ToList();
-                model.TotalBooking = (long)OutputParameter.Value;
+                // Execute function
+                var rows = PostgresDataHelper.ExecuteFunction(
+                    functionName,
+                    parameters,
+                    DataReaderMapper.MapGetBookingAllDashPSQL,
+                    _postgresConnection
+                ).ToList();
+
+                model.bookingDashModel = rows;
+
+                // Compute TotalBooking exactly like SQL Server:
+                // Sum of all rows (TotalBooked + TotalConfirmed + TotalCancelled + TotalDeleted + TotalPending)
+                model.TotalBooking = rows.Sum(r => r.TotalBooked + r.TotalConfirmed + r.TotalCancelled + r.TotalDeleted + r.TotalPending);
 
                 return model;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw ex;
+                throw;
             }
         }
         private UserPerformanceBookingGenarecModel getPerformanceBooking(DateTime start, DateTime end,int TenantId)
@@ -2445,42 +2522,49 @@ namespace Infoseed.MessagingPortal.Tenants.Dashboard
             }
         }
 
-        /// <summary>
-        /// get all orders Statistics Number in same tenant used in dashboard
-        /// </summary>
-        /// <param name="start">start date </param>
-        /// <param name="end">end date </param>
-        /// <param name="TenantId">tenant id</param>
-        /// <param name="BranchId">Branch id for filtering</param>
-        /// <returns></returns>
-        private OrderStatisticsModel ordersStatisticsGet(DateTime start, DateTime end ,int TenantId, long BranchId = 0)
+        private OrderStatisticsModel ordersStatisticsGet(DateTime start, DateTime end, int TenantId, long BranchId = 0)
         {
             try
             {
-                //start = new DateTime(2023, 12, 1);
-                //end = new DateTime(2023, 12, 1);
                 OrderStatisticsModel model = new OrderStatisticsModel();
-                //int TenantId = AbpSession.TenantId.Value;
 
-                var SP_Name = Constants.Order.SP_OrdersStatisticsGet;
+                // Function name as variable (similar to SP_Name in SQL Server)
+                var functionName = "dbo.orders_statistics_get";
 
-                var sqlParameters = new List<System.Data.SqlClient.SqlParameter> {
-                     new System.Data.SqlClient.SqlParameter("@TenantId",TenantId)
-                    ,new System.Data.SqlClient.SqlParameter("@Start",start.AddHours(AppSettingsModel.AddHour))
-                    ,new System.Data.SqlClient.SqlParameter("@End",end.AddHours(AppSettingsModel.AddHour))
-                    ,new System.Data.SqlClient.SqlParameter("@BranchId",BranchId)
-                };
+                using (var conn = new Npgsql.NpgsqlConnection(_postgresConnection))
+                using (var cmd = new Npgsql.NpgsqlCommand())
+                {
+                    cmd.Connection = conn;
+                    cmd.CommandType = System.Data.CommandType.Text;
 
-                model = SqlDataHelper.ExecuteReader(SP_Name, sqlParameters.ToArray(), DataReaderMapper.MapOrderGetStatistics, AppSettingsModel.ConnectionStrings).FirstOrDefault();
-               
+                    // Pass the function name dynamically
+                    cmd.CommandText = $"SELECT * FROM {functionName}(@p_tenantid, @p_start, @p_end, @p_branchid);";
+
+                    cmd.Parameters.AddWithValue("@p_tenantid", TenantId);
+                    cmd.Parameters.AddWithValue("@p_start", start.AddHours(AppSettingsModel.AddHour));
+                    cmd.Parameters.AddWithValue("@p_end", end.AddHours(AppSettingsModel.AddHour));
+                    cmd.Parameters.AddWithValue("@p_branchid", BranchId);
+
+                    conn.Open();
+
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            model = DataReaderMapper.MapOrderGetStatistics(reader);
+                        }
+                    }
+                }
 
                 return model;
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw;
             }
         }
+
+
         /// <summary>
         /// get all booking Statistics Number in same tenant used in dashboard
         /// </summary>
@@ -2489,29 +2573,36 @@ namespace Infoseed.MessagingPortal.Tenants.Dashboard
         /// <param name="TenantId">tenant id</param>
         /// <param name="UserId">User id for filtering</param>
         /// <returns></returns>
-        private BookingStatisticsModel bookingStatisticsGet(DateTime start, DateTime end ,int TenantId, long UserId = 0)
+        private BookingStatisticsModel bookingStatisticsGet(DateTime start, DateTime end, int TenantId, long UserId = 0)
         {
             try
             {
                 BookingStatisticsModel model = new BookingStatisticsModel();
-                //int TenantId = AbpSession.TenantId.Value;
 
-                var SP_Name = Constants.Booking.SP_BookingStatisticsGet;
+                string functionName = "dbo.booking_statistics_get"; // PostgreSQL function name
 
-                var sqlParameters = new List<System.Data.SqlClient.SqlParameter> {
-                     new System.Data.SqlClient.SqlParameter("@TenantId",TenantId)
-                    ,new System.Data.SqlClient.SqlParameter("@Start",start)
-                    ,new System.Data.SqlClient.SqlParameter("@End",end)
-                    ,new System.Data.SqlClient.SqlParameter("@UserId",UserId)
+                // Create NpgsqlParameter array
+                NpgsqlParameter[] npgsqlParameters = new NpgsqlParameter[]
+                {
+                    new NpgsqlParameter("p_tenantid", TenantId),
+                    new NpgsqlParameter("p_start", start),
+                    new NpgsqlParameter("p_end", end),
+                    new NpgsqlParameter("p_userid", UserId)
                 };
 
-                model = SqlDataHelper.ExecuteReader(SP_Name, sqlParameters.ToArray(), DataReaderMapper.MapBookingGetStatistics, AppSettingsModel.ConnectionStrings).FirstOrDefault();
+                // Execute the function using PostgresDataHelper
+                model = PostgresDataHelper.ExecuteFunction<BookingStatisticsModel>(
+                     functionName,
+                     npgsqlParameters,
+                     new Converter<IDataReader, BookingStatisticsModel>(DataReaderMapper.MapBookingGetStatisticsPSQL),
+                     _postgresConnection
+                 ).FirstOrDefault();
 
                 return model;
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw;
             }
         }
         /// <summary>
@@ -2547,35 +2638,40 @@ namespace Infoseed.MessagingPortal.Tenants.Dashboard
             }
         }
         /// <summary>
-        /// get all contact Statistics Number in same tenant used in dashboard
+        /// Get all contact statistics in the same tenant (PostgreSQL version)
         /// </summary>
-        /// <param name="start">start date </param>
-        /// <param name="end">end date </param>
-        /// <param name="TenantId">tenant id</param>
-        /// <returns></returns>
+        /// <param name="start">Start date</param>
+        /// <param name="end">End date</param>
+        /// <param name="TenantId">Tenant ID</param>
+        /// <returns>ContactStatisticsModel</returns>
         private ContactStatisticsModel contactStatisticsGet(DateTime start, DateTime end, int TenantId)
         {
             try
             {
                 ContactStatisticsModel model = new ContactStatisticsModel();
-                //int TenantId = AbpSession.TenantId.Value;
 
-                var SP_Name = Constants.Contacts.SP_ContactsStatisticsGet;
+                // PostgreSQL function name
+                var functionName = "dbo.contacts_statistics_get";
 
-                var sqlParameters = new List<System.Data.SqlClient.SqlParameter> {
-                     new System.Data.SqlClient.SqlParameter("@TenantId",TenantId)
-                    ,new System.Data.SqlClient.SqlParameter("@Start",start)
-                    ,new System.Data.SqlClient.SqlParameter("@End",end)
-
+                // Map SQL Server parameters to Npgsql parameters
+                var sqlParameters = new Npgsql.NpgsqlParameter[]
+                {
+                    new Npgsql.NpgsqlParameter("p_tenantid", TenantId),
+                    new Npgsql.NpgsqlParameter("p_start", start),
+                    new Npgsql.NpgsqlParameter("p_end", end)
                 };
 
-                model = SqlDataHelper.ExecuteReader(SP_Name, sqlParameters.ToArray(), DataReaderMapper.MapContactGetStatistics, AppSettingsModel.ConnectionStrings).FirstOrDefault();
+                // Use PostgresDataHelper to execute the function
+                string connectionString = _postgresConnection; // Make sure this is your PostgreSQL connection string
+
+                model = PostgresDataHelper.ExecuteFunction(functionName, sqlParameters, DataReaderMapper.MapContactGetStatisticsPSQL, connectionString)
+                                           .FirstOrDefault();
 
                 return model;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw ex;
+                throw; // Keep stack trace intact
             }
         }
         /// <summary>
