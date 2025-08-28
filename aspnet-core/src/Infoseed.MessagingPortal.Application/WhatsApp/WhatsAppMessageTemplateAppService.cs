@@ -2,6 +2,7 @@
 using Abp.Web.Models;
 using DuoVia.FuzzyStrings;
 using Framework.Data;
+using Framework.Data.Sql; // <-- Import PostgresDataHelper
 using Infoseed.MessagingPortal.Booking.Dtos;
 using Infoseed.MessagingPortal.CaptionBot;
 using Infoseed.MessagingPortal.CaptionBot.Dtos;
@@ -22,15 +23,18 @@ using InfoSeedParser.Interfaces;
 using InfoSeedParser.Parsers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Documents;
+using Microsoft.Extensions.Configuration;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Queue;
 using MongoDB.Driver;
 using Newtonsoft.Json;
+using Npgsql;
 using NUglify.Helpers;
 using PhoneNumbers;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -61,7 +65,7 @@ namespace Infoseed.MessagingPortal.WhatsApp
         private readonly ICampaginExcelExporter _campaginExcelExporter;
 
         private readonly IContactNewParser _ContactNewParser;
-
+        private readonly string _postgresConnection;
 
         private string url = "https://startcampingstgnew.azurewebsites.net/api/startCampaign";
         //private string url = "https://startcampign.azurewebsites.net/api/startCampaign";
@@ -72,7 +76,8 @@ namespace Infoseed.MessagingPortal.WhatsApp
             TenantDashboardAppService tenantDashboardAppService,
             IGroupAppService groupAppService,
             IWalletAppService walletAppService,
-            ICampaginExcelExporter campaginExcelExporter
+            ICampaginExcelExporter campaginExcelExporter,
+            IConfiguration configuration
             )
         {
             _ContactParser = new ParserFactory().CreateParserContact(nameof(ContactExcelParser));
@@ -84,6 +89,8 @@ namespace Infoseed.MessagingPortal.WhatsApp
             _groupAppService = groupAppService;
             _walletAppService = walletAppService;
             _campaginExcelExporter = campaginExcelExporter;
+            // Here is the Postgres connection string from appsettings.json
+            _postgresConnection = configuration.GetConnectionString("postgres");
         }
 
 
@@ -3161,35 +3168,45 @@ namespace Infoseed.MessagingPortal.WhatsApp
                 throw ex;
             }
         }
+
         private MessageTemplateModel getTemplateByWhatsAppId(string templateId)
         {
             try
             {
-                var SP_Name = Constants.WhatsAppTemplates.SP_TemplateGetByWhatsAppId;
-                MessageTemplateModel objWhatsAppTemplateModel = new MessageTemplateModel();
-                var sqlParameters = new List<System.Data.SqlClient.SqlParameter> { new System.Data.SqlClient.SqlParameter("@TemplateId", templateId) };
-                objWhatsAppTemplateModel = SqlDataHelper.ExecuteReader(SP_Name, sqlParameters.ToArray(), DataReaderMapper.MapTemplate, AppSettingsModel.ConnectionStrings).FirstOrDefault();
+                // Prepare Npgsql parameter
+                var npgsqlParams = new NpgsqlParameter[]
+                {
+                     new NpgsqlParameter("p_templateid", templateId)
+                   
+                }; 
 
-                //if (objWhatsAppTemplateModel != null)
-                //{
-                //    foreach (var item in objWhatsAppTemplateModel.components)
-                //    {
-                //        if (item.text != null)
-                //        {
-                //            item.text = PlainTextTohtml(item.text);
-                //            //item.text = PlainTextTohtml(item.text);
-                //        }
-                //    }
-                //}
+                // Execute PostgreSQL function
+                var result = PostgresDataHelper.ExecuteFunction(
+                    "dbo.template_get_by_whatsappid",
+                    npgsqlParams,
+                    DataReaderMapper.MapTemplatePSQL,  // Use updated mapper
+                    _postgresConnection                 // Connection string from configuration
+                ).FirstOrDefault();
 
-                return objWhatsAppTemplateModel;
+                // Optional: process components if needed
+                if (result != null)
+                {
+                    // Uncomment if you need to process component text
+                    //foreach (var item in result.components)
+                    //{
+                    //    if (item.text != null)
+                    //        item.text = PlainTextTohtml(item.text);
+                    //}
+                }
+
+                return result;
             }
             catch (Exception ex)
             {
-
                 throw ex;
             }
         }
+
         private SendCampinStatesModel sendCampaignNow(CampinToQueueDto contactsEntity)
         {
             SendCampinStatesModel sendCampinStatesModel = new SendCampinStatesModel();
