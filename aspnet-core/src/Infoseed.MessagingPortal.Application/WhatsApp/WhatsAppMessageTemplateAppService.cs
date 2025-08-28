@@ -3919,50 +3919,48 @@ namespace Infoseed.MessagingPortal.WhatsApp
             try
             {
                 if (messageTemplateModel.TenantId == 0)
-                {
                     messageTemplateModel.TenantId = AbpSession.TenantId.Value;
-                }
-                var SP_Name = Constants.WhatsAppTemplates.SP_WhatsAppTemplatesAdd;
-                if (messageTemplateModel.TenantId != 0)
+
+                var npgsqlParams = new NpgsqlParameter[]
                 {
+                    new NpgsqlParameter("p_tenantid", messageTemplateModel.TenantId),
+                    new NpgsqlParameter("p_template_name", messageTemplateModel.name),
+                    new NpgsqlParameter("p_template_language", messageTemplateModel.language),
+                    new NpgsqlParameter("p_template_component", JsonConvert.SerializeObject(messageTemplateModel.components)),
+                    new NpgsqlParameter("p_template_status", (object)messageTemplateModel.status ?? DBNull.Value),
+                    new NpgsqlParameter("p_template_category", messageTemplateModel.category),
+                    new NpgsqlParameter("p_template_sub_category", (object)messageTemplateModel.sub_category ?? DBNull.Value),
+                    new NpgsqlParameter("p_whatsapptemplateid", messageTemplateModel.id),
+                    new NpgsqlParameter("p_media_type", (object)messageTemplateModel.mediaType ?? DBNull.Value),
+                    new NpgsqlParameter("p_media_link", (object)messageTemplateModel.mediaLink ?? DBNull.Value),
+                    new NpgsqlParameter("p_variable_count", messageTemplateModel.VariableCount),
+                    new NpgsqlParameter("p_btnoneactionid", (object)messageTemplateModel.BtnOneActionId ?? DBNull.Value),
+                    new NpgsqlParameter("p_btntwoactionid", (object)messageTemplateModel.BtnTwoActionId ?? DBNull.Value),
+                    new NpgsqlParameter("p_btnthreeactionid", (object)messageTemplateModel.BtnThreeActionId ?? DBNull.Value)
+                };
 
-
-                    var sqlParameters = new List<System.Data.SqlClient.SqlParameter> {
-                         new System.Data.SqlClient.SqlParameter("@TemplateName",messageTemplateModel.name)
-                        ,new System.Data.SqlClient.SqlParameter("@TemplateLanguage",messageTemplateModel.language)
-                        ,new System.Data.SqlClient.SqlParameter("@TemplateComponent",JsonConvert.SerializeObject(messageTemplateModel.components))
-                        ,new System.Data.SqlClient.SqlParameter("@TemplateStatus",messageTemplateModel.status)
-                        ,new System.Data.SqlClient.SqlParameter("@TemplateCategory",messageTemplateModel.category)
-                        ,new System.Data.SqlClient.SqlParameter("@TemplateSubCategory",messageTemplateModel.sub_category)
-                        ,new System.Data.SqlClient.SqlParameter("@WhatsAppTemplateId",messageTemplateModel.id)
-                        ,new System.Data.SqlClient.SqlParameter("@MediaType",messageTemplateModel.mediaType)
-                        ,new System.Data.SqlClient.SqlParameter("@MediaLink",messageTemplateModel.mediaLink)
-                        ,new System.Data.SqlClient.SqlParameter("@TenantId",messageTemplateModel.TenantId)
-                        ,new System.Data.SqlClient.SqlParameter("@VariableCount",messageTemplateModel.VariableCount)
-                        ,new System.Data.SqlClient.SqlParameter("@BtnOneActionId",messageTemplateModel.BtnOneActionId)
-                        ,new System.Data.SqlClient.SqlParameter("@BtnTwoActionId",messageTemplateModel.BtnTwoActionId)
-                        ,new System.Data.SqlClient.SqlParameter("@BtnThreeActionId",messageTemplateModel.BtnThreeActionId)
-                    };
-
-                    var OutputParameter = new System.Data.SqlClient.SqlParameter();
-                    OutputParameter.SqlDbType = SqlDbType.BigInt;
-                    OutputParameter.ParameterName = "@TemplateId";
-                    OutputParameter.Direction = ParameterDirection.Output;
-                    sqlParameters.Add(OutputParameter);
-
-                    SqlDataHelper.ExecuteNoneQuery(SP_Name, sqlParameters.ToArray(), AppSettingsModel.ConnectionStrings);
-                    return (long)OutputParameter.Value;
-                }
-                else
+                Debug.WriteLine("Adding WhatsApp template with parameters:");
+                foreach (var p in npgsqlParams)
                 {
-                    return 0;
+                    Debug.WriteLine($"{p.ParameterName} = {p.Value}");
                 }
+
+                var newTemplateId = PostgresDataHelper.ExecuteScalarFunction<long>(
+                    "dbo.whats_app_template_add",
+                    npgsqlParams,
+                    _postgresConnection
+                );
+
+                return newTemplateId;
             }
             catch (Exception ex)
             {
-                throw ex;
+                Debug.WriteLine("Failed to add WhatsApp template: " + ex.Message);
+                throw;
             }
         }
+
+
 
         private void updateWhatsAppMessageTemplate(MessageTemplateModel messageTemplateModel)
         {
