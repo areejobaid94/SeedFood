@@ -2,6 +2,7 @@
 using Abp.Web.Models;
 using DuoVia.FuzzyStrings;
 using Framework.Data;
+using Framework.Data.Sql; // <-- Import PostgresDataHelper
 using Infoseed.MessagingPortal.Booking.Dtos;
 using Infoseed.MessagingPortal.CaptionBot;
 using Infoseed.MessagingPortal.CaptionBot.Dtos;
@@ -22,15 +23,18 @@ using InfoSeedParser.Interfaces;
 using InfoSeedParser.Parsers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Documents;
+using Microsoft.Extensions.Configuration;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Queue;
 using MongoDB.Driver;
 using Newtonsoft.Json;
+using Npgsql;
 using NUglify.Helpers;
 using PhoneNumbers;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -49,7 +53,7 @@ namespace Infoseed.MessagingPortal.WhatsApp
 {
     public class WhatsAppMessageTemplateAppService : MessagingPortalAppServiceBase, IWhatsAppMessageTemplateAppService
     {
-       // public string connectionStringMongoDB = "mongodb+srv://infoseed:P%40ssw0rd@campagindb.global.mongocluster.cosmos.azure.com/?tls=true&authMechanism=SCRAM-SHA-256&retrywrites=false&maxIdleTimeMS=120000";
+        // public string connectionStringMongoDB = "mongodb+srv://infoseed:P%40ssw0rd@campagindb.global.mongocluster.cosmos.azure.com/?tls=true&authMechanism=SCRAM-SHA-256&retrywrites=false&maxIdleTimeMS=120000";
         public string connectionStringMongoDB = "mongodb+srv://infoseed:P%40ssw0rd@campagindbstg.global.mongocluster.cosmos.azure.com/?tls=true&authMechanism=SCRAM-SHA-256&retrywrites=false&maxIdleTimeMS=120000";
 
         private readonly IDocumentClient _IDocumentClient;
@@ -61,7 +65,7 @@ namespace Infoseed.MessagingPortal.WhatsApp
         private readonly ICampaginExcelExporter _campaginExcelExporter;
 
         private readonly IContactNewParser _ContactNewParser;
-
+        private readonly string _postgresConnection;
 
         private string url = "https://startcampingstgnew.azurewebsites.net/api/startCampaign";
         //private string url = "https://startcampign.azurewebsites.net/api/startCampaign";
@@ -72,7 +76,8 @@ namespace Infoseed.MessagingPortal.WhatsApp
             TenantDashboardAppService tenantDashboardAppService,
             IGroupAppService groupAppService,
             IWalletAppService walletAppService,
-            ICampaginExcelExporter campaginExcelExporter
+            ICampaginExcelExporter campaginExcelExporter,
+            IConfiguration configuration
             )
         {
             _ContactParser = new ParserFactory().CreateParserContact(nameof(ContactExcelParser));
@@ -83,7 +88,9 @@ namespace Infoseed.MessagingPortal.WhatsApp
             _tenantDashboardAppService = tenantDashboardAppService;
             _groupAppService = groupAppService;
             _walletAppService = walletAppService;
-            _campaginExcelExporter=campaginExcelExporter;
+            _campaginExcelExporter = campaginExcelExporter;
+            // Here is the Postgres connection string from appsettings.json
+            _postgresConnection = configuration.GetConnectionString("postgres");
         }
 
 
@@ -120,7 +127,7 @@ namespace Infoseed.MessagingPortal.WhatsApp
                     // Find the first matching document
                     var filterResult = await collection.Find(filter).ToListAsync();
 
-                    model=filterResult;
+                    model = filterResult;
 
 
                     foreach (var mo in model)
@@ -128,14 +135,14 @@ namespace Infoseed.MessagingPortal.WhatsApp
 
 
 
-                        if (mo.status=="not_send")
+                        if (mo.status == "not_send")
                         {
 
-                            mo.statusCode=0;
+                            mo.statusCode = 0;
 
                         }
 
-                        if(mo.statusCode==200 && !mo.is_sent)
+                        if (mo.statusCode == 200 && !mo.is_sent)
                         {
 
                             mo.failedDetails = "Inactive WhatsApp number or The recipient’s phone being offline for an extended period.";
@@ -268,7 +275,7 @@ namespace Infoseed.MessagingPortal.WhatsApp
             }
 
 
-            return _campaginExcelExporter.BackUpCampaginForAll(model); 
+            return _campaginExcelExporter.BackUpCampaginForAll(model);
         }
 
         public async Task<WhatsAppAnalyticsModel> GetWhatsAppAnalyticAsync(DateTime start, DateTime end)
@@ -276,7 +283,7 @@ namespace Infoseed.MessagingPortal.WhatsApp
             return await getWhatsAppAnalyticAsync(start, end);
         }
 
-        public long SendMessageTemplate(WhatsAppContactsDto contacts, long templateId, long campaignId,bool IsContact)
+        public long SendMessageTemplate(WhatsAppContactsDto contacts, long templateId, long campaignId, bool IsContact)
         {
             return sendMessageTemplate(contacts, templateId, campaignId, IsContact);
         }
@@ -290,7 +297,7 @@ namespace Infoseed.MessagingPortal.WhatsApp
         }
 
 
-         static List<List<T>> SplitListD<T>(List<T> items, int size)
+        static List<List<T>> SplitListD<T>(List<T> items, int size)
         {
             List<List<T>> result = new List<List<T>>();
             for (int i = 0; i < items.Count; i += size)
@@ -305,7 +312,7 @@ namespace Infoseed.MessagingPortal.WhatsApp
             try
             {
                 #region create camp
-                var  checkIdRes = TitleCompaignCheck(contactsEntity.campaignName);
+                var checkIdRes = TitleCompaignCheck(contactsEntity.campaignName);
                 if (!checkIdRes.IsSuccess)
                 {
                     return new SendCampinStatesModel()
@@ -320,7 +327,7 @@ namespace Infoseed.MessagingPortal.WhatsApp
                 whatsAppCampaignModel.Title = contactsEntity.campaignName;
                 whatsAppCampaignModel.Language = contactsEntity.templateLanguage;
                 whatsAppCampaignModel.TemplateId = contactsEntity.templateId;
-                whatsAppCampaignModel.Type=1;
+                whatsAppCampaignModel.Type = 1;
                 contactsEntity.campaignId = AddWhatsAppCampaign(whatsAppCampaignModel);
                 #endregion
                 if (sendTime == null)
@@ -373,15 +380,15 @@ namespace Infoseed.MessagingPortal.WhatsApp
             {
                 contactsEntity = GetFilterContacts(contacts);
             }
-            else 
-            { 
+            else
+            {
                 contactsEntity = GetExternalContacts(templateId, campaignId, pageNumber, pageSize, tenantId);
             }
             bool isFailed = true;
             int counts = GetDailyLimit(tenantId);
             if (contactsEntity.TotalCount <= counts)
             {
-                
+
                 if (walletModel.TotalAmount > 0 && contactsEntity.contacts != null)
                 {
                     var category = GetTemplatesCategory(templateId);
@@ -468,7 +475,7 @@ namespace Infoseed.MessagingPortal.WhatsApp
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        private async Task addAsExternalContact(ContactsEntity contactsEntity,long templateId, long campaignId)
+        private async Task addAsExternalContact(ContactsEntity contactsEntity, long templateId, long campaignId)
         {
             try
             {
@@ -517,7 +524,7 @@ namespace Infoseed.MessagingPortal.WhatsApp
                 return 0;
             }
         }
-        public long SendMessageTemplateNew( string parm,string title)
+        public long SendMessageTemplateNew(string parm, string title)
         {
             int tenantId = AbpSession.TenantId.Value;
 
@@ -533,7 +540,7 @@ namespace Infoseed.MessagingPortal.WhatsApp
         {
             return sendCampaignValidation();
         }
-        public async Task <WhatsAppMessageTemplateModel> GetWhatsAppMessageTemplateAsync()
+        public async Task<WhatsAppMessageTemplateModel> GetWhatsAppMessageTemplateAsync()
         {
             try
             {
@@ -554,7 +561,7 @@ namespace Infoseed.MessagingPortal.WhatsApp
         }
         public async Task<WhatsAppEntity> GetWhatsAppTemplateForCampaign(int pageNumber = 0, int pageSize = 50, int? tenantId = null)
         {
-            return await getWhatsAppTemplateForCampaign(pageNumber, pageSize,tenantId);
+            return await getWhatsAppTemplateForCampaign(pageNumber, pageSize, tenantId);
 
         }
         public List<MessageTemplateModel> GetLocalTemplates()
@@ -622,11 +629,11 @@ namespace Infoseed.MessagingPortal.WhatsApp
         }
         public async Task<CampinToQueueDto> GetNewFilterContacts(WhatsAppContactsDto contacts)
         {
-            return  await getNewFilterContacts(contacts);
+            return await getNewFilterContacts(contacts);
         }
         public ContactsEntity GetExternalContacts(long templateId, long? campaignId, int? pageNumber = 0, int? pageSize = 20, int? tenantId = null)
         {
-            return getExternalContacts(templateId, campaignId,pageNumber,pageSize,tenantId);
+            return getExternalContacts(templateId, campaignId, pageNumber, pageSize, tenantId);
         }
         public CampinToQueueDto GetNewExternalContacts(long templateId, long? campaignId, int? pageNumber = 0, int? pageSize = 20, int? tenantId = null)
         {
@@ -712,7 +719,7 @@ namespace Infoseed.MessagingPortal.WhatsApp
         {
             return getInfoSeedUrlFile(file);
         }
-        private async Task<string> getInfoSeedUrlFile([FromForm] UploadFileModel model,string filename="")
+        private async Task<string> getInfoSeedUrlFile([FromForm] UploadFileModel model, string filename = "")
         {
             var url = "";
             if (model.FormFile != null)
@@ -738,7 +745,7 @@ namespace Infoseed.MessagingPortal.WhatsApp
                             Content = fileData,
                             Extension = Path.GetExtension(filename),
                             MimeType = formFile.ContentType,
-                            fileName=filename.Replace(Path.GetExtension(filename), "")
+                            fileName = filename.Replace(Path.GetExtension(filename), "")
 
                         };
 
@@ -753,14 +760,14 @@ namespace Infoseed.MessagingPortal.WhatsApp
                             Content = fileData,
                             Extension = Path.GetExtension(formFile.FileName),
                             MimeType = formFile.ContentType,
-                            fileName=formFile.FileName.Replace(Path.GetExtension(formFile.FileName), "")
+                            fileName = formFile.FileName.Replace(Path.GetExtension(formFile.FileName), "")
 
                         };
 
                         url = await azureBlobProvider.Save(attachmentContent);
 
                     }
-              
+
                 }
             }
             return url;
@@ -786,7 +793,7 @@ namespace Infoseed.MessagingPortal.WhatsApp
                 fileData = ms.ToArray();
             }
 
-            var filename = Guid.NewGuid().ToString()+formFile.FileName;
+            var filename = Guid.NewGuid().ToString() + formFile.FileName;
             content.Add(new StreamContent(new MemoryStream(fileData)), formFile.ContentType, filename);
 
             var message = await client.PostAsync(postUrl, content);
@@ -794,7 +801,7 @@ namespace Infoseed.MessagingPortal.WhatsApp
             WhatsAppHeaderUrl whatsAppHeaderUrl = new WhatsAppHeaderUrl();
             whatsAppHeaderUrl = JsonConvert.DeserializeObject<WhatsAppHeaderUrl>(result);
 
-            whatsAppHeaderUrl.filename=filename;
+            whatsAppHeaderUrl.filename = filename;
             return whatsAppHeaderUrl;
 
 
@@ -830,7 +837,7 @@ namespace Infoseed.MessagingPortal.WhatsApp
                         .ToList();
                 }
                 WhatsAppComponentModel componentBody = clonedTemplate.components.FirstOrDefault(x => x.type == "BODY");
-           
+
                 if (clonedTemplate.category == "AUTHENTICATION")
                 {
                     WhatsAppComponentModel componentFooter = clonedTemplate.components.FirstOrDefault(x => x.type == "FOOTER");
@@ -1001,7 +1008,7 @@ namespace Infoseed.MessagingPortal.WhatsApp
 
                     clonedTemplate.sub_category = null;
                 }
-                if (carousel!=null)
+                if (carousel != null)
                 {
                     clonedTemplate.sub_category = null;
                     foreach (var component in clonedTemplate.components)
@@ -1071,7 +1078,7 @@ namespace Infoseed.MessagingPortal.WhatsApp
         }
         public long AddScheduledCampaign(WhatsAppContactsDto contacts, string sendTime, long campaignId, long templateId, bool isExternalContact)
         {
-            return   addScheduledCampaign(contacts, sendTime, campaignId, templateId, isExternalContact);
+            return addScheduledCampaign(contacts, sendTime, campaignId, templateId, isExternalContact);
         }
 
         public void UpdateActivationScheduledCampaign(long campaignId)
@@ -1223,7 +1230,7 @@ namespace Infoseed.MessagingPortal.WhatsApp
                 {
                     return new BookingContact();
                 }
-                
+
 
             }
             catch (Exception ex)
@@ -1232,7 +1239,7 @@ namespace Infoseed.MessagingPortal.WhatsApp
             }
         }
 
-        public BotReservedWordsEntity GetBotReservedWords(int? pageNumber = 0, int? pageSize = 20, int? tenantId = null ,string keyFilter = "")
+        public BotReservedWordsEntity GetBotReservedWords(int? pageNumber = 0, int? pageSize = 20, int? tenantId = null, string keyFilter = "")
         {
             return getBotReservedWords(pageNumber, pageSize, tenantId, keyFilter);
         }
@@ -1248,7 +1255,7 @@ namespace Infoseed.MessagingPortal.WhatsApp
         {
             return addBotReservedWord(model);
         }
-        public void DeleteBotReservedWord(long Id) 
+        public void DeleteBotReservedWord(long Id)
         {
             deleteBotReservedWord(Id);
         }
@@ -1273,16 +1280,16 @@ namespace Infoseed.MessagingPortal.WhatsApp
             {
                 var statistics = getStatistics(booking.TenantId);
                 MessageTemplateModel objWhatsAppTemplateModel = getTemplateById(booking.TemplateId);
-                MessageTemplateModel templateWA = getTemplateByWhatsAppId(tenant,objWhatsAppTemplateModel.id).Result;
+                MessageTemplateModel templateWA = getTemplateByWhatsAppId(tenant, objWhatsAppTemplateModel.id).Result;
                 BookingContact bookingContact = new BookingContact();
-                if (templateWA != null && templateWA.status == Enum.GetName(typeof(WhatsAppTemplateStatusEnum),WhatsAppTemplateStatusEnum.APPROVED))
+                if (templateWA != null && templateWA.status == Enum.GetName(typeof(WhatsAppTemplateStatusEnum), WhatsAppTemplateStatusEnum.APPROVED))
                 {
                     objWhatsAppTemplateModel.components = templateWA.components;
                     bool isContact = _contactsAppService.CheckIfExistContactByPhoneNumber(booking.PhoneNumber);
                     string msg = prepareMessageTemplateText(objWhatsAppTemplateModel, out string type);
                     PostMessageTemplateModel _postMessageTemplateModel = prepareBookingMessageTemplate(objWhatsAppTemplateModel, booking, template.Text);
                     var postBody = JsonConvert.SerializeObject(_postMessageTemplateModel, Formatting.None, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
-                    bookingContact = await SendBookingTemplateToWhatsApp(tenant, postBody, _postMessageTemplateModel.to,isContact, msg, type, objWhatsAppTemplateModel.mediaLink,template.TextResourceId);
+                    bookingContact = await SendBookingTemplateToWhatsApp(tenant, postBody, _postMessageTemplateModel.to, isContact, msg, type, objWhatsAppTemplateModel.mediaLink, template.TextResourceId);
                     bookingContact.BookingId = booking.Id;
 
                     if (bookingContact.IsSent)
@@ -1305,7 +1312,7 @@ namespace Infoseed.MessagingPortal.WhatsApp
                             UpdateBIConversation(UsageBIRate, UsageFreeRate);
                         }
                     }
-                    
+
                     return bookingContact;
                 }
                 else
@@ -1450,7 +1457,7 @@ namespace Infoseed.MessagingPortal.WhatsApp
             }
 
         }
-        private async Task<BookingContact> SendBookingTemplateToWhatsApp(TenantModel tenant, string postBody, string phoneNumber, bool isContacts, string msg, string type, string mediaUrl,int textResourceId)
+        private async Task<BookingContact> SendBookingTemplateToWhatsApp(TenantModel tenant, string postBody, string phoneNumber, bool isContacts, string msg, string type, string mediaUrl, int textResourceId)
         {
             try
             {
@@ -1519,7 +1526,7 @@ namespace Infoseed.MessagingPortal.WhatsApp
             try
             {
                 tenantId ??= AbpSession.TenantId;
-                
+
                 GetAllDashboard statistics = new GetAllDashboard();
                 var SP_Name = Constants.Dashboard.SP_ConversationMeasurementsGet;
                 var sqlParameters = new List<System.Data.SqlClient.SqlParameter> {
@@ -1532,7 +1539,7 @@ namespace Infoseed.MessagingPortal.WhatsApp
                 statistics.RemainingBIConversation = Math.Ceiling(statistics.TotalBIConversation - statistics.TotalUsageBIConversation);
                 statistics.RemainingFreeConversation = Math.Ceiling(statistics.TotalFreeConversationWA - statistics.TotalUsageFreeConversation);
                 statistics.TotalRemainingBIConversation = Math.Ceiling(statistics.RemainingBIConversation + statistics.RemainingFreeConversation);
-                
+
                 return statistics;
 
             }
@@ -1549,7 +1556,7 @@ namespace Infoseed.MessagingPortal.WhatsApp
         }
         private async Task<WhatsAppAnalyticsModel> getWhatsAppAnalyticAsync(DateTime start, DateTime end)
         {
-            int startTime , endTime =0;
+            int startTime, endTime = 0;
             var itemsCollection = new DocumentCosmoseDB<TenantModel>(CollectionTypes.ItemsCollection, _IDocumentClient);
             TenantModel tenant = await itemsCollection.GetItemAsync(a => a.ItemType == InfoSeedContainerItemTypes.Tenant && a.TenantId == (int)AbpSession.TenantId.Value);
 
@@ -1567,12 +1574,12 @@ namespace Infoseed.MessagingPortal.WhatsApp
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", tenant.AccessToken);
 
             var response = await httpClient.GetAsync(postUrl);
-            
+
             var content = response.Content;
             var result = await response.Content.ReadAsStringAsync();
             var WhatsAppAnalytic = await content.ReadAsStringAsync();
             objWhatsAppAnalytic = JsonConvert.DeserializeObject<WhatsAppAnalyticsModel>(WhatsAppAnalytic);
-            
+
 
             return objWhatsAppAnalytic;
         }
@@ -1651,7 +1658,7 @@ namespace Infoseed.MessagingPortal.WhatsApp
 
 
 
-                return  Convert.ToInt32(OutputParameter.Value);
+                return Convert.ToInt32(OutputParameter.Value);
             }
             catch (Exception ex)
             {
@@ -1672,7 +1679,7 @@ namespace Infoseed.MessagingPortal.WhatsApp
 
                 return (model != null) ? model : new DailylimitCount();
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 throw ex;
             }
@@ -1935,7 +1942,7 @@ namespace Infoseed.MessagingPortal.WhatsApp
                     rateCount += result.Rate;
                 }
                 return rateCount;
-                
+
             }
             catch (Exception ex)
             {
@@ -2199,7 +2206,7 @@ namespace Infoseed.MessagingPortal.WhatsApp
                     rateCount += result.Rate;
                 }
                 return rateCount;
-                
+
 
             }
             catch (Exception ex)
@@ -2240,7 +2247,7 @@ namespace Infoseed.MessagingPortal.WhatsApp
                    ,new System.Data.SqlClient.SqlParameter("@interestedOfThree",contacts.InterestedOfThree)
 
                    ,new System.Data.SqlClient.SqlParameter("@isOpt",contacts.IsOpt)
-                   
+
 
                    ,new System.Data.SqlClient.SqlParameter("@TemplateId",contacts.TemplateId)
                    ,new System.Data.SqlClient.SqlParameter("@CampaignId",contacts.CampaignId)
@@ -2263,7 +2270,7 @@ namespace Infoseed.MessagingPortal.WhatsApp
                 OutputParameter2.Direction = ParameterDirection.Output;
                 sqlParameters.Add(OutputParameter2);
 
-                lstContacts = SqlDataHelper.ExecuteReader(SP_Name, sqlParameters.ToArray(),DataReaderMapper.MapFilterContacts, AppSettingsModel.ConnectionStrings).ToList();
+                lstContacts = SqlDataHelper.ExecuteReader(SP_Name, sqlParameters.ToArray(), DataReaderMapper.MapFilterContacts, AppSettingsModel.ConnectionStrings).ToList();
 
 
                 contactsEntity.TotalCount = Convert.ToInt32(OutputParameter.Value);
@@ -2332,7 +2339,7 @@ namespace Infoseed.MessagingPortal.WhatsApp
                 contactsEntity.TotalCount = sortedList.Count;
                 contactsEntity.TotalOptOut = Convert.ToInt32(OutputParameter2.Value);
                 contactsEntity.contacts = sortedList;
-                return  contactsEntity;
+                return contactsEntity;
             }
             catch (Exception ex)
             {
@@ -2669,7 +2676,7 @@ namespace Infoseed.MessagingPortal.WhatsApp
             };
 
 
-            CoutryTelCodeModel result = TelCodes.Where(x => phone.StartsWith(x.Pfx) ).FirstOrDefault();
+            CoutryTelCodeModel result = TelCodes.Where(x => phone.StartsWith(x.Pfx)).FirstOrDefault();
             return result;
 
         }
@@ -2695,13 +2702,14 @@ namespace Infoseed.MessagingPortal.WhatsApp
                     {
                         return false;
                     }
-                    
-                }else
+
+                }
+                else
                 {
                     return false;
                 }
             }
-            catch(Exception)
+            catch (Exception)
             {
                 return false;
             }
@@ -2872,7 +2880,7 @@ namespace Infoseed.MessagingPortal.WhatsApp
             }
 
         }
-        private DataTable getExternalContactTable(List<WhatsAppContactsDto> contacts,long campaignId,long templateId)
+        private DataTable getExternalContactTable(List<WhatsAppContactsDto> contacts, long campaignId, long templateId)
         {
             try
             {
@@ -2886,9 +2894,9 @@ namespace Infoseed.MessagingPortal.WhatsApp
                 tbl.Columns.Add(new DataColumn("TemplateId", typeof(long)));
                 tbl.Columns.Add(new DataColumn("TemplateVariables", typeof(string)));
 
-               
+
                 List<WhatsAppContactsDto> lstLocalOptOutContacts = _contactsAppService.GetOptOutContactByTenantId(AbpSession.TenantId.Value);
-                IEnumerable<WhatsAppContactsDto> distinctList = contacts.Where(c=> !lstLocalOptOutContacts.Any(lc => lc.PhoneNumber == c.PhoneNumber)).DistinctBy(x => x.PhoneNumber).ToList();
+                IEnumerable<WhatsAppContactsDto> distinctList = contacts.Where(c => !lstLocalOptOutContacts.Any(lc => lc.PhoneNumber == c.PhoneNumber)).DistinctBy(x => x.PhoneNumber).ToList();
 
                 foreach (var item in distinctList)
                 {
@@ -2930,7 +2938,7 @@ namespace Infoseed.MessagingPortal.WhatsApp
             {
                 throw ex;
             }
-            
+
         }
 
         private long addExternalContact(WhatsAppContactsDto contact)
@@ -2957,7 +2965,7 @@ namespace Infoseed.MessagingPortal.WhatsApp
                 sqlParameters.Add(OutputParameter);
                 SqlDataHelper.ExecuteNoneQuery(SP_Name, sqlParameters.ToArray(), AppSettingsModel.ConnectionStrings);
                 return (long)OutputParameter.Value;
-                
+
             }
             catch (Exception ex)
             {
@@ -3051,7 +3059,7 @@ namespace Infoseed.MessagingPortal.WhatsApp
                 {
                     new System.Data.SqlClient.SqlParameter("@TemplateId",templateId)
                 };
-                
+
                 whatsAppEntity.lstWhatsAppCampaignModel = SqlDataHelper.ExecuteReader(SP_Name, sqlParameters.ToArray(), DataReaderMapper.MapCampaign, AppSettingsModel.ConnectionStrings).ToList();
 
                 return whatsAppEntity;
@@ -3060,7 +3068,7 @@ namespace Infoseed.MessagingPortal.WhatsApp
             {
                 throw ex;
             }
-            
+
         }
 
         private long getTemplateIdByName(string templateName)
@@ -3091,12 +3099,12 @@ namespace Infoseed.MessagingPortal.WhatsApp
                 throw ex;
             }
         }
-        private async Task<WhatsAppEntity> getWhatsAppTemplateForCampaign(int pageNumber = 0, int pageSize = 50, int? tenantId = null)  
+        private async Task<WhatsAppEntity> getWhatsAppTemplateForCampaign(int pageNumber = 0, int pageSize = 50, int? tenantId = null)
         {
             try
             {
                 var itemsCollection = new DocumentCosmoseDB<TenantModel>(CollectionTypes.ItemsCollection, _IDocumentClient);
-                TenantModel tenant = await itemsCollection.GetItemAsync(a => a.ItemType == InfoSeedContainerItemTypes.Tenant && a.TenantId == (int)AbpSession.TenantId.Value); 
+                TenantModel tenant = await itemsCollection.GetItemAsync(a => a.ItemType == InfoSeedContainerItemTypes.Tenant && a.TenantId == (int)AbpSession.TenantId.Value);
 
                 WhatsAppEntity TemplateEntity = new WhatsAppEntity();
                 List<MessageTemplateModel> lstWhatsAppTemplateModel = new List<MessageTemplateModel>();
@@ -3116,9 +3124,9 @@ namespace Infoseed.MessagingPortal.WhatsApp
                 OutputParameter.Direction = ParameterDirection.Output;
 
                 sqlParameters.Add(OutputParameter);
-                lstWhatsAppTemplateModel = SqlDataHelper.ExecuteReader(SP_Name, sqlParameters.ToArray(),DataReaderMapper.MapTemplate, AppSettingsModel.ConnectionStrings).ToList();
+                lstWhatsAppTemplateModel = SqlDataHelper.ExecuteReader(SP_Name, sqlParameters.ToArray(), DataReaderMapper.MapTemplate, AppSettingsModel.ConnectionStrings).ToList();
 
-            
+
 
                 Task<WhatsAppMessageTemplateModel> objWhatsAppTemplate = getTemplatesFromWA(tenant);
                 var res = objWhatsAppTemplate.Result.data;
@@ -3160,35 +3168,45 @@ namespace Infoseed.MessagingPortal.WhatsApp
                 throw ex;
             }
         }
+
         private MessageTemplateModel getTemplateByWhatsAppId(string templateId)
         {
             try
             {
-                var SP_Name = Constants.WhatsAppTemplates.SP_TemplateGetByWhatsAppId;
-                MessageTemplateModel objWhatsAppTemplateModel = new MessageTemplateModel();
-                var sqlParameters = new List<System.Data.SqlClient.SqlParameter> { new System.Data.SqlClient.SqlParameter("@TemplateId", templateId) };
-                objWhatsAppTemplateModel = SqlDataHelper.ExecuteReader(SP_Name, sqlParameters.ToArray(), DataReaderMapper.MapTemplate, AppSettingsModel.ConnectionStrings).FirstOrDefault();
+                // Prepare Npgsql parameter
+                var npgsqlParams = new NpgsqlParameter[]
+                {
+                     new NpgsqlParameter("p_templateid", templateId)
+                   
+                }; 
 
-                //if (objWhatsAppTemplateModel != null)
-                //{
-                //    foreach (var item in objWhatsAppTemplateModel.components)
-                //    {
-                //        if (item.text != null)
-                //        {
-                //            item.text = PlainTextTohtml(item.text);
-                //            //item.text = PlainTextTohtml(item.text);
-                //        }
-                //    }
-                //}
-                
-                return objWhatsAppTemplateModel;
+                // Execute PostgreSQL function
+                var result = PostgresDataHelper.ExecuteFunction(
+                    "dbo.template_get_by_whatsappid",
+                    npgsqlParams,
+                    DataReaderMapper.MapTemplatePSQL,  // Use updated mapper
+                    _postgresConnection                 // Connection string from configuration
+                ).FirstOrDefault();
+
+                // Optional: process components if needed
+                if (result != null)
+                {
+                    // Uncomment if you need to process component text
+                    //foreach (var item in result.components)
+                    //{
+                    //    if (item.text != null)
+                    //        item.text = PlainTextTohtml(item.text);
+                    //}
+                }
+
+                return result;
             }
             catch (Exception ex)
             {
-
                 throw ex;
             }
         }
+
         private SendCampinStatesModel sendCampaignNow(CampinToQueueDto contactsEntity)
         {
             SendCampinStatesModel sendCampinStatesModel = new SendCampinStatesModel();
@@ -3267,9 +3285,9 @@ namespace Infoseed.MessagingPortal.WhatsApp
                                     }
                                     string str = JsonConvert.SerializeObject(OuterList);
                                     string TemplateJson = JsonConvert.SerializeObject(objWhatsAppTemplateModel);
-                                    if (contactsEntity.templateVariables==null)
+                                    if (contactsEntity.templateVariables == null)
                                     {
-                                        contactsEntity.templateVariables=new TemplateVariablles();
+                                        contactsEntity.templateVariables = new TemplateVariablles();
                                     }
                                     TemplateVariablles templateVariables = null;
                                     HeaderVariablesTemplate headerVariabllesTemplate = null;
@@ -3340,34 +3358,34 @@ namespace Infoseed.MessagingPortal.WhatsApp
                                     SqlDataHelper.ExecuteNoneQuery(SP_Name, sqlParameters.ToArray(), AppSettingsModel.ConnectionStrings);
 
                                     count++;
-                                    
-                                        if (OutputParameter.Value != DBNull.Value)
-                                        {
-                                          
-                                                campinQueueNew.messageTemplateModel = objWhatsAppTemplateModel;
-                                                campinQueueNew.campaignId = contactsEntity.campaignId;
-                                                campinQueueNew.templateId = contactsEntity.templateId;
-                                                campinQueueNew.IsExternal = contactsEntity.IsExternal;
-                                                campinQueueNew.TenantId = tenantInfo.TenantId;
-                                                campinQueueNew.D360Key = tenantInfo.D360Key;
-                                                campinQueueNew.AccessToken = tenantInfo.AccessToken;
-                                                campinQueueNew.functionName = JopName;
-                                                campinQueueNew.msg = msg;
-                                                campinQueueNew.type = type;
-                                                campinQueueNew.contacts = null;
-                                                campinQueueNew.templateVariables = null;
-                                                campinQueueNew.campaignName = contactsEntity.campaignName;
-                                                campinQueueNew.rowId = Convert.ToInt64(OutputParameter.Value);
-                                             //SetCampinQueueContact(campinQueueNew);
-                                             // SetCampinInFun(campinQueueNew);
-                                         }
-                                        else
-                                        {
-                                            continue;
-                                        }
 
-                                    
-                                   
+                                    if (OutputParameter.Value != DBNull.Value)
+                                    {
+
+                                        campinQueueNew.messageTemplateModel = objWhatsAppTemplateModel;
+                                        campinQueueNew.campaignId = contactsEntity.campaignId;
+                                        campinQueueNew.templateId = contactsEntity.templateId;
+                                        campinQueueNew.IsExternal = contactsEntity.IsExternal;
+                                        campinQueueNew.TenantId = tenantInfo.TenantId;
+                                        campinQueueNew.D360Key = tenantInfo.D360Key;
+                                        campinQueueNew.AccessToken = tenantInfo.AccessToken;
+                                        campinQueueNew.functionName = JopName;
+                                        campinQueueNew.msg = msg;
+                                        campinQueueNew.type = type;
+                                        campinQueueNew.contacts = null;
+                                        campinQueueNew.templateVariables = null;
+                                        campinQueueNew.campaignName = contactsEntity.campaignName;
+                                        campinQueueNew.rowId = Convert.ToInt64(OutputParameter.Value);
+                                        //SetCampinQueueContact(campinQueueNew);
+                                        // SetCampinInFun(campinQueueNew);
+                                    }
+                                    else
+                                    {
+                                        continue;
+                                    }
+
+
+
                                 }
 
 
@@ -3474,7 +3492,7 @@ namespace Infoseed.MessagingPortal.WhatsApp
                     if (walletModel.TotalAmount >= totalPrice)
                     {
                         var tenantInfo = GetTenantInfo(tenantId);
-                        
+
                         var category = GetTemplatesCategory(contactsEntity.templateId);
 
                         long returnValue = addScheduledCampaignonOnDB(contactsEntity, sendTime);
@@ -3515,7 +3533,7 @@ namespace Infoseed.MessagingPortal.WhatsApp
                                 Message = "Sent Successfully",
                                 status = true
                             };
-                        } 
+                        }
                         else
                         {
                             return new SendCampinStatesModel()
@@ -3555,7 +3573,7 @@ namespace Infoseed.MessagingPortal.WhatsApp
                 };
             }
         }
-        private long addTransaction(TransactionModel model, int totalCount ,string TemplateName,long campaignId)
+        private long addTransaction(TransactionModel model, int totalCount, string TemplateName, long campaignId)
         {
             try
             {
@@ -3589,7 +3607,7 @@ namespace Infoseed.MessagingPortal.WhatsApp
                 throw ex;
             }
         }
-        private static PostMessageTemplateModel prepareMessageTemplate(MessageTemplateModel objWhatsAppTemplateModel, ListContactToCampin contact,bool IsExternal , TemplateVariables templateVariables)
+        private static PostMessageTemplateModel prepareMessageTemplate(MessageTemplateModel objWhatsAppTemplateModel, ListContactToCampin contact, bool IsExternal, TemplateVariables templateVariables)
         {
             try
             {
@@ -3737,7 +3755,7 @@ namespace Infoseed.MessagingPortal.WhatsApp
 
                                 }
                             }
-                        
+
                             componentBody.type = item.type;
 
                             components.Add(componentBody);
@@ -3821,7 +3839,7 @@ namespace Infoseed.MessagingPortal.WhatsApp
 
         private async Task<WhatsAppMessageTemplateModel> getTemplatesFromWA(TenantModel tenant)
         {
-            
+
             var httpClient = new HttpClient();
             var postUrl = Constants.WhatsAppTemplates.WhatsAppApiUrl + tenant.WhatsAppAccountID + "/message_templates?limit=250";
             httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
@@ -3842,7 +3860,7 @@ namespace Infoseed.MessagingPortal.WhatsApp
                 throw ex;
             }
         }
-        private async Task<MessageTemplateModel> getTemplateByWhatsAppId(TenantModel tenant,string templateId)
+        private async Task<MessageTemplateModel> getTemplateByWhatsAppId(TenantModel tenant, string templateId)
         {
             var httpClient = new HttpClient();
             var postUrl = Constants.WhatsAppTemplates.WhatsAppApiUrl + templateId;
@@ -3887,64 +3905,62 @@ namespace Infoseed.MessagingPortal.WhatsApp
 
                 if (!messageTemplateModel.Any(x => x.id == item.id))
                 {
-                    if (item.name=="booking_template_19" ||item.name=="booking_template_ar_19"||item.name=="reminder_booking_19"||item.name=="reminder_booking_ar_19")
+                    if (item.name == "booking_template_19" || item.name == "booking_template_ar_19" || item.name == "reminder_booking_19" || item.name == "reminder_booking_ar_19")
                     {
-                        item.VariableCount=1;
+                        item.VariableCount = 1;
                     }
                     addWhatsAppMessageTemplate(item);
-                }     
+                }
             }
-      
+
         }
         private long addWhatsAppMessageTemplate(MessageTemplateModel messageTemplateModel)
         {
             try
             {
                 if (messageTemplateModel.TenantId == 0)
-                {
                     messageTemplateModel.TenantId = AbpSession.TenantId.Value;
-                }
-                    var SP_Name = Constants.WhatsAppTemplates.SP_WhatsAppTemplatesAdd;
-                if (messageTemplateModel.TenantId != 0)
+
+                var npgsqlParams = new NpgsqlParameter[]
                 {
+                    new NpgsqlParameter("p_tenantid", messageTemplateModel.TenantId),
+                    new NpgsqlParameter("p_template_name", messageTemplateModel.name),
+                    new NpgsqlParameter("p_template_language", messageTemplateModel.language),
+                    new NpgsqlParameter("p_template_component", JsonConvert.SerializeObject(messageTemplateModel.components)),
+                    new NpgsqlParameter("p_template_status", (object)messageTemplateModel.status ?? DBNull.Value),
+                    new NpgsqlParameter("p_template_category", messageTemplateModel.category),
+                    new NpgsqlParameter("p_template_sub_category", (object)messageTemplateModel.sub_category ?? DBNull.Value),
+                    new NpgsqlParameter("p_whatsapptemplateid", messageTemplateModel.id),
+                    new NpgsqlParameter("p_media_type", (object)messageTemplateModel.mediaType ?? DBNull.Value),
+                    new NpgsqlParameter("p_media_link", (object)messageTemplateModel.mediaLink ?? DBNull.Value),
+                    new NpgsqlParameter("p_variable_count", messageTemplateModel.VariableCount),
+                    new NpgsqlParameter("p_btnoneactionid", (object)messageTemplateModel.BtnOneActionId ?? DBNull.Value),
+                    new NpgsqlParameter("p_btntwoactionid", (object)messageTemplateModel.BtnTwoActionId ?? DBNull.Value),
+                    new NpgsqlParameter("p_btnthreeactionid", (object)messageTemplateModel.BtnThreeActionId ?? DBNull.Value)
+                };
 
-                
-                    var sqlParameters = new List<System.Data.SqlClient.SqlParameter> {
-                         new System.Data.SqlClient.SqlParameter("@TemplateName",messageTemplateModel.name)
-                        ,new System.Data.SqlClient.SqlParameter("@TemplateLanguage",messageTemplateModel.language)
-                        ,new System.Data.SqlClient.SqlParameter("@TemplateComponent",JsonConvert.SerializeObject(messageTemplateModel.components))
-                        ,new System.Data.SqlClient.SqlParameter("@TemplateStatus",messageTemplateModel.status)
-                        ,new System.Data.SqlClient.SqlParameter("@TemplateCategory",messageTemplateModel.category)
-                        ,new System.Data.SqlClient.SqlParameter("@TemplateSubCategory",messageTemplateModel.sub_category)
-                        ,new System.Data.SqlClient.SqlParameter("@WhatsAppTemplateId",messageTemplateModel.id)
-                        ,new System.Data.SqlClient.SqlParameter("@MediaType",messageTemplateModel.mediaType)
-                        ,new System.Data.SqlClient.SqlParameter("@MediaLink",messageTemplateModel.mediaLink)
-                        ,new System.Data.SqlClient.SqlParameter("@TenantId",messageTemplateModel.TenantId)
-                        ,new System.Data.SqlClient.SqlParameter("@VariableCount",messageTemplateModel.VariableCount)
-                        ,new System.Data.SqlClient.SqlParameter("@BtnOneActionId",messageTemplateModel.BtnOneActionId)
-                        ,new System.Data.SqlClient.SqlParameter("@BtnTwoActionId",messageTemplateModel.BtnTwoActionId)
-                        ,new System.Data.SqlClient.SqlParameter("@BtnThreeActionId",messageTemplateModel.BtnThreeActionId)
-                    };
-
-                    var OutputParameter = new System.Data.SqlClient.SqlParameter();
-                    OutputParameter.SqlDbType = SqlDbType.BigInt;
-                    OutputParameter.ParameterName = "@TemplateId";
-                    OutputParameter.Direction = ParameterDirection.Output;
-                    sqlParameters.Add(OutputParameter);
-
-                    SqlDataHelper.ExecuteNoneQuery(SP_Name, sqlParameters.ToArray(), AppSettingsModel.ConnectionStrings);
-                    return (long)OutputParameter.Value;
-                }
-                else
+                Debug.WriteLine("Adding WhatsApp template with parameters:");
+                foreach (var p in npgsqlParams)
                 {
-                    return 0;
+                    Debug.WriteLine($"{p.ParameterName} = {p.Value}");
                 }
+
+                var newTemplateId = PostgresDataHelper.ExecuteScalarFunction<long>(
+                    "dbo.whats_app_template_add",
+                    npgsqlParams,
+                    _postgresConnection
+                );
+
+                return newTemplateId;
             }
             catch (Exception ex)
             {
-                throw ex;
+                Debug.WriteLine("Failed to add WhatsApp template: " + ex.Message);
+                throw;
             }
         }
+
+
 
         private void updateWhatsAppMessageTemplate(MessageTemplateModel messageTemplateModel)
         {
@@ -3972,7 +3988,7 @@ namespace Infoseed.MessagingPortal.WhatsApp
             {
                 throw ex;
             }
-            
+
         }
         private string deleteWhatsAppMessageTemplate(string templateName)
         {
@@ -4020,22 +4036,22 @@ namespace Infoseed.MessagingPortal.WhatsApp
                 throw ex;
             }
         }
-        private long sendMessageTemplate(WhatsAppContactsDto contactsFilters, long templateId, long campaignId, bool IsContact, string parameters= "")
+        private long sendMessageTemplate(WhatsAppContactsDto contactsFilters, long templateId, long campaignId, bool IsContact, string parameters = "")
         {
             try
             {
                 Guid guidId = Guid.NewGuid();
                 SetSendCampaignInQueue(
-                    new WhatsAppFunModel() 
-                    { 
-                        whatsAppContactsDto=contactsFilters,
-                        templateId=templateId,
-                        campaignId=campaignId,
+                    new WhatsAppFunModel()
+                    {
+                        whatsAppContactsDto = contactsFilters,
+                        templateId = templateId,
+                        campaignId = campaignId,
                         TenantId = AbpSession.TenantId.Value,
                         UserId = AbpSession.UserId.Value.ToString(),
                         GuidId = guidId,
-                        IsContact=IsContact,
-                        Parameters=parameters
+                        IsContact = IsContact,
+                        Parameters = parameters
                     });
                 return 1;
             }
@@ -4055,23 +4071,23 @@ namespace Infoseed.MessagingPortal.WhatsApp
                 {
                     foreach (var item in objWhatsAppTemplateModel.components)
                     {
-                       if (item.type.Equals("HEADER"))
-                       {
+                        if (item.type.Equals("HEADER"))
+                        {
                             type = item.format.ToLower();
-                       }
+                        }
                         if (item.type.Equals("BUTTONS"))
                         {
                             for (int i = 0; i < item.buttons.Count; i++)
                             {
-                                result = result+"\n\r" + (i+1)+"-"+item.buttons[i].text;
+                                result = result + "\n\r" + (i + 1) + "-" + item.buttons[i].text;
                             }
                         }
                         result += item.text;
-                       
+
                     }
 
                 }
-               
+
                 return result;
             }
             catch (Exception ex)
@@ -4156,7 +4172,7 @@ namespace Infoseed.MessagingPortal.WhatsApp
                     return new ApiResponse<long> { Data = Result, ErrorEn = "Title of compaign is used before", IsSuccess = false };
                 }
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 return new ApiResponse<long> { Data = 0, ErrorEn = ex.Message, IsSuccess = false };
             }
@@ -4209,7 +4225,7 @@ namespace Infoseed.MessagingPortal.WhatsApp
                     // Find the first matching document
                     var filterResult = await collection.Find(filter).ToListAsync();
 
-                    model=filterResult;
+                    model = filterResult;
                 }
                 catch (Exception ex)
                 {
@@ -4233,7 +4249,7 @@ namespace Infoseed.MessagingPortal.WhatsApp
                         if (item.is_sent) { campaignStatisticsModel.TotalSent += 1; }
                         if (!item.is_read && !item.is_delivered && !item.is_sent) { campaignStatisticsModel.TotalFailed += 1; }
                         if (item.is_accepted) { campaignStatisticsModel.TotalNumbers += 1; }
-                        if (!item.is_read && !item.is_delivered && !item.is_sent&& !item.is_accepted) { campaignStatisticsModel.TotalNumbers += 1; }
+                        if (!item.is_read && !item.is_delivered && !item.is_sent && !item.is_accepted) { campaignStatisticsModel.TotalNumbers += 1; }
                         // if (item.isReplied) { campaignStatisticsModel.TotalReplied += 1; }
                     }
                     if (campaignStatisticsModel.TotalNumbers > 0)
@@ -4254,7 +4270,7 @@ namespace Infoseed.MessagingPortal.WhatsApp
                 }
 
 
-                if (campaignCosmo.Count==0)
+                if (campaignCosmo.Count == 0)
                 {
                     try
                     {
@@ -4398,7 +4414,7 @@ namespace Infoseed.MessagingPortal.WhatsApp
                 };
 
                 sqlParameters.Add(OutputParameter);
-                lstWhatsAppCampaignModel = SqlDataHelper.ExecuteReader(SP_Name, sqlParameters.ToArray(),DataReaderMapper.MapCampaign, AppSettingsModel.ConnectionStrings).ToList();
+                lstWhatsAppCampaignModel = SqlDataHelper.ExecuteReader(SP_Name, sqlParameters.ToArray(), DataReaderMapper.MapCampaign, AppSettingsModel.ConnectionStrings).ToList();
 
 
                 campaignEntity.TotalCount = Convert.ToInt32(OutputParameter.Value);
@@ -4410,15 +4426,15 @@ namespace Infoseed.MessagingPortal.WhatsApp
                 throw ex;
             }
         }
-        private WhatsAppCampaignModel getWhatsAppCampaignByName(string title,int tenantId)
+        private WhatsAppCampaignModel getWhatsAppCampaignByName(string title, int tenantId)
         {
             try
             {
                 var SP_Name = Constants.WhatsAppCampaign.SP_WhatsAppCampaignByNameGet;
 
                 WhatsAppCampaignModel campaign = new WhatsAppCampaignModel();
-                var sqlParameters = new List<System.Data.SqlClient.SqlParameter> 
-                { 
+                var sqlParameters = new List<System.Data.SqlClient.SqlParameter>
+                {
                     new System.Data.SqlClient.SqlParameter("@Title", title) ,
                     new System.Data.SqlClient.SqlParameter("@TenantId", tenantId) ,
                 };
@@ -4515,7 +4531,7 @@ namespace Infoseed.MessagingPortal.WhatsApp
 
                 campinToQueueDto.contacts = SqlDataHelper.ExecuteReader(SP_Name, sqlParameters.ToArray(), DataReaderMapper.MapMembersForCamp, AppSettingsModel.ConnectionStrings).ToList();
                 campinToQueueDto.TotalCount = (OutputParameter.Value != DBNull.Value) ? Convert.ToInt32(OutputParameter.Value) : 0;
-                campinToQueueDto.TotalOptOut =  campinToQueueDto.contacts.Count;
+                campinToQueueDto.TotalOptOut = campinToQueueDto.contacts.Count;
 
                 return campinToQueueDto;
             }
@@ -4570,7 +4586,7 @@ namespace Infoseed.MessagingPortal.WhatsApp
                         if (walletModel.TotalAmount >= totalPrice)
                         {
                             var tenantInfo = GetTenantInfo(tenantId);
-               
+
                             // Display the count of each split list
                             string sendcompaing = "campaign";
                             int count = 1;
@@ -4584,7 +4600,7 @@ namespace Infoseed.MessagingPortal.WhatsApp
                                 //objWhatsAppTemplateModel.components = templateWA.components;
 
                                 string msg = prepareMessageTemplateText(objWhatsAppTemplateModel, out string type);
-                                
+
                                 var variables = ExtractPlaceholderNumbers(msg);
 
 
@@ -4592,7 +4608,7 @@ namespace Infoseed.MessagingPortal.WhatsApp
                                 List<List<ListContactToCampin>> splitLists = SplitListD(contactsEntity.contacts, 5000);
 
                                 CampinQueueNew campinQueueNew = new CampinQueueNew();
-                             
+
                                 foreach (var OuterList in splitLists)
                                 {
                                     foreach (var contact in OuterList)
@@ -4639,9 +4655,9 @@ namespace Infoseed.MessagingPortal.WhatsApp
                                     string TemplateJson = JsonConvert.SerializeObject(objWhatsAppTemplateModel);
                                     string OuterListjson = JsonConvert.SerializeObject(OuterList);
 
-                                    if (contactsEntity.templateVariables==null)
+                                    if (contactsEntity.templateVariables == null)
                                     {
-                                        contactsEntity.templateVariables=new TemplateVariablles();
+                                        contactsEntity.templateVariables = new TemplateVariablles();
                                     }
                                     string TemplateVariablesJson = JsonConvert.SerializeObject(contactsEntity.templateVariables);
 
@@ -4715,9 +4731,9 @@ namespace Infoseed.MessagingPortal.WhatsApp
                                     count++;
                                     if (OutputParameter.Value != DBNull.Value)
                                     {
-                                        if (JopName=="campaign1")
+                                        if (JopName == "campaign1")
                                         {
-                                           
+
                                             campinQueueNew.messageTemplateModel = objWhatsAppTemplateModel;
                                             campinQueueNew.campaignId = contactsEntity.campaignId;
                                             campinQueueNew.templateId = contactsEntity.templateId;
@@ -4859,7 +4875,7 @@ namespace Infoseed.MessagingPortal.WhatsApp
             {
                 List<SendCampaignNow> campaigns = GetCampaign(obj.rowId);
 
-                if (campaigns.Count()>0)
+                if (campaigns.Count() > 0)
                 {
 
                     WhatsAppCampaignModel whatsAppCampaignModel2 = new WhatsAppCampaignModel
@@ -4873,7 +4889,7 @@ namespace Infoseed.MessagingPortal.WhatsApp
 
                     var client = new HttpClient();
                     var request = new HttpRequestMessage(HttpMethod.Post, AppSettingsModel.urlSendCampaignProject);
-                    var content = new StringContent("{\n    \"campaignId\": "+obj.campaignId+"\n}", null, "application/json");
+                    var content = new StringContent("{\n    \"campaignId\": " + obj.campaignId + "\n}", null, "application/json");
                     request.Content = content;
                     var response = await client.SendAsync(request);
                     response.EnsureSuccessStatusCode();
@@ -4915,8 +4931,8 @@ namespace Infoseed.MessagingPortal.WhatsApp
             }
             catch (Exception ex)
             {
-              
-           
+
+
             }
         }
         private SendCampinStatesModel sendCampignFromGroupScheduled(CampinToQueueDto contactsEntity, string sendTime)
@@ -5068,8 +5084,9 @@ namespace Infoseed.MessagingPortal.WhatsApp
                                     cards = contactsEntity.CarouselTemplate.cards
                                 };
                             }
-                            else{
-                            contacts.carouselVariabllesTemplate = new CarouselVariabllesTemplate
+                            else
+                            {
+                                contacts.carouselVariabllesTemplate = new CarouselVariabllesTemplate
                                 {
                                     cards = null
                                 };
@@ -5182,7 +5199,7 @@ namespace Infoseed.MessagingPortal.WhatsApp
                     ,new System.Data.SqlClient.SqlParameter("@groupId",groupId)
                 };
 
-                listContactToCampins  = SqlDataHelper.ExecuteReader(SP_Name, sqlParameters.ToArray(), DataReaderMapper.MaContactsFromGrouyps, AppSettingsModel.ConnectionStrings).ToList();
+                listContactToCampins = SqlDataHelper.ExecuteReader(SP_Name, sqlParameters.ToArray(), DataReaderMapper.MaContactsFromGrouyps, AppSettingsModel.ConnectionStrings).ToList();
 
                 return listContactToCampins;
             }
@@ -5279,7 +5296,7 @@ namespace Infoseed.MessagingPortal.WhatsApp
                 throw ex;
             }
         }
-        private long addScheduledCampaign(WhatsAppContactsDto contacts,string sendDateTime, long campaignId, long templateId,bool isExternalContact)
+        private long addScheduledCampaign(WhatsAppContactsDto contacts, string sendDateTime, long campaignId, long templateId, bool isExternalContact)
         {
             try
             {
@@ -5294,7 +5311,7 @@ namespace Infoseed.MessagingPortal.WhatsApp
                 else
                 {
                     // Date string is not valid
-                    return -1;  
+                    return -1;
                 }
                 //DateTime dateTime = DateTime.Parse(sendDateTime, CultureInfo.InvariantCulture);
                 //dateTime = dateTime.AddHours(AppSettingsModel.DivHour);
@@ -5398,7 +5415,7 @@ namespace Infoseed.MessagingPortal.WhatsApp
                     else
                     { return 0; }
                 }
-                return  1;
+                return 1;
             }
             catch (Exception ex)
             {
@@ -5434,7 +5451,7 @@ namespace Infoseed.MessagingPortal.WhatsApp
             {
                 var SP_Name = Constants.WhatsAppCampaign.SP_WhatsAppCampaignUpdate;
 
-                var sqlParameters = new List<System.Data.SqlClient.SqlParameter> 
+                var sqlParameters = new List<System.Data.SqlClient.SqlParameter>
                 {
                      new System.Data.SqlClient.SqlParameter("@CampaignId",whatsAppCampaignModel.Id)
                     ,new System.Data.SqlClient.SqlParameter("@SentTime",whatsAppCampaignModel.SentTime)
@@ -5442,7 +5459,7 @@ namespace Infoseed.MessagingPortal.WhatsApp
                     ,new System.Data.SqlClient.SqlParameter("@SentCampaignId",Guid.NewGuid())
                 };
 
-                SqlDataHelper.ExecuteNoneQuery(SP_Name, sqlParameters.ToArray(),AppSettingsModel.ConnectionStrings);
+                SqlDataHelper.ExecuteNoneQuery(SP_Name, sqlParameters.ToArray(), AppSettingsModel.ConnectionStrings);
             }
             catch (Exception ex)
             {
@@ -5607,7 +5624,7 @@ namespace Infoseed.MessagingPortal.WhatsApp
         private ResultBotReservedWordsModel addBotReservedWord(BotReservedWordsModel model)
         {
             try
-            { 
+            {
                 //In order to find if there are repeated words
                 if (model != null)
                 {
@@ -5626,15 +5643,16 @@ namespace Infoseed.MessagingPortal.WhatsApp
                                 resultBotReservedWordsModel.Name = liveChat;
                             else if (model.ActionId == 2)
                                 resultBotReservedWordsModel.Name = Request;
-                            
+
                             return resultBotReservedWordsModel;
                         }
                         words.AddRange(item.ButtonText.Split(','));
                     }
 
                     var newWords = model.ButtonText.Split(',').ToList();
-                    List<string> newWordWithOutSpase= new List<string>();
-                    foreach (var word in newWords) {
+                    List<string> newWordWithOutSpase = new List<string>();
+                    foreach (var word in newWords)
+                    {
                         newWordWithOutSpase.Add(word.Trim());
                     }
                     if (words.Intersect(newWordWithOutSpase).Any())
@@ -5707,11 +5725,12 @@ namespace Infoseed.MessagingPortal.WhatsApp
                     var reservedWords = getBotReservedWordsByActionId(model.ActionId, model.TenantId);
                     foreach (var item in reservedWords)
                     {
-                        if (item.Id == model.Id) 
+                        if (item.Id == model.Id)
                         {
                             //Because here he adjusts to the same Row
                         }
-                        else {
+                        else
+                        {
                             if (model.ActionId == item.ActionId && model.TenantId == item.TenantId)
                             {
                                 resultBotReservedWordsModel.Id = 0;
@@ -5790,7 +5809,7 @@ namespace Infoseed.MessagingPortal.WhatsApp
                 throw ex;
             }
         }
-        private List<BotReservedWordsModel> getBotReservedWordsByActionId(long actionId,int tenantId)
+        private List<BotReservedWordsModel> getBotReservedWordsByActionId(long actionId, int tenantId)
         {
             try
             {
@@ -5861,7 +5880,7 @@ namespace Infoseed.MessagingPortal.WhatsApp
                 var sqlParameters = new List<System.Data.SqlClient.SqlParameter>();
 
                 model = SqlDataHelper.ExecuteReader(SP_Name, sqlParameters.ToArray(), DataReaderMapper.MapActions, AppSettingsModel.ConnectionStrings).ToList();
-                
+
 
                 return model;
             }
@@ -5892,7 +5911,7 @@ namespace Infoseed.MessagingPortal.WhatsApp
                 throw ex;
             }
         }
-        private string GetTemplatesCategory (long templatesId)
+        private string GetTemplatesCategory(long templatesId)
         {
             try
             {
@@ -5976,15 +5995,16 @@ namespace Infoseed.MessagingPortal.WhatsApp
         [HttpGet]
         public KeyWordModel KeyWordGetByKey(int tenantId, string key)
         {
-            var Listkeys= keyWordGetByAll(0, 1000000, tenantId).Items.ToList();
+            var Listkeys = keyWordGetByAll(0, 1000000, tenantId).Items.ToList();
 
 
-            if (Listkeys.Count()>0) {
+            if (Listkeys.Count() > 0)
+            {
 
                 KeyWordModel foundkey = null;
                 foreach (var k in Listkeys)
                 {
-                   
+
 
                     switch (k.KeyWordType)
                     {
@@ -5994,34 +6014,34 @@ namespace Infoseed.MessagingPortal.WhatsApp
 
                             foreach (var p in patt1)
                             {
-                                double similarity = GetSimilarityPercentage(p, key)* 100;
+                                double similarity = GetSimilarityPercentage(p, key) * 100;
 
                                 switch (k.FuzzyMatch)
                                 {
                                     case 0:// 20%
-                                        if (similarity>=20)
+                                        if (similarity >= 20)
                                         {
 
-                                            foundkey=k;
+                                            foundkey = k;
                                         }
                                         break;
                                     case 1:// 50%
-                                        if (similarity>=50)
+                                        if (similarity >= 50)
                                         {
-                                            foundkey=k;
+                                            foundkey = k;
 
                                         }
                                         break;
                                     case 2:// 80%
-                                        if (similarity>=80)
+                                        if (similarity >= 80)
                                         {
 
-                                            foundkey=k;
+                                            foundkey = k;
                                         }
                                         break;
                                 }
 
-                                if (foundkey!=null)
+                                if (foundkey != null)
                                 {
 
                                     break;
@@ -6029,32 +6049,32 @@ namespace Infoseed.MessagingPortal.WhatsApp
                             }
 
                             break;
-                     
+
 
                         case 2:
                             var patt = k.buttonText.Split(",");
 
-                            foreach(var p in patt)
+                            foreach (var p in patt)
                             {
-                                if (p==key)
+                                if (p == key)
                                 {
-                                    foundkey=k;
+                                    foundkey = k;
 
                                 }
 
-                                if (foundkey!=null)
+                                if (foundkey != null)
                                 {
 
                                     break;
                                 }
                             }
-                          
+
                             break;
 
                         case 3:
                             if (key.ToLower().Trim().Contains(k.buttonText.ToLower().Trim()))
                             {
-                                foundkey=k;
+                                foundkey = k;
                             }
                             break;
 
@@ -6062,12 +6082,12 @@ namespace Infoseed.MessagingPortal.WhatsApp
                     }
 
 
-                    if (foundkey!=null)
+                    if (foundkey != null)
                     {
 
                         break;
                     }
-                  
+
 
 
 
@@ -6174,9 +6194,9 @@ namespace Infoseed.MessagingPortal.WhatsApp
 
                     return response;
                 }
-                return new Dictionary<string, dynamic>(); 
+                return new Dictionary<string, dynamic>();
             }
-            catch(Exception ex) 
+            catch (Exception ex)
             {
                 return new Dictionary<string, dynamic> { { "state", -1 }, { "message", ex.Message } };
             }
@@ -6190,16 +6210,16 @@ namespace Infoseed.MessagingPortal.WhatsApp
                     int tenantId = 0;
                     try
                     {
-                         
+
                         tenantId = AbpSession.TenantId.Value;
-                      
+
                     }
                     catch
                     {
-                        tenantId=model.tenantId;
+                        tenantId = model.tenantId;
 
                     }
-                 
+
                     var response = new Dictionary<string, dynamic>();
 
                     var SP_Name = Constants.Bot.Sp_KeyWordGetByTenantIdInUpdated;
@@ -6239,16 +6259,16 @@ namespace Infoseed.MessagingPortal.WhatsApp
                         resultButtonText = (buttonTextOutPut.Value != DBNull.Value) ? buttonTextOutPut.Value.ToString() : null;
                         if (resultActionId != 0) { break; }
                         if (resultButtonText != null) { break; }
-                            
+
                     }
 
-                    if (resultActionId == 0 && resultButtonText == null) 
+                    if (resultActionId == 0 && resultButtonText == null)
                     {
                         model.tenantId = tenantId;
                         long keyWordId = UpdateKeyWord(model);
                         if (keyWordId != 0)
                         {
-                            response = new Dictionary<string, dynamic> { { "state", 2 }, { "message", model.action  } };
+                            response = new Dictionary<string, dynamic> { { "state", 2 }, { "message", model.action } };
                         }
                         else
                         {
@@ -6349,7 +6369,7 @@ namespace Infoseed.MessagingPortal.WhatsApp
         }
         private KeyWordModel keyWordGetById(long id)
         {
-            try 
+            try
             {
                 KeyWordModel keyWordModel = new KeyWordModel();
 
@@ -6364,23 +6384,23 @@ namespace Infoseed.MessagingPortal.WhatsApp
 
                 return keyWordModel;
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 throw ex;
             }
         }
-        private PagedResultDto<KeyWordModel> keyWordGetByAll(int? pageNumber = 0, int? pageSize = 20, int? tenantId=null)
+        private PagedResultDto<KeyWordModel> keyWordGetByAll(int? pageNumber = 0, int? pageSize = 20, int? tenantId = null)
         {
             try
             {
                 List<KeyWordModel> keyWordModel = new List<KeyWordModel>();
 
-                if (tenantId==null)
+                if (tenantId == null)
                 {
                     tenantId = AbpSession.TenantId.Value;
 
                 }
-                 
+
 
                 var SP_Name = Constants.Bot.Sp_KeyWordGetAll;
 
@@ -6403,9 +6423,9 @@ namespace Infoseed.MessagingPortal.WhatsApp
 
                 int totalCount = (OutputParameter.Value != DBNull.Value) ? Convert.ToInt32(OutputParameter.Value) : 0;
 
-                return new PagedResultDto<KeyWordModel>(totalCount, keyWordModel); 
+                return new PagedResultDto<KeyWordModel>(totalCount, keyWordModel);
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 throw ex;
             }
@@ -6418,7 +6438,7 @@ namespace Infoseed.MessagingPortal.WhatsApp
                 int tenantId = AbpSession.TenantId.Value;
                 var sqlParameters = new List<System.Data.SqlClient.SqlParameter> {
                     new System.Data.SqlClient.SqlParameter("@Id",id) ,
-                    new System.Data.SqlClient.SqlParameter("@tenantId",tenantId) 
+                    new System.Data.SqlClient.SqlParameter("@tenantId",tenantId)
                 };
 
                 var OutputParameter = new System.Data.SqlClient.SqlParameter
@@ -6431,7 +6451,7 @@ namespace Infoseed.MessagingPortal.WhatsApp
 
                 SqlDataHelper.ExecuteNoneQuery(SP_Name, sqlParameters.ToArray(), AppSettingsModel.ConnectionStrings);
 
-                long result =(OutputParameter.Value != DBNull.Value) ? Convert.ToInt64(OutputParameter.Value) : 0;
+                long result = (OutputParameter.Value != DBNull.Value) ? Convert.ToInt64(OutputParameter.Value) : 0;
                 return (result != 0) ? true : false;
             }
             catch (Exception ex)
