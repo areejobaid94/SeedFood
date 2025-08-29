@@ -18,6 +18,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Linq;
 using System.Linq.Dynamic.Core;
 using System.Threading.Tasks;
@@ -172,52 +173,147 @@ namespace Infoseed.MessagingPortal.Areas
             }
             
         }
-        protected virtual async Task Create(CreateOrEditAreaDto input)
+        protected virtual async Task<long> Create(CreateOrEditAreaDto input)
         {
             try
             {
                 var area = ObjectMapper.Map<Area>(input);
 
+                // Set default values
                 area.UserId = 0;
                 area.AreaCoordinate = "";
                 area.AreaCoordinateEnglish = "";
                 area.SettingJson = "";
-                // area.AreaName=area.AreaName.Substring(0, 20);
-                // area.AreaNameEnglish=area.AreaNameEnglish.Substring(0, 20);
                 if (AbpSession.TenantId != null)
                 {
                     area.TenantId = (int?)AbpSession.TenantId;
                 }
+
                 _cacheManager.GetCache("CacheTenant_Areas").Remove("Area_" + AbpSession.TenantId.ToString());
 
+                // Prepare parameters
+                var npgsqlParams = new NpgsqlParameter[]
+                {
+                    new NpgsqlParameter("p_tenantid", area.TenantId ?? (object)DBNull.Value),
+                    new NpgsqlParameter("p_areaname", area.AreaName),
+                    new NpgsqlParameter("p_areacoordinate", area.AreaCoordinate ?? ""),
+                    new NpgsqlParameter("p_branchid", area.BranchID ?? ""),
+                    new NpgsqlParameter("p_userid", area.UserId ?? 0),
+                    new NpgsqlParameter("p_isassgintoalluser", area.IsAssginToAllUser),
+                    new NpgsqlParameter("p_isavailablebranch", area.IsAvailableBranch),
+                    new NpgsqlParameter("p_restaurantstype", area.RestaurantsType),
+                    new NpgsqlParameter("p_areanameenglish", area.AreaNameEnglish ?? ""),
+                    new NpgsqlParameter("p_areacoordinateenglish", area.AreaCoordinateEnglish ?? ""),
+                    new NpgsqlParameter("p_isrestaurantstypeall", area.IsRestaurantsTypeAll),
+                    new NpgsqlParameter("p_latitude", area.Latitude ?? (object)DBNull.Value),
+                    new NpgsqlParameter("p_longitude", area.Longitude ?? (object)DBNull.Value),
+                    new NpgsqlParameter("p_settingjson", area.SettingJson ?? ""),
+                    new NpgsqlParameter("p_userids", area.UserIds ?? "")
+                };
 
-                await _areaRepository.InsertAsync(area);
+                // Execute PostgreSQL function
+                var newId = PostgresDataHelper.ExecuteFunction<long>(
+                    "dbo.areas_add",
+                    npgsqlParams,
+                    reader => reader.GetInt64(0),
+                    _postgresConnection
+                ).FirstOrDefault();
+
+                return newId;
             }
             catch (Exception ex)
             {
-
-                throw ex;
+                Debug.WriteLine("Failed to create area: " + ex.Message);
+                throw;
             }
-            
         }
 
-        //[AbpAuthorize(AppPermissions.Pages_Areas_Edit)]
+
         protected virtual async Task Update(CreateOrEditAreaDto input)
         {
             try
             {
+                // Clear the cache
                 _cacheManager.GetCache("CacheTenant_Areas").Remove("Area_" + AbpSession.TenantId.ToString());
 
-                var area = await _areaRepository.FirstOrDefaultAsync((long)input.Id);
-                ObjectMapper.Map(input, area);
+                // Fetch the existing area from DB
+                var area = getAreasById((int)input.Id, (int)AbpSession.TenantId);
+
+                if (area == null)
+                {
+                    throw new Exception("Area not found.");
+                }
+
+                // Only update the fields that exist in the input DTO
+                if (!string.IsNullOrEmpty(input.AreaName))
+                    area.AreaName = input.AreaName;
+
+                if (!string.IsNullOrEmpty(input.AreaCoordinate))
+                    area.AreaCoordinate = input.AreaCoordinate;
+
+                if (!string.IsNullOrEmpty(input.AreaNameEnglish))
+                    area.AreaNameEnglish = input.AreaNameEnglish;
+
+                if (!string.IsNullOrEmpty(input.AreaCoordinateEnglish))
+                    area.AreaCoordinateEnglish = input.AreaCoordinateEnglish;
+
+                if (input.UserId.HasValue)
+                    area.UserId = input.UserId.Value;
+
+                area.RestaurantsType = input.RestaurantsType;
+                area.IsAssginToAllUser = input.IsAssginToAllUser;
+                area.IsAvailableBranch = input.IsAvailableBranch;
+                area.IsRestaurantsTypeAll = input.IsRestaurantsTypeAll;
+
+                if (input.Latitude.HasValue)
+                    area.Latitude = input.Latitude;
+
+                if (input.Longitude.HasValue)
+                    area.Longitude = input.Longitude;
+
+                if (!string.IsNullOrEmpty(input.UserIds))
+                    area.UserIds = input.UserIds;
+
+                if (!string.IsNullOrEmpty(input.BranchID))
+                    area.BranchID = input.BranchID;
+
+                var npgsqlParams = new NpgsqlParameter[]
+                {
+                    new NpgsqlParameter("p_id", area.Id),
+                    new NpgsqlParameter("p_areaname", area.AreaName),
+                    new NpgsqlParameter("p_areacoordinate", area.AreaCoordinate ?? ""),
+                    new NpgsqlParameter("p_branchid", area.BranchID ?? ""),
+                    new NpgsqlParameter("p_userid", area.UserId ?? 0),
+                    new NpgsqlParameter("p_isassgintoalluser", area.IsAssginToAllUser),
+                    new NpgsqlParameter("p_isavailablebranch", area.IsAvailableBranch),
+                    new NpgsqlParameter("p_restaurantstype", area.RestaurantsType),
+                    new NpgsqlParameter("p_areanameenglish", area.AreaNameEnglish ?? ""),
+                    new NpgsqlParameter("p_areacoordinateenglish", area.AreaCoordinateEnglish ?? ""),
+                    new NpgsqlParameter("p_isrestaurantstypeall", area.IsRestaurantsTypeAll),
+                    new NpgsqlParameter("p_latitude", area.Latitude ?? (object)DBNull.Value),
+                    new NpgsqlParameter("p_longitude", area.Longitude ?? (object)DBNull.Value),
+                    new NpgsqlParameter("p_settingjson", area.SettingJson ?? ""),
+                    new NpgsqlParameter("p_userids", area.UserIds ?? "")
+
+            };
+
+                // Call PostgreSQL function to update
+                await Task.Run(() =>
+                {
+                    PostgresDataHelper.ExecuteFunction<long>(
+                        "dbo.areas_update",  // You need to create this function in PSQL
+                        npgsqlParams,
+                        reader => reader.GetInt64(0), // Return updated area Id
+                        _postgresConnection
+                    );
+                });
             }
             catch (Exception ex)
             {
-
                 throw ex;
             }
-
         }
+
 
         //[AbpAuthorize(AppPermissions.Pages_Areas_Delete)]
         public async Task Delete(EntityDto<long> input)
@@ -342,69 +438,52 @@ namespace Infoseed.MessagingPortal.Areas
 
 
         #region Private Methods
-        
-        private WorkModel getBranchSetting(long BranchId)
+
+        private WorkModel getBranchSetting(long branchId)
         {
             try
             {
-                WorkModel entity = new WorkModel();
-                var SP_Name = Constants.Area.SP_BranchSettingGet;
-
-                var sqlParameters = new List<SqlParameter> {
-                    new SqlParameter("@BranchId",BranchId)
+                var spName = "dbo.branch_setting_get";
+                var sqlParameters = new List<NpgsqlParameter>
+                {
+                    new NpgsqlParameter("p_branchid", branchId)
                 };
 
-                entity = SqlDataHelper.ExecuteReader(SP_Name, sqlParameters.ToArray(), DataReaderMapper.MapBranchSetting, AppSettingsModel.ConnectionStrings).FirstOrDefault();
+                var entity = PostgresDataHelper.ExecuteFunction(
+                    spName,
+                    sqlParameters.ToArray(),
+                    DataReaderMapper.MapBranchSettingPSQL,
+                    _postgresConnection
+                ).FirstOrDefault();
 
+                if (entity == null)
+                    return null;
 
-                if (entity != null)
+                // Lists of property names for StartDate and EndDate
+                var days = new[] { "Fri", "Sat", "Sun", "Mon", "Tues", "Wed", "Thurs" };
+                foreach (var day in days)
                 {
-                    entity.StartDateFri = getValidValue(entity.StartDateFri);
-                    entity.StartDateSat = getValidValue(entity.StartDateSat);
-                    entity.StartDateSun = getValidValue(entity.StartDateSun);
-                    entity.StartDateMon = getValidValue(entity.StartDateMon);
-                    entity.StartDateTues = getValidValue(entity.StartDateTues);
-                    entity.StartDateWed = getValidValue(entity.StartDateWed);
-                    entity.StartDateThurs = getValidValue(entity.StartDateThurs);
+                    // Update regular dates
+                    var startProp = entity.GetType().GetProperty($"StartDate{day}");
+                    var endProp = entity.GetType().GetProperty($"EndDate{day}");
+                    if (startProp != null) startProp.SetValue(entity, getValidValue(startProp.GetValue(entity)));
+                    if (endProp != null) endProp.SetValue(entity, getValidValue(endProp.GetValue(entity)));
 
-
-
-                    entity.EndDateFri = getValidValue(entity.EndDateFri);
-                    entity.EndDateSat = getValidValue(entity.EndDateSat);
-                    entity.EndDateSun = getValidValue(entity.EndDateSun);
-                    entity.EndDateMon = getValidValue(entity.EndDateMon);
-                    entity.EndDateTues = getValidValue(entity.EndDateTues);
-                    entity.EndDateWed = getValidValue(entity.EndDateWed);
-                    entity.EndDateThurs = getValidValue(entity.EndDateThurs);
-
-
-
-                    entity.StartDateFriSP = getValidValue(entity.StartDateFriSP);
-                    entity.StartDateSatSP = getValidValue(entity.StartDateSatSP);
-                    entity.StartDateSunSP = getValidValue(entity.StartDateSunSP);
-                    entity.StartDateMonSP = getValidValue(entity.StartDateMonSP);
-                    entity.StartDateTuesSP = getValidValue(entity.StartDateTuesSP);
-                    entity.StartDateWedSP = getValidValue(entity.StartDateWedSP);
-                    entity.StartDateThursSP = getValidValue(entity.StartDateThursSP);
-
-
-
-                    entity.EndDateFriSP = getValidValue(entity.EndDateFriSP);
-                    entity.EndDateSatSP = getValidValue(entity.EndDateSatSP);
-                    entity.EndDateSunSP = getValidValue(entity.EndDateSunSP);
-                    entity.EndDateMonSP = getValidValue(entity.EndDateMonSP);
-                    entity.EndDateTuesSP = getValidValue(entity.EndDateTuesSP);
-                    entity.EndDateWedSP = getValidValue(entity.EndDateWedSP);
-                    entity.EndDateThursSP = getValidValue(entity.EndDateThursSP);
+                    // Update SP dates
+                    var startSPProp = entity.GetType().GetProperty($"StartDate{day}SP");
+                    var endSPProp = entity.GetType().GetProperty($"EndDate{day}SP");
+                    if (startSPProp != null) startSPProp.SetValue(entity, getValidValue(startSPProp.GetValue(entity)));
+                    if (endSPProp != null) endSPProp.SetValue(entity, getValidValue(endSPProp.GetValue(entity)));
                 }
 
                 return entity;
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw; // preserve stack trace
             }
         }
+
         private LocationInfoModelDto LocationDeliveryCost(int tenantID, string JsonLocation)
         {
             try
@@ -435,9 +514,9 @@ namespace Infoseed.MessagingPortal.Areas
 
                 var npgsqlParams = new NpgsqlParameter[]
                 {
-                new NpgsqlParameter("p_tenantid", AbpSession.TenantId.Value),
-                new NpgsqlParameter("p_pagenumber", pageNumber),
-                new NpgsqlParameter("p_pagesize", pageSize)
+                    new NpgsqlParameter("p_tenantid", AbpSession.TenantId.Value),
+                    new NpgsqlParameter("p_pagenumber", pageNumber * pageSize), // OFFSET calculation
+                    new NpgsqlParameter("p_pagesize", pageSize)
                 };
 
                 var results = PostgresDataHelper.ExecuteFunction(
@@ -447,6 +526,7 @@ namespace Infoseed.MessagingPortal.Areas
                     _postgresConnection
                 ).ToList();
 
+                areas.TotalCount = 0;
                 if (results.Any())
                 {
                     areas.lstAreas = results;
@@ -465,6 +545,7 @@ namespace Infoseed.MessagingPortal.Areas
                 throw ex;
             }
         }
+
 
         private List<AreaDto> getAllAreas(int tenantID, bool? isAvailableBranch = null)
         {
@@ -488,79 +569,71 @@ namespace Infoseed.MessagingPortal.Areas
             }
 
         }
-        private AreaDto getAreasById(int Id, int tenantID)
+        private AreaDto getAreasById(int id, int tenantID)
         {
             try
             {
-                AreaDto lstAreaDto = new AreaDto();
-
-                var SP_Name = Constants.Area.SP_AreasByIdGet;
-                var sqlParameters = new List<SqlParameter> {
-                      new SqlParameter("@TenantId",tenantID)
-                     ,new SqlParameter("@Id",Id)
+                var npgsqlParams = new NpgsqlParameter[]
+                {
+            new NpgsqlParameter("p_tenantid", tenantID),
+            new NpgsqlParameter("p_id", id)
                 };
-                lstAreaDto = SqlDataHelper.ExecuteReader(SP_Name, sqlParameters.ToArray(), DataReaderMapper.MapArea, AppSettingsModel.ConnectionStrings).FirstOrDefault();
 
-                return lstAreaDto;
+                // Execute PostgreSQL function and map results
+                var area = PostgresDataHelper.ExecuteFunction(
+                    "dbo.areas_byid_get",
+                    npgsqlParams,
+                    DataReaderMapper.MapAreaPSQL, // create this mapper to map IDataReader to AreaDto including URL
+                    _postgresConnection
+                ).FirstOrDefault();
+
+                return area ?? new AreaDto();
             }
             catch (Exception ex)
             {
                 throw ex;
             }
-
         }
+
         private string deleteArea(long areaId)
         {
             try
             {
+                // Clear cache
                 _cacheManager.GetCache("CacheTenant_Areas").Remove("Area_" + AbpSession.TenantId.ToString());
-                var SP_Name = Constants.Area.SP_AreaDelete;
-                var sqlParameters = new List<System.Data.SqlClient.SqlParameter> {
 
-                    new System.Data.SqlClient.SqlParameter("@AreaId",areaId)
-
-                };
-                var OutputParameter = new System.Data.SqlClient.SqlParameter();
-                OutputParameter.SqlDbType = SqlDbType.Int;
-                OutputParameter.ParameterName = "@Result";
-                OutputParameter.Direction = ParameterDirection.Output;
-                sqlParameters.Add(OutputParameter);
-
-                SqlDataHelper.ExecuteNoneQuery(SP_Name, sqlParameters.ToArray(), AppSettingsModel.ConnectionStrings);
-
-                int result = (int)OutputParameter.Value;
-
-                if (result != 0)
+                // Prepare PostgreSQL parameter
+                var npgsqlParams = new NpgsqlParameter[]
                 {
-                    if (result == 1)
-                    {
-                        return "MENU";
-                    }
-                    if (result == 2)
-                    {
-                        return "ITEM";
-                    }
-                    if (result == 3)
-                    {
-                        return "ORDER";
-                    }
-                    if (result == 4)
-                    {
-                        return "DELIVERYCOST";
-                    }
-                    if (result == 5)
-                    {
-                        return "LOCATION";
-                    }
-                }
-                return "DELETED";
+                   new NpgsqlParameter("p_areaid", areaId)
+                };
 
+                // Execute the function and get the result
+                int result = PostgresDataHelper.ExecuteFunction<int>(
+                    "dbo.area_delete",
+                    npgsqlParams,
+                    reader => reader.GetInt32(0),  // Function returns an int
+                    _postgresConnection
+                ).FirstOrDefault();
+
+                // Map result to string
+                return result switch
+                {
+                    1 => "MENU",
+                    2 => "ITEM",
+                    3 => "ORDER",
+                    4 => "DELIVERYCOST",
+                    5 => "LOCATION",
+                    _ => "DELETED"
+                };
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw; // Keep the exception as-is
             }
         }
+
+
         private string checkValidValue(dynamic value)
         {
             string result = null;
@@ -597,24 +670,31 @@ namespace Infoseed.MessagingPortal.Areas
 
 
         }
-        private void BranchSettingUpdate(long BranchId, string branchSettingJson)
+        private void BranchSettingUpdate(long branchId, string branchSettingJson)
         {
             try
             {
-                var SP_Name = "[dbo].[BranchSettingUpdate]";
+                var funcName = "dbo.branch_setting_update";
 
-                var sqlParameters = new List<SqlParameter> {
-            new SqlParameter("@SettingJson",branchSettingJson)
-           ,new SqlParameter("@BranchId",BranchId)
-            };
+                var npgsqlParams = new NpgsqlParameter[]
+                {
+                    new NpgsqlParameter("p_branchid", branchId),
+                    new NpgsqlParameter("p_settingjson", branchSettingJson ?? "")
+                };
 
-                SqlDataHelper.ExecuteNoneQuery(SP_Name, sqlParameters.ToArray(), AppSettingsModel.ConnectionStrings);
+                PostgresDataHelper.ExecuteFunction<object>(
+                    funcName,
+                    npgsqlParams,
+                    reader => null, // function returns void, so nothing to read
+                    _postgresConnection
+                );
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw; // keep stack trace clean
             }
         }
+
         #endregion
 
     }
