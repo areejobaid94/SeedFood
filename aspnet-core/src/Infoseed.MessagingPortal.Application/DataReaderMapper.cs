@@ -2502,6 +2502,28 @@ namespace Infoseed.MessagingPortal
 
         }
 
+        public static WorkModel MapBranchSettingPSQL(IDataReader dataReader)
+        {
+            try
+            {
+                WorkModel entity = new WorkModel();
+
+                if (!string.IsNullOrEmpty(SqlDataHelper.GetValue<string>(dataReader, "setting_json")))
+                {
+
+                    var options = new JsonSerializerOptions { WriteIndented = true };
+                    entity = System.Text.Json.JsonSerializer.Deserialize<WorkModel>(SqlDataHelper.GetValue<string>(dataReader, "SettingJson"), options);
+
+                }
+                return entity;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
 
         public static BranchsModel MapBranchGeeAll(IDataReader dataReader)
         {
