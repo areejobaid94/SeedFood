@@ -3,13 +3,17 @@ using Abp.Domain.Repositories;
 using Abp.Linq.Extensions;
 using Abp.Runtime.Caching;
 using Framework.Data;
+using Framework.Data.Sql;
 using Infoseed.MessagingPortal.Areas.Dtos;
 using Infoseed.MessagingPortal.Areas.Exporting;
 using Infoseed.MessagingPortal.Configuration.Tenants.Dto;
 using Infoseed.MessagingPortal.Dto;
 using Infoseed.MessagingPortal.Orders.Dtos;
+using Infoseed.MessagingPortal.WhatsApp;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
+using Npgsql;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -17,7 +21,6 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Linq.Dynamic.Core;
 using System.Threading.Tasks;
-
 
 namespace Infoseed.MessagingPortal.Areas
 {
@@ -27,13 +30,15 @@ namespace Infoseed.MessagingPortal.Areas
         private readonly IRepository<Area, long> _areaRepository;
         private readonly IAreasExcelExporter _areasExcelExporter;
         private readonly ICacheManager _cacheManager;
+        private readonly string _postgresConnection;
 
-
-        public AreasAppService(IRepository<Area, long> areaRepository, IAreasExcelExporter areasExcelExporter, ICacheManager cacheManager)
+        public AreasAppService(IRepository<Area, long> areaRepository, IAreasExcelExporter areasExcelExporter, ICacheManager cacheManager, ICampaginExcelExporter campaginExcelExporter,
+            IConfiguration configuration)
         {
             _areaRepository = areaRepository;
             _areasExcelExporter = areasExcelExporter;
             _cacheManager = cacheManager;
+            _postgresConnection = configuration.GetConnectionString("postgres");
         }
 
         public  AreasAppService()
@@ -427,30 +432,40 @@ namespace Infoseed.MessagingPortal.Areas
             try
             {
                 AreasEntity areas = new AreasEntity();
-                var SP_Name = Constants.Area.SP_AreasGet;
-                var sqlParameters = new List<SqlParameter> {
-                      new SqlParameter("@TenantId",AbpSession.TenantId.Value)
-                     ,new SqlParameter("@PageNumber",pageNumber)
-                     ,new SqlParameter("@PageSize",pageSize)
 
+                var npgsqlParams = new NpgsqlParameter[]
+                {
+                new NpgsqlParameter("p_tenantid", AbpSession.TenantId.Value),
+                new NpgsqlParameter("p_pagenumber", pageNumber),
+                new NpgsqlParameter("p_pagesize", pageSize)
                 };
 
-                var OutputParameter = new System.Data.SqlClient.SqlParameter();
-                OutputParameter.SqlDbType = SqlDbType.Int;
-                OutputParameter.ParameterName = "@TotalCount";
-                OutputParameter.Direction = ParameterDirection.Output;
-                sqlParameters.Add(OutputParameter);
+                var results = PostgresDataHelper.ExecuteFunction(
+                    "dbo.areas_get",
+                    npgsqlParams,
+                    DataReaderMapper.MapAreaPSQL,
+                    _postgresConnection
+                ).ToList();
 
-                areas.lstAreas = SqlDataHelper.ExecuteReader(SP_Name, sqlParameters.ToArray(), DataReaderMapper.MapArea, AppSettingsModel.ConnectionStrings).ToList();
-                areas.TotalCount = (int)OutputParameter.Value;
+                if (results.Any())
+                {
+                    areas.lstAreas = results;
+                    areas.TotalCount = (int)results.First().TotalCount;
+                }
+                else
+                {
+                    areas.lstAreas = new List<AreaDto>();
+                    areas.TotalCount = 0;
+                }
+
                 return areas;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                throw;
+                throw ex;
             }
         }
+
         private List<AreaDto> getAllAreas(int tenantID, bool? isAvailableBranch = null)
         {
             try
