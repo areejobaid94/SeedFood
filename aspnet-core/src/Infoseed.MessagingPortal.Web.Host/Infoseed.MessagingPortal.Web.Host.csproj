@@ -65,6 +65,8 @@
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.8" />
     <PackageReference Include="Nancy" Version="2.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="Npgsql" Version="8.0.0" />
+    <PackageReference Include="Owin" Version="1.0.0" />
     <PackageReference Include="Sentry.AspNetCore" Version="3.40.0" />
     <PackageReference Include="Xamarin.Forms.GoogleMaps" Version="3.3.0" />
   </ItemGroup>

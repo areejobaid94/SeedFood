@@ -48,7 +48,7 @@ namespace Infoseed.MessagingPortal.Tenants.Dashboard
     //[AbpAuthorize(AppPermissions.Pages_Tenant_Dashboard)]
     public class TenantDashboardAppService : MessagingPortalAppServiceBase, ITenantDashboardAppService
     {
-       // public string connectionStringMongoDB = "mongodb+srv://infoseed:P%40ssw0rd@campagindb.global.mongocluster.cosmos.azure.com/?tls=true&authMechanism=SCRAM-SHA-256&retrywrites=false&maxIdleTimeMS=120000";
+        // public string connectionStringMongoDB = "mongodb+srv://infoseed:P%40ssw0rd@campagindb.global.mongocluster.cosmos.azure.com/?tls=true&authMechanism=SCRAM-SHA-256&retrywrites=false&maxIdleTimeMS=120000";
         public string connectionStringMongoDB = "mongodb+srv://infoseed:P%40ssw0rd@campagindbstg.global.mongocluster.cosmos.azure.com/?tls=true&authMechanism=SCRAM-SHA-256&retrywrites=false&maxIdleTimeMS=120000";
 
         private readonly IRepository<Order, long> _orderRepository;
@@ -62,7 +62,7 @@ namespace Infoseed.MessagingPortal.Tenants.Dashboard
 
         public TenantDashboardAppService(IRepository<Order, long> orderRepository, IRepository<Evaluation, long> evaluationRepository, IRepository<Contact> contactRepository
             , IDocumentClient iDocumentClient
-            ,ZohoAppService zohoAppService
+            , ZohoAppService zohoAppService
             , IWalletAppService walletAppService
             , IUsageDetailsExcelExport usageDetailsExcelExport
             )
@@ -1073,11 +1073,11 @@ namespace Infoseed.MessagingPortal.Tenants.Dashboard
         {
             try
             {
-                long ZohoId = 0 ;
-                string zoho= getZohoCustomerIds(invoiseModel.TenantId);
+                long ZohoId = 0;
+                string zoho = getZohoCustomerIds(invoiseModel.TenantId);
                 if (zoho != null && zoho != "")
                 {
-                   // ZohoId = long.Parse(getZohoCustomerIds(invoiseModel.TenantId));
+                    // ZohoId = long.Parse(getZohoCustomerIds(invoiseModel.TenantId));
                     ZohoId = long.Parse(zoho);
                 }
                 else
@@ -1102,18 +1102,18 @@ namespace Infoseed.MessagingPortal.Tenants.Dashboard
                 {
                     return null;
                 }
-                if(updateInvoicesModel == null )
+                if (updateInvoicesModel == null)
                     return null;
 
                 WalletModel model = new WalletModel();
-                
+
                 model = WalletGetByTenantId(invoiseModel.TenantId);
                 if (model != null && invoiseModel.UserId > 0)
                 {
 
                     UsersDashModel usersDashModel = new UsersDashModel();
                     usersDashModel = GetUserInfo(invoiseModel.UserId);
-                     //Add in transaction table 
+                    //Add in transaction table 
                     TransactionModel transactionModel = new TransactionModel();
 
                     transactionModel.DoneBy = usersDashModel.Name;
@@ -1160,7 +1160,7 @@ namespace Infoseed.MessagingPortal.Tenants.Dashboard
         {
             try
             {
-                List<LastFourTransactionModel> lastFourTransactionModels = new List<LastFourTransactionModel>();    
+                List<LastFourTransactionModel> lastFourTransactionModels = new List<LastFourTransactionModel>();
                 List<TransactionModel> model = new List<TransactionModel>();
                 model = transactionGetLastFour(TenantId);
 
@@ -1175,7 +1175,7 @@ namespace Infoseed.MessagingPortal.Tenants.Dashboard
                                 {
                                     icon = "bi-check2",
                                     CategoryType = Mo.CategoryType,
-                                    Total ="+$"+ Mo.TotalTransaction.ToString()
+                                    Total = "+$" + Mo.TotalTransaction.ToString()
                                 });
                                 break;
                             case "Marketing Conversations":
@@ -1204,7 +1204,7 @@ namespace Infoseed.MessagingPortal.Tenants.Dashboard
                                 break;
                         }
                     }
-                    return lastFourTransactionModels; 
+                    return lastFourTransactionModels;
                 }
                 else
                 { return lastFourTransactionModels; }
@@ -1270,7 +1270,7 @@ namespace Infoseed.MessagingPortal.Tenants.Dashboard
                 throw ex;
             }
         }
-        public UserPerformanceOrderGenarecModel GetPerformanceOrder(DateTime start, DateTime end,int TenantId)
+        public UserPerformanceOrderGenarecModel GetPerformanceOrder(DateTime start, DateTime end, int TenantId)
         {
             try
             {
@@ -1282,7 +1282,7 @@ namespace Infoseed.MessagingPortal.Tenants.Dashboard
             }
         }
         //User Performance (Tickits)
-        public TickitsDashbordModel TickitsGetAll(DateTime start, DateTime end,int TenantId)
+        public TickitsDashbordModel TickitsGetAll(DateTime start, DateTime end, int TenantId)
         {
             try
             {
@@ -1293,11 +1293,11 @@ namespace Infoseed.MessagingPortal.Tenants.Dashboard
                 throw ex;
             }
         }
-        public UserPerformanceTicketGenarecModel GetPerformanceTeckits(DateTime start, DateTime end,int TenantId)
+        public UserPerformanceTicketGenarecModel GetPerformanceTeckits(DateTime start, DateTime end, int TenantId)
         {
             try
             {
-                return getPerformanceTeckits(start, end , TenantId);
+                return getPerformanceTeckits(start, end, TenantId);
             }
             catch (Exception ex)
             {
@@ -1305,7 +1305,7 @@ namespace Infoseed.MessagingPortal.Tenants.Dashboard
             }
         }
         //User Performance (Booking)
-        public BookingDashbordModel BookingGetAll(DateTime start, DateTime end,int TenantId)
+        public BookingDashbordModel BookingGetAll(DateTime start, DateTime end, int TenantId)
         {
             try
             {
@@ -1316,7 +1316,7 @@ namespace Infoseed.MessagingPortal.Tenants.Dashboard
                 throw ex;
             }
         }
-        public UserPerformanceBookingGenarecModel GetPerformanceBooking(DateTime start, DateTime end,int TenantId)
+        public UserPerformanceBookingGenarecModel GetPerformanceBooking(DateTime start, DateTime end, int TenantId)
         {
             try
             {
@@ -1327,22 +1327,22 @@ namespace Infoseed.MessagingPortal.Tenants.Dashboard
                 throw ex;
             }
         }
-        
+
         //Orders Statistics (Order)
         public OrderStatisticsModel OrdersStatisticsGet(DateTime start, DateTime end, int TenantId, long BranchId = 0)
         {
             try
             {
                 OrderStatisticsModel orderStatisticsModel = new OrderStatisticsModel();
-                orderStatisticsModel=ordersStatisticsGet(start, end, TenantId, BranchId);
-                decimal Total= orderStatisticsModel.TotalOrder;
+                orderStatisticsModel = ordersStatisticsGet(start, end, TenantId, BranchId);
+                decimal Total = orderStatisticsModel.TotalOrder;
                 if (Total > 0)
                 {
                     orderStatisticsModel.PercentagePending = (int)((orderStatisticsModel.TotalOrderPending / Total) * 100);
-                    orderStatisticsModel.PercentageCompleted = (int)((orderStatisticsModel.TotalOrderCompleted / Total) *100);
-                    orderStatisticsModel.PercentageDeleted = (int)((orderStatisticsModel.TotalOrderDeleted / Total) *100);
-                    orderStatisticsModel.PercentageCanceled = (int)((orderStatisticsModel.TotalOrderCanceled / Total) *100);
-                    orderStatisticsModel.PercentagePreOrder = (int)((orderStatisticsModel.TotalOrderPreOrder / Total) *100);
+                    orderStatisticsModel.PercentageCompleted = (int)((orderStatisticsModel.TotalOrderCompleted / Total) * 100);
+                    orderStatisticsModel.PercentageDeleted = (int)((orderStatisticsModel.TotalOrderDeleted / Total) * 100);
+                    orderStatisticsModel.PercentageCanceled = (int)((orderStatisticsModel.TotalOrderCanceled / Total) * 100);
+                    orderStatisticsModel.PercentagePreOrder = (int)((orderStatisticsModel.TotalOrderPreOrder / Total) * 100);
                 }
 
                 return orderStatisticsModel;
@@ -1353,7 +1353,7 @@ namespace Infoseed.MessagingPortal.Tenants.Dashboard
             }
         }
         //Booking Statistics (Booking)
-        public BookingStatisticsModel BookingStatisticsGet(DateTime start, DateTime end ,int TenantId, long UserId = 0)
+        public BookingStatisticsModel BookingStatisticsGet(DateTime start, DateTime end, int TenantId, long UserId = 0)
         {
             try
             {
@@ -1362,7 +1362,7 @@ namespace Infoseed.MessagingPortal.Tenants.Dashboard
                 decimal Total = bookingStatisticsModel.TotalAppointments;
                 if (Total > 0)
                 {
-                    bookingStatisticsModel.PercentageBooked = (int)((bookingStatisticsModel.TotalBooked/ Total) * 100);
+                    bookingStatisticsModel.PercentageBooked = (int)((bookingStatisticsModel.TotalBooked / Total) * 100);
                     bookingStatisticsModel.PercentageConfirmed = (int)((bookingStatisticsModel.TotalConfirmed / Total) * 100);
                     bookingStatisticsModel.PercentageCanceled = (int)((bookingStatisticsModel.TotalCancelled / Total) * 100);
                     bookingStatisticsModel.PercentagePending = (int)((bookingStatisticsModel.TotalPending / Total) * 100);
@@ -1375,7 +1375,7 @@ namespace Infoseed.MessagingPortal.Tenants.Dashboard
             }
         }
         //Tickets Statistics (Tickets)
-        public TicketsStatisticsModel TicketsStatisticsGet(DateTime start, DateTime end,int TenantId)
+        public TicketsStatisticsModel TicketsStatisticsGet(DateTime start, DateTime end, int TenantId)
         {
             try
             {
@@ -1385,14 +1385,14 @@ namespace Infoseed.MessagingPortal.Tenants.Dashboard
                 decimal Total = ticketsStatisticsModel.TotalTickets;
                 if (Total > 0)
                 {
-                   ticketsStatisticsModel.PercentagePending = (int)((ticketsStatisticsModel.TotalPending / Total) * 100);
-                   ticketsStatisticsModel.PercentageOpened = (int)((ticketsStatisticsModel.TotalOpened / Total) * 100);
-                   ticketsStatisticsModel.PercentageClosed = (int)((ticketsStatisticsModel.TotalClosed / Total) * 100);
-                   ticketsStatisticsModel.PercentageExpired = (int)((ticketsStatisticsModel.TotalExpired / Total) * 100);
+                    ticketsStatisticsModel.PercentagePending = (int)((ticketsStatisticsModel.TotalPending / Total) * 100);
+                    ticketsStatisticsModel.PercentageOpened = (int)((ticketsStatisticsModel.TotalOpened / Total) * 100);
+                    ticketsStatisticsModel.PercentageClosed = (int)((ticketsStatisticsModel.TotalClosed / Total) * 100);
+                    ticketsStatisticsModel.PercentageExpired = (int)((ticketsStatisticsModel.TotalExpired / Total) * 100);
 
-                   decimal minutes = ticketsStatisticsModel.AvgResolutionTime; // Replace with your desired number of minutes
-                   decimal hours = minutes / 60;
-                   ticketsStatisticsModel.AvgResolutionTime = Math.Round(hours,2);
+                    decimal minutes = ticketsStatisticsModel.AvgResolutionTime; // Replace with your desired number of minutes
+                    decimal hours = minutes / 60;
+                    ticketsStatisticsModel.AvgResolutionTime = Math.Round(hours, 2);
                 }
                 return ticketsStatisticsModel;
             }
@@ -1402,7 +1402,7 @@ namespace Infoseed.MessagingPortal.Tenants.Dashboard
             }
         }
 
-    
+
 
         //Campaign Statistics (Campaign)
         [HttpGet]
@@ -1422,7 +1422,7 @@ namespace Infoseed.MessagingPortal.Tenants.Dashboard
         {
             try
             {
-                return contactStatisticsGet(start ,end,TenantId);
+                return contactStatisticsGet(start, end, TenantId);
             }
             catch (Exception ex)
             {
@@ -1440,7 +1440,7 @@ namespace Infoseed.MessagingPortal.Tenants.Dashboard
             {
                 throw ex;
             }
-            
+
         }
         public List<CampaignDashModel> GetAllCampaign(int TenantId)
         {
@@ -1457,7 +1457,7 @@ namespace Infoseed.MessagingPortal.Tenants.Dashboard
         {
             try
             {
-                return getBestSellingItems(start,end ,TenantId);
+                return getBestSellingItems(start, end, TenantId);
             }
             catch (Exception ex)
             {
@@ -1490,7 +1490,7 @@ namespace Infoseed.MessagingPortal.Tenants.Dashboard
                     TransactionModel transactionModel = new TransactionModel();
                     transactionModel = GetTransaction(TenantId, invoiceId);
                     //transactionModel.IsPayed = true;
-                    
+
                     UpdeteTransaction(transactionModel.WalletId, transactionModel.invoiceId);
                 }
             }
@@ -1500,7 +1500,7 @@ namespace Infoseed.MessagingPortal.Tenants.Dashboard
             }
         }
         [HttpGet]
-        public UsageDetailsGenericModel GetUsageDetails( int TenantId, long? CampaignId = 0, string GroupBy = "", int? pageNumber = 0, int? pageSize = 10, DateTime? start = null, DateTime? end = null)
+        public UsageDetailsGenericModel GetUsageDetails(int TenantId, long? CampaignId = 0, string GroupBy = "", int? pageNumber = 0, int? pageSize = 10, DateTime? start = null, DateTime? end = null)
         {
             try
             {
@@ -1532,11 +1532,11 @@ namespace Infoseed.MessagingPortal.Tenants.Dashboard
         {
             try
             {
-                FileDto fileDto = new FileDto();    
+                FileDto fileDto = new FileDto();
                 int pageNumber = 0;
                 int pageSize = 2147483647;
 
-                UsageDetailsGenericModel itemes = getUsageDetails(TenantId, CampaignId, GroupBy, pageNumber, pageSize,start ,end);
+                UsageDetailsGenericModel itemes = getUsageDetails(TenantId, CampaignId, GroupBy, pageNumber, pageSize, start, end);
                 if (itemes != null)
                 {
                     return _usageDetailsExcelExport.ExportToFile(itemes.usageDetails);
@@ -1676,7 +1676,7 @@ namespace Infoseed.MessagingPortal.Tenants.Dashboard
                 return null;
             //start = new DateTime(2023, 09, 1, 0, 0, 0, DateTimeKind.Utc); // October 1, 2023, 12:00:00 AM UTC
             //end = new DateTime(2023, 09, 30, 23, 59, 59, DateTimeKind.Utc); // October 31, 2023, 11:59:59 PM UTC
-          
+
             int startTime, endTime = 0;
             startTime = (int)ConvertDatetimeToUnixTimeStamp(start);
             endTime = (int)ConvertDatetimeToUnixTimeStamp(end);
@@ -1724,7 +1724,7 @@ namespace Infoseed.MessagingPortal.Tenants.Dashboard
             {
                 TenantModelDash tenant = new TenantModelDash();
                 var SP_Name = Constants.Tenant.SP_TenantByIdGetInfo;
-                
+
                 var sqlParameters = new List<System.Data.SqlClient.SqlParameter>
                 {
                     new System.Data.SqlClient.SqlParameter("@TenantId",TenantId)
@@ -1941,7 +1941,7 @@ namespace Infoseed.MessagingPortal.Tenants.Dashboard
             try
             {
                 List<TransactionModel> transactionModel = new List<TransactionModel>();
-                
+
                 var SP_Name = Constants.Transaction.SP_TransactionGetLastFour;
 
                 var sqlParameters = new List<System.Data.SqlClient.SqlParameter> {
@@ -1987,7 +1987,7 @@ namespace Infoseed.MessagingPortal.Tenants.Dashboard
             try
             {
                 ConversationPriceModel conversationPriceModel = new ConversationPriceModel();
-                
+
                 conversationPriceModel.TotalDeposit = model.TotalDeposit;
                 conversationPriceModel.Country = model.Country;
                 conversationPriceModel.TotalMarketingCount = (int)(model.TotalDeposit / 0.014);
@@ -1998,7 +1998,7 @@ namespace Infoseed.MessagingPortal.Tenants.Dashboard
                 //countryCodeModel = countryGetAll(TenantId).Where(x => x.Country == model.Country).FirstOrDefault();
                 //if (countryCodeModel != null)
                 //{
-                    
+
                 //        //(int)(model.TotalDeposit / countryCodeModel.ServicePrice);
                 //}
                 return conversationPriceModel;
@@ -2032,7 +2032,7 @@ namespace Infoseed.MessagingPortal.Tenants.Dashboard
         }
 
         //User Performance (Order)
-        private OrderDashbordModel ordersGetAll(DateTime start, DateTime end,int TenantId)
+        private OrderDashbordModel ordersGetAll(DateTime start, DateTime end, int TenantId)
         {
             try
             {
@@ -2066,7 +2066,7 @@ namespace Infoseed.MessagingPortal.Tenants.Dashboard
                 throw ex;
             }
         }
-        private UserPerformanceOrderGenarecModel getPerformanceOrder(DateTime start, DateTime end,int TenantId)
+        private UserPerformanceOrderGenarecModel getPerformanceOrder(DateTime start, DateTime end, int TenantId)
         {
             try
             {
@@ -2101,7 +2101,7 @@ namespace Infoseed.MessagingPortal.Tenants.Dashboard
                             var donemode = ls.Where(x => x.OrderStatus == 2).FirstOrDefault();
                             //totalOrders = donemode.totalOrders;
 
-                           
+
                             if (donemode != null && TotalOrders != 0)
                             {
                                 CountDone = donemode.Count_OrderStatus_2;
@@ -2127,7 +2127,7 @@ namespace Infoseed.MessagingPortal.Tenants.Dashboard
                             var deletemode = ls.Where(x => x.OrderStatus == 3).FirstOrDefault();
                             //totalOrders = deletemode.totalOrders;
                             if (deletemode != null && TotalOrders != 0)
-                            { 
+                            {
                                 CountDelete = deletemode.Count_OrderStatus_3;
                                 CountDelete = Math.Round(((CountDelete / TotalOrders) * 100), 2);
 
@@ -2191,7 +2191,7 @@ namespace Infoseed.MessagingPortal.Tenants.Dashboard
             }
         }
         //User Performance (tickits)
-        private TickitsDashbordModel tickitsGetAll(DateTime start, DateTime end,int TenantId)
+        private TickitsDashbordModel tickitsGetAll(DateTime start, DateTime end, int TenantId)
         {
             try
             {
@@ -2225,7 +2225,7 @@ namespace Infoseed.MessagingPortal.Tenants.Dashboard
                 throw ex;
             }
         }
-        private UserPerformanceTicketGenarecModel getPerformanceTeckits(DateTime start, DateTime end,int TenantId)
+        private UserPerformanceTicketGenarecModel getPerformanceTeckits(DateTime start, DateTime end, int TenantId)
         {
             try
             {
@@ -2262,7 +2262,7 @@ namespace Infoseed.MessagingPortal.Tenants.Dashboard
                                 if (mode != null && TotalTickets != 0)
                                 {
                                     CountOpen = mode.TotalOpen;
-                                   // CountOpen = Math.Round(((CountOpen / TotalTickets) * 100), 2);
+                                    // CountOpen = Math.Round(((CountOpen / TotalTickets) * 100), 2);
 
                                     CountComplet = mode.TotalClose;
                                     //  CountComplet = Math.Round(((CountComplet / TotalTickets) * 100), 2);
@@ -2324,7 +2324,7 @@ namespace Infoseed.MessagingPortal.Tenants.Dashboard
             }
         }
         //User Performance (booking)
-        private BookingDashbordModel bookingGetAll(DateTime start, DateTime end,int TenantId)
+        private BookingDashbordModel bookingGetAll(DateTime start, DateTime end, int TenantId)
         {
             try
             {
@@ -2357,7 +2357,7 @@ namespace Infoseed.MessagingPortal.Tenants.Dashboard
                 throw ex;
             }
         }
-        private UserPerformanceBookingGenarecModel getPerformanceBooking(DateTime start, DateTime end,int TenantId)
+        private UserPerformanceBookingGenarecModel getPerformanceBooking(DateTime start, DateTime end, int TenantId)
         {
             try
             {
@@ -2384,7 +2384,7 @@ namespace Infoseed.MessagingPortal.Tenants.Dashboard
                         decimal TotalCancelled = 0;
                         decimal TotalDeleted = 0;
                         decimal TotalPending = 0;
-                        
+
                         try
                         {
                             var mode = ls.FirstOrDefault();
@@ -2413,11 +2413,11 @@ namespace Infoseed.MessagingPortal.Tenants.Dashboard
                             AgentId = us.Id,
                             UserName = us.UserName,
                             EmailAddress = us.EmailAddress,
-                            TotalBooked = TotalBooked ,
-                            TotalConfirmed = TotalConfirmed ,
-                            TotalCancelled = TotalCancelled ,
-                            TotalDeleted = TotalDeleted ,
-                            TotalPending = TotalPending 
+                            TotalBooked = TotalBooked,
+                            TotalConfirmed = TotalConfirmed,
+                            TotalCancelled = TotalCancelled,
+                            TotalDeleted = TotalDeleted,
+                            TotalPending = TotalPending
                         });
 
                     }
@@ -2453,7 +2453,7 @@ namespace Infoseed.MessagingPortal.Tenants.Dashboard
         /// <param name="TenantId">tenant id</param>
         /// <param name="BranchId">Branch id for filtering</param>
         /// <returns></returns>
-        private OrderStatisticsModel ordersStatisticsGet(DateTime start, DateTime end ,int TenantId, long BranchId = 0)
+        private OrderStatisticsModel ordersStatisticsGet(DateTime start, DateTime end, int TenantId, long BranchId = 0)
         {
             try
             {
@@ -2472,7 +2472,7 @@ namespace Infoseed.MessagingPortal.Tenants.Dashboard
                 };
 
                 model = SqlDataHelper.ExecuteReader(SP_Name, sqlParameters.ToArray(), DataReaderMapper.MapOrderGetStatistics, AppSettingsModel.ConnectionStrings).FirstOrDefault();
-               
+
 
                 return model;
             }
@@ -2489,7 +2489,7 @@ namespace Infoseed.MessagingPortal.Tenants.Dashboard
         /// <param name="TenantId">tenant id</param>
         /// <param name="UserId">User id for filtering</param>
         /// <returns></returns>
-        private BookingStatisticsModel bookingStatisticsGet(DateTime start, DateTime end ,int TenantId, long UserId = 0)
+        private BookingStatisticsModel bookingStatisticsGet(DateTime start, DateTime end, int TenantId, long UserId = 0)
         {
             try
             {
@@ -2521,7 +2521,7 @@ namespace Infoseed.MessagingPortal.Tenants.Dashboard
         /// <param name="end">end date </param>
         /// <param name="TenantId">tenant id</param>
         /// <returns></returns>
-        private TicketsStatisticsModel ticketsStatisticsGet(DateTime start, DateTime end , int TenantId)
+        private TicketsStatisticsModel ticketsStatisticsGet(DateTime start, DateTime end, int TenantId)
         {
             try
             {
@@ -2616,7 +2616,7 @@ namespace Infoseed.MessagingPortal.Tenants.Dashboard
                     var collection = database.GetCollection<CampaginMongoModel>(collectionName);
 
 
-                    if (CampaignId!=0)
+                    if (CampaignId != 0)
                     {
 
 
@@ -2627,7 +2627,7 @@ namespace Infoseed.MessagingPortal.Tenants.Dashboard
                             // Find the first matching document
                             var filterResult = await collection.Find(filter).ToListAsync();
 
-                            model=filterResult;
+                            model = filterResult;
 
                         }
                         catch (Exception ex)
@@ -2637,12 +2637,12 @@ namespace Infoseed.MessagingPortal.Tenants.Dashboard
 
                         try
                         {
-                            campaignStatisticsModel.TotalRead+=model.Where(x => x.is_read).ToList().Count();
-                            campaignStatisticsModel.TotalDelivered+=model.Where(x => x.is_delivered).ToList().Count();
-                            campaignStatisticsModel.TotalSent+=model.Where(x => x.is_sent).ToList().Count();
-                            campaignStatisticsModel.TotalFailed+=model.Where(x => !x.is_read &&!x.is_delivered &&!x.is_sent).ToList().Count();
-                            campaignStatisticsModel.TotalReplied=0;
-                            campaignStatisticsModel.TotalContact +=model.Where(x => x.is_accepted).ToList().Count();
+                            campaignStatisticsModel.TotalRead += model.Where(x => x.is_read).ToList().Count();
+                            campaignStatisticsModel.TotalDelivered += model.Where(x => x.is_delivered).ToList().Count();
+                            campaignStatisticsModel.TotalSent += model.Where(x => x.is_sent).ToList().Count();
+                            campaignStatisticsModel.TotalFailed += model.Where(x => !x.is_read && !x.is_delivered && !x.is_sent).ToList().Count();
+                            campaignStatisticsModel.TotalReplied = 0;
+                            campaignStatisticsModel.TotalContact += model.Where(x => x.is_accepted).ToList().Count();
 
 
 
@@ -2672,7 +2672,7 @@ namespace Infoseed.MessagingPortal.Tenants.Dashboard
                                 // Find the first matching document
                                 var filterResult = await collection.Find(filter).ToListAsync();
 
-                                model=filterResult;
+                                model = filterResult;
 
                             }
                             catch (Exception ex)
@@ -2684,12 +2684,12 @@ namespace Infoseed.MessagingPortal.Tenants.Dashboard
 
                             try
                             {
-                                campaignStatisticsModel.TotalRead+=model.Where(x => x.is_read).ToList().Count();
-                                campaignStatisticsModel.TotalDelivered+=model.Where(x => x.is_delivered).ToList().Count();
-                                campaignStatisticsModel.TotalSent+=model.Where(x => x.is_sent).ToList().Count();
-                                campaignStatisticsModel.TotalFailed+=model.Where(x => !x.is_read &&!x.is_delivered &&!x.is_sent).ToList().Count();
-                                campaignStatisticsModel.TotalReplied=0;
-                                campaignStatisticsModel.TotalContact +=model.Where(x => x.is_accepted).ToList().Count();
+                                campaignStatisticsModel.TotalRead += model.Where(x => x.is_read).ToList().Count();
+                                campaignStatisticsModel.TotalDelivered += model.Where(x => x.is_delivered).ToList().Count();
+                                campaignStatisticsModel.TotalSent += model.Where(x => x.is_sent).ToList().Count();
+                                campaignStatisticsModel.TotalFailed += model.Where(x => !x.is_read && !x.is_delivered && !x.is_sent).ToList().Count();
+                                campaignStatisticsModel.TotalReplied = 0;
+                                campaignStatisticsModel.TotalContact += model.Where(x => x.is_accepted).ToList().Count();
 
 
 
@@ -2708,7 +2708,7 @@ namespace Infoseed.MessagingPortal.Tenants.Dashboard
 
                     }
 
-             
+
 
 
 
@@ -2732,7 +2732,7 @@ namespace Infoseed.MessagingPortal.Tenants.Dashboard
             }
         }
 
-        private static List<CampaginModel> GetCampaignFun(long TenantId, DateTime start ,DateTime end)
+        private static List<CampaginModel> GetCampaignFun(long TenantId, DateTime start, DateTime end)
         {
             try
             {
@@ -2775,7 +2775,7 @@ namespace Infoseed.MessagingPortal.Tenants.Dashboard
                 try
                 {
 
-                    model.model=System.Text.Json.JsonSerializer.Deserialize<MessageTemplateModel>(SqlDataHelper.GetValue<string>(dataReader, "TemplateJson"));
+                    model.model = System.Text.Json.JsonSerializer.Deserialize<MessageTemplateModel>(SqlDataHelper.GetValue<string>(dataReader, "TemplateJson"));
                 }
                 catch
                 {
@@ -2785,11 +2785,11 @@ namespace Infoseed.MessagingPortal.Tenants.Dashboard
                 try
                 {
 
-                    model.templateVariablles=System.Text.Json.JsonSerializer.Deserialize<TemplateVariablles>(SqlDataHelper.GetValue<string>(dataReader, "TemplateVariables"));
+                    model.templateVariablles = System.Text.Json.JsonSerializer.Deserialize<TemplateVariablles>(SqlDataHelper.GetValue<string>(dataReader, "TemplateVariables"));
                 }
                 catch
                 {
-                    model.templateVariablles=new TemplateVariablles();
+                    model.templateVariablles = new TemplateVariablles();
 
                 }
 
@@ -2909,7 +2909,7 @@ namespace Infoseed.MessagingPortal.Tenants.Dashboard
             {
                 bool tr = true;
                 var SP_Name = Constants.Transaction.SP_UpdeteTransaction;
-               
+
                 var sqlParameters = new List<System.Data.SqlClient.SqlParameter> {
                      new System.Data.SqlClient.SqlParameter("@WalletId",WalletId)
                     ,new System.Data.SqlClient.SqlParameter("@invoice_id",invoiceId)
@@ -2923,7 +2923,7 @@ namespace Infoseed.MessagingPortal.Tenants.Dashboard
                 };
                 sqlParameters.Add(OutputParameter);
                 SqlDataHelper.ExecuteNoneQuery(SP_Name, sqlParameters.ToArray(), AppSettingsModel.ConnectionStrings);
-                
+
             }
             catch (Exception ex)
             {
@@ -2961,7 +2961,7 @@ namespace Infoseed.MessagingPortal.Tenants.Dashboard
                 model.usageDetails = SqlDataHelper.ExecuteReader(SP_Name, sqlParameters.ToArray(), DataReaderMapper.MapGetUsageDetails, AppSettingsModel.ConnectionStrings).ToList();
                 model.Total = (long)OutputParameter.Value;
                 if (model.usageDetails != null)
-                {                   
+                {
                     foreach (var Useg in model.usageDetails)
                     {
                         List<string> countryArray = new List<string>();
@@ -2971,9 +2971,9 @@ namespace Infoseed.MessagingPortal.Tenants.Dashboard
                             countryArray = Useg.Country?.Split(',')?.ToList() ?? new List<string>();
                         }
                         else
-                        { 
+                        {
                             Useg.Country = "-";
-                            if(Useg.CategoryType == "SuccessSentCampaign")
+                            if (Useg.CategoryType == "SuccessSentCampaign")
                             {
                                 Useg.CategoryType = "Success Sent Campaign";
                             }
