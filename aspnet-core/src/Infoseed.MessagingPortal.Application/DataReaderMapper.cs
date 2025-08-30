@@ -43,6 +43,7 @@ using NPOI.HSSF.Record.Chart;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.Security.Policy;
 using System.Text.Json;
 
@@ -143,9 +144,9 @@ namespace Infoseed.MessagingPortal
             }
 
 
-         
+
             Order.OrderRemarks = SqlDataHelper.GetValue<string>(dataReader, "OrderRemarks");
-            
+
             Order.AgentId = SqlDataHelper.GetValue<long>(dataReader, "AgentId");
             Order.AgentIds = SqlDataHelper.GetValue<string>(dataReader, "AgentIds");
             Order.IsLockByAgent = SqlDataHelper.GetValue<bool>(dataReader, "IsLockByAgent");
@@ -257,10 +258,10 @@ namespace Infoseed.MessagingPortal
         {
             return new OrderStatusSummaryDto
             {
-                   TotalOrders = SqlDataHelper.GetValue<int>(dataReader, "TotalOrders"),
-                    Pending = SqlDataHelper.GetValue<int>(dataReader, "Pending"),
-                    Done = SqlDataHelper.GetValue<int>(dataReader, "Done"),
-                 Deleted = SqlDataHelper.GetValue<int>(dataReader, "Deleted"),
+                TotalOrders = SqlDataHelper.GetValue<int>(dataReader, "TotalOrders"),
+                Pending = SqlDataHelper.GetValue<int>(dataReader, "Pending"),
+                Done = SqlDataHelper.GetValue<int>(dataReader, "Done"),
+                Deleted = SqlDataHelper.GetValue<int>(dataReader, "Deleted"),
                 Canceled = SqlDataHelper.GetValue<int>(dataReader, "Canceled"),
                 PreOrder = SqlDataHelper.GetValue<int>(dataReader, "PreOrder")
             };
@@ -475,7 +476,7 @@ namespace Infoseed.MessagingPortal
                 model.RedeemedPoints = SqlDataHelper.GetValue<decimal>(dataReader, "RedeemedPoints") ?? (decimal?)0;
                 model.TotalTakeaway = SqlDataHelper.GetValue<long>(dataReader, "TotalTakeaway") ?? (long?)0;
                 model.TotalDelivery = SqlDataHelper.GetValue<long>(dataReader, "TotalDelivery") ?? (long?)0;
-                model.DeliveryCost = SqlDataHelper.GetValue<decimal>(dataReader, "DeliveryCost")?? (decimal?)0;
+                model.DeliveryCost = SqlDataHelper.GetValue<decimal>(dataReader, "DeliveryCost") ?? (decimal?)0;
 
                 return model;
             }
@@ -854,7 +855,7 @@ namespace Infoseed.MessagingPortal
                 model.TotalContactOptIn = SqlDataHelper.GetValue<long>(dataReader, "TotalContactOptIn") ?? (long?)0;
                 model.TotalContactOptOut = SqlDataHelper.GetValue<long>(dataReader, "TotalContactOptOut") ?? (long?)0;
                 model.TotalContactNeutral = SqlDataHelper.GetValue<long>(dataReader, "TotalContactNeutral") ?? (long?)0;
-                
+
                 return model;
             }
             catch (Exception)
@@ -915,7 +916,7 @@ namespace Infoseed.MessagingPortal
                 }
                 catch
                 {
-                    customerLiveChat.ContactCreationDate= null;
+                    customerLiveChat.ContactCreationDate = null;
                 }
 
                 try
@@ -924,7 +925,7 @@ namespace Infoseed.MessagingPortal
                 }
                 catch
                 {
-                    customerLiveChat.IsNote= false;
+                    customerLiveChat.IsNote = false;
                 }
 
                 try
@@ -933,7 +934,7 @@ namespace Infoseed.MessagingPortal
                 }
                 catch
                 {
-                    customerLiveChat.NumberNote= 0;
+                    customerLiveChat.NumberNote = 0;
                 }
 
                 customerLiveChat.requestedLiveChatTime = customerLiveChat.requestedLiveChatTime.Value.AddHours(AppSettingsModel.AddHour);
@@ -1163,7 +1164,7 @@ namespace Infoseed.MessagingPortal
                     }
                 }
                 catch
-                {                    
+                {
                 }
                 customerLiveChat.CategoryType = SqlDataHelper.GetValue<string>(dataReader, "CategoryType");
                 if (customerLiveChat.IdLiveChat > 0 && customerLiveChat.CategoryType == "")
@@ -1463,11 +1464,11 @@ namespace Infoseed.MessagingPortal
             {
                 return $"{resolutionTime.Days} days, {(int)resolutionTime.TotalHours % 24} hours, {resolutionTime.Minutes} minutes";
             }
-            else if (resolutionTime.TotalHours == 0 && resolutionTime.Days == 0&& resolutionTime.Minutes==0)
+            else if (resolutionTime.TotalHours == 0 && resolutionTime.Days == 0 && resolutionTime.Minutes == 0)
             {
                 return $"{resolutionTime.Seconds} Seconds";
             }
-            else if (resolutionTime.TotalHours == 0 && resolutionTime.Days == 0 && resolutionTime.Minutes >0)
+            else if (resolutionTime.TotalHours == 0 && resolutionTime.Days == 0 && resolutionTime.Minutes > 0)
             {
                 return $"{resolutionTime.TotalMinutes} Minutes";
             }
@@ -1534,7 +1535,8 @@ namespace Infoseed.MessagingPortal
         {
             ExportToExcelHost model = new ExportToExcelHost();
 
-            try { 
+            try
+            {
                 model.TenantName = SqlDataHelper.GetValue<string>(dataReader, "TenantName");
                 model.Name = SqlDataHelper.GetValue<string>(dataReader, "Name");
                 model.TenancyName = SqlDataHelper.GetValue<string>(dataReader, "TenancyName");
@@ -1611,7 +1613,7 @@ namespace Infoseed.MessagingPortal
                 }
                 catch
                 {
-                    tenant.IsReplyAfterHumanHandOver =true;
+                    tenant.IsReplyAfterHumanHandOver = true;
                 }
 
                 try
@@ -1647,11 +1649,11 @@ namespace Infoseed.MessagingPortal
             {
                 TenantsModel tenant = new TenantsModel();
 
-                 tenant.DomainName = SqlDataHelper.GetValue<string>(dataReader, "TenancyName");
-                 tenant.CustomerName = SqlDataHelper.GetValue<string>(dataReader, "CommercialName");
-                 tenant.IsActive = SqlDataHelper.GetValue<bool>(dataReader, "IsActive");
-                 tenant.PhoneNumber = SqlDataHelper.GetValue<string>(dataReader, "PhoneNumber");
-                 tenant.CreationTime = SqlDataHelper.GetValue<DateTime>(dataReader, "CreationTime");
+                tenant.DomainName = SqlDataHelper.GetValue<string>(dataReader, "TenancyName");
+                tenant.CustomerName = SqlDataHelper.GetValue<string>(dataReader, "CommercialName");
+                tenant.IsActive = SqlDataHelper.GetValue<bool>(dataReader, "IsActive");
+                tenant.PhoneNumber = SqlDataHelper.GetValue<string>(dataReader, "PhoneNumber");
+                tenant.CreationTime = SqlDataHelper.GetValue<DateTime>(dataReader, "CreationTime");
 
                 try
                 {
@@ -1802,7 +1804,7 @@ namespace Infoseed.MessagingPortal
             model.TenantId = SqlDataHelper.GetValue<int>(dataReader, "Id");
             model.AccessToken = SqlDataHelper.GetValue<string>(dataReader, "AccessToken");
             model.D360Key = SqlDataHelper.GetValue<string>(dataReader, "D360Key");
-  
+
             return model;
         }
         #endregion
@@ -1827,10 +1829,10 @@ namespace Infoseed.MessagingPortal
             _MessageTemplateModel.isDeleted = SqlDataHelper.GetValue<bool>(dataReader, "IsDeleted");
 
 
-            if (_MessageTemplateModel.category=="AUTHENTICATION")
+            if (_MessageTemplateModel.category == "AUTHENTICATION")
             {
 
-                _MessageTemplateModel.VariableCount =1;
+                _MessageTemplateModel.VariableCount = 1;
             }
             else
             {
@@ -1838,7 +1840,7 @@ namespace Infoseed.MessagingPortal
             }
 
 
-            
+
             _MessageTemplateModel.BtnOneActionId = SqlDataHelper.GetValue<long>(dataReader, "BtnOneActionId");
             _MessageTemplateModel.BtnTwoActionId = SqlDataHelper.GetValue<long>(dataReader, "BtnTwoActionId");
             _MessageTemplateModel.BtnThreeActionId = SqlDataHelper.GetValue<long>(dataReader, "BtnThreeActionId");
@@ -1871,7 +1873,7 @@ namespace Infoseed.MessagingPortal
                 }
                 catch
                 {
-                    _WhatsAppCampaignModel.Type =2;
+                    _WhatsAppCampaignModel.Type = 2;
                 }
 
 
@@ -1879,7 +1881,7 @@ namespace Infoseed.MessagingPortal
                 {
                     _WhatsAppCampaignModel.TemplateName = SqlDataHelper.GetValue<string>(dataReader, "TemplateName");
 
-                        _WhatsAppCampaignModel.UserName = SqlDataHelper.GetValue<string>(dataReader, "UserName");
+                    _WhatsAppCampaignModel.UserName = SqlDataHelper.GetValue<string>(dataReader, "UserName");
                 }
                 catch
                 {
@@ -2045,10 +2047,10 @@ namespace Infoseed.MessagingPortal
             }
             catch
             {
-                model.DailyLimit =0;
+                model.DailyLimit = 0;
             }
-            
-        
+
+
 
             return model;
         }
@@ -2377,6 +2379,40 @@ namespace Infoseed.MessagingPortal
         #endregion
 
         #region Area
+        public static AreaDto MapAreaPSQL(IDataReader dataReader)
+        {
+            try
+            {
+                AreaDto area = new AreaDto();
+
+                // Map the values
+                area.Id = SqlDataHelper.GetValue<long>(dataReader, "id");
+                area.AreaName = SqlDataHelper.GetValue<string>(dataReader, "areaname");
+                area.AreaNameEnglish = SqlDataHelper.GetValue<string>(dataReader, "areanameenglish");
+                area.AreaCoordinate = SqlDataHelper.GetValue<string>(dataReader, "areacoordinate");
+                area.AreaCoordinateEnglish = SqlDataHelper.GetValue<string>(dataReader, "areacoordinateenglish");
+                area.IsAssginToAllUser = SqlDataHelper.GetValue<bool>(dataReader, "isassgintoalluser");
+                area.IsRestaurantsTypeAll = SqlDataHelper.GetValue<bool>(dataReader, "isrestaurantstypeall");
+                area.Latitude = SqlDataHelper.GetValue<double>(dataReader, "latitude");
+                area.Longitude = SqlDataHelper.GetValue<double>(dataReader, "longitude");
+                area.SettingJson = SqlDataHelper.GetValue<string>(dataReader, "settingjson");
+                area.BranchID = SqlDataHelper.GetValue<string>(dataReader, "branchid");
+                area.UserId = SqlDataHelper.GetValue<int>(dataReader, "userid");
+                area.RestaurantsType = SqlDataHelper.GetValue<int>(dataReader, "restaurantstype");
+                area.IsAvailableBranch = SqlDataHelper.GetValue<bool>(dataReader, "isavailablebranch");
+                area.UserIds = SqlDataHelper.GetValue<string>(dataReader, "userids");
+                area.Url = SqlDataHelper.GetValue<string>(dataReader, "url");
+                area.TotalCount = SqlDataHelper.GetValue<long>(dataReader, "total_count");
+
+                return area;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+
         public static AreaDto MapArea(IDataReader dataReader)
         {
             AreaDto area = new AreaDto();
@@ -2466,6 +2502,28 @@ namespace Infoseed.MessagingPortal
 
         }
 
+        public static WorkModel MapBranchSettingPSQL(IDataReader dataReader)
+        {
+            try
+            {
+                WorkModel entity = new WorkModel();
+
+                if (!string.IsNullOrEmpty(SqlDataHelper.GetValue<string>(dataReader, "setting_json")))
+                {
+
+                    var options = new JsonSerializerOptions { WriteIndented = true };
+                    entity = System.Text.Json.JsonSerializer.Deserialize<WorkModel>(SqlDataHelper.GetValue<string>(dataReader, "SettingJson"), options);
+
+                }
+                return entity;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
 
         public static BranchsModel MapBranchGeeAll(IDataReader dataReader)
         {
@@ -2618,7 +2676,7 @@ namespace Infoseed.MessagingPortal
         }
 
 
-  
+
         #endregion
 
         #region Currency
@@ -2692,7 +2750,7 @@ namespace Infoseed.MessagingPortal
             model.triggersBot = SqlDataHelper.GetValue<string>(dataReader, "TriggersBot");
             model.triggersBotId = SqlDataHelper.GetValue<long>(dataReader, "TriggersBotId");
             model.buttonText = SqlDataHelper.GetValue<string>(dataReader, "ButtonText");
-            
+
             try
             {
                 model.KeyUse = SqlDataHelper.GetValue<long>(dataReader, "KeyUse");
@@ -2700,7 +2758,7 @@ namespace Infoseed.MessagingPortal
             }
             catch
             {
-                model.KeyUse =0;
+                model.KeyUse = 0;
 
             }
 
@@ -2723,7 +2781,7 @@ namespace Infoseed.MessagingPortal
             }
             catch
             {
-                model.FuzzyMatch =0;
+                model.FuzzyMatch = 0;
 
             }
 
@@ -2984,7 +3042,7 @@ namespace Infoseed.MessagingPortal
             try
             {
                 string ZohoCustomerId;
-                ZohoCustomerId  = SqlDataHelper.GetValue<string>(dataReader, "ZohoCustomerId");
+                ZohoCustomerId = SqlDataHelper.GetValue<string>(dataReader, "ZohoCustomerId");
 
                 return ZohoCustomerId;
             }
@@ -3040,13 +3098,13 @@ namespace Infoseed.MessagingPortal
                 model.CategoryType = SqlDataHelper.GetValue<string>(dataReader, "CategoryType");
                 model.TransactionDate = SqlDataHelper.GetValue<DateTime>(dataReader, "TransactionDate");
                 model.TotalQuantity = SqlDataHelper.GetValue<int>(dataReader, "TotalQuantity") ?? (int?)0;
-                model.TotalTransaction = SqlDataHelper.GetValue<decimal>(dataReader, "TotalTransaction")?? (decimal?)0;
+                model.TotalTransaction = SqlDataHelper.GetValue<decimal>(dataReader, "TotalTransaction") ?? (decimal?)0;
                 model.TotalRemaining = SqlDataHelper.GetValue<decimal>(dataReader, "TotalRemaining") ?? (decimal?)0;
-                model.DoneBy = SqlDataHelper.GetValue<string>(dataReader, "DoneBy") ;
+                model.DoneBy = SqlDataHelper.GetValue<string>(dataReader, "DoneBy");
                 model.TemplateName = SqlDataHelper.GetValue<string>(dataReader, "TemplateName");
                 model.CampaignName = SqlDataHelper.GetValue<string>(dataReader, "CampaignName");
-                model.CampaignId = SqlDataHelper.GetValue<long>(dataReader, "CampaignId") ?? (long?)0; 
-                model.Country = SqlDataHelper.GetValue<string>(dataReader, "Country"); 
+                model.CampaignId = SqlDataHelper.GetValue<long>(dataReader, "CampaignId") ?? (long?)0;
+                model.Country = SqlDataHelper.GetValue<string>(dataReader, "Country");
 
                 return model;
             }
@@ -3100,15 +3158,15 @@ namespace Infoseed.MessagingPortal
             }
             catch
             {
-                getBotModelFlowForViewDto.BotChannel ="watsapp";
+                getBotModelFlowForViewDto.BotChannel = "watsapp";
 
             }
 
-            if(string.IsNullOrEmpty(getBotModelFlowForViewDto.BotChannel))
+            if (string.IsNullOrEmpty(getBotModelFlowForViewDto.BotChannel))
             {
 
 
-                getBotModelFlowForViewDto.BotChannel ="watsapp";
+                getBotModelFlowForViewDto.BotChannel = "watsapp";
             }
 
             var getBotFlowForViewDto = SqlDataHelper.GetValue<string>(dataReader, "JsonModel");
@@ -3276,7 +3334,7 @@ namespace Infoseed.MessagingPortal
                 throw;
             }
         }
-        
+
         #endregion
 
         #region User
@@ -3335,7 +3393,7 @@ namespace Infoseed.MessagingPortal
         {
             try
             {
-               CountryCodeModel model = new CountryCodeModel();
+                CountryCodeModel model = new CountryCodeModel();
                 model.Id = SqlDataHelper.GetValue<long>(dataReader, "Id");
                 model.Country = SqlDataHelper.GetValue<string>(dataReader, "Country");
                 model.Region = SqlDataHelper.GetValue<string>(dataReader, "Region");
