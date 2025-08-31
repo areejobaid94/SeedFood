@@ -43,6 +43,7 @@ using NPOI.HSSF.Record.Chart;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.Security.Policy;
 using System.Text.Json;
 
@@ -2423,6 +2424,40 @@ namespace Infoseed.MessagingPortal
         #endregion
 
         #region Area
+        public static AreaDto MapAreaPSQL(IDataReader dataReader)
+        {
+            try
+            {
+                AreaDto area = new AreaDto();
+
+                // Map the values
+                area.Id = SqlDataHelper.GetValue<long>(dataReader, "id");
+                area.AreaName = SqlDataHelper.GetValue<string>(dataReader, "areaname");
+                area.AreaNameEnglish = SqlDataHelper.GetValue<string>(dataReader, "areanameenglish");
+                area.AreaCoordinate = SqlDataHelper.GetValue<string>(dataReader, "areacoordinate");
+                area.AreaCoordinateEnglish = SqlDataHelper.GetValue<string>(dataReader, "areacoordinateenglish");
+                area.IsAssginToAllUser = SqlDataHelper.GetValue<bool>(dataReader, "isassgintoalluser");
+                area.IsRestaurantsTypeAll = SqlDataHelper.GetValue<bool>(dataReader, "isrestaurantstypeall");
+                area.Latitude = SqlDataHelper.GetValue<double>(dataReader, "latitude");
+                area.Longitude = SqlDataHelper.GetValue<double>(dataReader, "longitude");
+                area.SettingJson = SqlDataHelper.GetValue<string>(dataReader, "settingjson");
+                area.BranchID = SqlDataHelper.GetValue<string>(dataReader, "branchid");
+                area.UserId = SqlDataHelper.GetValue<int>(dataReader, "userid");
+                area.RestaurantsType = SqlDataHelper.GetValue<int>(dataReader, "restaurantstype");
+                area.IsAvailableBranch = SqlDataHelper.GetValue<bool>(dataReader, "isavailablebranch");
+                area.UserIds = SqlDataHelper.GetValue<string>(dataReader, "userids");
+                area.Url = SqlDataHelper.GetValue<string>(dataReader, "url");
+                area.TotalCount = SqlDataHelper.GetValue<long>(dataReader, "total_count");
+
+                return area;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+
         public static AreaDto MapArea(IDataReader dataReader)
         {
             AreaDto area = new AreaDto();
@@ -2512,6 +2547,28 @@ namespace Infoseed.MessagingPortal
 
         }
 
+        public static WorkModel MapBranchSettingPSQL(IDataReader dataReader)
+        {
+            try
+            {
+                WorkModel entity = new WorkModel();
+
+                if (!string.IsNullOrEmpty(SqlDataHelper.GetValue<string>(dataReader, "setting_json")))
+                {
+
+                    var options = new JsonSerializerOptions { WriteIndented = true };
+                    entity = System.Text.Json.JsonSerializer.Deserialize<WorkModel>(SqlDataHelper.GetValue<string>(dataReader, "SettingJson"), options);
+
+                }
+                return entity;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
 
         public static BranchsModel MapBranchGeeAll(IDataReader dataReader)
         {

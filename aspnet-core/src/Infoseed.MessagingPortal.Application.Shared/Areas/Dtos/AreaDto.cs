@@ -31,5 +31,7 @@ namespace Infoseed.MessagingPortal.Areas.Dtos
         public string UserIds { get; set; }
 
         public string Url { get; set; }
+
+        public long? TotalCount { get; set; }
     }
 }
