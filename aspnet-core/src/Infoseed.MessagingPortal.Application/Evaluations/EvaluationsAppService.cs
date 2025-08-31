@@ -12,6 +12,12 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Linq.Dynamic.Core;
 using System.Threading.Tasks;
+using Framework.Data.Sql;
+using Infoseed.MessagingPortal.WhatsApp;
+using Microsoft.Extensions.Configuration;
+using Npgsql;
+using System.Diagnostics;
+using Microsoft.Azure.Documents.SystemFunctions;
 
 namespace Infoseed.MessagingPortal.Evaluations
 {
@@ -21,13 +27,15 @@ namespace Infoseed.MessagingPortal.Evaluations
         private readonly IEvaluationExcelExporter _evaluationsExcelExporter;
         private readonly IRepository<Evaluation, long> _evaluationRepository;
         private readonly IRepository<Contact> _lookup_customerRepository;
-
-        public EvaluationsAppService(IRepository<Evaluation, long> evaluationRepository, IEvaluationExcelExporter evaluationsExcelExporter, IRepository<Contact> lookup_customerRepository)
+        private readonly string _postgresConnection;
+        public EvaluationsAppService(IRepository<Evaluation, long> evaluationRepository, IEvaluationExcelExporter evaluationsExcelExporter, IRepository<Contact> lookup_customerRepository,
+            IConfiguration configuration)
 		{
 			_evaluationRepository = evaluationRepository;
 
             _lookup_customerRepository=lookup_customerRepository;
             _evaluationsExcelExporter = evaluationsExcelExporter;
+            _postgresConnection = configuration.GetConnectionString("postgres");
         }
         public EvaluationsAppService()
         {
@@ -35,65 +43,86 @@ namespace Infoseed.MessagingPortal.Evaluations
         }
         public async Task<PagedResultDto<GetEvaluationForViewDto>> GetAll(GetAllEvaluationsInput input)
         {
-
-
-            int totalCount = 0;
-            int? orderStatus = null;
-            string sorting = null;
-            if (!string.IsNullOrEmpty(input.Filter))
+            try
             {
-                orderStatus= int.Parse(input.Filter);
+                int totalCount = 0;
+                int? orderStatus = null;
+                string sorting = null;
+                if (!string.IsNullOrEmpty(input.Filter))
+                {
+                    orderStatus= int.Parse(input.Filter);
+                }
+                if (!string.IsNullOrEmpty(input.Sorting))
+                {
+                    sorting = input.Sorting;
+                }
+
+                List<GetEvaluationForViewDto> itemes = GetALLEvaluation(input.SkipCount, input.MaxResultCount, input.Sorting, out totalCount);
+                //itemes= itemes.OrderBy(x=>x.st)
+                return new PagedResultDto<GetEvaluationForViewDto>(
+                 totalCount,
+                 itemes
+             );
             }
-            if (!string.IsNullOrEmpty(input.Sorting))
+            catch (Exception ex)
             {
-                sorting = input.Sorting;
+                throw ex;
             }
-
-
-            List<GetEvaluationForViewDto> itemes = GetALLEvaluation(input.SkipCount, input.MaxResultCount, input.Sorting, out totalCount);
-            //itemes= itemes.OrderBy(x=>x.st)
-            return new PagedResultDto<GetEvaluationForViewDto>(
-             totalCount,
-             itemes
-         );
-
 
         }
 
-        private List<GetEvaluationForViewDto> GetALLEvaluation(int pageNumber, int pageSize, string sorting, out int totalCount)
+        private List<GetEvaluationForViewDto> GetALLEvaluation(int pageOffset, int pageSize, string sorting, out int totalCount)
         {
             try
             {
                 List<GetEvaluationForViewDto> lstGetEvaluationViewDto = new List<GetEvaluationForViewDto>();
-                var SP_Name = Constants.Evaluation.SP_EvaluationGet; ;
+                totalCount = 0;
 
+                using (var conn = new Npgsql.NpgsqlConnection(_postgresConnection))
+                {
+                    conn.Open();
 
-                var sqlParameters = new List<SqlParameter> {
-                        new SqlParameter("@PageNumber",pageNumber)
-                       ,new SqlParameter("@PageSize",pageSize)
-                       ,new SqlParameter("@TenantId",(int?)AbpSession.TenantId)
-                       ,new SqlParameter("@Sorting",sorting)
-                 };
+                    string query = "SELECT * FROM dbo.evaluation_get(@p_tenant_id, @p_page_number, @p_page_size, @p_sorting)";
 
-                SqlParameter OutsqlParameter = new SqlParameter();
-                OutsqlParameter.ParameterName = "@TotalCount";
-                OutsqlParameter.SqlDbType = System.Data.SqlDbType.Int;
-                OutsqlParameter.Direction = System.Data.ParameterDirection.Output;
+                    using (var cmd = new Npgsql.NpgsqlCommand(query, conn))
+                    {
+                        // Convert frontend offset to page number
+                        int pageNumber = pageOffset / Math.Max(pageSize, 1) + 1;
 
-                sqlParameters.Add(OutsqlParameter);
-                lstGetEvaluationViewDto = SqlDataHelper.ExecuteReader(SP_Name, sqlParameters.ToArray(),
-                 DataReaderMapper.MapEvaluations, AppSettingsModel.ConnectionStrings).ToList();
-                totalCount = (int)OutsqlParameter.Value;
+                        object tenantIdParam = AbpSession.TenantId != null ? (object)AbpSession.TenantId : DBNull.Value;
+                        object sortingParam = string.IsNullOrWhiteSpace(sorting) ? (object)"Id" : (object)sorting;
+
+                        cmd.Parameters.AddWithValue("p_tenant_id", tenantIdParam);
+                        cmd.Parameters.AddWithValue("p_page_number", pageNumber);
+                        cmd.Parameters.AddWithValue("p_page_size", pageSize);
+                        cmd.Parameters.AddWithValue("p_sorting", sortingParam);
+
+                        using (var reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                var dto = DataReaderMapper.MapEvaluationsPSQL(reader);
+                                lstGetEvaluationViewDto.Add(dto);
+
+                                // Capture total count once
+                                if (totalCount == 0 && !reader.IsDBNull(reader.GetOrdinal("totalcount")))
+                                {
+                                    totalCount = reader.GetInt32(reader.GetOrdinal("totalcount"));
+                                }
+                            }
+                        }
+                    }
+                }
+
                 return lstGetEvaluationViewDto;
             }
             catch (Exception ex)
             {
                 throw ex;
-            }        
+            }
+        }
 
-    }
-
-    public async Task CreateOrEdit(CreateOrEditEvaluationDto input)
+        public async Task CreateOrEdit(CreateOrEditEvaluationDto input)
         {
             if (input.Id == null)
             {
@@ -107,19 +136,29 @@ namespace Infoseed.MessagingPortal.Evaluations
 
         public async Task Delete(EntityDto<long> input)
         {
-            await _evaluationRepository.DeleteAsync(input.Id);
+            if (input == null) throw new ArgumentNullException(nameof(input));
+
+            using (var conn = new Npgsql.NpgsqlConnection(_postgresConnection))
+            {
+                await conn.OpenAsync();
+
+                using (var cmd = new Npgsql.NpgsqlCommand("SELECT dbo.evaluation_delete(@p_id)", conn))
+                {
+                    cmd.Parameters.AddWithValue("p_id", input.Id);
+                    await cmd.ExecuteNonQueryAsync();
+                }
+            }
         }
 
         public async Task DeleteAll()
         {
-            var Evaluations = _evaluationRepository.GetAll().ToList();
+            await using var conn = new NpgsqlConnection(_postgresConnection);
+            await conn.OpenAsync();
 
-            foreach(var eva in Evaluations)
-            {
-                await _evaluationRepository.DeleteAsync(eva.Id);
-            }
-           
+            await using var cmd = new NpgsqlCommand("SELECT dbo.delete_all_evaluations();", conn);
+            await cmd.ExecuteNonQueryAsync();
         }
+
 
 
 
@@ -233,54 +272,73 @@ namespace Infoseed.MessagingPortal.Evaluations
 
         public async Task<FileDto> GetEvaluationsToExcel(GetAllEvaluationsInput input)
         {
-           
-            input.SkipCount = 0;
-            input.MaxResultCount = int.MaxValue;
+            try
+            {
+                input.SkipCount = 0;
+                input.MaxResultCount = int.MaxValue;
 
-            var filteredEvaluations = _evaluationRepository.GetAll()
-                 .WhereIf(!string.IsNullOrWhiteSpace(input.Filter), e => false || e.ContactName.Contains(input.Filter))
-                 .WhereIf(!string.IsNullOrWhiteSpace(input.NameFilter), e => e.EvaluationsText == input.NameFilter);
+                List<GetEvaluationForViewDto> evaluationsList = new List<GetEvaluationForViewDto>();
 
+                using (var conn = new Npgsql.NpgsqlConnection(_postgresConnection))
+                {
+                    await conn.OpenAsync();
 
+                    string query = @"
+            SELECT e.*, c.creatoruserid AS customer_userid
+            FROM dbo.evaluation_get(
+                @p_tenant_id,
+                1,  -- page number for full export
+                2147483647,  -- fetch all rows
+                @p_sorting,
+                @filter,
+                @nameFilter
+            ) e
+            LEFT JOIN dbo.customers c
+                ON TRIM(e.phonenumber) = TRIM(c.phonenumber)
+            ORDER BY " + (string.IsNullOrWhiteSpace(input.Sorting) ? "id ASC" : input.Sorting);
 
+                    using (var cmd = new Npgsql.NpgsqlCommand(query, conn))
+                    {
+                        object tenantIdParam = AbpSession.TenantId != null ? (object)AbpSession.TenantId : DBNull.Value;
+                        object filterParam = string.IsNullOrWhiteSpace(input.Filter) ? DBNull.Value : (object)input.Filter;
+                        object nameFilterParam = string.IsNullOrWhiteSpace(input.NameFilter) ? DBNull.Value : (object)input.NameFilter;
 
+                        cmd.Parameters.AddWithValue("p_tenant_id", tenantIdParam);
+                        cmd.Parameters.AddWithValue("p_sorting", input.Sorting ?? "id ASC");
+                        cmd.Parameters.AddWithValue("filter", filterParam);
+                        cmd.Parameters.AddWithValue("nameFilter", nameFilterParam);
 
+                        using (var reader = await cmd.ExecuteReaderAsync())
+                        {
+                            while (await reader.ReadAsync())
+                            {
+                                var dto = DataReaderMapper.MapEvaluations(reader);
 
-            var pagedAndFilteredOrders = filteredEvaluations
-            .OrderBy(input.Sorting ?? "id asc")
-            .PageBy(input);
+                                dto.UserId = reader.IsDBNull(reader.GetOrdinal("customer_userid"))
+                                    ? ""
+                                    : reader.GetString(reader.GetOrdinal("customer_userid"));
 
-            var evaluation = from o in pagedAndFilteredOrders
-                             join o3 in _lookup_customerRepository.GetAll() on o.PhoneNumber.Trim() equals o3.PhoneNumber.Trim() into j3
-                             from s3 in j3.DefaultIfEmpty()
+                                evaluationsList.Add(dto);
+                            }
+                        }
+                    }
+                }
 
-                             select new GetEvaluationForViewDto()
-                             {
-                                 evaluation = new EvaluationDto
-                                 {
-                                     Id = o.Id,
-                                     OrderNumber = o.OrderNumber,
-                                     ContactName = o.ContactName,
-                                      EvaluationsReat=o.EvaluationsReat,
-                                     EvaluationsText = o.EvaluationsText,
-                                     OrderId = o.OrderId,
-                                     PhoneNumber = o.PhoneNumber,
-                                     TenantId = o.TenantId,
-                                     CreationTime = o.CreationTime
-                                 },
-                                 CreatTime = o.CreationTime.ToString("hh:mm tt"),
-                                 CreatDate = o.CreationTime.ToString("MM/dd/yyyy"),
-                                 UserId = s3 == null || s3.PhoneNumber == null ? "" : s3.UserId.ToString(),
+                Debug.WriteLine("Exporting evaluations to Excel...");
+                foreach (var eval in evaluationsList)
+                {
+                    Debug.WriteLine("Id: ==========================");
+                }
 
-                             };
-
-
-
-
-
-            var list = evaluation.ToList();
-              return _evaluationsExcelExporter.ExportToFile(list);
-           // return null;
+                return _evaluationsExcelExporter.ExportToFile(evaluationsList);
+            }
+            catch (Exception ex) {
+                Debug.WriteLine("33333333333333333333333333333333333333333333333333333s");
+                Debug.WriteLine(ex);
+                return new FileDto();
+            }
         }
+
+
     }
 }

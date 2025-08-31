@@ -2,6 +2,7 @@
 using Abp.Web.Models;
 using DuoVia.FuzzyStrings;
 using Framework.Data;
+using Framework.Data.Sql;
 using Infoseed.MessagingPortal.Booking.Dtos;
 using Infoseed.MessagingPortal.CaptionBot;
 using Infoseed.MessagingPortal.CaptionBot.Dtos;
@@ -22,10 +23,12 @@ using InfoSeedParser.Interfaces;
 using InfoSeedParser.Parsers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Documents;
+using Microsoft.Extensions.Configuration;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Queue;
 using MongoDB.Driver;
 using Newtonsoft.Json;
+using Npgsql;
 using NUglify.Helpers;
 using PhoneNumbers;
 using System;
@@ -45,6 +48,7 @@ using static Infoseed.MessagingPortal.WhatsApp.Dto.WhatsAppMediaResult;
 using Parameter = Infoseed.MessagingPortal.WhatsApp.Dto.Parameter;
 using Task = System.Threading.Tasks.Task;
 
+
 namespace Infoseed.MessagingPortal.WhatsApp
 {
     public class WhatsAppMessageTemplateAppService : MessagingPortalAppServiceBase, IWhatsAppMessageTemplateAppService
@@ -59,7 +63,7 @@ namespace Infoseed.MessagingPortal.WhatsApp
         private readonly IGroupAppService _groupAppService;
         private readonly IWalletAppService _walletAppService;
         private readonly ICampaginExcelExporter _campaginExcelExporter;
-
+        private readonly string _postgresConnection;
         private readonly IContactNewParser _ContactNewParser;
 
 
@@ -72,7 +76,8 @@ namespace Infoseed.MessagingPortal.WhatsApp
             TenantDashboardAppService tenantDashboardAppService,
             IGroupAppService groupAppService,
             IWalletAppService walletAppService,
-            ICampaginExcelExporter campaginExcelExporter
+            ICampaginExcelExporter campaginExcelExporter,
+            IConfiguration configuration
             )
         {
             _ContactParser = new ParserFactory().CreateParserContact(nameof(ContactExcelParser));
@@ -84,6 +89,7 @@ namespace Infoseed.MessagingPortal.WhatsApp
             _groupAppService = groupAppService;
             _walletAppService = walletAppService;
             _campaginExcelExporter=campaginExcelExporter;
+            _postgresConnection = configuration.GetConnectionString("postgres");
         }
 
 
@@ -5855,21 +5861,33 @@ namespace Infoseed.MessagingPortal.WhatsApp
         {
             try
             {
-                List<ActionsModel> model = new List<ActionsModel>();
-                var SP_Name = Constants.Bot.SP_ActionsGet;
+                List<ActionsModel> actionsList = new List<ActionsModel>();
 
-                var sqlParameters = new List<System.Data.SqlClient.SqlParameter>();
+                using (var conn = new Npgsql.NpgsqlConnection(_postgresConnection))
+                {
+                    conn.Open();
 
-                model = SqlDataHelper.ExecuteReader(SP_Name, sqlParameters.ToArray(), DataReaderMapper.MapActions, AppSettingsModel.ConnectionStrings).ToList();
-                
+                    string query = "SELECT * FROM dbo.actions_get_all();";
 
-                return model;
+                    using (var cmd = new Npgsql.NpgsqlCommand(query, conn))
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            var model = DataReaderMapper.MapActionsPSQL(reader);
+                            actionsList.Add(model);
+                        }
+                    }
+                }
+
+                return actionsList;
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw;
             }
         }
+
         #endregion
         #region Check Wallet amount 
         private CountryCodeModel CountryISOCodeGet(string ISOCodes)
@@ -6119,36 +6137,33 @@ namespace Infoseed.MessagingPortal.WhatsApp
                     int tenantId = AbpSession.TenantId.Value;
                     var response = new Dictionary<string, dynamic>();
 
-                    var SP_Name = Constants.Bot.Sp_KeyWordGetByTenantId;
-
-                    var sqlParameters = new List<System.Data.SqlClient.SqlParameter>
+                    var sqlParameters = new[]
                     {
-                        new System.Data.SqlClient.SqlParameter("@tenantId",tenantId),
-                        new System.Data.SqlClient.SqlParameter("@actionId",model.actionId),
-                        new System.Data.SqlClient.SqlParameter("@buttonText",model.buttonText)
-                    };
-                    var actionIdOutPut = new System.Data.SqlClient.SqlParameter
+                new NpgsqlParameter("tenantid", tenantId),
+                new NpgsqlParameter("actionid", model.actionId),
+                new NpgsqlParameter("buttontext", model.buttonText ?? (object)DBNull.Value)
+            };
+
+                    // Execute PostgreSQL function using helper
+                    var result = await Task.Run(() => PostgresDataHelper.ExecuteFunction(
+                        "dbo.keyword_get_by_tenant_id",
+                        sqlParameters,
+                        reader => new
+                        {
+                            ActionIdOutput = reader["actionid_output"] != DBNull.Value ? Convert.ToInt64(reader["actionid_output"]) : 0,
+                            ButtonTextOutput = reader["buttontext_output"] != DBNull.Value ? reader["buttontext_output"].ToString() : null
+                        },
+                        _postgresConnection
+                    ));
+
+                    long resultActionId = 0;
+                    string resultButtonText = null;
+
+                    if (result.Count > 0)
                     {
-                        SqlDbType = SqlDbType.BigInt,
-                        ParameterName = "@actionIdOutPut",
-                        Direction = ParameterDirection.Output
-                    };
-                    sqlParameters.Add(actionIdOutPut);
-                    var buttonTextOutPut = new System.Data.SqlClient.SqlParameter
-                    {
-                        SqlDbType = SqlDbType.NVarChar,
-                        ParameterName = "@buttonTextOutPut",
-                        Size = 4000, // Specify the size based on your requirements
-                        Direction = ParameterDirection.Output
-                    };
-                    sqlParameters.Add(buttonTextOutPut);
-
-                    //var resultModel = SqlDataHelper.ExecuteReader(SP_Name, sqlParameters.ToArray(), DataReaderMapper.MapKeyWordModel, AppSettingsModel.ConnectionStrings).ToList();
-
-                    SqlDataHelper.ExecuteNoneQuery(SP_Name, sqlParameters.ToArray(), AppSettingsModel.ConnectionStrings);
-
-                    var resultActionId = (actionIdOutPut.Value != DBNull.Value) ? Convert.ToInt32(actionIdOutPut.Value) : 0;
-                    var resultButtonText = (buttonTextOutPut.Value != DBNull.Value) ? buttonTextOutPut.Value.ToString() : null;
+                        resultActionId = result[0].ActionIdOutput;
+                        resultButtonText = result[0].ButtonTextOutput;
+                    }
 
                     if (resultActionId == 0 && resultButtonText == null)
                     {
@@ -6174,13 +6189,14 @@ namespace Infoseed.MessagingPortal.WhatsApp
 
                     return response;
                 }
-                return new Dictionary<string, dynamic>(); 
+                return new Dictionary<string, dynamic>();
             }
-            catch(Exception ex) 
+            catch (Exception ex)
             {
                 return new Dictionary<string, dynamic> { { "state", -1 }, { "message", ex.Message } };
             }
         }
+
         private Dictionary<string, dynamic> keyWordUpdate(KeyWordModel model)
         {
             try
@@ -6277,38 +6293,34 @@ namespace Infoseed.MessagingPortal.WhatsApp
         {
             try
             {
-                var SP_Name = Constants.Bot.Sp_KeyWordAdd;
-
-                var sqlParameters = new List<System.Data.SqlClient.SqlParameter> {
-                    new System.Data.SqlClient.SqlParameter("@tenantId",model.tenantId) ,
-                    new System.Data.SqlClient.SqlParameter("@action",model.action) ,
-                    new System.Data.SqlClient.SqlParameter("@actionId",model.actionId) ,
-                    new System.Data.SqlClient.SqlParameter("@triggersBot",model.triggersBot) ,
-                    new System.Data.SqlClient.SqlParameter("@triggersBotId",model.triggersBotId) ,
-                    new System.Data.SqlClient.SqlParameter("@buttonText",model.buttonText) ,
-
-                    new System.Data.SqlClient.SqlParameter("@KeyUse",model.KeyUse),
-                    new System.Data.SqlClient.SqlParameter("@KeyWordType",model.KeyWordType),
-                    new System.Data.SqlClient.SqlParameter("@FuzzyMatch",model.FuzzyMatch)
-                };
-
-                var OutputParameter = new System.Data.SqlClient.SqlParameter
+                var sqlParameters = new[]
                 {
-                    SqlDbType = SqlDbType.BigInt,
-                    ParameterName = "@OutPutId",
-                    Direction = ParameterDirection.Output
-                };
-                sqlParameters.Add(OutputParameter);
+            new NpgsqlParameter("tenantid", model.tenantId),
+            new NpgsqlParameter("action", model.action ?? (object)DBNull.Value),
+            new NpgsqlParameter("actionid", model.actionId),
+            new NpgsqlParameter("triggersbot", model.triggersBot ?? (object)DBNull.Value),
+            new NpgsqlParameter("triggersbotid", model.triggersBotId),
+            new NpgsqlParameter("buttontext", model.buttonText ?? (object)DBNull.Value),
+            new NpgsqlParameter("keyuse", model.KeyUse),
+            new NpgsqlParameter("keywordtype", model.KeyWordType),
+            new NpgsqlParameter("fuzzymatch", model.FuzzyMatch)
+        };
 
-                SqlDataHelper.ExecuteNoneQuery(SP_Name, sqlParameters.ToArray(), AppSettingsModel.ConnectionStrings);
+                // Execute PostgreSQL scalar function using helper
+                var result = PostgresDataHelper.ExecuteScalarFunction<long>(
+                    "dbo.keyword_add",
+                    sqlParameters,
+                    _postgresConnection
+                );
 
-                return (OutputParameter.Value != DBNull.Value) ? Convert.ToInt64(OutputParameter.Value) : 0;
+                return result;
             }
             catch (Exception ex)
             {
-                throw ex;
+                throw;
             }
         }
+
         private long UpdateKeyWord(KeyWordModel model)
         {
             try
@@ -6369,47 +6381,65 @@ namespace Infoseed.MessagingPortal.WhatsApp
                 throw ex;
             }
         }
-        private PagedResultDto<KeyWordModel> keyWordGetByAll(int? pageNumber = 0, int? pageSize = 20, int? tenantId=null)
+        private PagedResultDto<KeyWordModel> keyWordGetByAll(int? pageNumber = 0, int? pageSize = 20, int? tenantId = null)
         {
             try
             {
                 List<KeyWordModel> keyWordModel = new List<KeyWordModel>();
+                int totalCount = 0;
 
-                if (tenantId==null)
+                tenantId ??= AbpSession.TenantId;
+
+                pageNumber = Math.Max(pageNumber ?? 0, 0);
+                pageSize = Math.Max(pageSize ?? 1, 1);
+
+                using (var conn = new Npgsql.NpgsqlConnection(_postgresConnection))
                 {
-                    tenantId = AbpSession.TenantId.Value;
+                    conn.Open();
 
+                    // Call PostgreSQL function
+                    string query = @"
+                SELECT *, COUNT(*) OVER() AS total_count
+                FROM dbo.keyword_get_all(
+                    @p_tenant_id,
+                    @p_page_number,
+                    @p_page_size
+                );
+            ";
+
+                    using (var cmd = new Npgsql.NpgsqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("p_tenant_id", (object)tenantId);
+                        cmd.Parameters.AddWithValue("p_page_number", pageNumber);
+                        cmd.Parameters.AddWithValue("p_page_size", pageSize);
+
+                        using (var reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                var model = DataReaderMapper.MapKeyWordModelPSQL(reader);
+                                keyWordModel.Add(model);
+
+                                // Capture total count once
+                                if (totalCount == 0 && !reader.IsDBNull(reader.GetOrdinal("total_count")))
+                                {
+                                    totalCount = reader.GetInt32(reader.GetOrdinal("total_count"));
+                                }
+                            }
+                        }
+                    }
                 }
-                 
 
-                var SP_Name = Constants.Bot.Sp_KeyWordGetAll;
-
-                var sqlParameters = new List<System.Data.SqlClient.SqlParameter>
-                {
-                    new System.Data.SqlClient.SqlParameter("@tenantId",tenantId),
-                    new System.Data.SqlClient.SqlParameter("@PageNumber",pageNumber),
-                    new System.Data.SqlClient.SqlParameter("@PageSize",pageSize)
-                };
-
-                var OutputParameter = new System.Data.SqlClient.SqlParameter
-                {
-                    SqlDbType = SqlDbType.BigInt,
-                    ParameterName = "@OutPutId",
-                    Direction = ParameterDirection.Output
-                };
-                sqlParameters.Add(OutputParameter);
-
-                keyWordModel = SqlDataHelper.ExecuteReader(SP_Name, sqlParameters.ToArray(), DataReaderMapper.MapKeyWordModel, AppSettingsModel.ConnectionStrings).ToList();
-
-                int totalCount = (OutputParameter.Value != DBNull.Value) ? Convert.ToInt32(OutputParameter.Value) : 0;
-
-                return new PagedResultDto<KeyWordModel>(totalCount, keyWordModel); 
+                return new PagedResultDto<KeyWordModel>(totalCount, keyWordModel);
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
-                throw ex;
+                throw;
             }
         }
+
+
+
         private bool keyWordDelete(long id)
         {
             try

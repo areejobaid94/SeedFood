@@ -513,6 +513,51 @@ namespace Infoseed.MessagingPortal
             return entity;
 
         }
+
+        public static GetEvaluationForViewDto MapEvaluationsPSQL(IDataReader dataReader)
+        {
+            GetEvaluationForViewDto entity = new GetEvaluationForViewDto();
+            EvaluationDto evaluation = new EvaluationDto();
+
+            // Map the main evaluation fields
+            evaluation.Id = SqlDataHelper.GetValue<long>(dataReader, "id");
+            evaluation.TenantId = SqlDataHelper.GetValue<int>(dataReader, "tenantid");
+            evaluation.OrderNumber = SqlDataHelper.GetValue<long>(dataReader, "ordernumber");
+            evaluation.ContactName = SqlDataHelper.GetValue<string>(dataReader, "contactname");
+            evaluation.EvaluationsText = SqlDataHelper.GetValue<string>(dataReader, "evaluationstext");
+            evaluation.CreationTime = SqlDataHelper.GetValue<DateTime>(dataReader, "creationtime");
+            evaluation.OrderId = SqlDataHelper.GetValue<int>(dataReader, "orderid");
+            evaluation.PhoneNumber = SqlDataHelper.GetValue<string>(dataReader, "phonenumber");
+            evaluation.EvaluationsReat = SqlDataHelper.GetValue<string>(dataReader, "evaluationsreat");
+
+            // Map display fields
+            entity.CreatTime = evaluation.CreationTime.ToString("hh:mm tt");
+            entity.CreatDate = evaluation.CreationTime.ToString("MM/dd/yyyy");
+            entity.UserId = $"{evaluation.TenantId}_{evaluation.PhoneNumber}";
+
+            // Map the evaluation object
+            entity.evaluation = evaluation;
+
+            // Map total count (from PostgreSQL function)
+            if (ColumnExists(dataReader, "totalcount"))
+            {
+                entity.TotalCount = SqlDataHelper.GetValue<int>(dataReader, "totalcount");
+            }
+
+            return entity;
+        }
+
+        // Helper to check if column exists in the data reader
+        private static bool ColumnExists(IDataReader reader, string columnName)
+        {
+            for (int i = 0; i < reader.FieldCount; i++)
+            {
+                if (reader.GetName(i).Equals(columnName, StringComparison.OrdinalIgnoreCase))
+                    return true;
+            }
+            return false;
+        }
+
         #endregion
 
         #region Seeling Request 
@@ -2730,6 +2775,41 @@ namespace Infoseed.MessagingPortal
 
             return model;
         }
+
+        public static KeyWordModel MapKeyWordModelPSQL(IDataReader dataReader)
+        {
+            KeyWordModel model = new KeyWordModel();
+
+            // Basic mapping
+            model.id = dataReader["id"] != DBNull.Value ? Convert.ToInt64(dataReader["id"]) : 0;
+            model.tenantId = dataReader["tenantid"] != DBNull.Value ? Convert.ToInt32(dataReader["tenantid"]) : 0;
+            model.action = dataReader["action"] != DBNull.Value ? dataReader["action"].ToString() : string.Empty;
+            model.actionId = dataReader["actionid"] != DBNull.Value ? Convert.ToInt64(dataReader["actionid"]) : 0;
+            model.triggersBot = dataReader["triggersbot"] != DBNull.Value ? dataReader["triggersbot"].ToString() : string.Empty;
+            model.triggersBotId = dataReader["triggersbotid"] != DBNull.Value ? Convert.ToInt64(dataReader["triggersbotid"]) : 0;
+            model.buttonText = dataReader["buttontext"] != DBNull.Value ? dataReader["buttontext"].ToString() : string.Empty;
+
+            // Optional numeric values with default fallback
+            model.KeyUse = dataReader["keyuse"] != DBNull.Value ? Convert.ToInt64(dataReader["keyuse"]) : 0;
+            model.KeyWordType = dataReader["keywordtype"] != DBNull.Value ? Convert.ToInt32(dataReader["keywordtype"]) : 0;
+            model.FuzzyMatch = dataReader["fuzzymatch"] != DBNull.Value ? Convert.ToInt32(dataReader["fuzzymatch"]) : 0;
+
+            return model;
+        }
+
+        public static ActionsModel MapActionsPSQL(IDataReader dataReader)
+        {
+            ActionsModel model = new ActionsModel
+            {
+                Id = dataReader["id"] != DBNull.Value ? Convert.ToInt64(dataReader["id"]) : 0,
+                ActionAr = dataReader["actionar"] != DBNull.Value ? dataReader["actionar"].ToString() : string.Empty,
+                ActionEn = dataReader["actionen"] != DBNull.Value ? dataReader["actionen"].ToString() : string.Empty
+            };
+
+            return model;
+        }
+
+
         #endregion
 
         #region Departments
