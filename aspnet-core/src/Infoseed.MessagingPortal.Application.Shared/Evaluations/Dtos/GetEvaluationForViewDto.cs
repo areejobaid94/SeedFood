@@ -12,5 +12,7 @@ namespace Infoseed.MessagingPortal.Evaluations.Dtos
         public string CreatTime { get; set; }
 
         public string CreatDate { get; set; }
+
+        public long TotalCount { get; set; }
     }
 }
