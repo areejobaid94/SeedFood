@@ -1854,6 +1854,7 @@ namespace Infoseed.MessagingPortal
         }
         #endregion
 
+
         #region WhatsApp
         public static MessageTemplateModel MapTemplate(IDataReader dataReader)
         {
@@ -2216,6 +2217,37 @@ namespace Infoseed.MessagingPortal
 
             return category;
         }
+        public static MessageTemplateModel MapTemplatePSQL(IDataReader dataReader)
+        {
+            var template = new MessageTemplateModel
+            {
+                // Column names in lowercase for PostgreSQL
+                name = SqlDataHelper.GetValue<string>(dataReader, "name"),
+                language = SqlDataHelper.GetValue<string>(dataReader, "language"),
+                category = SqlDataHelper.GetValue<string>(dataReader, "category"),
+                sub_category = SqlDataHelper.GetValue<string>(dataReader, "sub_category"),
+                components = JsonSerializer.Deserialize<List<WhatsAppComponentModel>>(
+                    SqlDataHelper.GetValue<string>(dataReader, "components"),
+                    new JsonSerializerOptions { WriteIndented = true }
+                ),
+                id = SqlDataHelper.GetValue<string>(dataReader, "whatsapptemplateid"),
+                LocalTemplateId = SqlDataHelper.GetValue<long>(dataReader, "id"),
+                mediaType = SqlDataHelper.GetValue<string>(dataReader, "mediatype"),
+                mediaLink = SqlDataHelper.GetValue<string>(dataReader, "medialink"),
+                isDeleted = SqlDataHelper.GetValue<bool>(dataReader, "isdeleted"),
+                BtnOneActionId = SqlDataHelper.GetValue<long>(dataReader, "btnoneactionid"),
+                BtnTwoActionId = SqlDataHelper.GetValue<long>(dataReader, "btntwoactionid"),
+                BtnThreeActionId = SqlDataHelper.GetValue<long>(dataReader, "btnthreeactionid")
+            };
+
+            // Handle variable count for AUTHENTICATION
+            template.VariableCount = template.category == "AUTHENTICATION"
+                ? 1
+                : SqlDataHelper.GetValue<int>(dataReader, "variablecount");
+
+            return template;
+        }
+
         public static TemplatesInfo MapTemplatesIslamicInfo(IDataReader dataReader)
         {
             TemplatesInfo templatesInfo = new TemplatesInfo();
